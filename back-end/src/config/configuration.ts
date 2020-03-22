@@ -8,7 +8,7 @@ export default () => ({
   FIREBASE_SERVER_KEY:
     'AAAAs2vRI3U:APA91bFEanHjh482pnvKSWGAg7o2Kzd0GCqhobUTJ2yyhIQ-swlkZ2Sv2ADuoHJUVCbY308Ezd-g9ZjR35QgxP0FRLxeJGSJkmGX3Sub4SlKXHZt73QN7s2ETklgSedB_oz9m0CAoJPV',
   APP_NAME: 'Lazztech Hub',
-  AzureWebJobsStorage: "DefaultEndpointsProtocol=https;AccountName=lazztechhubdev;AccountKey=3C8ozm1gMa73MwesBI7Kuj9kV4UUFmRjbijDiMimt7NsPDeGrNg5erfpTezbJp/Id81nbwc4g9Bwe5gmvtsqlA==;EndpointSuffix=core.windows.net",
+  AzureWebJobsStorage: "DefaultEndpointsProtocol=https;AccountName=lazztechhubdevstorage;AccountKey=2pF++r67eZ18E6jzjgyLacXGLrccoj8h6A0SHS4NedtzumiE5jRZ8/Wu/sj9ZIIsQQ64bU4f5dMz3XFnZPGVxA==;EndpointSuffix=core.windows.net",
   EMAIL_FROM_ADDRESS: "gianlazzarini@gmail.com",
   EMAIL_PASSWORD: "bnjlzbxxbamtvujn"
 });
