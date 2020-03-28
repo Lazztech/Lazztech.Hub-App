@@ -12,4 +12,5 @@ export default () => ({
     'DefaultEndpointsProtocol=https;AccountName=lazztechhubdevstorage;AccountKey=2pF++r67eZ18E6jzjgyLacXGLrccoj8h6A0SHS4NedtzumiE5jRZ8/Wu/sj9ZIIsQQ64bU4f5dMz3XFnZPGVxA==;EndpointSuffix=core.windows.net',
   EMAIL_FROM_ADDRESS: 'gianlazzarini@gmail.com',
   EMAIL_PASSWORD: 'bnjlzbxxbamtvujn',
+  PUSH_NOTIFICATION_ENDPOINT: 'https://fcm.googleapis.com/fcm/send'
 });
