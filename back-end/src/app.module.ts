@@ -23,7 +23,7 @@ import { AuthModule } from './auth/auth.module';
       username: 'postgresqldbuser@lazztechhubdev-db',
       password: 'Password123',
       database: 'postgres',
-      logging: false,
+      logging: true,
       // migrationsRun: true,
       synchronize: true,
       entities: [__dirname + '/dal/entity/**/*.*.*'],
