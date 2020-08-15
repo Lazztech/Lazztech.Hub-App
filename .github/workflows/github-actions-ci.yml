@@ -11,27 +11,27 @@ jobs:
         uses: actions/checkout@master
 
       - name: npm install & build
-        working-directory: ./ionic
+        working-directory: ./
         run: |
           npm install
           npm run build
 
       # - name: npm lint
-      #   working-directory: ./ionic
+      #   working-directory: ./
       #   run: |
       #     npm run lint
 
       # - name: npm test
-      #   working-directory: ./ionic
+      #   working-directory: ./
       #   run: |
       #     npm run test
 
       # - name: npm e2e
-      #   working-directory: ./ionic
+      #   working-directory: ./
       #   run: |
       #     npm run e2e
 
       - name: npm generate
-        working-directory: ./ionic
+        working-directory: ./
         run: |
           npm run generate
