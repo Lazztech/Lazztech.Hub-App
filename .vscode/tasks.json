@@ -17,7 +17,7 @@
             "type": "shell",
             "command": "graphql-inspector validate './**/*.graphql' '../back-end/schema.gql'",
             "options": {
-                "cwd": "${workspaceRoot}/ionic"
+                "cwd": "${workspaceRoot}"
             },
             "problemMatcher": []
         },
@@ -26,7 +26,7 @@
             "type": "shell",
             "command": "graphql-inspector coverage ./**/*.graphql ../back-end/schema.gql",
             "options": {
-                "cwd": "${workspaceRoot}/ionic"
+                "cwd": "${workspaceRoot}"
             },
             "problemMatcher": []
         },
@@ -44,7 +44,7 @@
             "type": "shell",
             "command": "ionic build && npx cap sync && npx cap copy && npx cap open ios",
             "options": {
-                "cwd": "${workspaceRoot}/ionic"
+                "cwd": "${workspaceRoot}"
             },
             "problemMatcher": []
         },
@@ -60,7 +60,7 @@
             "type": "shell",
             "command": "ionic serve",
             "options": {
-                "cwd": "${workspaceRoot}/ionic"
+                "cwd": "${workspaceRoot}"
             },
             "problemMatcher": []
         },

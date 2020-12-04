@@ -25,7 +25,7 @@
     "@angular/service-worker": "^9.0.1",
     "@capacitor/cli": "^2.1.0",
     "@capacitor/core": "^2.1.0",
-    "@capacitor/ios": "^2.1.0",
+    "@capacitor/ios": "^2.4.4",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/diagnostic": "^5.26.0",
     "@ionic-native/fingerprint-aio": "^5.19.0",
