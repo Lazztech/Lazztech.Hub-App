@@ -10,9 +10,10 @@
 ***REMOVED***
 </p>
 
-<!-- ## Description
+## Companion Server
+For the companion back-end server see the repo linked below.
 
-[Lazztech.Hub-Service](https://github.com/nestjs/nest) -->
+[Lazztech.Hub-Service](https://github.com/Lazztech/Lazztech.Hub-Service)
 
 ## Installation Dependencies
 
