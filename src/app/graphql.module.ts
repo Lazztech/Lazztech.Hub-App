@@ -15,7 +15,7 @@ export function createApollo(
 ) {
 
   const apolloLink = httpLink.create({
-    uri: SERVER_URL,
+    uri: `${SERVER_URL}graphql`,
     withCredentials: true
   });
 

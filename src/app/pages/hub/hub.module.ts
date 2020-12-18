@@ -11,6 +11,7 @@ import { IonicModule } from '@ionic/angular';
 import { HubPage } from './hub.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 const routes: Routes = [
   {
@@ -31,7 +32,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgxKjuaModule,
     ComponentsModule,
-    DirectivesModule
+    DirectivesModule,
+    PipesModule
   ],
   declarations: [HubPage]
 })

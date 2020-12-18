@@ -13,6 +13,7 @@ import { HubProfileComponent } from './hub-profile/hub-profile.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { DirectivesModule } from '../directives/directives.module';
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { DirectivesModule } from '../directives/directives.module';
         FormsModule,
         ReactiveFormsModule,
         ChartsModule,
-        DirectivesModule
+        DirectivesModule,
+        PipesModule
     ],
     exports: [
         GoogleMapComponent, 

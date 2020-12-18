@@ -9,6 +9,7 @@ import { AdminHubPageRoutingModule } from './admin-hub-routing.module';
 import { AdminHubPage } from './admin-hub.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
     ComponentsModule,
     ReactiveFormsModule,
     DirectivesModule,
+    PipesModule
   ],
   declarations: [AdminHubPage]
 })

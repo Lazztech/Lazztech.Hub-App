@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { PeoplePage } from './people.page';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    DirectivesModule
+    DirectivesModule,
+    PipesModule
   ],
   declarations: [PeoplePage]
 })

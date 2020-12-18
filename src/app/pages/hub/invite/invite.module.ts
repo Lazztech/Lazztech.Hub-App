@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { InvitePage } from './invite.page';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 const routes: Routes = [
   {
@@ -26,7 +27,8 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
-    DirectivesModule
+    DirectivesModule,
+    PipesModule
   ],
   declarations: [InvitePage]
 })

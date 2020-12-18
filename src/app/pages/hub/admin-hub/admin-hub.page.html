@@ -76,7 +76,7 @@
       <ion-item-sliding>
       <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="https://api.adorable.io/avatars/285/{{userConnection.user.id}}.png">
+          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
           <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
         </ion-avatar>
         <ion-label>
@@ -109,7 +109,7 @@
       <ion-item-sliding>
       <ion-item href="javascript:void(0);" (click)="goToPersonPage(invite.inviteesId, invite.invitee)">
         <ion-avatar slot="start">
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!invite.invitee.image" src="https://api.adorable.io/avatars/285/{{invite.invitee.id}}.png">
+          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!invite.invitee.image" src="{{serverUrl}}avatars/285/{{invite.invitee.id}}.png">
           <ion-img width="100%" *ngIf="invite.invitee.image" src="{{invite.invitee.image}}"></ion-img>
         </ion-avatar>
         <ion-label>

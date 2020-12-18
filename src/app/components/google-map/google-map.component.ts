@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, Input, OnChanges, ElementRef } from '@angular/core';
 /// <reference types="@types/googlemaps" />
 import { darkStyle } from './map-dark-style';
-import { GOOGLE_MAPS_KEY } from 'src/environments/environment.prod';
+import { GOOGLE_MAPS_KEY } from 'src/environments/environment';
 import { NavController } from '@ionic/angular';
 
 @Component({

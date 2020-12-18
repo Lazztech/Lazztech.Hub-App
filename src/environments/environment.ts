@@ -40,10 +40,11 @@ export const environment = {
   } as FirebaseOptions
 };
 
-export const SERVER_URL = 'https://lazztechhubdev.azurewebsites.net/graphql';
-// export const SERVER_URL = 'https://hubserver.lazz.tech/graphql';
-//  export const SERVER_URL = 'http://localhost:8080/graphql';
-// export const SERVER_URL = 'http://192.168.1.25:7071/graphql';
+// export const SERVER_URL = 'https://lazztechhubdev.azurewebsites.net/';
+export const SERVER_URL = 'https://lazztech-hub-service-jvm2h.ondigitalocean.app/';
+// export const SERVER_URL = 'https://hubserver.lazz.tech/';
+// export const SERVER_URL = 'http://localhost:8080/';
+// export const SERVER_URL = 'http://192.168.1.25:7071/';
 
 export const GOOGLE_MAPS_KEY = 'AIzaSyB3v329F0sXT3vhrJncIfP_N1ipiNuXZOw';
 
