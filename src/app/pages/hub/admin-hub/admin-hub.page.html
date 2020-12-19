@@ -109,7 +109,7 @@
       <ion-item-sliding>
       <ion-item href="javascript:void(0);" (click)="goToPersonPage(invite.inviteesId, invite.invitee)">
         <ion-avatar slot="start">
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!invite.invitee.image" src="{{serverUrl}}avatars/285/{{invite.invitee.id}}.png">
+          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!invite.invitee.image" src="{{invite.invitee.id | avatar}}">
           <ion-img width="100%" *ngIf="invite.invitee.image" src="{{invite.invitee.image}}"></ion-img>
         </ion-avatar>
         <ion-label>

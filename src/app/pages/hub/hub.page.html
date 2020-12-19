@@ -92,7 +92,7 @@
       <ion-item *ngIf="userConnection.isPresent" href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{serverUrl}}avatars/285/{{userConnection.user.id}}.png">
+          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
           <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
         </ion-avatar>
         <ion-label>
@@ -117,7 +117,7 @@
       <ion-item *ngIf="!userConnection.isPresent" href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{serverUrl}}avatars/285/{{userConnection.user.id}}.png">
+          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
           <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
         </ion-avatar>
         <ion-label>
