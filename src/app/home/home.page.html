@@ -50,6 +50,18 @@
         </ion-card-content>
       </ion-card>
 
+      <ion-list *ngIf="(invites | async)?.length">
+        <ion-list-header>
+            <ion-text>Invites</ion-text>
+        </ion-list-header>
+        <div *ngFor="let invite of invites | async">
+          <app-hub-card *ngIf="!loading && coords" 
+          [hub]="invite.hub"
+          [coords]="coords"
+          (click)="goToPreviewHubPage(invite.hubId)"></app-hub-card>
+        </div>
+    </ion-list>
+
       <ion-list>
           <ion-list-header>
               <ion-text>Hubs</ion-text>

@@ -80,12 +80,11 @@ export type Mutation = {
    __typename?: 'Mutation';
   createHub: JoinUserHub;
   inviteUserToHub: Invite;
-  respondToHubInvite: JoinUserHub;
+  acceptHubInvite: JoinUserHub;
   deleteInvite: Scalars['Boolean'];
   deleteHub: Scalars['Boolean'];
   editHub: Hub;
   changeHubImage: Hub;
-  joinHub: Scalars['Boolean'];
   setHubStarred: Scalars['Boolean'];
   setHubNotStarred: Scalars['Boolean'];
   enteredHubGeofence: Scalars['Boolean'];
@@ -126,10 +125,8 @@ export type MutationInviteUserToHubArgs = {
 };
 
 
-export type MutationRespondToHubInviteArgs = {
-  accepted: Scalars['Boolean'];
-  hubId: Scalars['ID'];
-  invitersId: Scalars['ID'];
+export type MutationAcceptHubInviteArgs = {
+  inviteId: Scalars['ID'];
 };
 
 
@@ -154,11 +151,6 @@ export type MutationEditHubArgs = {
 export type MutationChangeHubImageArgs = {
   newImage: Scalars['String'];
   hubId: Scalars['ID'];
-};
-
-
-export type MutationJoinHubArgs = {
-  id: Scalars['ID'];
 };
 
 
@@ -277,6 +269,8 @@ export type Query = {
   usersHubs: Array<JoinUserHub>;
   commonUsersHubs: Array<JoinUserHub>;
   invitesByHub: Array<Invite>;
+  invite: Invite;
+  invitesByUser: Array<Invite>;
   usersPeople: Array<User>;
   searchHubByName: Array<Hub>;
   ownedHubs: Array<Hub>;
@@ -298,6 +292,16 @@ export type QueryCommonUsersHubsArgs = {
 
 export type QueryInvitesByHubArgs = {
   hubId: Scalars['ID'];
+};
+
+
+export type QueryInviteArgs = {
+  hubId: Scalars['ID'];
+};
+
+
+export type QueryInvitesByUserArgs = {
+  includeAccepted?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -377,6 +381,27 @@ export type SendPasswordResetEmailMutationVariables = {
 export type SendPasswordResetEmailMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'sendPasswordResetEmail'>
+);
+
+export type AcceptHubInviteMutationVariables = {
+  inviteId: Scalars['ID'];
+};
+
+
+export type AcceptHubInviteMutation = (
+  { __typename?: 'Mutation' }
+  & { acceptHubInvite: (
+    { __typename?: 'JoinUserHub' }
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
+    & { hub: (
+      { __typename?: 'Hub' }
+      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+      & { microChats?: Maybe<Array<(
+        { __typename?: 'MicroChat' }
+        & Pick<MicroChat, 'id' | 'hubId' | 'text'>
+      )>> }
+    ) }
+  ) }
 );
 
 export type ActivateHubMutationVariables = {
@@ -574,6 +599,26 @@ export type HubQuery = (
   ) }
 );
 
+export type InviteQueryVariables = {
+  hubId: Scalars['ID'];
+};
+
+
+export type InviteQuery = (
+  { __typename?: 'Query' }
+  & { invite: (
+    { __typename?: 'Invite' }
+    & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
+    & { inviter: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image'>
+    ), hub: (
+      { __typename?: 'Hub' }
+      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+    ) }
+  ) }
+);
+
 export type InviteUserToHubMutationVariables = {
   hubId: Scalars['ID'];
   inviteesEmail: Scalars['String'];
@@ -621,14 +666,26 @@ export type InvitesByHubQuery = (
   )> }
 );
 
-export type JoinHubMutationVariables = {
-  id: Scalars['ID'];
-};
+export type InvitesByUserQueryVariables = {};
 
 
-export type JoinHubMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'joinHub'>
+export type InvitesByUserQuery = (
+  { __typename?: 'Query' }
+  & { invitesByUser: Array<(
+    { __typename?: 'Invite' }
+    & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
+    & { inviter: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image'>
+    ), hub: (
+      { __typename?: 'Hub' }
+      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+      & { usersConnection?: Maybe<Array<(
+        { __typename?: 'JoinUserHub' }
+        & Pick<JoinUserHub, 'isPresent'>
+      )>> }
+    ) }
+  )> }
 );
 
 export type MicroChatToHubMutationVariables = {
@@ -864,6 +921,39 @@ export const SendPasswordResetEmailDocument = gql`
   })
   export class SendPasswordResetEmailGQL extends Apollo.Mutation<SendPasswordResetEmailMutation, SendPasswordResetEmailMutationVariables> {
     document = SendPasswordResetEmailDocument;
+    
+  }
+export const AcceptHubInviteDocument = gql`
+    mutation acceptHubInvite($inviteId: ID!) {
+  acceptHubInvite(inviteId: $inviteId) {
+    userId
+    hubId
+    isOwner
+    starred
+    isPresent
+    hub {
+      id
+      name
+      description
+      active
+      image
+      latitude
+      longitude
+      microChats {
+        id
+        hubId
+        text
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AcceptHubInviteGQL extends Apollo.Mutation<AcceptHubInviteMutation, AcceptHubInviteMutationVariables> {
+    document = AcceptHubInviteDocument;
     
   }
 export const ActivateHubDocument = gql`
@@ -1118,6 +1208,41 @@ export const HubDocument = gql`
     document = HubDocument;
     
   }
+export const InviteDocument = gql`
+    query invite($hubId: ID!) {
+  invite(hubId: $hubId) {
+    id
+    invitersId
+    inviteesId
+    hubId
+    accepted
+    inviter {
+      id
+      firstName
+      lastName
+      description
+      image
+    }
+    hub {
+      id
+      name
+      description
+      active
+      image
+      latitude
+      longitude
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class InviteGQL extends Apollo.Query<InviteQuery, InviteQueryVariables> {
+    document = InviteDocument;
+    
+  }
 export const InviteUserToHubDocument = gql`
     mutation inviteUserToHub($hubId: ID!, $inviteesEmail: String!) {
   inviteUserToHub(hubId: $hubId, inviteesEmail: $inviteesEmail) {
@@ -1185,17 +1310,42 @@ export const InvitesByHubDocument = gql`
     document = InvitesByHubDocument;
     
   }
-export const JoinHubDocument = gql`
-    mutation joinHub($id: ID!) {
-  joinHub(id: $id)
+export const InvitesByUserDocument = gql`
+    query invitesByUser {
+  invitesByUser {
+    id
+    invitersId
+    inviteesId
+    hubId
+    accepted
+    inviter {
+      id
+      firstName
+      lastName
+      description
+      image
+    }
+    hub {
+      id
+      name
+      description
+      active
+      image
+      latitude
+      longitude
+      usersConnection {
+        isPresent
+      }
+    }
+  }
 }
     `;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class JoinHubGQL extends Apollo.Mutation<JoinHubMutation, JoinHubMutationVariables> {
-    document = JoinHubDocument;
+  export class InvitesByUserGQL extends Apollo.Query<InvitesByUserQuery, InvitesByUserQueryVariables> {
+    document = InvitesByUserDocument;
     
   }
 export const MicroChatToHubDocument = gql`

@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { UsersPeopleQuery } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map } from 'rxjs/operators';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-invite',
@@ -31,7 +32,8 @@ export class InvitePage implements OnInit {
     private fb: FormBuilder,
     private alertService: AlertService,
     private route: ActivatedRoute,
-    private logger: NGXLogger
+    private logger: NGXLogger,
+    public navCtrl: NavController,
   ) { }
 
   ngOnInit() {
@@ -69,6 +71,7 @@ export class InvitePage implements OnInit {
     if (result) {
       this.loading = false;
       this.alertService.presentToast("Invited!");
+      this.navCtrl.back();
     } else {
       this.loading = false;      
       this.alertService.presentRedToast("Failed.");

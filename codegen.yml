@@ -1,5 +1,5 @@
 overwrite: true
-schema: "../back-end/schema.gql"
+schema: "http://localhost:8080/graphql"
 documents: "src/app/**/*.graphql"
 generates:
   src/generated/graphql.ts:

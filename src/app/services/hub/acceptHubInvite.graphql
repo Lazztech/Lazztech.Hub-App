@@ -1,0 +1,23 @@
+mutation acceptHubInvite($inviteId: ID!) {
+  acceptHubInvite(inviteId: $inviteId) {
+    userId
+    hubId
+    isOwner
+    starred
+    isPresent
+    hub {
+      id
+      name
+      description
+      active
+      image
+      latitude
+      longitude
+      microChats {
+        id
+        hubId
+        text
+      }
+    }
+  }
+}

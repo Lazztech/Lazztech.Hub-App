@@ -3,7 +3,7 @@ import { Plugins } from '@capacitor/core';
 import { MenuController, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription, Observable } from 'rxjs';
-import { Hub, User, UsersHubsQuery } from 'src/generated/graphql';
+import { Hub, User, UsersHubsQuery, InvitesByUserQuery, Invite } from 'src/generated/graphql';
 import { GoogleMapComponent } from '../components/google-map/google-map.component';
 import { AuthService } from '../services/auth/auth.service';
 import { HubService } from '../services/hub/hub.service';
@@ -21,6 +21,7 @@ const { Geolocation } = Plugins;
 export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   loading = true;
+  invites: Observable<InvitesByUserQuery['invitesByUser']>;
   userHubs: Observable<UsersHubsQuery['usersHubs']>;
   hubs: Hub[] = [];
   user: User;
@@ -69,6 +70,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.userHubs = this.hubService.watchUserHubs().valueChanges.pipe(map(x => x.data && x.data.usersHubs));
+    this.invites = this.hubService.watchInvitesByUser().valueChanges.pipe(map(x => x.data && x.data.invitesByUser));
 
     this.subscriptions.push(
       this.hubService.watchUserHubs().valueChanges.subscribe(x => {
@@ -76,6 +78,12 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         this.loading = x.loading;
       })
     );
+
+    this.subscriptions.push(
+      this.hubService.watchInvitesByUser().valueChanges.subscribe(x => {
+        this.loading = x.loading;
+      })
+    )
 
     this.subscriptions.push(
         this.userHubs.subscribe(x => {
@@ -102,6 +110,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   goToHubPage(id: number) {
     this.navCtrl.navigateForward('hub/' + id);
+  }
+
+  goToPreviewHubPage(id) {
+    this.navCtrl.navigateForward('preview-hub/' + id);
   }
 
   goToStatusPage() {

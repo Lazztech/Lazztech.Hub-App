@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { HubQuery, Scalars } from 'src/generated/graphql';
-import { HubService } from 'src/app/services/hub/hub.service';
-import { map, take } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
+import { Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { HubService } from 'src/app/services/hub/hub.service';
+import { InviteQuery, Scalars } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-preview-hub',
@@ -14,7 +14,7 @@ import { NavController } from '@ionic/angular';
 export class PreviewHubPage implements OnInit {
 
   loading = true;
-  userHub: Observable<HubQuery['hub']>;
+  invite: Observable<InviteQuery['invite']>;
   subscriptions: Subscription[] = [];
   id: Scalars['ID'];
   hubCoords: {latitude: number, longitude: number};
@@ -28,21 +28,21 @@ export class PreviewHubPage implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
 
-    this.userHub = this.hubService.watchHub(this.id).valueChanges.pipe(
-      map(x => x.data && x.data.hub)
+    this.invite = this.hubService.watchInvite(this.id).valueChanges.pipe(
+      map(x => x.data && x.data.invite)
     );
 
     this.subscriptions.push(
-      this.hubService.watchHub(this.id).valueChanges.subscribe(x => {
+      this.hubService.watchInvite(this.id).valueChanges.subscribe(x => {
         this.loading = x.loading;
       })
     );
 
     this.subscriptions.push(
-      this.userHub.subscribe(userHub => {
+      this.invite.subscribe(invite => {
         this.hubCoords = { 
-          latitude: userHub.hub.latitude,
-          longitude: userHub.hub.longitude
+          latitude: invite.hub.latitude,
+          longitude: invite.hub.longitude
         };
       })
     );
@@ -53,22 +53,32 @@ export class PreviewHubPage implements OnInit {
   }
 
   async goToMap() {
-    this.userHub.pipe(take(1)).subscribe(userHub => {
+    this.invite.pipe(take(1)).subscribe(invite => {
       this.navCtrl.navigateForward('map', {
         state: {
           hubCoords: this.hubCoords,
-          hub: userHub.hub
+          hub: invite.hub
         }
       });
     });
   }
 
   async accept() {
-
+    this.invite.pipe(take(1)).subscribe(async invite => {
+      this.loading = true;
+      await this.hubService.acceptHubInvite(invite.id);
+      this.loading = false;
+      this.navCtrl.back();
+    });
   }
 
   async reject() {
-
+    this.invite.pipe(take(1)).subscribe(async invite => {
+      this.loading = true;
+      await this.hubService.deleteInvite(invite.hubId, invite.id);
+      this.loading = false;
+      this.navCtrl.back();
+    });
   }
 
 }

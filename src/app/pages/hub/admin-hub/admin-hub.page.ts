@@ -186,7 +186,7 @@ export class AdminHubPage implements OnInit {
   }
 
   async deleteInvite(hubId: any, inviteId: any) {
-    this.hubService.deleteInvite(hubId, inviteId)
+    this.hubService.deleteInvite(hubId, inviteId);
   }
 
   async deleteHub() {

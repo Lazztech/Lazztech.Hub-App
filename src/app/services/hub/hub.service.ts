@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FetchPolicy } from 'apollo-client';
 import { NGXLogger } from 'ngx-logger';
-import { ActivateHubGQL, ChangeHubImageGQL, CommonUsersHubsGQL, CreateHubGQL, CreateMicroChatGQL, DeactivateHubGQL, DeleteHubGQL, DeleteMicroChatGQL, EditHubGQL, EnteredHubGeofenceGQL, ExitedHubGeofenceGQL, HubDocument, HubGQL, HubQuery, HubQueryVariables, InvitesByHubGQL, InviteUserToHubGQL, JoinHubGQL, MicroChatToHubGQL, Scalars, SetHubNotStarredGQL, SetHubStarredGQL, UsersHubsDocument, UsersHubsGQL, UsersHubsQuery, UsersPeopleGQL, DeleteInviteGQL, InvitesByHubDocument, InvitesByHubQueryVariables, InvitesByHubQuery } from 'src/generated/graphql';
+import { AcceptHubInviteGQL, ActivateHubGQL, ChangeHubImageGQL, CommonUsersHubsGQL, CreateHubGQL, CreateMicroChatGQL, DeactivateHubGQL, DeleteHubGQL, DeleteInviteGQL, DeleteMicroChatGQL, EditHubGQL, EnteredHubGeofenceGQL, ExitedHubGeofenceGQL, HubDocument, HubGQL, HubQuery, HubQueryVariables, InviteGQL, InvitesByHubDocument, InvitesByHubGQL, InvitesByHubQueryVariables, InvitesByUserDocument, InvitesByUserGQL, InviteUserToHubGQL, MicroChatToHubGQL, Scalars, SetHubNotStarredGQL, SetHubStarredGQL, UsersHubsDocument, UsersHubsGQL, UsersHubsQuery, UsersPeopleGQL } from 'src/generated/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -9,28 +9,30 @@ import { ActivateHubGQL, ChangeHubImageGQL, CommonUsersHubsGQL, CreateHubGQL, Cr
 export class HubService {
 
   constructor(
-    private logger: NGXLogger,
-    private createHubGQLService: CreateHubGQL,
-    private userHubsGQLService: UsersHubsGQL,
-    private usersPeopleGQLService: UsersPeopleGQL,
-    private commonUsersHubsGQLService: CommonUsersHubsGQL,
-    private editHubGQLService: EditHubGQL,
-    private hubGQLService: HubGQL,
-    private inviteUserToHubGQLService: InviteUserToHubGQL,
-    private joinHubGQLService: JoinHubGQL,
-    private deleteHubGQLService: DeleteHubGQL,
-    private changeHubImageGQLService: ChangeHubImageGQL,
-    private setHubStarredGQLService: SetHubStarredGQL,
-    private setHubNotStarredGQLService: SetHubNotStarredGQL,
-    private enteredHubGeofenceGQLService: EnteredHubGeofenceGQL,
-    private exitedHubGeofenceGQLService: ExitedHubGeofenceGQL,
-    private activateHubGQLService: ActivateHubGQL,
-    private deactivateHubGQLService: DeactivateHubGQL,
-    private microChatToHubGQLService: MicroChatToHubGQL,
-    private createMicroChatGQLService: CreateMicroChatGQL,
-    private deleteMicroChatGQLService: DeleteMicroChatGQL,
-    private invitesByHubGQLService: InvitesByHubGQL,
-    private deleteInviteGQLService: DeleteInviteGQL,
+    private readonly logger: NGXLogger,
+    private readonly createHubGQLService: CreateHubGQL,
+    private readonly userHubsGQLService: UsersHubsGQL,
+    private readonly usersPeopleGQLService: UsersPeopleGQL,
+    private readonly commonUsersHubsGQLService: CommonUsersHubsGQL,
+    private readonly editHubGQLService: EditHubGQL,
+    private readonly hubGQLService: HubGQL,
+    private readonly inviteUserToHubGQLService: InviteUserToHubGQL,
+    private readonly deleteHubGQLService: DeleteHubGQL,
+    private readonly changeHubImageGQLService: ChangeHubImageGQL,
+    private readonly setHubStarredGQLService: SetHubStarredGQL,
+    private readonly setHubNotStarredGQLService: SetHubNotStarredGQL,
+    private readonly enteredHubGeofenceGQLService: EnteredHubGeofenceGQL,
+    private readonly exitedHubGeofenceGQLService: ExitedHubGeofenceGQL,
+    private readonly activateHubGQLService: ActivateHubGQL,
+    private readonly deactivateHubGQLService: DeactivateHubGQL,
+    private readonly microChatToHubGQLService: MicroChatToHubGQL,
+    private readonly createMicroChatGQLService: CreateMicroChatGQL,
+    private readonly deleteMicroChatGQLService: DeleteMicroChatGQL,
+    private readonly invitesByHubGQLService: InvitesByHubGQL,
+    private readonly deleteInviteGQLService: DeleteInviteGQL,
+    private readonly inviteGQLService: InviteGQL,
+    private readonly invitesByUserGQLService: InvitesByUserGQL,
+    private readonly acceptHubInviteGQLService: AcceptHubInviteGQL
   ) { }
 
   async createHub(name: string, description: string, image: string, latitude: number, longitude: number) {
@@ -178,10 +180,25 @@ export class HubService {
       });
   }
 
+  watchInvite(hubId: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
+    return this.inviteGQLService.watch({
+        hubId
+      }, {
+        fetchPolicy
+      });
+  }
+
   watchInvitesByHub(hubId: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
     return this.invitesByHubGQLService.watch({
       hubId
     },
+      {
+        fetchPolicy
+      });
+  }
+
+  watchInvitesByUser(fetchPolicy: FetchPolicy = 'cache-first') {
+    return this.invitesByUserGQLService.watch(null,
       {
         fetchPolicy
       });
@@ -197,13 +214,15 @@ export class HubService {
     return response;
   }
 
-  async joinHub(id: Scalars['ID']): Promise<boolean> {
-    const result = await this.joinHubGQLService.mutate({
-      id
+  async acceptHubInvite(inviteId: Scalars['ID']) {
+    const result = await this.acceptHubInviteGQLService.mutate({
+      inviteId
+    }, {
+      refetchQueries: [
+        { query: UsersHubsDocument },
+        { query: InvitesByUserDocument }
+      ]
     }).toPromise();
-
-    const response = result.data.joinHub;
-    return response;
   }
 
   async deleteInvite(hubId: any, inviteId: any) {
@@ -211,24 +230,10 @@ export class HubService {
       hubId,
       inviteId
     }, {
-      update: (proxy, { data: { deleteInvite } }) => {
-        const invitesByHubQueryData = proxy.readQuery({
-          query: InvitesByHubDocument,
-          variables: { hubId } as InvitesByHubQueryVariables
-        }) as InvitesByHubQuery;
-
-        //Delete invite
-        const invite = invitesByHubQueryData.invitesByHub.find(x => x.id == inviteId);
-        invitesByHubQueryData.invitesByHub.splice(
-          invitesByHubQueryData.invitesByHub.indexOf(invite), 1
-        );
-
-
-        proxy.writeQuery({
-          query: InvitesByHubDocument,
-          data: invitesByHubQueryData
-        });
-      }
+      refetchQueries: [
+        { query: InvitesByHubDocument, variables: { hubId } as InvitesByHubQueryVariables },
+        { query: InvitesByUserDocument }
+      ]
     }).toPromise();
 
     return result.data.deleteInvite;

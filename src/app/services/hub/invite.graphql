@@ -1,0 +1,25 @@
+query invite($hubId: ID!) {
+  invite(hubId: $hubId) {
+    id
+    invitersId
+    inviteesId
+    hubId
+    accepted
+    inviter {
+      id
+      firstName
+      lastName
+      description
+      image
+    }
+    hub {
+      id
+      name
+      description
+      active
+      image
+      latitude
+      longitude
+    }
+  }
+}
