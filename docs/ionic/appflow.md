@@ -2,7 +2,13 @@
 
 Ionic Appflow is the CICD provider for native and live web based updates of Ionic app deployments.
 
-# iOS
+## Updating Appflow configuration
+
+```
+ionic deploy configure
+```
+
+## iOS
 The Ionic Appflow deployment details are configured in the info.plist file.
 
 This is where the app id, update method and other details are configured.
