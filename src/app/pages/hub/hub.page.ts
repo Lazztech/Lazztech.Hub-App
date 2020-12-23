@@ -7,7 +7,7 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { Scalars, HubQuery, JoinUserHub } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Plugins } from '@capacitor/core';
 
 const { Clipboard } = Plugins;
@@ -146,70 +146,45 @@ export class HubPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
 
-  async presentActionSheet() {
-    const userHub = await this.userHub.toPromise();
-    const editHubButton = (userHub.isOwner)
-    ? {
-      text: 'Settings',
-      // icon: 'share',
-      handler: () => {
-        this.navCtrl.navigateForward('admin-hub/'+ this.id);
-        this.logger.log('Settings clicked');
-      },
-    }
-    : null ;
-
-    const inviteButton = (userHub.isOwner)
-    ? {
-      text: 'Invite',
-      // icon: 'share',
-      handler: () => {
-        this.navCtrl.navigateForward('invite/'+ this.id);
-        this.logger.log('Invite clicked');
-      }
-    }
-    : null ;
-
-    const actionSheet = await this.actionSheetController.create({
-      // header: 'Albums',
-      buttons: [
-        inviteButton,
-        editHubButton, 
-      {
-        text: userHub.starred ? 'Remove Star' : 'Add Star',
-        handler: async () => {
-          let result = false;
-          this.loading = true;
-          if (userHub.starred) {
-            result = await this.hubService.setHubNotStarred(this.id);
-            //FIXME in apollo cache
-            // this.userHub.starred = false;
-          } else {
-            result = await this.hubService.setHubStarred(this.id);
-            //FIXME in apollo cache
-            // this.userHub.starred = true;
+  presentActionSheet() {
+    this.userHub.pipe(take(1)).subscribe(async userHub => {
+      let buttons = [];
+      console.log("is hub owner" + userHub.isOwner);
+      if (userHub.isOwner) {
+        buttons.push({
+          text: 'Manage Hub',
+          handler: () => {
+            this.navCtrl.navigateForward('admin-hub/' + this.id);
           }
-
-          if (!result) {
-            //FIXME in apollo cache
-            // this.userHub.starred = !this.userHub.starred;
+        });
+      } else if (!userHub.isOwner) {
+        buttons.push({
+          text: 'Leave Hub',
+          role: 'destructive',
+          handler: () => {
+            this.loading = true;
+            this.hubService.leaveHub(this.id).then(() => {
+              this.loading = false;
+            });
+            this.navCtrl.back();
           }
-
-          this.loading = false;
-          this.logger.log('Star clicked');
-        }
-      },
-      {
-        text: 'Cancel',
-        // icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          this.logger.log('Cancel clicked');
-        }
+        });
       }
-    ].filter((item) => item !== null)
+
+      const actionSheet = await this.actionSheetController.create({
+        header: 'Hub Options',
+        buttons: [
+          ...buttons,
+          {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.logger.log('Cancel clicked');
+          }
+        }]
+      });
+      await actionSheet.present();
     });
-    await actionSheet.present();
   }
 
 }

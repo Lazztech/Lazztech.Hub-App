@@ -82,6 +82,7 @@ export type Mutation = {
   inviteUserToHub: Invite;
   acceptHubInvite: JoinUserHub;
   deleteInvite: Scalars['Boolean'];
+  leaveHub: Scalars['Boolean'];
   deleteHub: Scalars['Boolean'];
   editHub: Hub;
   changeHubImage: Hub;
@@ -132,6 +133,11 @@ export type MutationAcceptHubInviteArgs = {
 
 export type MutationDeleteInviteArgs = {
   inviteId: Scalars['ID'];
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationLeaveHubArgs = {
   hubId: Scalars['ID'];
 };
 
@@ -686,6 +692,16 @@ export type InvitesByUserQuery = (
       )>> }
     ) }
   )> }
+);
+
+export type LeaveHubMutationVariables = {
+  hubId: Scalars['ID'];
+};
+
+
+export type LeaveHubMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'leaveHub'>
 );
 
 export type MicroChatToHubMutationVariables = {
@@ -1346,6 +1362,19 @@ export const InvitesByUserDocument = gql`
   })
   export class InvitesByUserGQL extends Apollo.Query<InvitesByUserQuery, InvitesByUserQueryVariables> {
     document = InvitesByUserDocument;
+    
+  }
+export const LeaveHubDocument = gql`
+    mutation leaveHub($hubId: ID!) {
+  leaveHub(hubId: $hubId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LeaveHubGQL extends Apollo.Mutation<LeaveHubMutation, LeaveHubMutationVariables> {
+    document = LeaveHubDocument;
     
   }
 export const MicroChatToHubDocument = gql`

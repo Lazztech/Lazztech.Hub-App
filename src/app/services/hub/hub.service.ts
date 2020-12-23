@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FetchPolicy } from 'apollo-client';
 import { NGXLogger } from 'ngx-logger';
-import { AcceptHubInviteGQL, ActivateHubGQL, ChangeHubImageGQL, CommonUsersHubsGQL, CreateHubGQL, CreateMicroChatGQL, DeactivateHubGQL, DeleteHubGQL, DeleteInviteGQL, DeleteMicroChatGQL, EditHubGQL, EnteredHubGeofenceGQL, ExitedHubGeofenceGQL, HubDocument, HubGQL, HubQuery, HubQueryVariables, InviteGQL, InvitesByHubDocument, InvitesByHubGQL, InvitesByHubQueryVariables, InvitesByUserDocument, InvitesByUserGQL, InviteUserToHubGQL, MicroChatToHubGQL, Scalars, SetHubNotStarredGQL, SetHubStarredGQL, UsersHubsDocument, UsersHubsGQL, UsersHubsQuery, UsersPeopleGQL } from 'src/generated/graphql';
+import { AcceptHubInviteGQL, ActivateHubGQL, ChangeHubImageGQL, CommonUsersHubsGQL, CreateHubGQL, CreateMicroChatGQL, DeactivateHubGQL, DeleteHubGQL, DeleteInviteGQL, DeleteMicroChatGQL, EditHubGQL, EnteredHubGeofenceGQL, ExitedHubGeofenceGQL, HubDocument, HubGQL, HubQuery, HubQueryVariables, InviteGQL, InvitesByHubDocument, InvitesByHubGQL, InvitesByHubQueryVariables, InvitesByUserDocument, InvitesByUserGQL, InviteUserToHubGQL, MicroChatToHubGQL, Scalars, SetHubNotStarredGQL, SetHubStarredGQL, UsersHubsDocument, UsersHubsGQL, UsersHubsQuery, UsersPeopleGQL, LeaveHubGQL } from 'src/generated/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,8 @@ export class HubService {
     private readonly deleteInviteGQLService: DeleteInviteGQL,
     private readonly inviteGQLService: InviteGQL,
     private readonly invitesByUserGQLService: InvitesByUserGQL,
-    private readonly acceptHubInviteGQLService: AcceptHubInviteGQL
+    private readonly acceptHubInviteGQLService: AcceptHubInviteGQL,
+    private readonly leaveHubGQLService: LeaveHubGQL
   ) { }
 
   async createHub(name: string, description: string, image: string, latitude: number, longitude: number) {
@@ -208,6 +209,10 @@ export class HubService {
     const result = await this.inviteUserToHubGQLService.mutate({
       hubId,
       inviteesEmail
+    }, {
+      refetchQueries: [
+        { query: InvitesByHubDocument, variables: { hubId } as InvitesByHubQueryVariables }
+      ]
     }).toPromise();
 
     const response = result.data.inviteUserToHub;
@@ -237,6 +242,16 @@ export class HubService {
     }).toPromise();
 
     return result.data.deleteInvite;
+  }
+
+  async leaveHub(hubId: Scalars['ID']) {
+    const result = await this.leaveHubGQLService.mutate({ 
+      hubId
+     }, {
+       refetchQueries: [
+         { query: UsersHubsDocument }
+       ]
+     }).toPromise();
   }
 
   async deleteHub(id: Scalars['ID']): Promise<boolean> {

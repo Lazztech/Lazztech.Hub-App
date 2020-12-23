@@ -150,29 +150,6 @@ export class AdminHubPage implements OnInit {
             this.selectPicture();
           }
         },
-        // {
-        //   text: this.userHub.starred ? 'Remove Star' : 'Add Star',
-        //   // icon: 'heart',
-        //   handler: async () => {
-        //     let result = false;
-        //     this.loading = true;
-        //     if (this.userHub.starred) {
-        //       result = await this.hubService.setHubNotStarred(this.id);
-        //       this.userHub.starred = false;
-        //     } else {
-        //       result = await this.hubService.setHubStarred(this.id);
-        //       this.userHub.starred = true;
-        //     }
-
-        //     if (!result) {
-        //       this.userHub.starred = !this.userHub.starred;
-        //     }
-
-        //     this.loading = false;
-        //     this.logger.log('Star clicked');
-        //     return true;
-        //   }
-        // },
         {
           text: 'Cancel',
           role: 'cancel',
