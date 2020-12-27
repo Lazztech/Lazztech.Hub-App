@@ -50,6 +50,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     try {
       this.loading = true;
       this.userHubs = this.hubService.watchUserHubs("network-only").valueChanges.pipe(map(x => x.data && x.data.usersHubs));
+      this.invites = this.hubService.watchInvitesByUser("network-only").valueChanges.pipe(map(x => x.data && x.data.invitesByUser));
       this.loading = false;
       event.target.complete();
     } catch (error) {
