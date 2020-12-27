@@ -70,12 +70,12 @@ export class AdminHubPage implements OnInit {
       })
     );
 
-    this.invites = this.hubService.watchInvitesByHub(this.id).valueChanges.pipe(
+    this.invites = this.hubService.watchInvitesByHub(this.id, false).valueChanges.pipe(
       map(x => x.data && x.data.invitesByHub)
     );
 
     this.subscriptions.push(
-      this.hubService.watchInvitesByHub(this.id).valueChanges.subscribe(x => {
+      this.hubService.watchInvitesByHub(this.id, false).valueChanges.subscribe(x => {
         this.loading = x.loading;
       })
     );

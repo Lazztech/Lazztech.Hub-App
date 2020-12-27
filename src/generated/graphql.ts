@@ -297,6 +297,7 @@ export type QueryCommonUsersHubsArgs = {
 
 
 export type QueryInvitesByHubArgs = {
+  includeAccepted?: Maybe<Scalars['Boolean']>;
   hubId: Scalars['ID'];
 };
 

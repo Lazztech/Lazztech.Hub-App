@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { Observable, Subscription } from 'rxjs';
-import { UsersPeopleQuery } from 'src/generated/graphql';
+import { Scalars, UsersPeopleQuery } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
@@ -19,7 +19,7 @@ export class InvitePage implements OnInit {
   loading = false;
 
   myForm: FormGroup;
-  id: any;
+  id: Scalars['ID'];
   persons: Observable<UsersPeopleQuery['usersPeople']>;
   subscriptions: Subscription[] = [];
 
@@ -37,7 +37,7 @@ export class InvitePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.id = this.route.snapshot.paramMap.get('id');
     this.myForm = this.fb.group({
       email: ['', [
         Validators.required,

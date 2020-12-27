@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { User } from 'src/generated/graphql';
+import { Scalars, User } from 'src/generated/graphql';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -14,7 +14,7 @@ export class PersonPage implements OnInit, OnDestroy {
 
   loading = false;
   queryParamsSubscription: Subscription;
-  id: any;
+  id: Scalars['ID'];
   user: User;
 
   userHubs = [];
@@ -30,7 +30,7 @@ export class PersonPage implements OnInit, OnDestroy {
         this.user = this.router.getCurrentNavigation().extras.state.user;
       }
     });
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.id = this.route.snapshot.paramMap.get('id');
   }
 
   async ngOnInit() {
