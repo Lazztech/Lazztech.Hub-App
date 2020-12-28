@@ -43,6 +43,10 @@ const routes: Routes = [
     path: 'preview-hub',
     loadChildren: () => import('./pages/hub/preview-hub/preview-hub.module').then( m => m.PreviewHubPageModule)
   },
+  {
+    path: 'tutorial',
+    loadChildren: () => import('./pages/tutorial/tutorial.module').then( m => m.TutorialPageModule)
+  },
 ];
 
 @NgModule({

@@ -120,6 +120,11 @@ export class ProfilePage implements OnInit {
           Browser.open({ url: environment.legal.termsAndConditions });
         }
       }, {
+        text: 'Tutorial',
+        handler: () => {
+          this.navCtrl.navigateForward('tutorial');
+        }
+      }, {
         text: 'Cancel',
         role: 'cancel',
         handler: () => {
