@@ -27,6 +27,7 @@ import { HttpRequestInterceptor } from './interceptors/http.interceptor';
 import { LoggerModule } from 'ngx-logger';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { GraphQLModule } from './graphql.module';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -52,7 +53,8 @@ import { GraphQLModule } from './graphql.module';
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     BackgroundGeolocation,
     FingerprintAIO,
-    Diagnostic
+    Diagnostic,
+    OpenNativeSettings
   ],
   bootstrap: [AppComponent]
 })

@@ -54,8 +54,6 @@ export class AppComponent {
       SplashScreen.hide();
 
       this.authService.getToken();
-
-      await this.geofenceService.configureBackgroundGeolocation();
       await this.geofenceService.refreshHubGeofences();
     });
   }

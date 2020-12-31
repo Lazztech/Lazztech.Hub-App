@@ -31,27 +31,65 @@
     </ion-slide>
 
     <ion-slide>
-      <!-- <img src="assets/tutorial/slide-3.png"/> -->
+      <!-- <img src="assets/tutorial/slide-4.png"/> -->
       <h2>How do Hubs foster gatherings?</h2>
-      <p>As <b>Hub</b> member you can see which of the <b>Hub's</b> community members are presently at the <b>Hub's</b> location.</p>
+      <p>As a <b>Hub</b> member you can see which of the <b>Hub's</b> community members are presently at the <b>Hub's</b> location.</p>
       <p>This gives you as a user a high level overview of what's happening with your favorite community gathering spots.</p>
     </ion-slide>
 
     <ion-slide>
-      <!-- <img src="assets/tutorial/slide-3.png"/> -->
+      <!-- <img src="assets/tutorial/slide-5.png"/> -->
       <h2>What about privacy?</h2>
       <p><b>Hubs</b> are private & invite only which means it's details are only viewable by that <b>Hub's</b> members. No one will be able to see these details without inviting them into the <b>Hub</b>.<p>
     </ion-slide>
 
     <ion-slide>
-      <!-- <img src="assets/tutorial/slide-3.png"/> -->
+      <!-- <img src="assets/tutorial/slide-6.png"/> -->
       <h2>Can I turn a Hub on/off?</h2>
       <p>As the admin of a <b>Hub</b> you can <b>Deactivate</b> it at any time to conceal the details of which members are presently away or at the location.<p>
       <p>You may then at any time <b>Reactivate</b> your <b>Hub</b>. This will send a notification to it's members as a que to that the space is open to gatherings.<p>
     </ion-slide>
 
     <ion-slide>
-      <!-- <img src="assets/tutorial/slide-4.png"/> -->
+      <!-- <img src="assets/tutorial/slide-7.png"/> -->
+      <h2>Let's setup permissions</h2>
+      <p>You'll need to enable some permissions on your device for the app to function properly.<p>
+      <p>For example you'll be prompted to enable the background geo-location for this app so that the <b>Geo-Fences</b> for your <b>Hubs</b> can function properly.</p>
+    </ion-slide>
+
+    <!-- <ion-slide>
+      <h2>Push Notification permission</h2>
+      <p>You'll also be prompted for push notifications which are optional but recommended.</p>
+      <p>These are used for events such as one of the <b>Hubs</b> you're a member of becoming active.</p>
+      <ion-button (click)="pushNotifications()">Prompt for permission</ion-button>
+    </ion-slide> -->
+    
+    <ion-slide>
+      <!-- <img src="assets/tutorial/slide-9.png"/> -->
+      <h2>Geo-Fence permissions</h2>
+      <p>You'll be prompted for background location permissions. These are used so that your device can detect <b>Hub Geo-Fences</b> and check you in or out of a <b>Hub</b>.</p>
+      <p>You'll also be prompted for permission to detect when your device is in motion. This is used to <b>conserve battery</b> by enabling your device to only look for <b>Geo-Fences</b> when you're in motion.</p>
+      <ion-button (click)="geoPermissions()">Prompt for permission</ion-button>
+    </ion-slide>
+
+    <!-- <ion-slide>
+      <h2>Bio-Authentication permission</h2>
+      <p>This enables <b>Face ID</b> or <b>Fingerprint</b> authentication for login, depending on your device.</p>
+      <ion-button>Prompt for permission</ion-button>
+    </ion-slide> -->
+
+    <ion-slide>
+      <h2>Verify Permissions</h2>
+      <p>The <b>Lazztech Hub App</b> requires your permissions to be configured properly so that the <b>Geo-Fences</b> can function in the background.</p>
+      <p>Ensure that following settings are configured properly in your permission settings.</p>
+      <p><b>Location</b> is configured to <b>Always</b></p>
+      <p><b>Motion & Fitness</b> is toggled <b>on</b></p>
+      <p><b>Background App Refresh</b> is toggled <b>on</b></p>
+      <ion-button (click)="openAppSettings()">Verify permissions</ion-button>
+    </ion-slide>
+
+    <ion-slide>
+      <!-- <img src="assets/tutorial/slide-10.png"/> -->
       <h2>Ready?</h2>
       <ion-button fill="clear" (click)="finish()">Continue <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
     </ion-slide>

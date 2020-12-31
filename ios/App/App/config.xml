@@ -6,6 +6,10 @@
     <param name="ios-package" value="CDVBackgroundGeolocation"/>
   </feature>
 
+  <feature name="NativeSettings">
+    <param name="ios-package" value="NativeSettings"/>
+  </feature>
+
   <feature name="CordovaHttpPlugin">
     <param name="ios-package" value="CordovaHttpPlugin"/>
   </feature>
