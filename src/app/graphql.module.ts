@@ -28,7 +28,7 @@ export function createApollo(
       return {
         headers: {
           ...headers,
-          Authorization: token
+          Authorization: `Bearer ${token}`
         }
       };
     }
