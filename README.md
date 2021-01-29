@@ -7,7 +7,6 @@
   
   <p align="center">The iOS & Android(Coming Soon) Lazztech Hub Mobile App. Written in <a href="https://www.typescriptlang.org/" target="blank">TypeScript</a> with <a href="https://graphql.org/" target="blank">GraphQL</a> & the <a href="https://nestjs.com/" target="blank">Ionic</a> framework.</p>
     <p align="center">
-***REMOVED***
 </p>
 
 ## Companion Server
@@ -64,4 +63,3 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 Copyright Lazztech LLC
 
-***REMOVED***
