@@ -23,20 +23,29 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'notifications',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../notifications/notifications.module').then(m => m.NotificationsPageModule)
-          }
-        ]
-      },
-      {
         path: 'people',
         children: [
           {
             path: '',
             loadChildren: () => import('../people/people.module').then(m => m.PeoplePageModule)
+          }
+        ]
+      },
+      {
+        path: 'add-hub',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../add-hub/add-hub.module').then(m => m.AddHubPageModule)
+          }
+        ]
+      },
+      {
+        path: 'notifications',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../notifications/notifications.module').then(m => m.NotificationsPageModule)
           }
         ]
       },
