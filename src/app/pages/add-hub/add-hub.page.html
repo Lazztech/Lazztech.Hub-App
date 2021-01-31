@@ -11,7 +11,21 @@
 
 <ion-content fullscreen="true">
 
-  <app-hub-profile [hub]="hub" (click)="presentActionSheet()"></app-hub-profile>
+  <!-- <app-hub-profile [hub]="hub" (click)="presentActionSheet()"></app-hub-profile> -->
+
+  <app-hub-card 
+  *ngIf="coords"
+  [hub]="hub" 
+  [coords]="coords" 
+  [isOwner]="true" 
+  [showDescription]="true" 
+  ></app-hub-card>
+
+  <ion-card style="height:20%;">
+    <ion-card-content style="height:100%;">
+      <app-google-map *ngIf="coords" [center]="coords"></app-google-map>
+    </ion-card-content>
+  </ion-card>
 
   <div [appFeatureFlag]="'paidHubSubscriptionTier'">
     <ion-list-header>
@@ -52,6 +66,16 @@
 
   <form [formGroup]="myForm" (ngSubmit)="saveHub()" method="post">
 
+    <!-- <app-hub-card 
+    *ngIf="!loading && (userHub | async)" 
+    [hub]="(userHub | async)?.hub" 
+    [coords]="userCoords" 
+    [starred]="(userHub | async)?.starred"
+    [isOwner]="(userHub | async)?.isOwner" 
+    [showDescription]="true" 
+    (click)="presentActionSheet()">
+    </app-hub-card> -->
+
     <ion-list>
       <ion-list-header class="ion-padding-bottom">
         <ion-text>Hub Details</ion-text>
@@ -78,14 +102,33 @@
           Required
         </p>
       </ion-text>
+
+      <ion-item>
+        <ion-label>
+          <ion-text>Image</ion-text>
+          <ion-button class="ion-float-right" color="primary">Upload Image
+          </ion-button>
+        </ion-label>
+
+      </ion-item>
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Invite People</ion-text>
+      </ion-list-header>
+
+      <ion-item *ngFor="let person of persons | async">
+        <ion-avatar slot="start">
+          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image"
+            src="{{person.id | avatar}}">
+          <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <ion-text>{{person.firstName}} {{person.lastName}}</ion-text>
+        </ion-label>
+        <ion-checkbox slot="end"></ion-checkbox>
+      </ion-item>
     </ion-list>
   </form>
-
-  <ion-card style="height:30%;">
-    <ion-card-content style="height:100%;">
-      <app-google-map *ngIf="coords" [center]="coords"></app-google-map>
-    </ion-card-content>
-  </ion-card>
 
 </ion-content>
 

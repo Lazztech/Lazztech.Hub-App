@@ -49,7 +49,7 @@ export class HubCardComponent implements OnDestroy, OnChanges {
   ) { }
 
   async ngOnInit() {
-    this.presentCount = this.hub.usersConnection.filter(x => x.isPresent).length;
+    this.presentCount = this.hub.usersConnection?.filter(x => x.isPresent).length;
   }
 
   ngOnChanges() {

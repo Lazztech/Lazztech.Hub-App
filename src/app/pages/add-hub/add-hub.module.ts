@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { AddHubPage } from './add-hub.page';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { PipesModule } from '../../pipes/pipes.module';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     ComponentsModule,
-    DirectivesModule
+    DirectivesModule,
+    PipesModule
   ],
   declarations: [AddHubPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

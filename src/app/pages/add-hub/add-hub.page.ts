@@ -3,14 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Plugins } from '@capacitor/core';
 import { NavController, ActionSheetController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { GeofenceService } from 'src/app/services/geofence/geofence.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { Hub } from 'src/generated/graphql';
+import { Hub, UsersPeopleQuery } from 'src/generated/graphql';
 
 
 const { Geolocation } = Plugins;
@@ -26,6 +26,8 @@ export class AddHubPage implements OnInit, OnDestroy {
   paid = false;
   myForm: FormGroup;
   hub: Hub = {} as Hub;
+  persons: Observable<UsersPeopleQuery['usersPeople']>;
+  subscriptions: Subscription[] = [];
 
   locationSubscription: Subscription;
   coords: { latitude: number, longitude: number };
@@ -59,6 +61,15 @@ export class AddHubPage implements OnInit, OnDestroy {
         Validators.required
       ]]
     });
+
+    this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x.data && x.data.usersPeople));
+
+    this.subscriptions.push(
+      this.hubService.watchUsersPeople().valueChanges.subscribe(x => {
+        this.logger.log('loading: ', x.loading);
+        this.loading = x.loading;
+      })
+    );
   }
 
   async ionViewDidEnter() {
