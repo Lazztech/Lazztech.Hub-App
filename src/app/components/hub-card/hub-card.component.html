@@ -8,7 +8,8 @@
         </ion-col>
 
         <ion-col>
-          <ion-card-subtitle class="ion-float-left">{{hub.name}}</ion-card-subtitle>
+          <ion-card-subtitle *ngIf="hub?.name" class="ion-float-left">{{hub.name}}</ion-card-subtitle>
+          <ion-skeleton-text *ngIf="!hub.name" animated></ion-skeleton-text>
         </ion-col>
 
         <ion-col>
@@ -22,9 +23,8 @@
 
         <ion-col>
           <ion-thumbnail class="ion-float-left">
-            <ion-img *ngIf="hub.image === undefined" width="100%" src="/assets/icons/house_placeholder.png"></ion-img>
-
-            <ion-img *ngIf="hub.image !== undefined" width="100%" src="{{hub.image}}"></ion-img>
+            <ion-skeleton-text *ngIf="!hub.image" animated></ion-skeleton-text>
+            <ion-img *ngIf="hub.image" width="100%" src="{{hub.image}}"></ion-img>
           </ion-thumbnail>
         </ion-col>
 
@@ -47,11 +47,12 @@
         </ion-col>
         
       </ion-row>
-      <ion-row *ngIf="showDescription && hub.description">
+      <ion-row *ngIf="showDescription">
           
         <ion-col>
           <ion-text>
-            <p>{{hub.description}}</p>
+            <p *ngIf="hub?.description" >{{hub?.description}}</p>
+            <ion-skeleton-text *ngIf="!hub?.description" animated></ion-skeleton-text>
           </ion-text>
         </ion-col>
 

@@ -25,7 +25,10 @@ export class AddHubPage implements OnInit, OnDestroy {
   loading = true;
   paid = false;
   myForm: FormGroup;
-  hub: Hub = {} as Hub;
+  hub: Hub = {
+    active: true,
+    usersConnection: []
+  } as Hub;
   persons: Observable<UsersPeopleQuery['usersPeople']>;
   subscriptions: Subscription[] = [];
 
