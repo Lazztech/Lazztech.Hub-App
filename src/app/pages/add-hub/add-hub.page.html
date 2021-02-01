@@ -125,14 +125,9 @@
 
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-    <ion-row>
-      <ion-col>
-        <!-- <ion-button color="primary" expand="full" color="primary" (click)="login()">Create</ion-button> -->
-        <ion-button [disabled]="myForm.invalid" (click)="saveHub()" type="submit" expand="full" color="primary">Create
-        </ion-button>
-      </ion-col>
-    </ion-row>
+<ion-footer translucent="true">
+  <ion-toolbar style="padding-bottom: 0;">
+    <ion-button [disabled]="myForm.invalid" (click)="saveHub()" type="submit" expand="full" color="primary">Create
+    </ion-button>
   </ion-toolbar>
 </ion-footer>
