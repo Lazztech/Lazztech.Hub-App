@@ -13,32 +13,20 @@ import { NGXLogger } from 'ngx-logger';
 })
 export class HubCardComponent implements OnDestroy, OnChanges {
 
-  @Input()
-  hub: Hub
-
-  @Input()
-  adminControls = false;
-
-  @Input()
-  showDescription = false;
-  
-  atHub: boolean = false;
-
   //FIXME is this used?
   coords$: Observable<{longitude: number, latitude: number}>;
 
-  @Input()
-  coords: {longitude: number, latitude: number};
+  @Input() hub: Hub;
+  @Input() adminControls = false;
+  @Input() showDescription = false;
+  @Input() coords: {longitude: number, latitude: number};
+  @Input() starred: boolean = false;
+  @Input() isOwner: boolean = false;
+  @Input() includeMap: boolean = false;
 
-  @Input()
-  starred: boolean = false;
-
-  @Input()
-  isOwner: boolean = false;
-
+  atHub: boolean = false;
   subscription: Subscription;
   presentCount = 0;
-
   private distanceInMeters: number;
 
   constructor(
@@ -53,7 +41,9 @@ export class HubCardComponent implements OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-      this.atHub = this.locationService.atHub(this.hub, this.coords);
+      if (this.hub && this.coords.latitude && this.coords.longitude) {
+        this.atHub = this.locationService.atHub(this.hub, this.coords);
+      }
       if (!this.atHub) {
         this.distanceInMeters = this.locationService.getDistanceFromHub(this.hub, this.coords);
       }

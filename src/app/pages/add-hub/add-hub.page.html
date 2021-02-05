@@ -10,19 +10,12 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-
-  <ion-card style="height:25%;">
-    <ion-card-content style="height:100%;">
-      <app-google-map *ngIf="coords" [center]="coords"></app-google-map>
-    </ion-card-content>
-  </ion-card>
-
-  <app-hub-card 
-  *ngIf="coords"
-  [hub]="hub" 
-  [coords]="coords" 
-  [isOwner]="true" 
-  [showDescription]="true" 
+  <app-hub-card *ngIf="coords"
+    [hub]="hub" 
+    [coords]="coords" 
+    [isOwner]="true" 
+    [showDescription]="true" 
+    [includeMap]="true"
   ></app-hub-card>
 
   <div [appFeatureFlag]="'paidHubSubscriptionTier'">
@@ -63,17 +56,6 @@
   </div>
 
   <form [formGroup]="myForm" (ngSubmit)="saveHub()" method="post">
-
-    <!-- <app-hub-card 
-    *ngIf="!loading && (userHub | async)" 
-    [hub]="(userHub | async)?.hub" 
-    [coords]="userCoords" 
-    [starred]="(userHub | async)?.starred"
-    [isOwner]="(userHub | async)?.isOwner" 
-    [showDescription]="true" 
-    (click)="presentActionSheet()">
-    </app-hub-card> -->
-
     <ion-list>
       <ion-list-header class="ion-padding-bottom">
         <ion-text>Hub Details</ion-text>

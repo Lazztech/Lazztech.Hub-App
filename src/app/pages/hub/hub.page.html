@@ -15,22 +15,15 @@
 <ion-content fullscreen="true">
 
   <app-hub-card 
-  *ngIf="!loading && (userHub | async)" 
-  [hub]="(userHub | async)?.hub" 
-  [coords]="userCoords" 
-  [starred]="(userHub | async)?.starred"
-  [isOwner]="(userHub | async)?.isOwner" 
-  [showDescription]="true" 
-  (click)="presentActionSheet()">
+    *ngIf="!loading && (userHub | async)" 
+    [hub]="(userHub | async)?.hub" 
+    [coords]="userCoords" 
+    [starred]="(userHub | async)?.starred"
+    [isOwner]="(userHub | async)?.isOwner" 
+    [showDescription]="true"
+    [includeMap]="true"
+    (click)="presentActionSheet()">
   </app-hub-card>
-
-  <app-micro-chat *ngIf="!loading && userHub" [hubId]="id" [userHub]="userHub | async"></app-micro-chat>
-
-  <ion-card *ngIf="!loading && userHub && hubCoords" style="height:30%" (click)="goToMap()">
-    <ion-card-content style="height:100%">
-      <app-google-map *ngIf="userHub && hubCoords" [center]="hubCoords" [hubs]="[(userHub | async).hub]"></app-google-map>
-    </ion-card-content>
-  </ion-card>
 
   <ion-grid *ngIf="!loading && (userHub | async) as userHub" class="ion-no-padding">
     <ion-row>
@@ -49,6 +42,14 @@
         </ion-button>
       </ion-col>
 
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-padding-top ion-padding-bottom">
+        <app-micro-chat
+        [hubId]="id" 
+        [userHub]="userHub"
+      ></app-micro-chat>
+      </ion-col>
     </ion-row>
   </ion-grid>
 
