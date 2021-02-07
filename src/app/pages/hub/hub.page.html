@@ -43,15 +43,18 @@
       </ion-col>
 
     </ion-row>
-    <ion-row>
-      <ion-col class="ion-padding-top ion-padding-bottom">
-        <app-micro-chat
-        [hubId]="id" 
-        [userHub]="userHub"
-      ></app-micro-chat>
-      </ion-col>
-    </ion-row>
   </ion-grid>
+
+  <ion-list *ngIf="!loading && (userHub | async) as userHub">
+    <ion-list-header>
+      <ion-text>MicroChat</ion-text>
+    </ion-list-header>
+  
+    <app-micro-chat
+      [hubId]="id" 
+      [userHub]="userHub"
+    ></app-micro-chat>
+  </ion-list>
 
   <ion-list *ngIf="!loading && userHub && !(userHub | async)?.hub.active">
     <ion-list-header>
