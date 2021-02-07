@@ -60,9 +60,7 @@
     </ion-grid>
 
   </ion-card-content>
-  <ion-card-content *ngIf="includeMap">
-    <div style="height:100%;">
-      <app-google-map *ngIf="coords" [center]="coords"></app-google-map>
-    </div>
+  <ion-card-content *ngIf="includeMap" style="height: 75px;">
+      <app-google-map  style="position: relative; overflow: hidden;" *ngIf="coords" [center]="coords"></app-google-map>
   </ion-card-content>
 </ion-card>
