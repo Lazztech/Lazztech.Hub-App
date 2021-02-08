@@ -22,7 +22,7 @@
     [isOwner]="(userHub | async)?.isOwner" 
     [showDescription]="true"
     [includeMap]="true"
-    (click)="presentActionSheet()">
+    (click)="goToMap()">
   </app-hub-card>
 
   <ion-grid *ngIf="!loading && (userHub | async) as userHub" class="ion-no-padding">
