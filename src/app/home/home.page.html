@@ -25,9 +25,7 @@
     <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
 
     <ion-card *ngIf="!loading && coords" style="height:30%" (click)="goToMap()">
-      <ion-card-content style="height:100%">
-          <app-google-map [center]="coords" [navOnMarker]="true" [hubs]="hubs"></app-google-map>
-      </ion-card-content>
+          <app-leaflet-map [center]="coords" [navOnMarker]="true" [hubs]="hubs"></app-leaflet-map>
     </ion-card>
 
       <ion-card class="welcome-card" *ngIf="!loading && !(userHubs | async)?.length">

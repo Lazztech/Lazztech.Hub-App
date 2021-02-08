@@ -14,6 +14,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { DirectivesModule } from '../directives/directives.module';
 import { PipesModule } from '../pipes/pipes.module';
+import { LeafletMapComponent } from "./leaflet-map/leaflet-map.component";
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { PipesModule } from '../pipes/pipes.module';
         MicroChatComponent,
         MicroChatAddPage,
         HubProfileComponent,
-        BarChartComponent
+        BarChartComponent,
+        LeafletMapComponent
     ],
     imports: [
         IonicModule, 
@@ -42,7 +44,8 @@ import { PipesModule } from '../pipes/pipes.module';
         ProfileComponent,
         MicroChatComponent,
         HubProfileComponent,
-        BarChartComponent
+        BarChartComponent,
+        LeafletMapComponent
     ]
 })
 export class ComponentsModule {
