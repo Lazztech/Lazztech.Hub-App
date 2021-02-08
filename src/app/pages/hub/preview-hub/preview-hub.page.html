@@ -14,10 +14,8 @@
   <ion-list-header>Hub Location</ion-list-header>
 
   <ion-card *ngIf="!loading && (invite | async) && hubCoords" style="height:30%" (click)="goToMap()">
-    <ion-card-content style="height:100%">
-      <app-google-map *ngIf="invite && hubCoords" [center]="hubCoords" [hubs]="[(invite | async).hub]">
-      </app-google-map>
-    </ion-card-content>
+      <app-leaflet-map *ngIf="invite && hubCoords" [center]="hubCoords" [hubs]="[(invite | async).hub]">
+      </app-leaflet-map>
   </ion-card>
 </ion-content>
 
