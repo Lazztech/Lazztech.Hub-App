@@ -38,18 +38,26 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   initMap() {
     this.map = new Map(`map${this.id}`, {
       zoomControl: this.showControls,
+      dragging: this.showControls,
+      doubleClickZoom: this.showControls
     }).setView([this.center.latitude, this.center.longitude], 13);
 
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    this.hubs.forEach((hub: Hub) => {
-      marker([hub.latitude, hub.longitude])
-      .bindPopup(`<b>${hub.name}</b>`, { autoClose: false })
-      .on('click', () => this.navCtrl.navigateForward('hub/'+ hub.id))
-      .addTo(this.map);
-    });
+    if (this.hubs?.length) {
+      this.hubs.forEach((hub: Hub) => {
+        const mk = marker([hub.latitude, hub.longitude])
+        if (this.navOnMarker) {
+          mk.on('click', () => this.navCtrl.navigateForward('hub/'+ hub.id))
+        }
+        mk.addTo(this.map);
+      });
+    } else {
+      marker([this.center.latitude, this.center.longitude])
+        .addTo(this.map);
+    }
 
     // Required to get the map to load properly
     setTimeout(() => {
