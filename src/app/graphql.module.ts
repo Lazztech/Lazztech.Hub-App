@@ -6,20 +6,16 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
 import { NGXLogger } from 'ngx-logger';
 import { SERVER_URL } from 'src/environments/environment';
+import { ApolloClientOptions } from 'apollo-client';
 
 
 export function createApollo(
   httpLink: HttpLink,
   storage: Storage,
   logger: NGXLogger
-) {
+): ApolloClientOptions<any> {
 
-  const apolloLink = httpLink.create({
-    uri: `${SERVER_URL}graphql`,
-    withCredentials: true
-  });
-
-  const auth = setContext(async (_, { headers }) => {
+  const authLink = setContext(async (_, { headers }) => {
     const token = await storage.get('token');
     if (!token) {
       logger.error("Couldn't add jwt to header.");
@@ -34,11 +30,17 @@ export function createApollo(
     }
   });
 
+  const apolloLink = httpLink.create({
+    uri: `${SERVER_URL}graphql`,
+    withCredentials: true
+  });
+
   return {
-    link: auth.concat(apolloLink),
+    link: authLink // Auth must come first it seems
+      .concat(apolloLink),
     cache: new InMemoryCache(),
-    connectToDevTools: true //TODO set based on environment variable, eg. dev or prod
-  };
+    connectToDevTools: true, //TODO set based on environment variable, eg. dev or prod
+  } as ApolloClientOptions<any>;
 }
 
 @NgModule({
