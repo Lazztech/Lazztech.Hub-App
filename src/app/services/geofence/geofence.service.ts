@@ -13,7 +13,7 @@ import BackgroundGeolocation, {
   GeofencesChangeEvent,
   HeartbeatEvent,
   ConnectivityChangeEvent
-} from "cordova-background-geolocation-lt";
+} from "cordova-background-geolocation";
 import { Plugins } from '@capacitor/core';
 import { HubService } from '../hub/hub.service';
 import { Hub } from 'src/generated/graphql';
