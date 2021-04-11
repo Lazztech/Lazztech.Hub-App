@@ -90,7 +90,9 @@ export class LoginPage implements OnInit {
       this.loading = false;
       this.alertService.presentRedToast("Login failed!");
     }
+  }
 
-
+  async googleLogin() {
+    
   }
 }

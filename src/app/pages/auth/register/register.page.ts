@@ -93,6 +93,8 @@ export class RegisterPage implements OnInit {
     }
   }
 
+  async googleRegistration() {}
+
   async navigateToPrivacyPolicy() {
     await Browser.open({ url: environment.legal.privacyPolicyLink });
   }
