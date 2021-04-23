@@ -44,7 +44,7 @@ export const environment = {
 // export const SERVER_URL = 'https://hubserver.lazz.tech/';
 // export const SERVER_URL = 'http://localhost:8080/';
 
-export const SERVER_URL = 'https://dev-lazztechhub.public.lazz.tech/';
+export const SERVER_URL = 'https://dev-lazztechhub.lazz.tech/';
 
 // TODO: Remove google maps related code
 export const GOOGLE_MAPS_KEY = 'AIzaSyB3v329F0sXT3vhrJncIfP_N1ipiNuXZOw';
