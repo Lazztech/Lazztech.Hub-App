@@ -117,6 +117,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this.navCtrl.navigateForward('status');
   }
 
+  goToAddHubPage() {
+    this.navCtrl.navigateForward('add-hub');
+  }
+
   async filterHubs(ev: any) {
     this.userHubs = this.hubService.watchUserHubs("cache-only").valueChanges.pipe(map(x => x.data && x.data.usersHubs));
     const val = ev.target.value;
