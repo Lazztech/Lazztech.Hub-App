@@ -19,17 +19,18 @@ export type Hub = {
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   active?: Maybe<Scalars['Boolean']>;
-  image?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   usersConnection?: Maybe<Array<JoinUserHub>>;
   microChats?: Maybe<Array<MicroChat>>;
   invites?: Maybe<Array<Invite>>;
+  image?: Maybe<Scalars['String']>;
 };
 
 export type InAppNotification = {
    __typename?: 'InAppNotification';
   id: Scalars['ID'];
+  userId: Scalars['ID'];
   header?: Maybe<Scalars['String']>;
   text: Scalars['String'];
   date: Scalars['String'];
@@ -57,15 +58,7 @@ export type JoinUserHub = {
   hub: Hub;
   isOwner: Scalars['Boolean'];
   starred: Scalars['Boolean'];
-  isPresent: Scalars['Boolean'];
-};
-
-export type JoinUserInAppNotifications = {
-   __typename?: 'JoinUserInAppNotifications';
-  userId: Scalars['ID'];
-  inAppNotificationId: Scalars['ID'];
-  user: User;
-  inAppNotification: InAppNotification;
+  isPresent?: Maybe<Scalars['Boolean']>;
 };
 
 export type MicroChat = {
@@ -78,6 +71,9 @@ export type MicroChat = {
 
 export type Mutation = {
    __typename?: 'Mutation';
+  addUserFcmNotificationToken: Scalars['Boolean'];
+  deleteInAppNotification: Scalars['Boolean'];
+  deleteAllInAppNotifications: Scalars['Boolean'];
   createHub: JoinUserHub;
   inviteUserToHub: Invite;
   acceptHubInvite: JoinUserHub;
@@ -98,9 +94,6 @@ export type Mutation = {
   editUserDetails: User;
   changeEmail: User;
   changeUserImage: User;
-  addUserFcmNotificationToken: Scalars['Boolean'];
-  deleteInAppNotification: Scalars['Boolean'];
-  deleteAllInAppNotifications: Scalars['Boolean'];
   login?: Maybe<Scalars['String']>;
   register?: Maybe<Scalars['String']>;
   logout: Scalars['Boolean'];
@@ -108,6 +101,16 @@ export type Mutation = {
   sendPasswordResetEmail: Scalars['Boolean'];
   changePassword: Scalars['Boolean'];
   deleteAccount: Scalars['Boolean'];
+};
+
+
+export type MutationAddUserFcmNotificationTokenArgs = {
+  token: Scalars['String'];
+};
+
+
+export type MutationDeleteInAppNotificationArgs = {
+  inAppNotificationId: Scalars['ID'];
 };
 
 
@@ -225,16 +228,6 @@ export type MutationChangeUserImageArgs = {
 };
 
 
-export type MutationAddUserFcmNotificationTokenArgs = {
-  token: Scalars['String'];
-};
-
-
-export type MutationDeleteInAppNotificationArgs = {
-  inAppNotificationId: Scalars['ID'];
-};
-
-
 export type MutationLoginArgs = {
   password: Scalars['String'];
   email: Scalars['String'];
@@ -271,6 +264,7 @@ export type MutationDeleteAccountArgs = {
 
 export type Query = {
    __typename?: 'Query';
+  getInAppNotifications: Array<InAppNotification>;
   hub: JoinUserHub;
   usersHubs: Array<JoinUserHub>;
   commonUsersHubs: Array<JoinUserHub>;
@@ -282,7 +276,6 @@ export type Query = {
   ownedHubs: Array<Hub>;
   memberOfHubs: Array<Hub>;
   me?: Maybe<User>;
-  getInAppNotifications: Array<InAppNotification>;
 };
 
 
@@ -322,8 +315,8 @@ export type User = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   description?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
 };
 
 export type UserInput = {
@@ -801,7 +794,7 @@ export type GetInAppNotificationsQuery = (
   { __typename?: 'Query' }
   & { getInAppNotifications: Array<(
     { __typename?: 'InAppNotification' }
-    & Pick<InAppNotification, 'id' | 'header' | 'text' | 'date' | 'thumbnail' | 'actionLink'>
+    & Pick<InAppNotification, 'id' | 'userId' | 'header' | 'text' | 'date' | 'thumbnail' | 'actionLink'>
   )> }
 );
 
@@ -1511,6 +1504,7 @@ export const GetInAppNotificationsDocument = gql`
     query getInAppNotifications {
   getInAppNotifications {
     id
+    userId
     header
     text
     date
