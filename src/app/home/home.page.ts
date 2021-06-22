@@ -18,7 +18,7 @@ const { Geolocation } = Plugins;
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, AfterViewInit, OnDestroy {
+export class HomePage implements OnInit, OnDestroy {
 
   loading = true;
   invites: Observable<InvitesByUserQuery['invitesByUser']>;
@@ -97,12 +97,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this.subscriptions.forEach(
       x => x.unsubscribe()
     );
-  }
-
-  ngAfterViewInit() {
-    this.platform.ready().then(async () => {
-      await this.notificationsService.requestWebPushPermission();
-    });
   }
 
   goToHubPage(id: number) {

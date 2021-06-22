@@ -127,9 +127,6 @@ export class NotificationsService {
   async setupPushForAllPlatforms() {
     if (this.platform.is('android') || this.platform.is('ios')) {
       await this.setupPushiOSAndAndroid();
-    } else {
-      this.firebaseWebPushInitApp();
-      await this.setupWebPush();
     }
   }
 
@@ -194,79 +191,6 @@ export class NotificationsService {
         notificationActionDetails.notification?.data?.aps?.category && this.navController.navigateForward(notificationActionDetails.notification.data.aps.category);
       }
     );
-  }
-
-  setupWebPush(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-        navigator.serviceWorker.ready.then((registration) => {
-            // Don't crash an error if messaging not supported
-            if (!firebase.messaging.isSupported()) {
-                   resolve();
-                   return;
-            }
-
-            const messaging = firebase.messaging();
-
-            // Register the Service Worker
-            messaging.useServiceWorker(registration);
-
-            // Initialize your VAPI key
-            messaging.usePublicVapidKey(
-                  environment.firebaseConfig.vapidKey
-            );
-
-            // Optional and not covered in the article
-            // Listen to messages when your app is in the foreground
-            messaging.onMessage((payload) => {
-                this.logger.log(payload);
-            });
-            // Optional and not covered in the article
-            // Handle token refresh
-            messaging.onTokenRefresh(() => {
-                messaging.getToken().then(
-                (refreshedToken: string) => {
-                    this.logger.log(refreshedToken);
-                }).catch((err) => {
-                    this.logger.error(err);
-                });
-            });
-
-            resolve();
-        }, (err) => {
-            reject(err);
-        });
-    });
-  }
-
-  firebaseWebPushInitApp() {
-    firebase.initializeApp(environment.firebaseConfig);
-  }
-
-  requestWebPushPermission(): Promise<void> {
-    return new Promise<void>(async (resolve) => {
-        if (!Notification) {
-            resolve();
-            return;
-        }
-        if (!firebase.messaging.isSupported()) {
-            resolve();
-            return;
-        }
-        try {
-            const messaging = firebase.messaging();
-            await messaging.requestPermission();
-
-            const token: string = await messaging.getToken();
-
-            this.logger.log('User notifications token:', token);
-
-            await this.submitNotificationToken(token);
-        } catch (err) {
-            // No notifications granted
-        }
-
-        resolve();
-    });
   }
 
   private async submitNotificationToken(token: string) {

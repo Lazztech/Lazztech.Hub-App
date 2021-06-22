@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>770608014197-k8pa186qqcd1a4egu1vqgjr4fitavfa6.apps.googleusercontent.com</string>
+	<string>1046841199870-ojutafvp12846vkkec1l43gfjkoaglq0.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.770608014197-k8pa186qqcd1a4egu1vqgjr4fitavfa6</string>
+	<string>com.googleusercontent.apps.1046841199870-ojutafvp12846vkkec1l43gfjkoaglq0</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBo6LfXUGZT4TZiJQUdABCksuF6NX7fmAU</string>
+	<string>AIzaSyC70eQji87A1pAmM4_VuB8-uoTa1H776oo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>770608014197</string>
+	<string>1046841199870</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>tech.lazz.app</string>
 	<key>PROJECT_ID</key>
-	<string>stack-push-notifications</string>
+	<string>lazztech</string>
 	<key>STORAGE_BUCKET</key>
-	<string>stack-push-notifications.appspot.com</string>
+	<string>lazztech.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:770608014197:ios:a8c8bde75a273de3</string>
+	<string>1:1046841199870:ios:2bca698d2548a6d70969af</string>
 	<key>DATABASE_URL</key>
-	<string>https://stack-push-notifications.firebaseio.com</string>
+	<string>https://lazztech.firebaseio.com</string>
 </dict>
 </plist>
