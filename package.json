@@ -48,6 +48,7 @@
     "apollo-client": "^2.5.1",
     "apollo-link": "^1.2.11",
     "apollo-link-context": "^1.0.17",
+    "apollo-link-error": "^1.1.13",
     "chart.js": "^2.9.3",
     "cordova-background-geolocation": "git+https://github.com/transistorsoft/cordova-background-geolocation.git",
     "cordova-open-native-settings": "^1.5.2",

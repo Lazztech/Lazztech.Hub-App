@@ -7,6 +7,8 @@ import { setContext } from 'apollo-link-context';
 import { NGXLogger } from 'ngx-logger';
 import { SERVER_URL } from 'src/environments/environment';
 import { ApolloClientOptions } from 'apollo-client';
+import { onError } from 'apollo-link-error';
+import { from } from 'apollo-link';
 
 
 export function createApollo(
@@ -30,14 +32,24 @@ export function createApollo(
     }
   });
 
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    let err: string;
+    console.log('errorLink')
+    graphQLErrors?.forEach(({ message, locations, path }) => {
+      err += `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path} \n`;
+    });
+    err += `[Network error]: ${networkError}`;
+    console.log(err);
+    alert(err);
+  });
+
   const apolloLink = httpLink.create({
     uri: `${SERVER_URL}graphql`,
     withCredentials: true
   });
 
   return {
-    link: authLink // Auth must come first it seems
-      .concat(apolloLink),
+    link: from([errorLink, authLink, apolloLink]),
     cache: new InMemoryCache(),
     connectToDevTools: true, //TODO set based on environment variable, eg. dev or prod
   } as ApolloClientOptions<any>;
