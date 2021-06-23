@@ -1,0 +1,15 @@
+mutation changeHubLocation(
+    $hubId: ID!
+    $latitude: Float!
+    $longitude: Float!
+    ) {
+    changeHubLocation(
+        hubId: $hubId
+        latitude: $latitude
+        longitude: $longitude
+        ) {
+        id
+        latitude
+        longitude
+    }
+}

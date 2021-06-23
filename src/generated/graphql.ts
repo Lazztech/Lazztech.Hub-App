@@ -34,8 +34,8 @@ export type InAppNotification = {
   header?: Maybe<Scalars['String']>;
   text: Scalars['String'];
   date: Scalars['String'];
-  thumbnail?: Maybe<Scalars['String']>;
   actionLink?: Maybe<Scalars['String']>;
+  thumbnail?: Maybe<Scalars['String']>;
 };
 
 export type Invite = {
@@ -81,6 +81,7 @@ export type Mutation = {
   leaveHub: Scalars['Boolean'];
   deleteHub: Scalars['Boolean'];
   editHub: Hub;
+  changeHubLocation: Hub;
   changeHubImage: Hub;
   setHubStarred: Scalars['Boolean'];
   setHubNotStarred: Scalars['Boolean'];
@@ -153,6 +154,13 @@ export type MutationDeleteHubArgs = {
 export type MutationEditHubArgs = {
   description: Scalars['String'];
   name: Scalars['String'];
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationChangeHubLocationArgs = {
+  longitude: Scalars['Float'];
+  latitude: Scalars['Float'];
   hubId: Scalars['ID'];
 };
 
@@ -428,6 +436,21 @@ export type ChangeHubImageMutation = (
   & { changeHubImage: (
     { __typename?: 'Hub' }
     & Pick<Hub, 'id' | 'image'>
+  ) }
+);
+
+export type ChangeHubLocationMutationVariables = {
+  hubId: Scalars['ID'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+};
+
+
+export type ChangeHubLocationMutation = (
+  { __typename?: 'Mutation' }
+  & { changeHubLocation: (
+    { __typename?: 'Hub' }
+    & Pick<Hub, 'id' | 'latitude' | 'longitude'>
   ) }
 );
 
@@ -996,6 +1019,23 @@ export const ChangeHubImageDocument = gql`
   })
   export class ChangeHubImageGQL extends Apollo.Mutation<ChangeHubImageMutation, ChangeHubImageMutationVariables> {
     document = ChangeHubImageDocument;
+    
+  }
+export const ChangeHubLocationDocument = gql`
+    mutation changeHubLocation($hubId: ID!, $latitude: Float!, $longitude: Float!) {
+  changeHubLocation(hubId: $hubId, latitude: $latitude, longitude: $longitude) {
+    id
+    latitude
+    longitude
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChangeHubLocationGQL extends Apollo.Mutation<ChangeHubLocationMutation, ChangeHubLocationMutationVariables> {
+    document = ChangeHubLocationDocument;
     
   }
 export const CommonUsersHubsDocument = gql`
