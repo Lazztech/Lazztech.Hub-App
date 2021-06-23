@@ -3,10 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { GoogleMapComponent } from 'src/app/components/google-map/google-map.component';
-import * as L from 'leaflet';
+import 'leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
 import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
+import { HubService } from '../../services/hub/hub.service';
+import { Scalars } from '../../../generated/graphql';
 
 @Component({
   selector: 'app-map',
@@ -21,7 +23,7 @@ export class MapPage implements OnInit {
   hubs = [];
   searchResults: SearchResult<RawResult>[] = [];
 
-  hubId: number;
+  hubId: Scalars['ID'];
   loading = false;
   provider = new OpenStreetMapProvider();
 
@@ -30,6 +32,7 @@ export class MapPage implements OnInit {
   constructor(
     private router: Router,
     private logger: NGXLogger,
+    private hubService: HubService
   ) {
     if (this.router.getCurrentNavigation().extras.state) {
       this.hubCoords = this.router.getCurrentNavigation().extras.state.hubCoords;
@@ -61,5 +64,9 @@ export class MapPage implements OnInit {
       longitude: searchResult.x
     };
     this.searchResults = [];
+  }
+
+  save() {
+    this.hubService.changeHubLocation(this.hubId, this.center.latitude, this.center.longitude)
   }
 }

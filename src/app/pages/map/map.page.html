@@ -4,6 +4,14 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Map</ion-title>
+    <div slot="end">
+      <ion-label color="primary" slot="end" (click)="save()">
+        Save &nbsp;
+      </ion-label>
+      <ion-label slot="end">
+        &nbsp;
+      </ion-label>
+    </div>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
