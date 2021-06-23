@@ -162,6 +162,19 @@ export class AdminHubPage implements OnInit {
     await actionSheet.present();
   }
 
+  async goToMap(userHub: JoinUserHub) {
+    console.log(userHub)
+    this.navCtrl.navigateForward('map', {
+      state: {
+        hubCoords: { 
+          latitude: userHub.hub.latitude,
+          longitude: userHub.hub.longitude
+        },
+        hub: userHub.hub,
+      }
+    });
+  }
+
   async deleteInvite(hubId: any, inviteId: any) {
     this.hubService.deleteInvite(hubId, inviteId);
   }

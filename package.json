@@ -69,6 +69,7 @@
     "ionic-native-http-connection-backend": "^7.0.3",
     "jsqr": "^1.2.0",
     "leaflet": "^1.7.1",
+    "leaflet-geosearch": "^3.3.2",
     "moment": "^2.24.0",
     "ng2-charts": "^2.3.0",
     "ngx-kjua": "^1.6.1",

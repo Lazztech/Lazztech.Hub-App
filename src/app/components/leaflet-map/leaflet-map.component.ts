@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import { NavController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { Hub } from '../../../generated/graphql';
     '../../../../node_modules/leaflet/dist/leaflet.css'
   ],
 })
-export class LeafletMapComponent implements OnInit, AfterViewInit {
+export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() center: { latitude: any; longitude: any; };
   @Input() hubs: Hub[] = [];
@@ -31,6 +31,12 @@ export class LeafletMapComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.map && changes.center) {
+      this.map.setView([this.center.latitude, this.center.longitude], 13); 
+    }
+  }
+  
   ngAfterViewInit() {
     this.initMap();
   }
