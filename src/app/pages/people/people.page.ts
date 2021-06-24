@@ -60,7 +60,7 @@ export class PeoplePage implements OnInit, OnDestroy {
   async filterPeople(ev: any) {
     this.persons = this.hubService.watchUsersPeople('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
     const val = ev.target.value;
-    if (val && val.trim() != '') {
+    if (val && val.trim() !== '') {
       this.persons = this.persons.pipe(
         map(x => x.filter(y => {
           const name = y.firstName.trim().toLowerCase() + y.lastName.trim().toLowerCase();

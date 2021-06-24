@@ -115,7 +115,7 @@ export class HomePage implements OnInit, OnDestroy {
   async filterHubs(ev: any) {
     this.userHubs = this.hubService.watchUserHubs('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersHubs));
     const val = ev.target.value;
-    if (val && val.trim() != '') {
+    if (val && val.trim() !== '') {
       this.userHubs = this.userHubs.pipe(
         map(x => x.filter(y => y.hub.name.toLowerCase().includes(val.toLowerCase())))
       );
