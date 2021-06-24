@@ -58,22 +58,22 @@ export class GeofenceService {
   async refreshHubGeofences() {
     await this.removeAllGeofences();
     const userHubs = await this.hubService.usersHubs();
-    for (let index = 0; index < userHubs.length; index++) {
-      const element = userHubs[index].hub;
+    for (const userHub of userHubs) {
+      const hub = userHub.hub;
       const identifier = {
-        id: element.id,
-        name: element.name
+        id: hub.id,
+        name: hub.name
       };
       await this.addGeofence({
         identifier: JSON.stringify(identifier),
-        latitude: element.latitude,
-        longitude: element.longitude,
+        latitude: hub.latitude,
+        longitude: hub.longitude,
         notifyOnEntry: true,
         notifyOnExit: true,
 
       });
 
-      this.logger.log(`Added geofence for ${JSON.stringify(element)}`);
+      this.logger.log(`Added geofence for ${JSON.stringify(hub)}`);
     }
   }
 
