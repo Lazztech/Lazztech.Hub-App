@@ -4,7 +4,6 @@ import { MenuController, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription, Observable } from 'rxjs';
 import { Hub, User, UsersHubsQuery, InvitesByUserQuery, Invite } from 'src/generated/graphql';
-import { GoogleMapComponent } from '../components/google-map/google-map.component';
 import { AuthService } from '../services/auth/auth.service';
 import { HubService } from '../services/hub/hub.service';
 import { LocationService } from '../services/location/location.service';
@@ -29,8 +28,6 @@ export class HomePage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   locationSubscription: Subscription;
   coords: { latitude: number, longitude: number };
-
-  @ViewChild(GoogleMapComponent) child: GoogleMapComponent;
 
   constructor(
     private menu: MenuController,

@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
-import { GoogleMapComponent } from 'src/app/components/google-map/google-map.component';
 import 'leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
@@ -26,8 +25,6 @@ export class MapPage implements OnInit {
   hubId: Scalars['ID'];
   loading = false;
   provider = new OpenStreetMapProvider();
-
-  @ViewChild(GoogleMapComponent) child: GoogleMapComponent;
 
   constructor(
     private router: Router,

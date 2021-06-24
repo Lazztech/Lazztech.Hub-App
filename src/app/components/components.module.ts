@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { GoogleMapComponent } from './google-map/google-map.component';
 import { HubCardComponent } from './hub-card/hub-card.component';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -18,7 +17,6 @@ import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 
 @NgModule({
     declarations: [
-        GoogleMapComponent,
         HubCardComponent,
         ActivityDotComponent,
         ProfileComponent,
@@ -38,7 +36,6 @@ import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
         PipesModule
     ],
     exports: [
-        GoogleMapComponent,
         HubCardComponent,
         ActivityDotComponent,
         ProfileComponent,
