@@ -1,19 +1,21 @@
+/* tslint:disable */
 import gql from 'graphql-tag';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
+
 /** All built-in and custom scalars, mapped to their actual values */
-export interface Scalars {
+export type Scalars = {
   ID: string;
   String: string;
   Boolean: boolean;
   Int: number;
   Float: number;
-}
+};
 
 
 
-export interface Hub {
+export type Hub = {
    __typename?: 'Hub';
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -25,9 +27,9 @@ export interface Hub {
   microChats?: Maybe<Array<MicroChat>>;
   invites?: Maybe<Array<Invite>>;
   image?: Maybe<Scalars['String']>;
-}
+};
 
-export interface InAppNotification {
+export type InAppNotification = {
    __typename?: 'InAppNotification';
   id: Scalars['ID'];
   userId: Scalars['ID'];
@@ -36,9 +38,9 @@ export interface InAppNotification {
   date: Scalars['String'];
   actionLink?: Maybe<Scalars['String']>;
   thumbnail?: Maybe<Scalars['String']>;
-}
+};
 
-export interface Invite {
+export type Invite = {
    __typename?: 'Invite';
   id: Scalars['ID'];
   invitersId: Scalars['ID'];
@@ -48,9 +50,9 @@ export interface Invite {
   inviter: User;
   invitee: User;
   hub: Hub;
-}
+};
 
-export interface JoinUserHub {
+export type JoinUserHub = {
    __typename?: 'JoinUserHub';
   userId: Scalars['ID'];
   hubId: Scalars['ID'];
@@ -59,17 +61,17 @@ export interface JoinUserHub {
   isOwner: Scalars['Boolean'];
   starred: Scalars['Boolean'];
   isPresent?: Maybe<Scalars['Boolean']>;
-}
+};
 
-export interface MicroChat {
+export type MicroChat = {
    __typename?: 'MicroChat';
   id: Scalars['ID'];
   hubId: Scalars['Float'];
   hub: Scalars['ID'];
   text: Scalars['String'];
-}
+};
 
-export interface Mutation {
+export type Mutation = {
    __typename?: 'Mutation';
   addUserFcmNotificationToken: Scalars['Boolean'];
   deleteInAppNotification: Scalars['Boolean'];
@@ -102,175 +104,175 @@ export interface Mutation {
   sendPasswordResetEmail: Scalars['Boolean'];
   changePassword: Scalars['Boolean'];
   deleteAccount: Scalars['Boolean'];
-}
+};
 
 
-export interface MutationAddUserFcmNotificationTokenArgs {
+export type MutationAddUserFcmNotificationTokenArgs = {
   token: Scalars['String'];
-}
+};
 
 
-export interface MutationDeleteInAppNotificationArgs {
+export type MutationDeleteInAppNotificationArgs = {
   inAppNotificationId: Scalars['ID'];
-}
+};
 
 
-export interface MutationCreateHubArgs {
+export type MutationCreateHubArgs = {
   longitude: Scalars['Float'];
   latitude: Scalars['Float'];
   image: Scalars['String'];
   description: Scalars['String'];
   name: Scalars['String'];
-}
+};
 
 
-export interface MutationInviteUserToHubArgs {
+export type MutationInviteUserToHubArgs = {
   inviteesEmail: Scalars['String'];
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationAcceptHubInviteArgs {
+export type MutationAcceptHubInviteArgs = {
   inviteId: Scalars['ID'];
-}
+};
 
 
-export interface MutationDeleteInviteArgs {
+export type MutationDeleteInviteArgs = {
   inviteId: Scalars['ID'];
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationLeaveHubArgs {
+export type MutationLeaveHubArgs = {
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationDeleteHubArgs {
+export type MutationDeleteHubArgs = {
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationEditHubArgs {
+export type MutationEditHubArgs = {
   description: Scalars['String'];
   name: Scalars['String'];
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationChangeHubLocationArgs {
+export type MutationChangeHubLocationArgs = {
   longitude: Scalars['Float'];
   latitude: Scalars['Float'];
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationChangeHubImageArgs {
+export type MutationChangeHubImageArgs = {
   newImage: Scalars['String'];
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationSetHubStarredArgs {
+export type MutationSetHubStarredArgs = {
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationSetHubNotStarredArgs {
+export type MutationSetHubNotStarredArgs = {
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationEnteredHubGeofenceArgs {
+export type MutationEnteredHubGeofenceArgs = {
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationExitedHubGeofenceArgs {
+export type MutationExitedHubGeofenceArgs = {
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationActivateHubArgs {
+export type MutationActivateHubArgs = {
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationDeactivateHubArgs {
+export type MutationDeactivateHubArgs = {
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationMicroChatToHubArgs {
+export type MutationMicroChatToHubArgs = {
   microChatId: Scalars['ID'];
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationCreateMicroChatArgs {
+export type MutationCreateMicroChatArgs = {
   microChatText: Scalars['String'];
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationDeleteMicroChatArgs {
+export type MutationDeleteMicroChatArgs = {
   microChatId: Scalars['ID'];
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface MutationEditUserDetailsArgs {
+export type MutationEditUserDetailsArgs = {
   description: Scalars['String'];
   lastName: Scalars['String'];
   firstName: Scalars['String'];
-}
+};
 
 
-export interface MutationChangeEmailArgs {
+export type MutationChangeEmailArgs = {
   newEmail: Scalars['String'];
-}
+};
 
 
-export interface MutationChangeUserImageArgs {
+export type MutationChangeUserImageArgs = {
   newImage: Scalars['String'];
-}
+};
 
 
-export interface MutationLoginArgs {
+export type MutationLoginArgs = {
   password: Scalars['String'];
   email: Scalars['String'];
-}
+};
 
 
-export interface MutationRegisterArgs {
+export type MutationRegisterArgs = {
   data: UserInput;
-}
+};
 
 
-export interface MutationResetPasswordArgs {
+export type MutationResetPasswordArgs = {
   newPassword: Scalars['String'];
   resetPin: Scalars['String'];
   usersEmail: Scalars['String'];
-}
+};
 
 
-export interface MutationSendPasswordResetEmailArgs {
+export type MutationSendPasswordResetEmailArgs = {
   email: Scalars['String'];
-}
+};
 
 
-export interface MutationChangePasswordArgs {
+export type MutationChangePasswordArgs = {
   newPassword: Scalars['String'];
   oldPassword: Scalars['String'];
-}
+};
 
 
-export interface MutationDeleteAccountArgs {
+export type MutationDeleteAccountArgs = {
   password: Scalars['String'];
   email: Scalars['String'];
-}
+};
 
-export interface Query {
+export type Query = {
    __typename?: 'Query';
   getInAppNotifications: Array<InAppNotification>;
   hub: JoinUserHub;
@@ -284,40 +286,40 @@ export interface Query {
   ownedHubs: Array<Hub>;
   memberOfHubs: Array<Hub>;
   me?: Maybe<User>;
-}
+};
 
 
-export interface QueryHubArgs {
+export type QueryHubArgs = {
   id: Scalars['ID'];
-}
+};
 
 
-export interface QueryCommonUsersHubsArgs {
+export type QueryCommonUsersHubsArgs = {
   otherUsersId: Scalars['ID'];
-}
+};
 
 
-export interface QueryInvitesByHubArgs {
+export type QueryInvitesByHubArgs = {
   includeAccepted?: Maybe<Scalars['Boolean']>;
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface QueryInviteArgs {
+export type QueryInviteArgs = {
   hubId: Scalars['ID'];
-}
+};
 
 
-export interface QueryInvitesByUserArgs {
+export type QueryInvitesByUserArgs = {
   includeAccepted?: Maybe<Scalars['Boolean']>;
-}
+};
 
 
-export interface QuerySearchHubByNameArgs {
+export type QuerySearchHubByNameArgs = {
   search: Scalars['String'];
-}
+};
 
-export interface User {
+export type User = {
    __typename?: 'User';
   id: Scalars['ID'];
   firstName: Scalars['String'];
@@ -325,19 +327,19 @@ export interface User {
   description?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   image?: Maybe<Scalars['String']>;
-}
+};
 
-export interface UserInput {
+export type UserInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
-}
+};
 
-export interface LoginMutationVariables {
+export type LoginMutationVariables = {
   password: Scalars['String'];
   email: Scalars['String'];
-}
+};
 
 
 export type LoginMutation = (
@@ -345,7 +347,7 @@ export type LoginMutation = (
   & Pick<Mutation, 'login'>
 );
 
-export interface MeQueryVariables {}
+export type MeQueryVariables = {};
 
 
 export type MeQuery = (
@@ -356,12 +358,12 @@ export type MeQuery = (
   )> }
 );
 
-export interface RegisterMutationVariables {
+export type RegisterMutationVariables = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
-}
+};
 
 
 export type RegisterMutation = (
@@ -369,11 +371,11 @@ export type RegisterMutation = (
   & Pick<Mutation, 'register'>
 );
 
-export interface ResetPasswordMutationVariables {
+export type ResetPasswordMutationVariables = {
   email: Scalars['String'];
   newPassword: Scalars['String'];
   resetPin: Scalars['String'];
-}
+};
 
 
 export type ResetPasswordMutation = (
@@ -381,9 +383,9 @@ export type ResetPasswordMutation = (
   & Pick<Mutation, 'resetPassword'>
 );
 
-export interface SendPasswordResetEmailMutationVariables {
+export type SendPasswordResetEmailMutationVariables = {
   email: Scalars['String'];
-}
+};
 
 
 export type SendPasswordResetEmailMutation = (
@@ -391,9 +393,9 @@ export type SendPasswordResetEmailMutation = (
   & Pick<Mutation, 'sendPasswordResetEmail'>
 );
 
-export interface AcceptHubInviteMutationVariables {
+export type AcceptHubInviteMutationVariables = {
   inviteId: Scalars['ID'];
-}
+};
 
 
 export type AcceptHubInviteMutation = (
@@ -412,9 +414,9 @@ export type AcceptHubInviteMutation = (
   ) }
 );
 
-export interface ActivateHubMutationVariables {
+export type ActivateHubMutationVariables = {
   hubId: Scalars['ID'];
-}
+};
 
 
 export type ActivateHubMutation = (
@@ -425,10 +427,10 @@ export type ActivateHubMutation = (
   ) }
 );
 
-export interface ChangeHubImageMutationVariables {
+export type ChangeHubImageMutationVariables = {
   id: Scalars['ID'];
   image: Scalars['String'];
-}
+};
 
 
 export type ChangeHubImageMutation = (
@@ -439,11 +441,11 @@ export type ChangeHubImageMutation = (
   ) }
 );
 
-export interface ChangeHubLocationMutationVariables {
+export type ChangeHubLocationMutationVariables = {
   hubId: Scalars['ID'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
-}
+};
 
 
 export type ChangeHubLocationMutation = (
@@ -454,9 +456,9 @@ export type ChangeHubLocationMutation = (
   ) }
 );
 
-export interface CommonUsersHubsQueryVariables {
+export type CommonUsersHubsQueryVariables = {
   otherUsersId: Scalars['ID'];
-}
+};
 
 
 export type CommonUsersHubsQuery = (
@@ -475,13 +477,13 @@ export type CommonUsersHubsQuery = (
   )> }
 );
 
-export interface CreateHubMutationVariables {
+export type CreateHubMutationVariables = {
   image: Scalars['String'];
   name: Scalars['String'];
   description: Scalars['String'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
-}
+};
 
 
 export type CreateHubMutation = (
@@ -500,10 +502,10 @@ export type CreateHubMutation = (
   ) }
 );
 
-export interface CreateMicroChatMutationVariables {
+export type CreateMicroChatMutationVariables = {
   hubId: Scalars['ID'];
   microChatText: Scalars['String'];
-}
+};
 
 
 export type CreateMicroChatMutation = (
@@ -514,9 +516,9 @@ export type CreateMicroChatMutation = (
   ) }
 );
 
-export interface DeactivateHubMutationVariables {
+export type DeactivateHubMutationVariables = {
   hubId: Scalars['ID'];
-}
+};
 
 
 export type DeactivateHubMutation = (
@@ -527,9 +529,9 @@ export type DeactivateHubMutation = (
   ) }
 );
 
-export interface DeleteHubMutationVariables {
+export type DeleteHubMutationVariables = {
   id: Scalars['ID'];
-}
+};
 
 
 export type DeleteHubMutation = (
@@ -537,10 +539,10 @@ export type DeleteHubMutation = (
   & Pick<Mutation, 'deleteHub'>
 );
 
-export interface DeleteInviteMutationVariables {
+export type DeleteInviteMutationVariables = {
   hubId: Scalars['ID'];
   inviteId: Scalars['ID'];
-}
+};
 
 
 export type DeleteInviteMutation = (
@@ -548,10 +550,10 @@ export type DeleteInviteMutation = (
   & Pick<Mutation, 'deleteInvite'>
 );
 
-export interface DeleteMicroChatMutationVariables {
+export type DeleteMicroChatMutationVariables = {
   hubId: Scalars['ID'];
   microChatId: Scalars['ID'];
-}
+};
 
 
 export type DeleteMicroChatMutation = (
@@ -559,11 +561,11 @@ export type DeleteMicroChatMutation = (
   & Pick<Mutation, 'deleteMicroChat'>
 );
 
-export interface EditHubMutationVariables {
+export type EditHubMutationVariables = {
   hubId: Scalars['ID'];
   name: Scalars['String'];
   description: Scalars['String'];
-}
+};
 
 
 export type EditHubMutation = (
@@ -574,9 +576,9 @@ export type EditHubMutation = (
   ) }
 );
 
-export interface EnteredHubGeofenceMutationVariables {
+export type EnteredHubGeofenceMutationVariables = {
   hubId: Scalars['ID'];
-}
+};
 
 
 export type EnteredHubGeofenceMutation = (
@@ -584,9 +586,9 @@ export type EnteredHubGeofenceMutation = (
   & Pick<Mutation, 'enteredHubGeofence'>
 );
 
-export interface ExitedHubGeofenceMutationVariables {
+export type ExitedHubGeofenceMutationVariables = {
   hubId: Scalars['ID'];
-}
+};
 
 
 export type ExitedHubGeofenceMutation = (
@@ -594,9 +596,9 @@ export type ExitedHubGeofenceMutation = (
   & Pick<Mutation, 'exitedHubGeofence'>
 );
 
-export interface HubQueryVariables {
+export type HubQueryVariables = {
   id: Scalars['ID'];
-}
+};
 
 
 export type HubQuery = (
@@ -622,9 +624,9 @@ export type HubQuery = (
   ) }
 );
 
-export interface InviteQueryVariables {
+export type InviteQueryVariables = {
   hubId: Scalars['ID'];
-}
+};
 
 
 export type InviteQuery = (
@@ -642,10 +644,10 @@ export type InviteQuery = (
   ) }
 );
 
-export interface InviteUserToHubMutationVariables {
+export type InviteUserToHubMutationVariables = {
   hubId: Scalars['ID'];
   inviteesEmail: Scalars['String'];
-}
+};
 
 
 export type InviteUserToHubMutation = (
@@ -666,9 +668,9 @@ export type InviteUserToHubMutation = (
   ) }
 );
 
-export interface InvitesByHubQueryVariables {
+export type InvitesByHubQueryVariables = {
   hubId: Scalars['ID'];
-}
+};
 
 
 export type InvitesByHubQuery = (
@@ -689,7 +691,7 @@ export type InvitesByHubQuery = (
   )> }
 );
 
-export interface InvitesByUserQueryVariables {}
+export type InvitesByUserQueryVariables = {};
 
 
 export type InvitesByUserQuery = (
@@ -711,9 +713,9 @@ export type InvitesByUserQuery = (
   )> }
 );
 
-export interface LeaveHubMutationVariables {
+export type LeaveHubMutationVariables = {
   hubId: Scalars['ID'];
-}
+};
 
 
 export type LeaveHubMutation = (
@@ -721,10 +723,10 @@ export type LeaveHubMutation = (
   & Pick<Mutation, 'leaveHub'>
 );
 
-export interface MicroChatToHubMutationVariables {
+export type MicroChatToHubMutationVariables = {
   hubId: Scalars['ID'];
   microChatId: Scalars['ID'];
-}
+};
 
 
 export type MicroChatToHubMutation = (
@@ -732,9 +734,9 @@ export type MicroChatToHubMutation = (
   & Pick<Mutation, 'microChatToHub'>
 );
 
-export interface SetHubNotStarredMutationVariables {
+export type SetHubNotStarredMutationVariables = {
   hubId: Scalars['ID'];
-}
+};
 
 
 export type SetHubNotStarredMutation = (
@@ -742,9 +744,9 @@ export type SetHubNotStarredMutation = (
   & Pick<Mutation, 'setHubNotStarred'>
 );
 
-export interface SetHubStarredMutationVariables {
+export type SetHubStarredMutationVariables = {
   hubId: Scalars['ID'];
-}
+};
 
 
 export type SetHubStarredMutation = (
@@ -752,7 +754,7 @@ export type SetHubStarredMutation = (
   & Pick<Mutation, 'setHubStarred'>
 );
 
-export interface UsersHubsQueryVariables {}
+export type UsersHubsQueryVariables = {};
 
 
 export type UsersHubsQuery = (
@@ -771,7 +773,7 @@ export type UsersHubsQuery = (
   )> }
 );
 
-export interface UsersPeopleQueryVariables {}
+export type UsersPeopleQueryVariables = {};
 
 
 export type UsersPeopleQuery = (
@@ -782,9 +784,9 @@ export type UsersPeopleQuery = (
   )> }
 );
 
-export interface AddUserFcmNotificationTokenMutationVariables {
+export type AddUserFcmNotificationTokenMutationVariables = {
   token: Scalars['String'];
-}
+};
 
 
 export type AddUserFcmNotificationTokenMutation = (
@@ -792,7 +794,7 @@ export type AddUserFcmNotificationTokenMutation = (
   & Pick<Mutation, 'addUserFcmNotificationToken'>
 );
 
-export interface DeleteAllInAppNotificationsMutationVariables {}
+export type DeleteAllInAppNotificationsMutationVariables = {};
 
 
 export type DeleteAllInAppNotificationsMutation = (
@@ -800,9 +802,9 @@ export type DeleteAllInAppNotificationsMutation = (
   & Pick<Mutation, 'deleteAllInAppNotifications'>
 );
 
-export interface DeleteInAppNotificationMutationVariables {
+export type DeleteInAppNotificationMutationVariables = {
   inAppNotificationId: Scalars['ID'];
-}
+};
 
 
 export type DeleteInAppNotificationMutation = (
@@ -810,7 +812,7 @@ export type DeleteInAppNotificationMutation = (
   & Pick<Mutation, 'deleteInAppNotification'>
 );
 
-export interface GetInAppNotificationsQueryVariables {}
+export type GetInAppNotificationsQueryVariables = {};
 
 
 export type GetInAppNotificationsQuery = (
@@ -821,9 +823,9 @@ export type GetInAppNotificationsQuery = (
   )> }
 );
 
-export interface ChangeEmailMutationVariables {
+export type ChangeEmailMutationVariables = {
   newEmail: Scalars['String'];
-}
+};
 
 
 export type ChangeEmailMutation = (
@@ -834,10 +836,10 @@ export type ChangeEmailMutation = (
   ) }
 );
 
-export interface ChangePasswordMutationVariables {
+export type ChangePasswordMutationVariables = {
   oldPassword: Scalars['String'];
   newPassword: Scalars['String'];
-}
+};
 
 
 export type ChangePasswordMutation = (
@@ -845,9 +847,9 @@ export type ChangePasswordMutation = (
   & Pick<Mutation, 'changePassword'>
 );
 
-export interface ChangeUserImageMutationVariables {
+export type ChangeUserImageMutationVariables = {
   image: Scalars['String'];
-}
+};
 
 
 export type ChangeUserImageMutation = (
@@ -858,10 +860,10 @@ export type ChangeUserImageMutation = (
   ) }
 );
 
-export interface DeleteAccountMutationVariables {
+export type DeleteAccountMutationVariables = {
   emailAddress: Scalars['String'];
   password: Scalars['String'];
-}
+};
 
 
 export type DeleteAccountMutation = (
@@ -869,11 +871,11 @@ export type DeleteAccountMutation = (
   & Pick<Mutation, 'deleteAccount'>
 );
 
-export interface EditUserDetailsMutationVariables {
+export type EditUserDetailsMutationVariables = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   description: Scalars['String'];
-}
+};
 
 
 export type EditUserDetailsMutation = (
@@ -890,12 +892,12 @@ export const LoginDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class LoginGQL extends Apollo.Mutation<LoginMutation, LoginMutationVariables> {
     document = LoginDocument;
-
+    
   }
 export const MeDocument = gql`
     query me {
@@ -910,12 +912,12 @@ export const MeDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class MeGQL extends Apollo.Query<MeQuery, MeQueryVariables> {
     document = MeDocument;
-
+    
   }
 export const RegisterDocument = gql`
     mutation register($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
@@ -923,12 +925,12 @@ export const RegisterDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
     document = RegisterDocument;
-
+    
   }
 export const ResetPasswordDocument = gql`
     mutation resetPassword($email: String!, $newPassword: String!, $resetPin: String!) {
@@ -936,12 +938,12 @@ export const ResetPasswordDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class ResetPasswordGQL extends Apollo.Mutation<ResetPasswordMutation, ResetPasswordMutationVariables> {
     document = ResetPasswordDocument;
-
+    
   }
 export const SendPasswordResetEmailDocument = gql`
     mutation sendPasswordResetEmail($email: String!) {
@@ -949,12 +951,12 @@ export const SendPasswordResetEmailDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class SendPasswordResetEmailGQL extends Apollo.Mutation<SendPasswordResetEmailMutation, SendPasswordResetEmailMutationVariables> {
     document = SendPasswordResetEmailDocument;
-
+    
   }
 export const AcceptHubInviteDocument = gql`
     mutation acceptHubInvite($inviteId: ID!) {
@@ -982,12 +984,12 @@ export const AcceptHubInviteDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class AcceptHubInviteGQL extends Apollo.Mutation<AcceptHubInviteMutation, AcceptHubInviteMutationVariables> {
     document = AcceptHubInviteDocument;
-
+    
   }
 export const ActivateHubDocument = gql`
     mutation activateHub($hubId: ID!) {
@@ -998,12 +1000,12 @@ export const ActivateHubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class ActivateHubGQL extends Apollo.Mutation<ActivateHubMutation, ActivateHubMutationVariables> {
     document = ActivateHubDocument;
-
+    
   }
 export const ChangeHubImageDocument = gql`
     mutation changeHubImage($id: ID!, $image: String!) {
@@ -1014,12 +1016,12 @@ export const ChangeHubImageDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class ChangeHubImageGQL extends Apollo.Mutation<ChangeHubImageMutation, ChangeHubImageMutationVariables> {
     document = ChangeHubImageDocument;
-
+    
   }
 export const ChangeHubLocationDocument = gql`
     mutation changeHubLocation($hubId: ID!, $latitude: Float!, $longitude: Float!) {
@@ -1031,12 +1033,12 @@ export const ChangeHubLocationDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class ChangeHubLocationGQL extends Apollo.Mutation<ChangeHubLocationMutation, ChangeHubLocationMutationVariables> {
     document = ChangeHubLocationDocument;
-
+    
   }
 export const CommonUsersHubsDocument = gql`
     query commonUsersHubs($otherUsersId: ID!) {
@@ -1062,12 +1064,12 @@ export const CommonUsersHubsDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class CommonUsersHubsGQL extends Apollo.Query<CommonUsersHubsQuery, CommonUsersHubsQueryVariables> {
     document = CommonUsersHubsDocument;
-
+    
   }
 export const CreateHubDocument = gql`
     mutation createHub($image: String!, $name: String!, $description: String!, $latitude: Float!, $longitude: Float!) {
@@ -1094,12 +1096,12 @@ export const CreateHubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class CreateHubGQL extends Apollo.Mutation<CreateHubMutation, CreateHubMutationVariables> {
     document = CreateHubDocument;
-
+    
   }
 export const CreateMicroChatDocument = gql`
     mutation createMicroChat($hubId: ID!, $microChatText: String!) {
@@ -1110,12 +1112,12 @@ export const CreateMicroChatDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class CreateMicroChatGQL extends Apollo.Mutation<CreateMicroChatMutation, CreateMicroChatMutationVariables> {
     document = CreateMicroChatDocument;
-
+    
   }
 export const DeactivateHubDocument = gql`
     mutation deactivateHub($hubId: ID!) {
@@ -1126,12 +1128,12 @@ export const DeactivateHubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class DeactivateHubGQL extends Apollo.Mutation<DeactivateHubMutation, DeactivateHubMutationVariables> {
     document = DeactivateHubDocument;
-
+    
   }
 export const DeleteHubDocument = gql`
     mutation deleteHub($id: ID!) {
@@ -1139,12 +1141,12 @@ export const DeleteHubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class DeleteHubGQL extends Apollo.Mutation<DeleteHubMutation, DeleteHubMutationVariables> {
     document = DeleteHubDocument;
-
+    
   }
 export const DeleteInviteDocument = gql`
     mutation deleteInvite($hubId: ID!, $inviteId: ID!) {
@@ -1152,12 +1154,12 @@ export const DeleteInviteDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class DeleteInviteGQL extends Apollo.Mutation<DeleteInviteMutation, DeleteInviteMutationVariables> {
     document = DeleteInviteDocument;
-
+    
   }
 export const DeleteMicroChatDocument = gql`
     mutation deleteMicroChat($hubId: ID!, $microChatId: ID!) {
@@ -1165,12 +1167,12 @@ export const DeleteMicroChatDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class DeleteMicroChatGQL extends Apollo.Mutation<DeleteMicroChatMutation, DeleteMicroChatMutationVariables> {
     document = DeleteMicroChatDocument;
-
+    
   }
 export const EditHubDocument = gql`
     mutation editHub($hubId: ID!, $name: String!, $description: String!) {
@@ -1182,12 +1184,12 @@ export const EditHubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class EditHubGQL extends Apollo.Mutation<EditHubMutation, EditHubMutationVariables> {
     document = EditHubDocument;
-
+    
   }
 export const EnteredHubGeofenceDocument = gql`
     mutation enteredHubGeofence($hubId: ID!) {
@@ -1195,12 +1197,12 @@ export const EnteredHubGeofenceDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class EnteredHubGeofenceGQL extends Apollo.Mutation<EnteredHubGeofenceMutation, EnteredHubGeofenceMutationVariables> {
     document = EnteredHubGeofenceDocument;
-
+    
   }
 export const ExitedHubGeofenceDocument = gql`
     mutation exitedHubGeofence($hubId: ID!) {
@@ -1208,12 +1210,12 @@ export const ExitedHubGeofenceDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class ExitedHubGeofenceGQL extends Apollo.Mutation<ExitedHubGeofenceMutation, ExitedHubGeofenceMutationVariables> {
     document = ExitedHubGeofenceDocument;
-
+    
   }
 export const HubDocument = gql`
     query hub($id: ID!) {
@@ -1251,12 +1253,12 @@ export const HubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class HubGQL extends Apollo.Query<HubQuery, HubQueryVariables> {
     document = HubDocument;
-
+    
   }
 export const InviteDocument = gql`
     query invite($hubId: ID!) {
@@ -1286,12 +1288,12 @@ export const InviteDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class InviteGQL extends Apollo.Query<InviteQuery, InviteQueryVariables> {
     document = InviteDocument;
-
+    
   }
 export const InviteUserToHubDocument = gql`
     mutation inviteUserToHub($hubId: ID!, $inviteesEmail: String!) {
@@ -1319,12 +1321,12 @@ export const InviteUserToHubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class InviteUserToHubGQL extends Apollo.Mutation<InviteUserToHubMutation, InviteUserToHubMutationVariables> {
     document = InviteUserToHubDocument;
-
+    
   }
 export const InvitesByHubDocument = gql`
     query invitesByHub($hubId: ID!) {
@@ -1353,12 +1355,12 @@ export const InvitesByHubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class InvitesByHubGQL extends Apollo.Query<InvitesByHubQuery, InvitesByHubQueryVariables> {
     document = InvitesByHubDocument;
-
+    
   }
 export const InvitesByUserDocument = gql`
     query invitesByUser {
@@ -1391,12 +1393,12 @@ export const InvitesByUserDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class InvitesByUserGQL extends Apollo.Query<InvitesByUserQuery, InvitesByUserQueryVariables> {
     document = InvitesByUserDocument;
-
+    
   }
 export const LeaveHubDocument = gql`
     mutation leaveHub($hubId: ID!) {
@@ -1404,12 +1406,12 @@ export const LeaveHubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class LeaveHubGQL extends Apollo.Mutation<LeaveHubMutation, LeaveHubMutationVariables> {
     document = LeaveHubDocument;
-
+    
   }
 export const MicroChatToHubDocument = gql`
     mutation microChatToHub($hubId: ID!, $microChatId: ID!) {
@@ -1417,12 +1419,12 @@ export const MicroChatToHubDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class MicroChatToHubGQL extends Apollo.Mutation<MicroChatToHubMutation, MicroChatToHubMutationVariables> {
     document = MicroChatToHubDocument;
-
+    
   }
 export const SetHubNotStarredDocument = gql`
     mutation setHubNotStarred($hubId: ID!) {
@@ -1430,12 +1432,12 @@ export const SetHubNotStarredDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class SetHubNotStarredGQL extends Apollo.Mutation<SetHubNotStarredMutation, SetHubNotStarredMutationVariables> {
     document = SetHubNotStarredDocument;
-
+    
   }
 export const SetHubStarredDocument = gql`
     mutation setHubStarred($hubId: ID!) {
@@ -1443,12 +1445,12 @@ export const SetHubStarredDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class SetHubStarredGQL extends Apollo.Mutation<SetHubStarredMutation, SetHubStarredMutationVariables> {
     document = SetHubStarredDocument;
-
+    
   }
 export const UsersHubsDocument = gql`
     query usersHubs {
@@ -1475,12 +1477,12 @@ export const UsersHubsDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class UsersHubsGQL extends Apollo.Query<UsersHubsQuery, UsersHubsQueryVariables> {
     document = UsersHubsDocument;
-
+    
   }
 export const UsersPeopleDocument = gql`
     query usersPeople {
@@ -1494,12 +1496,12 @@ export const UsersPeopleDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class UsersPeopleGQL extends Apollo.Query<UsersPeopleQuery, UsersPeopleQueryVariables> {
     document = UsersPeopleDocument;
-
+    
   }
 export const AddUserFcmNotificationTokenDocument = gql`
     mutation addUserFcmNotificationToken($token: String!) {
@@ -1507,12 +1509,12 @@ export const AddUserFcmNotificationTokenDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class AddUserFcmNotificationTokenGQL extends Apollo.Mutation<AddUserFcmNotificationTokenMutation, AddUserFcmNotificationTokenMutationVariables> {
     document = AddUserFcmNotificationTokenDocument;
-
+    
   }
 export const DeleteAllInAppNotificationsDocument = gql`
     mutation deleteAllInAppNotifications {
@@ -1520,12 +1522,12 @@ export const DeleteAllInAppNotificationsDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class DeleteAllInAppNotificationsGQL extends Apollo.Mutation<DeleteAllInAppNotificationsMutation, DeleteAllInAppNotificationsMutationVariables> {
     document = DeleteAllInAppNotificationsDocument;
-
+    
   }
 export const DeleteInAppNotificationDocument = gql`
     mutation deleteInAppNotification($inAppNotificationId: ID!) {
@@ -1533,12 +1535,12 @@ export const DeleteInAppNotificationDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class DeleteInAppNotificationGQL extends Apollo.Mutation<DeleteInAppNotificationMutation, DeleteInAppNotificationMutationVariables> {
     document = DeleteInAppNotificationDocument;
-
+    
   }
 export const GetInAppNotificationsDocument = gql`
     query getInAppNotifications {
@@ -1554,12 +1556,12 @@ export const GetInAppNotificationsDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class GetInAppNotificationsGQL extends Apollo.Query<GetInAppNotificationsQuery, GetInAppNotificationsQueryVariables> {
     document = GetInAppNotificationsDocument;
-
+    
   }
 export const ChangeEmailDocument = gql`
     mutation changeEmail($newEmail: String!) {
@@ -1570,12 +1572,12 @@ export const ChangeEmailDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class ChangeEmailGQL extends Apollo.Mutation<ChangeEmailMutation, ChangeEmailMutationVariables> {
     document = ChangeEmailDocument;
-
+    
   }
 export const ChangePasswordDocument = gql`
     mutation changePassword($oldPassword: String!, $newPassword: String!) {
@@ -1583,12 +1585,12 @@ export const ChangePasswordDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class ChangePasswordGQL extends Apollo.Mutation<ChangePasswordMutation, ChangePasswordMutationVariables> {
     document = ChangePasswordDocument;
-
+    
   }
 export const ChangeUserImageDocument = gql`
     mutation changeUserImage($image: String!) {
@@ -1599,12 +1601,12 @@ export const ChangeUserImageDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class ChangeUserImageGQL extends Apollo.Mutation<ChangeUserImageMutation, ChangeUserImageMutationVariables> {
     document = ChangeUserImageDocument;
-
+    
   }
 export const DeleteAccountDocument = gql`
     mutation deleteAccount($emailAddress: String!, $password: String!) {
@@ -1612,12 +1614,12 @@ export const DeleteAccountDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class DeleteAccountGQL extends Apollo.Mutation<DeleteAccountMutation, DeleteAccountMutationVariables> {
     document = DeleteAccountDocument;
-
+    
   }
 export const EditUserDetailsDocument = gql`
     mutation editUserDetails($firstName: String!, $lastName: String!, $description: String!) {
@@ -1630,10 +1632,10 @@ export const EditUserDetailsDocument = gql`
 }
     `;
 
-@Injectable({
+  @Injectable({
     providedIn: 'root'
   })
   export class EditUserDetailsGQL extends Apollo.Mutation<EditUserDetailsMutation, EditUserDetailsMutationVariables> {
     document = EditUserDetailsDocument;
-
+    
   }

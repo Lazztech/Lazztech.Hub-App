@@ -89,6 +89,7 @@
     "@angular/compiler": "~9.0.1",
     "@angular/compiler-cli": "~9.0.1",
     "@angular/language-service": "~9.0.1",
+    "@graphql-codegen/add": "^2.0.2",
     "@graphql-codegen/cli": "1.13.3",
     "@graphql-codegen/introspection": "1.13.3",
     "@graphql-codegen/typescript": "1.13.3",
