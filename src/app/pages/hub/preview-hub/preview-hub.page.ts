@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { InviteQuery, Scalars } from 'src/generated/graphql';
   templateUrl: './preview-hub.page.html',
   styleUrls: ['./preview-hub.page.scss'],
 })
-export class PreviewHubPage implements OnInit {
+export class PreviewHubPage implements OnInit, OnDestroy {
 
   loading = true;
   invite: Observable<InviteQuery['invite']>;

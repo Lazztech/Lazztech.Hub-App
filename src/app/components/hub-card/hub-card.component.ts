@@ -11,7 +11,7 @@ import { NGXLogger } from 'ngx-logger';
   templateUrl: './hub-card.component.html',
   styleUrls: ['./hub-card.component.scss'],
 })
-export class HubCardComponent implements OnDestroy, OnChanges {
+export class HubCardComponent implements OnInit, OnDestroy, OnChanges {
 
   // FIXME is this used?
   coords$: Observable<{longitude: number, latitude: number}>;

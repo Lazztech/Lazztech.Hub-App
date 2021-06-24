@@ -1,11 +1,11 @@
-import { Directive, Input, ElementRef } from '@angular/core';
+import { Directive, Input, ElementRef, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { NGXLogger } from 'ngx-logger';
 
 @Directive({
   selector: '[appFeatureFlag]'
 })
-export class FeatureFlagDirective {
+export class FeatureFlagDirective implements OnInit {
   @Input() appFeatureFlag: string;
 
   constructor(
