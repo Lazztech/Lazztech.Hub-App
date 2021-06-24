@@ -174,7 +174,9 @@ export class NotificationsService {
               side: 'start',
               text: 'View',
               handler: () => {
-                notification?.data?.aps?.category && this.navController.navigateForward(notification.data.aps.category);
+                if(notification?.data?.aps?.category) {
+                  this.navController.navigateForward(notification.data.aps.category);
+                }
                 this.logger.log('View clicked');
               }
             },
@@ -188,7 +190,9 @@ export class NotificationsService {
     PushNotifications.addListener('pushNotificationActionPerformed',
       (notificationActionDetails: PushNotificationActionPerformed) => {
         this.logger.log('Push action performed: ' + JSON.stringify(notificationActionDetails));
-        notificationActionDetails.notification?.data?.aps?.category && this.navController.navigateForward(notificationActionDetails.notification.data.aps.category);
+        if (notificationActionDetails.notification?.data?.aps?.category) {
+          this.navController.navigateForward(notificationActionDetails.notification.data.aps.category);
+        }
       }
     );
   }
