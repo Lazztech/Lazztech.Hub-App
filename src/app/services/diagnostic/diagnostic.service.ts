@@ -66,7 +66,7 @@ export class DiagnosticService {
     this.logger.log('getLocationAuthorizationStatus', result);
     // this.logger.log('this.diagnostic.locationAuthorizationMode', this.diagnostic.locationAuthorizationMode);
     // this.locationAlwaysPermission = (result == this.diagnostic.locationAuthorizationMode.ALWAYS);
-    this.locationPermission = (result == 'authorized');
+    this.locationPermission = (result === 'authorized');
   }
 
   private async checkIosBackgroundRefreshPermission() {
@@ -87,6 +87,6 @@ export class DiagnosticService {
       "NOT_DETERMINED":"not_determined"
     }
     */
-    this.motionAndFitnessPermission = (result == this.diagnostic.motionStatus.GRANTED);
+    this.motionAndFitnessPermission = (result === this.diagnostic.motionStatus.GRANTED);
   }
 }

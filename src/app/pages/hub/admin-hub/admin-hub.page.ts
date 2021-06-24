@@ -90,7 +90,7 @@ export class AdminHubPage implements OnInit {
 
   async activeToggle(userHub: JoinUserHub) {
     this.loading = true;
-    if (userHub.hub.active == false) {
+    if (userHub.hub.active === false) {
       await this.hubService.activateHub(userHub.hub.id);
     } else {
       await this.hubService.deactivateHub(userHub.hub.id);

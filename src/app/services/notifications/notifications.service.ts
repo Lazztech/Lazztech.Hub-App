@@ -85,7 +85,7 @@ export class NotificationsService {
         const data = proxy.readQuery({ query: GetInAppNotificationsDocument }) as GetInAppNotificationsQuery;
 
         // Find out notification by id and splice to remove it.
-        const notification = data.getInAppNotifications.find(x => x.id == inAppNotificationId);
+        const notification = data.getInAppNotifications.find(x => x.id === inAppNotificationId);
         data.getInAppNotifications.splice(data.getInAppNotifications.indexOf(notification), 1);
 
         // Write our data back to the cache.

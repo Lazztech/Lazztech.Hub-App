@@ -120,9 +120,9 @@ export class ThemeService {
     private logger: NGXLogger
   ) {
     storage.get('theme').then(cssText => {  // <--- GET SAVED THEME
-      if (cssText == this.darkTheme) {
+      if (cssText === this.darkTheme) {
         this.logger.log('detected saved dark theme');
-      } else if (cssText == this.lightTheme) {
+      } else if (cssText === this.lightTheme) {
         this.logger.log('detected saved light theme');
       }
 
@@ -152,10 +152,10 @@ export class ThemeService {
 
   async isDark(): Promise<boolean> {
     const cssText = await this.storage.get('theme');
-    if (cssText == this.darkTheme) {
+    if (cssText === this.darkTheme) {
       this.logger.log(`Is DarkMode: true`);
       return true;
-    } else if (cssText == this.lightTheme) {
+    } else if (cssText === this.lightTheme) {
       this.logger.log(`Is DarkMode: false`);
       return false;
     } else {

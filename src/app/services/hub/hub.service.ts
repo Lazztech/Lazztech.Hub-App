@@ -300,7 +300,7 @@ export class HubService {
         }) as UsersHubsQuery;
 
         // Delete Hub
-        const userHub = userHubsData.usersHubs.find(x => x.hubId == id);
+        const userHub = userHubsData.usersHubs.find(x => x.hubId === id);
         userHubsData.usersHubs.splice(
           userHubsData.usersHubs.indexOf(userHub), 1
         );
@@ -428,7 +428,7 @@ export class HubService {
           }) as HubQuery;
 
           // Remove micro-chat from hub's array of micro-chats
-          const microChat = data.hub.hub.microChats.find(x => x.id == microChatId);
+          const microChat = data.hub.hub.microChats.find(x => x.id === microChatId);
           data.hub.hub.microChats.splice(
             data.hub.hub.microChats.indexOf(microChat), 1
           );

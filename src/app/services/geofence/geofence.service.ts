@@ -90,13 +90,13 @@ export class GeofenceService {
       BackgroundGeolocation.startBackgroundTask().then(async (taskId) => {
         const hub = JSON.parse(geofence.identifier) as Hub;
 
-        if (geofence.action == 'ENTER') {
+        if (geofence.action === 'ENTER') {
           await this.enteredGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
-        } else if (geofence.action == 'EXIT') {
+        } else if (geofence.action === 'EXIT') {
           await this.exitedGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
