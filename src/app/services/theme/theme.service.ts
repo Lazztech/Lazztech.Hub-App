@@ -118,12 +118,12 @@ export class ThemeService {
     @Inject(DOCUMENT) private document: Document,
     private storage: Storage,
     private logger: NGXLogger
-  ) { 
+  ) {
     storage.get('theme').then(cssText => {  // <--- GET SAVED THEME
       if (cssText == this.darkTheme) {
-        this.logger.log("detected saved dark theme")
+        this.logger.log('detected saved dark theme');
       } else if (cssText == this.lightTheme) {
-        this.logger.log("detected saved light theme")
+        this.logger.log('detected saved light theme');
       }
 
       this.setGlobalCSS(cssText);
@@ -151,7 +151,7 @@ export class ThemeService {
   }
 
   async isDark(): Promise<boolean> {
-    var cssText = await this.storage.get('theme');
+    const cssText = await this.storage.get('theme');
     if (cssText == this.darkTheme) {
       this.logger.log(`Is DarkMode: true`);
       return true;
@@ -165,12 +165,12 @@ export class ThemeService {
   }
 
   async toggle() {
-    var isDark = await this.isDark();
+    const isDark = await this.isDark();
     if (isDark) {
-      this.logger.log("setting light");
+      this.logger.log('setting light');
       await this.setLight();
     } else {
-      this.logger.log("setting dark");
+      this.logger.log('setting dark');
       await this.setDark();
     }
   }

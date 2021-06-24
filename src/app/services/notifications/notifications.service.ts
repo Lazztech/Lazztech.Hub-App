@@ -28,9 +28,9 @@ export class NotificationsService {
   ) { }
 
   async localNotification(title: string, body: string, schedule?: Date): Promise<void> {
-    let result = await LocalNotifications.areEnabled();
+    const result = await LocalNotifications.areEnabled();
     if (!result.value) {
-      let result = LocalNotifications.requestPermissions();
+      const result = LocalNotifications.requestPermissions();
     }
 
     if (!schedule) {
@@ -40,21 +40,21 @@ export class NotificationsService {
     await LocalNotifications.schedule({
       notifications: [
         {
-          title: title,
-          body: body,
+          title,
+          body,
           id: 1,
           // schedule: { at: new Date(Date.now() + 1000 * 5) },
           schedule: { at: schedule },
           sound: null,
           attachments: null,
-          actionTypeId: "",
+          actionTypeId: '',
           extra: null
         }
       ]
     });
   }
 
-  watchGetInAppNotifications(fetchPolicy: FetchPolicy = "cache-first") {
+  watchGetInAppNotifications(fetchPolicy: FetchPolicy = 'cache-first') {
     return this.getInAppNotificationsGQLService.watch(
       null,
       {
@@ -63,7 +63,7 @@ export class NotificationsService {
     );
   }
 
-  async getInAppNotifications(fetchPolicy: FetchPolicy = "cache-first"): Promise<InAppNotification[]> {
+  async getInAppNotifications(fetchPolicy: FetchPolicy = 'cache-first'): Promise<InAppNotification[]> {
     const result = await this.getInAppNotificationsGQLService.fetch(
       null,
       {
@@ -95,10 +95,10 @@ export class NotificationsService {
     ).toPromise();
 
     if (result.data.deleteInAppNotification) {
-      this.logger.log("deleteInAppNotification successful.");
+      this.logger.log('deleteInAppNotification successful.');
       return true;
     } else {
-      this.logger.error("deleteInAppNotification failed!");
+      this.logger.error('deleteInAppNotification failed!');
       return false;
     }
   }
@@ -118,9 +118,9 @@ export class NotificationsService {
     }).toPromise();
 
     if (result.data.deleteAllInAppNotifications) {
-      this.logger.log("deleteAllInAppNotifications successful.");
+      this.logger.log('deleteAllInAppNotifications successful.');
     } else {
-      this.logger.error("deleteAllInAppNotifications failed!");
+      this.logger.error('deleteAllInAppNotifications failed!');
     }
   }
 
@@ -131,18 +131,18 @@ export class NotificationsService {
   }
 
   async setupPushiOSAndAndroid() {
-    //FOR iOS & ANDROID
-    this.logger.log("Setting up iOS/Android native push notifications.");
+    // FOR iOS & ANDROID
+    this.logger.log('Setting up iOS/Android native push notifications.');
 
     PushNotifications.register();
 
-    //TODO Remove?
+    // TODO Remove?
     // const nativePushToken = await this.storage.get('native-push-token');
     // if (nativePushToken) {
     //   await this.submitNotificationToken(nativePushToken);
     // }
 
-    PushNotifications.addListener('registration', 
+    PushNotifications.addListener('registration',
       async (token: PushNotificationToken) => {
         await this.storage.set('native-push-token', token.value);
         await this.submitNotificationToken(token.value);
@@ -151,17 +151,17 @@ export class NotificationsService {
       }
     );
 
-    PushNotifications.addListener('registrationError', 
+    PushNotifications.addListener('registrationError',
       (error: any) => {
         alert('Error on registration: ' + JSON.stringify(error));
         this.logger.error('Error on registration: ' + JSON.stringify(error));
       }
     );
 
-    PushNotifications.addListener('pushNotificationReceived', 
+    PushNotifications.addListener('pushNotificationReceived',
       async (notification: PushNotification) => {
         this.logger.log('Push received: ' + JSON.stringify(notification));
-        //TODO move to alertService?
+        // TODO move to alertService?
         const toast = await this.toastController.create({
           header: notification.title,
           message: notification.body,
@@ -180,12 +180,12 @@ export class NotificationsService {
             },
           ]
         });
-        this.logger.log("presenting toast");
+        this.logger.log('presenting toast');
         await toast.present();
       }
     );
 
-    PushNotifications.addListener('pushNotificationActionPerformed', 
+    PushNotifications.addListener('pushNotificationActionPerformed',
       (notificationActionDetails: PushNotificationActionPerformed) => {
         this.logger.log('Push action performed: ' + JSON.stringify(notificationActionDetails));
         notificationActionDetails.notification?.data?.aps?.category && this.navController.navigateForward(notificationActionDetails.notification.data.aps.category);
@@ -199,10 +199,10 @@ export class NotificationsService {
     }).toPromise();
 
     if ((result as any).data.addUserFcmNotificationToken) {
-      this.logger.log("addUserFcmNotificationToken successful.");
+      this.logger.log('addUserFcmNotificationToken successful.');
     } else {
-      this.logger.error("addUserFcmNotificationToken failed!");
+      this.logger.error('addUserFcmNotificationToken failed!');
     }
   }
-  
+
 }

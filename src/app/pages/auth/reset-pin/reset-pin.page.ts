@@ -51,7 +51,7 @@ export class ResetPinPage implements OnInit {
     if (result) {
       await this.storage.set('resetEmail', formValue.email);
       this.loading = false;
-      await this.alertService.presentToast("Email sent.");
+      await this.alertService.presentToast('Email sent.');
       this.dismissLogin();
       const resetModal = await this.modalController.create({
         component: PasswordResetPage
@@ -59,7 +59,7 @@ export class ResetPinPage implements OnInit {
       return await resetModal.present();
     } else {
       this.loading = false;
-      this.alertService.presentRedToast("Email failed to send.");
+      this.alertService.presentRedToast('Email failed to send.');
     }
   }
 

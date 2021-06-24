@@ -22,7 +22,7 @@ export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() showControls = false;
   @ViewChild('map') mapContainer: ElementRef;
   map: Map;
-  id = Date.now()
+  id = Date.now();
 
   constructor(
     public navCtrl: NavController,
@@ -33,10 +33,10 @@ export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.map && changes.center) {
-      this.map.setView([this.center.latitude, this.center.longitude], 13); 
+      this.map.setView([this.center.latitude, this.center.longitude], 13);
     }
   }
-  
+
   ngAfterViewInit() {
     this.initMap();
   }
@@ -54,9 +54,9 @@ export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
 
     if (this.hubs?.length) {
       this.hubs.forEach((hub: Hub) => {
-        const mk = marker([hub.latitude, hub.longitude])
+        const mk = marker([hub.latitude, hub.longitude]);
         if (this.navOnMarker) {
-          mk.on('click', () => this.navCtrl.navigateForward('hub/'+ hub.id))
+          mk.on('click', () => this.navCtrl.navigateForward('hub/' + hub.id));
         }
         mk.addTo(this.map);
       });

@@ -1,5 +1,5 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { EMPTY } from 'rxjs';
 import { catchError, delay, map, retryWhen } from 'rxjs/operators';
@@ -24,13 +24,13 @@ export class HttpRequestInterceptor implements HttpInterceptor {
                         }
                         return error;
                     })
-                )
+                );
             }),
             catchError(err => {
                 this.logger.log('failed after multiple retries', err);
                 return EMPTY;
             })
-        )
+        );
     }
 
 }

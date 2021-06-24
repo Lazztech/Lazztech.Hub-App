@@ -43,27 +43,27 @@ export class PeoplePage implements OnInit, OnDestroy {
   async doRefresh(event) {
     this.logger.log('Begin async operation');
     this.loading = true;
-    this.persons = this.hubService.watchUsersPeople("network-only").valueChanges.pipe(map(x => x.data && x.data.usersPeople));
+    this.persons = this.hubService.watchUsersPeople('network-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
     event.target.complete();
     this.loading = false;
   }
 
   goToPersonPage(id: number, user: any) {
-    this.logger.log(user)
-    this.navCtrl.navigateForward('person/'+ id, {
+    this.logger.log(user);
+    this.navCtrl.navigateForward('person/' + id, {
       state: {
         user
       }
     });
   }
 
-  async filterPeople(ev:any) {
-    this.persons = this.hubService.watchUsersPeople("cache-only").valueChanges.pipe(map(x => x.data && x.data.usersPeople));
+  async filterPeople(ev: any) {
+    this.persons = this.hubService.watchUsersPeople('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
     const val = ev.target.value;
     if (val && val.trim() != '') {
       this.persons = this.persons.pipe(
         map(x => x.filter(y => {
-          let name = y.firstName.trim().toLowerCase() + y.lastName.trim().toLowerCase();
+          const name = y.firstName.trim().toLowerCase() + y.lastName.trim().toLowerCase();
           return name.includes(val.trim().toLowerCase());
         }))
       );

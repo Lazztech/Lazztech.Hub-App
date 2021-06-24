@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { HubCardComponent } from './hub-card/hub-card.component';
 import { IonicModule } from '@ionic/angular';
@@ -14,11 +14,11 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { DirectivesModule } from '../directives/directives.module';
 import { PipesModule } from '../pipes/pipes.module';
-import { LeafletMapComponent } from "./leaflet-map/leaflet-map.component";
+import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 
 @NgModule({
     declarations: [
-        GoogleMapComponent, 
+        GoogleMapComponent,
         HubCardComponent,
         ActivityDotComponent,
         ProfileComponent,
@@ -29,7 +29,7 @@ import { LeafletMapComponent } from "./leaflet-map/leaflet-map.component";
         LeafletMapComponent
     ],
     imports: [
-        IonicModule, 
+        IonicModule,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
@@ -38,7 +38,7 @@ import { LeafletMapComponent } from "./leaflet-map/leaflet-map.component";
         PipesModule
     ],
     exports: [
-        GoogleMapComponent, 
+        GoogleMapComponent,
         HubCardComponent,
         ActivityDotComponent,
         ProfileComponent,

@@ -20,11 +20,11 @@ export class PersonPage implements OnInit, OnDestroy {
   userHubs = [];
 
   constructor(
-    private route : ActivatedRoute,
+    private route: ActivatedRoute,
     private router: Router,
     private hubService: HubService,
     public navCtrl: NavController,
-  ) { 
+  ) {
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.user = this.router.getCurrentNavigation().extras.state.user;

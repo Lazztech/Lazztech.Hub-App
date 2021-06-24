@@ -25,17 +25,17 @@ export class LandingPage implements OnInit {
     private notificationsService: NotificationsService,
     private logger: NGXLogger,
     private alertService: AlertService
-  ) { 
+  ) {
     this.menu.enable(false);
   }
 
   ionViewWillEnter() {
     this.authService.getToken().then(() => {
-      if(this.authService.isLoggedIn) {
+      if (this.authService.isLoggedIn) {
         this.faio.show({
-          subtitle: "authorize"
+          subtitle: 'authorize'
         }).then(() => {
-          //FIXME is this how I want this? It needs token to work on first launch.
+          // FIXME is this how I want this? It needs token to work on first launch.
           this.notificationsService.setupPushForAllPlatforms();
 
           this.navCtrl.navigateRoot('/tabs');
@@ -45,7 +45,7 @@ export class LandingPage implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
   async register() {
@@ -55,7 +55,7 @@ export class LandingPage implements OnInit {
     });
     return await registerModal.present();
   }
-  
+
   async login() {
     const loginModal = await this.modalController.create({
       component: LoginPage,
@@ -66,17 +66,17 @@ export class LandingPage implements OnInit {
 
   async triggerBioAuth() {
     this.authService.getToken().then(() => {
-      if(this.authService.isLoggedIn) {
+      if (this.authService.isLoggedIn) {
         this.faio.show({
-          subtitle: "authorize"
+          subtitle: 'authorize'
         }).then(() => {
-          //FIXME is this how I want this? It needs token to work on first launch.
+          // FIXME is this how I want this? It needs token to work on first launch.
           this.notificationsService.setupPushForAllPlatforms();
 
           this.navCtrl.navigateRoot('/tabs');
         }).catch(err => this.logger.error(err));
       } else {
-        this.alertService.presentRedToast("You must have logged into an active account recently.");
+        this.alertService.presentRedToast('You must have logged into an active account recently.');
       }
     });
   }

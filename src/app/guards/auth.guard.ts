@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
       const currentUser = this.authService.isLoggedIn;
 
       // Done with callbacks so that it doesn't block causing sluggishness going between pages.
-      //FIXME: this seems to be failing on cold starts with serverless
+      // FIXME: this seems to be failing on cold starts with serverless
       // this.networkService.isConnected().then((online) => {
       //   if (online) {
       //     this.authService.verifyAccountExists().then((stillValid) => {

@@ -36,12 +36,12 @@ export class LocationService {
       return coordinates;
   }
 
-  private watchLocation(minuteInterval: number = 1):Observable<{ latitude: number, longitude: number}> {
+  private watchLocation(minuteInterval: number = 1): Observable<{ latitude: number, longitude: number}> {
     const result = Observable.create(
       (observer: Observer<{ latitude: number, longitude: number}>) => {
         const id = Geolocation.watchPosition({ enableHighAccuracy: true }, (x: GeolocationPosition, err) => {
         // Geolocation.clearWatch({id});
-        if (err){
+        if (err) {
           this.logger.log(err);
           // observer.complete();
         }
@@ -50,7 +50,7 @@ export class LocationService {
       });
     });
 
-      return result;
+    return result;
   }
 
   getDistanceFromHub(hub: Hub, coords: any) {
@@ -68,13 +68,13 @@ export class LocationService {
     return new Promise<GeolocationPosition>((resolve, reject) => {
       const id = Geolocation.watchPosition(options, (position, err) => {
         Geolocation.clearWatch({id});
-        if(err) {
+        if (err) {
           reject(err);
           return;
         }
         resolve(position);
       });
     });
-  };
+  }
 
 }

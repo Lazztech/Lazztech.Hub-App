@@ -50,7 +50,7 @@ export class MapPage implements OnInit {
   }
 
   async searchAddress(event: any) {
-    console.log(event)
+    console.log(event);
     this.loading = true;
     const results = await this.provider.search({ query: event.target.value });
     console.log(results);
@@ -59,7 +59,7 @@ export class MapPage implements OnInit {
   }
 
   selectSearch(searchResult: SearchResult<RawResult>) {
-    this.center = { 
+    this.center = {
       latitude: searchResult.y,
       longitude: searchResult.x
     };
@@ -67,6 +67,6 @@ export class MapPage implements OnInit {
   }
 
   save() {
-    this.hubService.changeHubLocation(this.hubId, this.center.latitude, this.center.longitude)
+    this.hubService.changeHubLocation(this.hubId, this.center.latitude, this.center.longitude);
   }
 }

@@ -104,8 +104,8 @@ export class AdminHubPage implements OnInit {
   }
 
   goToPersonPage(id: number, user: any) {
-    this.logger.log(user)
-    this.navCtrl.navigateForward('person/'+ id, {
+    this.logger.log(user);
+    this.navCtrl.navigateForward('person/' + id, {
       state: {
         user
       }
@@ -163,10 +163,10 @@ export class AdminHubPage implements OnInit {
   }
 
   async goToMap(userHub: JoinUserHub) {
-    console.log(userHub)
+    console.log(userHub);
     this.navCtrl.navigateForward('map', {
       state: {
-        hubCoords: { 
+        hubCoords: {
           latitude: userHub.hub.latitude,
           longitude: userHub.hub.longitude
         },
@@ -181,7 +181,7 @@ export class AdminHubPage implements OnInit {
 
   async deleteHub() {
     this.logger.log('Delete clicked');
-    const result = confirm("Deleting a hub cannot be undone! Are you sure?");
+    const result = confirm('Deleting a hub cannot be undone! Are you sure?');
     if (result) {
       this.loading = true;
       await this.hubService.deleteHub(this.id);

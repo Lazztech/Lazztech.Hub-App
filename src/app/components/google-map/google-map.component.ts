@@ -11,7 +11,7 @@ import { NavController } from '@ionic/angular';
 })
 export class GoogleMapComponent implements AfterViewInit {
 
-  @Input() 
+  @Input()
   center: { latitude: any; longitude: any; };
 
   @Input()
@@ -45,7 +45,7 @@ export class GoogleMapComponent implements AfterViewInit {
       GOOGLE_MAPS_KEY
     );
 
-    let mapOptions: google.maps.MapOptions = {
+    const mapOptions: google.maps.MapOptions = {
       center: position,
       zoom: 13,
       disableDefaultUI: !this.showControls,
@@ -60,20 +60,20 @@ export class GoogleMapComponent implements AfterViewInit {
       for (let index = 0; index < this.hubs.length; index++) {
         const hub = this.hubs[index];
         const position = { lat: this.hubs[index].latitude, lng: this.hubs[index].longitude };
-  
-        let marker = new google.maps.Marker({
-          position: position,
+
+        const marker = new google.maps.Marker({
+          position,
           map: this.map
         });
 
         if (this.navOnMarker) {
           marker.addListener('click', () => {
-            this.navCtrl.navigateForward('hub/'+ hub.id);
+            this.navCtrl.navigateForward('hub/' + hub.id);
           });
         }
       }
     } else {
-      let marker = new google.maps.Marker({
+      const marker = new google.maps.Marker({
         position: { lat: this.center.latitude, lng: this.center.longitude },
         map: this.map
       });
@@ -90,7 +90,7 @@ export class GoogleMapComponent implements AfterViewInit {
     if (googleModule && googleModule.maps) {
       return Promise.resolve(googleModule.maps);
     }
-  
+
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=3.31`;

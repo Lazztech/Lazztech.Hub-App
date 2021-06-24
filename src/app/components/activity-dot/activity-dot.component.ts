@@ -31,8 +31,7 @@ export class ActivityDotComponent implements OnInit, OnChanges {
     if (this.active) {
       this.green = true;
       this.grey = false;
-    }
-    else if (!this.active) {
+    } else if (!this.active) {
       this.grey = true;
       this.green = false;
     }

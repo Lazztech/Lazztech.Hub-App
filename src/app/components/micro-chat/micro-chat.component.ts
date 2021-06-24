@@ -57,7 +57,7 @@ export class MicroChatComponent implements OnInit {
         role: 'destructive',
         handler: () => {
           this.logger.log('Delete clicked');
-          const result = confirm("Are you sure you want to delete the MicroChat?");
+          const result = confirm('Are you sure you want to delete the MicroChat?');
           if (result) {
             this.hubService.deleteMicroChat(this.hubId, microChatId);
           }
@@ -74,6 +74,6 @@ export class MicroChatComponent implements OnInit {
     ]
     });
     await actionSheet.present();
-  }  
+  }
 
 }

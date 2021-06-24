@@ -65,16 +65,16 @@ export class InvitePage implements OnInit {
   async inviteUser() {
     this.loading = true;
 
-    const formValue = this.myForm.value;    
+    const formValue = this.myForm.value;
 
     const result = await this.hubService.inviteUserToHub(this.id, formValue.email);
     if (result) {
       this.loading = false;
-      this.alertService.presentToast("Invited!");
+      this.alertService.presentToast('Invited!');
       this.navCtrl.back();
     } else {
-      this.loading = false;      
-      this.alertService.presentRedToast("Failed.");
+      this.loading = false;
+      this.alertService.presentRedToast('Failed.');
     }
   }
 }

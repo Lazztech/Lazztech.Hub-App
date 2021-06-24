@@ -76,13 +76,13 @@ export class AddHubPage implements OnInit, OnDestroy {
   }
 
   async ionViewDidEnter() {
-    //FIXME this should be refactored into the HubService to avoid repeating code
+    // FIXME this should be refactored into the HubService to avoid repeating code
     this.coords = await this.locationService.coords$.pipe(take(1)).toPromise();
     this.loading = false;
   }
 
   async takePicture() {
-    const image = await this.cameraService.takePicture()
+    const image = await this.cameraService.takePicture();
     this.hub.image = image;
   }
 
@@ -126,12 +126,12 @@ export class AddHubPage implements OnInit, OnDestroy {
         notifyOnEntry: true,
         notifyOnExit: true
       });
-      await this.alertService.presentToast("Created Hub!");
+      await this.alertService.presentToast('Created Hub!');
       await this.navCtrl.navigateRoot('/tabs');
       await this.navCtrl.navigateForward(`/admin-hub/${result.hub.id}`);
     } else {
       this.loading = false;
-      this.alertService.presentRedToast("Failed to create Hub.");
+      this.alertService.presentRedToast('Failed to create Hub.');
     }
   }
 

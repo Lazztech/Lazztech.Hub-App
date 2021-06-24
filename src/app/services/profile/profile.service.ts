@@ -27,14 +27,14 @@ export class ProfileService {
 
     this.logger.log(result);
     if (result.data.editUserDetails) {
-      this.logger.log("editUserDetails successfully.");
+      this.logger.log('editUserDetails successfully.');
       return true;
     } else {
-      this.logger.log("Failed to editUserDetails.");
+      this.logger.log('Failed to editUserDetails.');
       return false;
     }
   }
-  
+
   async changeEmail(newEmail: string): Promise<boolean> {
     const result = await this.changeEmailGQLService.mutate({
       newEmail
@@ -42,10 +42,10 @@ export class ProfileService {
 
     this.logger.log(result);
     if ((result as any).data.changeEmail) {
-      this.logger.log("Changed email successfully");
+      this.logger.log('Changed email successfully');
       return true;
     } else {
-      this.logger.log("Failed to change name.");
+      this.logger.log('Failed to change name.');
       return false;
     }
   }
@@ -58,10 +58,10 @@ export class ProfileService {
 
     this.logger.log(result);
     if ((result as any).data.changePassword) {
-      this.logger.log("Changed password successfully");
+      this.logger.log('Changed password successfully');
       return true;
     } else {
-      this.logger.log("Failed to change password.");
+      this.logger.log('Failed to change password.');
       return false;
     }
   }
@@ -84,10 +84,10 @@ export class ProfileService {
 
     this.logger.log(result);
     if ((result as any).data.deleteAccount) {
-      this.logger.log("Deleted account successfully");
+      this.logger.log('Deleted account successfully');
       return true;
     } else {
-      this.logger.log("Failed to delete account.");
+      this.logger.log('Failed to delete account.');
       return false;
     }
   }

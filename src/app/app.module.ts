@@ -22,7 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import BackgroundGeolocation from 'cordova-background-geolocation';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { SentryIonicErrorHandler } from './errors/sentryIonicErrorHandler';
-import * as Sentry from "@sentry/browser";
+import * as Sentry from '@sentry/browser';
 import { HttpRequestInterceptor } from './interceptors/http.interceptor';
 import { LoggerModule } from 'ngx-logger';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';

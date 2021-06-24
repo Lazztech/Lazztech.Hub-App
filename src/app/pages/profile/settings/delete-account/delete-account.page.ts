@@ -52,7 +52,7 @@ export class DeleteAccountPage implements OnInit {
     this.modalController.dismiss();
   }
 
-  async deleteAccount() {   
+  async deleteAccount() {
 
     this.loading = true;
 
@@ -64,11 +64,11 @@ export class DeleteAccountPage implements OnInit {
       await this.authService.logout();
       this.loading = false;
       this.modalController.dismiss();
-      this.alertService.presentToast("Deleted account.");
+      this.alertService.presentToast('Deleted account.');
       this.navCtrl.navigateRoot('/landing');
     } else {
       this.loading = false;
-      this.alertService.presentRedToast("Failed to delete account.");
+      this.alertService.presentRedToast('Failed to delete account.');
     }
   }
 

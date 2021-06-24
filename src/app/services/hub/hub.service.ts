@@ -51,7 +51,7 @@ export class HubService {
           query: UsersHubsDocument,
         }) as UsersHubsQuery;
 
-        //Add new hub to userHubs array
+        // Add new hub to userHubs array
         data.usersHubs.push(createHub);
 
         // Write our data back to the cache.
@@ -65,15 +65,15 @@ export class HubService {
     const response = result.data.createHub;
 
     if (response) {
-      this.logger.log("createHub successful.");
+      this.logger.log('createHub successful.');
     } else {
-      this.logger.log("createHub failure");
+      this.logger.log('createHub failure');
     }
 
     return response;
   }
 
-  async usersHubs(fetchPolicy: FetchPolicy = "network-only") {
+  async usersHubs(fetchPolicy: FetchPolicy = 'network-only') {
     const result = await this.userHubsGQLService.fetch(null, {
       fetchPolicy
     }).toPromise();
@@ -81,27 +81,27 @@ export class HubService {
     const response = result.data.usersHubs;
 
     if (response) {
-      this.logger.log("usersHubs successful.");
+      this.logger.log('usersHubs successful.');
     } else {
-      this.logger.log("usersHubs failure");
+      this.logger.log('usersHubs failure');
     }
 
     return response;
   }
 
-  watchUserHubs(fetchPolicy: FetchPolicy = "cache-first") {
+  watchUserHubs(fetchPolicy: FetchPolicy = 'cache-first') {
     return this.userHubsGQLService.watch(null, {
       fetchPolicy
     });
   }
 
-  watchUsersPeople(fetchPolicy: FetchPolicy = "cache-first") {
+  watchUsersPeople(fetchPolicy: FetchPolicy = 'cache-first') {
     return this.usersPeopleGQLService.watch(null, {
       fetchPolicy
     });
   }
 
-  async usersPeople(fetchPolicy: FetchPolicy = "network-only") {
+  async usersPeople(fetchPolicy: FetchPolicy = 'network-only') {
     const result = await this.usersPeopleGQLService.fetch(null, {
       fetchPolicy
     }).toPromise();
@@ -109,15 +109,15 @@ export class HubService {
     const response = result.data.usersPeople;
 
     if (response) {
-      this.logger.log("usersPeople successful.");
+      this.logger.log('usersPeople successful.');
     } else {
-      this.logger.log("usersPeople failure");
+      this.logger.log('usersPeople failure');
     }
 
     return response;
   }
 
-  async commonUsersHubs(otherUsersId: Scalars['ID'], fetchPolicy: FetchPolicy = "network-only") {
+  async commonUsersHubs(otherUsersId: Scalars['ID'], fetchPolicy: FetchPolicy = 'network-only') {
     const result = await this.commonUsersHubsGQLService.fetch({
       otherUsersId
     },
@@ -128,9 +128,9 @@ export class HubService {
     const response = result.data.commonUsersHubs;
 
     if (response) {
-      this.logger.log("commonUsersHubs successful.");
+      this.logger.log('commonUsersHubs successful.');
     } else {
-      this.logger.log("commonUsersHubs failure");
+      this.logger.log('commonUsersHubs failure');
     }
 
     return response;
@@ -146,9 +146,9 @@ export class HubService {
     const response = result.data.editHub;
 
     if (response) {
-      this.logger.log("editHub successful.");
+      this.logger.log('editHub successful.');
     } else {
-      this.logger.log("editHub failure");
+      this.logger.log('editHub failure');
     }
 
     return response;
@@ -166,13 +166,13 @@ export class HubService {
     if (response) {
       this.logger.log(`${this.changeHubLocation.name} successful.`);
     } else {
-      this.logger.log(`${this.changeHubLocation.name} failure.`)
+      this.logger.log(`${this.changeHubLocation.name} failure.`);
     }
 
     return response;
   }
 
-  async hub(id: Scalars['ID'], fetchPolicy: FetchPolicy = "cache-first") {
+  async hub(id: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
     const result = await this.hubGQLService.fetch({
       id
     },
@@ -183,15 +183,15 @@ export class HubService {
     const response = result.data.hub;
 
     if (response) {
-      this.logger.log("got hub successful.");
+      this.logger.log('got hub successful.');
     } else {
-      this.logger.log("hub query failure");
+      this.logger.log('hub query failure');
     }
 
     return response;
   }
 
-  watchHub(id: Scalars['ID'], fetchPolicy: FetchPolicy = "cache-first") {
+  watchHub(id: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
     return this.hubGQLService.watch({
       id
     },
@@ -264,7 +264,7 @@ export class HubService {
   }
 
   async leaveHub(hubId: Scalars['ID']) {
-    const result = await this.leaveHubGQLService.mutate({ 
+    const result = await this.leaveHubGQLService.mutate({
       hubId
      }, {
        refetchQueries: [
@@ -284,22 +284,22 @@ export class HubService {
           variables: { id } as HubQueryVariables
         }) as HubQuery;
 
-        //Delete hub
-        delete hubQueryData.hub
+        // Delete hub
+        delete hubQueryData.hub;
 
         // Write our data back to the cache.
         proxy.writeQuery({
           query: HubDocument,
-          variables: { id: id } as HubQueryVariables,
+          variables: { id } as HubQueryVariables,
           data: hubQueryData
         });
 
-        //TODO would it be more robust to recurse through the RootQuery document tree and delete that way?
+        // TODO would it be more robust to recurse through the RootQuery document tree and delete that way?
         const userHubsData = proxy.readQuery({
           query: UsersHubsDocument
         }) as UsersHubsQuery;
 
-        //Delete Hub
+        // Delete Hub
         const userHub = userHubsData.usersHubs.find(x => x.hubId == id);
         userHubsData.usersHubs.splice(
           userHubsData.usersHubs.indexOf(userHub), 1
@@ -400,7 +400,7 @@ export class HubService {
             variables: { id: hubId } as HubQueryVariables
           }) as HubQuery;
 
-          //Add new micro-chat to hub's array of micro-chats
+          // Add new micro-chat to hub's array of micro-chats
           data.hub.hub.microChats.push(createMicroChat);
 
           // Write our data back to the cache.
@@ -427,7 +427,7 @@ export class HubService {
             variables: { id: hubId } as HubQueryVariables
           }) as HubQuery;
 
-          //Remove micro-chat from hub's array of micro-chats
+          // Remove micro-chat from hub's array of micro-chats
           const microChat = data.hub.hub.microChats.find(x => x.id == microChatId);
           data.hub.hub.microChats.splice(
             data.hub.hub.microChats.indexOf(microChat), 1

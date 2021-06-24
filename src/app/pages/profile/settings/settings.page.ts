@@ -26,7 +26,7 @@ export class SettingsPage implements OnInit {
   async changeName() {
     this.navCtrl.navigateForward('change-name');
   }
-  
+
   async changeEmail() {
     this.navCtrl.navigateForward('change-email');
   }

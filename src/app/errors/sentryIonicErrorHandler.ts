@@ -1,6 +1,6 @@
 import { ErrorHandler } from '@angular/core';
 
-import * as Sentry from "@sentry/browser";
+import * as Sentry from '@sentry/browser';
 
 export class SentryIonicErrorHandler extends ErrorHandler {
   handleError(error) {

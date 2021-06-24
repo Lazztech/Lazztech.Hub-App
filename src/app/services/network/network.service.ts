@@ -18,7 +18,7 @@ export class NetworkService {
   constructor(
     private alertService: AlertService,
     private logger: NGXLogger
-  ) { 
+  ) {
     // this.handler = Network.addListener('networkStatusChange', async (status) => {
     //   this.logger.log("Network status changed", status);
 
@@ -42,9 +42,9 @@ export class NetworkService {
 
   //     try {
   //       if (status.connected) {
-          
+
   //       } else {
-          
+
   //       }
   //     } catch (error) {
   //       this.logger.log(error)
@@ -57,7 +57,7 @@ export class NetworkService {
   }
 
   async isConnected(): Promise<boolean> {
-    let status = await this.getStatus();
+    const status = await this.getStatus();
     return status.connected;
   }
 

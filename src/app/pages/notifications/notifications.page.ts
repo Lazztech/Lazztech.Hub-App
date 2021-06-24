@@ -55,7 +55,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
   async doRefresh(event) {
     try {
       this.loading = true;
-      this.inAppNotifications = this.notificationsService.watchGetInAppNotifications("network-only").valueChanges.pipe(
+      this.inAppNotifications = this.notificationsService.watchGetInAppNotifications('network-only').valueChanges.pipe(
         map(x => x.data && x.data.getInAppNotifications)
       ).pipe(
         map(x => this.sortNotifications(x))
@@ -70,7 +70,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
 
 
   async deleteNotifications() {
-    const result = confirm("Delete all notifications?");
+    const result = confirm('Delete all notifications?');
     if (result) {
       await this.notificationsService.deleteAllInAppNotifications();
     }

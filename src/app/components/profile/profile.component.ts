@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ProfileComponent implements OnInit {
 
   @Input()
-  user: any
+  user: any;
 
   constructor() { }
 

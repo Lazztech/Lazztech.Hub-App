@@ -23,5 +23,5 @@ export class TutorialGuard implements CanActivate {
 
     return isComplete;
   }
-  
+
 }

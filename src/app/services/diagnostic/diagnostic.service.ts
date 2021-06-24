@@ -11,14 +11,14 @@ import { DevicePermissions } from './models/devicePermissions';
 })
 export class DiagnosticService {
 
-  //Device Settings
+  // Device Settings
   private lowPowerMode = false;
   private locationServices = false;
   private internetConnectivity = false;
   // cellular = false;
   private wifi = false;
 
-  //Permissions
+  // Permissions
   private locationPermission = false;
   private motionAndFitnessPermission = false;
   private backgroundAppRefreshPermission = false;
@@ -32,9 +32,9 @@ export class DiagnosticService {
 
   async checkIosSettings(): Promise<DeviceSettings> {
     this.logger.log(this.checkIosSettings.name);
-    this.logger.log('this.geofenceService.isPowerSaveMode() result: ', await this.geofenceService.isPowerSaveMode())
+    this.logger.log('this.geofenceService.isPowerSaveMode() result: ', await this.geofenceService.isPowerSaveMode());
     this.lowPowerMode = await this.geofenceService.isPowerSaveMode();
-    //TODO: low data mode?
+    // TODO: low data mode?
     this.locationServices = await this.diagnostic.isLocationEnabled();
     // this.cellular = await this.diagnostic.cellular
     this.internetConnectivity = await this.networkService.isConnected();
@@ -61,7 +61,7 @@ export class DiagnosticService {
   }
 
   private async checkIosLocationPermissions() {
-    //TODO: this doesn't distinguish between ios "while using app" vs "always" permission mode.
+    // TODO: this doesn't distinguish between ios "while using app" vs "always" permission mode.
     const result = await this.diagnostic.getLocationAuthorizationStatus();
     this.logger.log('getLocationAuthorizationStatus', result);
     // this.logger.log('this.diagnostic.locationAuthorizationMode', this.diagnostic.locationAuthorizationMode);

@@ -66,7 +66,7 @@ export class PasswordResetPage implements OnInit {
       );
       if (result) {
         this.loading = false;
-        await this.alertService.presentToast("Succeeded.");
+        await this.alertService.presentToast('Succeeded.');
         this.dismissLogin();
         const loginModal = await this.modalController.create({
           component: LoginPage
@@ -74,14 +74,14 @@ export class PasswordResetPage implements OnInit {
         return await loginModal.present();
       } else {
         this.loading = false;
-        this.alertService.presentToast("Password reset failed.");
+        this.alertService.presentToast('Password reset failed.');
       }
     } else {
       this.loading = false;
-      this.logger.error("Something went wrong.");
+      this.logger.error('Something went wrong.');
     }
   }
-  
+
   async resetPinModal() {
     this.dismissLogin();
     const resetPinModal = await this.modalController.create({

@@ -10,7 +10,7 @@ import { ThemeService } from './services/theme/theme.service';
 import { UpdateService } from './services/update/update.service';
 import { NGXLogger } from 'ngx-logger';
 const { StatusBar } = Plugins;
-const { SplashScreen } = Plugins
+const { SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-root',

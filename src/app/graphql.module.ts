@@ -20,7 +20,7 @@ export function createApollo(
   const authLink = setContext(async (_, { headers }) => {
     const token = await storage.get('token');
     if (!token) {
-      logger.error("Couldn't add jwt to header.");
+      logger.error('Couldn\'t add jwt to header.');
       return {};
     } else {
       return {
@@ -34,7 +34,7 @@ export function createApollo(
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     let err: string;
-    console.log('errorLink')
+    console.log('errorLink');
     graphQLErrors?.forEach(({ message, locations, path }) => {
       err += `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path} \n`;
     });
@@ -51,7 +51,7 @@ export function createApollo(
   return {
     link: from([errorLink, authLink, apolloLink]),
     cache: new InMemoryCache(),
-    connectToDevTools: true, //TODO set based on environment variable, eg. dev or prod
+    connectToDevTools: true, // TODO set based on environment variable, eg. dev or prod
   } as ApolloClientOptions<any>;
 }
 

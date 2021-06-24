@@ -47,7 +47,7 @@ export class HubPage implements OnInit, OnDestroy {
   }
 
   async ionViewDidEnter() {
-    //FIXME this should be refactored into the HubService to avoid repeating code
+    // FIXME this should be refactored into the HubService to avoid repeating code
     this.subscriptions.push(
       this.locationService.coords$.subscribe(async x => {
         await this.platform.ready();
@@ -58,7 +58,7 @@ export class HubPage implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.userHub.subscribe(userHub => {
-        this.hubCoords = { 
+        this.hubCoords = {
           latitude: userHub.hub.latitude,
           longitude: userHub.hub.longitude
         };
@@ -83,7 +83,7 @@ export class HubPage implements OnInit, OnDestroy {
   }
 
   goToPersonPage(id: number, user: any) {
-    this.navCtrl.navigateForward('person/'+ id, {
+    this.navCtrl.navigateForward('person/' + id, {
       state: {
         user
       }
@@ -102,7 +102,7 @@ export class HubPage implements OnInit, OnDestroy {
 
   async requestRide(userHub: JoinUserHub) {
     console.log(userHub.hub.name);
-    window.open(`uber://?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=${this.userCoords.latitude}&pickup[longitude]=${this.userCoords.longitude}&pickup[nickname]=Your%20Location&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=${this.hubCoords.latitude}&dropoff[longitude]=${this.hubCoords.longitude}&dropoff[nickname]=${userHub.hub.name}%20Hub&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383`)
+    window.open(`uber://?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=${this.userCoords.latitude}&pickup[longitude]=${this.userCoords.longitude}&pickup[nickname]=Your%20Location&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=${this.hubCoords.latitude}&dropoff[longitude]=${this.hubCoords.longitude}&dropoff[nickname]=${userHub.hub.name}%20Hub&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383`);
   }
 
   async navigate() {
@@ -148,8 +148,8 @@ export class HubPage implements OnInit, OnDestroy {
 
   presentActionSheet() {
     this.userHub.pipe(take(1)).subscribe(async userHub => {
-      let buttons = [];
-      console.log("is hub owner" + userHub.isOwner);
+      const buttons = [];
+      console.log('is hub owner' + userHub.isOwner);
       if (userHub.isOwner) {
         buttons.push({
           text: 'Manage Hub',

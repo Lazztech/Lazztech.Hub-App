@@ -30,18 +30,18 @@ export class AuthService {
     this.token = result.data.login;
 
     if (this.token) {
-      this.logger.log("Login successful.");
+      this.logger.log('Login successful.');
       await this.storage.set('token', this.token);
       this.isLoggedIn = true;
     } else {
-      this.logger.log("Login failure");
+      this.logger.log('Login failure');
     }
 
     return this.token;
   }
 
   async logout() {
-    await this.storage.remove("token");
+    await this.storage.remove('token');
     this.isLoggedIn = false;
     delete this.token;
   }
@@ -92,21 +92,21 @@ export class AuthService {
   async verifyAccountExists(): Promise<boolean> {
     try {
       const result = await this.meService.fetch(null, {
-        fetchPolicy: "network-only"
+        fetchPolicy: 'network-only'
       }).toPromise();
 
       if (result.errors) {
         // code: "INTERNAL_SERVER_ERROR"
-        //FIXME: this may break on a different deployment platform
-        if (result.errors[0].name == "INTERNAL_SERVER_ERROR") {
+        // FIXME: this may break on a different deployment platform
+        if (result.errors[0].name == 'INTERNAL_SERVER_ERROR') {
           for (let index = 0; index < 3; index++) {
-            this.logger.log(`verifyAccountExists returned INTERNAL_SERVER_ERROR retry ${index + 1}`)
-            const result = await this.verifyAccountExists()
+            this.logger.log(`verifyAccountExists returned INTERNAL_SERVER_ERROR retry ${index + 1}`);
+            const result = await this.verifyAccountExists();
             if (result) {
               return true;
             }
           }
-          this.logger.log("verifyAccountExists failed");
+          this.logger.log('verifyAccountExists failed');
           return false;
         }
       } else if (result.data.me) {
@@ -123,7 +123,7 @@ export class AuthService {
 
   async getToken(): Promise<string> {
     try {
-      this.token = await this.storage.get('token')
+      this.token = await this.storage.get('token');
 
       if (this.token != null) {
         this.isLoggedIn = true;

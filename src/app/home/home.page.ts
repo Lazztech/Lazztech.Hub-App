@@ -49,8 +49,8 @@ export class HomePage implements OnInit, OnDestroy {
   async doRefresh(event) {
     try {
       this.loading = true;
-      this.userHubs = this.hubService.watchUserHubs("network-only").valueChanges.pipe(map(x => x.data && x.data.usersHubs));
-      this.invites = this.hubService.watchInvitesByUser("network-only").valueChanges.pipe(map(x => x.data && x.data.invitesByUser));
+      this.userHubs = this.hubService.watchUserHubs('network-only').valueChanges.pipe(map(x => x.data && x.data.usersHubs));
+      this.invites = this.hubService.watchInvitesByUser('network-only').valueChanges.pipe(map(x => x.data && x.data.invitesByUser));
       this.loading = false;
       event.target.complete();
     } catch (error) {
@@ -84,7 +84,7 @@ export class HomePage implements OnInit, OnDestroy {
       this.hubService.watchInvitesByUser().valueChanges.subscribe(x => {
         this.loading = x.loading;
       })
-    )
+    );
 
     this.subscriptions.push(
         this.userHubs.subscribe(x => {
@@ -116,7 +116,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async filterHubs(ev: any) {
-    this.userHubs = this.hubService.watchUserHubs("cache-only").valueChanges.pipe(map(x => x.data && x.data.usersHubs));
+    this.userHubs = this.hubService.watchUserHubs('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersHubs));
     const val = ev.target.value;
     if (val && val.trim() != '') {
       this.userHubs = this.userHubs.pipe(

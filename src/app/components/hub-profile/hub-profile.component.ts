@@ -9,7 +9,7 @@ import { Hub } from 'src/generated/graphql';
 export class HubProfileComponent implements OnInit {
 
   @Input()
-  hub: Hub
+  hub: Hub;
 
   constructor() { }
 

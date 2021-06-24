@@ -55,11 +55,11 @@ export class ChangePasswordPage implements OnInit {
     const result = await this.profileService.changePassword(formValue.oldPassword, formValue.newPassword);
     if (result) {
       this.loading = false;
-      this.alertService.presentToast("Changed password.");
+      this.alertService.presentToast('Changed password.');
       this.dismiss();
     } else {
       this.loading = false;
-      this.alertService.presentRedToast("Failed to change password.");
+      this.alertService.presentRedToast('Failed to change password.');
     }
   }
 

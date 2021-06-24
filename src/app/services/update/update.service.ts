@@ -13,11 +13,11 @@ export class UpdateService {
   constructor(
     public swUpdate: SwUpdate,
     private logger: NGXLogger
-    ) { 
+    ) {
       if (this.swUpdate.isEnabled) {
         this.updateAvailable = this.swUpdate.available;
         this.swUpdate.available.subscribe(() => {
-            if(confirm("New version available. Load New Version?")) {
+            if (confirm('New version available. Load New Version?')) {
                 window.location.reload();
             }
         });
@@ -27,12 +27,12 @@ export class UpdateService {
     }
 
   checkForUpdate() {
-    this.logger.log("checking if sw is enabled.")
-      if (this.swUpdate.isEnabled) {
+    this.logger.log('checking if sw is enabled.');
+    if (this.swUpdate.isEnabled) {
         this.swUpdate.checkForUpdate().then(() => {
-          this.logger.log("Checking for updates...");
+          this.logger.log('Checking for updates...');
         }).catch((error) => {
-          this.logger.log("Error when checking for update", error);
+          this.logger.log('Error when checking for update', error);
       });
     } else {
       this.logger.log('swUpdate not enabled.');
@@ -41,7 +41,7 @@ export class UpdateService {
 
   updateToLatest(): void {
     this.logger.log('Update to latest version?');
-    if(confirm("New version available. Load New Version?")) {
+    if (confirm('New version available. Load New Version?')) {
       // window.location.reload();
       this.swUpdate.activateUpdate().then(() => document.location.reload());
     }

@@ -12,12 +12,12 @@ export class StatusPage implements OnInit {
 
   loading = false;
 
-  //Ghost Mode
+  // Ghost Mode
   ghostModeIsOff = true;
 
-  //Device Settings
+  // Device Settings
   deviceSettings: DeviceSettings;
-  //Permissions
+  // Permissions
   devicePermissions: DevicePermissions;
 
   constructor(

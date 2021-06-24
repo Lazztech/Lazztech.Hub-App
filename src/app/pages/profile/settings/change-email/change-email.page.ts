@@ -42,16 +42,16 @@ export class ChangeEmailPage implements OnInit {
   async changeEmail() {
     this.loading = true;
 
-    const formValue = this.myForm.value;    
+    const formValue = this.myForm.value;
 
     const result = await this.profileService.changeEmail(formValue.email);
     if (result) {
       this.loading = false;
-      this.alertService.presentToast("Changed email address.");
+      this.alertService.presentToast('Changed email address.');
       this.dismiss();
     } else {
-      this.loading = false;      
-      this.alertService.presentRedToast("Failed to change email address.");
+      this.loading = false;
+      this.alertService.presentRedToast('Failed to change email address.');
     }
   }
 

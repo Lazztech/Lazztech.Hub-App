@@ -40,7 +40,7 @@ export class PreviewHubPage implements OnInit {
 
     this.subscriptions.push(
       this.invite.subscribe(invite => {
-        this.hubCoords = { 
+        this.hubCoords = {
           latitude: invite.hub.latitude,
           longitude: invite.hub.longitude
         };

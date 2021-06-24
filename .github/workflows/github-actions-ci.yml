@@ -16,10 +16,10 @@ jobs:
           npm install
           npm run build
 
-      # - name: npm lint
-      #   working-directory: ./
-      #   run: |
-      #     npm run lint
+      - name: npm lint
+        working-directory: ./
+        run: |
+          npm run lint
 
       # - name: npm test
       #   working-directory: ./

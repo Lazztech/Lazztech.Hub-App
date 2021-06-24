@@ -13,7 +13,7 @@ import BackgroundGeolocation, {
   GeofencesChangeEvent,
   HeartbeatEvent,
   ConnectivityChangeEvent
-} from "cordova-background-geolocation";
+} from 'cordova-background-geolocation';
 import { Plugins } from '@capacitor/core';
 import { HubService } from '../hub/hub.service';
 import { Hub } from 'src/generated/graphql';
@@ -44,15 +44,15 @@ export class GeofenceService {
       //   route_id: 1234
       // }
     }).then((success) => {
-      this.logger.log("[addGeofence] success");
+      this.logger.log('[addGeofence] success');
     }).catch((error) => {
-      this.logger.log("[addGeofence] FAILURE: ", error);
+      this.logger.log('[addGeofence] FAILURE: ', error);
     });
   }
 
   async removeAllGeofences() {
     await BackgroundGeolocation.removeGeofences();
-    this.logger.log("[removeGeofences] all geofences have been destroyed");
+    this.logger.log('[removeGeofences] all geofences have been destroyed');
   }
 
   async refreshHubGeofences() {
@@ -71,38 +71,38 @@ export class GeofenceService {
         notifyOnEntry: true,
         notifyOnExit: true,
 
-      })
+      });
 
       this.logger.log(`Added geofence for ${JSON.stringify(element)}`);
     }
   }
 
   async isPowerSaveMode() {
-    //FIXME: seems to always return false
+    // FIXME: seems to always return false
     return await BackgroundGeolocation.isPowerSaveMode();
-  };
+  }
 
   async configureBackgroundGeolocation() {
     BackgroundGeolocation.onGeofence(async geofence => {
-      this.logger.log("[geofence] ", geofence.identifier, geofence.action);
+      this.logger.log('[geofence] ', geofence.identifier, geofence.action);
 
       // Perform some long-running task (eg: HTTP request)
       BackgroundGeolocation.startBackgroundTask().then(async (taskId) => {
         const hub = JSON.parse(geofence.identifier) as Hub;
-      
-        if (geofence.action == "ENTER") {
+
+        if (geofence.action == 'ENTER') {
           await this.enteredGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
-        } else if (geofence.action == "EXIT") {
+        } else if (geofence.action == 'EXIT') {
           await this.exitedGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
-        } 
+        }
         // else if (geofence.action == "DWELL") {
         //   this.dwellGeofence(hub, geofence).catch(error => {
         //     // Be sure to catch errors:  never leave you background-task hanging.
@@ -112,7 +112,7 @@ export class GeofenceService {
         // }
         // When your long-running task is complete, signal completion of taskId.
         BackgroundGeolocation.stopBackgroundTask(taskId);
-      })
+      });
 
     });
 
@@ -138,7 +138,7 @@ export class GeofenceService {
     BackgroundGeolocation.ready({
       reset: true,
       // debug: true,
-      logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE, //FIXME do not publish app with this set to verbose!
+      logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE, // FIXME do not publish app with this set to verbose!
       desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
       distanceFilter: 10,
       // url: 'http://my.server.com/locations',
@@ -158,13 +158,13 @@ export class GeofenceService {
     LocalNotifications.schedule({
       notifications: [
         {
-          title: "Dwelling at " + hub.name,
-          body: geofence.action + " " + hub.name,
+          title: 'Dwelling at ' + hub.name,
+          body: geofence.action + ' ' + hub.name,
           id: parseInt(hub.id),
           schedule: { at: new Date(Date.now()) },
           sound: 'beep.aiff',
           attachments: null,
-          actionTypeId: "",
+          actionTypeId: '',
           extra: null
         }
       ]
@@ -176,13 +176,13 @@ export class GeofenceService {
       LocalNotifications.schedule({
         notifications: [
           {
-            title: "Geofence error",
+            title: 'Geofence error',
             body: JSON.stringify(err),
             id: parseInt(hub.id),
             schedule: { at: new Date(Date.now()) },
             sound: 'beep.aiff',
             attachments: null,
-            actionTypeId: "",
+            actionTypeId: '',
             extra: null
           }
         ]
@@ -191,13 +191,13 @@ export class GeofenceService {
     LocalNotifications.schedule({
       notifications: [
         {
-          title: "Exited " + hub.name,
-          body: geofence.action + " " + hub.name,
+          title: 'Exited ' + hub.name,
+          body: geofence.action + ' ' + hub.name,
           id: parseInt(hub.id),
           schedule: { at: new Date(Date.now()) },
           sound: 'beep.aiff',
           attachments: null,
-          actionTypeId: "",
+          actionTypeId: '',
           extra: null
         }
       ]
@@ -209,13 +209,13 @@ export class GeofenceService {
       LocalNotifications.schedule({
         notifications: [
           {
-            title: "Geofence error",
+            title: 'Geofence error',
             body: JSON.stringify(err),
             id: parseInt(hub.id),
             schedule: { at: new Date(Date.now()) },
             sound: 'beep.aiff',
             attachments: null,
-            actionTypeId: "",
+            actionTypeId: '',
             extra: null,
           }
         ]
@@ -224,13 +224,13 @@ export class GeofenceService {
     LocalNotifications.schedule({
       notifications: [
         {
-          title: "Entered " + hub.name,
-          body: geofence.action + " " + hub.name,
+          title: 'Entered ' + hub.name,
+          body: geofence.action + ' ' + hub.name,
           id: parseInt(hub.id),
           schedule: { at: new Date(Date.now()) },
           sound: 'beep.aiff',
           attachments: null,
-          actionTypeId: "",
+          actionTypeId: '',
           extra: null
         }
       ]
@@ -239,10 +239,10 @@ export class GeofenceService {
 }
 
 export interface IGeofence {
-  identifier: string,
+  identifier: string;
   // radius: number,
-  latitude: number,
-  longitude: number,
-  notifyOnEntry: boolean,
-  notifyOnExit: boolean
+  latitude: number;
+  longitude: number;
+  notifyOnEntry: boolean;
+  notifyOnExit: boolean;
 }

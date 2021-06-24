@@ -37,10 +37,10 @@ export class RegisterPage implements OnInit {
   }
 
   constructor(private modalController: ModalController,
-    private authService: AuthService,
-    private navCtrl: NavController,
-    private alertService: AlertService,
-    private fb: FormBuilder
+              private authService: AuthService,
+              private navCtrl: NavController,
+              private alertService: AlertService,
+              private fb: FormBuilder
   ) { }
 
   ngOnInit() {

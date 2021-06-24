@@ -78,17 +78,17 @@ export class LoginPage implements OnInit {
     const formValue = this.myForm.value;
 
     const token = await this.authService.login(formValue.email, formValue.password);
-    this.logger.log("Result: " + token);
+    this.logger.log('Result: ' + token);
     if (token) {
       this.loading = false;
       this.dismissLogin();
-      //FIXME is this how I want this? It needs token to work on first launch.
+      // FIXME is this how I want this? It needs token to work on first launch.
       this.notificationsService.setupPushForAllPlatforms();
 
       await this.navCtrl.navigateRoot('/tabs');
     } else {
       this.loading = false;
-      this.alertService.presentRedToast("Login failed!");
+      this.alertService.presentRedToast('Login failed!');
     }
 
 

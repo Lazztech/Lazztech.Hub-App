@@ -13,18 +13,18 @@ import { NGXLogger } from 'ngx-logger';
 })
 export class HubCardComponent implements OnDestroy, OnChanges {
 
-  //FIXME is this used?
+  // FIXME is this used?
   coords$: Observable<{longitude: number, latitude: number}>;
 
   @Input() hub: Hub;
   @Input() adminControls = false;
   @Input() showDescription = false;
   @Input() coords: {longitude: number, latitude: number};
-  @Input() starred: boolean = false;
-  @Input() isOwner: boolean = false;
-  @Input() includeMap: boolean = false;
+  @Input() starred = false;
+  @Input() isOwner = false;
+  @Input() includeMap = false;
 
-  atHub: boolean = false;
+  atHub = false;
   subscription: Subscription;
   presentCount = 0;
   private distanceInMeters: number;
@@ -52,7 +52,7 @@ export class HubCardComponent implements OnDestroy, OnChanges {
 
   async activeToggle($event) {
     this.logger.log(this.hub.active);
-    this.logger.log($event)
+    this.logger.log($event);
 
     if ($event.detail.checked) {
       await this.hubService.activateHub(this.hub.id);

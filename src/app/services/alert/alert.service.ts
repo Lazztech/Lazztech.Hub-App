@@ -11,26 +11,26 @@ export class AlertService {
     private toastController: ToastController,
     private logger: NGXLogger
     ) { }
-  
+
   async presentToast(message: any, duration: number = 2000) {
     const toast = await this.toastController.create({
-      message: message,
-      duration: duration,
+      message,
+      duration,
       position: 'top',
       color: 'dark'
     });
-    this.logger.log("presenting toast");
+    this.logger.log('presenting toast');
     await toast.present();
   }
 
   async presentRedToast(message: any, duration: number = 2000) {
     const toast = await this.toastController.create({
-      message: message,
-      duration: duration,
+      message,
+      duration,
       position: 'top',
       color: 'danger'
     });
-    this.logger.log("presenting toast")
+    this.logger.log('presenting toast');
     await toast.present();
   }
 
