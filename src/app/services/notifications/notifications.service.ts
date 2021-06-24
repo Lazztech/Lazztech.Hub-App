@@ -5,7 +5,16 @@ import '@firebase/messaging';
 import { Platform, ToastController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { FetchPolicy } from 'apollo-client';
-import { AddUserFcmNotificationTokenGQL, DeleteAllInAppNotificationsGQL, DeleteInAppNotificationGQL, GetInAppNotificationsGQL, InAppNotification, Scalars, GetInAppNotificationsDocument, GetInAppNotificationsQuery } from '../../../generated/graphql';
+import {
+  AddUserFcmNotificationTokenGQL,
+  DeleteAllInAppNotificationsGQL,
+  DeleteInAppNotificationGQL,
+  GetInAppNotificationsGQL,
+  InAppNotification,
+  Scalars,
+  GetInAppNotificationsDocument,
+  GetInAppNotificationsQuery
+} from '../../../generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 const { LocalNotifications, PushNotifications } = Plugins;
@@ -174,7 +183,7 @@ export class NotificationsService {
               side: 'start',
               text: 'View',
               handler: () => {
-                if(notification?.data?.aps?.category) {
+                if (notification?.data?.aps?.category) {
                   this.navController.navigateForward(notification.data.aps.category);
                 }
                 this.logger.log('View clicked');

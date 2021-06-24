@@ -1,7 +1,43 @@
 import { Injectable } from '@angular/core';
 import { FetchPolicy } from 'apollo-client';
 import { NGXLogger } from 'ngx-logger';
-import { AcceptHubInviteGQL, ActivateHubGQL, ChangeHubImageGQL, CommonUsersHubsGQL, CreateHubGQL, CreateMicroChatGQL, DeactivateHubGQL, DeleteHubGQL, DeleteInviteGQL, DeleteMicroChatGQL, EditHubGQL, EnteredHubGeofenceGQL, ExitedHubGeofenceGQL, HubDocument, HubGQL, HubQuery, HubQueryVariables, InviteGQL, InvitesByHubDocument, InvitesByHubGQL, InvitesByHubQueryVariables, InvitesByUserDocument, InvitesByUserGQL, InviteUserToHubGQL, MicroChatToHubGQL, Scalars, SetHubNotStarredGQL, SetHubStarredGQL, UsersHubsDocument, UsersHubsGQL, UsersHubsQuery, UsersPeopleGQL, LeaveHubGQL, QueryInvitesByHubArgs, ChangeHubLocationGQL } from 'src/generated/graphql';
+import {
+  AcceptHubInviteGQL,
+  ActivateHubGQL,
+  ChangeHubImageGQL,
+  ChangeHubLocationGQL,
+  CommonUsersHubsGQL,
+  CreateHubGQL,
+  CreateMicroChatGQL,
+  DeactivateHubGQL,
+  DeleteHubGQL,
+  DeleteInviteGQL,
+  DeleteMicroChatGQL,
+  EditHubGQL,
+  EnteredHubGeofenceGQL,
+  ExitedHubGeofenceGQL,
+  HubDocument,
+  HubGQL,
+  HubQuery,
+  HubQueryVariables,
+  InviteGQL,
+  InvitesByHubDocument,
+  InvitesByHubGQL,
+  InvitesByHubQueryVariables,
+  InvitesByUserDocument,
+  InvitesByUserGQL,
+  InviteUserToHubGQL,
+  LeaveHubGQL,
+  MicroChatToHubGQL,
+  QueryInvitesByHubArgs,
+  Scalars,
+  SetHubNotStarredGQL,
+  SetHubStarredGQL,
+  UsersHubsDocument,
+  UsersHubsGQL,
+  UsersHubsQuery,
+  UsersPeopleGQL,
+} from 'src/generated/graphql';
 
 @Injectable({
   providedIn: 'root'
