@@ -17,9 +17,11 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - name: npm install & build
+    - uses: webfactory/ssh-agent@v0.2.0
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} 
+
+    - name: npm install & build
       run: |
         npm install
         npm run build
