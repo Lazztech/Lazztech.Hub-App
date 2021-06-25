@@ -10,19 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
 
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
 
-    - uses: webfactory/ssh-agent@v0.2.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} 
-
     - name: npm install & build
       run: |
+        git config --global url."https://${{ secrets.PAT }}@github.com/".insteadOf ssh://git@github.com/
         npm install
         npm run build
 
@@ -41,4 +40,3 @@ jobs:
       # - name: npm generate
       #   run: |
       #     npm run generate
-      
