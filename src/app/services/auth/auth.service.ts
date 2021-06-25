@@ -91,25 +91,25 @@ export class AuthService {
 
   async verifyAccountExists(): Promise<boolean> {
     try {
-      const result = await this.meService.fetch(null, {
+      const me = await this.meService.fetch(null, {
         fetchPolicy: 'network-only'
       }).toPromise();
 
-      if (result.errors) {
+      if (me.errors) {
         // code: "INTERNAL_SERVER_ERROR"
         // FIXME: this may break on a different deployment platform
-        if (result.errors[0].name === 'INTERNAL_SERVER_ERROR') {
+        if (me.errors[0].name === 'INTERNAL_SERVER_ERROR') {
           for (let index = 0; index < 3; index++) {
             this.logger.log(`verifyAccountExists returned INTERNAL_SERVER_ERROR retry ${index + 1}`);
-            const result = await this.verifyAccountExists();
-            if (result) {
+            const accountExists = await this.verifyAccountExists();
+            if (accountExists) {
               return true;
             }
           }
           this.logger.log('verifyAccountExists failed');
           return false;
         }
-      } else if (result.data.me) {
+      } else if (me.data.me) {
 
         return true;
       } else {

@@ -85,7 +85,7 @@ export class HomePage implements OnInit, OnDestroy {
 
     this.subscriptions.push(
         this.userHubs.subscribe(x => {
-        x.forEach(x => this.hubs.push(x.hub as Hub));
+        x.forEach(y => this.hubs.push(y.hub as Hub));
       })
     );
   }

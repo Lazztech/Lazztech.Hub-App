@@ -39,7 +39,7 @@ export class NotificationsService {
   async localNotification(title: string, body: string, schedule?: Date): Promise<void> {
     const result = await LocalNotifications.areEnabled();
     if (!result.value) {
-      const result = LocalNotifications.requestPermissions();
+      LocalNotifications.requestPermissions();
     }
 
     if (!schedule) {

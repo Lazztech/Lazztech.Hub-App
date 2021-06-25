@@ -50,7 +50,7 @@ export class ProfilePage implements OnInit {
     this.userHubs = this.hubService.watchUserHubs().valueChanges.pipe(
       map(x => x.data && x.data.usersHubs)
     ).pipe(
-      map(x => x.filter(x => x.isOwner))
+      map(y => y.filter(z => z.isOwner))
     );
 
     this.subscriptions.push(
