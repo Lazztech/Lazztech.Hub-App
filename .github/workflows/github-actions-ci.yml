@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
 
     - name: Use Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1
@@ -19,6 +21,7 @@ jobs:
 
     - name: npm install & build
       run: |
+        git config --global url."https://${{ secrets.PAT }}@github.com/".insteadOf ssh://git@github.com/
         npm install
         npm run build
 
