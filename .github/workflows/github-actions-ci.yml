@@ -19,10 +19,12 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
 
+    - uses: webfactory/ssh-agent@v0.2.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} 
+
     - name: npm install & build
       run: |
-        git config --global url."https://${{ secrets.PAT }}@github.com/".insteadOf ssh://git@github.com/
-        git clone https://github.com/transistorsoft/cordova-background-geolocation.git
         npm install
         npm run build
 
