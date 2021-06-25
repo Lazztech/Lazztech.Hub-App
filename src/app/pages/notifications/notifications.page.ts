@@ -47,7 +47,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
 
   sortNotifications(notifications: InAppNotification[]) {
     const sorted = notifications.sort((x, y) => {
-      return parseInt(y.date) - parseInt(x.date);
+      return parseInt(y.date, 10) - parseInt(x.date, 10);
     });
     return sorted;
   }

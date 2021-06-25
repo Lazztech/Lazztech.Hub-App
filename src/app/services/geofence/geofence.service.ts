@@ -160,7 +160,7 @@ export class GeofenceService {
         {
           title: 'Dwelling at ' + hub.name,
           body: geofence.action + ' ' + hub.name,
-          id: parseInt(hub.id),
+          id: parseInt(hub.id, 10),
           schedule: { at: new Date(Date.now()) },
           sound: 'beep.aiff',
           attachments: null,
@@ -178,7 +178,7 @@ export class GeofenceService {
           {
             title: 'Geofence error',
             body: JSON.stringify(err),
-            id: parseInt(hub.id),
+            id: parseInt(hub.id, 10),
             schedule: { at: new Date(Date.now()) },
             sound: 'beep.aiff',
             attachments: null,
@@ -193,7 +193,7 @@ export class GeofenceService {
         {
           title: 'Exited ' + hub.name,
           body: geofence.action + ' ' + hub.name,
-          id: parseInt(hub.id),
+          id: parseInt(hub.id, 10),
           schedule: { at: new Date(Date.now()) },
           sound: 'beep.aiff',
           attachments: null,
@@ -211,7 +211,7 @@ export class GeofenceService {
           {
             title: 'Geofence error',
             body: JSON.stringify(err),
-            id: parseInt(hub.id),
+            id: parseInt(hub.id, 10),
             schedule: { at: new Date(Date.now()) },
             sound: 'beep.aiff',
             attachments: null,
@@ -226,7 +226,7 @@ export class GeofenceService {
         {
           title: 'Entered ' + hub.name,
           body: geofence.action + ' ' + hub.name,
-          id: parseInt(hub.id),
+          id: parseInt(hub.id, 10),
           schedule: { at: new Date(Date.now()) },
           sound: 'beep.aiff',
           attachments: null,
