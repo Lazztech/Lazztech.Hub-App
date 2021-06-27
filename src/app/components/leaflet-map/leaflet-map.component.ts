@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import 'leaflet';
-import { Map, marker, tileLayer } from 'leaflet';
+import { circle, Map, marker, tileLayer } from 'leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
@@ -74,10 +74,11 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
 
     this.setCenter();
     this.locations?.forEach(hub => this.addMarker(hub));
+    this.locations?.forEach(hub => this.drawRadius(hub));
 
     if (!this.locations?.length) {
-      marker([this.center.latitude, this.center.longitude])
-      .addTo(this.map);
+      this.addMarker({ latitude: this.center.latitude, longitude: this.center.longitude });
+      this.drawRadius({ latitude: this.center.latitude, longitude: this.center.longitude });
     }
 
     // Required to get the map to load properly
@@ -90,12 +91,16 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     this.map.setView([this.center.latitude, this.center.longitude], 13);
   }
 
-  addMarker(location: { id: number, latitude: number, longitude: number }) {
+  addMarker(location: { id?: number, latitude: number, longitude: number }) {
     const mk = marker([location.latitude, location.longitude]);
-    if (this.navOnMarker) {
+    if (this.navOnMarker && location?.id) {
       mk.on('click', () => this.navCtrl.navigateForward('hub/' + location.id));
     }
     mk.addTo(this.map);
+  }
+
+  drawRadius(location: { latitude: number, longitude: number }, radiusMeters = 200) {
+    return circle([location.latitude, location.longitude], radiusMeters).addTo(this.map);
   }
 
   async searchAddress(event: any) {
