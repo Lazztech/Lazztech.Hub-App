@@ -5,7 +5,6 @@ import { Map, marker, tileLayer } from 'leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
-import { Hub } from '../../../generated/graphql';
 
 @Component({
   selector: 'app-leaflet-map',
@@ -15,16 +14,31 @@ import { Hub } from '../../../generated/graphql';
     '../../../../node_modules/leaflet/dist/leaflet.css'
   ],
 })
-export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
+export class LeafletMapComponent implements OnChanges, AfterViewInit {
 
-  @ViewChild('map') mapContainer: ElementRef;
-  map: Map;
+  /**
+  * used to ensure unique map instances to allow for multiple maps
+  */
   id = Date.now();
+  /**
+   * for accessing map instance
+   */
+  map: Map;
+  /**
+   * for accessing map instance containing element
+   */
+  @ViewChild('map') mapContainer: ElementRef;
+  /**
+   * leaflet geosearch results
+   */
   searchResults: SearchResult<RawResult>[] = [];
+  /**
+   * leaflet geosearch provider
+   */
   provider = new OpenStreetMapProvider();
 
   @Input() center: { latitude: any; longitude: any; };
-  @Input() hubs: Hub[] = [];  
+  @Input() hubs: Array<{ id: number, latitude: number, longitude: number }> = [];  
   @Input() navOnMarker = false;
   @Input() showControls = false;
   @Input() enableSearch = false;
@@ -36,15 +50,15 @@ export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
     public navCtrl: NavController,
   ) { }
 
-  ngOnInit() {
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (this.map && changes.center) {
-      this.map.setView([this.center.latitude, this.center.longitude], 13);
+      this.setCenter();
     }
   }
 
+  /**
+   * map must be initialized at this point in the ng lifecycle to load properly
+   */
   ngAfterViewInit() {
     this.initMap();
   }
@@ -54,20 +68,14 @@ export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
       zoomControl: this.showControls,
       dragging: this.showControls,
       doubleClickZoom: this.showControls
-    }).setView([this.center.latitude, this.center.longitude], 13);
+    }).addLayer(tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }));
 
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
+    this.setCenter();
 
     if (this.hubs?.length) {
-      this.hubs.forEach((hub: Hub) => {
-        const mk = marker([hub.latitude, hub.longitude]);
-        if (this.navOnMarker) {
-          mk.on('click', () => this.navCtrl.navigateForward('hub/' + hub.id));
-        }
-        mk.addTo(this.map);
-      });
+      this.hubs.forEach(hub => this.addMarker(hub));
     } else {
       marker([this.center.latitude, this.center.longitude])
         .addTo(this.map);
@@ -77,6 +85,18 @@ export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
     setTimeout(() => {
       this.map.invalidateSize();
     }, 100);
+  }
+
+  setCenter() {
+    this.map.setView([this.center.latitude, this.center.longitude], 13);
+  }
+
+  addMarker(location: { id: number, latitude: number, longitude: number }) {
+    const mk = marker([location.latitude, location.longitude]);
+    if (this.navOnMarker) {
+      mk.on('click', () => this.navCtrl.navigateForward('hub/' + location.id));
+    }
+    mk.addTo(this.map);
   }
 
   async searchAddress(event: any) {
