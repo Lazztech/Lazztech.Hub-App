@@ -38,7 +38,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
   provider = new OpenStreetMapProvider();
 
   @Input() center: { latitude: any; longitude: any; };
-  @Input() hubs: Array<{ id: number, latitude: number, longitude: number }> = [];
+  @Input() locations: Array<{ id: number, latitude: number, longitude: number }> = [];
   @Input() navOnMarker = false;
   @Input() showControls = false;
   @Input() enableSearch = false;
@@ -73,12 +73,11 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     }));
 
     this.setCenter();
+    this.locations?.forEach(hub => this.addMarker(hub));
 
-    if (this.hubs?.length) {
-      this.hubs.forEach(hub => this.addMarker(hub));
-    } else {
+    if (!this.locations?.length) {
       marker([this.center.latitude, this.center.longitude])
-        .addTo(this.map);
+      .addTo(this.map);
     }
 
     // Required to get the map to load properly

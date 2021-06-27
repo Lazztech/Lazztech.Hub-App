@@ -18,12 +18,12 @@
 
 <ion-content>
     <app-leaflet-map 
-      *ngIf="!loading" 
       [center]="center" 
-      [hubs]="hubs" 
+      [locations]="hubs"
       [navOnMarker]="true" 
       [showControls]="true"
       [enableSearch]="true"
       (searchSelected)="onSearchSelected($event)"
+      (loading)="onMapLoading($event)"
     ></app-leaflet-map>
 </ion-content>

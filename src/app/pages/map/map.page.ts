@@ -41,8 +41,14 @@ export class MapPage {
     this.center = event;
   }
 
-  save() {
+  async save() {
     console.log(`map save hubId: ${this.hubId}, center latitude: ${this.center.latitude}, center longitude: ${this.center.longitude}`);
-    this.hubService.changeHubLocation(this.hubId, this.center.latitude, this.center.longitude);
+    this.loading = true;
+    await this.hubService.changeHubLocation(this.hubId, this.center.latitude, this.center.longitude);
+    this.loading = false;
+  }
+
+  onMapLoading(loading: boolean) {
+    this.loading = loading;
   }
 }
