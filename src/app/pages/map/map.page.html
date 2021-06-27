@@ -17,9 +17,13 @@
 </ion-header>
 
 <ion-content>
-    <ion-searchbar debounce="1000" (ionInput)="searchAddress($event)" showCancelButton="focus"></ion-searchbar>
-    <ion-list *ngIf="searchResults">
-      <ion-item *ngFor="let result of searchResults" (click)="selectSearch(result)">{{ result.label }}</ion-item>
-    </ion-list>
-    <app-leaflet-map *ngIf="!loading && !searchResults.length" [center]="center" [hubs]="hubs" [navOnMarker]="true" [showControls]="true"></app-leaflet-map>
+    <app-leaflet-map 
+      *ngIf="!loading" 
+      [center]="center" 
+      [hubs]="hubs" 
+      [navOnMarker]="true" 
+      [showControls]="true"
+      [enableSearch]="true"
+      (searchSelected)="onSearchSelected($event)"
+    ></app-leaflet-map>
 </ion-content>

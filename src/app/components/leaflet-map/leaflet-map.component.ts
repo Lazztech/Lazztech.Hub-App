@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-
-import { NavController, Platform } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { Map, tileLayer, marker, icon, DomUtil } from 'leaflet';
-import { map } from 'rxjs/operators';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import 'leaflet';
+import { Map, marker, tileLayer } from 'leaflet';
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
+import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
 import { Hub } from '../../../generated/graphql';
 
 @Component({
@@ -16,13 +17,20 @@ import { Hub } from '../../../generated/graphql';
 })
 export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
 
-  @Input() center: { latitude: any; longitude: any; };
-  @Input() hubs: Hub[] = [];
-  @Input() navOnMarker = false;
-  @Input() showControls = false;
   @ViewChild('map') mapContainer: ElementRef;
   map: Map;
   id = Date.now();
+  searchResults: SearchResult<RawResult>[] = [];
+  provider = new OpenStreetMapProvider();
+
+  @Input() center: { latitude: any; longitude: any; };
+  @Input() hubs: Hub[] = [];  
+  @Input() navOnMarker = false;
+  @Input() showControls = false;
+  @Input() enableSearch = false;
+
+  @Output() loading = new EventEmitter<boolean>();
+  @Output() searchSelected = new EventEmitter<{ latitude: number, longitude: number }>();
 
   constructor(
     public navCtrl: NavController,
@@ -69,5 +77,23 @@ export class LeafletMapComponent implements OnInit, OnChanges, AfterViewInit {
     setTimeout(() => {
       this.map.invalidateSize();
     }, 100);
+  }
+
+  async searchAddress(event: any) {
+    console.log(event);
+    this.loading.emit(true);
+
+    const results = await this.provider.search({ query: event.target.value });
+    console.log(results);
+    this.searchResults = results as any;
+    this.loading.emit(false);
+  }
+
+  selectSearch(searchResult: SearchResult<RawResult>) {
+    this.searchSelected.emit({
+      latitude: searchResult.y,
+      longitude: searchResult.x
+    })
+    this.searchResults = [];
   }
 }
