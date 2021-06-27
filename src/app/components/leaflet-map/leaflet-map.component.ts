@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import 'leaflet';
 import { Map, marker, tileLayer } from 'leaflet';
@@ -17,8 +17,8 @@ import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
 export class LeafletMapComponent implements OnChanges, AfterViewInit {
 
   /**
-  * used to ensure unique map instances to allow for multiple maps
-  */
+   * used to ensure unique map instances to allow for multiple maps
+   */
   id = Date.now();
   /**
    * for accessing map instance
@@ -38,7 +38,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
   provider = new OpenStreetMapProvider();
 
   @Input() center: { latitude: any; longitude: any; };
-  @Input() hubs: Array<{ id: number, latitude: number, longitude: number }> = [];  
+  @Input() hubs: Array<{ id: number, latitude: number, longitude: number }> = [];
   @Input() navOnMarker = false;
   @Input() showControls = false;
   @Input() enableSearch = false;
@@ -113,7 +113,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     this.searchSelected.emit({
       latitude: searchResult.y,
       longitude: searchResult.x
-    })
+    });
     this.searchResults = [];
   }
 }
