@@ -125,8 +125,9 @@ export class HubService {
     return response;
   }
 
-  watchUserHubs(fetchPolicy: FetchPolicy = 'cache-first') {
+  watchUserHubs(fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
     return this.userHubsGQLService.watch(null, {
+      pollInterval,
       fetchPolicy
     });
   }
@@ -227,11 +228,12 @@ export class HubService {
     return response;
   }
 
-  watchHub(id: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
+  watchHub(id: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
     return this.hubGQLService.watch({
       id
     },
       {
+        pollInterval,
         fetchPolicy
       });
   }

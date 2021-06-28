@@ -71,7 +71,7 @@ export class HubPage implements OnInit, OnDestroy {
   }
 
   loadHub() {
-    this.userHub = this.hubService.watchHub(this.id).valueChanges.pipe(
+    this.userHub = this.hubService.watchHub(this.id, null, 2000).valueChanges.pipe(
       map(x => x.data && x.data.hub)
     );
 

@@ -63,10 +63,11 @@ export class NotificationsService {
     });
   }
 
-  watchGetInAppNotifications(fetchPolicy: FetchPolicy = 'cache-first') {
+  watchGetInAppNotifications(fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
     return this.getInAppNotificationsGQLService.watch(
       null,
       {
+        pollInterval,
         fetchPolicy
       }
     );

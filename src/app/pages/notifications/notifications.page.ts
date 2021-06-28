@@ -25,7 +25,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.inAppNotifications = this.notificationsService.watchGetInAppNotifications().valueChanges.pipe(
+    this.inAppNotifications = this.notificationsService.watchGetInAppNotifications(null, 5000).valueChanges.pipe(
       map(x => x.data && x.data.getInAppNotifications)
     ).pipe(
       map(x => this.sortNotifications(x))
