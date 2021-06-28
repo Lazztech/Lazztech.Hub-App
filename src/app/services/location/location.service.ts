@@ -13,6 +13,9 @@ const { Geolocation } = Plugins;
 })
 export class LocationService {
 
+  /**
+   * observable stream of users current location
+   */
   coords$: Observable<{ latitude: number, longitude: number }>;
 
   constructor(

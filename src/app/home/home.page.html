@@ -24,8 +24,8 @@
 
     <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
 
-    <ion-card *ngIf="!loading && coords" style="height:30%" (click)="goToMap()">
-          <app-leaflet-map [center]="coords" [navOnMarker]="true" [hubs]="hubs"></app-leaflet-map>
+    <ion-card *ngIf="!loading && yourLocation" style="height:30%" (click)="goToMap()">
+          <app-leaflet-map [center]="yourLocation" [yourLocation]="yourLocation" [navOnMarker]="true" [locations]="hubs"></app-leaflet-map>
     </ion-card>
 
       <ion-card class="welcome-card" *ngIf="!loading && !(userHubs | async)?.length">
@@ -49,9 +49,9 @@
             <ion-text>Invites</ion-text>
         </ion-list-header>
         <div *ngFor="let invite of invites | async">
-          <app-hub-card *ngIf="!loading && coords" 
+          <app-hub-card *ngIf="!loading && yourLocation" 
           [hub]="invite.hub"
-          [coords]="coords"
+          [coords]="yourLocation"
           (click)="goToPreviewHubPage(invite.hubId)"></app-hub-card>
         </div>
     </ion-list>
@@ -61,9 +61,9 @@
               <ion-text>Hubs</ion-text>
           </ion-list-header>
           <div *ngFor="let userHub of userHubs | async">
-            <app-hub-card *ngIf="!loading && coords" 
+            <app-hub-card *ngIf="!loading && yourLocation" 
             [hub]="userHub.hub"
-            [coords]="coords"
+            [coords]="yourLocation"
             [starred]="userHub.starred"
             [isOwner]="userHub.isOwner"
             (click)="goToHubPage(userHub.hubId)"></app-hub-card>

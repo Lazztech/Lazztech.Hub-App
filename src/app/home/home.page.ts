@@ -27,7 +27,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
   locationSubscription: Subscription;
-  coords: { latitude: number, longitude: number };
+  yourLocation: { latitude: number, longitude: number };
 
   constructor(
     private menu: MenuController,
@@ -62,7 +62,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.locationService.coords$.subscribe(async x => {
         await this.platform.ready();
-        this.coords = { latitude: x.latitude, longitude: x.longitude };
+        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
         this.changeRef.detectChanges();
       })
     );
@@ -125,7 +125,7 @@ export class HomePage implements OnInit, OnDestroy {
   goToMap() {
     this.navCtrl.navigateForward('map', {
       state: {
-        hubCoords: this.coords,
+        hubCoords: this.yourLocation,
         hubs: this.hubs
       }
     });

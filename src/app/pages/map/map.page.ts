@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
+import { Observable, Subscription } from 'rxjs';
 import { Scalars } from '../../../generated/graphql';
 import { HubService } from '../../services/hub/hub.service';
+import { LocationService } from '../../services/location/location.service';
 
 @Component({
   selector: 'app-map',
@@ -15,14 +17,22 @@ export class MapPage {
   hubCoords: any;
   center: any;
   hubs = [];
-
+  yourLocation: { latitude: number, longitude: number };
   hubId: Scalars['ID'];
   loading = false;
 
   constructor(
     private router: Router,
-    private hubService: HubService
+    private hubService: HubService,
+    private locationService: LocationService,
+    private platform: Platform,
+    private changeRef: ChangeDetectorRef,
   ) {
+    this.locationService.coords$.subscribe(async x => {
+      await this.platform.ready();
+      this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
+      this.changeRef.detectChanges();
+    });
     if (this.router.getCurrentNavigation().extras.state) {
       this.hubCoords = this.router.getCurrentNavigation().extras.state.hubCoords;
       this.center = this.hubCoords;
