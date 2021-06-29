@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import 'leaflet';
-import { circle, circleMarker, Map, marker, tileLayer } from 'leaflet';
+import { circle, CircleMarker, circleMarker, Map, marker, tileLayer } from 'leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
@@ -36,6 +36,10 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
    * leaflet geosearch provider
    */
   provider = new OpenStreetMapProvider();
+  /**
+   * leaflet circle marker instance that's used to draw your location
+   */
+  yourLocationMarker: CircleMarker;
 
   @Input() center: { latitude: any; longitude: any; };
   @Input() locations: Array<{ id: number, latitude: number, longitude: number }> = [];
@@ -56,7 +60,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
       this.setCenter();
     }
     if (this.map && changes.yourLocation) {
-      this.drawYourLocation();
+      this.updateYourLocationMarker();
     }
   }
 
@@ -81,7 +85,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     this.locations?.forEach(hub => this.drawRadius(hub));
 
     if (this.yourLocation) {
-      this.drawYourLocation();
+      this.updateYourLocationMarker();
     }
 
     if (!this.locations?.length) {
@@ -107,8 +111,11 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     mk.addTo(this.map);
   }
 
-  drawYourLocation() {
-    return circleMarker([this.yourLocation.latitude, this.yourLocation.longitude]).addTo(this.map);
+  updateYourLocationMarker() {
+    if (this.yourLocationMarker && this.map) {
+      this.map.removeLayer(this.yourLocationMarker);
+    }
+    this.yourLocationMarker = circleMarker([this.yourLocation.latitude, this.yourLocation.longitude]).addTo(this.map);
   }
 
   drawRadius(location: { latitude: number, longitude: number }, radiusMeters = 200) {
