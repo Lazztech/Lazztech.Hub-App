@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { HubProfileComponent } from './hub-profile.component';
@@ -7,7 +7,7 @@ describe('HubProfileComponent', () => {
   let component: HubProfileComponent;
   let fixture: ComponentFixture<HubProfileComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ HubProfileComponent ],
       imports: [IonicModule.forRoot()]

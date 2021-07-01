@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ActivityDotComponent } from './activity-dot.component';
 
@@ -7,7 +7,7 @@ describe('ActivityDotComponent', () => {
   let component: ActivityDotComponent;
   let fixture: ComponentFixture<ActivityDotComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ActivityDotComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
