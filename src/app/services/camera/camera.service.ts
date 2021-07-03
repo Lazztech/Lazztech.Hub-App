@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class CameraService {
   constructor() { }
 
   async takePicture() {
-    const image = await Plugins.Camera.getPhoto({
+    const image = await Camera.getPhoto({
       width: 500,
       height: 500,
       quality: 100,
@@ -22,7 +22,7 @@ export class CameraService {
   }
 
   async selectPicture() {
-    const image = await Plugins.Camera.getPhoto({
+    const image = await Camera.getPhoto({
       width: 500,
       height: 500,
       quality: 100,

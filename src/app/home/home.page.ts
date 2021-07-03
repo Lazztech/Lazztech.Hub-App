@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Plugins } from '@capacitor/core';
 import { MenuController, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription, Observable } from 'rxjs';
@@ -9,8 +8,6 @@ import { HubService } from '../services/hub/hub.service';
 import { LocationService } from '../services/location/location.service';
 import { NotificationsService } from '../services/notifications/notifications.service';
 import { map } from 'rxjs/operators';
-
-const { Geolocation } = Plugins;
 
 @Component({
   selector: 'app-home',

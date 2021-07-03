@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Plugins, PushNotification, PushNotificationActionPerformed, PushNotificationToken } from '@capacitor/core';
-import { firebase } from '@firebase/app';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
 import '@firebase/messaging';
-import { Platform, ToastController, NavController } from '@ionic/angular';
+import { NavController, Platform, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { FetchPolicy } from 'apollo-client';
+import { NGXLogger } from 'ngx-logger';
 import {
   AddUserFcmNotificationTokenGQL,
   DeleteAllInAppNotificationsGQL,
-  DeleteInAppNotificationGQL,
-  GetInAppNotificationsGQL,
-  InAppNotification,
-  Scalars,
-  GetInAppNotificationsDocument,
-  GetInAppNotificationsQuery
+  DeleteInAppNotificationGQL, GetInAppNotificationsDocument, GetInAppNotificationsGQL, GetInAppNotificationsQuery, InAppNotification,
+  Scalars
 } from '../../../generated/graphql';
-import { NGXLogger } from 'ngx-logger';
-import { environment } from 'src/environments/environment';
-const { LocalNotifications, PushNotifications } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -153,7 +147,7 @@ export class NotificationsService {
     // }
 
     PushNotifications.addListener('registration',
-      async (token: PushNotificationToken) => {
+      async (token: Token) => {
         await this.storage.set('native-push-token', token.value);
         await this.submitNotificationToken(token.value);
 
@@ -169,7 +163,7 @@ export class NotificationsService {
     );
 
     PushNotifications.addListener('pushNotificationReceived',
-      async (notification: PushNotification) => {
+      async (notification: PushNotificationSchema) => {
         this.logger.log('Push received: ' + JSON.stringify(notification));
         // TODO move to alertService?
         const toast = await this.toastController.create({
@@ -198,7 +192,7 @@ export class NotificationsService {
     );
 
     PushNotifications.addListener('pushNotificationActionPerformed',
-      (notificationActionDetails: PushNotificationActionPerformed) => {
+      (notificationActionDetails: ActionPerformed) => {
         this.logger.log('Push action performed: ' + JSON.stringify(notificationActionDetails));
         if (notificationActionDetails.notification?.data?.aps?.category) {
           this.navController.navigateForward(notificationActionDetails.notification.data.aps.category);

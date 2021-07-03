@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { GeolocationOptions, GeolocationPosition, Plugins } from '@capacitor/core';
 import * as geolib from 'geolib';
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Observer } from 'rxjs';
 import { Hub } from 'src/generated/graphql';
-
-const { Geolocation } = Plugins;
-
+import { Geolocation } from '@capacitor/geolocation';
 
 @Injectable({
   providedIn: 'root'
@@ -67,9 +64,9 @@ export class LocationService {
   }
 
 
-  getCurrentPositionFastIos = async (options: GeolocationOptions = {}): Promise<GeolocationPosition> => {
-    return new Promise<GeolocationPosition>((resolve, reject) => {
-      const id = Geolocation.watchPosition(options, (position, err) => {
+  getCurrentPositionFastIos = async (options: PositionOptions = {}): Promise<GeolocationPosition> => {
+    return new Promise<GeolocationPosition>(async (resolve, reject) => {
+      const id = await Geolocation.watchPosition(options, (position, err) => {
         Geolocation.clearWatch({id});
         if (err) {
           reject(err);

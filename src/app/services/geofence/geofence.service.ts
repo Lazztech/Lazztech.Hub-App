@@ -1,23 +1,11 @@
 import { Injectable } from '@angular/core';
-import BackgroundGeolocation, {
-  State,
-  Config,
-  Location,
-  LocationError,
-  Geofence,
-  HttpEvent,
-  MotionActivityEvent,
-  ProviderChangeEvent,
-  MotionChangeEvent,
-  GeofenceEvent,
-  GeofencesChangeEvent,
-  HeartbeatEvent,
-  ConnectivityChangeEvent
-} from 'cordova-background-geolocation';
 import { Plugins } from '@capacitor/core';
-import { HubService } from '../hub/hub.service';
-import { Hub } from 'src/generated/graphql';
+import BackgroundGeolocation, {
+  GeofenceEvent
+} from '@transistorsoft/capacitor-background-geolocation';
 import { NGXLogger } from 'ngx-logger';
+import { Hub } from 'src/generated/graphql';
+import { HubService } from '../hub/hub.service';
 const { LocalNotifications } = Plugins;
 
 @Injectable({

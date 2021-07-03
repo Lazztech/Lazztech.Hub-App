@@ -1,0 +1,2 @@
+- https://github.com/transistorsoft/capacitor-background-geolocation
+- https://github.com/transistorsoft/capacitor-background-fetch/blob/master/help/INSTALL-IOS.md

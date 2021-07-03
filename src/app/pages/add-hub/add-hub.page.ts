@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Plugins } from '@capacitor/core';
 import { NavController, ActionSheetController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
@@ -11,9 +10,6 @@ import { GeofenceService } from 'src/app/services/geofence/geofence.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { Hub, UsersPeopleQuery } from 'src/generated/graphql';
-
-
-const { Geolocation } = Plugins;
 
 @Component({
   selector: 'app-add-hub',
