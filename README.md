@@ -26,12 +26,29 @@ $ npm install -g @ionic/cli
 $ npm install
 ```
 
-## Running the app
+## Environments
 
 ```bash
-# development
-$ ionic serve
+# copy environment.ts to new environment.local.ts
+# environment.local.ts should not be checked in to git repo & is gitignored
+$ cp src/environments/environment.ts src/environments/environment.local.ts
 
+# run with local environment variables
+$ npm run start:local
+
+# run as dev
+$ npm run start
+
+# run as stage
+$ npm run start:stage
+
+# run as prod
+$ npm run start:prod
+```
+
+## iOS
+
+```bash
 # prepare build for iOS
 $ ionic build && npx cap sync && npx cap copy && npx cap open ios
 ```
@@ -51,10 +68,6 @@ $ npm run test:cov
 
 ## Documentation
 [Lazztech.Hub-App Docs](https://lazztech-hub-app.netlify.app/)
-
-<!-- ## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support). -->
 
 ## Stay in touch
 

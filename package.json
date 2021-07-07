@@ -6,6 +6,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:dev": "ng serve",
+    "start:local": "ng serve --configuration=local",
+    "start:stage": "ng serve --configuration=staging",
+    "start:prod": "ng serve --configuration=production",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
