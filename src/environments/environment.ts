@@ -29,14 +29,8 @@ export const environment = {
   } as BrowserOptions,
 };
 
-// export const SERVER_URL = 'https://lazztech-hub-service-jvm2h.ondigitalocean.app/';
-// export const SERVER_URL = 'https://hubserver.lazz.tech/';
 // export const SERVER_URL = 'http://localhost:8080/';
-
 export const SERVER_URL = 'https://dev-lazztechhub.lazz.tech/';
-
-// TODO: Remove google maps related code
-export const GOOGLE_MAPS_KEY = 'AIzaSyB3v329F0sXT3vhrJncIfP_N1ipiNuXZOw';
 
 /*
  * For easier debugging in development mode, you can import the following file
