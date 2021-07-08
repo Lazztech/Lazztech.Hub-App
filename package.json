@@ -10,6 +10,7 @@
     "start:local": "ng serve --configuration=local",
     "start:stage": "ng serve --configuration=staging",
     "start:prod": "ng serve --configuration=production",
+    "start:demo": "ng serve --configuration=demo",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
