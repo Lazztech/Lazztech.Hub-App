@@ -1,13 +1,14 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MenuController, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, of } from 'rxjs';
 import { Hub, User, UsersHubsQuery, InvitesByUserQuery, Invite } from 'src/generated/graphql';
 import { AuthService } from '../services/auth/auth.service';
 import { HubService } from '../services/hub/hub.service';
 import { LocationService } from '../services/location/location.service';
 import { NotificationsService } from '../services/notifications/notifications.service';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -64,7 +65,11 @@ export class HomePage implements OnInit, OnDestroy {
       })
     );
 
-    this.userHubs = this.hubService.watchUserHubs(null, 2000).valueChanges.pipe(map(x => x.data && x.data.usersHubs));
+    if (environment.demoMode) {
+      this.userHubs = of(environment.demoData.usersHubs.usersHubs);
+    } else {
+      this.userHubs = this.hubService.watchUserHubs(null, 2000).valueChanges.pipe(map(x => x.data && x.data.usersHubs));
+    }
     this.invites = this.hubService.watchInvitesByUser().valueChanges.pipe(map(x => x.data && x.data.invitesByUser));
 
     this.subscriptions.push(

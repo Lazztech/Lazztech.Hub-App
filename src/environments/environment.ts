@@ -7,6 +7,8 @@ import { LoggerConfig, NgxLoggerLevel } from 'ngx-logger';
 
 export const environment = {
   production: false,
+  demoMode: false,
+  demoData: undefined,
   legal: {
     privacyPolicyLink: 'https://lazz.tech/Lazztech.Hub/legal/privacy_policy.html',
     termsAndConditions: 'https://lazz.tech/Lazztech.Hub/legal/terms_and_conditions.html'

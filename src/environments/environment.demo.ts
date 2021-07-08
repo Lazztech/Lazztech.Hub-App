@@ -4,10 +4,105 @@
 
 import { BrowserOptions } from '@sentry/browser';
 import { LoggerConfig, NgxLoggerLevel } from 'ngx-logger';
+import { UsersHubsQuery } from 'src/generated/graphql';
 
 export const environment = {
   production: false,
   demoMode: true,
+  demoData: {
+    usersLocation: {
+      latitude: 47.62503181002362,
+      longitude: -122.32099987619077,
+    },
+    usersHubs: <UsersHubsQuery>{
+      usersHubs: [
+        {
+          hub: {
+            name: 'Ada\'s',
+            image: 'https://media.shelf-awareness.com/theshelf/2020_Edit_Content/ada_s_technical_books_fb_082320.jpg',
+            latitude: 47.62332585418733,
+            longitude: -122.31285954232902,
+            active: true,
+            usersConnection: [
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+              {
+                isPresent: false
+              },
+            ]
+          },
+          isPresent: false,
+          isOwner: false
+        },
+        {
+          hub: {
+            name: 'Sasha\'s Crib',
+            image: 'https://www.urbnlivn.com/wp-content/uploads/2020/07/1633425_0.jpg',
+            latitude: 47.62503181002362,
+            longitude: -122.32099987619077,
+            active: false,
+            usersConnection: [
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+            ]
+          },
+          isPresent: false,
+          isOwner: true
+        },
+        {
+          hub: {
+            name: 'Cal Anderson',
+            image: 'https://www.seattlebikeblog.com/wp-content/uploads/2010/10/IMG_0113_2.jpg',
+            latitude: 47.61576652330118,
+            longitude: -122.31984121206752,
+            active: true,
+            usersConnection: [
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+              {
+                isPresent: true
+              },
+            ]
+          },
+          isPresent: false,
+          isOwner: true
+        },
+      ]
+     }
+  },
   legal: {
     privacyPolicyLink: 'https://lazz.tech/Lazztech.Hub/legal/privacy_policy.html',
     termsAndConditions: 'https://lazz.tech/Lazztech.Hub/legal/terms_and_conditions.html'
