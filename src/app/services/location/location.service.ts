@@ -54,7 +54,7 @@ export class LocationService {
           observer.next(coords);
         });
       });
-  
+
       return result;
     }
   }
