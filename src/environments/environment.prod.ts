@@ -27,4 +27,4 @@ export const environment = {
   } as BrowserOptions,
 };
 
-export const SERVER_URL = 'https://stg-lazztechhub.lazz.tech/';
+export const SERVER_URL = 'https://lazztech-hub-service-z84zo.ondigitalocean.app/';
