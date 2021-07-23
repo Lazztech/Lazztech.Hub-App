@@ -176,24 +176,6 @@
             "problemMatcher": []
         },
         {
-            "label": "SSH Into Digital Ocean",
-            "type": "shell",
-            "command": "ssh root@157.230.148.108",
-            "options": {
-                "cwd": "${workspaceRoot}"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Deploy Into Digital Ocean",
-            "type": "shell",
-            "command": "ssh root@157.230.148.108 \"rm -r Lazztech.Hub && git clone https://github.com/gianlazz/Lazztech.Hub.git\" && scp $(pwd)/docker-compose.yml root@157.230.148.108:/root/Lazztech.Hub/docker-compose.yml && ssh root@157.230.148.108 \"docker-compose -f /root/Lazztech.Hub/docker-compose.yml down && docker-compose -f /root/Lazztech.Hub/docker-compose.yml pull && docker-compose -f /root/Lazztech.Hub/docker-compose.yml up -d\"",
-            "options": {
-                "cwd": "${workspaceRoot}"
-            },
-            "problemMatcher": []
-        },
-        {
             "type": "shell",
             "label": "npm build",
             "command": "npm run build",
@@ -235,11 +217,5 @@
             "default": "",
             "type": "promptString"
         },
-        {
-            "id": "SSHPassword",
-            "description": "Enter ssh password",
-            "default": "",
-            "type": "promptString"
-        }
     ]
 }
