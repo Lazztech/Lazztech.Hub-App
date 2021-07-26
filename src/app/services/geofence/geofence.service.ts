@@ -29,9 +29,6 @@ export class GeofenceService {
       notifyOnExit: geofence.notifyOnExit,
       loiteringDelay: 20000,
       notifyOnDwell: true
-      // extras: {
-      //   route_id: 1234
-      // }
     }).then((success) => {
       this.logger.log('[addGeofence] success');
     }).catch((error) => {

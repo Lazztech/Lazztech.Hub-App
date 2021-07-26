@@ -23,6 +23,9 @@ export interface Environment {
     logging: LoggerConfig;
     backgroundGeoLocationConfig: BackgroundGeolocationConfig;
     sentry: BrowserOptions;
+    apollo: {
+      connectToDevTools: boolean
+    };
 }
 
 export enum EnvironmentNames {

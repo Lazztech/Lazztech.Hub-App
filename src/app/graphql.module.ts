@@ -51,7 +51,7 @@ export function createApollo(
   return {
     link: from([errorLink, authLink, apolloLink]),
     cache: new InMemoryCache(),
-    connectToDevTools: true, // TODO set based on environment variable, eg. dev or prod
+    connectToDevTools: environment.apollo.connectToDevTools,
   } as ApolloClientOptions<any>;
 }
 
