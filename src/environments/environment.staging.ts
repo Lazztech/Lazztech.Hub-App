@@ -24,7 +24,6 @@ export const environment: Environment = {
   logging: {
     level: NgxLoggerLevel.DEBUG,
     serverLogLevel: NgxLoggerLevel.DEBUG,
-    // serverLoggingUrl: ''
   } as LoggerConfig,
   backgroundGeoLocationConfig: {
     reset: true,
