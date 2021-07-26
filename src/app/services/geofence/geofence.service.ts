@@ -5,6 +5,7 @@ import BackgroundGeolocation, {
 } from '@transistorsoft/capacitor-background-geolocation';
 import { NGXLogger } from 'ngx-logger';
 import { Hub } from 'src/generated/graphql';
+import { environment } from '../../../environments/environment';
 import { HubService } from '../hub/hub.service';
 const { LocalNotifications } = Plugins;
 
@@ -123,17 +124,7 @@ export class GeofenceService {
     });
 
     // 2.  Configure the plugin with #ready
-    BackgroundGeolocation.ready({
-      reset: true,
-      // debug: true,
-      logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE, // FIXME do not publish app with this set to verbose!
-      desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-      distanceFilter: 10,
-      // url: 'http://my.server.com/locations',
-      // autoSync: true,
-      stopOnTerminate: false,
-      startOnBoot: true
-    }, (state) => {
+    BackgroundGeolocation.ready(environment.backgroundGeoLocationConfig, (state) => {
       this.logger.log('[ready] BackgroundGeolocation is ready to use');
       if (!state.enabled) {
         // 3.  Start tracking.

@@ -5,10 +5,10 @@ import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
 import { NGXLogger } from 'ngx-logger';
-import { SERVER_URL } from 'src/environments/environment';
 import { ApolloClientOptions } from 'apollo-client';
 import { onError } from 'apollo-link-error';
 import { from } from 'apollo-link';
+import { environment } from '../environments/environment';
 
 
 export function createApollo(
@@ -44,7 +44,7 @@ export function createApollo(
   });
 
   const apolloLink = httpLink.create({
-    uri: `${SERVER_URL}graphql`,
+    uri: `${environment.serverUrl}graphql`,
     withCredentials: true
   });
 
