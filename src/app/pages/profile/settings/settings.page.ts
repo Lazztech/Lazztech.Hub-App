@@ -4,6 +4,8 @@ import { UpdateService } from 'src/app/services/update/update.service';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { NGXLogger } from 'ngx-logger';
+import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-settings',
@@ -11,6 +13,8 @@ import { NGXLogger } from 'ngx-logger';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
+
+  environment = environment;
 
   constructor(
     private navCtrl: NavController,
@@ -41,6 +45,17 @@ export class SettingsPage implements OnInit {
 
   async clearStorage() {
     await this.profileService.clearStorage();
+  }
+
+  async emailBackgroundGeolocationLogs() {
+    // FIXME
+    BackgroundGeolocation.logger.emailLog('gianlazzarini@gmail.com').then((success) => {
+      console.log('[emailLog] SUCCESS');
+      alert('[emailLog] SUCCESS')
+    }).catch((error) => {
+      console.log('[emailLog] ERROR: ', error);
+      alert('[emailLog] ERROR)');
+    });
   }
 
 }

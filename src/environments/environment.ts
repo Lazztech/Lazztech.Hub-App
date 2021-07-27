@@ -30,6 +30,7 @@ export const environment: Environment = {
     serverLogLevel: NgxLoggerLevel.DEBUG,
   } as LoggerConfig,
   backgroundGeoLocationConfig: {
+    debug: true,
     reset: true,
     // debug: true,
     logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE, // do not publish app with this set to verbose!

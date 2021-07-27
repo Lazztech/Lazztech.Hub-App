@@ -50,9 +50,11 @@ export class AppComponent {
       style: this.isDark ? Style.Dark : Style.Light
     });
     this.platform.ready().then(async () => {
+      this.logger.log('Ionic Platform Ready');
       SplashScreen.hide();
 
       this.authService.getToken();
+      await this.geofenceService.configureBackgroundGeolocation();
       await this.geofenceService.refreshHubGeofences();
     });
   }
