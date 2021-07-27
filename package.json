@@ -36,7 +36,7 @@
     "@capacitor/core": "^3.0.2",
     "@capacitor/geolocation": "^1.0.2",
     "@capacitor/ios": "^3.0.2",
-    "@capacitor/local-notifications": "^1.0.2",
+    "@capacitor/local-notifications": "^1.0.3",
     "@capacitor/network": "^1.0.2",
     "@capacitor/push-notifications": "^1.0.2",
     "@capacitor/splash-screen": "^1.0.2",

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Plugins } from '@capacitor/core';
 import BackgroundGeolocation, {
   GeofenceEvent
 } from '@transistorsoft/capacitor-background-geolocation';
@@ -7,7 +6,8 @@ import { NGXLogger } from 'ngx-logger';
 import { Hub } from 'src/generated/graphql';
 import { environment } from '../../../environments/environment';
 import { HubService } from '../hub/hub.service';
-const { LocalNotifications } = Plugins;
+import { LocalNotifications } from '@capacitor/local-notifications';
+
 
 @Injectable({
   providedIn: 'root'

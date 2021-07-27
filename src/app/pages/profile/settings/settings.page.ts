@@ -6,6 +6,8 @@ import { ProfileService } from 'src/app/services/profile/profile.service';
 import { NGXLogger } from 'ngx-logger';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { environment } from '../../../../environments/environment';
+import { LocalNotifications } from '@capacitor/local-notifications';
+
 
 @Component({
   selector: 'app-settings',
@@ -15,6 +17,7 @@ import { environment } from '../../../../environments/environment';
 export class SettingsPage implements OnInit {
 
   environment = environment;
+  backgroundGeoLocationState = BackgroundGeolocation.getState();
 
   constructor(
     private navCtrl: NavController,
@@ -55,6 +58,23 @@ export class SettingsPage implements OnInit {
     }).catch((error) => {
       console.log('[emailLog] ERROR: ', error);
       alert('[emailLog] ERROR)');
+    });
+  }
+
+  async testLocalNotification() {
+    LocalNotifications.schedule({
+      notifications: [
+        {
+          title: 'Test Local Notification',
+          body: 'test local notification',
+          id: 1,
+          schedule: { at: new Date(Date.now()) },
+          sound: 'beep.aiff',
+          attachments: null,
+          actionTypeId: '',
+          extra: null,
+        }
+      ]
     });
   }
 

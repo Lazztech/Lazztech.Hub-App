@@ -29,9 +29,9 @@ export interface Environment {
 }
 
 export enum EnvironmentNames {
-    'Local',
-    'Development',
-    'Stage',
-    'Production',
-    'Demo'
+    Local = 'Local',
+    Development = 'Development',
+    Stage = 'Stage',
+    Production = 'Production',
+    Demo = 'Demo'
 }

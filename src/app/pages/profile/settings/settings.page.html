@@ -45,11 +45,6 @@
         <ion-text>Debug</ion-text>
       </ion-list-header>
 
-      <ion-item href="javascript:void(0);" (click)="emailGeofenceLogs()">
-        <ion-icon name="mail" color="medium" slot="start"></ion-icon>
-        <ion-label>Email BackgroundGeoLocation Logs</ion-label>
-      </ion-item>
-
       <ion-item >
         <ion-label class="ion-text-wrap">
           <h2>Environment Name:</h2>
@@ -64,12 +59,37 @@
         </ion-label>
       </ion-item>
 
-      <!-- <ion-item >
+      <ion-item href="javascript:void(0);" (click)="testLocalNotification()">
+        <ion-label>Test LocalNotifications</ion-label>
+      </ion-item>
+
+      <ion-item href="javascript:void(0);" (click)="emailGeofenceLogs()">
+        <ion-icon name="mail" color="medium" slot="start"></ion-icon>
+        <ion-label>Email BackgroundGeoLocation Logs</ion-label>
+      </ion-item>
+
+      <ion-item >
+        <ion-label class="ion-text-wrap">
+          <h2>Environment Configuration:</h2>
+          <pre> 
+            <code>
+               {{ environment | json }}
+            </code>
+          </pre>
+        </ion-label>
+      </ion-item>
+
+
+      <ion-item >
         <ion-label class="ion-text-wrap">
           <h2>Background Geo Location Config:</h2>
-          <p>{{JSON.stringify(environment.backgroundGeoLocationConfig)}}</p>
+          <pre> 
+            <code>
+               {{ backgroundGeoLocationState | async | json }}
+            </code>
+          </pre>
         </ion-label>
-      </ion-item> -->
+      </ion-item>
 
     </ion-list>
 
