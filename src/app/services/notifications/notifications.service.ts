@@ -213,4 +213,8 @@ export class NotificationsService {
     }
   }
 
+  public async getNativePushNotificationToken() {
+    return await this.storage.get('native-push-token');
+  }
+
 }

@@ -7,6 +7,7 @@ import { NGXLogger } from 'ngx-logger';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { environment } from '../../../../environments/environment';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { NotificationsService } from '../../../services/notifications/notifications.service';
 
 
 @Component({
@@ -18,11 +19,13 @@ export class SettingsPage implements OnInit {
 
   environment = environment;
   backgroundGeoLocationState = BackgroundGeolocation.getState();
+  pushNotificationToken = this.notificationService.getNativePushNotificationToken();
 
   constructor(
     private navCtrl: NavController,
     private updateService: UpdateService,
     private alertService: AlertService,
+    private notificationService: NotificationsService,
     private profileService: ProfileService,
     private logger: NGXLogger
   ) { }
