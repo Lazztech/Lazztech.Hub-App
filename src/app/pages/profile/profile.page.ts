@@ -10,10 +10,8 @@ import { Scalars, UsersHubsQuery, MeQuery } from 'src/generated/graphql';
 import { AuthService } from '../../services/auth/auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Plugins } from '@capacitor/core';
 import { environment } from 'src/environments/environment';
-
-const { Browser } = Plugins;
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-profile',

@@ -55,9 +55,9 @@ export class SettingsPage implements OnInit {
 
   async emailBackgroundGeolocationLogs() {
     // FIXME
-    BackgroundGeolocation.logger.emailLog('gianlazzarini@gmail.com').then((success) => {
+    await BackgroundGeolocation.logger.emailLog('gianlazzarini@gmail.com').then((success) => {
       console.log('[emailLog] SUCCESS');
-      alert('[emailLog] SUCCESS')
+      alert('[emailLog] SUCCESS');
     }).catch((error) => {
       console.log('[emailLog] ERROR: ', error);
       alert('[emailLog] ERROR)');

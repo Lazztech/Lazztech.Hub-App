@@ -4,10 +4,9 @@ import { ModalController, NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginPage } from '../login/login.page';
-import { Plugins } from '@capacitor/core';
 import { environment } from 'src/environments/environment';
+import { Browser } from '@capacitor/browser';
 
-const { Browser } = Plugins;
 
 @Component({
   selector: 'app-register',

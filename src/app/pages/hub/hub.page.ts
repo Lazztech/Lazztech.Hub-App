@@ -8,9 +8,7 @@ import { LocationService } from 'src/app/services/location/location.service';
 import { Scalars, HubQuery, JoinUserHub } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map, take } from 'rxjs/operators';
-import { Plugins } from '@capacitor/core';
-
-const { Clipboard } = Plugins;
+import { Clipboard } from '@capacitor/clipboard';
 
 @Component({
   selector: 'app-hub',
