@@ -60,9 +60,9 @@
       </ion-item>
 
 
-      <ion-item >
+      <ion-item href="javascript:void(0);" (click)="copyPushNotificationToken()">
         <ion-label class="ion-text-wrap">
-          <h2>Push Notification Token:</h2>
+          <h2>Copy Push Notification Token:</h2>
           <p>{{pushNotificationToken | async}}</p>
         </ion-label>
       </ion-item>

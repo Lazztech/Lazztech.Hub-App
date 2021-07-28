@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { UpdateService } from 'src/app/services/update/update.service';
-import { AlertService } from 'src/app/services/alert/alert.service';
-import { ProfileService } from 'src/app/services/profile/profile.service';
-import { NGXLogger } from 'ngx-logger';
-import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
-import { environment } from '../../../../environments/environment';
+import { Clipboard } from '@capacitor/clipboard';
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { NotificationsService } from '../../../services/notifications/notifications.service';
+import { NavController } from '@ionic/angular';
+import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
+import { ProfileService } from 'src/app/services/profile/profile.service';
+import { environment } from '../../../../environments/environment';
+import { AlertService } from '../../../services/alert/alert.service';
 import { GeofenceService } from '../../../services/geofence/geofence.service';
+import { NotificationsService } from '../../../services/notifications/notifications.service';
 
 
 @Component({
@@ -24,12 +23,10 @@ export class SettingsPage implements OnInit {
 
   constructor(
     private navCtrl: NavController,
-    private updateService: UpdateService,
-    private alertService: AlertService,
     private notificationService: NotificationsService,
     private profileService: ProfileService,
-    private logger: NGXLogger,
     private geofenceService: GeofenceService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -53,6 +50,13 @@ export class SettingsPage implements OnInit {
 
   async clearStorage() {
     await this.profileService.clearStorage();
+  }
+
+  async copyPushNotificationToken() {
+    await Clipboard.write({
+      string: await this.pushNotificationToken
+    });
+    await this.alertService.presentToast('Push Notification Token Copied');
   }
 
   async emailBackgroundGeolocationLogs() {
