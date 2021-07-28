@@ -81,4 +81,12 @@ export class SettingsPage implements OnInit {
     });
   }
 
+  async startBackgroundGeolocation() {
+    await BackgroundGeolocation.start();
+  }
+
+  async stopBackgroundGeolocation() {
+    await BackgroundGeolocation.stop();
+  }
+
 }
