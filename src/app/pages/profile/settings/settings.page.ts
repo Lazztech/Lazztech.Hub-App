@@ -8,6 +8,7 @@ import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocat
 import { environment } from '../../../../environments/environment';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { NotificationsService } from '../../../services/notifications/notifications.service';
+import { GeofenceService } from '../../../services/geofence/geofence.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { NotificationsService } from '../../../services/notifications/notificati
 export class SettingsPage implements OnInit {
 
   environment = environment;
-  backgroundGeoLocationState = BackgroundGeolocation.getState();
+  backgroundGeoLocationState = this.geofenceService.getBackgroundGeolocationState();
   pushNotificationToken = this.notificationService.getNativePushNotificationToken();
 
   constructor(
@@ -27,7 +28,8 @@ export class SettingsPage implements OnInit {
     private alertService: AlertService,
     private notificationService: NotificationsService,
     private profileService: ProfileService,
-    private logger: NGXLogger
+    private logger: NGXLogger,
+    private geofenceService: GeofenceService,
   ) { }
 
   ngOnInit() {

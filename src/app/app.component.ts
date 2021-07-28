@@ -10,6 +10,8 @@ import { ThemeService } from './services/theme/theme.service';
 import { UpdateService } from './services/update/update.service';
 import { NGXLogger } from 'ngx-logger';
 import { SplashScreen } from '@capacitor/splash-screen';
+import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -54,7 +56,14 @@ export class AppComponent {
       SplashScreen.hide();
 
       this.authService.getToken();
+
+      // setup background geolocation
       await this.geofenceService.configureBackgroundGeolocation();
+      let state = await this.geofenceService.ready();
+      if (!state.enabled) {
+        state = await this.geofenceService.start();
+      }
+      // hydrate hub geofences
       await this.geofenceService.refreshHubGeofences();
     });
   }

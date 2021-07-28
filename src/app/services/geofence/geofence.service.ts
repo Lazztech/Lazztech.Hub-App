@@ -119,15 +119,20 @@ export class GeofenceService {
     BackgroundGeolocation.onProviderChange(event => {
       this.logger.log('[providerchange] - ', event.enabled, event.status, event.gps);
     });
+  }
 
-    // 2.  Configure the plugin with #ready
-    BackgroundGeolocation.ready(environment.backgroundGeoLocationConfig, (state) => {
-      this.logger.log('[ready] BackgroundGeolocation is ready to use');
-      if (!state.enabled) {
-        // 3.  Start tracking.
-        BackgroundGeolocation.start();
-      }
-    });
+  public async ready() {
+    const state = await BackgroundGeolocation.ready(environment.backgroundGeoLocationConfig);
+    this.logger.log('[ready] BackgroundGeolocation is ready to use');
+    return state;
+  }
+
+  public async start() {
+      return await BackgroundGeolocation.start();
+  }
+
+  public async getBackgroundGeolocationState() {
+    return await BackgroundGeolocation.getState();
   }
 
   private dwellGeofence(hub: Hub, geofence: GeofenceEvent) {
