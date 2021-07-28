@@ -20,6 +20,8 @@ export class SettingsPage implements OnInit {
   environment = environment;
   backgroundGeoLocationState = this.geofenceService.getBackgroundGeolocationState();
   pushNotificationToken = this.notificationService.getNativePushNotificationToken();
+  geofencesFromBackgroundGeolocationDB = BackgroundGeolocation.getGeofences();
+  locationsFromBackgroundGeolocationDB = BackgroundGeolocation.getLocations();
 
   constructor(
     private navCtrl: NavController,

@@ -97,10 +97,32 @@
 
       <ion-item >
         <ion-label class="ion-text-wrap">
-          <h2>Background Geo Location Config:</h2>
+          <h2>BackgroundGeolocation State:</h2>
           <pre> 
             <code>
                {{ backgroundGeoLocationState | async | json }}
+            </code>
+          </pre>
+        </ion-label>
+      </ion-item>
+
+      <ion-item >
+        <ion-label class="ion-text-wrap">
+          <h2>BackgroundGeolocation DB Geofences:</h2>
+          <pre> 
+            <code>
+               {{ geofencesFromBackgroundGeolocationDB | async | json }}
+            </code>
+          </pre>
+        </ion-label>
+      </ion-item>
+
+      <ion-item >
+        <ion-label class="ion-text-wrap">
+          <h2>BackgroundGeolocation DB Locations:</h2>
+          <pre> 
+            <code>
+              {{ locationsFromBackgroundGeolocationDB | async | json }}
             </code>
           </pre>
         </ion-label>
