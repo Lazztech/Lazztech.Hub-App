@@ -97,4 +97,14 @@ export class SettingsPage implements OnInit {
     await BackgroundGeolocation.stop();
   }
 
+  async toggleBackgroundGeolocationDebugMode() {
+    const originalState = await this.geofenceService.getBackgroundGeolocationState();
+    const newState = await BackgroundGeolocation.setConfig({
+      ...originalState,
+      debug: !originalState.debug
+    });
+
+    this.alertService.presentToast(`BackgroundGeolocation Debug Mode: ${newState.debug}`);
+  }
+
 }
