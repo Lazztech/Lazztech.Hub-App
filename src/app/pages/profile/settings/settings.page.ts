@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { environment } from '../../../../environments/environment';
+import { cache } from '../../../graphql.module';
 import { AlertService } from '../../../services/alert/alert.service';
 import { GeofenceService } from '../../../services/geofence/geofence.service';
 import { NotificationsService } from '../../../services/notifications/notifications.service';
@@ -22,6 +23,7 @@ export class SettingsPage implements OnInit {
   pushNotificationToken = this.notificationService.getNativePushNotificationToken();
   geofencesFromBackgroundGeolocationDB = BackgroundGeolocation.getGeofences();
   locationsFromBackgroundGeolocationDB = BackgroundGeolocation.getLocations();
+  cache = cache;
 
   constructor(
     private navCtrl: NavController,

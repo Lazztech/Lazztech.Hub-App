@@ -10,6 +10,8 @@ import { onError } from 'apollo-link-error';
 import { from } from 'apollo-link';
 import { environment } from '../environments/environment';
 
+// this is here to access the cache directly
+export const cache = new InMemoryCache();
 
 export function createApollo(
   httpLink: HttpLink,
@@ -50,7 +52,7 @@ export function createApollo(
 
   return {
     link: from([errorLink, authLink, apolloLink]),
-    cache: new InMemoryCache(),
+    cache: cache,
     connectToDevTools: environment.apollo.connectToDevTools,
   } as ApolloClientOptions<any>;
 }
