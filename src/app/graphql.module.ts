@@ -38,9 +38,9 @@ export function createApollo(
     let err: string;
     console.log('errorLink');
     graphQLErrors?.forEach(({ message, locations, path }) => {
-      err += `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path} \n`;
+      err += `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${JSON.stringify(path)} \n`;
     });
-    err += `[Network error]: ${networkError}`;
+    err += `[Network error]: ${JSON.stringify(networkError)}`;
     console.log(err);
     alert(err);
   });
