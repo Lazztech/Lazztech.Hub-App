@@ -30,14 +30,11 @@ export const environment: Environment = {
     serverLogLevel: NgxLoggerLevel.DEBUG,
   } as LoggerConfig,
   backgroundGeoLocationConfig: {
-    debug: true,
     reset: true,
-    // debug: true,
+    debug: true,
     logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE, // do not publish app with this set to verbose!
     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
     distanceFilter: 10,
-    // url: 'http://my.server.com/locations',
-    // autoSync: true,
     stopOnTerminate: false,
     startOnBoot: true
   },

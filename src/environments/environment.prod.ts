@@ -27,12 +27,10 @@ export const environment: Environment = {
   } as LoggerConfig,
   backgroundGeoLocationConfig: {
     reset: true,
-    // debug: true,
+    debug: false,
     logLevel: BackgroundGeolocation.LOG_LEVEL_OFF, // do not publish app with this set to verbose!
     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
     distanceFilter: 10,
-    // url: 'http://my.server.com/locations',
-    // autoSync: true,
     stopOnTerminate: false,
     startOnBoot: true
   },
