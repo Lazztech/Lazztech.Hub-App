@@ -7,6 +7,7 @@ import { ProfileService } from 'src/app/services/profile/profile.service';
 import { environment } from '../../../../environments/environment';
 import { cache } from '../../../graphql.module';
 import { AlertService } from '../../../services/alert/alert.service';
+import { DebuggerService } from '../../../services/debugger/debugger.service';
 import { GeofenceService } from '../../../services/geofence/geofence.service';
 import { NotificationsService } from '../../../services/notifications/notifications.service';
 
@@ -30,7 +31,8 @@ export class SettingsPage implements OnInit {
     private notificationService: NotificationsService,
     private profileService: ProfileService,
     private geofenceService: GeofenceService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private debuggerService: DebuggerService
   ) { }
 
   ngOnInit() {
@@ -107,6 +109,16 @@ export class SettingsPage implements OnInit {
     });
 
     this.alertService.presentToast(`BackgroundGeolocation Debug Mode: ${newState.debug}`);
+  }
+
+  async startEruda() {
+    this.debuggerService.start();
+    await this.alertService.presentToast('Started Eruda Debugger');
+  }
+
+  async stopEruda() {
+    this.debuggerService.stop();
+    await this.alertService.presentToast('Stopped Eruda Debugger');
   }
 
 }
