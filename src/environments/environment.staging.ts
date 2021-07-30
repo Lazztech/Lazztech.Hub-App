@@ -4,11 +4,11 @@ import { LoggerConfig, NgxLoggerLevel } from 'ngx-logger';
 import { Environment, EnvironmentNames } from './environment.interface';
 
 export const environment: Environment = {
-  production: true,
+  production: false,
   demoMode: false,
   demoData: undefined,
   name: EnvironmentNames.Stage,
-  serverUrl: 'https://stg-lazztechhub.lazz.tech/',
+  serverUrl: 'https://stage-lazztechhub.lazz.tech/',
   legal: {
     privacyPolicyLink: "https://lazz.tech/Lazztech.Hub/legal/privacy_policy.html",
     termsAndConditions: "https://lazz.tech/Lazztech.Hub/legal/terms_and_conditions.html"

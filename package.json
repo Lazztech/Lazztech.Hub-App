@@ -13,6 +13,7 @@
     "start:demo": "ng serve --configuration=demo",
     "build": "ng build",
     "prepare:ios:dev": "ionic build && npx cap sync && npx cap copy && npx cap open ios",
+    "prepare:ios:stg": "ionic build --configuration=staging && npx cap sync && npx cap copy && npx cap open ios",
     "prepare:ios:prod": "ionic build --prod && npx cap sync && npx cap copy && npx cap open ios",
     "test": "ng test",
     "lint": "ng lint",
