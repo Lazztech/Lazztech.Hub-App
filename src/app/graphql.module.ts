@@ -52,7 +52,7 @@ export function createApollo(
 
   return {
     link: from([errorLink, authLink, apolloLink]),
-    cache: cache,
+    cache,
     connectToDevTools: environment.apollo.connectToDevTools,
   } as ApolloClientOptions<any>;
 }
