@@ -1,3 +1,7 @@
 mutation exitedHubGeofence($hubId: ID!) {
-    exitedHubGeofence(hubId: $hubId)
+    exitedHubGeofence(hubId: $hubId) {
+    userId
+    hubId
+    isPresent
+  }
 }

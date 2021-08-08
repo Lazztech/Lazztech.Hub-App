@@ -3,7 +3,9 @@ import gql from 'graphql-tag';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
-
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -15,8 +17,9 @@ export type Scalars = {
 
 
 
+
 export type Hub = {
-   __typename?: 'Hub';
+  __typename?: 'Hub';
   id: Scalars['ID'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
@@ -30,7 +33,7 @@ export type Hub = {
 };
 
 export type InAppNotification = {
-   __typename?: 'InAppNotification';
+  __typename?: 'InAppNotification';
   id: Scalars['ID'];
   userId: Scalars['ID'];
   header?: Maybe<Scalars['String']>;
@@ -41,7 +44,7 @@ export type InAppNotification = {
 };
 
 export type Invite = {
-   __typename?: 'Invite';
+  __typename?: 'Invite';
   id: Scalars['ID'];
   invitersId: Scalars['ID'];
   inviteesId: Scalars['ID'];
@@ -53,7 +56,7 @@ export type Invite = {
 };
 
 export type JoinUserHub = {
-   __typename?: 'JoinUserHub';
+  __typename?: 'JoinUserHub';
   userId: Scalars['ID'];
   hubId: Scalars['ID'];
   user: User;
@@ -64,7 +67,7 @@ export type JoinUserHub = {
 };
 
 export type MicroChat = {
-   __typename?: 'MicroChat';
+  __typename?: 'MicroChat';
   id: Scalars['ID'];
   hubId: Scalars['Float'];
   hub: Scalars['ID'];
@@ -72,7 +75,7 @@ export type MicroChat = {
 };
 
 export type Mutation = {
-   __typename?: 'Mutation';
+  __typename?: 'Mutation';
   addUserFcmNotificationToken: Scalars['Boolean'];
   deleteInAppNotification: Scalars['Boolean'];
   deleteAllInAppNotifications: Scalars['Boolean'];
@@ -87,8 +90,8 @@ export type Mutation = {
   changeHubImage: Hub;
   setHubStarred: Scalars['Boolean'];
   setHubNotStarred: Scalars['Boolean'];
-  enteredHubGeofence: Scalars['Boolean'];
-  exitedHubGeofence: Scalars['Boolean'];
+  enteredHubGeofence: JoinUserHub;
+  exitedHubGeofence: JoinUserHub;
   activateHub: Hub;
   deactivateHub: Hub;
   microChatToHub: Scalars['Boolean'];
@@ -273,7 +276,7 @@ export type MutationDeleteAccountArgs = {
 };
 
 export type Query = {
-   __typename?: 'Query';
+  __typename?: 'Query';
   getInAppNotifications: Array<InAppNotification>;
   hub: JoinUserHub;
   usersHubs: Array<JoinUserHub>;
@@ -320,13 +323,20 @@ export type QuerySearchHubByNameArgs = {
 };
 
 export type User = {
-   __typename?: 'User';
+  __typename?: 'User';
   id: Scalars['ID'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   image?: Maybe<Scalars['String']>;
+  userDevices?: Maybe<Array<UserDevice>>;
+};
+
+export type UserDevice = {
+  __typename?: 'UserDevice';
+  id: Scalars['ID'];
+  fcmPushUserToken: Scalars['String'];
 };
 
 export type UserInput = {
@@ -336,10 +346,10 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type LoginMutationVariables = {
+export type LoginMutationVariables = Exact<{
   password: Scalars['String'];
   email: Scalars['String'];
-};
+}>;
 
 
 export type LoginMutation = (
@@ -347,7 +357,7 @@ export type LoginMutation = (
   & Pick<Mutation, 'login'>
 );
 
-export type MeQueryVariables = {};
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = (
@@ -358,12 +368,12 @@ export type MeQuery = (
   )> }
 );
 
-export type RegisterMutationVariables = {
+export type RegisterMutationVariables = Exact<{
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
-};
+}>;
 
 
 export type RegisterMutation = (
@@ -371,11 +381,11 @@ export type RegisterMutation = (
   & Pick<Mutation, 'register'>
 );
 
-export type ResetPasswordMutationVariables = {
+export type ResetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
   newPassword: Scalars['String'];
   resetPin: Scalars['String'];
-};
+}>;
 
 
 export type ResetPasswordMutation = (
@@ -383,9 +393,9 @@ export type ResetPasswordMutation = (
   & Pick<Mutation, 'resetPassword'>
 );
 
-export type SendPasswordResetEmailMutationVariables = {
+export type SendPasswordResetEmailMutationVariables = Exact<{
   email: Scalars['String'];
-};
+}>;
 
 
 export type SendPasswordResetEmailMutation = (
@@ -393,9 +403,9 @@ export type SendPasswordResetEmailMutation = (
   & Pick<Mutation, 'sendPasswordResetEmail'>
 );
 
-export type AcceptHubInviteMutationVariables = {
+export type AcceptHubInviteMutationVariables = Exact<{
   inviteId: Scalars['ID'];
-};
+}>;
 
 
 export type AcceptHubInviteMutation = (
@@ -414,9 +424,9 @@ export type AcceptHubInviteMutation = (
   ) }
 );
 
-export type ActivateHubMutationVariables = {
+export type ActivateHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
-};
+}>;
 
 
 export type ActivateHubMutation = (
@@ -427,10 +437,10 @@ export type ActivateHubMutation = (
   ) }
 );
 
-export type ChangeHubImageMutationVariables = {
+export type ChangeHubImageMutationVariables = Exact<{
   id: Scalars['ID'];
   image: Scalars['String'];
-};
+}>;
 
 
 export type ChangeHubImageMutation = (
@@ -441,11 +451,11 @@ export type ChangeHubImageMutation = (
   ) }
 );
 
-export type ChangeHubLocationMutationVariables = {
+export type ChangeHubLocationMutationVariables = Exact<{
   hubId: Scalars['ID'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
-};
+}>;
 
 
 export type ChangeHubLocationMutation = (
@@ -456,9 +466,9 @@ export type ChangeHubLocationMutation = (
   ) }
 );
 
-export type CommonUsersHubsQueryVariables = {
+export type CommonUsersHubsQueryVariables = Exact<{
   otherUsersId: Scalars['ID'];
-};
+}>;
 
 
 export type CommonUsersHubsQuery = (
@@ -477,13 +487,13 @@ export type CommonUsersHubsQuery = (
   )> }
 );
 
-export type CreateHubMutationVariables = {
+export type CreateHubMutationVariables = Exact<{
   image: Scalars['String'];
   name: Scalars['String'];
   description: Scalars['String'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
-};
+}>;
 
 
 export type CreateHubMutation = (
@@ -502,10 +512,10 @@ export type CreateHubMutation = (
   ) }
 );
 
-export type CreateMicroChatMutationVariables = {
+export type CreateMicroChatMutationVariables = Exact<{
   hubId: Scalars['ID'];
   microChatText: Scalars['String'];
-};
+}>;
 
 
 export type CreateMicroChatMutation = (
@@ -516,9 +526,9 @@ export type CreateMicroChatMutation = (
   ) }
 );
 
-export type DeactivateHubMutationVariables = {
+export type DeactivateHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
-};
+}>;
 
 
 export type DeactivateHubMutation = (
@@ -529,9 +539,9 @@ export type DeactivateHubMutation = (
   ) }
 );
 
-export type DeleteHubMutationVariables = {
+export type DeleteHubMutationVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 
 export type DeleteHubMutation = (
@@ -539,10 +549,10 @@ export type DeleteHubMutation = (
   & Pick<Mutation, 'deleteHub'>
 );
 
-export type DeleteInviteMutationVariables = {
+export type DeleteInviteMutationVariables = Exact<{
   hubId: Scalars['ID'];
   inviteId: Scalars['ID'];
-};
+}>;
 
 
 export type DeleteInviteMutation = (
@@ -550,10 +560,10 @@ export type DeleteInviteMutation = (
   & Pick<Mutation, 'deleteInvite'>
 );
 
-export type DeleteMicroChatMutationVariables = {
+export type DeleteMicroChatMutationVariables = Exact<{
   hubId: Scalars['ID'];
   microChatId: Scalars['ID'];
-};
+}>;
 
 
 export type DeleteMicroChatMutation = (
@@ -561,11 +571,11 @@ export type DeleteMicroChatMutation = (
   & Pick<Mutation, 'deleteMicroChat'>
 );
 
-export type EditHubMutationVariables = {
+export type EditHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
   name: Scalars['String'];
   description: Scalars['String'];
-};
+}>;
 
 
 export type EditHubMutation = (
@@ -576,29 +586,35 @@ export type EditHubMutation = (
   ) }
 );
 
-export type EnteredHubGeofenceMutationVariables = {
+export type EnteredHubGeofenceMutationVariables = Exact<{
   hubId: Scalars['ID'];
-};
+}>;
 
 
 export type EnteredHubGeofenceMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'enteredHubGeofence'>
+  & { enteredHubGeofence: (
+    { __typename?: 'JoinUserHub' }
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isPresent'>
+  ) }
 );
 
-export type ExitedHubGeofenceMutationVariables = {
+export type ExitedHubGeofenceMutationVariables = Exact<{
   hubId: Scalars['ID'];
-};
+}>;
 
 
 export type ExitedHubGeofenceMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'exitedHubGeofence'>
+  & { exitedHubGeofence: (
+    { __typename?: 'JoinUserHub' }
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isPresent'>
+  ) }
 );
 
-export type HubQueryVariables = {
+export type HubQueryVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 
 export type HubQuery = (
@@ -624,9 +640,9 @@ export type HubQuery = (
   ) }
 );
 
-export type InviteQueryVariables = {
+export type InviteQueryVariables = Exact<{
   hubId: Scalars['ID'];
-};
+}>;
 
 
 export type InviteQuery = (
@@ -644,10 +660,10 @@ export type InviteQuery = (
   ) }
 );
 
-export type InviteUserToHubMutationVariables = {
+export type InviteUserToHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
   inviteesEmail: Scalars['String'];
-};
+}>;
 
 
 export type InviteUserToHubMutation = (
@@ -668,9 +684,9 @@ export type InviteUserToHubMutation = (
   ) }
 );
 
-export type InvitesByHubQueryVariables = {
+export type InvitesByHubQueryVariables = Exact<{
   hubId: Scalars['ID'];
-};
+}>;
 
 
 export type InvitesByHubQuery = (
@@ -691,7 +707,7 @@ export type InvitesByHubQuery = (
   )> }
 );
 
-export type InvitesByUserQueryVariables = {};
+export type InvitesByUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type InvitesByUserQuery = (
@@ -713,9 +729,9 @@ export type InvitesByUserQuery = (
   )> }
 );
 
-export type LeaveHubMutationVariables = {
+export type LeaveHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
-};
+}>;
 
 
 export type LeaveHubMutation = (
@@ -723,10 +739,10 @@ export type LeaveHubMutation = (
   & Pick<Mutation, 'leaveHub'>
 );
 
-export type MicroChatToHubMutationVariables = {
+export type MicroChatToHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
   microChatId: Scalars['ID'];
-};
+}>;
 
 
 export type MicroChatToHubMutation = (
@@ -734,9 +750,9 @@ export type MicroChatToHubMutation = (
   & Pick<Mutation, 'microChatToHub'>
 );
 
-export type SetHubNotStarredMutationVariables = {
+export type SetHubNotStarredMutationVariables = Exact<{
   hubId: Scalars['ID'];
-};
+}>;
 
 
 export type SetHubNotStarredMutation = (
@@ -744,9 +760,9 @@ export type SetHubNotStarredMutation = (
   & Pick<Mutation, 'setHubNotStarred'>
 );
 
-export type SetHubStarredMutationVariables = {
+export type SetHubStarredMutationVariables = Exact<{
   hubId: Scalars['ID'];
-};
+}>;
 
 
 export type SetHubStarredMutation = (
@@ -754,7 +770,7 @@ export type SetHubStarredMutation = (
   & Pick<Mutation, 'setHubStarred'>
 );
 
-export type UsersHubsQueryVariables = {};
+export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UsersHubsQuery = (
@@ -773,7 +789,7 @@ export type UsersHubsQuery = (
   )> }
 );
 
-export type UsersPeopleQueryVariables = {};
+export type UsersPeopleQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UsersPeopleQuery = (
@@ -784,9 +800,9 @@ export type UsersPeopleQuery = (
   )> }
 );
 
-export type AddUserFcmNotificationTokenMutationVariables = {
+export type AddUserFcmNotificationTokenMutationVariables = Exact<{
   token: Scalars['String'];
-};
+}>;
 
 
 export type AddUserFcmNotificationTokenMutation = (
@@ -794,7 +810,7 @@ export type AddUserFcmNotificationTokenMutation = (
   & Pick<Mutation, 'addUserFcmNotificationToken'>
 );
 
-export type DeleteAllInAppNotificationsMutationVariables = {};
+export type DeleteAllInAppNotificationsMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type DeleteAllInAppNotificationsMutation = (
@@ -802,9 +818,9 @@ export type DeleteAllInAppNotificationsMutation = (
   & Pick<Mutation, 'deleteAllInAppNotifications'>
 );
 
-export type DeleteInAppNotificationMutationVariables = {
+export type DeleteInAppNotificationMutationVariables = Exact<{
   inAppNotificationId: Scalars['ID'];
-};
+}>;
 
 
 export type DeleteInAppNotificationMutation = (
@@ -812,7 +828,7 @@ export type DeleteInAppNotificationMutation = (
   & Pick<Mutation, 'deleteInAppNotification'>
 );
 
-export type GetInAppNotificationsQueryVariables = {};
+export type GetInAppNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetInAppNotificationsQuery = (
@@ -823,9 +839,9 @@ export type GetInAppNotificationsQuery = (
   )> }
 );
 
-export type ChangeEmailMutationVariables = {
+export type ChangeEmailMutationVariables = Exact<{
   newEmail: Scalars['String'];
-};
+}>;
 
 
 export type ChangeEmailMutation = (
@@ -836,10 +852,10 @@ export type ChangeEmailMutation = (
   ) }
 );
 
-export type ChangePasswordMutationVariables = {
+export type ChangePasswordMutationVariables = Exact<{
   oldPassword: Scalars['String'];
   newPassword: Scalars['String'];
-};
+}>;
 
 
 export type ChangePasswordMutation = (
@@ -847,9 +863,9 @@ export type ChangePasswordMutation = (
   & Pick<Mutation, 'changePassword'>
 );
 
-export type ChangeUserImageMutationVariables = {
+export type ChangeUserImageMutationVariables = Exact<{
   image: Scalars['String'];
-};
+}>;
 
 
 export type ChangeUserImageMutation = (
@@ -860,10 +876,10 @@ export type ChangeUserImageMutation = (
   ) }
 );
 
-export type DeleteAccountMutationVariables = {
+export type DeleteAccountMutationVariables = Exact<{
   emailAddress: Scalars['String'];
   password: Scalars['String'];
-};
+}>;
 
 
 export type DeleteAccountMutation = (
@@ -871,11 +887,11 @@ export type DeleteAccountMutation = (
   & Pick<Mutation, 'deleteAccount'>
 );
 
-export type EditUserDetailsMutationVariables = {
+export type EditUserDetailsMutationVariables = Exact<{
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   description: Scalars['String'];
-};
+}>;
 
 
 export type EditUserDetailsMutation = (
@@ -1193,7 +1209,11 @@ export const EditHubDocument = gql`
   }
 export const EnteredHubGeofenceDocument = gql`
     mutation enteredHubGeofence($hubId: ID!) {
-  enteredHubGeofence(hubId: $hubId)
+  enteredHubGeofence(hubId: $hubId) {
+    userId
+    hubId
+    isPresent
+  }
 }
     `;
 
@@ -1206,7 +1226,11 @@ export const EnteredHubGeofenceDocument = gql`
   }
 export const ExitedHubGeofenceDocument = gql`
     mutation exitedHubGeofence($hubId: ID!) {
-  exitedHubGeofence(hubId: $hubId)
+  exitedHubGeofence(hubId: $hubId) {
+    userId
+    hubId
+    isPresent
+  }
 }
     `;
 
