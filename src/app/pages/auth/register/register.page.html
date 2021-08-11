@@ -33,7 +33,7 @@
 
     <ion-item>
       <ion-label>Birthdate</ion-label>
-      <ion-datetime formControlName="birthdate" value="1990-02-19" placeholder="Select Date" [(ngModel)]="selectedBirthdate" (ngModelChange)="validateAge(this.selectedBirthdate)"></ion-datetime>
+      <ion-datetime formControlName="birthdate" placeholder="Select Date" [(ngModel)]="selectedBirthdate" (ngModelChange)="validateAge(this.selectedBirthdate)"></ion-datetime>
     </ion-item>
 
     <ion-text class="ion-text-center" color="danger">

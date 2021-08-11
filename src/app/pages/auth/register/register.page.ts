@@ -112,7 +112,8 @@ export class RegisterPage implements OnInit {
 
   async validateAge(date: any) {
     console.log(date);
-    console.log(moment().diff(moment(date, "DD-MM-YYYY"), 'years'))
+    let mydate = moment(date).format('YYYY-MM-DD');
+    console.log(moment().diff(moment(mydate, 'YYYY-MM-DD'), 'years'))
   }
 
 }
