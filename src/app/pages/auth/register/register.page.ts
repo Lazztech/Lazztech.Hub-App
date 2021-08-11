@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { LoginPage } from '../login/login.page';
 import { environment } from 'src/environments/environment';
 import { Browser } from '@capacitor/browser';
+import moment from 'moment';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class RegisterPage implements OnInit {
   loading = false;
 
   myForm: FormGroup;
+
+  selectedBirthdate: any;
 
   get firstName() {
     return this.myForm.get('firstName');
@@ -105,6 +108,11 @@ export class RegisterPage implements OnInit {
 
   async navigateToTermsAndConditions() {
     await Browser.open({ url: environment.legal.termsAndConditions });
+  }
+
+  async validateAge(date: any) {
+    console.log(date);
+    console.log(moment().diff(moment(date, "DD-MM-YYYY"), 'years'))
   }
 
 }
