@@ -27,6 +27,10 @@ export class RegisterPage implements OnInit {
     return this.myForm.get('lastName');
   }
 
+  get birthdate() {
+    return this.myForm.get('birthdate');
+  }
+
   get email() {
     return this.myForm.get('email');
   }
@@ -48,6 +52,9 @@ export class RegisterPage implements OnInit {
         Validators.required
       ]],
       lastName: ['', [
+        Validators.required
+      ]],
+      birthdate: ['', [
         Validators.required
       ]],
       email: ['', [
