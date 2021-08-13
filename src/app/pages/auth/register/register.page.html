@@ -33,12 +33,12 @@
 
     <ion-item>
       <ion-label>Birthdate</ion-label>
-      <ion-datetime formControlName="birthdate" placeholder="Select Date" [(ngModel)]="selectedBirthdate" (ngModelChange)="validateAge(this.selectedBirthdate)"></ion-datetime>
+      <ion-datetime formControlName="birthdate" placeholder="Select Date"></ion-datetime>
     </ion-item>
 
     <ion-text class="ion-text-center" color="danger">
       <p *ngIf="birthdate.invalid && birthdate.touched" color="danger">
-        Required
+        Birthdate is required and you must be at or over {{ageRestriction}} years of age.
       </p>
     </ion-text>
 

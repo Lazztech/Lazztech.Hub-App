@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Browser } from '@capacitor/browser';
 import { ModalController, NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { LoginPage } from '../login/login.page';
 import { environment } from 'src/environments/environment';
-import { Browser } from '@capacitor/browser';
-import moment from 'moment';
-
+import { AgeRestrictionValidator } from '../../../directives/age-restriction.directive';
+import { LoginPage } from '../login/login.page';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +19,7 @@ export class RegisterPage implements OnInit {
 
   myForm: FormGroup;
 
-  selectedBirthdate: any;
+  ageRestriction = 13;
 
   get firstName() {
     return this.myForm.get('firstName');
@@ -58,7 +57,8 @@ export class RegisterPage implements OnInit {
         Validators.required
       ]],
       birthdate: ['', [
-        Validators.required
+        Validators.required,
+        AgeRestrictionValidator(this.ageRestriction)
       ]],
       email: ['', [
         Validators.required,
@@ -108,12 +108,6 @@ export class RegisterPage implements OnInit {
 
   async navigateToTermsAndConditions() {
     await Browser.open({ url: environment.legal.termsAndConditions });
-  }
-
-  async validateAge(date: any) {
-    console.log(date);
-    let mydate = moment(date).format('YYYY-MM-DD');
-    console.log(moment().diff(moment(mydate, 'YYYY-MM-DD'), 'years'))
   }
 
 }
