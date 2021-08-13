@@ -90,10 +90,10 @@ export class RegisterPage implements OnInit {
     const formValue = this.myForm.value;
     const birthdateTimestamp = Date.parse(formValue.birthdate).toString();
     const token = await this.authService.register(
-      formValue.firstName, 
+      formValue.firstName,
       formValue.lastName,
       birthdateTimestamp,
-      formValue.email, 
+      formValue.email,
       formValue.password
       );
 
