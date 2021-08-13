@@ -327,6 +327,8 @@ export type User = {
   id: Scalars['ID'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+  /** string representation of unix timestamp */
+  birthdate?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   image?: Maybe<Scalars['String']>;
@@ -342,6 +344,8 @@ export type UserDevice = {
 export type UserInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+  /** string representation of unix timestamp */
+  birthdate: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
 };
@@ -371,6 +375,7 @@ export type MeQuery = (
 export type RegisterMutationVariables = Exact<{
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+  birthdate: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
 }>;
@@ -936,8 +941,8 @@ export const MeDocument = gql`
     
   }
 export const RegisterDocument = gql`
-    mutation register($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
-  register(data: {firstName: $firstName, lastName: $lastName, email: $email, password: $password})
+    mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!) {
+  register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password})
 }
     `;
 

@@ -679,6 +679,18 @@
             "deprecationReason": null
           },
           {
+            "name": "birthdate",
+            "description": "string representation of unix timestamp",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "description",
             "description": null,
             "args": [],
@@ -2435,6 +2447,20 @@
           {
             "name": "lastName",
             "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "birthdate",
+            "description": "string representation of unix timestamp",
             "type": {
               "kind": "NON_NULL",
               "name": null,
