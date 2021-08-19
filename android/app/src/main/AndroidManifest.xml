@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- capacitor-background-geolocation licence key -->
+       <meta-data android:name="com.transistorsoft.locationmanager.license" android:value="0dde86f06639336ff9370b97112fd591438bb8b6bb9957bb2ee3ed7b6760c73c" />
+
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
             android:name="tech.lazz.app.MainActivity"
