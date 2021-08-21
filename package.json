@@ -88,7 +88,6 @@
     "geolib": "^3.2.0",
     "graphql": "^14.3.0",
     "graphql-tag": "^2.10.0",
-    "ionic-native-http-connection-backend": "^8.1.4",
     "jetifier": "^2.0.0",
     "jsqr": "^1.2.0",
     "leaflet": "^1.7.1",
