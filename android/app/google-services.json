@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1046841199870",
+    "firebase_url": "https://lazztech.firebaseio.com",
+    "project_id": "lazztech",
+    "storage_bucket": "lazztech.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046841199870:android:b50a6567b8b530c40969af",
+        "android_client_info": {
+          "package_name": "tech.lazz.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046841199870-uom66g3qjfd0m1nkrnkikm7m28gk1uod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8hhw2G9XOLsWItfujiiVuZoRBpIg8iLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046841199870-3vf6l8v4mrc1qqignn194ph5qgca9657.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1046841199870-ojutafvp12846vkkec1l43gfjkoaglq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tech.lazz.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
