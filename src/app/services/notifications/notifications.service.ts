@@ -128,13 +128,7 @@ export class NotificationsService {
     }
   }
 
-  async setupPushForAllPlatforms() {
-    if (this.platform.is('android') || this.platform.is('ios')) {
-      await this.setupPushiOSAndAndroid();
-    }
-  }
-
-  async setupPushiOSAndAndroid() {
+  async setupPushNotifications() {
     // FOR iOS & ANDROID
     this.logger.log('Setting up iOS/Android native push notifications.');
 

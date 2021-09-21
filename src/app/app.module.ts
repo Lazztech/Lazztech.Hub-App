@@ -15,9 +15,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-import { HttpBackend, HttpXhrBackend } from '@angular/common/http';
-import { NativeHttpModule, NativeHttpBackend, NativeHttpFallback } from 'ionic-native-http-connection-backend';
-
 import { ReactiveFormsModule } from '@angular/forms';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
@@ -36,8 +33,7 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    // HttpClientModule,
-    NativeHttpModule,
+    HttpClientModule,
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ReactiveFormsModule,
@@ -48,7 +44,6 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HttpBackend, useClass: NativeHttpFallback, deps: [Platform, NativeHttpBackend, HttpXhrBackend] },
     { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     BackgroundGeolocation,

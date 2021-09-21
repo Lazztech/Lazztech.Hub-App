@@ -36,7 +36,7 @@ export class LandingPage implements OnInit {
           subtitle: 'authorize'
         }).then(() => {
           // FIXME is this how I want this? It needs token to work on first launch.
-          this.notificationsService.setupPushForAllPlatforms();
+          this.notificationsService.setupPushNotifications();
 
           this.navCtrl.navigateRoot('/tabs');
         }).catch(err => this.logger.error(err));
@@ -71,7 +71,7 @@ export class LandingPage implements OnInit {
           subtitle: 'authorize'
         }).then(() => {
           // FIXME is this how I want this? It needs token to work on first launch.
-          this.notificationsService.setupPushForAllPlatforms();
+          this.notificationsService.setupPushNotifications();
 
           this.navCtrl.navigateRoot('/tabs');
         }).catch(err => this.logger.error(err));

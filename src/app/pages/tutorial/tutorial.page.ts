@@ -26,7 +26,7 @@ export class TutorialPage implements OnInit {
   }
 
   async pushNotifications() {
-    await this.notificationsService.setupPushForAllPlatforms();
+    await this.notificationsService.setupPushNotifications();
   }
 
   async geoPermissions() {

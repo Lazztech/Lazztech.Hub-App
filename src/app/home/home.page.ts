@@ -59,7 +59,6 @@ export class HomePage implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.locationService.coords$.subscribe(async x => {
-        await this.platform.ready();
         this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
         this.changeRef.detectChanges();
       })

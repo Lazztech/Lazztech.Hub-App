@@ -48,7 +48,6 @@ export class HubPage implements OnInit, OnDestroy {
     // FIXME this should be refactored into the HubService to avoid repeating code
     this.subscriptions.push(
       this.locationService.coords$.subscribe(async x => {
-        await this.platform.ready();
         this.userCoords = { latitude: x.latitude, longitude: x.longitude };
         this.changeRef.detectChanges();
       })

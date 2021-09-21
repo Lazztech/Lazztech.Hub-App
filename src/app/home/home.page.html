@@ -24,8 +24,12 @@
 
     <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
 
-    <ion-card *ngIf="!loading && yourLocation" style="height:30%" (click)="goToMap()">
+    <ion-card *ngIf="yourLocation" style="height:30%" (click)="goToMap()">
           <app-leaflet-map [center]="yourLocation" [yourLocation]="yourLocation" [navOnMarker]="true" [locations]="hubs"></app-leaflet-map>
+    </ion-card>
+
+    <ion-card *ngIf="!yourLocation" style="height:30%">
+      <ion-skeleton-text animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
 
       <ion-card class="welcome-card" *ngIf="!loading && !(userHubs | async)?.length">
@@ -56,12 +60,12 @@
         </div>
     </ion-list>
 
-      <ion-list *ngIf="(userHubs | async)?.length">
+      <ion-list>
           <ion-list-header>
               <ion-text>Hubs</ion-text>
           </ion-list-header>
           <div *ngFor="let userHub of userHubs | async">
-            <app-hub-card *ngIf="!loading && yourLocation" 
+            <app-hub-card
             [hub]="userHub.hub"
             [coords]="yourLocation"
             [starred]="userHub.starred"
