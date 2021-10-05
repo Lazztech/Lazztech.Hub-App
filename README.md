@@ -1,6 +1,5 @@
 # Lazztech.Hub-App
 
-
 <p align="center">
   <a href="https://lazz.tech/software/" target="blank"><img src="https://lazz.tech/images/lazztech_icon.png" width="320"/></a>
 </p>
@@ -10,11 +9,18 @@
 </p>
 
 ## Companion Server
+
 For the companion back-end server see the repo linked below.
 
 [Lazztech.Hub-Service](https://github.com/Lazztech/Lazztech.Hub-Service)
 
 ## Installation Dependencies
+
+```bash
+# ensure you have nvm installed or the correct version of node
+# this command looks for the node version in an .nvmrc file
+$ nvm use
+```
 
 ```bash
 # install ionic on you machine
@@ -67,6 +73,7 @@ $ npm run test:cov
 ``` -->
 
 ## Documentation
+
 [Lazztech.Hub-App Docs](https://lazztech-hub-app.netlify.app/)
 
 ## Stay in touch
@@ -74,5 +81,5 @@ $ npm run test:cov
 - Website - [https://lazz.tech/](https://lazz.tech/)
 
 ## License
-Copyright Lazztech LLC
 
+Copyright Lazztech LLC
