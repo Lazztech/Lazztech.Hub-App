@@ -52,11 +52,14 @@ $ npm run start:stage
 $ npm run start:prod
 ```
 
-## iOS
+## iOS & Android
 
 ```bash
-# prepare build for iOS
-$ ionic build && npx cap sync && npx cap copy && npx cap open ios
+# run the following helper npm scripts
+# see package.json for available environments
+$ npm run prepare:ios:dev
+# or
+$ npm run prepare:android:dev
 ```
 
 <!-- ## Test
