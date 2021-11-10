@@ -1,5 +1,5 @@
-query getInAppNotifications {
-    getInAppNotifications { 
+query getInAppNotifications($limit: Int, $offset: Int) {
+  getInAppNotifications(limit: $limit, offset: $offset) {
     id
     userId
     header
@@ -7,5 +7,5 @@ query getInAppNotifications {
     date
     thumbnail
     actionLink
-    }
+  }
 }

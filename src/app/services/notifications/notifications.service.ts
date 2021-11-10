@@ -1,23 +1,31 @@
-import { Injectable } from '@angular/core';
-import { LocalNotifications } from '@capacitor/local-notifications';
-import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
-import '@firebase/messaging';
-import { NavController, Platform, ToastController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
-import { FetchPolicy } from 'apollo-client';
-import { NGXLogger } from 'ngx-logger';
+import { Injectable } from "@angular/core";
+import { LocalNotifications } from "@capacitor/local-notifications";
+import {
+  ActionPerformed,
+  PushNotifications,
+  PushNotificationSchema,
+  Token,
+} from "@capacitor/push-notifications";
+import "@firebase/messaging";
+import { NavController, Platform, ToastController } from "@ionic/angular";
+import { Storage } from "@ionic/storage";
+import { FetchPolicy } from "apollo-client";
+import { NGXLogger } from "ngx-logger";
 import {
   AddUserFcmNotificationTokenGQL,
   DeleteAllInAppNotificationsGQL,
-  DeleteInAppNotificationGQL, GetInAppNotificationsDocument, GetInAppNotificationsGQL, GetInAppNotificationsQuery, InAppNotification,
-  Scalars
-} from '../../../generated/graphql';
+  DeleteInAppNotificationGQL,
+  GetInAppNotificationsDocument,
+  GetInAppNotificationsGQL,
+  GetInAppNotificationsQuery,
+  InAppNotification,
+  Scalars,
+} from "../../../generated/graphql";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class NotificationsService {
-
   constructor(
     private platform: Platform,
     private storage: Storage,
@@ -28,9 +36,13 @@ export class NotificationsService {
     private addUserFcmNotificationTokenGQLService: AddUserFcmNotificationTokenGQL,
     private logger: NGXLogger,
     private navController: NavController
-  ) { }
+  ) {}
 
-  async localNotification(title: string, body: string, schedule?: Date): Promise<void> {
+  async localNotification(
+    title: string,
+    body: string,
+    schedule?: Date
+  ): Promise<void> {
     const result = await LocalNotifications.areEnabled();
     if (!result.value) {
       LocalNotifications.requestPermissions();
@@ -50,87 +62,104 @@ export class NotificationsService {
           schedule: { at: schedule },
           sound: null,
           attachments: null,
-          actionTypeId: '',
-          extra: null
-        }
-      ]
+          actionTypeId: "",
+          extra: null,
+        },
+      ],
     });
   }
 
-  watchGetInAppNotifications(fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
-    return this.getInAppNotificationsGQLService.watch(
-      null,
-      {
-        pollInterval,
-        fetchPolicy
-      }
-    );
+  watchGetInAppNotifications(
+    fetchPolicy: FetchPolicy = "cache-first",
+    pollInterval = 0
+  ) {
+    return this.getInAppNotificationsGQLService.watch(null, {
+      pollInterval,
+      fetchPolicy,
+    });
   }
 
-  async getInAppNotifications(fetchPolicy: FetchPolicy = 'cache-first'): Promise<InAppNotification[]> {
-    const result = await this.getInAppNotificationsGQLService.fetch(
-      null,
-      {
-        fetchPolicy
-      }
-    ).toPromise();
+  async getInAppNotifications(
+    limit?: number,
+    offset?: number,
+    fetchPolicy: FetchPolicy = "cache-first"
+  ): Promise<InAppNotification[]> {
+    const result = await this.getInAppNotificationsGQLService
+      .fetch(null, {
+        fetchPolicy,
+      })
+      .toPromise();
 
     this.logger.log(result);
     return result.data.getInAppNotifications;
   }
 
-  async deleteInAppNotification(inAppNotificationId: Scalars['ID']) {
-    const result = await this.deleteInAppNotificationGQLService.mutate({
-      inAppNotificationId
-    },
-    {
-      update: (proxy, { data: { deleteInAppNotification } }) => {
-        // Read the data from our cache for this query.
-        const data = proxy.readQuery({ query: GetInAppNotificationsDocument }) as GetInAppNotificationsQuery;
+  async deleteInAppNotification(inAppNotificationId: Scalars["ID"]) {
+    const result = await this.deleteInAppNotificationGQLService
+      .mutate(
+        {
+          inAppNotificationId,
+        },
+        {
+          update: (proxy, { data: { deleteInAppNotification } }) => {
+            // Read the data from our cache for this query.
+            const data = proxy.readQuery({
+              query: GetInAppNotificationsDocument,
+            }) as GetInAppNotificationsQuery;
 
-        // Find out notification by id and splice to remove it.
-        const notification = data.getInAppNotifications.find(x => x.id === inAppNotificationId);
-        data.getInAppNotifications.splice(data.getInAppNotifications.indexOf(notification), 1);
+            // Find out notification by id and splice to remove it.
+            const notification = data.getInAppNotifications.find(
+              (x) => x.id === inAppNotificationId
+            );
+            data.getInAppNotifications.splice(
+              data.getInAppNotifications.indexOf(notification),
+              1
+            );
 
-        // Write our data back to the cache.
-        proxy.writeQuery({ query: GetInAppNotificationsDocument, data });
-      },
-    }
-    ).toPromise();
+            // Write our data back to the cache.
+            proxy.writeQuery({ query: GetInAppNotificationsDocument, data });
+          },
+        }
+      )
+      .toPromise();
 
     if (result.data.deleteInAppNotification) {
-      this.logger.log('deleteInAppNotification successful.');
+      this.logger.log("deleteInAppNotification successful.");
       return true;
     } else {
-      this.logger.error('deleteInAppNotification failed!');
+      this.logger.error("deleteInAppNotification failed!");
       return false;
     }
   }
 
   async deleteAllInAppNotifications() {
-    const result = await this.deleteAllInAppNotificationsGQLService.mutate(null, {
-      update: (proxy, { data: { deleteAllInAppNotifications } }) => {
-        // Read the data from our cache for this query.
-        const data = proxy.readQuery({ query: GetInAppNotificationsDocument }) as GetInAppNotificationsQuery;
+    const result = await this.deleteAllInAppNotificationsGQLService
+      .mutate(null, {
+        update: (proxy, { data: { deleteAllInAppNotifications } }) => {
+          // Read the data from our cache for this query.
+          const data = proxy.readQuery({
+            query: GetInAppNotificationsDocument,
+          }) as GetInAppNotificationsQuery;
 
-        // Clear out notifications.
-        data.getInAppNotifications = [];
+          // Clear out notifications.
+          data.getInAppNotifications = [];
 
-        // Write our data back to the cache.
-        proxy.writeQuery({ query: GetInAppNotificationsDocument, data });
-      },
-    }).toPromise();
+          // Write our data back to the cache.
+          proxy.writeQuery({ query: GetInAppNotificationsDocument, data });
+        },
+      })
+      .toPromise();
 
     if (result.data.deleteAllInAppNotifications) {
-      this.logger.log('deleteAllInAppNotifications successful.');
+      this.logger.log("deleteAllInAppNotifications successful.");
     } else {
-      this.logger.error('deleteAllInAppNotifications failed!');
+      this.logger.error("deleteAllInAppNotifications failed!");
     }
   }
 
   async setupPushNotifications() {
     // FOR iOS & ANDROID
-    this.logger.log('Setting up iOS/Android native push notifications.');
+    this.logger.log("Setting up iOS/Android native push notifications.");
 
     PushNotifications.register();
 
@@ -140,75 +169,80 @@ export class NotificationsService {
     //   await this.submitNotificationToken(nativePushToken);
     // }
 
-    PushNotifications.addListener('registration',
-      async (token: Token) => {
-        await this.storage.set('native-push-token', token.value);
-        await this.submitNotificationToken(token.value);
+    PushNotifications.addListener("registration", async (token: Token) => {
+      await this.storage.set("native-push-token", token.value);
+      await this.submitNotificationToken(token.value);
 
-        // alert('Push registration success, token: ' + token.value);
-      }
-    );
+      // alert('Push registration success, token: ' + token.value);
+    });
 
-    PushNotifications.addListener('registrationError',
-      (error: any) => {
-        alert('Error on registration: ' + JSON.stringify(error));
-        this.logger.error('Error on registration: ' + JSON.stringify(error));
-      }
-    );
+    PushNotifications.addListener("registrationError", (error: any) => {
+      alert("Error on registration: " + JSON.stringify(error));
+      this.logger.error("Error on registration: " + JSON.stringify(error));
+    });
 
-    PushNotifications.addListener('pushNotificationReceived',
+    PushNotifications.addListener(
+      "pushNotificationReceived",
       async (notification: PushNotificationSchema) => {
-        this.logger.log('Push received: ' + JSON.stringify(notification));
+        this.logger.log("Push received: " + JSON.stringify(notification));
         // TODO move to alertService?
         const toast = await this.toastController.create({
           header: notification.title,
           message: notification.body,
           duration: 3000,
-          position: 'top',
-          color: 'dark',
+          position: "top",
+          color: "dark",
           translucent: true,
           buttons: [
             {
-              side: 'start',
-              text: 'View',
+              side: "start",
+              text: "View",
               handler: () => {
                 if (notification?.data?.aps?.category) {
-                  this.navController.navigateForward(notification.data.aps.category);
+                  this.navController.navigateForward(
+                    notification.data.aps.category
+                  );
                 }
-                this.logger.log('View clicked');
-              }
+                this.logger.log("View clicked");
+              },
             },
-          ]
+          ],
         });
-        this.logger.log('presenting toast');
+        this.logger.log("presenting toast");
         await toast.present();
       }
     );
 
-    PushNotifications.addListener('pushNotificationActionPerformed',
+    PushNotifications.addListener(
+      "pushNotificationActionPerformed",
       (notificationActionDetails: ActionPerformed) => {
-        this.logger.log('Push action performed: ' + JSON.stringify(notificationActionDetails));
+        this.logger.log(
+          "Push action performed: " + JSON.stringify(notificationActionDetails)
+        );
         if (notificationActionDetails.notification?.data?.aps?.category) {
-          this.navController.navigateForward(notificationActionDetails.notification.data.aps.category);
+          this.navController.navigateForward(
+            notificationActionDetails.notification.data.aps.category
+          );
         }
       }
     );
   }
 
   private async submitNotificationToken(token: string) {
-    const result = await this.addUserFcmNotificationTokenGQLService.mutate({
-      token
-    }).toPromise();
+    const result = await this.addUserFcmNotificationTokenGQLService
+      .mutate({
+        token,
+      })
+      .toPromise();
 
     if ((result as any).data.addUserFcmNotificationToken) {
-      this.logger.log('addUserFcmNotificationToken successful.');
+      this.logger.log("addUserFcmNotificationToken successful.");
     } else {
-      this.logger.error('addUserFcmNotificationToken failed!');
+      this.logger.error("addUserFcmNotificationToken failed!");
     }
   }
 
   public async getNativePushNotificationToken() {
-    return await this.storage.get('native-push-token');
+    return await this.storage.get("native-push-token");
   }
-
 }

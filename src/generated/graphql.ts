@@ -292,6 +292,12 @@ export type Query = {
 };
 
 
+export type QueryGetInAppNotificationsArgs = {
+  offset?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
 export type QueryHubArgs = {
   id: Scalars['ID'];
 };
@@ -833,7 +839,10 @@ export type DeleteInAppNotificationMutation = (
   & Pick<Mutation, 'deleteInAppNotification'>
 );
 
-export type GetInAppNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetInAppNotificationsQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+}>;
 
 
 export type GetInAppNotificationsQuery = (
@@ -1572,8 +1581,8 @@ export const DeleteInAppNotificationDocument = gql`
     
   }
 export const GetInAppNotificationsDocument = gql`
-    query getInAppNotifications {
-  getInAppNotifications {
+    query getInAppNotifications($limit: Int, $offset: Int) {
+  getInAppNotifications(limit: $limit, offset: $offset) {
     id
     userId
     header
