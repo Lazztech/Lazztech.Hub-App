@@ -22,7 +22,7 @@
 
   <ion-list *ngIf="!loading">
     <ion-text
-      *ngIf="(inAppNotifications | async).length <= 0"
+      *ngIf="(inAppNotifications | async)?.length <= 0"
       class="ion-text-center"
     >
       <p>No notifications.</p>
