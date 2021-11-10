@@ -70,13 +70,21 @@ export class NotificationsService {
   }
 
   watchGetInAppNotifications(
+    limit?: number,
+    offset?: number,
     fetchPolicy: FetchPolicy = "cache-first",
     pollInterval = 0
   ) {
-    return this.getInAppNotificationsGQLService.watch(null, {
-      pollInterval,
-      fetchPolicy,
-    });
+    return this.getInAppNotificationsGQLService.watch(
+      {
+        limit,
+        offset,
+      },
+      {
+        pollInterval,
+        fetchPolicy,
+      }
+    );
   }
 
   async getInAppNotifications(

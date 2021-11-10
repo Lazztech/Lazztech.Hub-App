@@ -3,11 +3,14 @@ import { NotificationsService } from "src/app/services/notifications/notificatio
 import {
   InAppNotification,
   GetInAppNotificationsQuery,
+  Exact,
 } from "src/generated/graphql";
 import { NGXLogger } from "ngx-logger";
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { NavController } from "@ionic/angular";
+import { QueryRef } from "apollo-angular";
+import { ApolloQueryResult } from "apollo-client";
 
 @Component({
   selector: "app-notifications",
@@ -17,12 +20,19 @@ import { NavController } from "@ionic/angular";
 export class NotificationsPage implements OnInit, OnDestroy {
   loading = true;
 
-  inAppNotifications: Observable<
-    GetInAppNotificationsQuery["getInAppNotifications"]
+  queryRef: QueryRef<
+    GetInAppNotificationsQuery,
+    Exact<{
+      limit?: number;
+      offset?: number;
+    }>
   >;
   subscriptions: Subscription[] = [];
   limit: number = 10;
   offset: number = 0;
+
+  sortedInAppNotifications: GetInAppNotificationsQuery["getInAppNotifications"] =
+    [];
 
   constructor(
     private notificationsService: NotificationsService,
@@ -31,23 +41,34 @@ export class NotificationsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.inAppNotifications = this.notificationsService
-      .watchGetInAppNotifications(null, 5000)
-      .valueChanges.pipe(map((x) => x.data && x.data.getInAppNotifications))
-      .pipe(map((x) => this.sortNotifications(x)));
+    this.queryRef = this.notificationsService.watchGetInAppNotifications(
+      this.limit,
+      this.offset,
+      null,
+      1000
+    );
 
     this.subscriptions.push(
-      this.notificationsService
-        .watchGetInAppNotifications()
-        .valueChanges.subscribe((x) => {
-          this.logger.log("loading: ", x.loading);
-          this.loading = x.loading;
-        })
+      this.queryRef.valueChanges.subscribe((result) => {
+        this.logger.log("loading: ", result.loading);
+        this.loading = result.loading;
+        const combinedResults = this.sortedInAppNotifications.concat(
+          result?.data?.getInAppNotifications
+        );
+        this.sortedInAppNotifications = this.sortNotifications(combinedResults);
+      })
     );
+
+    // const inAppNotifications = this.notificationsService
+    // .watchGetInAppNotifications(null, 5000)
+    // .valueChanges.pipe(map((x) => {
+    //   this.loading = x.loading;
+    //   return this.sortNotifications(x?.data?.getInAppNotifications);
+    // }));
   }
 
   loadData(event) {
-    this.inAppNotifications;
+    // this.inAppNotifications;
   }
 
   ngOnDestroy() {
@@ -61,13 +82,33 @@ export class NotificationsPage implements OnInit, OnDestroy {
     return sorted;
   }
 
+  loadMore() {
+    return this.queryRef.fetchMore({
+      variables: {
+        offset: this.sortedInAppNotifications.length,
+        limit: this.limit,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) {
+          return previousResult;
+        }
+        Object.assign({}, previousResult, {
+          feed: [
+            ...previousResult.getInAppNotifications,
+            ...fetchMoreResult.getInAppNotifications,
+          ],
+        });
+      },
+    });
+  }
+
   async doRefresh(event) {
     try {
-      this.loading = true;
-      this.inAppNotifications = this.notificationsService
-        .watchGetInAppNotifications("network-only")
-        .valueChanges.pipe(map((x) => x.data && x.data.getInAppNotifications))
-        .pipe(map((x) => this.sortNotifications(x)));
+      let moreNotifications = (await this.loadMore()).data
+        ?.getInAppNotifications;
+      this.sortedInAppNotifications = this.sortNotifications(
+        this.sortedInAppNotifications.concat(moreNotifications)
+      );
       this.loading = false;
       event.target.complete();
     } catch (error) {
