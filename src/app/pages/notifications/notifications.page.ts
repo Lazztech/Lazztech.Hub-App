@@ -41,8 +41,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
     this.queryRef = this.notificationsService.watchGetInAppNotifications(
       this.limit,
       this.offset,
-      null,
-      1000
+      null
     );
 
     this.subscriptions.push(
@@ -105,11 +104,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
         (await this.queryRef.refetch({ limit: this.limit, offset: 0 })).data
           ?.getInAppNotifications
       );
-      // let moreNotifications = (await this.loadMore()).data
-      //   ?.getInAppNotifications;
-      // this.sortedInAppNotifications = this.sortNotifications(
-      //   this.sortedInAppNotifications.concat(moreNotifications)
-      // );
       this.loading = false;
       event.target.complete();
     } catch (error) {
