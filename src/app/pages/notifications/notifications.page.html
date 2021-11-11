@@ -19,7 +19,9 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content refreshingSpinner="dots"> </ion-refresher-content>
   </ion-refresher>
-
+  <!-- <ion-button (click)="toggleInfiniteScroll()" expand="block">
+    Toggle Infinite Scroll
+  </ion-button> -->
   <ion-list *ngIf="!loading">
     <ion-text
       *ngIf="sortedInAppNotifications?.length <= 0"

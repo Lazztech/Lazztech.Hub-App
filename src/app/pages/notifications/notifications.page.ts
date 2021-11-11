@@ -1,24 +1,23 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { NotificationsService } from "src/app/services/notifications/notifications.service";
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import {
   InAppNotification,
   GetInAppNotificationsQuery,
   Exact,
-} from "src/generated/graphql";
-import { NGXLogger } from "ngx-logger";
-import { Observable, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
-import { NavController } from "@ionic/angular";
-import { QueryRef } from "apollo-angular";
+} from 'src/generated/graphql';
+import { NGXLogger } from 'ngx-logger';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { IonInfiniteScroll, NavController } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 
 @Component({
-  selector: "app-notifications",
-  templateUrl: "./notifications.page.html",
-  styleUrls: ["./notifications.page.scss"],
+  selector: 'app-notifications',
+  templateUrl: './notifications.page.html',
+  styleUrls: ['./notifications.page.scss'],
 })
 export class NotificationsPage implements OnInit, OnDestroy {
   loading = true;
-
   queryRef: QueryRef<
     GetInAppNotificationsQuery,
     Exact<{
@@ -29,8 +28,10 @@ export class NotificationsPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   limit = 10;
   offset = 0;
-  sortedInAppNotifications: GetInAppNotificationsQuery["getInAppNotifications"] =
+  sortedInAppNotifications: GetInAppNotificationsQuery['getInAppNotifications'] =
     [];
+  isfucked: boolean;
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   constructor(
     private notificationsService: NotificationsService,
     private logger: NGXLogger,
@@ -46,19 +47,19 @@ export class NotificationsPage implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.queryRef.valueChanges.subscribe((result) => {
-        this.logger.log("loading: ", result.loading);
+        this.logger.log('loading: ', result.loading);
         this.loading = result.loading;
-        const combinedResults = this.sortedInAppNotifications.concat(
+        this.sortedInAppNotifications = this.sortNotifications(
           result?.data?.getInAppNotifications
         );
-        this.sortedInAppNotifications = this.sortNotifications(combinedResults);
       })
     );
   }
 
   loadData(event) {
-    this.loadMore().then((x) => {
+    this.loadMore(event).then((x) => {
       const data = x?.data?.getInAppNotifications;
+
       this.sortedInAppNotifications = this.sortNotifications(
         this.sortedInAppNotifications.concat(data)
       );
@@ -78,19 +79,15 @@ export class NotificationsPage implements OnInit, OnDestroy {
     return sorted;
   }
 
-  loadMore() {
-    // console.log({
-    //   offset: this.sortedInAppNotifications.length,
-    //   limit: this.limit,
-    // });
-
+  loadMore(event) {
     return this.queryRef.fetchMore({
       variables: {
         offset: this.sortedInAppNotifications.length,
         limit: this.limit,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult) {
+        if (!fetchMoreResult.getInAppNotifications.length) {
+          this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
           return previousResult;
         }
         Object.assign({}, previousResult, {
@@ -118,7 +115,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
   }
 
   async deleteNotifications() {
-    const result = confirm("Delete all notifications?");
+    const result = confirm('Delete all notifications?');
     if (result) {
       await this.notificationsService.deleteAllInAppNotifications();
     }
