@@ -1,29 +1,31 @@
-import { Injectable } from '@angular/core';
-import { LocalNotifications } from '@capacitor/local-notifications';
+import { Injectable } from "@angular/core";
+import { LocalNotifications } from "@capacitor/local-notifications";
 import {
   ActionPerformed,
   PushNotifications,
   PushNotificationSchema,
   Token,
-} from '@capacitor/push-notifications';
-import '@firebase/messaging';
-import { NavController, Platform, ToastController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
-import { FetchPolicy } from 'apollo-client';
-import { NGXLogger } from 'ngx-logger';
+} from "@capacitor/push-notifications";
+import "@firebase/messaging";
+import { NavController, Platform, ToastController } from "@ionic/angular";
+import { Storage } from "@ionic/storage";
+import { FetchPolicy } from "apollo-client";
+import { NGXLogger } from "ngx-logger";
 import {
   AddUserFcmNotificationTokenGQL,
   DeleteAllInAppNotificationsGQL,
   DeleteInAppNotificationGQL,
+  GetInAppNotificationsCountGQL,
+  GetInAppNotificationsCountQuery,
   GetInAppNotificationsDocument,
   GetInAppNotificationsGQL,
   GetInAppNotificationsQuery,
   InAppNotification,
   Scalars,
-} from '../../../generated/graphql';
+} from "../../../generated/graphql";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class NotificationsService {
   constructor(
@@ -34,6 +36,7 @@ export class NotificationsService {
     private getInAppNotificationsGQLService: GetInAppNotificationsGQL,
     private deleteInAppNotificationGQLService: DeleteInAppNotificationGQL,
     private addUserFcmNotificationTokenGQLService: AddUserFcmNotificationTokenGQL,
+    private getInAppNotificationsCountGQLService: GetInAppNotificationsCountGQL,
     private logger: NGXLogger,
     private navController: NavController
   ) {}
@@ -62,7 +65,7 @@ export class NotificationsService {
           schedule: { at: schedule },
           sound: null,
           attachments: null,
-          actionTypeId: '',
+          actionTypeId: "",
           extra: null,
         },
       ],
@@ -72,7 +75,7 @@ export class NotificationsService {
   watchGetInAppNotifications(
     limit?: number,
     offset?: number,
-    fetchPolicy: FetchPolicy = 'cache-first',
+    fetchPolicy: FetchPolicy = "cache-first",
     pollInterval = 0
   ) {
     return this.getInAppNotificationsGQLService.watch(
@@ -87,10 +90,30 @@ export class NotificationsService {
     );
   }
 
+  getInAppNotficationsCount() {
+    return this.getInAppNotificationsCountGQLService.fetch();
+    // return this.getInAppNotificationsCountGQLService.fetch().toPromise().then((x) => x.data.getInAppNotificationsCount);
+  }
+
+  getInAppNotificationsFetch(
+    limit?: number,
+    offset?: number,
+    fetchPolicy: FetchPolicy = "cache-first"
+  ) {
+    const result = this.getInAppNotificationsGQLService.fetch(
+      { limit, offset },
+      {
+        fetchPolicy,
+      }
+    );
+
+    return result;
+  }
+
   async getInAppNotifications(
     limit?: number,
     offset?: number,
-    fetchPolicy: FetchPolicy = 'cache-first'
+    fetchPolicy: FetchPolicy = "cache-first"
   ): Promise<InAppNotification[]> {
     const result = await this.getInAppNotificationsGQLService
       .fetch(null, {
@@ -102,7 +125,7 @@ export class NotificationsService {
     return result.data.getInAppNotifications;
   }
 
-  async deleteInAppNotification(inAppNotificationId: Scalars['ID']) {
+  async deleteInAppNotification(inAppNotificationId: Scalars["ID"]) {
     const result = await this.deleteInAppNotificationGQLService
       .mutate(
         {
@@ -132,10 +155,10 @@ export class NotificationsService {
       .toPromise();
 
     if (result.data.deleteInAppNotification) {
-      this.logger.log('deleteInAppNotification successful.');
+      this.logger.log("deleteInAppNotification successful.");
       return true;
     } else {
-      this.logger.error('deleteInAppNotification failed!');
+      this.logger.error("deleteInAppNotification failed!");
       return false;
     }
   }
@@ -159,15 +182,15 @@ export class NotificationsService {
       .toPromise();
 
     if (result.data.deleteAllInAppNotifications) {
-      this.logger.log('deleteAllInAppNotifications successful.');
+      this.logger.log("deleteAllInAppNotifications successful.");
     } else {
-      this.logger.error('deleteAllInAppNotifications failed!');
+      this.logger.error("deleteAllInAppNotifications failed!");
     }
   }
 
   async setupPushNotifications() {
     // FOR iOS & ANDROID
-    this.logger.log('Setting up iOS/Android native push notifications.');
+    this.logger.log("Setting up iOS/Android native push notifications.");
 
     PushNotifications.register();
 
@@ -177,55 +200,55 @@ export class NotificationsService {
     //   await this.submitNotificationToken(nativePushToken);
     // }
 
-    PushNotifications.addListener('registration', async (token: Token) => {
-      await this.storage.set('native-push-token', token.value);
+    PushNotifications.addListener("registration", async (token: Token) => {
+      await this.storage.set("native-push-token", token.value);
       await this.submitNotificationToken(token.value);
 
       // alert('Push registration success, token: ' + token.value);
     });
 
-    PushNotifications.addListener('registrationError', (error: any) => {
-      alert('Error on registration: ' + JSON.stringify(error));
-      this.logger.error('Error on registration: ' + JSON.stringify(error));
+    PushNotifications.addListener("registrationError", (error: any) => {
+      alert("Error on registration: " + JSON.stringify(error));
+      this.logger.error("Error on registration: " + JSON.stringify(error));
     });
 
     PushNotifications.addListener(
-      'pushNotificationReceived',
+      "pushNotificationReceived",
       async (notification: PushNotificationSchema) => {
-        this.logger.log('Push received: ' + JSON.stringify(notification));
+        this.logger.log("Push received: " + JSON.stringify(notification));
         // TODO move to alertService?
         const toast = await this.toastController.create({
           header: notification.title,
           message: notification.body,
           duration: 3000,
-          position: 'top',
-          color: 'dark',
+          position: "top",
+          color: "dark",
           translucent: true,
           buttons: [
             {
-              side: 'start',
-              text: 'View',
+              side: "start",
+              text: "View",
               handler: () => {
                 if (notification?.data?.aps?.category) {
                   this.navController.navigateForward(
                     notification.data.aps.category
                   );
                 }
-                this.logger.log('View clicked');
+                this.logger.log("View clicked");
               },
             },
           ],
         });
-        this.logger.log('presenting toast');
+        this.logger.log("presenting toast");
         await toast.present();
       }
     );
 
     PushNotifications.addListener(
-      'pushNotificationActionPerformed',
+      "pushNotificationActionPerformed",
       (notificationActionDetails: ActionPerformed) => {
         this.logger.log(
-          'Push action performed: ' + JSON.stringify(notificationActionDetails)
+          "Push action performed: " + JSON.stringify(notificationActionDetails)
         );
         if (notificationActionDetails.notification?.data?.aps?.category) {
           this.navController.navigateForward(
@@ -244,13 +267,13 @@ export class NotificationsService {
       .toPromise();
 
     if ((result as any).data.addUserFcmNotificationToken) {
-      this.logger.log('addUserFcmNotificationToken successful.');
+      this.logger.log("addUserFcmNotificationToken successful.");
     } else {
-      this.logger.error('addUserFcmNotificationToken failed!');
+      this.logger.error("addUserFcmNotificationToken failed!");
     }
   }
 
   public async getNativePushNotificationToken() {
-    return await this.storage.get('native-push-token');
+    return await this.storage.get("native-push-token");
   }
 }

@@ -278,6 +278,7 @@ export type MutationDeleteAccountArgs = {
 export type Query = {
   __typename?: 'Query';
   getInAppNotifications: Array<InAppNotification>;
+  getInAppNotificationsCount: Scalars['Int'];
   hub: JoinUserHub;
   usersHubs: Array<JoinUserHub>;
   commonUsersHubs: Array<JoinUserHub>;
@@ -837,6 +838,14 @@ export type DeleteInAppNotificationMutationVariables = Exact<{
 export type DeleteInAppNotificationMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteInAppNotification'>
+);
+
+export type GetInAppNotificationsCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetInAppNotificationsCountQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'getInAppNotificationsCount'>
 );
 
 export type GetInAppNotificationsQueryVariables = Exact<{
@@ -1578,6 +1587,19 @@ export const DeleteInAppNotificationDocument = gql`
   })
   export class DeleteInAppNotificationGQL extends Apollo.Mutation<DeleteInAppNotificationMutation, DeleteInAppNotificationMutationVariables> {
     document = DeleteInAppNotificationDocument;
+    
+  }
+export const GetInAppNotificationsCountDocument = gql`
+    query getInAppNotificationsCount {
+  getInAppNotificationsCount
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetInAppNotificationsCountGQL extends Apollo.Query<GetInAppNotificationsCountQuery, GetInAppNotificationsCountQueryVariables> {
+    document = GetInAppNotificationsCountDocument;
     
   }
 export const GetInAppNotificationsDocument = gql`

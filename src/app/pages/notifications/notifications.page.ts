@@ -4,10 +4,18 @@ import {
   InAppNotification,
   GetInAppNotificationsQuery,
   Exact,
+  GetInAppNotificationsCountQuery,
 } from "src/generated/graphql";
 import { NGXLogger } from "ngx-logger";
-import { Observable, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
+import { combineLatest, Observable, Subscription } from "rxjs";
+import {
+  concatMap,
+  map,
+  mergeMapTo,
+  mergeMap,
+  concatMapTo,
+  flatMap,
+} from "rxjs/operators";
 import { IonInfiniteScroll, NavController } from "@ionic/angular";
 import { QueryRef } from "apollo-angular";
 
@@ -18,19 +26,26 @@ import { QueryRef } from "apollo-angular";
 })
 export class NotificationsPage implements OnInit, OnDestroy {
   loading = true;
-  queryRef: QueryRef<
+  getInAppNotficationsQueryRef: QueryRef<
     GetInAppNotificationsQuery,
     Exact<{
       limit?: number;
       offset?: number;
     }>
   >;
+  getInAppNotficationsQueryRefcount: QueryRef<
+    GetInAppNotificationsCountQuery,
+    Exact<{
+      [key: string]: never;
+    }>
+  >;
   subscriptions: Subscription[] = [];
   limit = 10;
   offset = 0;
+  count: number;
   sortedInAppNotifications: GetInAppNotificationsQuery["getInAppNotifications"] =
     [];
-  isfucked: boolean;
+
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   constructor(
     private notificationsService: NotificationsService,
@@ -39,21 +54,79 @@ export class NotificationsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.queryRef = this.notificationsService.watchGetInAppNotifications(
-      this.limit,
-      this.offset,
-      null
-    );
+    // let test = this.notificationsService.getInAppNotficationsCount().pipe(flatMap(result => this.notificationsService.getInAppNotificationsFetch(this.limit, result.data.getInAppNotificationsCount-10)))
+    // test.((result) => {
+    //   this.loading = result.loading;
+    //   this.sortedInAppNotifications = this.sortNotifications(
+    //     result?.data?.getInAppNotifications
+    //   );
+    // })
 
     this.subscriptions.push(
-      this.queryRef.valueChanges.subscribe((result) => {
-        this.logger.log("loading: ", result.loading);
-        this.loading = result.loading;
-        this.sortedInAppNotifications = this.sortNotifications(
-          result?.data?.getInAppNotifications
-        );
-      })
+      this.notificationsService
+        .getInAppNotficationsCount()
+        .pipe(
+          map((result) =>
+            this.notificationsService.watchGetInAppNotifications(
+              this.limit,
+              result.data.getInAppNotificationsCount - 10
+            )
+          )
+        )
+        .subscribe((x) => {
+          this.getInAppNotficationsQueryRef = x;
+          this.subscriptions.push(
+            this.getInAppNotficationsQueryRef.valueChanges.subscribe(
+              (result) => {
+                this.logger.log("loading: ", result.loading);
+                this.loading = result.loading;
+                this.sortedInAppNotifications = this.sortNotifications(
+                  result?.data?.getInAppNotifications
+                );
+              }
+            )
+          );
+        })
     );
+    // let test3 =
+
+    // this.subscriptions.push( test2.subscribe(x => {
+    //   this.getInAppNotficationsQueryRef = x
+    // }))
+    // .subscribe((x) => (this.count = x.data.getInAppNotificationsCount))
+
+    // this.subscriptions.push(
+    //   this.getInAppNotficationsQueryRefcount.valueChanges.subscribe(
+    //     (result) => {
+    //       this.logger.log(
+    //         "notfications count",
+    //         result?.data?.getInAppNotificationsCount
+    //       );
+    //       this.count = result?.data?.getInAppNotificationsCount;
+    //     }
+    //   )
+    // );
+
+    // this.getInAppNotficationsQueryRef =
+    //   this.notificationsService.watchGetInAppNotifications(
+    //     /**
+    //      * This needs to refactored to use a maximum for notfications.
+    //      * otherwise the results will always be the oldest
+    //      */
+    //     this.limit,
+    //     this.count - 10,
+    //     null
+    //   );
+
+    // this.subscriptions.push(
+    //   this.getInAppNotficationsQueryRef.valueChanges.subscribe((result) => {
+    //     this.logger.log("loading: ", result.loading);
+    //     this.loading = result.loading;
+    //     this.sortedInAppNotifications = this.sortNotifications(
+    //       result?.data?.getInAppNotifications
+    //     );
+    //   })
+    // );
   }
 
   loadData(event) {
@@ -82,13 +155,17 @@ export class NotificationsPage implements OnInit, OnDestroy {
   loadMore() {
     this.offset = this.sortedInAppNotifications.length;
     console.log(this.offset);
-    return this.queryRef.fetchMore({
+    return this.getInAppNotficationsQueryRef.fetchMore({
       variables: {
         offset: this.sortedInAppNotifications.length,
         limit: this.limit,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult.getInAppNotifications.length) {
+          /**
+           * This needs to refactored to use a maximum for notfications.
+           * otherwise the results will always be the oldest
+           */
           this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
           return previousResult;
         }
@@ -108,7 +185,11 @@ export class NotificationsPage implements OnInit, OnDestroy {
       this.infiniteScroll.disabled = false;
       this.sortedInAppNotifications = this.sortNotifications(
         (
-          await this.queryRef.refetch({
+          await this.getInAppNotficationsQueryRef.refetch({
+            /**
+             * This needs to refactored to use a maximum for notfications.
+             * otherwise the results will always be the oldest
+             */
             limit: this.limit,
             offset: this.offset - this.limit,
           })
