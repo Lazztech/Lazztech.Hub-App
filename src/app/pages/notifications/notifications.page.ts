@@ -40,7 +40,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
     }>
   >;
   subscriptions: Subscription[] = [];
-  limit = 10;
+  limit = 20;
   offset = 0;
   count: number;
   sortedInAppNotifications: GetInAppNotificationsQuery["getInAppNotifications"] =
@@ -69,7 +69,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
           map((result) =>
             this.notificationsService.watchGetInAppNotifications(
               this.limit,
-              result.data.getInAppNotificationsCount - 10
+              result?.data?.getInAppNotificationsCount - 10
             )
           )
         )
@@ -88,6 +88,11 @@ export class NotificationsPage implements OnInit, OnDestroy {
           );
         })
     );
+    this.notificationsService
+      .getInAppNotficationsCount()
+      .toPromise()
+      .then((x) => (this.count = x?.data?.getInAppNotificationsCount));
+
     // let test3 =
 
     // this.subscriptions.push( test2.subscribe(x => {
@@ -138,6 +143,10 @@ export class NotificationsPage implements OnInit, OnDestroy {
       );
       event.target.complete();
     });
+
+    if (this.sortedInAppNotifications.length === this.count) {
+      event.target.disabled = true;
+    }
     console.log(this.sortedInAppNotifications);
   }
 
@@ -161,12 +170,12 @@ export class NotificationsPage implements OnInit, OnDestroy {
         limit: this.limit,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult.getInAppNotifications.length) {
+        if (!fetchMoreResult) {
           /**
            * This needs to refactored to use a maximum for notfications.
            * otherwise the results will always be the oldest
            */
-          this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+          // this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
           return previousResult;
         }
         Object.assign({}, previousResult, {
@@ -191,7 +200,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
              * otherwise the results will always be the oldest
              */
             limit: this.limit,
-            offset: this.offset - this.limit,
+            offset: this.count - this.limit,
           })
         ).data?.getInAppNotifications
       );
