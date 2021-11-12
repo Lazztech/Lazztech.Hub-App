@@ -18,6 +18,15 @@ export type Scalars = {
 
 
 
+/** fields to sort by */
+export enum Fields {
+  Id = 'ID',
+  Header = 'HEADER',
+  Text = 'TEXT',
+  Date = 'DATE',
+  Thumbnail = 'THUMBNAIL'
+}
+
 export type Hub = {
   __typename?: 'Hub';
   id: Scalars['ID'];
@@ -275,10 +284,22 @@ export type MutationDeleteAccountArgs = {
   email: Scalars['String'];
 };
 
+export type PageableOptionsInAppNotfications = {
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  sortOptions?: Maybe<SortOptionsInputInAppNotifcations>;
+};
+
+export type PaginatedInAppNotificationsResponse = {
+  __typename?: 'PaginatedInAppNotificationsResponse';
+  items: Array<InAppNotification>;
+  total: Scalars['Int'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getInAppNotifications: Array<InAppNotification>;
-  getInAppNotificationsCount: Scalars['Int'];
+  paginatedInAppNotifications: PaginatedInAppNotificationsResponse;
   hub: JoinUserHub;
   usersHubs: Array<JoinUserHub>;
   commonUsersHubs: Array<JoinUserHub>;
@@ -293,9 +314,8 @@ export type Query = {
 };
 
 
-export type QueryGetInAppNotificationsArgs = {
-  offset?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
+export type QueryPaginatedInAppNotificationsArgs = {
+  pageableOptions?: Maybe<PageableOptionsInAppNotfications>;
 };
 
 
@@ -327,6 +347,11 @@ export type QueryInvitesByUserArgs = {
 
 export type QuerySearchHubByNameArgs = {
   search: Scalars['String'];
+};
+
+export type SortOptionsInputInAppNotifcations = {
+  field: Fields;
+  ascending: Scalars['Boolean'];
 };
 
 export type User = {
@@ -840,18 +865,7 @@ export type DeleteInAppNotificationMutation = (
   & Pick<Mutation, 'deleteInAppNotification'>
 );
 
-export type GetInAppNotificationsCountQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetInAppNotificationsCountQuery = (
-  { __typename?: 'Query' }
-  & Pick<Query, 'getInAppNotificationsCount'>
-);
-
-export type GetInAppNotificationsQueryVariables = Exact<{
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-}>;
+export type GetInAppNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetInAppNotificationsQuery = (
@@ -860,6 +874,26 @@ export type GetInAppNotificationsQuery = (
     { __typename?: 'InAppNotification' }
     & Pick<InAppNotification, 'id' | 'userId' | 'header' | 'text' | 'date' | 'thumbnail' | 'actionLink'>
   )> }
+);
+
+export type PaginatedInAppNotifcationsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+  field: Fields;
+  ascending: Scalars['Boolean'];
+}>;
+
+
+export type PaginatedInAppNotifcationsQuery = (
+  { __typename?: 'Query' }
+  & { paginatedInAppNotifications: (
+    { __typename?: 'PaginatedInAppNotificationsResponse' }
+    & Pick<PaginatedInAppNotificationsResponse, 'total'>
+    & { items: Array<(
+      { __typename?: 'InAppNotification' }
+      & Pick<InAppNotification, 'id' | 'userId' | 'header' | 'text' | 'date' | 'actionLink' | 'thumbnail'>
+    )> }
+  ) }
 );
 
 export type ChangeEmailMutationVariables = Exact<{
@@ -1589,22 +1623,9 @@ export const DeleteInAppNotificationDocument = gql`
     document = DeleteInAppNotificationDocument;
     
   }
-export const GetInAppNotificationsCountDocument = gql`
-    query getInAppNotificationsCount {
-  getInAppNotificationsCount
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetInAppNotificationsCountGQL extends Apollo.Query<GetInAppNotificationsCountQuery, GetInAppNotificationsCountQueryVariables> {
-    document = GetInAppNotificationsCountDocument;
-    
-  }
 export const GetInAppNotificationsDocument = gql`
-    query getInAppNotifications($limit: Int, $offset: Int) {
-  getInAppNotifications(limit: $limit, offset: $offset) {
+    query getInAppNotifications {
+  getInAppNotifications {
     id
     userId
     header
@@ -1621,6 +1642,30 @@ export const GetInAppNotificationsDocument = gql`
   })
   export class GetInAppNotificationsGQL extends Apollo.Query<GetInAppNotificationsQuery, GetInAppNotificationsQueryVariables> {
     document = GetInAppNotificationsDocument;
+    
+  }
+export const PaginatedInAppNotifcationsDocument = gql`
+    query paginatedInAppNotifcations($limit: Int!, $offset: Int!, $field: Fields!, $ascending: Boolean!) {
+  paginatedInAppNotifications(pageableOptions: {limit: $limit, offset: $offset, sortOptions: {field: $field, ascending: $ascending}}) {
+    items {
+      id
+      userId
+      header
+      text
+      date
+      actionLink
+      thumbnail
+    }
+    total
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PaginatedInAppNotifcationsGQL extends Apollo.Query<PaginatedInAppNotifcationsQuery, PaginatedInAppNotifcationsQueryVariables> {
+    document = PaginatedInAppNotifcationsDocument;
     
   }
 export const ChangeEmailDocument = gql`

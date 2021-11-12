@@ -15,12 +15,12 @@ import {
   AddUserFcmNotificationTokenGQL,
   DeleteAllInAppNotificationsGQL,
   DeleteInAppNotificationGQL,
-  GetInAppNotificationsCountGQL,
-  GetInAppNotificationsCountQuery,
   GetInAppNotificationsDocument,
   GetInAppNotificationsGQL,
   GetInAppNotificationsQuery,
   InAppNotification,
+  PaginatedInAppNotifcationsGQL,
+  PaginatedInAppNotifcationsQueryVariables,
   Scalars,
 } from "../../../generated/graphql";
 
@@ -36,7 +36,7 @@ export class NotificationsService {
     private getInAppNotificationsGQLService: GetInAppNotificationsGQL,
     private deleteInAppNotificationGQLService: DeleteInAppNotificationGQL,
     private addUserFcmNotificationTokenGQLService: AddUserFcmNotificationTokenGQL,
-    private getInAppNotificationsCountGQLService: GetInAppNotificationsCountGQL,
+    private paginatedInAppNotficationsGQLService: PaginatedInAppNotifcationsGQL,
     private logger: NGXLogger,
     private navController: NavController
   ) {}
@@ -72,6 +72,12 @@ export class NotificationsService {
     });
   }
 
+  getInAppNotficationsPaginated(
+    pageableOptions: PaginatedInAppNotifcationsQueryVariables
+  ) {
+    return this.paginatedInAppNotficationsGQLService.watch(pageableOptions);
+  }
+
   watchGetInAppNotifications(
     limit?: number,
     offset?: number,
@@ -79,35 +85,13 @@ export class NotificationsService {
     pollInterval = 0
   ) {
     return this.getInAppNotificationsGQLService.watch(
-      {
-        limit,
-        offset,
-      },
+      null,
+
       {
         pollInterval,
         fetchPolicy,
       }
     );
-  }
-
-  getInAppNotficationsCount() {
-    return this.getInAppNotificationsCountGQLService.fetch();
-    // return this.getInAppNotificationsCountGQLService.fetch().toPromise().then((x) => x.data.getInAppNotificationsCount);
-  }
-
-  getInAppNotificationsFetch(
-    limit?: number,
-    offset?: number,
-    fetchPolicy: FetchPolicy = "cache-first"
-  ) {
-    const result = this.getInAppNotificationsGQLService.fetch(
-      { limit, offset },
-      {
-        fetchPolicy,
-      }
-    );
-
-    return result;
   }
 
   async getInAppNotifications(

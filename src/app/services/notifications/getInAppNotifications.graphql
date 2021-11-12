@@ -1,5 +1,5 @@
-query getInAppNotifications($limit: Int, $offset: Int) {
-  getInAppNotifications(limit: $limit, offset: $offset) {
+query getInAppNotifications {
+  getInAppNotifications {
     id
     userId
     header
