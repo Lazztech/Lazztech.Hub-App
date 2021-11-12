@@ -4,6 +4,9 @@ import {
   InAppNotification,
   GetInAppNotificationsQuery,
   Exact,
+  PaginatedInAppNotifcationsQueryVariables,
+  Fields,
+  PaginatedInAppNotifcationsQuery,
 } from "src/generated/graphql";
 import { NGXLogger } from "ngx-logger";
 import { Subscription } from "rxjs";
@@ -18,24 +21,18 @@ import { QueryRef } from "apollo-angular";
 export class NotificationsPage implements OnInit, OnDestroy {
   loading = true;
   getInAppNotficationsQueryRef: QueryRef<
-    GetInAppNotificationsQuery,
+    PaginatedInAppNotifcationsQuery,
     Exact<{
-      limit?: number;
-      offset?: number;
+      limit: number;
+      offset: number;
+      field: Fields;
+      ascending: boolean;
     }>
   >;
-  // getInAppNotficationsQueryRefcount: QueryRef<
-  //   GetInAppNotificationsCountQuery,
-  //   Exact<{
-  //     [key: string]: never;
-  //   }>
-  // >;
   subscriptions: Subscription[] = [];
-  limit = 20;
-  offset = 0;
-  count: number;
-  sortedInAppNotifications: GetInAppNotificationsQuery["getInAppNotifications"] =
-    [];
+  pageableOptions: PaginatedInAppNotifcationsQueryVariables;
+  total: number;
+  InAppNotifications: GetInAppNotificationsQuery["getInAppNotifications"] = [];
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   constructor(
@@ -45,79 +42,64 @@ export class NotificationsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // this.getInAppNotficationsQueryRefcount =
-    //   this.notificationsService.getInAppNotficationsCount();
-    // this.getInAppNotficationsQueryRefcount.valueChanges
-    //   .pipe(
-    //     map((result) => {
-    //       this.getInAppNotficationsQueryRef =
-    //         this.notificationsService.watchGetInAppNotifications(
-    //           this.limit,
-    //           result?.data?.getInAppNotificationsCount - this.limit
-    //         );
-    //       this.count = result?.data?.getInAppNotificationsCount;
-    //       this.offset = result?.data?.getInAppNotificationsCount;
-    //       return this.getInAppNotficationsQueryRef;
-    //     })
-    //   )
-    //   .subscribe((x) => {
-    //     this.subscriptions.push(
-    //       this.getInAppNotficationsQueryRef.valueChanges.subscribe((result) => {
-    //         this.logger.log("loading: ", result.loading);
-    //         this.loading = result.loading;
-    //         this.sortedInAppNotifications = this.sortNotifications(
-    //           result?.data?.getInAppNotifications
-    //         );
-    //       })
-    //     );
-    //   });
-    // // this.notificationsService
-    // //   .getInAppNotficationsCount()
-    // //   .toPromise()
-    // //   .then((x) => (this.count = x?.data?.getInAppNotificationsCount));
+    this.pageableOptions = {
+      limit: 20,
+      offset: 0,
+      field: Fields.Date,
+      ascending: false,
+    };
+    this.getInAppNotficationsQueryRef =
+      this.notificationsService.getInAppNotficationsPaginated(
+        this.pageableOptions
+      );
+    this.subscriptions.push(
+      this.getInAppNotficationsQueryRef.valueChanges.subscribe((result) => {
+        this.logger.log("loading:", result.loading);
+        this.loading = result.loading;
+        this.InAppNotifications =
+          result?.data?.paginatedInAppNotifications.items;
+        this.total = result?.data?.paginatedInAppNotifications.total;
+      })
+    );
+    console.log(this.InAppNotifications);
   }
 
   loadData(event) {
     this.loadMore().then((x) => {
-      const data = x?.data?.getInAppNotifications;
-      this.sortedInAppNotifications = this.sortNotifications(
-        this.sortedInAppNotifications.concat(data)
+      this.InAppNotifications = this.InAppNotifications.concat(
+        x?.data?.paginatedInAppNotifications.items
       );
       event.target.complete();
     });
-    if (this.offset === 0) {
-      event.target.disabled = true;
-    }
-    console.log(this.count);
-    console.log(this.sortedInAppNotifications);
+    // if (this.InAppNotifications.length === this.total) {
+    //   event.target.disabled = true;
+    //   this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+    // }
+    console.log(this.InAppNotifications);
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((x) => x.unsubscribe());
   }
 
-  sortNotifications(notifications: InAppNotification[]) {
-    const sorted = notifications.sort((x, y) => {
-      return parseInt(y.date, 10) - parseInt(x.date, 10);
-    });
-    return sorted;
-  }
-
   loadMore() {
     return this.getInAppNotficationsQueryRef.fetchMore({
       variables: {
-        offset: this.sortedInAppNotifications.length,
-        limit: this.limit,
+        ...this.pageableOptions,
+        offset: this.InAppNotifications.length,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult) {
+        if (!fetchMoreResult?.paginatedInAppNotifications.items.length) {
+          /**
+           * CHECK HERE IF GETTING DUPLICATED RESULTS
+           */
           this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
           return previousResult;
         }
         Object.assign({}, previousResult, {
           feed: [
-            ...previousResult.getInAppNotifications,
-            ...fetchMoreResult.getInAppNotifications,
+            ...previousResult?.paginatedInAppNotifications.items,
+            ...fetchMoreResult?.paginatedInAppNotifications.items,
           ],
         });
       },
@@ -125,16 +107,13 @@ export class NotificationsPage implements OnInit, OnDestroy {
   }
 
   async doRefresh(event) {
-    console.log(this.sortedInAppNotifications);
+    // console.log(this.sortedInAppNotifications);
+    // this.total = this.getInAppNotficationsQueryRef.
     try {
-      console.log(this.offset);
       this.infiniteScroll.disabled = false;
-      this.sortedInAppNotifications = this.sortNotifications(
-        await this.notificationsService.getInAppNotifications(
-          this.limit,
-          this.count - this.limit
-        )
-      );
+      this.InAppNotifications = (
+        await this.getInAppNotficationsQueryRef.refetch(this.pageableOptions)
+      ).data.paginatedInAppNotifications.items;
       this.loading = false;
       event.target.complete();
     } catch (error) {

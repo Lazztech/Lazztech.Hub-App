@@ -20,14 +20,11 @@
     <ion-refresher-content refreshingSpinner="dots"> </ion-refresher-content>
   </ion-refresher>
   <ion-list *ngIf="!loading">
-    <ion-text
-      *ngIf="sortedInAppNotifications?.length <= 0"
-      class="ion-text-center"
-    >
+    <ion-text *ngIf="InAppNotifications?.length <= 0" class="ion-text-center">
       <p>No notifications.</p>
     </ion-text>
 
-    <div *ngFor="let notification of sortedInAppNotifications">
+    <div *ngFor="let notification of InAppNotifications">
       <!-- Multi-line sliding item with icon options on both sides -->
       <ion-item-sliding id="item100">
         <ion-item
