@@ -31,7 +31,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
   >;
   subscriptions: Subscription[] = [];
   pageableOptions: PaginatedInAppNotifcationsQueryVariables;
-  total: number;
   InAppNotifications: GetInAppNotificationsQuery["getInAppNotifications"] = [];
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
@@ -58,7 +57,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
         this.loading = result.loading;
         this.InAppNotifications =
           result?.data?.paginatedInAppNotifications.items;
-        this.total = result?.data?.paginatedInAppNotifications.total;
       })
     );
     console.log(this.InAppNotifications);
@@ -71,10 +69,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
       );
       event.target.complete();
     });
-    // if (this.InAppNotifications.length === this.total) {
-    //   event.target.disabled = true;
-    //   this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
-    // }
     console.log(this.InAppNotifications);
   }
 
@@ -90,9 +84,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult?.paginatedInAppNotifications.items.length) {
-          /**
-           * CHECK HERE IF GETTING DUPLICATED RESULTS
-           */
           this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
           return previousResult;
         }
@@ -107,8 +98,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
   }
 
   async doRefresh(event) {
-    // console.log(this.sortedInAppNotifications);
-    // this.total = this.getInAppNotficationsQueryRef.
     try {
       this.infiniteScroll.disabled = false;
       this.InAppNotifications = (
