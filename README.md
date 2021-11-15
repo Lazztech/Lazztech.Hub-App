@@ -16,6 +16,18 @@ For the companion back-end server see the repo linked below.
 
 ## Installation Dependencies
 
+Development tools:
+- brew
+  - https://brew.sh/
+- node version manager
+  - https://github.com/nvm-sh/nvm
+- cocoapods
+  - https://guides.cocoapods.org/using/getting-started.html#installation
+- xcode
+  - https://apps.apple.com/us/app/xcode/id497799835?mt=12
+- android studio
+  - https://developer.android.com/studio
+
 ```bash
 # use nvm to install node from the .nvmrc file
 $ nvm install
