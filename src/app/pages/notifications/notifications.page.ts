@@ -1,22 +1,20 @@
-import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { NotificationsService } from "src/app/services/notifications/notifications.service";
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import {
-  InAppNotification,
   GetInAppNotificationsQuery,
   Exact,
   PaginatedInAppNotifcationsQueryVariables,
-  Fields,
   PaginatedInAppNotifcationsQuery,
-} from "src/generated/graphql";
-import { NGXLogger } from "ngx-logger";
-import { Subscription } from "rxjs";
-import { IonInfiniteScroll, NavController } from "@ionic/angular";
-import { QueryRef } from "apollo-angular";
+} from 'src/generated/graphql';
+import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
+import { IonInfiniteScroll, NavController } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 
 @Component({
-  selector: "app-notifications",
-  templateUrl: "./notifications.page.html",
-  styleUrls: ["./notifications.page.scss"],
+  selector: 'app-notifications',
+  templateUrl: './notifications.page.html',
+  styleUrls: ['./notifications.page.scss'],
 })
 export class NotificationsPage implements OnInit, OnDestroy {
   loading = true;
@@ -25,13 +23,13 @@ export class NotificationsPage implements OnInit, OnDestroy {
     Exact<{
       limit: number;
       offset: number;
-      field: Fields;
+      field: string;
       ascending: boolean;
     }>
   >;
   subscriptions: Subscription[] = [];
   pageableOptions: PaginatedInAppNotifcationsQueryVariables;
-  InAppNotifications: GetInAppNotificationsQuery["getInAppNotifications"] = [];
+  InAppNotifications: GetInAppNotificationsQuery['getInAppNotifications'] = [];
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   constructor(
@@ -44,7 +42,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
     this.pageableOptions = {
       limit: 20,
       offset: 0,
-      field: Fields.Date,
+      field: 'date',
       ascending: false,
     };
     this.getInAppNotficationsQueryRef =
@@ -53,7 +51,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
       );
     this.subscriptions.push(
       this.getInAppNotficationsQueryRef.valueChanges.subscribe((result) => {
-        this.logger.log("loading:", result.loading);
+        this.logger.log('loading:', result.loading);
         this.loading = result.loading;
         this.InAppNotifications =
           result?.data?.paginatedInAppNotifications.items;
@@ -112,7 +110,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
   }
 
   async deleteNotifications() {
-    const result = confirm("Delete all notifications?");
+    const result = confirm('Delete all notifications?');
     if (result) {
       await this.notificationsService.deleteAllInAppNotifications();
     }

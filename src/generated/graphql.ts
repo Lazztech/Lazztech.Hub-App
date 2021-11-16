@@ -18,15 +18,6 @@ export type Scalars = {
 
 
 
-/** fields to sort by */
-export enum Fields {
-  Id = 'ID',
-  Header = 'HEADER',
-  Text = 'TEXT',
-  Date = 'DATE',
-  Thumbnail = 'THUMBNAIL'
-}
-
 export type Hub = {
   __typename?: 'Hub';
   id: Scalars['ID'];
@@ -284,10 +275,10 @@ export type MutationDeleteAccountArgs = {
   email: Scalars['String'];
 };
 
-export type PageableOptionsInAppNotfications = {
+export type PageableOptions = {
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  sortOptions?: Maybe<SortOptionsInputInAppNotifcations>;
+  sortOptions?: Maybe<SortOptions>;
 };
 
 export type PaginatedInAppNotificationsResponse = {
@@ -315,7 +306,7 @@ export type Query = {
 
 
 export type QueryPaginatedInAppNotificationsArgs = {
-  pageableOptions?: Maybe<PageableOptionsInAppNotfications>;
+  pageableOptions?: Maybe<PageableOptions>;
 };
 
 
@@ -349,8 +340,8 @@ export type QuerySearchHubByNameArgs = {
   search: Scalars['String'];
 };
 
-export type SortOptionsInputInAppNotifcations = {
-  field: Fields;
+export type SortOptions = {
+  field: Scalars['String'];
   ascending: Scalars['Boolean'];
 };
 
@@ -879,7 +870,7 @@ export type GetInAppNotificationsQuery = (
 export type PaginatedInAppNotifcationsQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset: Scalars['Int'];
-  field: Fields;
+  field: Scalars['String'];
   ascending: Scalars['Boolean'];
 }>;
 
@@ -1645,7 +1636,7 @@ export const GetInAppNotificationsDocument = gql`
     
   }
 export const PaginatedInAppNotifcationsDocument = gql`
-    query paginatedInAppNotifcations($limit: Int!, $offset: Int!, $field: Fields!, $ascending: Boolean!) {
+    query paginatedInAppNotifcations($limit: Int!, $offset: Int!, $field: String!, $ascending: Boolean!) {
   paginatedInAppNotifications(pageableOptions: {limit: $limit, offset: $offset, sortOptions: {field: $field, ascending: $ascending}}) {
     items {
       id

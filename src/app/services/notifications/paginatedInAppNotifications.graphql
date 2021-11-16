@@ -1,7 +1,7 @@
 query paginatedInAppNotifcations(
   $limit: Int!
   $offset: Int!
-  $field: Fields!
+  $field: String!
   $ascending: Boolean!
 ) {
   paginatedInAppNotifications(

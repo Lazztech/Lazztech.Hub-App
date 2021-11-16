@@ -46,7 +46,7 @@
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "PageableOptionsInAppNotfications",
+                  "name": "PageableOptions",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -535,7 +535,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PageableOptionsInAppNotfications",
+        "name": "PageableOptions",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -564,7 +564,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "SortOptionsInputInAppNotifcations",
+              "name": "SortOptions",
               "ofType": null
             },
             "defaultValue": null
@@ -586,7 +586,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "SortOptionsInputInAppNotifcations",
+        "name": "SortOptions",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -597,8 +597,8 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "Fields",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -621,47 +621,6 @@
         ],
         "interfaces": null,
         "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
-        "name": "Fields",
-        "description": "fields to sort by",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "ID",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "HEADER",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "TEXT",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "DATE",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "THUMBNAIL",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
         "possibleTypes": null
       },
       {
