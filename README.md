@@ -61,6 +61,8 @@ $ node -p process.arch
 x64
 # install node dependencies
 $ npm install
+# install x86 cocoapod dependency for iOS builds
+$ sudo arch -x86_64 gem install ffi
 ```
 
 ```bash
