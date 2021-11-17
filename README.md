@@ -95,9 +95,18 @@ $ npm run start:prod
 ```bash
 # run the following helper npm scripts
 # see package.json for available environments
+
+# build project as dev and open ios project in xcode
 $ npm run prepare:ios:dev
-# or
+
+# build project as dev and open android project in android studio
 $ npm run prepare:android:dev
+
+# build project as dev and open in ios simulator
+$ npm run run:ios:dev
+
+# build project as dev and open in android simulator
+$ npm run run:android:dev
 ```
 
 <!-- ## Test

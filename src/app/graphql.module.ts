@@ -42,7 +42,11 @@ export function createApollo(
     });
     err += `[Network error]: ${JSON.stringify(networkError)}`;
     console.log(err);
-    alert(err);
+    
+    // only show alert for global gql catch all if not in production
+    if (!environment.production) {
+      alert(err);
+    }
   });
 
   const apolloLink = httpLink.create({
