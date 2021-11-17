@@ -24,50 +24,33 @@
     </ion-slide>
 
     <ion-slide>
-      <!-- <img src="assets/tutorial/slide-2.png"/> -->
-      <h2>What is a Geo-Fence?</h2>
+      <p>A <b>Hub</b> is a private invite only virtual community associated with a physical location in the world.<p>
       <p>A <b>Geo-Fence</b> is a virtual perimeter around a location that your mobile device can detect in the background when you enter or exit</p>
-    </ion-slide>
-
-    <ion-slide>
-      <!-- <img src="assets/tutorial/slide-3.png"/> -->
-      <h2>What is a Hub?</h2>
-      <p>A <b>Hub</b> is a private invite only virtual community tied to a physical location in the world. When you create a <b>Hub</b> the coordinates are registered to that <b>Hub</b> via <b>GPS</b>.<p>
     </ion-slide>
 
     <ion-slide>
       <!-- <img src="assets/tutorial/slide-5.png"/> -->
       <h2>What about privacy?</h2>
-      <p><b>Hubs</b> are private & invite only which means it's details are only viewable by that <b>Hub's</b> members. No one will be able to see these details without inviting them into the <b>Hub</b>.<p>
-    </ion-slide>
-
-    <ion-slide>
-      <!-- <img src="assets/tutorial/slide-6.png"/> -->
-      <h2>Can I turn a Hub on/off?</h2>
       <p>As the admin of a <b>Hub</b> you can <b>Deactivate</b> it at any time to conceal the details of which members are presently away or at the location.<p>
       <p>You may then at any time <b>Reactivate</b> your <b>Hub</b>. This will send a notification to it's members as a que to that the space is open to gatherings.<p>
     </ion-slide>
 
     <ion-slide>
-      <!-- <img src="assets/tutorial/slide-7.png"/> -->
-      <h2>Let's setup permissions</h2>
+      <h2>Verify Geo-Fence Permissions</h2>
+
       <p>You'll need to enable some permissions on your device for the app to function properly.<p>
       <p>For example you'll be prompted to enable the background geo-location for this app so that the <b>Geo-Fences</b> for your <b>Hubs</b> can function properly.</p>
-    </ion-slide>
 
-    <ion-slide>
-      <h2>Push Notification permission</h2>
-      <p>You'll also be prompted for push notifications which are optional but recommended.</p>
-      <p>These are used for events such as one of the <b>Hubs</b> you're a member of becoming active.</p>
-      <ion-button (click)="pushNotifications()">Prompt for permission</ion-button>
-    </ion-slide>
-    
-    <ion-slide>
-      <!-- <img src="assets/tutorial/slide-9.png"/> -->
-      <h2>Geo-Fence permissions</h2>
       <p>You'll be prompted for background location permissions. These are used so that your device can detect <b>Hub Geo-Fences</b> and check you in or out of a <b>Hub</b>.</p>
       <p>You'll also be prompted for permission to detect when your device is in motion. This is used to <b>conserve battery</b> by enabling your device to only look for <b>Geo-Fences</b> when you're in motion.</p>
       <ion-button (click)="geoPermissions()">Prompt for permission</ion-button>
+
+      <p>The <b>Lazztech Hub App</b> requires your permissions to be configured properly so that the <b>Geo-Fences</b> can function in the background.</p>
+      <p>Ensure that following settings are configured properly in your permission settings.</p>
+      <p><b>Location</b> is configured to <b>Always</b></p>
+      <p><b>Motion & Fitness</b> is toggled <b>on</b></p>
+      <p><b>Background App Refresh</b> is toggled <b>on</b></p>
+      <ion-button (click)="openAppSettings()">Verify permissions</ion-button>
     </ion-slide>
 
     <!-- <ion-slide>
@@ -76,15 +59,12 @@
       <ion-button>Prompt for permission</ion-button>
     </ion-slide> -->
 
-    <ion-slide>
-      <h2>Verify Permissions</h2>
-      <p>The <b>Lazztech Hub App</b> requires your permissions to be configured properly so that the <b>Geo-Fences</b> can function in the background.</p>
-      <p>Ensure that following settings are configured properly in your permission settings.</p>
-      <p><b>Location</b> is configured to <b>Always</b></p>
-      <p><b>Motion & Fitness</b> is toggled <b>on</b></p>
-      <p><b>Background App Refresh</b> is toggled <b>on</b></p>
-      <ion-button (click)="openAppSettings()">Verify permissions</ion-button>
-    </ion-slide>
+    <!-- <ion-slide>
+      <h2>Push Notification permission</h2>
+      <p>You'll also be prompted for push notifications which are optional but recommended.</p>
+      <p>These are used for events such as one of the <b>Hubs</b> you're a member of becoming active.</p>
+      <ion-button (click)="pushNotifications()">Prompt for permission</ion-button>
+    </ion-slide> -->
 
     <ion-slide>
       <!-- <img src="assets/tutorial/slide-10.png"/> -->
