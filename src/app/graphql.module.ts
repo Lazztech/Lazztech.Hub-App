@@ -15,8 +15,14 @@ const typePolicies: TypedTypePolicies = {
     fields: {
       paginatedInAppNotifications: {
         keyArgs: false,
-        merge(existing = [], incoming) {
-          return [...existing, ...incoming];
+        merge(existing = {}, incoming) {
+          return {
+            ...existing,
+            ...incoming,
+            items: existing?.items?.length
+              ? [...existing?.items, ...incoming?.items]
+              : incoming?.items,
+          };
         },
       },
     },
