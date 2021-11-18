@@ -57,7 +57,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
           result?.data?.paginatedInAppNotifications.items;
       })
     );
-    console.log(this.InAppNotifications);
   }
 
   loadData(event) {
@@ -67,7 +66,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
       );
       event.target.complete();
     });
-    console.log(this.InAppNotifications);
   }
 
   ngOnDestroy() {
@@ -85,12 +83,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
           this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
           return previousResult;
         }
-        Object.assign({}, previousResult, {
-          feed: [
-            ...previousResult?.paginatedInAppNotifications.items,
-            ...fetchMoreResult?.paginatedInAppNotifications.items,
-          ],
-        });
       },
     });
   }
