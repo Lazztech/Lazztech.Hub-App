@@ -142,17 +142,9 @@ export class NotificationsService {
   async deleteAllInAppNotifications() {
     const result = await this.deleteAllInAppNotificationsGQLService
       .mutate(null, {
-        update: (proxy, { data: { deleteAllInAppNotifications } }) => {
-          // Read the data from our cache for this query.
-          const data = proxy.readQuery({
-            query: GetInAppNotificationsDocument,
-          }) as GetInAppNotificationsQuery;
-
-          // Clear out notifications.
-          data.getInAppNotifications = [];
-
-          // Write our data back to the cache.
-          proxy.writeQuery({ query: GetInAppNotificationsDocument, data });
+        update: (cache, mutationResult) => {
+          cache.evict({ __typename: 'InAppNotification' } as InAppNotification);
+          cache.gc();
         },
       })
       .toPromise();
