@@ -9,21 +9,15 @@ import {
 import '@firebase/messaging';
 import { NavController, Platform, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { FetchPolicy } from 'apollo-client';
 import { NGXLogger } from 'ngx-logger';
 import {
   AddUserFcmNotificationTokenGQL,
   DeleteAllInAppNotificationsGQL,
   DeleteInAppNotificationGQL,
-  GetInAppNotificationsDocument,
-  GetInAppNotificationsGQL,
-  GetInAppNotificationsQuery,
   InAppNotification,
   PaginatedInAppNotifcationsGQL,
-  PaginatedInAppNotifcationsDocument,
   PaginatedInAppNotifcationsQueryVariables,
   Scalars,
-  PaginatedInAppNotifcationsQuery,
 } from '../../../generated/graphql';
 
 @Injectable({
@@ -35,7 +29,6 @@ export class NotificationsService {
     private storage: Storage,
     private toastController: ToastController,
     private deleteAllInAppNotificationsGQLService: DeleteAllInAppNotificationsGQL,
-    private getInAppNotificationsGQLService: GetInAppNotificationsGQL,
     private deleteInAppNotificationGQLService: DeleteInAppNotificationGQL,
     private addUserFcmNotificationTokenGQLService: AddUserFcmNotificationTokenGQL,
     private paginatedInAppNotficationsGQLService: PaginatedInAppNotifcationsGQL,
@@ -78,37 +71,6 @@ export class NotificationsService {
     pageableOptions: PaginatedInAppNotifcationsQueryVariables
   ) {
     return this.paginatedInAppNotficationsGQLService.watch(pageableOptions);
-  }
-
-  watchGetInAppNotifications(
-    limit?: number,
-    offset?: number,
-    fetchPolicy: FetchPolicy = 'cache-first',
-    pollInterval = 0
-  ) {
-    return this.getInAppNotificationsGQLService.watch(
-      null,
-
-      {
-        pollInterval,
-        fetchPolicy,
-      }
-    );
-  }
-
-  async getInAppNotifications(
-    limit?: number,
-    offset?: number,
-    fetchPolicy: FetchPolicy = 'cache-first'
-  ): Promise<InAppNotification[]> {
-    const result = await this.getInAppNotificationsGQLService
-      .fetch(null, {
-        fetchPolicy,
-      })
-      .toPromise();
-
-    this.logger.log(result);
-    return result.data.getInAppNotifications;
   }
 
   async deleteInAppNotification(inAppNotificationId: Scalars['ID']) {
