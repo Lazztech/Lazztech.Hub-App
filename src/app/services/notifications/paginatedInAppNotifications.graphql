@@ -1,0 +1,25 @@
+query paginatedInAppNotifcations(
+  $limit: Int!
+  $offset: Int!
+  $field: String!
+  $ascending: Boolean!
+) {
+  paginatedInAppNotifications(
+    pageableOptions: {
+      limit: $limit
+      offset: $offset
+      sortOptions: { field: $field, ascending: $ascending }
+    }
+  ) {
+    items {
+      id
+      userId
+      header
+      text
+      date
+      actionLink
+      thumbnail
+    }
+    total
+  }
+}

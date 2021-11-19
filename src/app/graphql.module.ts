@@ -1,24 +1,42 @@
 import { NgModule } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { APOLLO_OPTIONS } from 'apollo-angular';
-import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { setContext } from 'apollo-link-context';
+import { HttpLink } from 'apollo-angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { InMemoryCache, ApolloClientOptions, from } from '@apollo/client/core';
+import { setContext } from '@apollo/client/link/context';
 import { NGXLogger } from 'ngx-logger';
-import { ApolloClientOptions } from 'apollo-client';
-import { onError } from 'apollo-link-error';
-import { from } from 'apollo-link';
+import { onError } from '@apollo/client/link/error';
 import { environment } from '../environments/environment';
+import { TypedTypePolicies } from 'src/generated/type-policies';
+
+const typePolicies: TypedTypePolicies = {
+  Query: {
+    fields: {
+      paginatedInAppNotifications: {
+        keyArgs: false,
+        merge(existing = {}, incoming) {
+          return {
+            ...existing,
+            ...incoming,
+            items: existing?.items?.length
+              ? [...existing?.items, ...incoming?.items]
+              : incoming?.items,
+          };
+        },
+      },
+    },
+  },
+};
 
 // this is here to access the cache directly
-export const cache = new InMemoryCache();
+export const cache = new InMemoryCache({ typePolicies });
 
 export function createApollo(
   httpLink: HttpLink,
   storage: Storage,
   logger: NGXLogger
 ): ApolloClientOptions<any> {
-
   const authLink = setContext(async (_, { headers }) => {
     const token = await storage.get('token');
     if (!token) {
@@ -28,8 +46,8 @@ export function createApollo(
       return {
         headers: {
           ...headers,
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       };
     }
   });
@@ -38,7 +56,9 @@ export function createApollo(
     let err: string;
     console.log('errorLink');
     graphQLErrors?.forEach(({ message, locations, path }) => {
-      err += `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${JSON.stringify(path)} \n`;
+      err += `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
+        locations
+      )}, Path: ${JSON.stringify(path)} \n`;
     });
     err += `[Network error]: ${JSON.stringify(networkError)}`;
     console.log(err);
@@ -51,7 +71,7 @@ export function createApollo(
 
   const apolloLink = httpLink.create({
     uri: `${environment.serverUrl}graphql`,
-    withCredentials: true
+    withCredentials: true,
   });
 
   return {
@@ -62,7 +82,7 @@ export function createApollo(
 }
 
 @NgModule({
-  exports: [HttpLinkModule],
+  exports: [HttpClientModule],
   providers: [
     {
       provide: APOLLO_OPTIONS,
@@ -71,4 +91,4 @@ export function createApollo(
     },
   ],
 })
-export class GraphQLModule { }
+export class GraphQLModule {}

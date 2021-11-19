@@ -275,9 +275,22 @@ export type MutationDeleteAccountArgs = {
   email: Scalars['String'];
 };
 
+export type PageableOptions = {
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  sortOptions?: Maybe<SortOptions>;
+};
+
+export type PaginatedInAppNotificationsResponse = {
+  __typename?: 'PaginatedInAppNotificationsResponse';
+  items: Array<InAppNotification>;
+  total: Scalars['Int'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getInAppNotifications: Array<InAppNotification>;
+  paginatedInAppNotifications: PaginatedInAppNotificationsResponse;
   hub: JoinUserHub;
   usersHubs: Array<JoinUserHub>;
   commonUsersHubs: Array<JoinUserHub>;
@@ -289,6 +302,11 @@ export type Query = {
   ownedHubs: Array<Hub>;
   memberOfHubs: Array<Hub>;
   me?: Maybe<User>;
+};
+
+
+export type QueryPaginatedInAppNotificationsArgs = {
+  pageableOptions?: Maybe<PageableOptions>;
 };
 
 
@@ -320,6 +338,11 @@ export type QueryInvitesByUserArgs = {
 
 export type QuerySearchHubByNameArgs = {
   search: Scalars['String'];
+};
+
+export type SortOptions = {
+  field: Scalars['String'];
+  ascending: Scalars['Boolean'];
 };
 
 export type User = {
@@ -833,15 +856,24 @@ export type DeleteInAppNotificationMutation = (
   & Pick<Mutation, 'deleteInAppNotification'>
 );
 
-export type GetInAppNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PaginatedInAppNotifcationsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+  field: Scalars['String'];
+  ascending: Scalars['Boolean'];
+}>;
 
 
-export type GetInAppNotificationsQuery = (
+export type PaginatedInAppNotifcationsQuery = (
   { __typename?: 'Query' }
-  & { getInAppNotifications: Array<(
-    { __typename?: 'InAppNotification' }
-    & Pick<InAppNotification, 'id' | 'userId' | 'header' | 'text' | 'date' | 'thumbnail' | 'actionLink'>
-  )> }
+  & { paginatedInAppNotifications: (
+    { __typename?: 'PaginatedInAppNotificationsResponse' }
+    & Pick<PaginatedInAppNotificationsResponse, 'total'>
+    & { items: Array<(
+      { __typename?: 'InAppNotification' }
+      & Pick<InAppNotification, 'id' | 'userId' | 'header' | 'text' | 'date' | 'actionLink' | 'thumbnail'>
+    )> }
+  ) }
 );
 
 export type ChangeEmailMutationVariables = Exact<{
@@ -1571,16 +1603,19 @@ export const DeleteInAppNotificationDocument = gql`
     document = DeleteInAppNotificationDocument;
     
   }
-export const GetInAppNotificationsDocument = gql`
-    query getInAppNotifications {
-  getInAppNotifications {
-    id
-    userId
-    header
-    text
-    date
-    thumbnail
-    actionLink
+export const PaginatedInAppNotifcationsDocument = gql`
+    query paginatedInAppNotifcations($limit: Int!, $offset: Int!, $field: String!, $ascending: Boolean!) {
+  paginatedInAppNotifications(pageableOptions: {limit: $limit, offset: $offset, sortOptions: {field: $field, ascending: $ascending}}) {
+    items {
+      id
+      userId
+      header
+      text
+      date
+      actionLink
+      thumbnail
+    }
+    total
   }
 }
     `;
@@ -1588,8 +1623,8 @@ export const GetInAppNotificationsDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class GetInAppNotificationsGQL extends Apollo.Query<GetInAppNotificationsQuery, GetInAppNotificationsQueryVariables> {
-    document = GetInAppNotificationsDocument;
+  export class PaginatedInAppNotifcationsGQL extends Apollo.Query<PaginatedInAppNotifcationsQuery, PaginatedInAppNotifcationsQueryVariables> {
+    document = PaginatedInAppNotifcationsDocument;
     
   }
 export const ChangeEmailDocument = gql`

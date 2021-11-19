@@ -1,10 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
-import { InAppNotification, GetInAppNotificationsQuery } from 'src/generated/graphql';
+import {
+  Exact,
+  PaginatedInAppNotifcationsQueryVariables,
+  PaginatedInAppNotifcationsQuery,
+  InAppNotification,
+} from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { NavController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { IonInfiniteScroll, NavController } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
+import { cache } from '../../graphql.module';
 
 @Component({
   selector: 'app-notifications',
@@ -12,54 +18,87 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./notifications.page.scss'],
 })
 export class NotificationsPage implements OnInit, OnDestroy {
-
   loading = true;
-
-  inAppNotifications: Observable<GetInAppNotificationsQuery['getInAppNotifications']>;
+  getInAppNotficationsQueryRef: QueryRef<
+    PaginatedInAppNotifcationsQuery,
+    Exact<{
+      limit: number;
+      offset: number;
+      field: string;
+      ascending: boolean;
+    }>
+  >;
   subscriptions: Subscription[] = [];
+  pageableOptions: PaginatedInAppNotifcationsQueryVariables;
+  InAppNotifications: Array<InAppNotification> = [];
 
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   constructor(
     private notificationsService: NotificationsService,
     private logger: NGXLogger,
     private navController: NavController
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.inAppNotifications = this.notificationsService.watchGetInAppNotifications(null, 5000).valueChanges.pipe(
-      map(x => x.data && x.data.getInAppNotifications)
-    ).pipe(
-      map(x => this.sortNotifications(x))
-    );
-
+    this.pageableOptions = {
+      limit: 20,
+      offset: 0,
+      field: 'date',
+      ascending: false,
+    };
+    this.getInAppNotficationsQueryRef =
+      this.notificationsService.getInAppNotficationsPaginated(
+        this.pageableOptions
+      );
     this.subscriptions.push(
-      this.notificationsService.watchGetInAppNotifications().valueChanges.subscribe(x => {
-        this.logger.log('loading: ', x.loading);
-        this.loading = x.loading;
+      this.getInAppNotficationsQueryRef.valueChanges.subscribe((result) => {
+        this.logger.log('loading:', result.loading);
+        this.loading = result.loading;
+        this.InAppNotifications =
+          result?.data?.paginatedInAppNotifications.items;
       })
     );
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(
-      x => x.unsubscribe()
-    );
-  }
-
-  sortNotifications(notifications: InAppNotification[]) {
-    const sorted = notifications.sort((x, y) => {
-      return parseInt(y.date, 10) - parseInt(x.date, 10);
+  loadData(event) {
+    this.loadMore().then((x) => {
+      this.InAppNotifications = this.InAppNotifications.concat(
+        x?.data?.paginatedInAppNotifications.items
+      );
+      event.target.complete();
     });
-    return sorted;
   }
 
+  ngOnDestroy() {
+    this.subscriptions.forEach((x) => x.unsubscribe());
+  }
+
+  loadMore() {
+    return this.getInAppNotficationsQueryRef.fetchMore({
+      variables: {
+        ...this.pageableOptions,
+        offset: this.InAppNotifications.length,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult?.paginatedInAppNotifications.items.length) {
+          this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+          return previousResult;
+        }
+      },
+    });
+  }
+
+  clearCache() {
+    cache.evict({ __typename: 'InAppNotification' } as InAppNotification);
+    cache.gc();
+  }
   async doRefresh(event) {
     try {
-      this.loading = true;
-      this.inAppNotifications = this.notificationsService.watchGetInAppNotifications('network-only').valueChanges.pipe(
-        map(x => x.data && x.data.getInAppNotifications)
-      ).pipe(
-        map(x => this.sortNotifications(x))
-      );
+      this.infiniteScroll.disabled = false;
+      this.clearCache();
+      this.InAppNotifications = (
+        await this.getInAppNotficationsQueryRef.refetch(this.pageableOptions)
+      ).data.paginatedInAppNotifications.items;
       this.loading = false;
       event.target.complete();
     } catch (error) {
@@ -68,7 +107,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
     }
   }
 
-
   async deleteNotifications() {
     const result = confirm('Delete all notifications?');
     if (result) {
@@ -76,8 +114,12 @@ export class NotificationsPage implements OnInit, OnDestroy {
     }
   }
 
-  async deleteNotification(id: any) {
-    await this.notificationsService.deleteInAppNotification(id);
+  async deleteNotification(notification: InAppNotification) {
+    await this.notificationsService.deleteInAppNotification(notification.id);
+    this.InAppNotifications.splice(
+      this.InAppNotifications.indexOf(notification),
+      1
+    );
   }
 
   async handleNotificationActionLink(actionLink: string) {
