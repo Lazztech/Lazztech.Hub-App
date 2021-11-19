@@ -5,11 +5,13 @@ import {
   Exact,
   PaginatedInAppNotifcationsQueryVariables,
   PaginatedInAppNotifcationsQuery,
+  InAppNotification,
 } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { IonInfiniteScroll, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
+import { cache } from '../../graphql.module';
 
 @Component({
   selector: 'app-notifications',
@@ -87,9 +89,14 @@ export class NotificationsPage implements OnInit, OnDestroy {
     });
   }
 
+  clearCache() {
+    cache.evict({ __typename: 'InAppNotification' } as InAppNotification);
+    cache.gc();
+  }
   async doRefresh(event) {
     try {
       this.infiniteScroll.disabled = false;
+      this.clearCache();
       this.InAppNotifications = (
         await this.getInAppNotficationsQueryRef.refetch(this.pageableOptions)
       ).data.paginatedInAppNotifications.items;
@@ -108,8 +115,12 @@ export class NotificationsPage implements OnInit, OnDestroy {
     }
   }
 
-  async deleteNotification(id: any) {
+  async deleteNotification(id: any, notification: InAppNotification) {
     await this.notificationsService.deleteInAppNotification(id);
+    this.InAppNotifications.splice(
+      this.InAppNotifications.indexOf(notification),
+      1
+    );
   }
 
   async handleNotificationActionLink(actionLink: string) {
