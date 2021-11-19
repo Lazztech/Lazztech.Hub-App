@@ -12,41 +12,37 @@
 
     <ion-slide>
       <div class="slide">
-        <!-- <img src="assets/tutorial/slide-1.png"/> -->
+        <img src="assets/illustrations/hubs-around.png"/>
         <p><b>Lazztech Hub</b> is a tool for bringing communities of people together for in person gatherings.</p>
 
-        <p><b>Hubs</b> make use of geo-fences around the coordinates of the <b>Hub's</b> GPS coordinates.</p>
+        <p><b>Hubs</b> use <b>Geo-fences</b> which are a virtual perimeter around the Hub's physical location.</p>
 
         <p>As a <b>Hub</b> member you can see which of the <b>Hub's</b> community members are presently at the <b>Hub's</b> location.</p>
 
-        <p>This gives you as a user a high level overview of what's happening with your favorite community gathering spots.</p>
+        <p>This gives you as a user a glanceable overview of who's present at your favorite community gathering spots.</p>
       </div>
     </ion-slide>
 
     <ion-slide>
+      <img src="assets/illustrations/lock.png"/>
       <p>A <b>Hub</b> is a private invite only virtual community associated with a physical location in the world.<p>
-      <p>A <b>Geo-Fence</b> is a virtual perimeter around a location that your mobile device can detect in the background when you enter or exit</p>
+      <p>As the admin of a <b>Hub</b> you can <b>deactivate</b> it at any time to conceal the details of which members are presently away or at the location.<p>
+      <p>You may then at any time <b>Reactivate</b> your <b>Hub</b> and members will recieve a notification that the <b>Hub</b> is active.<p>
     </ion-slide>
 
     <ion-slide>
-      <!-- <img src="assets/tutorial/slide-5.png"/> -->
-      <h2>What about privacy?</h2>
-      <p>As the admin of a <b>Hub</b> you can <b>Deactivate</b> it at any time to conceal the details of which members are presently away or at the location.<p>
-      <p>You may then at any time <b>Reactivate</b> your <b>Hub</b>. This will send a notification to it's members as a que to that the space is open to gatherings.<p>
-    </ion-slide>
+      <img src="assets/illustrations/entering-geofence.png"/>
 
-    <ion-slide>
-      <h2>Verify Geo-Fence Permissions</h2>
-
-      <p>You'll need to enable some permissions on your device for the app to function properly.<p>
+      <!-- <p>You'll need to enable some permissions on your device for the app to function properly.<p>
       <p>For example you'll be prompted to enable the background geo-location for this app so that the <b>Geo-Fences</b> for your <b>Hubs</b> can function properly.</p>
 
-      <p>You'll be prompted for background location permissions. These are used so that your device can detect <b>Hub Geo-Fences</b> and check you in or out of a <b>Hub</b>.</p>
-      <p>You'll also be prompted for permission to detect when your device is in motion. This is used to <b>conserve battery</b> by enabling your device to only look for <b>Geo-Fences</b> when you're in motion.</p>
+      <p>You'll also be prompted for permission to detect when your device is in motion. This is used to <b>conserve battery</b> by enabling your device to only look for <b>Geo-Fences</b> when you're in motion.</p> -->
       <!-- <ion-button (click)="geoPermissions()">Prompt for permission</ion-button> -->
+      
+      <p>The <b>Lazztech Hub App</b> requires your permissions to be configured properly so that the <b>Geo-Fences</b> can function in the background when you enter or exit.</p>
+      
+      <p><b>Ensure your permission settings match.</b></p>
 
-      <p>The <b>Lazztech Hub App</b> requires your permissions to be configured properly so that the <b>Geo-Fences</b> can function in the background.</p>
-      <p>Ensure that following settings are configured properly in your permission settings.</p>
       <p><b>Location</b> is configured to <b>Always</b></p>
       <p><b>Motion & Fitness</b> is toggled <b>on</b></p>
       <p><b>Background App Refresh</b> is toggled <b>on</b></p>
@@ -60,6 +56,7 @@
     </ion-slide> -->
 
     <!-- <ion-slide>
+      <img src="assets/illustrations/notify.png"/>
       <h2>Push Notification permission</h2>
       <p>You'll also be prompted for push notifications which are optional but recommended.</p>
       <p>These are used for events such as one of the <b>Hubs</b> you're a member of becoming active.</p>
@@ -67,7 +64,8 @@
     </ion-slide> -->
 
     <ion-slide>
-      <!-- <img src="assets/tutorial/slide-10.png"/> -->
+      <img src="assets/illustrations/hand-checking-hubs.png"/>
+
       <h2>Ready?</h2>
       <ion-button fill="clear" (click)="finish()">Continue <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
     </ion-slide>
