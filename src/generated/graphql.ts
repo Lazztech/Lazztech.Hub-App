@@ -856,17 +856,6 @@ export type DeleteInAppNotificationMutation = (
   & Pick<Mutation, 'deleteInAppNotification'>
 );
 
-export type GetInAppNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetInAppNotificationsQuery = (
-  { __typename?: 'Query' }
-  & { getInAppNotifications: Array<(
-    { __typename?: 'InAppNotification' }
-    & Pick<InAppNotification, 'id' | 'userId' | 'header' | 'text' | 'date' | 'thumbnail' | 'actionLink'>
-  )> }
-);
-
 export type PaginatedInAppNotifcationsQueryVariables = Exact<{
   limit: Scalars['Int'];
   offset: Scalars['Int'];
@@ -1612,27 +1601,6 @@ export const DeleteInAppNotificationDocument = gql`
   })
   export class DeleteInAppNotificationGQL extends Apollo.Mutation<DeleteInAppNotificationMutation, DeleteInAppNotificationMutationVariables> {
     document = DeleteInAppNotificationDocument;
-    
-  }
-export const GetInAppNotificationsDocument = gql`
-    query getInAppNotifications {
-  getInAppNotifications {
-    id
-    userId
-    header
-    text
-    date
-    thumbnail
-    actionLink
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class GetInAppNotificationsGQL extends Apollo.Query<GetInAppNotificationsQuery, GetInAppNotificationsQueryVariables> {
-    document = GetInAppNotificationsDocument;
     
   }
 export const PaginatedInAppNotifcationsDocument = gql`

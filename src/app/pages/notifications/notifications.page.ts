@@ -115,8 +115,8 @@ export class NotificationsPage implements OnInit, OnDestroy {
     }
   }
 
-  async deleteNotification(id: any, notification: InAppNotification) {
-    await this.notificationsService.deleteInAppNotification(id);
+  async deleteNotification(notification: InAppNotification) {
+    await this.notificationsService.deleteInAppNotification(notification.id);
     this.InAppNotifications.splice(
       this.InAppNotifications.indexOf(notification),
       1
