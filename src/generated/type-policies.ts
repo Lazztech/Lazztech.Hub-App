@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
 export type QueryKeySpecifier = ('getInAppNotifications' | 'paginatedInAppNotifications' | 'hub' | 'usersHubs' | 'commonUsersHubs' | 'invitesByHub' | 'invite' | 'invitesByUser' | 'usersPeople' | 'searchHubByName' | 'ownedHubs' | 'memberOfHubs' | 'me' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
@@ -122,43 +123,43 @@ export type MutationFieldPolicy = {
 	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
-	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	Query?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
 		fields?: QueryFieldPolicy,
 	},
-	InAppNotification?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	InAppNotification?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | InAppNotificationKeySpecifier | (() => undefined | InAppNotificationKeySpecifier),
 		fields?: InAppNotificationFieldPolicy,
 	},
-	PaginatedInAppNotificationsResponse?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	PaginatedInAppNotificationsResponse?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | PaginatedInAppNotificationsResponseKeySpecifier | (() => undefined | PaginatedInAppNotificationsResponseKeySpecifier),
 		fields?: PaginatedInAppNotificationsResponseFieldPolicy,
 	},
-	JoinUserHub?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	JoinUserHub?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | JoinUserHubKeySpecifier | (() => undefined | JoinUserHubKeySpecifier),
 		fields?: JoinUserHubFieldPolicy,
 	},
-	User?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	User?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | UserKeySpecifier | (() => undefined | UserKeySpecifier),
 		fields?: UserFieldPolicy,
 	},
-	UserDevice?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	UserDevice?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | UserDeviceKeySpecifier | (() => undefined | UserDeviceKeySpecifier),
 		fields?: UserDeviceFieldPolicy,
 	},
-	Hub?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	Hub?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | HubKeySpecifier | (() => undefined | HubKeySpecifier),
 		fields?: HubFieldPolicy,
 	},
-	MicroChat?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	MicroChat?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | MicroChatKeySpecifier | (() => undefined | MicroChatKeySpecifier),
 		fields?: MicroChatFieldPolicy,
 	},
-	Invite?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	Invite?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | InviteKeySpecifier | (() => undefined | InviteKeySpecifier),
 		fields?: InviteFieldPolicy,
 	},
-	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
+	Mutation?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
 		fields?: MutationFieldPolicy,
 	}

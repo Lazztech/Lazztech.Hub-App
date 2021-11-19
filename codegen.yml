@@ -14,4 +14,6 @@ generates:
       - "introspection"
   src/generated/type-policies.ts:
     plugins:
+      - add:
+          content: "/* tslint:disable */"
       - typescript-apollo-client-helpers
