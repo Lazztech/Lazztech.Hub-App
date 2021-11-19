@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import {
-  GetInAppNotificationsQuery,
   Exact,
   PaginatedInAppNotifcationsQueryVariables,
   PaginatedInAppNotifcationsQuery,
@@ -31,7 +30,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
   >;
   subscriptions: Subscription[] = [];
   pageableOptions: PaginatedInAppNotifcationsQueryVariables;
-  InAppNotifications: GetInAppNotificationsQuery['getInAppNotifications'] = [];
+  InAppNotifications: Array<InAppNotification> = [];
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   constructor(
