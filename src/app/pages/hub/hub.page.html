@@ -45,7 +45,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-list *ngIf="!loading && (userHub | async) as userHub">
+  <ion-list [appFeatureFlag]="'microChat'" *ngIf="!loading && (userHub | async) as userHub">
     <ion-list-header>
       <ion-text>MicroChat</ion-text>
     </ion-list-header>
