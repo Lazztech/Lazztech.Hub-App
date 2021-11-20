@@ -1,16 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
-
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-
-import { ProfilePage } from './profile.page';
-import { ChangeNamePage } from './settings/change-name/change-name.page';
-import { ChangeEmailPage } from './settings/change-email/change-email.page';
-import { ChangePasswordPage } from './settings/change-password/change-password.page';
-import { DeleteAccountPage } from './settings/delete-account/delete-account.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { DirectivesModule } from 'src/app/directives/directives.module';
+import { ProfilePage } from './profile.page';
 
 const routes: Routes = [
   {
@@ -25,7 +20,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ComponentsModule
+    ComponentsModule,
+    DirectivesModule,
   ],
   declarations: [ProfilePage]
 })

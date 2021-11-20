@@ -19,7 +19,8 @@ export interface Environment {
       // https://github.com/adorableio/avatars-api-middleware
       adorableAvatarsUserImage: boolean,
       uberRequestRide: boolean,
-      microChat: boolean
+      microChat: boolean,
+      lightDarkThemeToggle: boolean
     };
     logging: LoggerConfig;
     backgroundGeoLocationConfig: BackgroundGeolocationConfig;
