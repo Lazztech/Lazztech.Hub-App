@@ -24,7 +24,8 @@ export const environment: Environment = {
     // https://github.com/adorableio/avatars-api-middleware
     adorableAvatarsUserImage: true,
     uberRequestRide: true,
-    microChat: false
+    microChat: false,
+    lightDarkThemeToggle: false
   },
   logging: {
     level: NgxLoggerLevel.DEBUG,
@@ -37,7 +38,7 @@ export const environment: Environment = {
     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
     distanceFilter: 10,
     stopOnTerminate: false,
-    startOnBoot: true
+    startOnBoot: true,
   },
   sentry: {
     dsn: 'https://772d0460b07a4d968cc3829a395ea446@o388920.ingest.sentry.io/5226414'

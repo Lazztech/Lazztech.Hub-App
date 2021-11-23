@@ -118,6 +118,8 @@ export const environment: Environment = {
     // https://github.com/adorableio/avatars-api-middleware
     adorableAvatarsUserImage: true,
     uberRequestRide: true,
+    microChat: false,
+    lightDarkThemeToggle: false
   },
   logging: {
     level: NgxLoggerLevel.DEBUG,

@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <div slot="start" href="javascript:void(0);" (click)="toggleTheme()">
+    <div slot="start" [appFeatureFlag]="'lightDarkThemeToggle'" href="javascript:void(0);" (click)="toggleTheme()">
       <ion-icon size="large" name="moon"></ion-icon>
     </div>
     <div slot="end" href="javascript:void(0);" (click)="presentActionSheet()">
