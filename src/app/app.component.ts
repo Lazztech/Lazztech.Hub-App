@@ -49,7 +49,7 @@ export class AppComponent {
     this.isDark = await this.themeService.isDark();
 
     StatusBar.setStyle({
-      style: this.isDark ? Style.Dark : Style.Light
+      style: Style.Dark
     });
     this.platform.ready().then(async () => {
       this.logger.log('Ionic Platform Ready');
