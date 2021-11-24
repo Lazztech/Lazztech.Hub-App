@@ -26,12 +26,12 @@
       </p>
     </ion-text>
 
-    <ion-list *ngIf="!loading">
+    <ion-list [appFeatureFlag]="'inviteUsersCheckList'" *ngIf="!loading">
       <ion-list-header class="ion-padding-bottom">
         People
       </ion-list-header>
 
-      <ion-item *ngFor="let person of persons | async">
+      <ion-item [appFeatureFlag]="'inviteUsersCheckList'" *ngFor="let person of persons | async">
         <ion-avatar slot="start">
           <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image"
             src="{{person.id | avatar}}">

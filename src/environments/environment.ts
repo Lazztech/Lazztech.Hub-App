@@ -25,7 +25,8 @@ export const environment: Environment = {
     adorableAvatarsUserImage: true,
     uberRequestRide: true,
     microChat: false,
-    lightDarkThemeToggle: false
+    lightDarkThemeToggle: false,
+    inviteUsersCheckList: false
   },
   logging: {
     level: NgxLoggerLevel.DEBUG,
