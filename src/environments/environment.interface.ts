@@ -20,7 +20,8 @@ export interface Environment {
       adorableAvatarsUserImage: boolean,
       uberRequestRide: boolean,
       microChat: boolean,
-      lightDarkThemeToggle: boolean
+      lightDarkThemeToggle: boolean,
+      inviteUsersCheckList: boolean,
     };
     logging: LoggerConfig;
     backgroundGeoLocationConfig: BackgroundGeolocationConfig;
