@@ -5,6 +5,7 @@ import { Observable, Observer, of } from 'rxjs';
 import { Hub } from 'src/generated/graphql';
 import { Geolocation } from '@capacitor/geolocation';
 import { environment } from '../../../environments/environment';
+import { env } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class LocationService {
     this.coords$ = this.watchLocation();
    }
 
-  atHub(hub: any, coords: any, distance: number = 200) {
+  atHub(hub: any, coords: any, distance: number = environment.geofenceRadius) {
     const hubCoords = { latitude: hub.latitude, longitude: hub.longitude };
     const result = geolib.isPointWithinRadius(
       coords,

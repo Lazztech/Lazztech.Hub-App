@@ -32,6 +32,7 @@ export const environment: Environment = {
     level: NgxLoggerLevel.DEBUG,
     serverLogLevel: NgxLoggerLevel.DEBUG,
   } as LoggerConfig,
+  geofenceRadius: 200,
   backgroundGeoLocationConfig: {
     reset: true,
     debug: true,
