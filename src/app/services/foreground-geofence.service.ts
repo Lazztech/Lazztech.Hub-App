@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
-import { UsersHubsQuery } from 'src/generated/graphql';
 import { HubService } from './hub/hub.service';
 import { LocationService } from './location/location.service';
 
