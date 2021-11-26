@@ -11,7 +11,6 @@ import { LocationService } from './location/location.service';
 export class ForegroundGeofenceService {
 
   subscriptions: Array<Subscription> = [];
-  userHubs: UsersHubsQuery['usersHubs'] = [];
 
   constructor(
     private logger: NGXLogger,
@@ -28,12 +27,11 @@ export class ForegroundGeofenceService {
     this.stop();
     this.logger.log(`initializing`);
     this.subscriptions.push(
-      this.hubService.watchUserHubs(null, 2000).valueChanges.subscribe(async queryResult => {
+      this.locationService.coords$.subscribe(async coords => {
         try {
-          this.userHubs = queryResult?.data?.usersHubs;
-          const position = await this.locationService.getCurrentPosition();
-          for (const userHub of this.userHubs) {
-            if (this.locationService.atHub(userHub.hub, position.coords)) {
+          const usersHubs = await this.hubService.usersHubs();
+          for (const userHub of usersHubs) {
+            if (this.locationService.atHub(userHub.hub, coords)) {
               await this.hubService.enteredHubGeofence(userHub.hubId);
               this.logger.log(`enteredHubGeofence: ${userHub.hubId}`);
             } else {
