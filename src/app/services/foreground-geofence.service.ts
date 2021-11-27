@@ -30,12 +30,11 @@ export class ForegroundGeofenceService {
         try {
           const usersHubs = await this.hubService.usersHubs();
           for (const userHub of usersHubs) {
-            const isPresent = userHub.isPresent;
             const atHub = this.locationService.atHub(userHub.hub, coords);
-            if ((isPresent !== atHub) && atHub) {
+            if ((userHub.isPresent !== atHub) && atHub) {
               await this.hubService.enteredHubGeofence(userHub.hubId);
               this.logger.log(`enteredHubGeofence: ${userHub.hubId}`);
-            } else if ((isPresent !== atHub) && !atHub) {
+            } else if ((userHub.isPresent !== atHub) && !atHub) {
               await this.hubService.exitedHubGeofence(userHub.hubId);
               this.logger.log(`exitedHubGeofence: ${userHub.hubId}`);
             }
