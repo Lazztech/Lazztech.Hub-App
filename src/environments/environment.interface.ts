@@ -24,7 +24,7 @@ export interface Environment {
       inviteUsersCheckList: boolean,
     };
     logging: LoggerConfig;
-    geofenceRadius: number,
+    geofenceRadius: number;
     backgroundGeoLocationConfig: BackgroundGeolocationConfig;
     sentry: BrowserOptions;
     apollo: {

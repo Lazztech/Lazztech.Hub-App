@@ -20,7 +20,7 @@ export class ForegroundGeofenceService {
   /**
    * initializes forground geofence service
    * this watches for changes in users location in the forground
-   * and 
+   * and
    */
   init() {
     this.stop();
@@ -37,9 +37,9 @@ export class ForegroundGeofenceService {
               await this.hubService.exitedHubGeofence(userHub.hubId);
               this.logger.log(`exitedHubGeofence: ${userHub.hubId}`);
             }
-          } 
+          }
         } catch (error) {
-          this.logger.error(error); 
+          this.logger.error(error);
         }
       })
     );
