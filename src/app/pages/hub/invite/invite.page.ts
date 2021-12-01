@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
 import { of } from 'zen-observable';
 import { ThisReceiver } from '@angular/compiler';
+import { promise } from 'selenium-webdriver';
 
 
 
@@ -76,33 +77,31 @@ export class InvitePage implements OnInit, OnDestroy {
     );
   }
 
+  async sendInvites(): Promise<string> {
+    let invited: string = '';
+    await Promise.all(
+      this.invites.map(async invite => {
+       const result = await this.hubService.inviteUserToHub(this.id, invite.email);
+        if (result) {
+           invited = invited.concat(`${result?.invitee?.firstName}, `);
+        } else {
+          let identifier = invite.name == undefined ? invite.email : invite.name;
+          this.alertService.presentRedToast(`Failed to invite ${identifier}!`);
+        }
+      })
+      )
+      return invited;
+  }
+
   async inviteUser() {
     this.loading = true;
-    this.invites.push(this.myForm.value)
-
-    
-    
-    let invited: string;
-    await this.invites.map(async invite => {
-      console.log(invite)
-     const result = await this.hubService.inviteUserToHub(this.id, invite.email);
-      if (result) {
-        invited.concat(`${result?.invitee?.firstName}, `);
-      } else {
-        let identifier = invite.name == undefined ? invite.email : invite.name;
-        this.alertService.presentRedToast(`Failed to invite ${identifier}!`);
-      }
-    })
-
-    if (invited != undefined) {
-      this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} has been sucessfully invited`)
+    if (this.myForm.valid) this.invites.push(this.myForm.value)
+    let invited = await this.sendInvites();
+    if (invited != undefined || invited != '') {
+      this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`)
       this.loading = false;
       this.navCtrl.back();
     }
     this.loading = false;
-
-
-
-    
   }
 }
