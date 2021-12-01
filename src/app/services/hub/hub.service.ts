@@ -272,7 +272,7 @@ export class HubService {
       ]
     }).toPromise();
 
-    const response = result.data.inviteUserToHub;
+    const response = result?.data?.inviteUserToHub;
     return response;
   }
 

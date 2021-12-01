@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
@@ -8,6 +8,11 @@ import { Scalars, UsersPeopleQuery } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
+import { of } from 'zen-observable';
+import { ThisReceiver } from '@angular/compiler';
+
+
+
 
 @Component({
   selector: 'app-invite',
@@ -17,7 +22,8 @@ import { NavController } from '@ionic/angular';
 export class InvitePage implements OnInit, OnDestroy {
 
   loading = false;
-
+  invites: Array<{name?: string, email: string}> = []
+  // invites: string[] = [];
   myForm: FormGroup;
   id: Scalars['ID'];
   persons: Observable<UsersPeopleQuery['usersPeople']>;
@@ -35,17 +41,17 @@ export class InvitePage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     public navCtrl: NavController,
   ) { }
-
+ 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.myForm = this.fb.group({
       email: ['', [
         Validators.required,
         Validators.email
-      ]]
+      ]],
     });
-
-    this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x.data && x.data.usersPeople));
+    
+    this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x?.data && x?.data?.usersPeople));
 
     this.subscriptions.push(
       this.hubService.watchUsersPeople().valueChanges.subscribe(x => {
@@ -55,7 +61,15 @@ export class InvitePage implements OnInit, OnDestroy {
     );
   }
 
-
+  checkboxChanged(person) {
+    let invitee = { name: person.firstName, email: person.email };
+    if (this.invites.filter(i => i.email === invitee.email).length > 0){
+      const i = this.invites.findIndex(i => i.email === invitee.email);
+      this.invites.splice(i, 1);
+    } else {
+      this.invites.push(invitee);
+    }
+  }
   ngOnDestroy() {
     this.subscriptions.forEach(
       x => x.unsubscribe()
@@ -64,17 +78,31 @@ export class InvitePage implements OnInit, OnDestroy {
 
   async inviteUser() {
     this.loading = true;
+    this.invites.push(this.myForm.value)
 
-    const formValue = this.myForm.value;
+    
+    
+    let invited: string;
+    await this.invites.map(async invite => {
+      console.log(invite)
+     const result = await this.hubService.inviteUserToHub(this.id, invite.email);
+      if (result) {
+        invited.concat(`${result?.invitee?.firstName}, `);
+      } else {
+        let identifier = invite.name == undefined ? invite.email : invite.name;
+        this.alertService.presentRedToast(`Failed to invite ${identifier}!`);
+      }
+    })
 
-    const result = await this.hubService.inviteUserToHub(this.id, formValue.email);
-    if (result) {
+    if (invited != undefined) {
+      this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} has been sucessfully invited`)
       this.loading = false;
-      this.alertService.presentToast('Invited!');
       this.navCtrl.back();
-    } else {
-      this.loading = false;
-      this.alertService.presentRedToast('Failed.');
     }
+    this.loading = false;
+
+
+
+    
   }
 }
