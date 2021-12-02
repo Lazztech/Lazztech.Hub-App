@@ -91,12 +91,11 @@ export class InvitePage implements OnInit, OnDestroy {
     this.loading = true;
     if (this.myForm.valid) this.invites.push(this.myForm.value)
     let invited = await this.sendInvites();
+    this.loading = false;
     if (invited !== '') {
       this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`)
-      this.loading = false;
     }
     if (this.allInvitesSucces) this.navCtrl.back();
-    this.loading = false;
     this.invites = [];
   }
 }

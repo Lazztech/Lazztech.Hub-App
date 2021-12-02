@@ -19,6 +19,8 @@ import { Hub, UsersPeopleQuery } from 'src/generated/graphql';
 export class AddHubPage implements OnInit, OnDestroy {
 
   loading = true;
+  invites: Array<{name?: string, email: string}> = []
+  allInvitesSucces = true;
   paid = false;
   myForm: FormGroup;
   hub: Hub = {
@@ -98,6 +100,31 @@ export class AddHubPage implements OnInit, OnDestroy {
       this.paid = true;
     }
   }
+  checkboxChanged(person) {
+    let invitee = { name: person.firstName, email: person.email };
+    if (this.invites.filter(i => i.email === invitee.email).length > 0){
+      const i = this.invites.findIndex(i => i.email === invitee.email);
+      this.invites.splice(i, 1);
+    } else {
+      this.invites.push(invitee);
+    }
+    console.log(this.invites)
+  }
+  async sendInvites(hubId: string): Promise<string> {
+    let invited: string = '';
+    console.log(this.invites)
+    await Promise.all(
+      this.invites.map(async invite => {
+       const result = await this.hubService.inviteUserToHub(hubId, invite.email);
+        if (result) {
+           invited = invited.concat(`${result?.invitee?.firstName}, `);
+        } else {
+          this.allInvitesSucces = false;
+        }
+      })
+      )
+      return invited;
+  }
 
   async saveHub() {
     this.loading = true;
@@ -111,7 +138,6 @@ export class AddHubPage implements OnInit, OnDestroy {
       this.coords.longitude
     );
     if (result) {
-      this.loading = false;
       await this.geofenceService.addGeofence({
         identifier: JSON.stringify({
           id: result.hub.id,
@@ -123,8 +149,15 @@ export class AddHubPage implements OnInit, OnDestroy {
         notifyOnExit: true
       });
       await this.alertService.presentToast('Created Hub!');
+      let hubId = result.hubId
+      const invited = await this.sendInvites(hubId)
+      this.loading = false;
+      if (invited !== '') {
+        this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`)
+      }
       await this.navCtrl.navigateRoot('/tabs');
       await this.navCtrl.navigateForward(`/admin-hub/${result.hub.id}`);
+   
     } else {
       this.loading = false;
       this.alertService.presentRedToast('Failed to create Hub.');
