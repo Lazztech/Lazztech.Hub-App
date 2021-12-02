@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
@@ -8,13 +8,6 @@ import { Scalars, UsersPeopleQuery } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
-import { of } from 'zen-observable';
-import { ThisReceiver } from '@angular/compiler';
-import { promise } from 'selenium-webdriver';
-
-
-
-
 @Component({
   selector: 'app-invite',
   templateUrl: './invite.page.html',
@@ -23,8 +16,8 @@ import { promise } from 'selenium-webdriver';
 export class InvitePage implements OnInit, OnDestroy {
 
   loading = false;
+  allInvitesSucces = true;
   invites: Array<{name?: string, email: string}> = []
-  // invites: string[] = [];
   myForm: FormGroup;
   id: Scalars['ID'];
   persons: Observable<UsersPeopleQuery['usersPeople']>;
@@ -70,6 +63,7 @@ export class InvitePage implements OnInit, OnDestroy {
     } else {
       this.invites.push(invitee);
     }
+    console.log(this.invites)
   }
   ngOnDestroy() {
     this.subscriptions.forEach(
@@ -79,14 +73,14 @@ export class InvitePage implements OnInit, OnDestroy {
 
   async sendInvites(): Promise<string> {
     let invited: string = '';
+    console.log(this.invites)
     await Promise.all(
       this.invites.map(async invite => {
        const result = await this.hubService.inviteUserToHub(this.id, invite.email);
         if (result) {
            invited = invited.concat(`${result?.invitee?.firstName}, `);
         } else {
-          let identifier = invite.name == undefined ? invite.email : invite.name;
-          this.alertService.presentRedToast(`Failed to invite ${identifier}!`);
+          this.allInvitesSucces = false;
         }
       })
       )
@@ -97,11 +91,12 @@ export class InvitePage implements OnInit, OnDestroy {
     this.loading = true;
     if (this.myForm.valid) this.invites.push(this.myForm.value)
     let invited = await this.sendInvites();
-    if (invited != undefined || invited != '') {
+    if (invited !== '') {
       this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`)
       this.loading = false;
-      this.navCtrl.back();
     }
+    if (this.allInvitesSucces) this.navCtrl.back();
     this.loading = false;
+    this.invites = [];
   }
 }

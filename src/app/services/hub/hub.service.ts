@@ -38,6 +38,7 @@ import {
   UsersHubsQuery,
   UsersPeopleGQL,
 } from 'src/generated/graphql';
+import { AlertService } from '../alert/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +71,8 @@ export class HubService {
     private readonly invitesByUserGQLService: InvitesByUserGQL,
     private readonly acceptHubInviteGQLService: AcceptHubInviteGQL,
     private readonly leaveHubGQLService: LeaveHubGQL,
-    private readonly changeHubLocationGQLService: ChangeHubLocationGQL
+    private readonly changeHubLocationGQLService: ChangeHubLocationGQL,
+    private alertService: AlertService,
   ) { }
 
   async createHub(name: string, description: string, image: string, latitude: number, longitude: number) {
@@ -263,17 +265,25 @@ export class HubService {
   }
 
   async inviteUserToHub(hubId: Scalars['ID'], inviteesEmail: string) {
-    const result = await this.inviteUserToHubGQLService.mutate({
-      hubId,
-      inviteesEmail
-    }, {
-      refetchQueries: [
-        { query: InvitesByHubDocument, variables: { hubId, includeAccepted: false } as InvitesByHubQueryVariables }
-      ]
-    }).toPromise();
-
-    const response = result?.data?.inviteUserToHub;
-    return response;
+    try {
+      const result = await this.inviteUserToHubGQLService.mutate({
+        hubId,
+        inviteesEmail
+      }, {
+        refetchQueries: [
+          { query: InvitesByHubDocument, variables: { hubId, includeAccepted: false } as InvitesByHubQueryVariables }
+        ]
+      }).toPromise();
+  
+      const response = result?.data?.inviteUserToHub;
+      return response;
+    } catch (error) {
+      /**
+       * DEPENDS ON BACKEND
+       */
+      this.alertService.presentRedToast(error, 6000);
+      
+    }
   }
 
   async acceptHubInvite(inviteId: Scalars['ID']) {
