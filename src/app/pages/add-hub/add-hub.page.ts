@@ -74,6 +74,8 @@ export class AddHubPage implements OnInit, OnDestroy {
   async ionViewDidEnter() {
     // FIXME this should be refactored into the HubService to avoid repeating code
     this.coords = await this.locationService.coords$.pipe(take(1)).toPromise();
+    this.hub.latitude = this.coords.latitude;
+    this.hub.longitude = this.coords.longitude;
     this.loading = false;
   }
 
