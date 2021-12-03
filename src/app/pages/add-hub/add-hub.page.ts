@@ -148,19 +148,21 @@ export class AddHubPage implements OnInit, OnDestroy {
         notifyOnEntry: true,
         notifyOnExit: true
       });
-      await this.alertService.presentToast('Created Hub!');
       let hubId = result.hubId
       const invited = await this.sendInvites(hubId)
       this.loading = false;
       if (invited !== '') {
-        this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`)
+        await this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`, 6000)
+        await this.alertService.presentToast('Created Hub!',3000);
       }
-      await this.navCtrl.navigateRoot('/tabs');
-      await this.navCtrl.navigateForward(`/admin-hub/${result.hub.id}`);
-   
+      if(this.allInvitesSucces){
+        await this.navCtrl.navigateRoot('/tabs');
+        await this.navCtrl.navigateForward(`/admin-hub/${result.hub.id}`);  
+        }
     } else {
       this.loading = false;
       this.alertService.presentRedToast('Failed to create Hub.');
+      this.alertService.presentRedToast("Some Invites Have Failed", 3000)
     }
   }
 

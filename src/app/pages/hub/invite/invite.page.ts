@@ -95,7 +95,10 @@ export class InvitePage implements OnInit, OnDestroy {
     if (invited !== '') {
       this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`)
     }
-    if (this.allInvitesSucces) this.navCtrl.back();
+    if (this.allInvitesSucces) this.navCtrl.back()
+    else {
+      this.alertService.presentRedToast("Some Invites Have Failed", 3000)
+    };
     this.invites = [];
   }
 }
