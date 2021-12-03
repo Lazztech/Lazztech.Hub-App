@@ -63,7 +63,6 @@ export class InvitePage implements OnInit, OnDestroy {
     } else {
       this.invites.push(invitee);
     }
-    console.log(this.invites)
   }
   ngOnDestroy() {
     this.subscriptions.forEach(
@@ -73,7 +72,6 @@ export class InvitePage implements OnInit, OnDestroy {
 
   async sendInvites(): Promise<string> {
     let invited: string = '';
-    console.log(this.invites)
     await Promise.all(
       this.invites.map(async invite => {
        const result = await this.hubService.inviteUserToHub(this.id, invite.email);
@@ -96,9 +94,6 @@ export class InvitePage implements OnInit, OnDestroy {
       this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`)
     }
     if (this.allInvitesSucces) this.navCtrl.back()
-    else {
-      this.alertService.presentRedToast("Some Invites Have Failed", 3000)
-    };
     this.invites = [];
   }
 }
