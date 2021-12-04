@@ -162,7 +162,6 @@ export class AddHubPage implements OnInit, OnDestroy {
     } else {
       this.loading = false;
       this.alertService.presentRedToast('Failed to create Hub.');
-      this.alertService.presentRedToast("Some Invites Have Failed", 3000)
     }
   }
 
