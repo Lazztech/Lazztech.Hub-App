@@ -17,7 +17,7 @@ export class InvitePage implements OnInit, OnDestroy {
 
   loading = false;
   allInvitesSucces = true;
-  invites: Array<{name?: string, email: string}> = []
+  invites: Array<{name?: string, email: string}> = [];
   myForm: FormGroup;
   id: Scalars['ID'];
   persons: Observable<UsersPeopleQuery['usersPeople']>;
@@ -35,7 +35,7 @@ export class InvitePage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     public navCtrl: NavController,
   ) { }
- 
+
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.myForm = this.fb.group({
@@ -44,7 +44,7 @@ export class InvitePage implements OnInit, OnDestroy {
         Validators.email
       ]],
     });
-    
+
     this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x?.data && x?.data?.usersPeople));
 
     this.subscriptions.push(
@@ -56,7 +56,7 @@ export class InvitePage implements OnInit, OnDestroy {
   }
 
   checkboxChanged(person) {
-    let invitee = { name: person.firstName, email: person.email };
+    const invitee = { name: person.firstName, email: person.email };
     if (this.invites.filter(i => i.email === invitee.email).length > 0){
       const i = this.invites.findIndex(i => i.email === invitee.email);
       this.invites.splice(i, 1);
@@ -71,29 +71,29 @@ export class InvitePage implements OnInit, OnDestroy {
   }
 
   async sendInvites(): Promise<string> {
-    let invited: string = '';
+    let invited = '';
     await Promise.all(
       this.invites.map(async invite => {
        const result = await this.hubService.inviteUserToHub(this.id, invite.email);
-        if (result) {
+       if (result) {
            invited = invited.concat(`${result?.invitee?.firstName}, `);
         } else {
           this.allInvitesSucces = false;
         }
       })
-      )
-      return invited;
+      );
+    return invited;
   }
 
   async inviteUser() {
     this.loading = true;
-    if (this.myForm.valid) this.invites.push(this.myForm.value)
-    let invited = await this.sendInvites();
+    if (this.myForm.valid) { this.invites.push(this.myForm.value); }
+    const invited = await this.sendInvites();
     this.loading = false;
     if (invited !== '') {
-      this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`)
+      this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`);
     }
-    if (this.allInvitesSucces) this.navCtrl.back()
+    if (this.allInvitesSucces) { this.navCtrl.back(); }
     this.invites = [];
   }
 }

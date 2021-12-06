@@ -82,22 +82,6 @@ export class HubService {
       image,
       latitude,
       longitude
-    }, {
-      update: (proxy, { data: { createHub } }) => {
-        // Read the data from our cache for this query.
-        const data = proxy.readQuery({
-          query: UsersHubsDocument,
-        }) as UsersHubsQuery;
-
-        // Add new hub to userHubs array
-        data.usersHubs.push(createHub);
-
-        // Write our data back to the cache.
-        proxy.writeQuery({
-          query: UsersHubsDocument,
-          data
-        });
-      }
     }).toPromise();
 
     const response = result.data.createHub;
@@ -274,7 +258,7 @@ export class HubService {
           { query: InvitesByHubDocument, variables: { hubId, includeAccepted: false } as InvitesByHubQueryVariables }
         ]
       }).toPromise();
-  
+
       const response = result?.data?.inviteUserToHub;
       return response;
     } catch (error) {
@@ -282,7 +266,7 @@ export class HubService {
        * DEPENDS ON BACKEND
        */
       this.alertService.presentRedToast(error, 6000);
-      
+
     }
   }
 

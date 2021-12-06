@@ -19,7 +19,7 @@ import { Hub, UsersPeopleQuery } from 'src/generated/graphql';
 export class AddHubPage implements OnInit, OnDestroy {
 
   loading = true;
-  invites: Array<{name?: string, email: string}> = []
+  invites: Array<{name?: string, email: string}> = [];
   allInvitesSucces = true;
   paid = false;
   myForm: FormGroup;
@@ -101,29 +101,27 @@ export class AddHubPage implements OnInit, OnDestroy {
     }
   }
   checkboxChanged(person) {
-    let invitee = { name: person.firstName, email: person.email };
+    const invitee = { name: person.firstName, email: person.email };
     if (this.invites.filter(i => i.email === invitee.email).length > 0){
       const i = this.invites.findIndex(i => i.email === invitee.email);
       this.invites.splice(i, 1);
     } else {
       this.invites.push(invitee);
     }
-    console.log(this.invites)
   }
   async sendInvites(hubId: string): Promise<string> {
-    let invited: string = '';
-    console.log(this.invites)
+    let invited = '';
     await Promise.all(
       this.invites.map(async invite => {
        const result = await this.hubService.inviteUserToHub(hubId, invite.email);
-        if (result) {
+       if (result) {
            invited = invited.concat(`${result?.invitee?.firstName}, `);
         } else {
           this.allInvitesSucces = false;
         }
       })
-      )
-      return invited;
+      );
+    return invited;
   }
 
   async saveHub() {
@@ -148,16 +146,16 @@ export class AddHubPage implements OnInit, OnDestroy {
         notifyOnEntry: true,
         notifyOnExit: true
       });
-      let hubId = result.hubId
-      const invited = await this.sendInvites(hubId)
+      const hubId = result.hubId;
+      const invited = await this.sendInvites(hubId);
       this.loading = false;
       if (invited !== '') {
-        await this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`, 6000)
-        await this.alertService.presentToast('Created Hub!',3000);
+        await this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`, 6000);
+        await this.alertService.presentToast('Created Hub!', 3000);
       }
-      if(this.allInvitesSucces){
+      if (this.allInvitesSucces){
         await this.navCtrl.navigateRoot('/tabs');
-        await this.navCtrl.navigateForward(`/admin-hub/${result.hub.id}`);  
+        await this.navCtrl.navigateForward(`/admin-hub/${result.hub.id}`);
         }
     } else {
       this.loading = false;
