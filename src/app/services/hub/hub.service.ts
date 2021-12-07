@@ -35,7 +35,7 @@ import {
   SetHubStarredGQL,
   UsersHubsDocument,
   UsersHubsGQL,
-  UsersHubsQuery,
+  Hub,
   UsersPeopleGQL,
 } from 'src/generated/graphql';
 import { AlertService } from '../alert/alert.service';
@@ -306,38 +306,10 @@ export class HubService {
     const result = await this.deleteHubGQLService.mutate({
       id
     }, {
-      update: (proxy, { data: { deleteHub } }) => {
-        // Read the data from our cache for this query.
-        const hubQueryData = proxy.readQuery({
-          query: HubDocument,
-          variables: { id } as HubQueryVariables
-        }) as HubQuery;
-
-        // Delete hub
-        delete hubQueryData.hub;
-
-        // Write our data back to the cache.
-        proxy.writeQuery({
-          query: HubDocument,
-          variables: { id } as HubQueryVariables,
-          data: hubQueryData
-        });
-
-        // TODO would it be more robust to recurse through the RootQuery document tree and delete that way?
-        const userHubsData = proxy.readQuery({
-          query: UsersHubsDocument
-        }) as UsersHubsQuery;
-
-        // Delete Hub
-        const userHub = userHubsData.usersHubs.find(x => x.hubId === id);
-        userHubsData.usersHubs.splice(
-          userHubsData.usersHubs.indexOf(userHub), 1
-        );
-
-        proxy.writeQuery({
-          query: UsersHubsDocument,
-          data: userHubsData
-        });
+      update: (cache, { data: { deleteHub } }) => {
+       const normalizedId = cache.identify({id, __typename: 'Hub', } as Hub);
+       cache.evict({id: normalizedId});
+       cache.gc();
       }
     }).toPromise();
 
