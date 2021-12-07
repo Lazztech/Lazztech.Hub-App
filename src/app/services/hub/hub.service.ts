@@ -262,9 +262,6 @@ export class HubService {
       const response = result?.data?.inviteUserToHub;
       return response;
     } catch (error) {
-      /**
-       * DEPENDS ON BACKEND
-       */
       this.alertService.presentRedToast(error, 6000);
 
     }

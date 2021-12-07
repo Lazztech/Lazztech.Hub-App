@@ -102,7 +102,7 @@ export class AddHubPage implements OnInit, OnDestroy {
   }
   checkboxChanged(person) {
     const invitee = { name: person.firstName, email: person.email };
-    if (this.invites.filter(i => i.email === invitee.email).length > 0){
+    if (this.invites.filter(i => i.email === invitee.email).length){
       const i = this.invites.findIndex(i => i.email === invitee.email);
       this.invites.splice(i, 1);
     } else {
@@ -146,8 +146,7 @@ export class AddHubPage implements OnInit, OnDestroy {
         notifyOnEntry: true,
         notifyOnExit: true
       });
-      const hubId = result.hubId;
-      const invited = await this.sendInvites(hubId);
+      const invited = await this.sendInvites(result.hubId);
       this.loading = false;
       if (invited !== '') {
         await this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`, 6000);

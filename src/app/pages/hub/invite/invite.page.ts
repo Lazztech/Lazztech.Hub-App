@@ -57,7 +57,7 @@ export class InvitePage implements OnInit, OnDestroy {
 
   checkboxChanged(person) {
     const invitee = { name: person.firstName, email: person.email };
-    if (this.invites.filter(i => i.email === invitee.email).length > 0){
+    if (this.invites.filter(i => i.email === invitee.email).length){
       const i = this.invites.findIndex(i => i.email === invitee.email);
       this.invites.splice(i, 1);
     } else {
