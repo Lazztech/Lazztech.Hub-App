@@ -8,7 +8,6 @@ import { Scalars, UsersPeopleQuery } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
-
 @Component({
   selector: 'app-invite',
   templateUrl: './invite.page.html',
@@ -17,7 +16,8 @@ import { NavController } from '@ionic/angular';
 export class InvitePage implements OnInit, OnDestroy {
 
   loading = false;
-
+  allInvitesSucces = true;
+  invites: Array<{name?: string, email: string}> = [];
   myForm: FormGroup;
   id: Scalars['ID'];
   persons: Observable<UsersPeopleQuery['usersPeople']>;
@@ -42,10 +42,10 @@ export class InvitePage implements OnInit, OnDestroy {
       email: ['', [
         Validators.required,
         Validators.email
-      ]]
+      ]],
     });
 
-    this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x.data && x.data.usersPeople));
+    this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x?.data && x?.data?.usersPeople));
 
     this.subscriptions.push(
       this.hubService.watchUsersPeople().valueChanges.subscribe(x => {
@@ -55,26 +55,45 @@ export class InvitePage implements OnInit, OnDestroy {
     );
   }
 
-
+  checkboxChanged(person) {
+    const invitee = { name: person.firstName, email: person.email };
+    if (this.invites.filter(x => x.email === invitee.email).length){
+      const i = this.invites.findIndex(x => x.email === invitee.email);
+      this.invites.splice(i, 1);
+    } else {
+      this.invites.push(invitee);
+    }
+  }
   ngOnDestroy() {
     this.subscriptions.forEach(
       x => x.unsubscribe()
     );
   }
 
+  async sendInvites(): Promise<string> {
+    let invited = '';
+    await Promise.all(
+      this.invites.map(async invite => {
+       const result = await this.hubService.inviteUserToHub(this.id, invite.email);
+       if (result) {
+           invited = invited.concat(`${result?.invitee?.firstName}, `);
+        } else {
+          this.allInvitesSucces = false;
+        }
+      })
+      );
+    return invited;
+  }
+
   async inviteUser() {
     this.loading = true;
-
-    const formValue = this.myForm.value;
-
-    const result = await this.hubService.inviteUserToHub(this.id, formValue.email);
-    if (result) {
-      this.loading = false;
-      this.alertService.presentToast('Invited!');
-      this.navCtrl.back();
-    } else {
-      this.loading = false;
-      this.alertService.presentRedToast('Failed.');
+    if (this.myForm.valid) { this.invites.push(this.myForm.value); }
+    const invited = await this.sendInvites();
+    this.loading = false;
+    if (invited !== '') {
+      this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`);
     }
+    if (this.allInvitesSucces) { this.navCtrl.back(); }
+    this.invites = [];
   }
 }

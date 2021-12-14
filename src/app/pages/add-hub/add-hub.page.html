@@ -100,7 +100,7 @@
         <ion-label>
           <ion-text>{{person.firstName}} {{person.lastName}}</ion-text>
         </ion-label>
-        <ion-checkbox slot="end"></ion-checkbox>
+        <ion-checkbox  [value]='person.email' (click)='checkboxChanged(person)' slot="end"></ion-checkbox>
       </ion-item>
     </ion-list>
   </form>

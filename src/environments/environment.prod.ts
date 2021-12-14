@@ -22,7 +22,7 @@ export const environment: Environment = {
     uberRequestRide: true,
     microChat: false,
     lightDarkThemeToggle: false,
-    inviteUsersCheckList: false
+    inviteUsersCheckList: true
   },
   logging: {
     level: NgxLoggerLevel.DEBUG,

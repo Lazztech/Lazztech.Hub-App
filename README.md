@@ -1,7 +1,7 @@
 # Lazztech.Hub-App
 
 <p align="center">
-  <a href="https://lazz.tech/software/" target="blank"><img src="https://lazz.tech/images/lazztech_icon.png" width="320"/></a>
+  <a href="https://lazz.tech/" target="blank"><img src="https://lazz.tech/favicon.png" width="320"/></a>
 </p>
   
   <p align="center">The iOS & Android(Coming Soon) Lazztech Hub Mobile App. Written in <a href="https://www.typescriptlang.org/" target="blank">TypeScript</a> with <a href="https://graphql.org/" target="blank">GraphQL</a> & the <a href="https://nestjs.com/" target="blank">Ionic</a> framework.</p>

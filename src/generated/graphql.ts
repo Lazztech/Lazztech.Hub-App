@@ -824,7 +824,7 @@ export type UsersPeopleQuery = (
   { __typename?: 'Query' }
   & { usersPeople: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image'>
   )> }
 );
 
@@ -1551,6 +1551,7 @@ export const UsersPeopleDocument = gql`
     id
     firstName
     lastName
+    email
     description
     image
   }
