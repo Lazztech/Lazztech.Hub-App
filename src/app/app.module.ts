@@ -27,31 +27,30 @@ import { GraphQLModule } from './graphql.module';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    HttpClientModule,
-    IonicStorageModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    ReactiveFormsModule,
-    LoggerModule.forRoot(environment.logging),
-    GraphQLModule,
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
-    BackgroundGeolocation,
-    FingerprintAIO,
-    Diagnostic,
-    OpenNativeSettings
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        HttpClientModule,
+        IonicStorageModule.forRoot(),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+        ReactiveFormsModule,
+        LoggerModule.forRoot(environment.logging),
+        GraphQLModule,
+    ],
+    providers: [
+        StatusBar,
+        SplashScreen,
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
+        BackgroundGeolocation,
+        FingerprintAIO,
+        Diagnostic,
+        OpenNativeSettings
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(
