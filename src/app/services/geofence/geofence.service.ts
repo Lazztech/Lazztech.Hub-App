@@ -8,6 +8,14 @@ import { environment } from '../../../environments/environment';
 import { HubService } from '../hub/hub.service';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
+export interface IGeofence {
+  identifier: string;
+  // radius: number,
+  latitude: number;
+  longitude: number;
+  notifyOnEntry: boolean;
+  notifyOnExit: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -88,14 +96,13 @@ export class GeofenceService {
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
+        } else if (geofence.action == "DWELL") {
+          this.enteredGeofence(hub, geofence).catch(error => {
+            // Be sure to catch errors:  never leave you background-task hanging.
+            this.logger.error(error);
+            BackgroundGeolocation.stopBackgroundTask(taskId);
+          });
         }
-        // else if (geofence.action == "DWELL") {
-        //   this.dwellGeofence(hub, geofence).catch(error => {
-        //     // Be sure to catch errors:  never leave you background-task hanging.
-        //     this.logger.error(error);
-        //     BackgroundGeolocation.stopBackgroundTask(taskId);
-        //   });
-        // }
         // When your long-running task is complete, signal completion of taskId.
         BackgroundGeolocation.stopBackgroundTask(taskId);
       });
@@ -133,23 +140,6 @@ export class GeofenceService {
 
   public async getBackgroundGeolocationState() {
     return await BackgroundGeolocation.getState();
-  }
-
-  private dwellGeofence(hub: Hub, geofence: GeofenceEvent) {
-    LocalNotifications.schedule({
-      notifications: [
-        {
-          title: 'Dwelling at ' + hub.name,
-          body: geofence.action + ' ' + hub.name,
-          id: parseInt(hub.id, 10),
-          schedule: { at: new Date(Date.now()) },
-          sound: 'beep.aiff',
-          attachments: null,
-          actionTypeId: '',
-          extra: null
-        }
-      ]
-    });
   }
 
   private async exitedGeofence(hub: Hub, geofence: GeofenceEvent) {
@@ -217,13 +207,4 @@ export class GeofenceService {
       ]
     });
   }
-}
-
-export interface IGeofence {
-  identifier: string;
-  // radius: number,
-  latitude: number;
-  longitude: number;
-  notifyOnEntry: boolean;
-  notifyOnExit: boolean;
 }
