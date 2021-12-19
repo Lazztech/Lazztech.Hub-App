@@ -5,6 +5,7 @@ import { circle, CircleMarker, circleMarker, Map, marker, tileLayer } from 'leaf
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-leaflet-map',
@@ -118,7 +119,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     this.yourLocationMarker = circleMarker([this.yourLocation.latitude, this.yourLocation.longitude]).addTo(this.map);
   }
 
-  drawRadius(location: { latitude: number, longitude: number }, radiusMeters = 200) {
+  drawRadius(location: { latitude: number, longitude: number }, radiusMeters = environment.geofenceRadius) {
     return circle([location.latitude, location.longitude], radiusMeters).addTo(this.map);
   }
 

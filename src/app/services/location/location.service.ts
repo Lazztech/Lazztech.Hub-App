@@ -22,7 +22,7 @@ export class LocationService {
     this.coords$ = this.watchLocation();
    }
 
-  atHub(hub: any, coords: any, distance: number = 200) {
+  atHub(hub: any, coords: any, distance: number = environment.geofenceRadius) {
     const hubCoords = { latitude: hub.latitude, longitude: hub.longitude };
     const result = geolib.isPointWithinRadius(
       coords,
@@ -32,9 +32,8 @@ export class LocationService {
     return result;
   }
 
-  async getCurrentPosition() {
-      const coordinates = await Geolocation.getCurrentPosition();
-      return coordinates;
+  getCurrentPosition() {
+    return Geolocation.getCurrentPosition();
   }
 
   private watchLocation(minuteInterval: number = 1): Observable<{ latitude: number, longitude: number}> {
