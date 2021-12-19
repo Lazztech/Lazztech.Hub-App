@@ -19,14 +19,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes),
-    ReactiveFormsModule
-  ],
-  declarations: [LandingPage, LoginPage, RegisterPage, PasswordResetPage, ResetPinPage],
-  entryComponents: [LoginPage, RegisterPage, PasswordResetPage, ResetPinPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        ReactiveFormsModule
+    ],
+    declarations: [LandingPage, LoginPage, RegisterPage, PasswordResetPage, ResetPinPage]
 })
 export class LandingPageModule {}
