@@ -5,7 +5,6 @@ import { Observable, Observer, of } from 'rxjs';
 import { Hub } from 'src/generated/graphql';
 import { Geolocation } from '@capacitor/geolocation';
 import { environment } from '../../../environments/environment';
-import { env } from 'process';
 
 @Injectable({
   providedIn: 'root'
