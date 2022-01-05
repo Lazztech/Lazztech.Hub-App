@@ -20,7 +20,7 @@ export type Scalars = {
 
 export type Hub = {
   __typename?: 'Hub';
-  shareableId?: Maybe<Scalars['String']>;
+  shareableId: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
@@ -64,6 +64,10 @@ export type JoinUserHub = {
   hub: Hub;
   isOwner: Scalars['Boolean'];
   starred: Scalars['Boolean'];
+  /** last update event for presence */
+  lastGeofenceEvent?: Maybe<Scalars['String']>;
+  /** unix timestamp for the last time the presence state was updated */
+  lastUpdated?: Maybe<Scalars['String']>;
   isPresent?: Maybe<Scalars['Boolean']>;
 };
 
@@ -92,6 +96,7 @@ export type Mutation = {
   setHubStarred: Scalars['Boolean'];
   setHubNotStarred: Scalars['Boolean'];
   enteredHubGeofence: JoinUserHub;
+  dwellHubGeofence: JoinUserHub;
   exitedHubGeofence: JoinUserHub;
   activateHub: Hub;
   deactivateHub: Hub;
@@ -188,6 +193,11 @@ export type MutationSetHubNotStarredArgs = {
 
 
 export type MutationEnteredHubGeofenceArgs = {
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationDwellHubGeofenceArgs = {
   hubId: Scalars['ID'];
 };
 
@@ -348,7 +358,7 @@ export type SortOptions = {
 
 export type User = {
   __typename?: 'User';
-  shareableId?: Maybe<Scalars['String']>;
+  shareableId: Scalars['String'];
   id: Scalars['ID'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
