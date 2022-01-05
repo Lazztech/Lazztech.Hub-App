@@ -611,6 +611,19 @@ export type DeleteMicroChatMutation = (
   & Pick<Mutation, 'deleteMicroChat'>
 );
 
+export type DwellHubGeofenceMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type DwellHubGeofenceMutation = (
+  { __typename?: 'Mutation' }
+  & { dwellHubGeofence: (
+    { __typename?: 'JoinUserHub' }
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isPresent'>
+  ) }
+);
+
 export type EditHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
   name: Scalars['String'];
@@ -1237,6 +1250,23 @@ export const DeleteMicroChatDocument = gql`
   })
   export class DeleteMicroChatGQL extends Apollo.Mutation<DeleteMicroChatMutation, DeleteMicroChatMutationVariables> {
     document = DeleteMicroChatDocument;
+    
+  }
+export const DwellHubGeofenceDocument = gql`
+    mutation dwellHubGeofence($hubId: ID!) {
+  dwellHubGeofence(hubId: $hubId) {
+    userId
+    hubId
+    isPresent
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DwellHubGeofenceGQL extends Apollo.Mutation<DwellHubGeofenceMutation, DwellHubGeofenceMutationVariables> {
+    document = DwellHubGeofenceDocument;
     
   }
 export const EditHubDocument = gql`
