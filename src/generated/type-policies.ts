@@ -41,8 +41,9 @@ export type JoinUserHubFieldPolicy = {
 	starred?: FieldPolicy<any> | FieldReadFunction<any>,
 	isPresent?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('id' | 'firstName' | 'lastName' | 'birthdate' | 'description' | 'email' | 'image' | 'userDevices' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('shareableId' | 'id' | 'firstName' | 'lastName' | 'birthdate' | 'description' | 'email' | 'image' | 'userDevices' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
+	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	firstName?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -57,8 +58,9 @@ export type UserDeviceFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	fcmPushUserToken?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type HubKeySpecifier = ('id' | 'name' | 'description' | 'active' | 'latitude' | 'longitude' | 'usersConnection' | 'microChats' | 'invites' | 'image' | HubKeySpecifier)[];
+export type HubKeySpecifier = ('shareableId' | 'id' | 'name' | 'description' | 'active' | 'latitude' | 'longitude' | 'usersConnection' | 'microChats' | 'invites' | 'image' | HubKeySpecifier)[];
 export type HubFieldPolicy = {
+	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -123,43 +125,43 @@ export type MutationFieldPolicy = {
 	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
-	Query?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | QueryKeySpecifier | (() => undefined | QueryKeySpecifier),
 		fields?: QueryFieldPolicy,
 	},
-	InAppNotification?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	InAppNotification?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | InAppNotificationKeySpecifier | (() => undefined | InAppNotificationKeySpecifier),
 		fields?: InAppNotificationFieldPolicy,
 	},
-	PaginatedInAppNotificationsResponse?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	PaginatedInAppNotificationsResponse?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | PaginatedInAppNotificationsResponseKeySpecifier | (() => undefined | PaginatedInAppNotificationsResponseKeySpecifier),
 		fields?: PaginatedInAppNotificationsResponseFieldPolicy,
 	},
-	JoinUserHub?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	JoinUserHub?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | JoinUserHubKeySpecifier | (() => undefined | JoinUserHubKeySpecifier),
 		fields?: JoinUserHubFieldPolicy,
 	},
-	User?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	User?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserKeySpecifier | (() => undefined | UserKeySpecifier),
 		fields?: UserFieldPolicy,
 	},
-	UserDevice?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	UserDevice?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserDeviceKeySpecifier | (() => undefined | UserDeviceKeySpecifier),
 		fields?: UserDeviceFieldPolicy,
 	},
-	Hub?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	Hub?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | HubKeySpecifier | (() => undefined | HubKeySpecifier),
 		fields?: HubFieldPolicy,
 	},
-	MicroChat?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	MicroChat?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MicroChatKeySpecifier | (() => undefined | MicroChatKeySpecifier),
 		fields?: MicroChatFieldPolicy,
 	},
-	Invite?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	Invite?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | InviteKeySpecifier | (() => undefined | InviteKeySpecifier),
 		fields?: InviteFieldPolicy,
 	},
-	Mutation?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
 		fields?: MutationFieldPolicy,
 	}

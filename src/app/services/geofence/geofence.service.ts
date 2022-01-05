@@ -30,7 +30,7 @@ export class GeofenceService {
   async addGeofence(geofence: IGeofence) {
     BackgroundGeolocation.addGeofence({
       identifier: geofence.identifier,
-      radius: 200,
+      radius: environment.geofenceRadius,
       latitude: geofence.latitude,
       longitude: geofence.longitude,
       notifyOnEntry: geofence.notifyOnEntry,

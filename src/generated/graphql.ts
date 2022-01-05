@@ -20,6 +20,7 @@ export type Scalars = {
 
 export type Hub = {
   __typename?: 'Hub';
+  shareableId?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
@@ -347,6 +348,7 @@ export type SortOptions = {
 
 export type User = {
   __typename?: 'User';
+  shareableId?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
