@@ -20,7 +20,7 @@ export type Scalars = {
 
 export type Hub = {
   __typename?: 'Hub';
-  shareableId?: Maybe<Scalars['String']>;
+  shareableId: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
@@ -64,6 +64,10 @@ export type JoinUserHub = {
   hub: Hub;
   isOwner: Scalars['Boolean'];
   starred: Scalars['Boolean'];
+  /** last update event for presence */
+  lastGeofenceEvent?: Maybe<Scalars['String']>;
+  /** unix timestamp for the last time the presence state was updated */
+  lastUpdated?: Maybe<Scalars['String']>;
   isPresent?: Maybe<Scalars['Boolean']>;
 };
 
@@ -92,6 +96,7 @@ export type Mutation = {
   setHubStarred: Scalars['Boolean'];
   setHubNotStarred: Scalars['Boolean'];
   enteredHubGeofence: JoinUserHub;
+  dwellHubGeofence: JoinUserHub;
   exitedHubGeofence: JoinUserHub;
   activateHub: Hub;
   deactivateHub: Hub;
@@ -188,6 +193,11 @@ export type MutationSetHubNotStarredArgs = {
 
 
 export type MutationEnteredHubGeofenceArgs = {
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationDwellHubGeofenceArgs = {
   hubId: Scalars['ID'];
 };
 
@@ -348,7 +358,7 @@ export type SortOptions = {
 
 export type User = {
   __typename?: 'User';
-  shareableId?: Maybe<Scalars['String']>;
+  shareableId: Scalars['String'];
   id: Scalars['ID'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
@@ -393,7 +403,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
   )> }
 );
 
@@ -599,6 +609,19 @@ export type DeleteMicroChatMutationVariables = Exact<{
 export type DeleteMicroChatMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteMicroChat'>
+);
+
+export type DwellHubGeofenceMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type DwellHubGeofenceMutation = (
+  { __typename?: 'Mutation' }
+  & { dwellHubGeofence: (
+    { __typename?: 'JoinUserHub' }
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isPresent'>
+  ) }
 );
 
 export type EditHubMutationVariables = Exact<{
@@ -963,6 +986,7 @@ export const MeDocument = gql`
     description
     image
     email
+    shareableId
   }
 }
     `;
@@ -1227,6 +1251,23 @@ export const DeleteMicroChatDocument = gql`
   })
   export class DeleteMicroChatGQL extends Apollo.Mutation<DeleteMicroChatMutation, DeleteMicroChatMutationVariables> {
     document = DeleteMicroChatDocument;
+    
+  }
+export const DwellHubGeofenceDocument = gql`
+    mutation dwellHubGeofence($hubId: ID!) {
+  dwellHubGeofence(hubId: $hubId) {
+    userId
+    hubId
+    isPresent
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DwellHubGeofenceGQL extends Apollo.Mutation<DwellHubGeofenceMutation, DwellHubGeofenceMutationVariables> {
+    document = DwellHubGeofenceDocument;
     
   }
 export const EditHubDocument = gql`

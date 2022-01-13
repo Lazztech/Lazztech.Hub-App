@@ -1,0 +1,7 @@
+mutation dwellHubGeofence($hubId: ID!) {
+    dwellHubGeofence(hubId: $hubId) {
+    userId
+    hubId
+    isPresent
+  }
+}

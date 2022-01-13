@@ -15,6 +15,7 @@ import {
   DeleteMicroChatGQL,
   EditHubGQL,
   EnteredHubGeofenceGQL,
+  DwellHubGeofenceGQL,
   ExitedHubGeofenceGQL,
   HubDocument,
   HubGQL,
@@ -59,6 +60,7 @@ export class HubService {
     private readonly setHubStarredGQLService: SetHubStarredGQL,
     private readonly setHubNotStarredGQLService: SetHubNotStarredGQL,
     private readonly enteredHubGeofenceGQLService: EnteredHubGeofenceGQL,
+    private readonly dwellHubGeofenceGQLService: DwellHubGeofenceGQL,
     private readonly exitedHubGeofenceGQLService: ExitedHubGeofenceGQL,
     private readonly activateHubGQLService: ActivateHubGQL,
     private readonly deactivateHubGQLService: DeactivateHubGQL,
@@ -351,6 +353,15 @@ export class HubService {
     }).toPromise();
 
     this.logger.log(`enteredHubGeofence hubId ${hubId} returned ${result}`);
+    return result;
+  }
+
+  async dwellHubGeofence(hubId: Scalars['ID']) {
+    const result = await this.dwellHubGeofenceGQLService.mutate({
+      hubId
+    }).toPromise();
+
+    this.logger.log(`dwellHubGeofence hubId ${hubId} returned ${result}`);
     return result;
   }
 

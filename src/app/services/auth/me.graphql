@@ -6,5 +6,6 @@ query me {
         description
         image
         email
+        shareableId
     }
 }

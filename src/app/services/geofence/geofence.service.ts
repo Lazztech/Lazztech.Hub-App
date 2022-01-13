@@ -8,6 +8,14 @@ import { environment } from '../../../environments/environment';
 import { HubService } from '../hub/hub.service';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
+export interface IGeofence {
+  identifier: string;
+  latitude: number;
+  longitude: number;
+  radius?: number,
+  notifyOnEntry?: boolean;
+  notifyOnExit?: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +30,13 @@ export class GeofenceService {
   async addGeofence(geofence: IGeofence) {
     BackgroundGeolocation.addGeofence({
       identifier: geofence.identifier,
-      radius: environment.geofenceRadius,
       latitude: geofence.latitude,
       longitude: geofence.longitude,
-      notifyOnEntry: geofence.notifyOnEntry,
-      notifyOnExit: geofence.notifyOnExit,
+      radius: environment.geofenceRadius,
+      notifyOnEntry: true,
+      notifyOnDwell: true,
+      notifyOnExit: true,
       loiteringDelay: 20000,
-      notifyOnDwell: true
     }).then((success) => {
       this.logger.log('[addGeofence] success');
     }).catch((error) => {
@@ -54,9 +62,6 @@ export class GeofenceService {
         identifier: JSON.stringify(identifier),
         latitude: hub.latitude,
         longitude: hub.longitude,
-        notifyOnEntry: true,
-        notifyOnExit: true,
-
       });
 
       this.logger.log(`Added geofence for ${JSON.stringify(hub)}`);
@@ -88,14 +93,13 @@ export class GeofenceService {
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
+        } else if (geofence.action == "DWELL") {
+          this.dwellGeofence(hub, geofence).catch(error => {
+            // Be sure to catch errors:  never leave you background-task hanging.
+            this.logger.error(error);
+            BackgroundGeolocation.stopBackgroundTask(taskId);
+          });
         }
-        // else if (geofence.action == "DWELL") {
-        //   this.dwellGeofence(hub, geofence).catch(error => {
-        //     // Be sure to catch errors:  never leave you background-task hanging.
-        //     this.logger.error(error);
-        //     BackgroundGeolocation.stopBackgroundTask(taskId);
-        //   });
-        // }
         // When your long-running task is complete, signal completion of taskId.
         BackgroundGeolocation.stopBackgroundTask(taskId);
       });
@@ -135,23 +139,6 @@ export class GeofenceService {
     return await BackgroundGeolocation.getState();
   }
 
-  private dwellGeofence(hub: Hub, geofence: GeofenceEvent) {
-    LocalNotifications.schedule({
-      notifications: [
-        {
-          title: 'Dwelling at ' + hub.name,
-          body: geofence.action + ' ' + hub.name,
-          id: parseInt(hub.id, 10),
-          schedule: { at: new Date(Date.now()) },
-          sound: 'beep.aiff',
-          attachments: null,
-          actionTypeId: '',
-          extra: null
-        }
-      ]
-    });
-  }
-
   private async exitedGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.exitedHubGeofence(hub.id).catch(err => {
       LocalNotifications.schedule({
@@ -173,6 +160,39 @@ export class GeofenceService {
       notifications: [
         {
           title: 'Exited ' + hub.name,
+          body: geofence.action + ' ' + hub.name,
+          id: parseInt(hub.id, 10),
+          schedule: { at: new Date(Date.now()) },
+          sound: 'beep.aiff',
+          attachments: null,
+          actionTypeId: '',
+          extra: null
+        }
+      ]
+    });
+  }
+
+  private async dwellGeofence(hub: Hub, geofence: GeofenceEvent) {
+    await this.hubService.dwellHubGeofence(hub.id).catch(err => {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Geofence error',
+            body: JSON.stringify(err),
+            id: parseInt(hub.id, 10),
+            schedule: { at: new Date(Date.now()) },
+            sound: 'beep.aiff',
+            attachments: null,
+            actionTypeId: '',
+            extra: null
+          }
+        ]
+      });
+    });
+    LocalNotifications.schedule({
+      notifications: [
+        {
+          title: 'Dwell ' + hub.name,
           body: geofence.action + ' ' + hub.name,
           id: parseInt(hub.id, 10),
           schedule: { at: new Date(Date.now()) },
@@ -217,13 +237,4 @@ export class GeofenceService {
       ]
     });
   }
-}
-
-export interface IGeofence {
-  identifier: string;
-  // radius: number,
-  latitude: number;
-  longitude: number;
-  notifyOnEntry: boolean;
-  notifyOnExit: boolean;
 }
