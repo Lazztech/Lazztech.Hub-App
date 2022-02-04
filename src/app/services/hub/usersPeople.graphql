@@ -6,5 +6,6 @@ query usersPeople {
         email
         description
         image
+        lastOnline
     }
 }
