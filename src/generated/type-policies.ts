@@ -16,14 +16,14 @@ export type QueryFieldPolicy = {
 	memberOfHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	me?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type InAppNotificationKeySpecifier = ('id' | 'userId' | 'header' | 'text' | 'date' | 'actionLink' | 'thumbnail' | InAppNotificationKeySpecifier)[];
+export type InAppNotificationKeySpecifier = ('id' | 'header' | 'text' | 'date' | 'actionLink' | 'userId' | 'thumbnail' | InAppNotificationKeySpecifier)[];
 export type InAppNotificationFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	userId?: FieldPolicy<any> | FieldReadFunction<any>,
 	header?: FieldPolicy<any> | FieldReadFunction<any>,
 	text?: FieldPolicy<any> | FieldReadFunction<any>,
 	date?: FieldPolicy<any> | FieldReadFunction<any>,
 	actionLink?: FieldPolicy<any> | FieldReadFunction<any>,
+	userId?: FieldPolicy<any> | FieldReadFunction<any>,
 	thumbnail?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PaginatedInAppNotificationsResponseKeySpecifier = ('items' | 'total' | PaginatedInAppNotificationsResponseKeySpecifier)[];
@@ -31,19 +31,19 @@ export type PaginatedInAppNotificationsResponseFieldPolicy = {
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
 	total?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type JoinUserHubKeySpecifier = ('userId' | 'hubId' | 'user' | 'hub' | 'isOwner' | 'starred' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent' | JoinUserHubKeySpecifier)[];
+export type JoinUserHubKeySpecifier = ('isOwner' | 'starred' | 'lastGeofenceEvent' | 'lastUpdated' | 'userId' | 'hubId' | 'isPresent' | 'user' | 'hub' | JoinUserHubKeySpecifier)[];
 export type JoinUserHubFieldPolicy = {
-	userId?: FieldPolicy<any> | FieldReadFunction<any>,
-	hubId?: FieldPolicy<any> | FieldReadFunction<any>,
-	user?: FieldPolicy<any> | FieldReadFunction<any>,
-	hub?: FieldPolicy<any> | FieldReadFunction<any>,
 	isOwner?: FieldPolicy<any> | FieldReadFunction<any>,
 	starred?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastGeofenceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastUpdated?: FieldPolicy<any> | FieldReadFunction<any>,
-	isPresent?: FieldPolicy<any> | FieldReadFunction<any>
+	userId?: FieldPolicy<any> | FieldReadFunction<any>,
+	hubId?: FieldPolicy<any> | FieldReadFunction<any>,
+	isPresent?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	hub?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('shareableId' | 'id' | 'firstName' | 'lastName' | 'birthdate' | 'description' | 'email' | 'image' | 'userDevices' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('shareableId' | 'id' | 'firstName' | 'lastName' | 'birthdate' | 'description' | 'email' | 'lastOnline' | 'image' | 'userDevices' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -52,15 +52,17 @@ export type UserFieldPolicy = {
 	birthdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastOnline?: FieldPolicy<any> | FieldReadFunction<any>,
 	image?: FieldPolicy<any> | FieldReadFunction<any>,
 	userDevices?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserDeviceKeySpecifier = ('id' | 'fcmPushUserToken' | UserDeviceKeySpecifier)[];
+export type UserDeviceKeySpecifier = ('id' | 'fcmPushUserToken' | 'userId' | UserDeviceKeySpecifier)[];
 export type UserDeviceFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	fcmPushUserToken?: FieldPolicy<any> | FieldReadFunction<any>
+	fcmPushUserToken?: FieldPolicy<any> | FieldReadFunction<any>,
+	userId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type HubKeySpecifier = ('shareableId' | 'id' | 'name' | 'description' | 'active' | 'latitude' | 'longitude' | 'usersConnection' | 'microChats' | 'invites' | 'image' | HubKeySpecifier)[];
+export type HubKeySpecifier = ('shareableId' | 'id' | 'name' | 'description' | 'active' | 'latitude' | 'longitude' | 'image' | 'usersConnection' | 'microChats' | 'invites' | HubKeySpecifier)[];
 export type HubFieldPolicy = {
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -69,28 +71,28 @@ export type HubFieldPolicy = {
 	active?: FieldPolicy<any> | FieldReadFunction<any>,
 	latitude?: FieldPolicy<any> | FieldReadFunction<any>,
 	longitude?: FieldPolicy<any> | FieldReadFunction<any>,
+	image?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersConnection?: FieldPolicy<any> | FieldReadFunction<any>,
 	microChats?: FieldPolicy<any> | FieldReadFunction<any>,
-	invites?: FieldPolicy<any> | FieldReadFunction<any>,
-	image?: FieldPolicy<any> | FieldReadFunction<any>
+	invites?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MicroChatKeySpecifier = ('id' | 'hubId' | 'hub' | 'text' | MicroChatKeySpecifier)[];
+export type MicroChatKeySpecifier = ('id' | 'hub' | 'text' | 'hubId' | MicroChatKeySpecifier)[];
 export type MicroChatFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	hubId?: FieldPolicy<any> | FieldReadFunction<any>,
 	hub?: FieldPolicy<any> | FieldReadFunction<any>,
-	text?: FieldPolicy<any> | FieldReadFunction<any>
+	text?: FieldPolicy<any> | FieldReadFunction<any>,
+	hubId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type InviteKeySpecifier = ('id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted' | 'inviter' | 'invitee' | 'hub' | InviteKeySpecifier)[];
+export type InviteKeySpecifier = ('id' | 'accepted' | 'inviter' | 'invitee' | 'hub' | 'invitersId' | 'inviteesId' | 'hubId' | InviteKeySpecifier)[];
 export type InviteFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	invitersId?: FieldPolicy<any> | FieldReadFunction<any>,
-	inviteesId?: FieldPolicy<any> | FieldReadFunction<any>,
-	hubId?: FieldPolicy<any> | FieldReadFunction<any>,
 	accepted?: FieldPolicy<any> | FieldReadFunction<any>,
 	inviter?: FieldPolicy<any> | FieldReadFunction<any>,
 	invitee?: FieldPolicy<any> | FieldReadFunction<any>,
-	hub?: FieldPolicy<any> | FieldReadFunction<any>
+	hub?: FieldPolicy<any> | FieldReadFunction<any>,
+	invitersId?: FieldPolicy<any> | FieldReadFunction<any>,
+	inviteesId?: FieldPolicy<any> | FieldReadFunction<any>,
+	hubId?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MutationKeySpecifier = ('addUserFcmNotificationToken' | 'deleteInAppNotification' | 'deleteAllInAppNotifications' | 'createHub' | 'inviteUserToHub' | 'acceptHubInvite' | 'deleteInvite' | 'leaveHub' | 'deleteHub' | 'editHub' | 'changeHubLocation' | 'changeHubImage' | 'setHubStarred' | 'setHubNotStarred' | 'enteredHubGeofence' | 'dwellHubGeofence' | 'exitedHubGeofence' | 'activateHub' | 'deactivateHub' | 'microChatToHub' | 'createMicroChat' | 'deleteMicroChat' | 'editUserDetails' | 'changeEmail' | 'changeUserImage' | 'login' | 'register' | 'logout' | 'resetPassword' | 'sendPasswordResetEmail' | 'changePassword' | 'deleteAccount' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {

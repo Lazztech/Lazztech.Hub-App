@@ -14,6 +14,7 @@ import { ChartsModule } from 'ng2-charts';
 import { DirectivesModule } from '../directives/directives.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
         ReactiveFormsModule,
         ChartsModule,
         DirectivesModule,
-        PipesModule
+        PipesModule,
+        MomentModule
     ],
     exports: [
         HubCardComponent,

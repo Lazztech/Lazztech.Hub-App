@@ -27,56 +27,56 @@ export type Hub = {
   active?: Maybe<Scalars['Boolean']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+  image?: Maybe<Scalars['String']>;
   usersConnection?: Maybe<Array<JoinUserHub>>;
   microChats?: Maybe<Array<MicroChat>>;
   invites?: Maybe<Array<Invite>>;
-  image?: Maybe<Scalars['String']>;
 };
 
 export type InAppNotification = {
   __typename?: 'InAppNotification';
   id: Scalars['ID'];
-  userId: Scalars['ID'];
   header?: Maybe<Scalars['String']>;
   text: Scalars['String'];
   date: Scalars['String'];
   actionLink?: Maybe<Scalars['String']>;
+  userId: Scalars['ID'];
   thumbnail?: Maybe<Scalars['String']>;
 };
 
 export type Invite = {
   __typename?: 'Invite';
   id: Scalars['ID'];
-  invitersId: Scalars['ID'];
-  inviteesId: Scalars['ID'];
-  hubId: Scalars['ID'];
   accepted: Scalars['Boolean'];
   inviter: User;
   invitee: User;
   hub: Hub;
+  invitersId: Scalars['ID'];
+  inviteesId: Scalars['ID'];
+  hubId: Scalars['ID'];
 };
 
 export type JoinUserHub = {
   __typename?: 'JoinUserHub';
-  userId: Scalars['ID'];
-  hubId: Scalars['ID'];
-  user: User;
-  hub: Hub;
   isOwner: Scalars['Boolean'];
   starred: Scalars['Boolean'];
   /** last update event for presence */
   lastGeofenceEvent?: Maybe<Scalars['String']>;
   /** unix timestamp for the last time the presence state was updated */
   lastUpdated?: Maybe<Scalars['String']>;
+  userId: Scalars['ID'];
+  hubId: Scalars['ID'];
   isPresent?: Maybe<Scalars['Boolean']>;
+  user: User;
+  hub: Hub;
 };
 
 export type MicroChat = {
   __typename?: 'MicroChat';
   id: Scalars['ID'];
-  hubId: Scalars['Float'];
   hub: Scalars['ID'];
   text: Scalars['String'];
+  hubId: Scalars['ID'];
 };
 
 export type Mutation = {
@@ -366,6 +366,8 @@ export type User = {
   birthdate?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  /** unix timestamp for the last time the user was successfully authenticated */
+  lastOnline?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   userDevices?: Maybe<Array<UserDevice>>;
 };
@@ -374,6 +376,7 @@ export type UserDevice = {
   __typename?: 'UserDevice';
   id: Scalars['ID'];
   fcmPushUserToken: Scalars['String'];
+  userId: Scalars['ID'];
 };
 
 export type UserInput = {
@@ -683,7 +686,7 @@ export type HubQuery = (
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
         & { user: (
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image'>
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline'>
         ) }
       )>>, microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
@@ -849,7 +852,7 @@ export type UsersPeopleQuery = (
   { __typename?: 'Query' }
   & { usersPeople: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image' | 'lastOnline'>
   )> }
 );
 
@@ -1344,6 +1347,7 @@ export const HubDocument = gql`
           lastName
           description
           image
+          lastOnline
         }
         isOwner
         isPresent
@@ -1597,6 +1601,7 @@ export const UsersPeopleDocument = gql`
     email
     description
     image
+    lastOnline
   }
 }
     `;
