@@ -10,7 +10,7 @@
     <p *ngIf="user.description">{{user.description}}</p>
   </ion-text>
 
-  <ion-label class="ion-text-center">
+  <ion-label class="ion-text-center" *ngIf="showLastOnline">
     <p style="font-weight: bold">Last Online: {{(user?.lastOnline) ? (((user?.lastOnline / 1000) | amFromUnix)
       | amLocal | amTimeAgo) : 'N/A'}}</p>
   </ion-label>

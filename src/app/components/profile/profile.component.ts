@@ -10,6 +10,9 @@ export class ProfileComponent implements OnInit {
   @Input()
   user: any;
 
+  @Input()
+  showLastOnline = true;
+
   constructor() { }
 
   ngOnInit() {}
