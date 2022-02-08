@@ -60,21 +60,18 @@ export class HubPage implements OnInit, OnDestroy {
   }
 
   loadHub() {
-    
     this.subscriptions.push(
-      this.hubService.watchHub(this.id, null, 2000).valueChanges.pipe(
-        map(x => x.data && x.data.hub),
-      ).subscribe(result => {
-        this.userHub = result;
+      this.hubService.watchHub(this.id, null, 2000).valueChanges.subscribe(result => {
+        const data = result.data.hub;
+        this.userHub = data;
+        this.loading = result.loading;
+
         this.hubCoords = {
-          latitude: result.hub.latitude,
-          longitude: result.hub.longitude
-        }
-        this.sortedUsers = [...result?.hub?.usersConnection]?.sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline)).reverse();
+          latitude: data.hub.latitude,
+          longitude: data.hub.longitude
+        };
+        this.sortedUsers = [...data?.hub?.usersConnection]?.sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline)).reverse();
       }),
-      this.hubService.watchHub(this.id).valueChanges.subscribe(x => {
-        this.loading = x.loading;
-      })
     );
   }
 
