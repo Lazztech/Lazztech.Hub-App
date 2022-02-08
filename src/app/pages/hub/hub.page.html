@@ -6,7 +6,7 @@
     <div slot="end" href="javascript:void(0);" (click)="presentActionSheet()">
       <ion-icon size="large" name="ellipsis-vertical-outline"></ion-icon>
     </div>
-    <ion-title *ngIf="!loading && userHub">{{(userHub | async)?.hub.name}}</ion-title>
+    <ion-title *ngIf="!loading && userHub">{{userHub?.hub.name}}</ion-title>
     <ion-title *ngIf="loading">Hub</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
@@ -15,17 +15,17 @@
 <ion-content fullscreen="true">
 
   <app-hub-card 
-    *ngIf="!loading && (userHub | async)" 
-    [hub]="(userHub | async)?.hub" 
+    *ngIf="!loading && userHub" 
+    [hub]="userHub?.hub" 
     [coords]="userCoords" 
-    [starred]="(userHub | async)?.starred"
-    [isOwner]="(userHub | async)?.isOwner" 
+    [starred]="userHub?.starred"
+    [isOwner]="userHub?.isOwner" 
     [showDescription]="true"
     [includeMap]="true"
     (click)="goToMap()">
   </app-hub-card>
 
-  <ion-grid *ngIf="!loading && (userHub | async) as userHub" class="ion-no-padding">
+  <ion-grid *ngIf="!loading && userHub as userHub" class="ion-no-padding">
     <ion-row>
 
       <ion-col [appFeatureFlag]="'uberRequestRide'" class="ion-padding-start">
@@ -45,7 +45,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-list [appFeatureFlag]="'microChat'" *ngIf="!loading && (userHub | async) as userHub">
+  <ion-list [appFeatureFlag]="'microChat'" *ngIf="!loading && userHub as userHub">
     <ion-list-header>
       <ion-text>MicroChat</ion-text>
     </ion-list-header>
@@ -56,7 +56,7 @@
     ></app-micro-chat>
   </ion-list>
 
-  <ion-list *ngIf="!loading && userHub && !(userHub | async)?.hub.active">
+  <ion-list *ngIf="!loading && userHub && !userHub?.hub.active">
     <ion-list-header>
       <ion-text>Hub Inactive</ion-text>
     </ion-list-header>
@@ -67,12 +67,12 @@
     </ion-item>
   </ion-list>
 
-  <ion-list *ngIf="!loading && userHub && !(userHub | async)?.hub.active">
+  <ion-list *ngIf="!loading && userHub && !userHub?.hub.active">
     <ion-list-header>
       <ion-text>Members</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of (userHub | async)?.hub.usersConnection">
+    <div *ngFor="let userConnection of userHub?.hub.usersConnection">
       <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
@@ -90,7 +90,7 @@
     </div>
   </ion-list>
 
-  <ion-list *ngIf="!loading && userHub && (userHub | async)?.hub.active">
+  <ion-list *ngIf="userHub && userHub?.hub.active">
     <ion-list-header>
       <ion-text>Present</ion-text>
     </ion-list-header>
@@ -115,7 +115,7 @@
 
   </ion-list>
 
-  <ion-list *ngIf="!loading && userHub && (userHub | async)?.hub.active">
+  <ion-list *ngIf="userHub && userHub?.hub.active">
     <ion-list-header>
       <ion-text>Away</ion-text>
     </ion-list-header>

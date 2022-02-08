@@ -18,7 +18,7 @@ import { Clipboard } from '@capacitor/clipboard';
 export class HubPage implements OnInit, OnDestroy {
 
   loading = true;
-  userHub: Observable<HubQuery['hub']>;
+  userHub: HubQuery['hub'];
   sortedUsers: HubQuery['hub']['hub']['usersConnection'];
   id: Scalars['ID'];
   qrContent: string;
@@ -53,15 +53,6 @@ export class HubPage implements OnInit, OnDestroy {
         this.changeRef.detectChanges();
       })
     );
-
-    this.subscriptions.push(
-      this.userHub.subscribe(userHub => {
-        this.hubCoords = {
-          latitude: userHub.hub.latitude,
-          longitude: userHub.hub.longitude
-        };
-      })
-    );
   }
 
   async ngOnDestroy() {
@@ -69,12 +60,16 @@ export class HubPage implements OnInit, OnDestroy {
   }
 
   loadHub() {
-    this.userHub = this.hubService.watchHub(this.id, null, 2000).valueChanges.pipe(
-      map(x => x.data && x.data.hub),
-    );
     
     this.subscriptions.push(
-      this.userHub.subscribe(result => {
+      this.hubService.watchHub(this.id, null, 2000).valueChanges.pipe(
+        map(x => x.data && x.data.hub),
+      ).subscribe(result => {
+        this.userHub = result;
+        this.hubCoords = {
+          latitude: result.hub.latitude,
+          longitude: result.hub.longitude
+        }
         this.sortedUsers = [...result?.hub?.usersConnection]?.sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline)).reverse();
       }),
       this.hubService.watchHub(this.id).valueChanges.subscribe(x => {
@@ -92,13 +87,14 @@ export class HubPage implements OnInit, OnDestroy {
   }
 
   async goToMap() {
-    const userHub = await this.userHub.toPromise();
-    this.navCtrl.navigateForward('map', {
-      state: {
-        hubCoords: this.hubCoords,
-        hub: userHub.hub
-      }
-    });
+    if (this.userHub?.hub) {
+      this.navCtrl.navigateForward('map', {
+        state: {
+          hubCoords: this.hubCoords,
+          hub: this.userHub.hub
+        }
+      });
+    }
   }
 
   async requestRide(userHub: JoinUserHub) {
@@ -150,18 +146,18 @@ export class HubPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
 
-  presentActionSheet() {
-    this.userHub.pipe(take(1)).subscribe(async userHub => {
+  async presentActionSheet() {
+    if (this.userHub) {
       const buttons = [];
-      console.log('is hub owner' + userHub.isOwner);
-      if (userHub.isOwner) {
+      console.log('is hub owner' + this.userHub.isOwner);
+      if (this.userHub.isOwner) {
         buttons.push({
           text: 'Manage Hub',
           handler: () => {
             this.navCtrl.navigateForward('admin-hub/' + this.id);
           }
         });
-      } else if (!userHub.isOwner) {
+      } else if (!this.userHub.isOwner) {
         buttons.push({
           text: 'Leave Hub',
           role: 'destructive',
@@ -188,7 +184,7 @@ export class HubPage implements OnInit, OnDestroy {
         }]
       });
       await actionSheet.present();
-    });
+    }
   }
 
 }
