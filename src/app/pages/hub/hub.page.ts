@@ -19,6 +19,7 @@ export class HubPage implements OnInit, OnDestroy {
 
   loading = true;
   userHub: Observable<HubQuery['hub']>;
+  sortedUsers: HubQuery['hub']['hub']['usersConnection'];
   id: Scalars['ID'];
   qrContent: string;
   subscriptions: Subscription[] = [];
@@ -69,10 +70,13 @@ export class HubPage implements OnInit, OnDestroy {
 
   loadHub() {
     this.userHub = this.hubService.watchHub(this.id, null, 2000).valueChanges.pipe(
-      map(x => x.data && x.data.hub)
+      map(x => x.data && x.data.hub),
     );
-
+    
     this.subscriptions.push(
+      this.userHub.subscribe(result => {
+        this.sortedUsers = [...result?.hub?.usersConnection]?.sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline)).reverse();
+      }),
       this.hubService.watchHub(this.id).valueChanges.subscribe(x => {
         this.loading = x.loading;
       })
