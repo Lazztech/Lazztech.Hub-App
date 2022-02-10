@@ -21,6 +21,7 @@ export class HomePage implements OnInit, OnDestroy {
   loading = true;
   invites: Observable<InvitesByUserQuery['invitesByUser']>;
   userHubs: Observable<UsersHubsQuery['usersHubs']>;
+  sortedUserHubs: UsersHubsQuery['usersHubs'];
   hubs: Hub[] = [];
   user: User;
 
@@ -60,13 +61,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.user = await this.authService.user();
     this.foregroundGeofenceService.init();
 
-    this.subscriptions.push(
-      this.locationService.coords$.subscribe(async x => {
-        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
-        this.changeRef.detectChanges();
-      })
-    );
-
     if (environment.demoMode) {
       this.userHubs = of(environment.demoData.usersHubs.usersHubs);
     } else {
@@ -75,20 +69,27 @@ export class HomePage implements OnInit, OnDestroy {
     this.invites = this.hubService.watchInvitesByUser().valueChanges.pipe(map(x => x.data && x.data.invitesByUser));
 
     this.subscriptions.push(
-      this.hubService.watchUserHubs().valueChanges.subscribe(x => {
+      this.locationService.coords$.subscribe(async x => {
+        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
+        this.changeRef.detectChanges();
+      }),
+      this.hubService.watchUserHubs(null, 2000).valueChanges.subscribe(x => {
         this.logger.log('loading: ', x.loading);
         this.loading = x.loading;
-      })
-    );
-
-    this.subscriptions.push(
+        this.sortedUserHubs = [...x?.data?.usersHubs]?.sort((a, b) => {
+          if (this.yourLocation) {
+            console.log('sorting');
+            
+            return this.locationService.getDistanceFromHub(a?.hub as Hub, this?.yourLocation) - this.locationService.getDistanceFromHub(b?.hub as Hub, this?.yourLocation);
+          } else {
+            return 1;
+          }
+        })
+      }),
       this.hubService.watchInvitesByUser().valueChanges.subscribe(x => {
         this.loading = x.loading;
-      })
-    );
-
-    this.subscriptions.push(
-        this.userHubs.subscribe(x => {
+      }),
+      this.userHubs.subscribe(x => {
         x.forEach(y => this.hubs.push(y.hub as Hub));
       })
     );
