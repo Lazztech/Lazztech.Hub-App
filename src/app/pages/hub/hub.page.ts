@@ -59,6 +59,18 @@ export class HubPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
+  /**
+   * helper trackBy function that returns the users isPresent state
+   * this helps avoid un-neccesary re-renders unless the isPresent state changes
+   * with polling & the lastOnline field included this is needed to avoid flickering in the UI
+   * @param index 
+   * @param user 
+   * @returns 
+   */
+  userTrackByIsPresent(index: any, user: JoinUserHub) {
+    return user.isPresent;
+  }
+
   loadHub() {
     this.subscriptions.push(
       this.hubService.watchHub(this.id, null, 2000).valueChanges.subscribe(result => {
