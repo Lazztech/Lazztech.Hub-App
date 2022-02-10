@@ -44,19 +44,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.menu.enable(true);
   }
 
-  async doRefresh(event) {
-    try {
-      this.loading = true;
-      this.userHubs = this.hubService.watchUserHubs('network-only').valueChanges.pipe(map(x => x.data && x.data.usersHubs));
-      this.invites = this.hubService.watchInvitesByUser('network-only').valueChanges.pipe(map(x => x.data && x.data.invitesByUser));
-      this.loading = false;
-      event.target.complete();
-    } catch (error) {
-      event.target.complete();
-      this.loading = false;
-    }
-  }
-
   async ngOnInit() {
     this.user = await this.authService.user();
     this.foregroundGeofenceService.init();
