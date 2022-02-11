@@ -243,10 +243,11 @@ export class HubService {
     });
   }
 
-  watchInvitesByUser(fetchPolicy: FetchPolicy = 'cache-first') {
+  watchInvitesByUser(fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
     return this.invitesByUserGQLService.watch(null,
       {
-        fetchPolicy
+        fetchPolicy,
+        pollInterval
       });
   }
 
