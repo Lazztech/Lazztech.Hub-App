@@ -17,7 +17,7 @@
 
 <ion-content fullscreen="true">
 
-    <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
+    <!-- <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar> -->
 
     <ion-card *ngIf="yourLocation" style="height:30%" (click)="goToMap()">
           <app-leaflet-map [center]="yourLocation" [yourLocation]="yourLocation" [navOnMarker]="true" [locations]="hubs"></app-leaflet-map>

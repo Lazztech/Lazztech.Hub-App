@@ -18,6 +18,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   loading = true;
   invites: InvitesByUserQuery['invitesByUser'];
+  userHubsFilter = '';
   userHubs: UsersHubsQuery['usersHubs'];
   hubs: Hub[] = [];
   user: User;
@@ -98,9 +99,10 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async filterHubs(ev: any) {
+    // this.userHubsFilter = ev.target.value;
+
     // this.userHubs = this.hubService.watchUserHubs('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersHubs));
-    // const val = ev.target.value;
-    // if (val && val.trim() !== '') {
+    // if (this.userHubsFilter && this.userHubsFilter.trim() !== '') {
     //   this.userHubs = this.userHubs.pipe(
     //     map(x => x.filter(y => y.hub.name.toLowerCase().includes(val.toLowerCase())))
     //   );
