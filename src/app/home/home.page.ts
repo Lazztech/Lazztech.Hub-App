@@ -20,10 +20,9 @@ export class HomePage implements OnInit, OnDestroy {
 
   loading = true;
   invites: Observable<InvitesByUserQuery['invitesByUser']>;
-  sortedUserHubs: UsersHubsQuery['usersHubs'];
+  userHubs: UsersHubsQuery['usersHubs'];
   hubs: Hub[] = [];
   user: User;
-
   subscriptions: Subscription[] = [];
   locationSubscription: Subscription;
   yourLocation: { latitude: number, longitude: number };
@@ -59,9 +58,9 @@ export class HomePage implements OnInit, OnDestroy {
         this.loading = x.loading;
 
         if (environment.demoMode) {
-          this.sortedUserHubs = environment.demoData.usersHubs.usersHubs;
+          this.userHubs = environment.demoData.usersHubs.usersHubs;
         } else {
-          this.sortedUserHubs = [...x?.data?.usersHubs]?.sort((a, b) => {
+          this.userHubs = [...x?.data?.usersHubs]?.sort((a, b) => {
             if (this.yourLocation) {
               console.log('sorting');
               
@@ -71,7 +70,7 @@ export class HomePage implements OnInit, OnDestroy {
             }
           });
 
-          this.hubs = this.sortedUserHubs.map(x => x.hub as Hub);
+          this.hubs = this.userHubs.map(x => x.hub as Hub);
         }
       }),
       this.hubService.watchInvitesByUser().valueChanges.subscribe(x => {

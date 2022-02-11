@@ -27,7 +27,7 @@
       <ion-skeleton-text animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
 
-      <ion-card class="welcome-card" *ngIf="!loading && !sortedUserHubs?.length">
+      <ion-card class="welcome-card" *ngIf="!loading && !userHubs?.length">
         <ion-card-header>
             <ion-card-subtitle>Get Started</ion-card-subtitle>
         </ion-card-header>
@@ -59,7 +59,7 @@
           <ion-list-header>
               <ion-text>Hubs</ion-text>
           </ion-list-header>
-          <div *ngFor="let userHub of sortedUserHubs">
+          <div *ngFor="let userHub of userHubs">
             <app-hub-card
             [hub]="userHub.hub"
             [coords]="yourLocation"
