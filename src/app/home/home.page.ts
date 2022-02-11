@@ -20,7 +20,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   loading = true;
   invites: Observable<InvitesByUserQuery['invitesByUser']>;
-  userHubs: Observable<UsersHubsQuery['usersHubs']>;
   sortedUserHubs: UsersHubsQuery['usersHubs'];
   hubs: Hub[] = [];
   user: User;
@@ -48,11 +47,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.user = await this.authService.user();
     this.foregroundGeofenceService.init();
 
-    if (environment.demoMode) {
-      this.userHubs = of(environment.demoData.usersHubs.usersHubs);
-    } else {
-      this.userHubs = this.hubService.watchUserHubs(null, 2000).valueChanges.pipe(map(x => x.data && x.data.usersHubs));
-    }
     this.invites = this.hubService.watchInvitesByUser().valueChanges.pipe(map(x => x.data && x.data.invitesByUser));
 
     this.subscriptions.push(
@@ -63,22 +57,26 @@ export class HomePage implements OnInit, OnDestroy {
       this.hubService.watchUserHubs(null, 2000).valueChanges.subscribe(x => {
         this.logger.log('loading: ', x.loading);
         this.loading = x.loading;
-        this.sortedUserHubs = [...x?.data?.usersHubs]?.sort((a, b) => {
-          if (this.yourLocation) {
-            console.log('sorting');
-            
-            return this.locationService.getDistanceFromHub(a?.hub as Hub, this?.yourLocation) - this.locationService.getDistanceFromHub(b?.hub as Hub, this?.yourLocation);
-          } else {
-            return 1;
-          }
-        })
+
+        if (environment.demoMode) {
+          this.sortedUserHubs = environment.demoData.usersHubs.usersHubs;
+        } else {
+          this.sortedUserHubs = [...x?.data?.usersHubs]?.sort((a, b) => {
+            if (this.yourLocation) {
+              console.log('sorting');
+              
+              return this.locationService.getDistanceFromHub(a?.hub as Hub, this?.yourLocation) - this.locationService.getDistanceFromHub(b?.hub as Hub, this?.yourLocation);
+            } else {
+              return 1;
+            }
+          });
+
+          this.hubs = this.sortedUserHubs.map(x => x.hub as Hub);
+        }
       }),
       this.hubService.watchInvitesByUser().valueChanges.subscribe(x => {
         this.loading = x.loading;
       }),
-      this.userHubs.subscribe(x => {
-        x.forEach(y => this.hubs.push(y.hub as Hub));
-      })
     );
   }
 
@@ -105,13 +103,13 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async filterHubs(ev: any) {
-    this.userHubs = this.hubService.watchUserHubs('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersHubs));
-    const val = ev.target.value;
-    if (val && val.trim() !== '') {
-      this.userHubs = this.userHubs.pipe(
-        map(x => x.filter(y => y.hub.name.toLowerCase().includes(val.toLowerCase())))
-      );
-    }
+    // this.userHubs = this.hubService.watchUserHubs('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersHubs));
+    // const val = ev.target.value;
+    // if (val && val.trim() !== '') {
+    //   this.userHubs = this.userHubs.pipe(
+    //     map(x => x.filter(y => y.hub.name.toLowerCase().includes(val.toLowerCase())))
+    //   );
+    // }
   }
 
   goToMap() {
