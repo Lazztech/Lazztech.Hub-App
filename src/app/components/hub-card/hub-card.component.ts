@@ -28,6 +28,7 @@ export class HubCardComponent implements OnInit, OnDestroy, OnChanges {
   subscription: Subscription;
   presentCount = 0;
   private distanceInMeters: number;
+  private distanceInMiles: number;
 
   constructor(
     private locationService: LocationService,
@@ -46,6 +47,7 @@ export class HubCardComponent implements OnInit, OnDestroy, OnChanges {
       }
       if (!this.atHub && this.hub && this.coords) {
         this.distanceInMeters = this.locationService.getDistanceFromHub(this.hub, this.coords);
+        this.distanceInMiles = this.locationService.getMilesFromMeters(this.distanceInMeters);
       }
       this.changeRef.detectChanges();
   }

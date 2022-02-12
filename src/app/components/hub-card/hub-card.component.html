@@ -33,9 +33,9 @@
             {{hub.usersConnection.length}} present</ion-card-subtitle>
           <ion-card-subtitle *ngIf="!hub.active" class="ion-float-right" color="medium">Inactive</ion-card-subtitle>
           <br>
-          <ion-skeleton-text class="ion-float-right" animated style="width: 80%" *ngIf="!atHub && !distanceInMeters"
+          <ion-skeleton-text class="ion-float-right" animated style="width: 80%" *ngIf="!atHub && !distanceInMiles"
           ></ion-skeleton-text>
-          <ion-card-subtitle class="ion-float-right" *ngIf="!atHub && distanceInMeters">{{distanceInMeters}} meters
+          <ion-card-subtitle class="ion-float-right" *ngIf="!atHub && distanceInMiles">{{distanceInMiles.toFixed(1)}} miles away
           </ion-card-subtitle>
           <ion-card-subtitle class="ion-float-right" *ngIf="atHub">you're here!</ion-card-subtitle>
         </ion-col>

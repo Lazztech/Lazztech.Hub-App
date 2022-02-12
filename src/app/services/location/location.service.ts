@@ -68,6 +68,9 @@ export class LocationService {
     return distance;
   }
 
+  getMilesFromMeters(meters: number): number {
+    return meters*0.000621371192;
+  }
 
   getCurrentPositionFastIos = async (options: PositionOptions = {}): Promise<GeolocationPosition> => {
     return new Promise<GeolocationPosition>(async (resolve, reject) => {
