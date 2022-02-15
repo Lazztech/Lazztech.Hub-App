@@ -130,19 +130,19 @@ export class NotificationsService {
     //   await this.submitNotificationToken(nativePushToken);
     // }
 
-    PushNotifications.addListener('registration', async (token: Token) => {
+    await PushNotifications.addListener('registration', async (token: Token) => {
       await this.storage.set('native-push-token', token.value);
       await this.submitNotificationToken(token.value);
 
-      // alert('Push registration success, token: ' + token.value);
+      alert('Push registration success, token: ' + token.value);
     });
 
-    PushNotifications.addListener('registrationError', (error: any) => {
+    await PushNotifications.addListener('registrationError', (error: any) => {
       alert('Error on registration: ' + JSON.stringify(error));
       this.logger.error('Error on registration: ' + JSON.stringify(error));
     });
 
-    PushNotifications.addListener(
+    await PushNotifications.addListener(
       'pushNotificationReceived',
       async (notification: PushNotificationSchema) => {
         this.logger.log('Push received: ' + JSON.stringify(notification));
@@ -174,7 +174,7 @@ export class NotificationsService {
       }
     );
 
-    PushNotifications.addListener(
+    await PushNotifications.addListener(
       'pushNotificationActionPerformed',
       (notificationActionDetails: ActionPerformed) => {
         this.logger.log(

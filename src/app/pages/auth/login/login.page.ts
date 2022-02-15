@@ -83,7 +83,7 @@ export class LoginPage implements OnInit {
       this.loading = false;
       this.dismissLogin();
       // FIXME is this how I want this? It needs token to work on first launch.
-      this.notificationsService.setupPushNotifications();
+      await this.notificationsService.setupPushNotifications();
 
       await this.navCtrl.navigateRoot('/tabs');
     } else {

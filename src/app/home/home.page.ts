@@ -8,6 +8,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { ForegroundGeofenceService } from '../services/foreground-geofence.service';
 import { HubService } from '../services/hub/hub.service';
 import { LocationService } from '../services/location/location.service';
+import { NotificationsService } from '../services/notifications/notifications.service';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +34,8 @@ export class HomePage implements OnInit, OnDestroy {
     private locationService: LocationService,
     private changeRef: ChangeDetectorRef,
     private logger: NGXLogger,
-    private foregroundGeofenceService: ForegroundGeofenceService
+    private foregroundGeofenceService: ForegroundGeofenceService,
+    private notificationsService: NotificationsService,
   ) {
     this.menu.enable(true);
   }
@@ -41,6 +43,7 @@ export class HomePage implements OnInit, OnDestroy {
   async ngOnInit() {
     this.user = await this.authService.user();
     this.foregroundGeofenceService.init();
+    await this.notificationsService.setupPushNotifications();
 
     this.subscriptions.push(
       this.locationService.coords$.subscribe(async x => {
