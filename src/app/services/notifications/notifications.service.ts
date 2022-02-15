@@ -146,7 +146,7 @@ export class NotificationsService {
       await this.storage.set('native-push-token', token.value);
       await this.submitNotificationToken(token.value);
 
-      alert('Push registration success, token: ' + token.value);
+      // alert('Push registration success, token: ' + token.value);
     });
 
     await PushNotifications.addListener('registrationError', (error: any) => {
