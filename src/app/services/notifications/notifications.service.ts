@@ -122,7 +122,19 @@ export class NotificationsService {
     // FOR iOS & ANDROID
     this.logger.log('Setting up iOS/Android native push notifications.');
 
-    PushNotifications.register();
+    // Request permission to use push notifications
+    // iOS will prompt user and return if they granted permission or not
+    // Android will just grant without prompting
+    await PushNotifications.requestPermissions().then(result => {
+      console.log('PushNotifications.requestPermissions result: ', result);
+      
+      if (result.receive === 'granted') {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+      } else {
+        // Show some error
+      }
+    });
 
     // TODO Remove?
     // const nativePushToken = await this.storage.get('native-push-token');
