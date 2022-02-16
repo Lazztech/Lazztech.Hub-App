@@ -119,74 +119,89 @@ export class NotificationsService {
   }
 
   async setupPushNotifications() {
-    // FOR iOS & ANDROID
-    this.logger.log('Setting up iOS/Android native push notifications.');
+    if (this.platform.is("capacitor")) {
+      // FOR iOS & ANDROID
+      this.logger.log('Setting up iOS/Android native push notifications.');
 
-    PushNotifications.register();
-
-    // TODO Remove?
-    // const nativePushToken = await this.storage.get('native-push-token');
-    // if (nativePushToken) {
-    //   await this.submitNotificationToken(nativePushToken);
-    // }
-
-    PushNotifications.addListener('registration', async (token: Token) => {
-      await this.storage.set('native-push-token', token.value);
-      await this.submitNotificationToken(token.value);
-
-      // alert('Push registration success, token: ' + token.value);
-    });
-
-    PushNotifications.addListener('registrationError', (error: any) => {
-      alert('Error on registration: ' + JSON.stringify(error));
-      this.logger.error('Error on registration: ' + JSON.stringify(error));
-    });
-
-    PushNotifications.addListener(
-      'pushNotificationReceived',
-      async (notification: PushNotificationSchema) => {
-        this.logger.log('Push received: ' + JSON.stringify(notification));
-        // TODO move to alertService?
-        const toast = await this.toastController.create({
-          header: notification.title,
-          message: notification.body,
-          duration: 3000,
-          position: 'top',
-          color: 'dark',
-          translucent: true,
-          buttons: [
-            {
-              side: 'start',
-              text: 'View',
-              handler: () => {
-                if (notification?.data?.aps?.category) {
-                  this.navController.navigateForward(
-                    notification.data.aps.category
-                  );
-                }
-                this.logger.log('View clicked');
-              },
-            },
-          ],
-        });
-        this.logger.log('presenting toast');
-        await toast.present();
-      }
-    );
-
-    PushNotifications.addListener(
-      'pushNotificationActionPerformed',
-      (notificationActionDetails: ActionPerformed) => {
-        this.logger.log(
-          'Push action performed: ' + JSON.stringify(notificationActionDetails)
-        );
-        if (notificationActionDetails.notification?.data?.aps?.category) {
-          this.navController.navigateForward(
-            notificationActionDetails.notification.data.aps.category
-          );
+      // Request permission to use push notifications
+      // iOS will prompt user and return if they granted permission or not
+      // Android will just grant without prompting
+      await PushNotifications.requestPermissions().then(result => {
+        console.log('PushNotifications.requestPermissions result: ', result);
+        
+        if (result.receive === 'granted') {
+          // Register with Apple / Google to receive push via APNS/FCM
+          PushNotifications.register();
+        } else {
+          // Show some error
         }
-      }
-    );
+      });
+
+      // TODO Remove?
+      // const nativePushToken = await this.storage.get('native-push-token');
+      // if (nativePushToken) {
+      //   await this.submitNotificationToken(nativePushToken);
+      // }
+
+      await PushNotifications.addListener('registration', async (token: Token) => {
+        await this.storage.set('native-push-token', token.value);
+        await this.submitNotificationToken(token.value);
+
+        console.log('Push registration success, token: ', token.value);
+        // alert('Push registration success, token: ' + token.value);
+      });
+
+      await PushNotifications.addListener('registrationError', (error: any) => {
+        alert('Error on registration: ' + JSON.stringify(error));
+        this.logger.error('Error on registration: ' + JSON.stringify(error));
+      });
+
+      await PushNotifications.addListener(
+        'pushNotificationReceived',
+        async (notification: PushNotificationSchema) => {
+          this.logger.log('Push received: ' + JSON.stringify(notification));
+          // TODO move to alertService?
+          const toast = await this.toastController.create({
+            header: notification.title,
+            message: notification.body,
+            duration: 3000,
+            position: 'top',
+            color: 'dark',
+            translucent: true,
+            buttons: [
+              {
+                side: 'start',
+                text: 'View',
+                handler: () => {
+                  if (notification?.data?.aps?.category) {
+                    this.navController.navigateForward(
+                      notification.data.aps.category
+                    );
+                  }
+                  this.logger.log('View clicked');
+                },
+              },
+            ],
+          });
+          this.logger.log('presenting toast');
+          await toast.present();
+        }
+      );
+
+      await PushNotifications.addListener(
+        'pushNotificationActionPerformed',
+        (notificationActionDetails: ActionPerformed) => {
+          this.logger.log(
+            'Push action performed: ' + JSON.stringify(notificationActionDetails)
+          );
+          if (notificationActionDetails.notification?.data?.aps?.category) {
+            this.navController.navigateForward(
+              notificationActionDetails.notification.data.aps.category
+            );
+          }
+        }
+      );
+    }
   }
 
   private async submitNotificationToken(token: string) {

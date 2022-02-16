@@ -34,11 +34,11 @@ export class LandingPage implements OnInit {
       if (this.authService.isLoggedIn) {
         this.faio.show({
           subtitle: 'authorize'
-        }).then(() => {
+        }).then(async () => {
           // FIXME is this how I want this? It needs token to work on first launch.
-          this.notificationsService.setupPushNotifications();
+          await this.notificationsService.setupPushNotifications();
 
-          this.navCtrl.navigateRoot('/tabs');
+          await this.navCtrl.navigateRoot('/tabs');
         }).catch(err => this.logger.error(err));
       }
     });
@@ -69,11 +69,11 @@ export class LandingPage implements OnInit {
       if (this.authService.isLoggedIn) {
         this.faio.show({
           subtitle: 'authorize'
-        }).then(() => {
+        }).then(async () => {
           // FIXME is this how I want this? It needs token to work on first launch.
-          this.notificationsService.setupPushNotifications();
+          await this.notificationsService.setupPushNotifications();
 
-          this.navCtrl.navigateRoot('/tabs');
+          await this.navCtrl.navigateRoot('/tabs');
         }).catch(err => this.logger.error(err));
       } else {
         this.alertService.presentRedToast('You must have logged into an active account recently.');
