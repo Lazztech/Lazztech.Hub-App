@@ -141,100 +141,100 @@ export class GeofenceService {
 
   private async exitedGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.exitedHubGeofence(hub.id).catch(err => {
-      LocalNotifications.schedule({
-        notifications: [
-          {
-            title: 'Geofence error',
-            body: JSON.stringify(err),
-            id: parseInt(hub.id, 10),
-            schedule: { at: new Date(Date.now()) },
-            sound: 'beep.aiff',
-            attachments: null,
-            actionTypeId: '',
-            extra: null
-          }
-        ]
-      });
+      // LocalNotifications.schedule({
+      //   notifications: [
+      //     {
+      //       title: 'Geofence error',
+      //       body: JSON.stringify(err),
+      //       id: parseInt(hub.id, 10),
+      //       schedule: { at: new Date(Date.now()) },
+      //       sound: 'beep.aiff',
+      //       attachments: null,
+      //       actionTypeId: '',
+      //       extra: null
+      //     }
+      //   ]
+      // });
     });
-    LocalNotifications.schedule({
-      notifications: [
-        {
-          title: 'Exited ' + hub.name,
-          body: geofence.action + ' ' + hub.name,
-          id: parseInt(hub.id, 10),
-          schedule: { at: new Date(Date.now()) },
-          sound: 'beep.aiff',
-          attachments: null,
-          actionTypeId: '',
-          extra: null
-        }
-      ]
-    });
+    // LocalNotifications.schedule({
+    //   notifications: [
+    //     {
+    //       title: 'Exited ' + hub.name,
+    //       body: geofence.action + ' ' + hub.name,
+    //       id: parseInt(hub.id, 10),
+    //       schedule: { at: new Date(Date.now()) },
+    //       sound: 'beep.aiff',
+    //       attachments: null,
+    //       actionTypeId: '',
+    //       extra: null
+    //     }
+    //   ]
+    // });
   }
 
   private async dwellGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.dwellHubGeofence(hub.id).catch(err => {
-      LocalNotifications.schedule({
-        notifications: [
-          {
-            title: 'Geofence error',
-            body: JSON.stringify(err),
-            id: parseInt(hub.id, 10),
-            schedule: { at: new Date(Date.now()) },
-            sound: 'beep.aiff',
-            attachments: null,
-            actionTypeId: '',
-            extra: null
-          }
-        ]
-      });
+      // LocalNotifications.schedule({
+      //   notifications: [
+      //     {
+      //       title: 'Geofence error',
+      //       body: JSON.stringify(err),
+      //       id: parseInt(hub.id, 10),
+      //       schedule: { at: new Date(Date.now()) },
+      //       sound: 'beep.aiff',
+      //       attachments: null,
+      //       actionTypeId: '',
+      //       extra: null
+      //     }
+      //   ]
+      // });
     });
-    LocalNotifications.schedule({
-      notifications: [
-        {
-          title: 'Dwell ' + hub.name,
-          body: geofence.action + ' ' + hub.name,
-          id: parseInt(hub.id, 10),
-          schedule: { at: new Date(Date.now()) },
-          sound: 'beep.aiff',
-          attachments: null,
-          actionTypeId: '',
-          extra: null
-        }
-      ]
-    });
+    // LocalNotifications.schedule({
+    //   notifications: [
+    //     {
+    //       title: 'Dwell ' + hub.name,
+    //       body: geofence.action + ' ' + hub.name,
+    //       id: parseInt(hub.id, 10),
+    //       schedule: { at: new Date(Date.now()) },
+    //       sound: 'beep.aiff',
+    //       attachments: null,
+    //       actionTypeId: '',
+    //       extra: null
+    //     }
+    //   ]
+    // });
   }
 
   private async enteredGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.enteredHubGeofence(hub.id).catch(err => {
-      LocalNotifications.schedule({
-        notifications: [
-          {
-            title: 'Geofence error',
-            body: JSON.stringify(err),
-            id: parseInt(hub.id, 10),
-            schedule: { at: new Date(Date.now()) },
-            sound: 'beep.aiff',
-            attachments: null,
-            actionTypeId: '',
-            extra: null,
-          }
-        ]
-      });
+      // LocalNotifications.schedule({
+      //   notifications: [
+      //     {
+      //       title: 'Geofence error',
+      //       body: JSON.stringify(err),
+      //       id: parseInt(hub.id, 10),
+      //       schedule: { at: new Date(Date.now()) },
+      //       sound: 'beep.aiff',
+      //       attachments: null,
+      //       actionTypeId: '',
+      //       extra: null,
+      //     }
+      //   ]
+      // });
     });
-    LocalNotifications.schedule({
-      notifications: [
-        {
-          title: 'Entered ' + hub.name,
-          body: geofence.action + ' ' + hub.name,
-          id: parseInt(hub.id, 10),
-          schedule: { at: new Date(Date.now()) },
-          sound: 'beep.aiff',
-          attachments: null,
-          actionTypeId: '',
-          extra: null
-        }
-      ]
-    });
+    // LocalNotifications.schedule({
+    //   notifications: [
+    //     {
+    //       title: 'Entered ' + hub.name,
+    //       body: geofence.action + ' ' + hub.name,
+    //       id: parseInt(hub.id, 10),
+    //       schedule: { at: new Date(Date.now()) },
+    //       sound: 'beep.aiff',
+    //       attachments: null,
+    //       actionTypeId: '',
+    //       extra: null
+    //     }
+    //   ]
+    // });
   }
 }
