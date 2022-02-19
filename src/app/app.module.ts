@@ -55,7 +55,9 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 export class AppModule {
   constructor(
     ) {
-    Sentry.init(environment.sentry);
+    if (environment.production) {
+      Sentry.init(environment.sentry);
+    }
   }
 }
 
