@@ -23,7 +23,11 @@
                   <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
             </ion-avatar>
             <ion-label>
+              <h2>
                 <ion-text>{{person.firstName}} {{person.lastName}}</ion-text>
+              </h2>
+              <p>Last Online: {{(person?.lastOnline) ? (((person?.lastOnline / 1000) | amFromUnix)
+                | amLocal | amTimeAgo) : 'N/A'}}</p>
             </ion-label>
           </ion-item>
         </ion-list>

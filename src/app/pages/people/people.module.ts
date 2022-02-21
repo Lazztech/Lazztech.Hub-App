@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { PeoplePage } from './people.page';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { MomentModule } from 'ngx-moment';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     DirectivesModule,
-    PipesModule
+    PipesModule,
+    MomentModule,
   ],
   declarations: [PeoplePage]
 })
