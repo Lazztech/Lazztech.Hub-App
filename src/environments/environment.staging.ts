@@ -10,8 +10,8 @@ export const environment: Environment = {
   name: EnvironmentNames.Stage,
   serverUrl: 'https://stage-lazztechhub.lazz.tech/',
   legal: {
-    privacyPolicyLink: "https://lazz.tech/Lazztech.Hub/legal/privacy_policy.html",
-    termsAndConditions: "https://lazz.tech/Lazztech.Hub/legal/terms_and_conditions.html"
+    privacyPolicyLink: "https://hub.lazz.tech/legal/privacy_policy.html",
+    termsAndConditions: "https://hub.lazz.tech/legal/terms_and_conditions.html"
   },
   featureFlags: {
     statusPage: false,
