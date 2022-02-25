@@ -62,7 +62,7 @@ export const environment: Environment = {
         },
         {
           hub: {
-            name: 'Sasha\'s Crib',
+            name: 'Sarahs House',
             image: 'https://www.urbnlivn.com/wp-content/uploads/2020/07/1633425_0.jpg',
             latitude: 47.62503181002362,
             longitude: -122.32099987619077,

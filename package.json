@@ -15,6 +15,7 @@
     "prepare:ios:dev": "ionic build && npx cap sync && npx cap copy && npx cap open ios",
     "prepare:ios:stg": "ionic build --configuration=staging && npx cap sync && npx cap copy && npx cap open ios",
     "prepare:ios:prod": "ionic build --configuration production && npx cap sync && npx cap copy && npx cap open ios",
+    "prepare:ios:demo": "ionic build --configuration demo && npx cap sync && npx cap copy && npx cap open ios",
     "run:ios:dev": "ionic build && npx cap sync && npx cap copy && npx cap run ios",
     "run:ios:stg": "ionic build --configuration=staging && npx cap sync && npx cap copy && npx cap run ios",
     "run:ios:prod": "ionic build --configuration production && npx cap sync && npx cap copy && npx cap run ios",
