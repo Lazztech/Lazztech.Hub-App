@@ -46,7 +46,8 @@ export class AppComponent {
   }
 
   async initializeApp() {
-    this.isDark = await this.themeService.isDark();
+    // this.isDark = await this.themeService.isDark();
+    document.body.classList.toggle('dark', true);
 
     StatusBar.setStyle({
       style: Style.Dark
