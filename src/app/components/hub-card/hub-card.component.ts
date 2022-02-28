@@ -23,6 +23,7 @@ export class HubCardComponent implements OnInit, OnDestroy, OnChanges {
   @Input() starred = false;
   @Input() isOwner = false;
   @Input() includeMap = false;
+  @Input() compact = true;
 
   atHub = false;
   subscription: Subscription;
