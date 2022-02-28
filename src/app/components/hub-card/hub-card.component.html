@@ -1,7 +1,7 @@
 <ion-card>
-  <ion-thumbnail class="ion-float-left" style="--size: 96px;">
+  <ion-thumbnail class="ion-float-left" style="--size: 98px;">
     <ion-skeleton-text *ngIf="!hub.image" animated></ion-skeleton-text>
-    <ion-img *ngIf="hub.image" width="100%" src="{{hub.image}}"></ion-img>
+    <ion-img *ngIf="hub.image" width="100%" ngClass="right-box" src="{{hub.image}}"></ion-img>
   </ion-thumbnail>
     <ion-grid>
       <ion-row>
