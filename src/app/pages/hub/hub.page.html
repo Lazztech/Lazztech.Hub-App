@@ -1,4 +1,10 @@
-<ion-header translucent="true">
+<ion-header 
+translucent="true"
+parallax
+imageUrl="{{userHub?.hub?.image}}"
+height="300"
+bgPosition="top"
+>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -6,8 +12,8 @@
     <div slot="end" href="javascript:void(0);" (click)="presentActionSheet()">
       <ion-icon size="large" name="ellipsis-vertical-outline"></ion-icon>
     </div>
-    <ion-title *ngIf="!loading && userHub">{{userHub?.hub.name}}</ion-title>
-    <ion-title *ngIf="loading">Hub</ion-title>
+    <!-- <ion-title *ngIf="!loading && userHub">{{userHub?.hub.name}}</ion-title>
+    <ion-title *ngIf="loading">Hub</ion-title> -->
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
