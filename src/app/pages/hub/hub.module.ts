@@ -10,7 +10,6 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { MomentModule } from 'ngx-moment';
-import { IonicHeaderParallaxModule } from 'ionic-header-parallax';
 
 const routes: Routes = [
   {
@@ -33,7 +32,6 @@ const routes: Routes = [
     DirectivesModule,
     PipesModule,
     MomentModule,
-    IonicHeaderParallaxModule
   ],
   declarations: [HubPage]
 })
