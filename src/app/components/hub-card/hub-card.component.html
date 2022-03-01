@@ -1,67 +1,66 @@
 <ion-card>
-  <ion-card-content style="padding-bottom: 0px;">
+  <div *ngIf="!compact">
+    <ion-skeleton-text *ngIf="!hub.image" animated></ion-skeleton-text>
+    <ion-img *ngIf="hub.image" class="cliped" ngClass="right-box" src="{{hub.image}}"></ion-img>
+  </div>
+  <ion-thumbnail class="ion-float-left" style="--size: 98px;" *ngIf="compact">
+    <ion-skeleton-text *ngIf="!hub.image" animated></ion-skeleton-text>
+    <ion-img *ngIf="hub.image" width="100%" ngClass="right-box" src="{{hub.image}}"></ion-img>
+  </ion-thumbnail>
     <ion-grid>
       <ion-row>
 
-        <ion-col size="1">
-          <app-activity-dot class="ion-float-left" [active]="hub.active"></app-activity-dot>
-        </ion-col>
-
         <ion-col>
-          <ion-card-subtitle *ngIf="hub?.name" class="ion-float-left">{{hub.name}}</ion-card-subtitle>
-          <ion-skeleton-text *ngIf="!hub.name" animated></ion-skeleton-text>
+          <ion-row>
+
+            <!-- <ion-col size="1">
+              <app-activity-dot class="ion-float-left" [active]="hub.active"></app-activity-dot>
+            </ion-col> -->
+
+            <ion-col>
+              <ion-card-subtitle *ngIf="hub?.name" class="ion-float-left">{{hub.name}}</ion-card-subtitle>
+              <ion-skeleton-text *ngIf="!hub.name" animated></ion-skeleton-text>
+            </ion-col>
+
+
+          </ion-row>
+          <ion-row>
+            <!-- <ion-col>
+              <ion-card-subtitle *ngIf="isOwner">Admin</ion-card-subtitle>
+              <ion-card-subtitle *ngIf="!isOwner">Member</ion-card-subtitle>
+              <ion-icon *ngIf="starred && !isOwner" class="ion-float-right ion-padding-end" name="star"></ion-icon>
+            </ion-col> -->
+
+            <ion-col *ngIf="!adminControls">
+              <ion-card-subtitle *ngIf="hub.active" color="success">{{presentCount}} /
+                {{hub.usersConnection.length}} present</ion-card-subtitle>
+              <ion-card-subtitle *ngIf="!hub.active" color="medium">Inactive</ion-card-subtitle>
+              <ion-skeleton-text animated style="width: 80%" *ngIf="!atHub && !distanceInMiles"
+              ></ion-skeleton-text>
+              <ion-card-subtitle *ngIf="!atHub && distanceInMiles">{{distanceInMiles.toFixed(1)}} miles away
+              </ion-card-subtitle>
+              <ion-card-subtitle *ngIf="atHub">you're here!</ion-card-subtitle>
+              <ion-text>
+                <p *ngIf="hub?.description && showDescription" >{{hub?.description}}</p>
+                <ion-skeleton-text *ngIf="!hub?.description" animated></ion-skeleton-text>
+              </ion-text>
+            </ion-col>
+          </ion-row>
         </ion-col>
 
-        <ion-col>
-          <ion-card-subtitle *ngIf="isOwner" class="ion-float-right">Admin</ion-card-subtitle>
-          <ion-card-subtitle *ngIf="!isOwner" class="ion-float-right">Member</ion-card-subtitle>
-          <ion-icon *ngIf="starred && !isOwner" class="ion-float-right ion-padding-end" name="star"></ion-icon>
-        </ion-col>
 
-      </ion-row>
-      <ion-row>
 
-        <ion-col>
-          <ion-thumbnail class="ion-float-left">
-            <ion-skeleton-text *ngIf="!hub.image" animated></ion-skeleton-text>
-            <ion-img *ngIf="hub.image" width="100%" src="{{hub.image}}"></ion-img>
-          </ion-thumbnail>
-        </ion-col>
-
-        <ion-col *ngIf="!adminControls" class="ion-float-right">
-          <ion-card-subtitle *ngIf="hub.active" class="ion-float-right" color="success">{{presentCount}} /
-            {{hub.usersConnection.length}} present</ion-card-subtitle>
-          <ion-card-subtitle *ngIf="!hub.active" class="ion-float-right" color="medium">Inactive</ion-card-subtitle>
-          <br>
-          <ion-skeleton-text class="ion-float-right" animated style="width: 80%" *ngIf="!atHub && !distanceInMiles"
-          ></ion-skeleton-text>
-          <ion-card-subtitle class="ion-float-right" *ngIf="!atHub && distanceInMiles">{{distanceInMiles.toFixed(1)}} miles away
-          </ion-card-subtitle>
-          <ion-card-subtitle class="ion-float-right" *ngIf="atHub">you're here!</ion-card-subtitle>
-        </ion-col>
-
-        <ion-col *ngIf="adminControls" class="ion-float-right">
+        <!-- <ion-col *ngIf="adminControls" class="ion-float-right">
           <ion-card-subtitle *ngIf="hub.active" class="ion-float-right" color="success">Active</ion-card-subtitle>
           <ion-card-subtitle *ngIf="!hub.active" class="ion-float-right" color="medium">Inactive</ion-card-subtitle>
           <br>
           <ion-toggle [(ngModel)]="hub.active" (ionChange)="activeToggle($event)" class="ion-float-right"
             color="success"></ion-toggle>
-        </ion-col>
-        
-      </ion-row>
-      <ion-row *ngIf="showDescription">
-          
-        <ion-col>
-          <ion-text>
-            <p *ngIf="hub?.description" >{{hub?.description}}</p>
-            <ion-skeleton-text *ngIf="!hub?.description" animated></ion-skeleton-text>
-          </ion-text>
-        </ion-col>
+        </ion-col> -->
 
       </ion-row>
     </ion-grid>
 
-  </ion-card-content>
   <div *ngIf="includeMap" style="height: 90px;">
       <app-leaflet-map [center]="hub"></app-leaflet-map>
   </div>

@@ -22,7 +22,8 @@
     [isOwner]="userHub?.isOwner" 
     [showDescription]="true"
     [includeMap]="true"
-    (click)="goToMap()">
+    (click)="goToMap()"
+    [compact]="false">
   </app-hub-card>
 
   <ion-grid *ngIf="!loading && userHub as userHub" class="ion-no-padding">
