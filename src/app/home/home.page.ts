@@ -70,11 +70,9 @@ export class HomePage implements OnInit, OnDestroy {
           this.hubs = this.userHubs?.map(x => x.hub as Hub);
         }
       }),
-      this.hubService.watchInvitesByUser().valueChanges.subscribe(x => {
-        this.loading = x.loading;
-      }),
       this.hubService.watchInvitesByUser(null, 10000).valueChanges.subscribe(x => {
         this.invites = x?.data?.invitesByUser;
+        this.loading = x.loading;
       })
     );
   }
