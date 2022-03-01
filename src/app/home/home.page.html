@@ -43,12 +43,12 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-list *ngIf="(invites | async)?.length">
+      <ion-list *ngIf="invites?.length">
         <ion-list-header>
             <ion-text>Invites</ion-text>
         </ion-list-header>
-        <div *ngFor="let invite of invites | async">
-          <app-hub-card *ngIf="!loading && yourLocation" 
+        <div *ngFor="let invite of invites">
+          <app-hub-card
           [hub]="invite.hub"
           [coords]="yourLocation"
           (click)="goToPreviewHubPage(invite.hubId)"></app-hub-card>
