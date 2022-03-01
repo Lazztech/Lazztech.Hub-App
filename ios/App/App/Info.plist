@@ -61,7 +61,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Face ID used for authentication.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>CHANGEME: Location required in background</string>
+	<string>Location required in background</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Always allow Geolocation?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -69,7 +69,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
 	<key>NSMotionUsageDescription</key>
-	<string>CHANGEME: Motion permission helps detect when device in in-motion</string>
+	<string>Motion permission helps detect when device in in-motion</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Store camera photos to camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
