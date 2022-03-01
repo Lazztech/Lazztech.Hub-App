@@ -17,7 +17,6 @@ export class AlertService {
       message,
       duration,
       position: 'top',
-      color: 'dark'
     });
     this.logger.log('presenting toast');
     await toast.present();

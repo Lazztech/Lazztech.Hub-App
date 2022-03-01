@@ -73,7 +73,7 @@
       <ion-text>Members</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userHub?.hub.usersConnection">
+    <div *ngFor="let userConnection of userHub?.hub.usersConnection; trackBy: userTrackByIsPresent">
       <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
