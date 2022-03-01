@@ -48,7 +48,7 @@
             <ion-text>Invites</ion-text>
         </ion-list-header>
         <div *ngFor="let invite of invites">
-          <app-hub-card *ngIf="!loading && yourLocation" 
+          <app-hub-card
           [hub]="invite.hub"
           [coords]="yourLocation"
           (click)="goToPreviewHubPage(invite.hubId)"></app-hub-card>
