@@ -1,11 +1,25 @@
 query me {
-    me { 
+  me {
+    id
+    firstName
+    lastName
+    description
+    image
+    email
+    shareableId
+    blocks {
+      from {
         id
         firstName
         lastName
-        description
         image
-        email
-        shareableId
+      }
+      to {
+        id
+        firstName
+        lastName
+        image
+      }
     }
+  }
 }

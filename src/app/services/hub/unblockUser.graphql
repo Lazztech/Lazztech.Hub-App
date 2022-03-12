@@ -1,0 +1,12 @@
+mutation unblockUser($toUserId: ID!) {
+  unblockUser(toUserId: $toUserId) {
+    from {
+      id
+      firstName
+    }
+    to {
+      id
+      firstName
+    }
+  }
+}

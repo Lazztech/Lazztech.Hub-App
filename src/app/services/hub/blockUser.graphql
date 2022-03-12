@@ -1,0 +1,12 @@
+mutation blockUser($toUserId: ID!) {
+  blockUser(toUserId: $toUserId) {
+    from {
+      id
+      firstName
+    }
+    to {
+      id
+      firstName
+    }
+  }
+}
