@@ -1,17 +1,25 @@
 import { Injectable } from '@angular/core';
+import { BlockUserGQL, UnblockUserGQL } from 'src/generated/graphql';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor() { }
+  constructor(
+    private readonly blockUserGQLService: BlockUserGQL,
+    private readonly unblockUserGQLService: UnblockUserGQL,
+  ) { }
 
   async blockUser(userId: any) {
-    throw Error('not yet implemented');
+    const result = await this.blockUserGQLService.mutate({
+      toUserId: userId
+    }).toPromise();
   }
 
   async unblockUser(userId: any) {
-    throw Error('not yet implemented');
+    const result = await this.unblockUserGQLService.mutate({
+      toUserId: userId
+    }).toPromise();
   }
 }

@@ -62,10 +62,16 @@ export class PersonPage implements OnInit, OnDestroy {
               this.loading = true;
               if (this.blocked) {
                 this.userService.unblockUser(this.id)
-                  .then(() => this.loading = false);
+                  .then(() => {
+                    this.loading = false;
+                    this.blocked = false;
+                  });
               } else {
                 this.userService.blockUser(this.id)
-                  .then(() => this.loading = false);
+                  .then(() => {
+                    this.loading = false;
+                    this.blocked = true;
+                  });
               }
             }
           },

@@ -17,6 +17,14 @@
   </app-profile-details>
 
   <ion-list>
+    <ion-list-header *ngIf="blocked">
+      <ion-text>Blocked User</ion-text>
+  </ion-list-header>
+  <ion-label *ngIf="blocked">
+    <p style="font-weight: bold" class="ion-text-center ion-padding">
+      This user will not be able to see your membership or presence in any hubs neither will they recieve any notifications of your arrival or departure in any shared hubs.
+    </p>
+  </ion-label>
     <ion-list-header>
         <ion-text>Common Hubs</ion-text>
     </ion-list-header>
