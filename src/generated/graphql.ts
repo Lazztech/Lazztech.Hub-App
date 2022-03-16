@@ -389,6 +389,7 @@ export type User = {
   image?: Maybe<Scalars['String']>;
   userDevices?: Maybe<Array<UserDevice>>;
   blocks?: Maybe<Array<Block>>;
+  blocked?: Maybe<Scalars['Boolean']>;
 };
 
 export type UserDevice = {
@@ -919,7 +920,7 @@ export type UsersPeopleQuery = (
   { __typename?: 'Query' }
   & { usersPeople: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image' | 'lastOnline'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image' | 'lastOnline' | 'blocked'>
   )> }
 );
 
@@ -1733,6 +1734,7 @@ export const UsersPeopleDocument = gql`
     description
     image
     lastOnline
+    blocked
   }
 }
     `;

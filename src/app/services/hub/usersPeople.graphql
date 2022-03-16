@@ -7,5 +7,6 @@ query usersPeople {
         description
         image
         lastOnline
+        blocked
     }
 }

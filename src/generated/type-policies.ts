@@ -43,7 +43,7 @@ export type JoinUserHubFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	hub?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('shareableId' | 'id' | 'firstName' | 'lastName' | 'birthdate' | 'description' | 'email' | 'lastOnline' | 'image' | 'userDevices' | 'blocks' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('shareableId' | 'id' | 'firstName' | 'lastName' | 'birthdate' | 'description' | 'email' | 'lastOnline' | 'image' | 'userDevices' | 'blocks' | 'blocked' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -55,7 +55,8 @@ export type UserFieldPolicy = {
 	lastOnline?: FieldPolicy<any> | FieldReadFunction<any>,
 	image?: FieldPolicy<any> | FieldReadFunction<any>,
 	userDevices?: FieldPolicy<any> | FieldReadFunction<any>,
-	blocks?: FieldPolicy<any> | FieldReadFunction<any>
+	blocks?: FieldPolicy<any> | FieldReadFunction<any>,
+	blocked?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type UserDeviceKeySpecifier = ('id' | 'fcmPushUserToken' | 'userId' | UserDeviceKeySpecifier)[];
 export type UserDeviceFieldPolicy = {
