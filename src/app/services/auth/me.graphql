@@ -12,13 +12,19 @@ query me {
         id
         firstName
         lastName
+        description
         image
+        email
+        shareableId
       }
       to {
         id
         firstName
         lastName
+        description
         image
+        email
+        shareableId
       }
     }
   }

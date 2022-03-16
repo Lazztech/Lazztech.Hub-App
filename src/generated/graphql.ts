@@ -430,10 +430,10 @@ export type MeQuery = (
       { __typename?: 'Block' }
       & { from: (
         { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'image'>
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
       ), to: (
         { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'image'>
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
       ) }
     )>> }
   )> }
@@ -1062,13 +1062,19 @@ export const MeDocument = gql`
         id
         firstName
         lastName
+        description
         image
+        email
+        shareableId
       }
       to {
         id
         firstName
         lastName
+        description
         image
+        email
+        shareableId
       }
     }
   }
