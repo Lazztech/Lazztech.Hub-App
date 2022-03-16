@@ -17,7 +17,6 @@ export class PersonPage implements OnInit, OnDestroy {
   queryParamsSubscription: Subscription;
   id: Scalars['ID'];
   user: User;
-  blocked = false;
 
   userHubs = [];
 
@@ -56,21 +55,23 @@ export class PersonPage implements OnInit, OnDestroy {
         header: 'User Options',
         buttons: [
           {
-            text: this.blocked ? 'Unblock user' : 'Block user',
+            text: this.user.blocked ? 'Unblock user' : 'Block user',
             role: 'destructive',
             handler: async () => {
               this.loading = true;
-              if (this.blocked) {
+              if (this.user.blocked) {
                 this.userService.unblockUser(this.id)
-                  .then(() => {
+                  .then(async () => {
                     this.loading = false;
-                    this.blocked = false;
+                    this.user = { ...this.user, blocked: false };
+                    await this.hubService.usersPeople('network-only');
                   });
               } else {
                 this.userService.blockUser(this.id)
-                  .then(() => {
+                  .then(async () => {
                     this.loading = false;
-                    this.blocked = true;
+                    this.user = { ...this.user, blocked: true };
+                    await this.hubService.usersPeople('network-only');
                   });
               }
             }
