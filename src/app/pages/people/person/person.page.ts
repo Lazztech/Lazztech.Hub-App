@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { Scalars, User } from 'src/generated/graphql';
-import { NavController } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-person',
@@ -16,6 +17,7 @@ export class PersonPage implements OnInit, OnDestroy {
   queryParamsSubscription: Subscription;
   id: Scalars['ID'];
   user: User;
+  blocked = false;
 
   userHubs = [];
 
@@ -24,6 +26,8 @@ export class PersonPage implements OnInit, OnDestroy {
     private router: Router,
     private hubService: HubService,
     public navCtrl: NavController,
+    public actionSheetController: ActionSheetController,
+    public userService: UserService,
   ) {
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -45,6 +49,34 @@ export class PersonPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.queryParamsSubscription.unsubscribe();
+  }
+
+  async presentActionSheet() {
+      const actionSheet = await this.actionSheetController.create({
+        header: 'User Options',
+        buttons: [
+          {
+            text: this.blocked ? 'Unblock user' : 'Block user',
+            role: 'destructive',
+            handler: async () => {
+              this.loading = true;
+              if (this.blocked) {
+                this.userService.unblockUser(this.id)
+                  .then(() => this.loading = false);
+              } else {
+                this.userService.blockUser(this.id)
+                  .then(() => this.loading = false);
+              }
+            }
+          },
+          {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        }]
+      });
+      await actionSheet.present();
   }
 
 }
