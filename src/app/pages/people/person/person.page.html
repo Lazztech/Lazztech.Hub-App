@@ -3,6 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <div slot="end" href="javascript:void(0);" (click)="presentActionSheet()">
+      <ion-icon size="large" name="ellipsis-vertical-outline"></ion-icon>
+    </div>
     <ion-title>Person</ion-title>
   </ion-toolbar>
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
@@ -14,6 +17,14 @@
   </app-profile-details>
 
   <ion-list>
+    <ion-list-header *ngIf="user.blocked">
+      <ion-text>Blocked User</ion-text>
+  </ion-list-header>
+  <ion-label *ngIf="user.blocked">
+    <p style="font-weight: bold" class="ion-text-center ion-padding">
+      This user will not be able to see your membership or presence in any hubs neither will they recieve any notifications of your arrival or departure in any shared hubs.
+    </p>
+  </ion-label>
     <ion-list-header>
         <ion-text>Common Hubs</ion-text>
     </ion-list-header>

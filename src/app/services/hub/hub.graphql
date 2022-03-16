@@ -21,6 +21,7 @@
                 description
                 image
                 lastOnline
+                blocked
               }
               isOwner
               isPresent

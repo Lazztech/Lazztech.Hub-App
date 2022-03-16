@@ -24,8 +24,14 @@
             </ion-avatar>
             <ion-label>
               <h2>
-                <ion-text>{{person.firstName}} {{person.lastName}}</ion-text>
+                <ion-text *ngIf="!person.blocked">{{person.firstName}} {{person.lastName}}</ion-text>
+                <ion-text *ngIf="person.blocked" style='text-decoration:line-through'>
+                  {{person.firstName}} {{person.lastName}}
+                </ion-text>
               </h2>
+              <p *ngIf="person.blocked" class="ion-float-right">
+                <ion-text>Blocked</ion-text>
+              </p>
               <p>Last Online: {{(person?.lastOnline) ? (((person?.lastOnline / 1000) | amFromUnix)
                 | amLocal | amTimeAgo) : 'N/A'}}</p>
             </ion-label>
