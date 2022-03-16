@@ -735,7 +735,7 @@ export type HubQuery = (
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
         & { user: (
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline'>
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
         ) }
       )>>, microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
@@ -1458,6 +1458,7 @@ export const HubDocument = gql`
           description
           image
           lastOnline
+          blocked
         }
         isOwner
         isPresent
