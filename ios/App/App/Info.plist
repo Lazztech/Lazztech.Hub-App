@@ -70,8 +70,8 @@
 	<string>To Record Audio With Video</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Motion permission is used to disable location to reduce battery consumption when not in-motion</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Store camera photos to camera</string>
+	<!-- <key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Store camera photos to camera</string> -->
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To Pick Photos from Library for uploading to Hubs</string>
 	<key>UIBackgroundModes</key>
