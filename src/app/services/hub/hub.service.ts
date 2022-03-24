@@ -38,6 +38,7 @@ import {
   UsersHubsGQL,
   Hub,
   UsersPeopleGQL,
+  ReportHubAsInappropriateGQL,
 } from 'src/generated/graphql';
 import { AlertService } from '../alert/alert.service';
 
@@ -74,6 +75,7 @@ export class HubService {
     private readonly acceptHubInviteGQLService: AcceptHubInviteGQL,
     private readonly leaveHubGQLService: LeaveHubGQL,
     private readonly changeHubLocationGQLService: ChangeHubLocationGQL,
+    private readonly reportHubAsInappropriate: ReportHubAsInappropriateGQL,
     private alertService: AlertService,
   ) { }
 
@@ -455,5 +457,11 @@ export class HubService {
         }
       }).toPromise();
     return result.data.deleteMicroChat;
+  }
+
+  async reportAsInappropriate(hubId: any) {
+    const result = await this.reportHubAsInappropriate.mutate({
+      hubId
+    }).toPromise();
   }
 }
