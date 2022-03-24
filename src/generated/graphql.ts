@@ -109,11 +109,13 @@ export type Mutation = {
   microChatToHub: Scalars['Boolean'];
   createMicroChat: MicroChat;
   deleteMicroChat: Scalars['Boolean'];
+  reportHubAsInappropriate: Scalars['Boolean'];
   editUserDetails: User;
   changeEmail: User;
   changeUserImage: User;
   blockUser: Block;
   unblockUser: Block;
+  reportUserAsInappropriate: Scalars['Boolean'];
   login?: Maybe<Scalars['String']>;
   register?: Maybe<Scalars['String']>;
   logout: Scalars['Boolean'];
@@ -243,6 +245,11 @@ export type MutationDeleteMicroChatArgs = {
 };
 
 
+export type MutationReportHubAsInappropriateArgs = {
+  hubId: Scalars['ID'];
+};
+
+
 export type MutationEditUserDetailsArgs = {
   description: Scalars['String'];
   lastName: Scalars['String'];
@@ -266,6 +273,11 @@ export type MutationBlockUserArgs = {
 
 
 export type MutationUnblockUserArgs = {
+  toUserId: Scalars['ID'];
+};
+
+
+export type MutationReportUserAsInappropriateArgs = {
   toUserId: Scalars['ID'];
 };
 
@@ -507,25 +519,6 @@ export type ActivateHubMutation = (
   & { activateHub: (
     { __typename?: 'Hub' }
     & Pick<Hub, 'id' | 'active'>
-  ) }
-);
-
-export type BlockUserMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
-}>;
-
-
-export type BlockUserMutation = (
-  { __typename?: 'Mutation' }
-  & { blockUser: (
-    { __typename?: 'Block' }
-    & { from: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ), to: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ) }
   ) }
 );
 
@@ -855,6 +848,16 @@ export type MicroChatToHubMutation = (
   & Pick<Mutation, 'microChatToHub'>
 );
 
+export type ReportHubAsInappropriateMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type ReportHubAsInappropriateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reportHubAsInappropriate'>
+);
+
 export type SetHubNotStarredMutationVariables = Exact<{
   hubId: Scalars['ID'];
 }>;
@@ -873,25 +876,6 @@ export type SetHubStarredMutationVariables = Exact<{
 export type SetHubStarredMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'setHubStarred'>
-);
-
-export type UnblockUserMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
-}>;
-
-
-export type UnblockUserMutation = (
-  { __typename?: 'Mutation' }
-  & { unblockUser: (
-    { __typename?: 'Block' }
-    & { from: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ), to: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ) }
-  ) }
 );
 
 export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1035,6 +1019,54 @@ export type EditUserDetailsMutation = (
   ) }
 );
 
+export type BlockUserMutationVariables = Exact<{
+  toUserId: Scalars['ID'];
+}>;
+
+
+export type BlockUserMutation = (
+  { __typename?: 'Mutation' }
+  & { blockUser: (
+    { __typename?: 'Block' }
+    & { from: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ), to: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ) }
+  ) }
+);
+
+export type ReportUserAsInappropriateMutationVariables = Exact<{
+  toUserId: Scalars['ID'];
+}>;
+
+
+export type ReportUserAsInappropriateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reportUserAsInappropriate'>
+);
+
+export type UnblockUserMutationVariables = Exact<{
+  toUserId: Scalars['ID'];
+}>;
+
+
+export type UnblockUserMutation = (
+  { __typename?: 'Mutation' }
+  & { unblockUser: (
+    { __typename?: 'Block' }
+    & { from: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ), to: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ) }
+  ) }
+);
+
 export const LoginDocument = gql`
     mutation login($password: String!, $email: String!) {
   login(password: $password, email: $email)
@@ -1175,28 +1207,6 @@ export const ActivateHubDocument = gql`
   })
   export class ActivateHubGQL extends Apollo.Mutation<ActivateHubMutation, ActivateHubMutationVariables> {
     document = ActivateHubDocument;
-    
-  }
-export const BlockUserDocument = gql`
-    mutation blockUser($toUserId: ID!) {
-  blockUser(toUserId: $toUserId) {
-    from {
-      id
-      firstName
-    }
-    to {
-      id
-      firstName
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BlockUserGQL extends Apollo.Mutation<BlockUserMutation, BlockUserMutationVariables> {
-    document = BlockUserDocument;
     
   }
 export const ChangeHubImageDocument = gql`
@@ -1645,6 +1655,19 @@ export const MicroChatToHubDocument = gql`
     document = MicroChatToHubDocument;
     
   }
+export const ReportHubAsInappropriateDocument = gql`
+    mutation reportHubAsInappropriate($hubId: ID!) {
+  reportHubAsInappropriate(hubId: $hubId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportHubAsInappropriateGQL extends Apollo.Mutation<ReportHubAsInappropriateMutation, ReportHubAsInappropriateMutationVariables> {
+    document = ReportHubAsInappropriateDocument;
+    
+  }
 export const SetHubNotStarredDocument = gql`
     mutation setHubNotStarred($hubId: ID!) {
   setHubNotStarred(hubId: $hubId)
@@ -1669,28 +1692,6 @@ export const SetHubStarredDocument = gql`
   })
   export class SetHubStarredGQL extends Apollo.Mutation<SetHubStarredMutation, SetHubStarredMutationVariables> {
     document = SetHubStarredDocument;
-    
-  }
-export const UnblockUserDocument = gql`
-    mutation unblockUser($toUserId: ID!) {
-  unblockUser(toUserId: $toUserId) {
-    from {
-      id
-      firstName
-    }
-    to {
-      id
-      firstName
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UnblockUserGQL extends Apollo.Mutation<UnblockUserMutation, UnblockUserMutationVariables> {
-    document = UnblockUserDocument;
     
   }
 export const UsersHubsDocument = gql`
@@ -1884,5 +1885,62 @@ export const EditUserDetailsDocument = gql`
   })
   export class EditUserDetailsGQL extends Apollo.Mutation<EditUserDetailsMutation, EditUserDetailsMutationVariables> {
     document = EditUserDetailsDocument;
+    
+  }
+export const BlockUserDocument = gql`
+    mutation blockUser($toUserId: ID!) {
+  blockUser(toUserId: $toUserId) {
+    from {
+      id
+      firstName
+    }
+    to {
+      id
+      firstName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BlockUserGQL extends Apollo.Mutation<BlockUserMutation, BlockUserMutationVariables> {
+    document = BlockUserDocument;
+    
+  }
+export const ReportUserAsInappropriateDocument = gql`
+    mutation reportUserAsInappropriate($toUserId: ID!) {
+  reportUserAsInappropriate(toUserId: $toUserId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportUserAsInappropriateGQL extends Apollo.Mutation<ReportUserAsInappropriateMutation, ReportUserAsInappropriateMutationVariables> {
+    document = ReportUserAsInappropriateDocument;
+    
+  }
+export const UnblockUserDocument = gql`
+    mutation unblockUser($toUserId: ID!) {
+  unblockUser(toUserId: $toUserId) {
+    from {
+      id
+      firstName
+    }
+    to {
+      id
+      firstName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UnblockUserGQL extends Apollo.Mutation<UnblockUserMutation, UnblockUserMutationVariables> {
+    document = UnblockUserDocument;
     
   }
