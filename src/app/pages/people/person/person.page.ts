@@ -77,6 +77,15 @@ export class PersonPage implements OnInit, OnDestroy {
             }
           },
           {
+            text: 'Report as Inappropriate',
+            role: 'destructive',
+            handler: () => {
+              if (confirm('Report as Inappropriate, against the EULA? This may result in the removal of data & the offending content creator.')) {
+                this.navCtrl.back();
+              }
+            }
+          },
+          {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
