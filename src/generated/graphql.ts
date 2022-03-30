@@ -57,9 +57,9 @@ export type Invite = {
   invitersId: Scalars['ID'];
   inviteesId: Scalars['ID'];
   hubId: Scalars['ID'];
-  inviter: User;
-  invitee: User;
-  hub: Hub;
+  inviter?: Maybe<User>;
+  invitee?: Maybe<User>;
+  hub?: Maybe<Hub>;
 };
 
 export type JoinUserHub = {
@@ -73,8 +73,8 @@ export type JoinUserHub = {
   userId: Scalars['ID'];
   hubId: Scalars['ID'];
   isPresent?: Maybe<Scalars['Boolean']>;
-  user: User;
-  hub: Hub;
+  user?: Maybe<User>;
+  hub?: Maybe<Hub>;
 };
 
 export type MicroChat = {
@@ -109,13 +109,11 @@ export type Mutation = {
   microChatToHub: Scalars['Boolean'];
   createMicroChat: MicroChat;
   deleteMicroChat: Scalars['Boolean'];
-  reportHubAsInappropriate: Scalars['Boolean'];
   editUserDetails: User;
   changeEmail: User;
   changeUserImage: User;
   blockUser: Block;
   unblockUser: Block;
-  reportUserAsInappropriate: Scalars['Boolean'];
   login?: Maybe<Scalars['String']>;
   register?: Maybe<Scalars['String']>;
   logout: Scalars['Boolean'];
@@ -123,6 +121,8 @@ export type Mutation = {
   sendPasswordResetEmail: Scalars['Boolean'];
   changePassword: Scalars['Boolean'];
   deleteAccount: Scalars['Boolean'];
+  reportHubAsInappropriate: Scalars['Boolean'];
+  reportUserAsInappropriate: Scalars['Boolean'];
 };
 
 
@@ -245,11 +245,6 @@ export type MutationDeleteMicroChatArgs = {
 };
 
 
-export type MutationReportHubAsInappropriateArgs = {
-  hubId: Scalars['ID'];
-};
-
-
 export type MutationEditUserDetailsArgs = {
   description: Scalars['String'];
   lastName: Scalars['String'];
@@ -273,11 +268,6 @@ export type MutationBlockUserArgs = {
 
 
 export type MutationUnblockUserArgs = {
-  toUserId: Scalars['ID'];
-};
-
-
-export type MutationReportUserAsInappropriateArgs = {
   toUserId: Scalars['ID'];
 };
 
@@ -314,6 +304,16 @@ export type MutationChangePasswordArgs = {
 export type MutationDeleteAccountArgs = {
   password: Scalars['String'];
   email: Scalars['String'];
+};
+
+
+export type MutationReportHubAsInappropriateArgs = {
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationReportUserAsInappropriateArgs = {
+  toUserId: Scalars['ID'];
 };
 
 export type PageableOptions = {
@@ -498,14 +498,14 @@ export type AcceptHubInviteMutation = (
   & { acceptHubInvite: (
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
         & Pick<MicroChat, 'id' | 'hubId' | 'text'>
       )>> }
-    ) }
+    )> }
   ) }
 );
 
@@ -561,14 +561,14 @@ export type CommonUsersHubsQuery = (
   & { commonUsersHubs: Array<(
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
       )>> }
-    ) }
+    )> }
   )> }
 );
 
@@ -586,14 +586,14 @@ export type CreateHubMutation = (
   & { createHub: (
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
       )>> }
-    ) }
+    )> }
   ) }
 );
 
@@ -720,21 +720,21 @@ export type HubQuery = (
   & { hub: (
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
-        & { user: (
+        & { user?: Maybe<(
           { __typename?: 'User' }
           & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
-        ) }
+        )> }
       )>>, microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
         & Pick<MicroChat, 'id' | 'text'>
       )>> }
-    ) }
+    )> }
   ) }
 );
 
@@ -748,13 +748,13 @@ export type InviteQuery = (
   & { invite: (
     { __typename?: 'Invite' }
     & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
-    & { inviter: (
+    & { inviter?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image'>
-    ), hub: (
+    )>, hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
-    ) }
+    )> }
   ) }
 );
 
@@ -769,16 +769,16 @@ export type InviteUserToHubMutation = (
   & { inviteUserToHub: (
     { __typename?: 'Invite' }
     & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
-    & { inviter: (
+    & { inviter?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName'>
-    ), invitee: (
+    )>, invitee?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName'>
-    ), hub: (
+    )>, hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name'>
-    ) }
+    )> }
   ) }
 );
 
@@ -792,16 +792,16 @@ export type InvitesByHubQuery = (
   & { invitesByHub: Array<(
     { __typename?: 'Invite' }
     & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
-    & { inviter: (
+    & { inviter?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'image'>
-    ), invitee: (
+    )>, invitee?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'image'>
-    ), hub: (
+    )>, hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id'>
-    ) }
+    )> }
   )> }
 );
 
@@ -813,17 +813,17 @@ export type InvitesByUserQuery = (
   & { invitesByUser: Array<(
     { __typename?: 'Invite' }
     & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
-    & { inviter: (
+    & { inviter?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image'>
-    ), hub: (
+    )>, hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent'>
       )>> }
-    ) }
+    )> }
   )> }
 );
 
@@ -886,14 +886,14 @@ export type UsersHubsQuery = (
   & { usersHubs: Array<(
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
       )>> }
-    ) }
+    )> }
   )> }
 );
 

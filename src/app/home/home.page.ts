@@ -57,7 +57,7 @@ export class HomePage implements OnInit, OnDestroy {
         if (environment.demoMode) {
           this.userHubs = environment.demoData.usersHubs.usersHubs;
         } else {
-          this.userHubs = [...x?.data?.usersHubs]?.sort((a, b) => {
+          this.userHubs = [...x?.data?.usersHubs]?.filter(x => x.hub)?.sort((a, b) => {
             if (this?.yourLocation) {
               console.log('sorting');
               
