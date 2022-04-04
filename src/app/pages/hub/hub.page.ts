@@ -82,7 +82,10 @@ export class HubPage implements OnInit, OnDestroy {
           latitude: data.hub.latitude,
           longitude: data.hub.longitude
         };
-        this.sortedUsers = [...data?.hub?.usersConnection]?.sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline)).reverse();
+        this.sortedUsers = [...data?.hub?.usersConnection]
+          .filter(x => !!x?.user)
+          .sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline))
+          .reverse();
       }),
     );
   }
