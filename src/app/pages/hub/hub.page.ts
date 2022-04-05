@@ -82,7 +82,10 @@ export class HubPage implements OnInit, OnDestroy {
           latitude: data.hub.latitude,
           longitude: data.hub.longitude
         };
-        this.sortedUsers = [...data?.hub?.usersConnection]?.sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline)).reverse();
+        this.sortedUsers = [...data?.hub?.usersConnection]
+          .filter(x => !!x?.user)
+          .sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline))
+          .reverse();
       }),
     );
   }
@@ -176,6 +179,19 @@ export class HubPage implements OnInit, OnDestroy {
               this.loading = false;
             });
             this.navCtrl.back();
+          }
+        },
+        {
+          text: 'Report as Inappropriate',
+          role: 'destructive',
+          handler: () => {
+            if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
+              this.loading = true;
+              this.hubService.reportAsInappropriate(this.id).then(() => {
+                this.loading = false;
+                this.navCtrl.back();
+              });
+            }
           }
         });
       }

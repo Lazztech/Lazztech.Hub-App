@@ -57,9 +57,9 @@ export type Invite = {
   invitersId: Scalars['ID'];
   inviteesId: Scalars['ID'];
   hubId: Scalars['ID'];
-  inviter: User;
-  invitee: User;
-  hub: Hub;
+  inviter?: Maybe<User>;
+  invitee?: Maybe<User>;
+  hub?: Maybe<Hub>;
 };
 
 export type JoinUserHub = {
@@ -73,8 +73,8 @@ export type JoinUserHub = {
   userId: Scalars['ID'];
   hubId: Scalars['ID'];
   isPresent?: Maybe<Scalars['Boolean']>;
-  user: User;
-  hub: Hub;
+  user?: Maybe<User>;
+  hub?: Maybe<Hub>;
 };
 
 export type MicroChat = {
@@ -121,6 +121,8 @@ export type Mutation = {
   sendPasswordResetEmail: Scalars['Boolean'];
   changePassword: Scalars['Boolean'];
   deleteAccount: Scalars['Boolean'];
+  reportHubAsInappropriate: Scalars['Boolean'];
+  reportUserAsInappropriate: Scalars['Boolean'];
 };
 
 
@@ -302,6 +304,16 @@ export type MutationChangePasswordArgs = {
 export type MutationDeleteAccountArgs = {
   password: Scalars['String'];
   email: Scalars['String'];
+};
+
+
+export type MutationReportHubAsInappropriateArgs = {
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationReportUserAsInappropriateArgs = {
+  toUserId: Scalars['ID'];
 };
 
 export type PageableOptions = {
@@ -486,14 +498,14 @@ export type AcceptHubInviteMutation = (
   & { acceptHubInvite: (
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
         & Pick<MicroChat, 'id' | 'hubId' | 'text'>
       )>> }
-    ) }
+    )> }
   ) }
 );
 
@@ -507,25 +519,6 @@ export type ActivateHubMutation = (
   & { activateHub: (
     { __typename?: 'Hub' }
     & Pick<Hub, 'id' | 'active'>
-  ) }
-);
-
-export type BlockUserMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
-}>;
-
-
-export type BlockUserMutation = (
-  { __typename?: 'Mutation' }
-  & { blockUser: (
-    { __typename?: 'Block' }
-    & { from: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ), to: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ) }
   ) }
 );
 
@@ -568,14 +561,14 @@ export type CommonUsersHubsQuery = (
   & { commonUsersHubs: Array<(
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
       )>> }
-    ) }
+    )> }
   )> }
 );
 
@@ -593,14 +586,14 @@ export type CreateHubMutation = (
   & { createHub: (
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
       )>> }
-    ) }
+    )> }
   ) }
 );
 
@@ -727,21 +720,21 @@ export type HubQuery = (
   & { hub: (
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
-        & { user: (
+        & { user?: Maybe<(
           { __typename?: 'User' }
           & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
-        ) }
+        )> }
       )>>, microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
         & Pick<MicroChat, 'id' | 'text'>
       )>> }
-    ) }
+    )> }
   ) }
 );
 
@@ -755,13 +748,13 @@ export type InviteQuery = (
   & { invite: (
     { __typename?: 'Invite' }
     & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
-    & { inviter: (
+    & { inviter?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image'>
-    ), hub: (
+    )>, hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
-    ) }
+    )> }
   ) }
 );
 
@@ -776,16 +769,16 @@ export type InviteUserToHubMutation = (
   & { inviteUserToHub: (
     { __typename?: 'Invite' }
     & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
-    & { inviter: (
+    & { inviter?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName'>
-    ), invitee: (
+    )>, invitee?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName'>
-    ), hub: (
+    )>, hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name'>
-    ) }
+    )> }
   ) }
 );
 
@@ -799,16 +792,16 @@ export type InvitesByHubQuery = (
   & { invitesByHub: Array<(
     { __typename?: 'Invite' }
     & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
-    & { inviter: (
+    & { inviter?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'image'>
-    ), invitee: (
+    )>, invitee?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'image'>
-    ), hub: (
+    )>, hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id'>
-    ) }
+    )> }
   )> }
 );
 
@@ -820,17 +813,17 @@ export type InvitesByUserQuery = (
   & { invitesByUser: Array<(
     { __typename?: 'Invite' }
     & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
-    & { inviter: (
+    & { inviter?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image'>
-    ), hub: (
+    )>, hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent'>
       )>> }
-    ) }
+    )> }
   )> }
 );
 
@@ -855,6 +848,16 @@ export type MicroChatToHubMutation = (
   & Pick<Mutation, 'microChatToHub'>
 );
 
+export type ReportHubAsInappropriateMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type ReportHubAsInappropriateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reportHubAsInappropriate'>
+);
+
 export type SetHubNotStarredMutationVariables = Exact<{
   hubId: Scalars['ID'];
 }>;
@@ -875,25 +878,6 @@ export type SetHubStarredMutation = (
   & Pick<Mutation, 'setHubStarred'>
 );
 
-export type UnblockUserMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
-}>;
-
-
-export type UnblockUserMutation = (
-  { __typename?: 'Mutation' }
-  & { unblockUser: (
-    { __typename?: 'Block' }
-    & { from: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ), to: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ) }
-  ) }
-);
-
 export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -902,14 +886,14 @@ export type UsersHubsQuery = (
   & { usersHubs: Array<(
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub: (
+    & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
       )>> }
-    ) }
+    )> }
   )> }
 );
 
@@ -1032,6 +1016,54 @@ export type EditUserDetailsMutation = (
   & { editUserDetails: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'firstName' | 'lastName' | 'description'>
+  ) }
+);
+
+export type BlockUserMutationVariables = Exact<{
+  toUserId: Scalars['ID'];
+}>;
+
+
+export type BlockUserMutation = (
+  { __typename?: 'Mutation' }
+  & { blockUser: (
+    { __typename?: 'Block' }
+    & { from: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ), to: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ) }
+  ) }
+);
+
+export type ReportUserAsInappropriateMutationVariables = Exact<{
+  toUserId: Scalars['ID'];
+}>;
+
+
+export type ReportUserAsInappropriateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reportUserAsInappropriate'>
+);
+
+export type UnblockUserMutationVariables = Exact<{
+  toUserId: Scalars['ID'];
+}>;
+
+
+export type UnblockUserMutation = (
+  { __typename?: 'Mutation' }
+  & { unblockUser: (
+    { __typename?: 'Block' }
+    & { from: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ), to: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ) }
   ) }
 );
 
@@ -1175,28 +1207,6 @@ export const ActivateHubDocument = gql`
   })
   export class ActivateHubGQL extends Apollo.Mutation<ActivateHubMutation, ActivateHubMutationVariables> {
     document = ActivateHubDocument;
-    
-  }
-export const BlockUserDocument = gql`
-    mutation blockUser($toUserId: ID!) {
-  blockUser(toUserId: $toUserId) {
-    from {
-      id
-      firstName
-    }
-    to {
-      id
-      firstName
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BlockUserGQL extends Apollo.Mutation<BlockUserMutation, BlockUserMutationVariables> {
-    document = BlockUserDocument;
     
   }
 export const ChangeHubImageDocument = gql`
@@ -1645,6 +1655,19 @@ export const MicroChatToHubDocument = gql`
     document = MicroChatToHubDocument;
     
   }
+export const ReportHubAsInappropriateDocument = gql`
+    mutation reportHubAsInappropriate($hubId: ID!) {
+  reportHubAsInappropriate(hubId: $hubId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportHubAsInappropriateGQL extends Apollo.Mutation<ReportHubAsInappropriateMutation, ReportHubAsInappropriateMutationVariables> {
+    document = ReportHubAsInappropriateDocument;
+    
+  }
 export const SetHubNotStarredDocument = gql`
     mutation setHubNotStarred($hubId: ID!) {
   setHubNotStarred(hubId: $hubId)
@@ -1669,28 +1692,6 @@ export const SetHubStarredDocument = gql`
   })
   export class SetHubStarredGQL extends Apollo.Mutation<SetHubStarredMutation, SetHubStarredMutationVariables> {
     document = SetHubStarredDocument;
-    
-  }
-export const UnblockUserDocument = gql`
-    mutation unblockUser($toUserId: ID!) {
-  unblockUser(toUserId: $toUserId) {
-    from {
-      id
-      firstName
-    }
-    to {
-      id
-      firstName
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UnblockUserGQL extends Apollo.Mutation<UnblockUserMutation, UnblockUserMutationVariables> {
-    document = UnblockUserDocument;
     
   }
 export const UsersHubsDocument = gql`
@@ -1884,5 +1885,62 @@ export const EditUserDetailsDocument = gql`
   })
   export class EditUserDetailsGQL extends Apollo.Mutation<EditUserDetailsMutation, EditUserDetailsMutationVariables> {
     document = EditUserDetailsDocument;
+    
+  }
+export const BlockUserDocument = gql`
+    mutation blockUser($toUserId: ID!) {
+  blockUser(toUserId: $toUserId) {
+    from {
+      id
+      firstName
+    }
+    to {
+      id
+      firstName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class BlockUserGQL extends Apollo.Mutation<BlockUserMutation, BlockUserMutationVariables> {
+    document = BlockUserDocument;
+    
+  }
+export const ReportUserAsInappropriateDocument = gql`
+    mutation reportUserAsInappropriate($toUserId: ID!) {
+  reportUserAsInappropriate(toUserId: $toUserId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportUserAsInappropriateGQL extends Apollo.Mutation<ReportUserAsInappropriateMutation, ReportUserAsInappropriateMutationVariables> {
+    document = ReportUserAsInappropriateDocument;
+    
+  }
+export const UnblockUserDocument = gql`
+    mutation unblockUser($toUserId: ID!) {
+  unblockUser(toUserId: $toUserId) {
+    from {
+      id
+      firstName
+    }
+    to {
+      id
+      firstName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UnblockUserGQL extends Apollo.Mutation<UnblockUserMutation, UnblockUserMutationVariables> {
+    document = UnblockUserDocument;
     
   }

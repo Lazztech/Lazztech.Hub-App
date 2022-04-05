@@ -101,7 +101,7 @@ export type InviteFieldPolicy = {
 	invitee?: FieldPolicy<any> | FieldReadFunction<any>,
 	hub?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('addUserFcmNotificationToken' | 'deleteInAppNotification' | 'deleteAllInAppNotifications' | 'createHub' | 'inviteUserToHub' | 'acceptHubInvite' | 'deleteInvite' | 'leaveHub' | 'deleteHub' | 'editHub' | 'changeHubLocation' | 'changeHubImage' | 'setHubStarred' | 'setHubNotStarred' | 'enteredHubGeofence' | 'dwellHubGeofence' | 'exitedHubGeofence' | 'activateHub' | 'deactivateHub' | 'microChatToHub' | 'createMicroChat' | 'deleteMicroChat' | 'editUserDetails' | 'changeEmail' | 'changeUserImage' | 'blockUser' | 'unblockUser' | 'login' | 'register' | 'logout' | 'resetPassword' | 'sendPasswordResetEmail' | 'changePassword' | 'deleteAccount' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('addUserFcmNotificationToken' | 'deleteInAppNotification' | 'deleteAllInAppNotifications' | 'createHub' | 'inviteUserToHub' | 'acceptHubInvite' | 'deleteInvite' | 'leaveHub' | 'deleteHub' | 'editHub' | 'changeHubLocation' | 'changeHubImage' | 'setHubStarred' | 'setHubNotStarred' | 'enteredHubGeofence' | 'dwellHubGeofence' | 'exitedHubGeofence' | 'activateHub' | 'deactivateHub' | 'microChatToHub' | 'createMicroChat' | 'deleteMicroChat' | 'editUserDetails' | 'changeEmail' | 'changeUserImage' | 'blockUser' | 'unblockUser' | 'login' | 'register' | 'logout' | 'resetPassword' | 'sendPasswordResetEmail' | 'changePassword' | 'deleteAccount' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	addUserFcmNotificationToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteInAppNotification?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -136,7 +136,9 @@ export type MutationFieldPolicy = {
 	resetPassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	sendPasswordResetEmail?: FieldPolicy<any> | FieldReadFunction<any>,
 	changePassword?: FieldPolicy<any> | FieldReadFunction<any>,
-	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>
+	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>,
+	reportHubAsInappropriate?: FieldPolicy<any> | FieldReadFunction<any>,
+	reportUserAsInappropriate?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
 	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {

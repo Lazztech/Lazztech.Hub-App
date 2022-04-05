@@ -29,7 +29,7 @@
         <ion-text>Common Hubs</ion-text>
     </ion-list-header>
     <div *ngFor="let userHub of userHubs">
-      <app-hub-card *ngIf="!loading" 
+      <app-hub-card *ngIf="!loading && userHub?.hub" 
       [hub]="userHub.hub"
       [starred]="userHub.starred"
       [isOwner]="userHub.isOwner"
