@@ -1,0 +1,3 @@
+mutation reportUserAsInappropriate($toUserId: ID!) {
+  reportUserAsInappropriate(toUserId: $toUserId)
+}

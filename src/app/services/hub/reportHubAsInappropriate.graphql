@@ -1,0 +1,3 @@
+mutation reportHubAsInappropriate($hubId: ID!) {
+  reportHubAsInappropriate(hubId: $hubId)
+}
