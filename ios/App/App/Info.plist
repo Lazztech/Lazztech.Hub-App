@@ -61,7 +61,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Face ID used for authentication.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Location required in background to set your presence at community Hubs.</string>
+	<string>This is required to check you in and out of community Hubs in the background.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Always allowing location is needed to allow the app to check you in and out of community Hubs in the background</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -69,7 +69,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Motion permission is used to disable location to reduce battery consumption when not in-motion</string>
+	<string>Motion permission enables battery saving functionality when not in-motion</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Store camera photos to camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
