@@ -19,6 +19,7 @@ import {
   PaginatedInAppNotifcationsQueryVariables,
   Scalars,
 } from '../../../generated/graphql';
+import { AlertService } from '../alert/alert.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class NotificationsService {
   constructor(
     private platform: Platform,
     private storage: Storage,
-    private toastController: ToastController,
+    private alertService: AlertService,
     private deleteAllInAppNotificationsGQLService: DeleteAllInAppNotificationsGQL,
     private deleteInAppNotificationGQLService: DeleteInAppNotificationGQL,
     private addUserFcmNotificationTokenGQLService: AddUserFcmNotificationTokenGQL,
@@ -160,13 +161,11 @@ export class NotificationsService {
         'pushNotificationReceived',
         async (notification: PushNotificationSchema) => {
           this.logger.log('Push received: ' + JSON.stringify(notification));
-          // TODO move to alertService?
-          const toast = await this.toastController.create({
+          await this.alertService.create({
             header: notification.title,
             message: notification.body,
             duration: 3000,
             position: 'top',
-            color: 'dark',
             translucent: true,
             buttons: [
               {
@@ -183,8 +182,6 @@ export class NotificationsService {
               },
             ],
           });
-          this.logger.log('presenting toast');
-          await toast.present();
         }
       );
 

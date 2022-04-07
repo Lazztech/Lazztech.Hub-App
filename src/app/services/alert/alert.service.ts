@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { ToastController, ToastOptions } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
@@ -19,6 +19,11 @@ export class AlertService {
       position: 'top',
     });
     this.logger.log('presenting toast');
+    await toast.present();
+  }
+
+  async create(opts?: ToastOptions) {
+    const toast = await this.toastController.create(opts);
     await toast.present();
   }
 
