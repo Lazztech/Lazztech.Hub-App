@@ -7,7 +7,7 @@ import {
   Token,
 } from '@capacitor/push-notifications';
 import '@firebase/messaging';
-import { NavController, Platform, ToastController } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { NGXLogger } from 'ngx-logger';
 import {
