@@ -19,6 +19,7 @@ export const environment: Environment = {
   },
   featureFlags: {
     statusPage: false,
+    notificationsPage: false,
     hubActivityDetails: false,
     paidHubSubscriptionTier: false,
     // https://github.com/adorableio/avatars-api-middleware

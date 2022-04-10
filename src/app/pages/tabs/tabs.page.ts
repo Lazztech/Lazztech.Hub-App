@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tabs',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
+
+  environment = environment;
 
   constructor() { }
 

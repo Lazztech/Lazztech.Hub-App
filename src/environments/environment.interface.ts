@@ -14,6 +14,7 @@ export interface Environment {
     };
     featureFlags: {
       statusPage: boolean,
+      notificationsPage: boolean,
       hubActivityDetails: boolean,
       paidHubSubscriptionTier: boolean,
       // https://github.com/adorableio/avatars-api-middleware
