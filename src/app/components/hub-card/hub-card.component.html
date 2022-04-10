@@ -40,8 +40,8 @@
               <ion-card-subtitle *ngIf="!atHub && distanceInMiles">{{distanceInMiles.toFixed(1)}} miles away
               </ion-card-subtitle>
               <ion-card-subtitle *ngIf="atHub">you're here!</ion-card-subtitle>
-              <ion-text>
-                <p *ngIf="hub?.description && showDescription" >{{hub?.description}}</p>
+              <ion-text *ngIf="showDescription">
+                <p *ngIf="hub?.description" >{{hub?.description}}</p>
                 <ion-skeleton-text *ngIf="!hub?.description" animated></ion-skeleton-text>
               </ion-text>
             </ion-col>

@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { Scalars, User } from 'src/generated/graphql';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
+import { LocationService } from 'src/app/services/location/location.service';
 
 @Component({
   selector: 'app-person',
@@ -17,6 +18,8 @@ export class PersonPage implements OnInit, OnDestroy {
   queryParamsSubscription: Subscription;
   id: Scalars['ID'];
   user: User;
+  subscriptions: Subscription[] = [];
+  yourLocation: { latitude: number, longitude: number };
 
   userHubs = [];
 
@@ -27,17 +30,25 @@ export class PersonPage implements OnInit, OnDestroy {
     public navCtrl: NavController,
     public actionSheetController: ActionSheetController,
     public userService: UserService,
+    private locationService: LocationService,
+    private changeRef: ChangeDetectorRef,
   ) {
-    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
+    this.subscriptions.push(this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.user = this.router.getCurrentNavigation().extras.state.user;
       }
-    });
+    }));
     this.id = this.route.snapshot.paramMap.get('id');
   }
 
   async ngOnInit() {
     this.loading = true;
+    this.subscriptions.push(
+      this.locationService.coords$.subscribe(async x => {
+        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
+        this.changeRef.detectChanges();
+      })
+    );
     this.userHubs = await this.hubService.commonUsersHubs(this.id);
     this.loading = false;
   }
@@ -46,8 +57,10 @@ export class PersonPage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('hub/' + id);
   }
 
-  ngOnDestroy() {
-    this.queryParamsSubscription.unsubscribe();
+  async ngOnDestroy() {
+    this.subscriptions.forEach(
+      x => x.unsubscribe()
+    );
   }
 
   async presentActionSheet() {
