@@ -167,20 +167,6 @@ export class NotificationsService {
             duration: 3000,
             position: 'top',
             translucent: true,
-            buttons: [
-              {
-                side: 'start',
-                text: 'View',
-                handler: () => {
-                  if (notification?.data?.aps?.category) {
-                    this.navController.navigateForward(
-                      notification.data.aps.category
-                    );
-                  }
-                  this.logger.log('View clicked');
-                },
-              },
-            ],
           });
         }
       );
