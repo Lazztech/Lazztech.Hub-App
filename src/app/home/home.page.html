@@ -59,7 +59,7 @@
           <ion-list-header>
               <ion-text>Hubs</ion-text>
           </ion-list-header>
-          <div *ngFor="let userHub of userHubs">
+          <div *ngFor="let userHub of userHubs; trackBy: userTrackByHub">
             <app-hub-card
             [hub]="userHub.hub"
             [coords]="yourLocation"

@@ -73,7 +73,7 @@
       <ion-text>Members</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userHub?.hub.usersConnection; trackBy: userTrackByIsPresent">
+    <div *ngFor="let userConnection of userHub?.hub.usersConnection; trackBy: trackByUser">
       <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
@@ -102,7 +102,7 @@
       <ion-text>Present</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of sortedUsers; trackBy: userTrackByIsPresent">
+    <div *ngFor="let userConnection of sortedUsers; trackBy: trackByUser">
       <ion-item *ngIf="userConnection.isPresent" href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
@@ -135,7 +135,7 @@
       <ion-text>Away</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of sortedUsers; trackBy: userTrackByIsPresent">
+    <div *ngFor="let userConnection of sortedUsers; trackBy: trackByUser">
       <ion-item *ngIf="!userConnection.isPresent" href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
