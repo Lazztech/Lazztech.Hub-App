@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HubService } from 'src/app/services/hub/hub.service';
@@ -14,7 +14,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './admin-hub.page.html',
   styleUrls: ['./admin-hub.page.scss'],
 })
-export class AdminHubPage implements OnInit {
+export class AdminHubPage implements OnInit, OnDestroy {
 
   loading = true;
   userHub: Observable<HubQuery['hub']>;
@@ -57,6 +57,14 @@ export class AdminHubPage implements OnInit {
         Validators.maxLength(25)
       ]]
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(x => x.unsubscribe());
+  }
+
+  trackByUser(index: any, joinUserHub: JoinUserHub) {
+    return joinUserHub.userId;
   }
 
   loadHub() {
