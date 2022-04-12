@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionSheetController, MenuController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { AlertService } from 'src/app/services/alert/alert.service';
@@ -6,7 +6,7 @@ import { CameraService } from 'src/app/services/camera/camera.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
-import { Scalars, UsersHubsQuery, MeQuery } from 'src/generated/graphql';
+import { Scalars, UsersHubsQuery, MeQuery, JoinUserHub } from 'src/generated/graphql';
 import { AuthService } from '../../services/auth/auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { Browser } from '@capacitor/browser';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit, OnDestroy {
 
   loading = true;
   user: Observable<MeQuery['me']>;
@@ -57,6 +57,14 @@ export class ProfilePage implements OnInit {
         this.loading = x.loading;
       })
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(x => x.unsubscribe());
+  }
+
+  userTrackByHub(index: any, joinUserHub: JoinUserHub) {
+    return joinUserHub.hubId;
   }
 
   async userActionSheet() {
