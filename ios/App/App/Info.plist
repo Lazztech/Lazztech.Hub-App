@@ -61,11 +61,11 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Face ID used for authentication.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This is required to check you in and out of community Hubs in the background.</string>
+	<string>This will enable automatic check in and check out of your community Hubs while the app is in the background.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Always allowing location is needed to allow the app to check you in and out of community Hubs in the background</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow Geolocation to enable maps?</string>
+	<string>Allow location to enable maps and automatic check in/out to your communities?</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
 	<key>NSMotionUsageDescription</key>

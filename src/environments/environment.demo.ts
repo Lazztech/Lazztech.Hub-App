@@ -135,7 +135,14 @@ export const environment: Environment = {
     desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
     distanceFilter: 10,
     stopOnTerminate: false,
-    startOnBoot: true
+    startOnBoot: true,
+    locationAuthorizationAlert: {
+      titleWhenNotEnabled: "Location permission not allowed in the background?",
+      titleWhenOff: "Location permission is off?",
+      instructions: "Setting location permission to 'Always' will enable maps, and ensure that you are automatically checked in and out of your communities (even if the app is just running in the background).",
+      cancelButton: "Ignore",
+      settingsButton: "Settings"
+    }
   },
   sentry: {
     dsn: 'https://772d0460b07a4d968cc3829a395ea446@o388920.ingest.sentry.io/5226414'
