@@ -42,6 +42,7 @@ export const environment: Environment = {
     distanceFilter: 10,
     stopOnTerminate: false,
     startOnBoot: true,
+    useSignificantChangesOnly: true,
     locationAuthorizationAlert: {
       titleWhenNotEnabled: "Location permission not allowed in the background?",
       titleWhenOff: "Location permission is off?",
