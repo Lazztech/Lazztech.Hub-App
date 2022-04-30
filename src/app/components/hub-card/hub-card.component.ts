@@ -50,6 +50,7 @@ export class HubCardComponent implements OnInit, OnDestroy, OnChanges {
         this.distanceInMeters = this.locationService.getDistanceFromHub(this.hub, this.coords);
         this.distanceInMiles = this.locationService.getMilesFromMeters(this.distanceInMeters);
       }
+      this.presentCount = this.hub.usersConnection?.filter(x => x.isPresent).length;
       this.changeRef.detectChanges();
   }
 
