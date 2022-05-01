@@ -25,18 +25,18 @@ export class AuthGuard implements CanActivate {
 
       // Done with callbacks so that it doesn't block causing sluggishness going between pages.
       // FIXME: this seems to be failing on cold starts with serverless
-      // this.networkService.isConnected().then((online) => {
-      //   if (online) {
-      //     this.authService.verifyAccountExists().then((stillValid) => {
-      //       if (!stillValid) {
-      //         this.alertService.presentRedToast("Logged out.", 6000);
-      //         this.authService.logout();
-      //         this.router.navigate(['/landing']);
-      //         return false;
-      //       }
-      //     });
-      //   }
-      // });
+      this.networkService.isConnected().then((online) => {
+        if (online) {
+          this.authService.verifyAccountExists().then((stillValid) => {
+            if (!stillValid) {
+              this.alertService.presentRedToast("Logged out.", 6000);
+              this.authService.logout();
+              this.router.navigate(['/landing']);
+              return false;
+            }
+          });
+        }
+      });
 
       if (currentUser) {
           // authorized so return true
