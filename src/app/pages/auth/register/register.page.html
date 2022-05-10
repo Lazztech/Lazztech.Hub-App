@@ -37,7 +37,7 @@
     </ion-item>
 
     <ion-text class="ion-text-center" color="danger">
-      <p *ngIf="birthdate.invalid && birthdate.touched" color="danger">
+      <p *ngIf="birthdate.invalid" color="danger">
         Birth year is required and you must be at or over {{ageRestriction}} years of age.
       </p>
     </ion-text>
