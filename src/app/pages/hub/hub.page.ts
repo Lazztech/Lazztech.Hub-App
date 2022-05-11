@@ -9,6 +9,7 @@ import { Scalars, HubQuery, JoinUserHub } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map, take } from 'rxjs/operators';
 import { Clipboard } from '@capacitor/clipboard';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-hub',
@@ -64,22 +65,35 @@ export class HubPage implements OnInit, OnDestroy {
   }
 
   loadHub() {
-    this.subscriptions.push(
-      this.hubService.watchHub(this.id, null, 2000).valueChanges.subscribe(result => {
-        const data = result.data.hub;
-        this.userHub = data;
-        this.loading = result.loading;
-
-        this.hubCoords = {
-          latitude: data.hub.latitude,
-          longitude: data.hub.longitude
-        };
-        this.sortedUsers = [...data?.hub?.usersConnection]
-          .filter(x => !!x?.user)
-          .sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline))
-          .reverse();
-      }),
-    );
+    if (environment.demoMode) {
+      this.userHub = environment.demoData.usersHubs.usersHubs[1];
+      this.hubCoords = {
+        latitude: environment.demoData.usersHubs.usersHubs[1].hub.latitude,
+        longitude: environment.demoData.usersHubs.usersHubs[1].hub.longitude
+      };
+      this.sortedUsers = environment.demoData.usersHubs.usersHubs[1].hub.usersConnection.map(
+        x => ({ user: x, isPresent: x.isPresent })
+      );
+      this.userCoords = environment.demoData.usersLocation;
+      this.loading = false;
+    } else {
+      this.subscriptions.push(
+        this.hubService.watchHub(this.id, null, 2000).valueChanges.subscribe(result => {
+          const data = result.data.hub;
+          this.userHub = data;
+          this.loading = result.loading;
+  
+          this.hubCoords = {
+            latitude: data.hub.latitude,
+            longitude: data.hub.longitude
+          };
+          this.sortedUsers = [...data?.hub?.usersConnection]
+            .filter(x => !!x?.user)
+            .sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline))
+            .reverse();
+        }),
+      );
+    }
   }
 
   goToPersonPage(id: number, user: any) {

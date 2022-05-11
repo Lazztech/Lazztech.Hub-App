@@ -12,7 +12,7 @@ export const environment: Environment = {
   production: false,
   demoMode: true,
   name: EnvironmentNames.Demo,
-  serverUrl: 'https://dev-lazztechhub.lazz.tech/',
+  serverUrl: 'https://lazztech-hub-service-z84zo.ondigitalocean.app/',
   demoData: {
     usersLocation: {
       latitude: 47.62503181002362,
@@ -66,16 +66,40 @@ export const environment: Environment = {
             image: 'https://www.urbnlivn.com/wp-content/uploads/2020/07/1633425_0.jpg',
             latitude: 47.62503181002362,
             longitude: -122.32099987619077,
-            active: false,
+            description: 'Sarah & Jacobs party pad',
+            active: true,
             usersConnection: [
               {
-                isPresent: true
+                id: 1,
+                firstName: 'Sarah',
+                lastName: 'Joe',
+                image: undefined,
+                isPresent: true,
+                lastOnline: new Date(),
               },
               {
-                isPresent: true
+                id: 2,
+                firstName: 'Jacob',
+                lastName: 'Joe',
+                image: undefined,
+                isPresent: true,
+                lastOnline: new Date().setDate(new Date().getDate() - 1),
               },
               {
-                isPresent: true
+                id: 3,
+                firstName: 'Jessie',
+                lastName: 'Greene',
+                image: undefined,
+                isPresent: true,
+                lastOnline: new Date().setDate(new Date().getDate() - 1.5),
+              },
+              {
+                id: 4,
+                firstName: 'Yusuf',
+                lastName: 'Thompson',
+                image: undefined,
+                isPresent: false,
+                lastOnline: new Date(),
               },
             ]
           },
