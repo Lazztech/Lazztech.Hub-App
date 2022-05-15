@@ -39,12 +39,18 @@ export const environment: Environment = {
     stopOnTerminate: false,
     startOnBoot: true,
     useSignificantChangesOnly: true,
-    locationAuthorizationAlert: {
+    locationAuthorizationAlert: { // used by iOS
       titleWhenNotEnabled: "Location permission not allowed in the background?",
       titleWhenOff: "Location permission is off?",
       instructions: "Setting location permission to 'Always' will enable maps, and ensure that you are automatically checked in and out of your communities (even if the app is just running in the background).",
       cancelButton: "Ignore",
       settingsButton: "Settings"
+    },
+    backgroundPermissionRationale: { // used by Android
+      title: "Allow {applicationName} to access to this device's location in the background?",
+      message: "Setting location permission to {backgroundPermissionOptionLabel} will enable maps, and ensure that you are automatically checked in and out of your communities (even if the app is just running in the background).",
+      positiveAction: "Change to {backgroundPermissionOptionLabel}",
+      negativeAction: "Cancel"
     }
   },
   sentry: {
