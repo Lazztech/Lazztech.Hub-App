@@ -12,7 +12,6 @@ import { NGXLogger } from 'ngx-logger';
 import { SplashScreen } from '@capacitor/splash-screen';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { environment } from '../environments/environment';
-import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-root',
@@ -58,11 +57,6 @@ export class AppComponent {
       SplashScreen.hide();
 
       this.authService.getToken();
-
-      // prominent disclosure for android
-      if (Capacitor.getPlatform() === 'android') {
-        alert('[This app] collects location data to enable ["feature"], ["feature"], & ["feature"] even when the app is closed or not in use.');
-      }
 
       // setup background geolocation
       await this.geofenceService.configureBackgroundGeolocation();
