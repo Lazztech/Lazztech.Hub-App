@@ -4,7 +4,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { TutorialGuard } from './guards/tutorial.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'landing', pathMatch: 'full' },
+  { path: '', redirectTo: 'tabs', pathMatch: 'full' },
   {
     path: 'tabs',
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
