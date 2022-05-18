@@ -25,17 +25,24 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./pages/auth/register/register.module').then(m => m.RegisterPageModule)
   },
-  { path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfilePageModule),
-    canActivate: [AuthGuard]
-  },
   { path: 'password-reset',
     loadChildren: () => import('./pages/auth/password-reset/password-reset.module').then(m => m.PasswordResetPageModule),
-    canActivate: [AuthGuard]
   },
   {
     path: 'reset-pin',
     loadChildren: () => import('./pages/auth/reset-pin/reset-pin.module').then(m => m.ResetPinPageModule),
+  },
+  {
+    path: 'privacy',
+    loadChildren: () => import('./pages/profile/privacy/privacy.module').then(m => m.PrivacyPageModule)
+  },
+  {
+    path: 'tutorial',
+    loadChildren: () => import('./pages/tutorial/tutorial.module').then(m => m.TutorialPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfilePageModule),
     canActivate: [AuthGuard]
   },
   {
@@ -94,11 +101,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'privacy',
-    loadChildren: () => import('./pages/profile/privacy/privacy.module').then(m => m.PrivacyPageModule)
-  },
-  {
-    path: 'map', loadChildren: () => import('./pages/map/map.module').then(m => m.MapPageModule)
+    path: 'map', loadChildren: () => import('./pages/map/map.module').then(m => m.MapPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'micro-chat-add',
@@ -112,15 +116,13 @@ const routes: Routes = [
   },
   {
     path: 'status',
-    loadChildren: () => import('./pages/status/status.module').then(m => m.StatusPageModule)
+    loadChildren: () => import('./pages/status/status.module').then(m => m.StatusPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'preview-hub',
-    loadChildren: () => import('./pages/hub/preview-hub/preview-hub.module').then(m => m.PreviewHubPageModule)
-  },
-  {
-    path: 'tutorial',
-    loadChildren: () => import('./pages/tutorial/tutorial.module').then(m => m.TutorialPageModule)
+    loadChildren: () => import('./pages/hub/preview-hub/preview-hub.module').then(m => m.PreviewHubPageModule),
+    canActivate: [AuthGuard]
   },
 ];
 
