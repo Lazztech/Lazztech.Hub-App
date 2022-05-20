@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { GeofenceService } from 'src/app/services/geofence/geofence.service';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
+import { Capacitor } from '@capacitor/core';
 
 @Component({
   selector: 'app-tutorial',
@@ -12,6 +13,8 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
   styleUrls: ['./tutorial.page.scss'],
 })
 export class TutorialPage implements OnInit {
+
+  platform = Capacitor.getPlatform();
 
   constructor(
     private storage: Storage,
@@ -34,6 +37,9 @@ export class TutorialPage implements OnInit {
   }
 
   async finish() {
+    if (this.platform === 'android') {
+      alert('Lazztech Hub collects location data to enable automatic check in and out of your community Hubs, even when the app is closed or not in use.');
+    }
     await this.storage.set('tutorialCompleted', true);
     this.router.navigateByUrl('/tabs');
   }
