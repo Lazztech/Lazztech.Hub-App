@@ -68,4 +68,10 @@
             (click)="goToHubPage(userHub.hubId)"></app-hub-card>
           </div>
       </ion-list>
+
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="goToAddHubPage()">
+          <ion-icon name="add-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
 </ion-content>
