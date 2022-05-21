@@ -45,6 +45,7 @@
     "@angular/service-worker": "^13.1.1",
     "@apollo/client": "^3.3.20",
     "@capacitor/android": "^3.1.2",
+    "@capacitor/app": "^1.1.1",
     "@capacitor/browser": "^1.0.2",
     "@capacitor/camera": "^1.2.2",
     "@capacitor/cli": "^3.0.2",
