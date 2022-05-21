@@ -124,6 +124,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/hub/preview-hub/preview-hub.module').then(m => m.PreviewHubPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'events',
+    loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule)
+  },
 ];
 
 @NgModule({
