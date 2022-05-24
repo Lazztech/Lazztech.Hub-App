@@ -128,6 +128,10 @@ const routes: Routes = [
     path: 'events',
     loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule)
   },
+  {
+    path: 'event',
+    loadChildren: () => import('./pages/event/event.module').then( m => m.EventPageModule)
+  },
 ];
 
 @NgModule({
