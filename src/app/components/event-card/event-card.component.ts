@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-event-card',
@@ -7,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventCardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public navCtrl: NavController,
+  ) { }
 
   ngOnInit() {}
+
+  goToEventPage() {
+    this.navCtrl.navigateForward('event');
+  }
 
 }

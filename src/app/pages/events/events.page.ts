@@ -16,7 +16,7 @@ export class EventsPage implements OnInit {
   }
 
   goToCreateEventPage() {
-    this.navCtrl.navigateForward('event');
+    this.navCtrl.navigateForward('');
   }
 
 }
