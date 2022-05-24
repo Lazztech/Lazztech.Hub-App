@@ -18,4 +18,8 @@ export class EventCardComponent implements OnInit {
     this.navCtrl.navigateForward('event');
   }
 
+  goToCreateEventPage() {
+    this.navCtrl.navigateForward('create-event');
+  }
+
 }
