@@ -1,9 +1,37 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>event</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Event</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <app-event-card></app-event-card>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-text>Present</ion-text>
+    </ion-list-header>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-text>Going</ion-text>
+    </ion-list-header>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-text>Maybe</ion-text>
+    </ion-list-header>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-text>Can't Go</ion-text>
+    </ion-list-header>
+  </ion-list>
 
 </ion-content>

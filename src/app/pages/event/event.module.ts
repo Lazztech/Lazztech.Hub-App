@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { EventPageRoutingModule } from './event-routing.module';
 
 import { EventPage } from './event.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EventPageRoutingModule
+    EventPageRoutingModule,
+    ComponentsModule,
   ],
   declarations: [EventPage]
 })
