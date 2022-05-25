@@ -8,5 +8,54 @@
 </ion-header>
 
 <ion-content>
+  <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
+    <ion-list>
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Event Details</ion-text>
+      </ion-list-header>
+  
+      <ion-item>
+        <ion-label position="stacked">
+          <ion-text>Name</ion-text>
+          <ion-text color="danger">&nbsp; *Required</ion-text>
+        </ion-label>
+        <ion-input type="text" formControlName="hubName"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">
+          <ion-text>Description</ion-text>
+          <ion-text color="danger">&nbsp; *Required</ion-text>
+        </ion-label>
+        <ion-textarea type="text" formControlName="hubDescription"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">
+          <ion-text>Start</ion-text>
+          <ion-text color="danger">&nbsp; *Required</ion-text>
+        </ion-label>
+        <ion-textarea type="text" formControlName="hubDescription"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">
+          <ion-text>End</ion-text>
+          <ion-text color="danger">&nbsp; *Required</ion-text>
+        </ion-label>
+        <ion-textarea type="text" formControlName="hubDescription"></ion-textarea>
+      </ion-item>
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Location</ion-text>
+      </ion-list-header>
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Invite</ion-text>
+      </ion-list-header>
+
+    </ion-list>
+  </form>
 
 </ion-content>
