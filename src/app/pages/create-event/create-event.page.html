@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -7,12 +7,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="true">
   <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
     <ion-list>
 
       <ion-list-header class="ion-padding-bottom">
-        <ion-text>Event Details</ion-text>
+        <ion-text>Details</ion-text>
       </ion-list-header>
   
       <ion-item>
@@ -55,7 +55,26 @@
         <ion-text>Invite</ion-text>
       </ion-list-header>
 
+      <ion-item [appFeatureFlag]="'inviteUsersCheckList'" *ngFor="let person of persons | async">
+        <ion-avatar slot="start">
+          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image"
+            src="{{person.id | avatar}}">
+          <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <ion-text>{{person.firstName}} {{person.lastName}}</ion-text>
+        </ion-label>
+        <ion-checkbox  [value]='person.email' (click)='checkboxChanged(person)' slot="end"></ion-checkbox>
+      </ion-item>
+
     </ion-list>
   </form>
 
 </ion-content>
+
+<ion-footer translucent="true">
+  <ion-toolbar style="padding-bottom: 0;">
+    <ion-button [disabled]="myForm.invalid" (click)="save()" type="submit" expand="full" color="primary">Create
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
