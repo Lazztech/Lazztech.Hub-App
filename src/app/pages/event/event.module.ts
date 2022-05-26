@@ -8,6 +8,7 @@ import { EventPageRoutingModule } from './event-routing.module';
 
 import { EventPage } from './event.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     IonicModule,
     EventPageRoutingModule,
     ComponentsModule,
+    PipesModule,
   ],
   declarations: [EventPage]
 })
