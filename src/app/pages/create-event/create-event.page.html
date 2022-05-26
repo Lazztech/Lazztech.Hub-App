@@ -15,7 +15,7 @@
       </ion-list-header>
   
       <ion-item>
-        <ion-input type="text" formControlName="hubName" placeholder="Event name"></ion-input>
+        <ion-input type="text" formControlName="eventName" placeholder="Event name"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -29,14 +29,14 @@
         <ion-label position="stacked">
           <ion-text>Start</ion-text>
         </ion-label>
-        <ion-textarea type="text" formControlName="hubDescription"></ion-textarea>
+        <ion-textarea type="text"></ion-textarea>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked">
           <ion-text>End</ion-text>
         </ion-label>
-        <ion-textarea type="text" formControlName="hubDescription"></ion-textarea>
+        <ion-textarea type="text"></ion-textarea>
       </ion-item>
 
       <ion-list-header class="ion-padding-bottom">
@@ -44,7 +44,7 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-textarea type="text" formControlName="hubDescription" placeholder="Add description"></ion-textarea>
+        <ion-textarea type="text" placeholder="Add description"></ion-textarea>
       </ion-item>
 
       <ion-list-header class="ion-padding-bottom">
@@ -52,7 +52,7 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-input type="text" formControlName="hubDescription" placeholder="Location"></ion-input>
+        <ion-input type="text" placeholder="Location"></ion-input>
       </ion-item>
 
 
@@ -61,7 +61,7 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-button class="ion-float-right" color="primary">Upload Image</ion-button>
+        <ion-button class="ion-float-right" color="primary" (click)="presentActionSheet()">Upload Image</ion-button>
       </ion-item>
 
     </ion-list>
