@@ -25,6 +25,10 @@ export class CreateEventPage implements OnInit {
     return this.myForm.get('eventDescription');
   }
 
+  get startDateTime() {
+    return this.myForm.get('startDateTime');
+  }
+
   constructor(
     private fb: FormBuilder,
     private actionSheetController: ActionSheetController,
@@ -42,6 +46,7 @@ export class CreateEventPage implements OnInit {
         Validators.required
       ]],
       eventDescription: [''],
+      startDateTime: [],
     });
   }
 
@@ -50,6 +55,7 @@ export class CreateEventPage implements OnInit {
     const result = await this.createEvent.mutate({
       name: this.eventName.value,
       description: this.eventDescription.value,
+      startDateTime: (this.startDateTime.value) ? Date.parse(this.startDateTime.value).toString() : Date.parse(new Date().toString()).toString(),
       image: this.image,
     }).toPromise();
     this.loading = false;
@@ -70,9 +76,6 @@ export class CreateEventPage implements OnInit {
     const registerModal = await this.modalController.create({
       component: MapPage,
       swipeToClose: true,
-      // sheet modal
-      // breakpoints: [0.1, 0.5, 1],
-      // initialBreakpoint: 0.5,
       // card modal
       presentingElement: this.routerOutlet.nativeEl
     });
