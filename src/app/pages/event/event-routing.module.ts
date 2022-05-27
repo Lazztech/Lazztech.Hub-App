@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: EventPage
+  },
+  {
+    path: ':id',
+    component: EventPage
   }
 ];
 

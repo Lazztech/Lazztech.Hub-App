@@ -18,7 +18,7 @@ export class EventCardComponent implements OnInit {
   ngOnInit() {}
 
   goToEventPage() {
-    this.navCtrl.navigateForward('event');
+    this.navCtrl.navigateForward('event/' + this.userEvent.eventId);
   }
 
   goToCreateEventPage() {

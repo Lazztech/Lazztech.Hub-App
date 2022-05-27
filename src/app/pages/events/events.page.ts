@@ -23,7 +23,7 @@ export class EventsPage implements OnInit, OnDestroy {
   }
 
   subscriptions: Subscription[] = [];
-  userEventsQueryResult: ApolloQueryResult<UserEventsQuery>
+  userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
 
   constructor(
     public navCtrl: NavController,

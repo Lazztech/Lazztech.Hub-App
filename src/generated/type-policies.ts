@@ -1,6 +1,6 @@
 /* tslint:disable */
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-export type QueryKeySpecifier = ('getInAppNotifications' | 'paginatedInAppNotifications' | 'hub' | 'usersHubs' | 'commonUsersHubs' | 'invitesByHub' | 'invite' | 'invitesByUser' | 'usersPeople' | 'searchHubByName' | 'ownedHubs' | 'memberOfHubs' | 'me' | 'usersEvents' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('getInAppNotifications' | 'paginatedInAppNotifications' | 'hub' | 'usersHubs' | 'commonUsersHubs' | 'invitesByHub' | 'invite' | 'invitesByUser' | 'usersPeople' | 'searchHubByName' | 'ownedHubs' | 'memberOfHubs' | 'me' | 'event' | 'usersEvents' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	getInAppNotifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	paginatedInAppNotifications?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -15,6 +15,7 @@ export type QueryFieldPolicy = {
 	ownedHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberOfHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	me?: FieldPolicy<any> | FieldReadFunction<any>,
+	event?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersEvents?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type InAppNotificationKeySpecifier = ('id' | 'header' | 'text' | 'date' | 'actionLink' | 'userId' | 'thumbnail' | InAppNotificationKeySpecifier)[];

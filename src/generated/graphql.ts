@@ -386,6 +386,7 @@ export type Query = {
   ownedHubs: Array<Hub>;
   memberOfHubs: Array<Hub>;
   me?: Maybe<User>;
+  event: JoinUserEvent;
   usersEvents: Array<JoinUserEvent>;
 };
 
@@ -423,6 +424,11 @@ export type QueryInvitesByUserArgs = {
 
 export type QuerySearchHubByNameArgs = {
   search: Scalars['String'];
+};
+
+
+export type QueryEventArgs = {
+  id: Scalars['ID'];
 };
 
 export type SortOptions = {
@@ -555,6 +561,26 @@ export type CreateEventMutation = (
     )>, event?: Maybe<(
       { __typename?: 'Event' }
       & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+    )> }
+  ) }
+);
+
+export type EventQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type EventQuery = (
+  { __typename?: 'Query' }
+  & { event: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
     )> }
   ) }
 );
@@ -1285,6 +1311,45 @@ export const CreateEventDocument = gql`
   })
   export class CreateEventGQL extends Apollo.Mutation<CreateEventMutation, CreateEventMutationVariables> {
     document = CreateEventDocument;
+    
+  }
+export const EventDocument = gql`
+    query event($id: ID!) {
+  event(id: $id) {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      name
+      image
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventGQL extends Apollo.Query<EventQuery, EventQueryVariables> {
+    document = EventDocument;
     
   }
 export const UserEventsDocument = gql`
