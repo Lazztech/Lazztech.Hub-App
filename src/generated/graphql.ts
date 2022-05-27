@@ -37,6 +37,7 @@ export type Event = {
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   image?: Maybe<Scalars['String']>;
+  usersConnection?: Maybe<Array<JoinUserEvent>>;
 };
 
 export type Hub = {
@@ -574,13 +575,21 @@ export type EventQuery = (
   { __typename?: 'Query' }
   & { event: (
     { __typename?: 'JoinUserEvent' }
-    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
     & { user?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
     )>, event?: Maybe<(
       { __typename?: 'Event' }
       & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+      & { usersConnection?: Maybe<Array<(
+        { __typename?: 'JoinUserEvent' }
+        & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
+        & { user?: Maybe<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+        )> }
+      )>> }
     )> }
   ) }
 );
@@ -1337,10 +1346,26 @@ export const EventDocument = gql`
       latitude
       longitude
       shareableId
+      usersConnection {
+        user {
+          id
+          firstName
+          lastName
+          description
+          image
+          lastOnline
+          blocked
+        }
+        rsvp
+        lastGeofenceEvent
+        lastUpdated
+        isPresent
+      }
     }
     rsvp
     lastGeofenceEvent
     lastUpdated
+    isPresent
   }
 }
     `;

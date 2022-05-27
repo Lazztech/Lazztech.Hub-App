@@ -1,9 +1,5 @@
-query event(
-  $id: ID!
-) {
-  event(
-      id: $id
-  ) {
+query event($id: ID!) {
+  event(id: $id) {
     userId
     eventId
     user {
@@ -25,9 +21,25 @@ query event(
       latitude
       longitude
       shareableId
+      usersConnection {
+        user {
+          id
+          firstName
+          lastName
+          description
+          image
+          lastOnline
+          blocked
+        }
+        rsvp
+        lastGeofenceEvent
+        lastUpdated
+        isPresent
+      }
     }
     rsvp
     lastGeofenceEvent
     lastUpdated
+    isPresent
   }
 }
