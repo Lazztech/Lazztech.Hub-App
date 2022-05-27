@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionSheetController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { CameraService } from 'src/app/services/camera/camera.service';
+import { CreateEventGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-create-event',
@@ -14,11 +15,20 @@ export class CreateEventPage implements OnInit {
   myForm: FormGroup;
   image: any;
 
+  get eventName() {
+    return this.myForm.get('eventName');
+  }
+
+  get eventDescription() {
+    return this.myForm.get('eventDescription');
+  }
+
   constructor(
     private fb: FormBuilder,
     private actionSheetController: ActionSheetController,
     private cameraService: CameraService,
     private logger: NGXLogger,
+    private readonly createEvent: CreateEventGQL,
   ) { }
 
   ngOnInit() {
@@ -29,8 +39,12 @@ export class CreateEventPage implements OnInit {
     });
   }
 
-  save() {
-
+  async save() {
+    await this.createEvent.mutate({
+      name: this.eventName.value,
+      description: this.eventDescription.value,
+      image: this.image,
+    }).toPromise();
   }
 
   async takePicture() {
