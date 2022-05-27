@@ -36,6 +36,29 @@
     <ion-list-header>
       <ion-text>Present</ion-text>
     </ion-list-header>
+
+    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
+      <ion-item *ngIf="userConnection?.isPresent" href="javascript:void(0);"
+        (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
+        <ion-avatar slot="start">
+          <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
+          <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h2>
+            <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+            <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
+              {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+            </ion-text>
+          </h2>
+          <p *ngIf="userConnection.user.blocked" class="ion-float-right">
+            <ion-text>Blocked</ion-text>
+          </p>
+          <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
+            | amLocal | amTimeAgo) : 'N/A'}}</p>
+        </ion-label>
+      </ion-item>
+    </div>
   </ion-list>
 
   <ion-list>
@@ -71,12 +94,87 @@
     <ion-list-header>
       <ion-text>Maybe</ion-text>
     </ion-list-header>
+
+    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
+      <ion-item *ngIf="userConnection?.rsvp == 'maybe'" href="javascript:void(0);"
+        (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
+        <ion-avatar slot="start">
+          <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
+          <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h2>
+            <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+            <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
+              {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+            </ion-text>
+          </h2>
+          <p *ngIf="userConnection.user.blocked" class="ion-float-right">
+            <ion-text>Blocked</ion-text>
+          </p>
+          <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
+            | amLocal | amTimeAgo) : 'N/A'}}</p>
+        </ion-label>
+      </ion-item>
+    </div>
   </ion-list>
 
   <ion-list>
     <ion-list-header>
       <ion-text>Can't Go</ion-text>
     </ion-list-header>
+
+    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
+      <ion-item *ngIf="userConnection?.rsvp == 'cantgo'" href="javascript:void(0);"
+        (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
+        <ion-avatar slot="start">
+          <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
+          <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h2>
+            <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+            <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
+              {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+            </ion-text>
+          </h2>
+          <p *ngIf="userConnection.user.blocked" class="ion-float-right">
+            <ion-text>Blocked</ion-text>
+          </p>
+          <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
+            | amLocal | amTimeAgo) : 'N/A'}}</p>
+        </ion-label>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-text>No Reply</ion-text>
+    </ion-list-header>
+
+    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
+      <ion-item *ngIf="!userConnection?.rsvp" href="javascript:void(0);"
+        (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
+        <ion-avatar slot="start">
+          <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
+          <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h2>
+            <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+            <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
+              {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+            </ion-text>
+          </h2>
+          <p *ngIf="userConnection.user.blocked" class="ion-float-right">
+            <ion-text>Blocked</ion-text>
+          </p>
+          <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
+            | amLocal | amTimeAgo) : 'N/A'}}</p>
+        </ion-label>
+      </ion-item>
+    </div>
   </ion-list>
   
   <ion-list-header class="ion-padding-bottom">
