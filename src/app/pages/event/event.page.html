@@ -43,7 +43,7 @@
       <ion-text>Going</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection;">
+    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
       <ion-item *ngIf="userConnection?.rsvp == 'going'" href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">

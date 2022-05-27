@@ -43,4 +43,9 @@ export class EventPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
+
+  trackByUser(index: any, joinUserEvent: JoinUserEvent) {
+    return joinUserEvent.userId;
+  }
+
 }
