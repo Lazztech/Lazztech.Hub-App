@@ -36,6 +36,7 @@ export type Event = {
   endDateTime?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+  image?: Maybe<Scalars['String']>;
 };
 
 export type Hub = {
@@ -571,7 +572,7 @@ export type UserEventsQuery = (
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
     )>, event?: Maybe<(
       { __typename?: 'Event' }
-      & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
     )> }
   )> }
 );
@@ -1303,6 +1304,7 @@ export const UserEventsDocument = gql`
     event {
       id
       name
+      image
       description
       startDateTime
       endDateTime

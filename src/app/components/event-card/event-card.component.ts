@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { JoinUserEvent } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-event-card',
@@ -7,6 +8,8 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./event-card.component.scss'],
 })
 export class EventCardComponent implements OnInit {
+
+  @Input() userEvent: JoinUserEvent;
 
   constructor(
     public navCtrl: NavController,

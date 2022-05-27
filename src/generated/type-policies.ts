@@ -113,7 +113,7 @@ export type JoinUserEventFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	event?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EventKeySpecifier = ('shareableId' | 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | EventKeySpecifier)[];
+export type EventKeySpecifier = ('shareableId' | 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'image' | EventKeySpecifier)[];
 export type EventFieldPolicy = {
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -122,7 +122,8 @@ export type EventFieldPolicy = {
 	startDateTime?: FieldPolicy<any> | FieldReadFunction<any>,
 	endDateTime?: FieldPolicy<any> | FieldReadFunction<any>,
 	latitude?: FieldPolicy<any> | FieldReadFunction<any>,
-	longitude?: FieldPolicy<any> | FieldReadFunction<any>
+	longitude?: FieldPolicy<any> | FieldReadFunction<any>,
+	image?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MutationKeySpecifier = ('addUserFcmNotificationToken' | 'deleteInAppNotification' | 'deleteAllInAppNotifications' | 'createHub' | 'inviteUserToHub' | 'acceptHubInvite' | 'deleteInvite' | 'leaveHub' | 'deleteHub' | 'editHub' | 'changeHubLocation' | 'changeHubImage' | 'setHubStarred' | 'setHubNotStarred' | 'enteredHubGeofence' | 'dwellHubGeofence' | 'exitedHubGeofence' | 'activateHub' | 'deactivateHub' | 'microChatToHub' | 'createMicroChat' | 'deleteMicroChat' | 'editUserDetails' | 'changeEmail' | 'changeUserImage' | 'blockUser' | 'unblockUser' | 'login' | 'register' | 'logout' | 'resetPassword' | 'sendPasswordResetEmail' | 'changePassword' | 'deleteAccount' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'createEvent' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {

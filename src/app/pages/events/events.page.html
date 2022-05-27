@@ -10,7 +10,9 @@
     <ion-list-header>
         <ion-text>May</ion-text>
     </ion-list-header>
-    <app-event-card></app-event-card>
+    <app-event-card
+      [userEvent]="demoEvent"
+    ></app-event-card>
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -18,4 +20,15 @@
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <ion-list>
+    <ion-list-header>
+        <ion-text></ion-text>
+    </ion-list-header>
+    <div *ngFor="let userEvent of userEventsQueryResult?.data?.usersEvents">
+      <app-event-card
+        [userEvent]="userEvent"
+      ></app-event-card>
+    </div>
+</ion-list>
 </ion-content>
