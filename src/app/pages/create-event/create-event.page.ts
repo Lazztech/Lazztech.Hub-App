@@ -12,6 +12,7 @@ import { CreateEventGQL } from 'src/generated/graphql';
 })
 export class CreateEventPage implements OnInit {
 
+  loading = false;
   myForm: FormGroup;
   image: any;
 
@@ -35,16 +36,19 @@ export class CreateEventPage implements OnInit {
     this.myForm = this.fb.group({
       eventName: ['', [
         Validators.required
-      ]]
+      ]],
+      eventDescription: [''],
     });
   }
 
   async save() {
+    this.loading = true;
     await this.createEvent.mutate({
       name: this.eventName.value,
       description: this.eventDescription.value,
       image: this.image,
     }).toPromise();
+    this.loading = false;
   }
 
   async takePicture() {
