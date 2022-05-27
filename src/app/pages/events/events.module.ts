@@ -8,6 +8,7 @@ import { EventsPageRoutingModule } from './events-routing.module';
 
 import { EventsPage } from './events.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     IonicModule,
     EventsPageRoutingModule,
     ComponentsModule,
+    MomentModule,
   ],
   declarations: [EventsPage]
 })
