@@ -33,14 +33,14 @@ export class MapPage {
       this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
       this.changeRef.detectChanges();
     });
-    if (this.router.getCurrentNavigation().extras.state) {
+    if (this.router.getCurrentNavigation()?.extras?.state) {
       this.hubCoords = this.router.getCurrentNavigation().extras.state.hubCoords;
       this.center = this.hubCoords;
-      if (this.router.getCurrentNavigation().extras.state.hub) {
+      if (this.router.getCurrentNavigation().extras.state?.hub) {
         this.hubId = this.router.getCurrentNavigation().extras.state.hub.id;
         this.hubs.push(this.router.getCurrentNavigation().extras.state.hub);
       }
-      if (this.router.getCurrentNavigation().extras.state.hubs) {
+      if (this.router.getCurrentNavigation().extras.state?.hubs) {
         this.hubs = this.router.getCurrentNavigation().extras.state.hubs;
       }
     }

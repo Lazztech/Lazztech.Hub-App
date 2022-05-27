@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, NavController } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { CreateEventGQL } from 'src/generated/graphql';
+import { MapPage } from '../map/map.page';
 
 @Component({
   selector: 'app-create-event',
@@ -31,6 +32,8 @@ export class CreateEventPage implements OnInit {
     private logger: NGXLogger,
     private readonly createEvent: CreateEventGQL,
     public readonly navCtrl: NavController,
+    private readonly modalController: ModalController,
+    public routerOutlet: IonRouterOutlet,
   ) { }
 
   ngOnInit() {
@@ -61,6 +64,19 @@ export class CreateEventPage implements OnInit {
   async selectPicture() {
     const image = await this.cameraService.selectPicture();
     this.image = image;
+  }
+
+  async openMapModal() {
+    const registerModal = await this.modalController.create({
+      component: MapPage,
+      swipeToClose: true,
+      // sheet modal
+      // breakpoints: [0.1, 0.5, 1],
+      // initialBreakpoint: 0.5,
+      // card modal
+      presentingElement: this.routerOutlet.nativeEl
+    });
+    return await registerModal.present();
   }
 
   async presentActionSheet() {
