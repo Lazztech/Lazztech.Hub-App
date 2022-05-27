@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { CreateEventGQL } from 'src/generated/graphql';
@@ -30,6 +30,7 @@ export class CreateEventPage implements OnInit {
     private cameraService: CameraService,
     private logger: NGXLogger,
     private readonly createEvent: CreateEventGQL,
+    public readonly navCtrl: NavController,
   ) { }
 
   ngOnInit() {
@@ -43,12 +44,13 @@ export class CreateEventPage implements OnInit {
 
   async save() {
     this.loading = true;
-    await this.createEvent.mutate({
+    const result = await this.createEvent.mutate({
       name: this.eventName.value,
       description: this.eventDescription.value,
       image: this.image,
     }).toPromise();
     this.loading = false;
+    await this.navCtrl.navigateForward(`/event/${result.data?.createEvent?.eventId}`);
   }
 
   async takePicture() {
