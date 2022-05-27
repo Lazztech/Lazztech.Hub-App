@@ -1,0 +1,28 @@
+query userEvents {
+  usersEvents {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}

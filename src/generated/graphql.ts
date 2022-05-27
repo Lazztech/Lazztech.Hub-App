@@ -385,6 +385,7 @@ export type Query = {
   ownedHubs: Array<Hub>;
   memberOfHubs: Array<Hub>;
   me?: Maybe<User>;
+  usersEvents: Array<JoinUserEvent>;
 };
 
 
@@ -555,6 +556,24 @@ export type CreateEventMutation = (
       & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
     )> }
   ) }
+);
+
+export type UserEventsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserEventsQuery = (
+  { __typename?: 'Query' }
+  & { usersEvents: Array<(
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+    )> }
+  )> }
 );
 
 export type AcceptHubInviteMutationVariables = Exact<{
@@ -1265,6 +1284,44 @@ export const CreateEventDocument = gql`
   })
   export class CreateEventGQL extends Apollo.Mutation<CreateEventMutation, CreateEventMutationVariables> {
     document = CreateEventDocument;
+    
+  }
+export const UserEventsDocument = gql`
+    query userEvents {
+  usersEvents {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserEventsGQL extends Apollo.Query<UserEventsQuery, UserEventsQueryVariables> {
+    document = UserEventsDocument;
     
   }
 export const AcceptHubInviteDocument = gql`
