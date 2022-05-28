@@ -10,6 +10,7 @@ import { JoinUserEvent } from 'src/generated/graphql';
 export class EventCardComponent implements OnInit {
 
   @Input() userEvent: JoinUserEvent;
+  @Input() includeMap?: boolean = false;
 
   constructor(
     public navCtrl: NavController,
