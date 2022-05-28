@@ -1,14 +1,17 @@
 <ion-card>
   <ion-img *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent.event.image}}"></ion-img>
   <ion-card-header (click)="goToEventPage()">
-    <ion-card-subtitle class="ion-float-left">Monday, May 30, 2022</ion-card-subtitle>
+    <ion-card-subtitle class="ion-float-left">{{userEvent?.event?.startDateTime | amFromUnix | amDateFormat:'ddd ll'}}</ion-card-subtitle>
+    <!-- Monday, May 30, 2022  -->
     <ion-card-subtitle class="ion-float-right">6:30 PM to 8:00 PM</ion-card-subtitle>
   </ion-card-header>
+
   <ion-card-header (click)="goToEventPage()">
     <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
+    <ion-card-subtitle *ngIf="userEvent?.event?.createdBy">Created by {{userEvent?.event?.createdBy?.firstName}} {{userEvent?.event?.createdBy?.lastName}}</ion-card-subtitle>
     {{userEvent?.event?.description}}
   </ion-card-content>
 
