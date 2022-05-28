@@ -36,6 +36,7 @@ export type Event = {
   endDateTime?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+  createdBy?: Maybe<User>;
   image?: Maybe<Scalars['String']>;
   usersConnection?: Maybe<Array<JoinUserEvent>>;
 };
@@ -582,7 +583,10 @@ export type EventQuery = (
     )>, event?: Maybe<(
       { __typename?: 'Event' }
       & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
-      & { usersConnection?: Maybe<Array<(
+      & { createdBy?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+      )>, usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserEvent' }
         & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
         & { user?: Maybe<(
@@ -1338,6 +1342,15 @@ export const EventDocument = gql`
     }
     event {
       id
+      createdBy {
+        id
+        firstName
+        lastName
+        description
+        image
+        email
+        shareableId
+      }
       name
       image
       description

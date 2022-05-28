@@ -13,6 +13,15 @@ query event($id: ID!) {
     }
     event {
       id
+      createdBy {
+        id
+        firstName
+        lastName
+        description
+        image
+        email
+        shareableId
+      }
       name
       image
       description
