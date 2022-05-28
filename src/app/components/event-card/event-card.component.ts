@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { JoinUserEvent } from 'src/generated/graphql';
+import { JoinUserEvent, RsvpGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-event-card',
@@ -13,7 +13,8 @@ export class EventCardComponent implements OnInit {
   @Input() includeMap?: boolean = false;
 
   constructor(
-    public navCtrl: NavController,
+    private readonly navCtrl: NavController,
+    private readonly rsvpService: RsvpGQL,
   ) { }
 
   ngOnInit() {}
@@ -24,6 +25,14 @@ export class EventCardComponent implements OnInit {
 
   goToCreateEventPage() {
     this.navCtrl.navigateForward('create-event');
+  }
+
+  async segmentChanged(ev: any) {
+    console.log('Segment changed', ev?.detail?.value);
+    await this.rsvpService.mutate({
+      eventId: this.userEvent?.eventId,
+      rsvp: ev?.detail?.value
+    }).toPromise();
   }
 
 }

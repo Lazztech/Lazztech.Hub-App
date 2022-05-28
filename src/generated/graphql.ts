@@ -156,6 +156,7 @@ export type Mutation = {
   reportHubAsInappropriate: Scalars['Boolean'];
   reportUserAsInappropriate: Scalars['Boolean'];
   createEvent: JoinUserEvent;
+  rsvp: JoinUserEvent;
 };
 
 
@@ -359,6 +360,12 @@ export type MutationCreateEventArgs = {
   allDay?: Maybe<Scalars['Boolean']>;
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+};
+
+
+export type MutationRsvpArgs = {
+  rsvp: Scalars['String'];
+  eventId: Scalars['ID'];
 };
 
 export type PageableOptions = {
@@ -595,6 +602,20 @@ export type EventQuery = (
         )> }
       )>> }
     )> }
+  ) }
+);
+
+export type RsvpMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  rsvp: Scalars['String'];
+}>;
+
+
+export type RsvpMutation = (
+  { __typename?: 'Mutation' }
+  & { rsvp: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp'>
   ) }
 );
 
@@ -1388,6 +1409,23 @@ export const EventDocument = gql`
   })
   export class EventGQL extends Apollo.Query<EventQuery, EventQueryVariables> {
     document = EventDocument;
+    
+  }
+export const RsvpDocument = gql`
+    mutation rsvp($eventId: ID!, $rsvp: String!) {
+  rsvp(eventId: $eventId, rsvp: $rsvp) {
+    userId
+    eventId
+    rsvp
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RsvpGQL extends Apollo.Mutation<RsvpMutation, RsvpMutationVariables> {
+    document = RsvpDocument;
     
   }
 export const UserEventsDocument = gql`

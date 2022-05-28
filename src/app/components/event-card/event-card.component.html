@@ -16,7 +16,7 @@
   </ion-card-content>
 
   <ion-card-content>
-    <ion-segment>
+    <ion-segment value="{{userEvent?.rsvp}}" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="going">
         <ion-label>Going</ion-label>
       </ion-segment-button>
