@@ -20,7 +20,7 @@
     <ion-row>
 
       <ion-col class="ion-padding-start">
-        <ion-button color="primary" expand="full">
+        <ion-button color="primary" expand="full" (click)="requestRide(userEventQueryResult?.data?.event)">
           Ride with
           <ion-icon style="font-size: 64px;" src="/assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
         </ion-button>
