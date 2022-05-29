@@ -155,6 +155,7 @@ export type Mutation = {
   deleteAccount: Scalars['Boolean'];
   reportHubAsInappropriate: Scalars['Boolean'];
   reportUserAsInappropriate: Scalars['Boolean'];
+  reportEventAsInappropriate: Scalars['Boolean'];
   createEvent: JoinUserEvent;
   rsvp: JoinUserEvent;
 };
@@ -348,6 +349,11 @@ export type MutationReportHubAsInappropriateArgs = {
 
 export type MutationReportUserAsInappropriateArgs = {
   toUserId: Scalars['ID'];
+};
+
+
+export type MutationReportEventAsInappropriateArgs = {
+  eventId: Scalars['ID'];
 };
 
 
@@ -603,6 +609,16 @@ export type EventQuery = (
       )>> }
     )> }
   ) }
+);
+
+export type ReportEventAsInappropriateMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+}>;
+
+
+export type ReportEventAsInappropriateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reportEventAsInappropriate'>
 );
 
 export type RsvpMutationVariables = Exact<{
@@ -1409,6 +1425,19 @@ export const EventDocument = gql`
   })
   export class EventGQL extends Apollo.Query<EventQuery, EventQueryVariables> {
     document = EventDocument;
+    
+  }
+export const ReportEventAsInappropriateDocument = gql`
+    mutation reportEventAsInappropriate($eventId: ID!) {
+  reportEventAsInappropriate(eventId: $eventId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportEventAsInappropriateGQL extends Apollo.Mutation<ReportEventAsInappropriateMutation, ReportEventAsInappropriateMutationVariables> {
+    document = ReportEventAsInappropriateDocument;
     
   }
 export const RsvpDocument = gql`

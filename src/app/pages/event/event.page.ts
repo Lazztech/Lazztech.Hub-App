@@ -6,7 +6,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { EventGQL, EventQuery, JoinUserEvent, Scalars, UsersPeopleQuery } from 'src/generated/graphql';
+import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, UsersPeopleQuery } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-event',
@@ -25,6 +25,7 @@ export class EventPage implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly hubService: HubService,
     private readonly eventService: EventGQL,
+    private readonly reportEventAsInappropriateService: ReportEventAsInappropriateGQL,
     private readonly actionSheetController: ActionSheetController,
     private readonly navCtrl: NavController,
     private readonly logger: NGXLogger,
@@ -63,10 +64,12 @@ export class EventPage implements OnInit, OnDestroy {
           handler: () => {
             if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
               this.loading = true;
-              // this.hubService.reportAsInappropriate(this.id).then(() => {
-              //   this.loading = false;
-              //   this.navCtrl.back();
-              // });
+              this.reportEventAsInappropriateService.mutate({
+                eventId: this.id
+              }).toPromise().then(() => {
+                this.loading = false;
+                this.navCtrl.back();
+              });
             }
           }
         });
