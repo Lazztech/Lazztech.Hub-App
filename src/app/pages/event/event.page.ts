@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, UsersPeopleQuery } from 'src/generated/graphql';
+import { Clipboard } from '@capacitor/clipboard';
 
 @Component({
   selector: 'app-event',
@@ -100,6 +101,49 @@ export class EventPage implements OnInit, OnDestroy {
         }]
       });
       await actionSheet.present();
+  }
+
+  async navigate(userEvent: JoinUserEvent) {
+    // tslint:disable-next-line:max-line-length
+    const appleMaps = `http://maps.apple.com/?saddr=${this.userCoords.latitude},${this.userCoords.longitude}&daddr=${userEvent.event.latitude},${userEvent.event.longitude}&dirflg=d`;
+    // tslint:disable-next-line:max-line-length
+    const googleMaps = `https://www.google.com/maps/dir/?api=1&origin=${this.userCoords.latitude},${this.userCoords.longitude}&destination=${userEvent.event.latitude},${userEvent.event.longitude}`;
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Navigate',
+      buttons: [
+      {
+        text: 'Open in Apple Maps',
+        handler: () => {
+          this.logger.log('Open in Apple Maps clicked');
+          window.open(appleMaps);
+        }
+      },
+      {
+        text: 'Open in Google Maps',
+        handler: () => {
+          this.logger.log('Open in Google Maps clicked');
+          window.open(googleMaps);
+        }
+      },
+      {
+        text: 'Copy coordinates',
+        handler: () => {
+          this.logger.log('Copy coordinates clicked');
+          Clipboard.write({
+            string: `${userEvent.event.latitude},${userEvent.event.longitude}`
+          });
+        }
+      },
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {
+          this.logger.log('Cancel clicked');
+        }
+      }
+    ]
+    });
+    await actionSheet.present();
   }
 
 }
