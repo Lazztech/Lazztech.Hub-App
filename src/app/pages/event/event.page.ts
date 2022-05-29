@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { ActionSheetController, NavController } from '@ionic/angular';
+import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HubService } from 'src/app/services/hub/hub.service';
@@ -20,9 +22,12 @@ export class EventPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   constructor(
-    private route: ActivatedRoute,
-    private hubService: HubService,
+    private readonly route: ActivatedRoute,
+    private readonly hubService: HubService,
     private readonly eventService: EventGQL,
+    private readonly actionSheetController: ActionSheetController,
+    private readonly navCtrl: NavController,
+    private readonly logger: NGXLogger,
   ) { }
 
   ngOnInit() {
@@ -46,6 +51,39 @@ export class EventPage implements OnInit, OnDestroy {
 
   trackByUser(index: any, joinUserEvent: JoinUserEvent) {
     return joinUserEvent.userId;
+  }
+
+  async presentActionSheet() {
+
+      const buttons = [];
+        buttons.push(
+        {
+          text: 'Report as Inappropriate',
+          role: 'destructive',
+          handler: () => {
+            if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
+              this.loading = true;
+              // this.hubService.reportAsInappropriate(this.id).then(() => {
+              //   this.loading = false;
+              //   this.navCtrl.back();
+              // });
+            }
+          }
+        });
+
+      const actionSheet = await this.actionSheetController.create({
+        header: 'Event Options',
+        buttons: [
+          ...buttons,
+          {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.logger.log('Cancel clicked');
+          }
+        }]
+      });
+      await actionSheet.present();
   }
 
 }
