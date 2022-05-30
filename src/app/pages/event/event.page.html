@@ -20,14 +20,14 @@
     <ion-row>
 
       <ion-col class="ion-padding-start">
-        <ion-button color="primary" expand="full" (click)="requestRide(userEventQueryResult?.data?.event)">
+        <ion-button color="primary" expand="block" (click)="requestRide(userEventQueryResult?.data?.event)">
           Ride with
           <ion-icon style="font-size: 64px;" src="/assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
         </ion-button>
       </ion-col>
 
       <ion-col class="ion-padding-start ion-padding-end">
-        <ion-button color="primary" expand="full" color="danger" (click)="navigate(userEventQueryResult?.data?.event)">
+        <ion-button color="primary" expand="block" color="danger" (click)="navigate(userEventQueryResult?.data?.event)">
           Navigate
           <ion-icon class="ion-padding-start" size="large" name="map"></ion-icon>
         </ion-button>
