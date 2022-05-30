@@ -20,6 +20,11 @@ export class EventPage implements OnInit, OnDestroy {
   loading = false;
   id: Scalars['ID'];
   userEventQueryResult: ApolloQueryResult<EventQuery>;
+  presentUserEvents: EventQuery['event']['event']['usersConnection'];
+  goingUserEvents: EventQuery['event']['event']['usersConnection'];
+  maybeUserEvents: EventQuery['event']['event']['usersConnection'];
+  cantgoUserEvents: EventQuery['event']['event']['usersConnection'];
+  noreplyUserEvents: EventQuery['event']['event']['usersConnection'];
   persons: Observable<UsersPeopleQuery['usersPeople']>;
   subscriptions: Subscription[] = [];
   userCoords: {latitude: number, longitude: number};
@@ -46,6 +51,11 @@ export class EventPage implements OnInit, OnDestroy {
         pollInterval: 2000,
       }).valueChanges.subscribe(x => {
         this.userEventQueryResult = x;
+        this.presentUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.isPresent);
+        this.goingUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'going');
+        this.maybeUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'maybe');
+        this.cantgoUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'cantgo');
+        this.noreplyUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => !x.rsvp);
       }),
       this.locationService.coords$.subscribe(async x => {
         this.userCoords = { latitude: x.latitude, longitude: x.longitude };

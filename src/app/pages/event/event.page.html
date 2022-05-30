@@ -36,13 +36,13 @@
     </ion-row>
   </ion-grid>
 
-  <ion-list>
+  <ion-list *ngIf="presentUserEvents?.length">
     <ion-list-header>
       <ion-text>Present</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
-      <ion-item *ngIf="userConnection?.isPresent" href="javascript:void(0);"
+    <div *ngFor="let userConnection of presentUserEvents; trackBy: trackByUser">
+      <ion-item href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
@@ -65,13 +65,13 @@
     </div>
   </ion-list>
 
-  <ion-list>
+  <ion-list *ngIf="goingUserEvents?.length">
     <ion-list-header>
       <ion-text>Going</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
-      <ion-item *ngIf="userConnection?.rsvp == 'going'" href="javascript:void(0);"
+    <div *ngFor="let userConnection of goingUserEvents; trackBy: trackByUser">
+      <ion-item href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
@@ -94,13 +94,13 @@
     </div>
   </ion-list>
 
-  <ion-list>
+  <ion-list *ngIf="maybeUserEvents?.length">
     <ion-list-header>
       <ion-text>Maybe</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
-      <ion-item *ngIf="userConnection?.rsvp == 'maybe'" href="javascript:void(0);"
+    <div *ngFor="let userConnection of maybeUserEvents; trackBy: trackByUser">
+      <ion-item href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
@@ -123,13 +123,13 @@
     </div>
   </ion-list>
 
-  <ion-list>
+  <ion-list *ngIf="cantgoUserEvents?.length">
     <ion-list-header>
       <ion-text>Can't Go</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
-      <ion-item *ngIf="userConnection?.rsvp == 'cantgo'" href="javascript:void(0);"
+    <div *ngFor="let userConnection of cantgoUserEvents; trackBy: trackByUser">
+      <ion-item href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
@@ -152,13 +152,13 @@
     </div>
   </ion-list>
 
-  <ion-list>
+  <ion-list *ngIf="noreplyUserEvents?.length">
     <ion-list-header>
       <ion-text>No Reply</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userEventQueryResult?.data?.event?.event?.usersConnection; trackBy: trackByUser">
-      <ion-item *ngIf="!userConnection?.rsvp" href="javascript:void(0);"
+    <div *ngFor="let userConnection of noreplyUserEvents; trackBy: trackByUser">
+      <ion-item href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
