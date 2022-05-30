@@ -158,6 +158,7 @@ export type Mutation = {
   reportEventAsInappropriate: Scalars['Boolean'];
   createEvent: JoinUserEvent;
   rsvp: JoinUserEvent;
+  inviteUserToEvent: JoinUserEvent;
 };
 
 
@@ -371,6 +372,12 @@ export type MutationCreateEventArgs = {
 
 export type MutationRsvpArgs = {
   rsvp: Scalars['String'];
+  eventId: Scalars['ID'];
+};
+
+
+export type MutationInviteUserToEventArgs = {
+  inviteesEmail: Scalars['String'];
   eventId: Scalars['ID'];
 };
 
@@ -607,6 +614,27 @@ export type EventQuery = (
           & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
         )> }
       )>> }
+    )> }
+  ) }
+);
+
+export type InviteUserToEventMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  inviteesEmail: Scalars['String'];
+}>;
+
+
+export type InviteUserToEventMutation = (
+  { __typename?: 'Mutation' }
+  & { inviteUserToEvent: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
     )> }
   ) }
 );
@@ -1425,6 +1453,44 @@ export const EventDocument = gql`
   })
   export class EventGQL extends Apollo.Query<EventQuery, EventQueryVariables> {
     document = EventDocument;
+    
+  }
+export const InviteUserToEventDocument = gql`
+    mutation inviteUserToEvent($eventId: ID!, $inviteesEmail: String!) {
+  inviteUserToEvent(eventId: $eventId, inviteesEmail: $inviteesEmail) {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class InviteUserToEventGQL extends Apollo.Mutation<InviteUserToEventMutation, InviteUserToEventMutationVariables> {
+    document = InviteUserToEventDocument;
     
   }
 export const ReportEventAsInappropriateDocument = gql`

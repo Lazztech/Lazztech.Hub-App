@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { ActionSheetController, NavController } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, UsersPeopleQuery } from 'src/generated/graphql';
 import { Clipboard } from '@capacitor/clipboard';
+import { InvitePage } from '../hub/invite/invite.page';
 
 @Component({
   selector: 'app-event',
@@ -39,6 +40,8 @@ export class EventPage implements OnInit, OnDestroy {
     private readonly logger: NGXLogger,
     private readonly locationService: LocationService,
     private readonly changeRef: ChangeDetectorRef,
+    private readonly modalController: ModalController,
+    private readonly routerOutlet: IonRouterOutlet,
   ) { }
 
   ngOnInit() {
@@ -154,6 +157,16 @@ export class EventPage implements OnInit, OnDestroy {
     ]
     });
     await actionSheet.present();
+  }
+
+  async invite() {
+    const invite = await this.modalController.create({
+      component: InvitePage,
+      swipeToClose: true,
+      // card modal
+      presentingElement: this.routerOutlet.nativeEl
+    });
+    return await invite.present();
   }
 
 }
