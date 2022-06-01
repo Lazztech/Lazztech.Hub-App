@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -7,21 +7,28 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { Scalars, UsersPeopleQuery } from 'src/generated/graphql';
+import { Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
+
+export enum InviteType {
+  Hub = 'hub',
+  Event = 'event',
+}
 
 @Component({
   selector: 'app-invite',
   templateUrl: './invite.component.html',
   styleUrls: ['./invite.component.scss'],
 })
-export class InviteComponent implements OnInit {
+export class InviteComponent implements OnInit, OnChanges {
+
+  @Input() persons: Array<User> = [];
+  @Input() inviteType: InviteType;
+  @Input() id: Scalars['ID'];
 
   loading = false;
   allInvitesSucces = true;
   invites: Array<{name?: string, email: string}> = [];
   myForm: FormGroup;
-  id: Scalars['ID'];
-  persons: Observable<UsersPeopleQuery['usersPeople']>;
   subscriptions: Subscription[] = [];
 
   get email() {
@@ -45,16 +52,12 @@ export class InviteComponent implements OnInit {
         Validators.email
       ]],
     });
-
-    this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x?.data && x?.data?.usersPeople));
-
-    this.subscriptions.push(
-      this.hubService.watchUsersPeople().valueChanges.subscribe(x => {
-        this.logger.log('loading: ', x.loading);
-        this.loading = x.loading;
-      })
-    );
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+  }
+
 
   checkboxChanged(person) {
     const invitee = { name: person.firstName, email: person.email };

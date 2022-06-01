@@ -8,7 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, UsersPeopleQuery } from 'src/generated/graphql';
+import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-event',
@@ -25,7 +25,8 @@ export class EventPage implements OnInit, OnDestroy {
   maybeUserEvents: EventQuery['event']['event']['usersConnection'];
   cantgoUserEvents: EventQuery['event']['event']['usersConnection'];
   noreplyUserEvents: EventQuery['event']['event']['usersConnection'];
-  persons: Observable<UsersPeopleQuery['usersPeople']>;
+  persons: ApolloQueryResult<UsersPeopleQuery>;
+  notYetInvitedPeople: Array<User> = [];
   subscriptions: Subscription[] = [];
   userCoords: {latitude: number, longitude: number};
   inviteModalIsOpen: boolean = false;
@@ -45,7 +46,7 @@ export class EventPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x.data && x.data.usersPeople));
+    
     this.subscriptions.push(
       this.eventService.watch({
         id: this.id
@@ -62,6 +63,10 @@ export class EventPage implements OnInit, OnDestroy {
       this.locationService.coords$.subscribe(async x => {
         this.userCoords = { latitude: x.latitude, longitude: x.longitude };
         this.changeRef.detectChanges();
+      }),
+      this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
+        this.persons = result;
+        this.notYetInvitedPeople = result?.data?.usersPeople as any;
       })
     );
   }
