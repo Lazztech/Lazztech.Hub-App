@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Clipboard } from '@capacitor/clipboard';
@@ -6,6 +6,7 @@ import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/an
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
@@ -30,6 +31,8 @@ export class EventPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   userCoords: {latitude: number, longitude: number};
   inviteModalIsOpen: boolean = false;
+  @ViewChild(InviteComponent)
+  private inviteComponent: InviteComponent;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -121,6 +124,11 @@ export class EventPage implements OnInit, OnDestroy {
         }]
       });
       await actionSheet.present();
+  }
+
+  async sendInvites() {
+    await this.inviteComponent.sendInvites();
+    this.toggleInviteModal();
   }
 
   async navigate(userEvent: JoinUserEvent) {

@@ -7,7 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
+import { InviteUserToEventGQL, Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
 
 export enum InviteType {
   Hub = 'hub',
@@ -27,21 +27,21 @@ export class InviteComponent implements OnInit, OnChanges {
 
   loading = false;
   allInvitesSucces = true;
-  invites: Array<{name?: string, email: string}> = [];
+  invites: Array<{ name?: string, email: string }> = [];
   myForm: FormGroup;
-  subscriptions: Subscription[] = [];
 
   get email() {
     return this.myForm.get('email');
   }
 
   constructor(
-    private hubService: HubService,
-    private fb: FormBuilder,
-    private alertService: AlertService,
-    private route: ActivatedRoute,
-    private logger: NGXLogger,
-    public navCtrl: NavController,
+    private readonly hubService: HubService,
+    private readonly fb: FormBuilder,
+    private readonly alertService: AlertService,
+    private readonly route: ActivatedRoute,
+    private readonly logger: NGXLogger,
+    private readonly navCtrl: NavController,
+    private readonly inviteUserToEventService: InviteUserToEventGQL,
   ) { }
 
   ngOnInit() {
@@ -58,34 +58,40 @@ export class InviteComponent implements OnInit, OnChanges {
     console.log(changes)
   }
 
-
   checkboxChanged(person) {
     const invitee = { name: person.firstName, email: person.email };
-    if (this.invites.filter(x => x.email === invitee.email).length){
+    if (this.invites.filter(x => x.email === invitee.email).length) {
       const i = this.invites.findIndex(x => x.email === invitee.email);
       this.invites.splice(i, 1);
     } else {
       this.invites.push(invitee);
     }
   }
-  ngOnDestroy() {
-    this.subscriptions.forEach(
-      x => x.unsubscribe()
-    );
-  }
 
   async sendInvites(): Promise<string> {
     let invited = '';
     await Promise.all(
       this.invites.map(async invite => {
-       const result = await this.hubService.inviteUserToHub(this.id, invite.email);
-       if (result) {
-           invited = invited.concat(`${result?.invitee?.firstName}, `);
-        } else {
-          this.allInvitesSucces = false;
+        if (this.inviteType == InviteType.Hub) {
+          const result = await this.hubService.inviteUserToHub(this.id, invite.email);
+          if (result) {
+            invited = invited.concat(`${result?.invitee?.firstName}, `);
+          } else {
+            this.allInvitesSucces = false;
+          }
+        } else if (this.inviteType == InviteType.Event) {
+          const result = await this.inviteUserToEventService.mutate({
+            eventId: this.id,
+            inviteesEmail: invite.email,
+          }).toPromise();
+          if (result) {
+            invited = invited.concat(`${result?.data?.inviteUserToEvent?.user?.firstName}, `);
+          } else {
+            this.allInvitesSucces = false;
+          }
         }
       })
-      );
+    );
     return invited;
   }
 
