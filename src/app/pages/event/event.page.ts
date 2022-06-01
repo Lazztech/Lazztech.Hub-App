@@ -170,4 +170,12 @@ export class EventPage implements OnInit, OnDestroy {
     return await invite.present();
   }
 
+  goToPersonPage(id: number, user: any) {
+    this.navCtrl.navigateForward('person/' + id, {
+      state: {
+        user
+      }
+    });
+  }
+
 }
