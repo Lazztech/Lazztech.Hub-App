@@ -10,6 +10,7 @@ import { LocationService } from 'src/app/services/location/location.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, UsersPeopleQuery } from 'src/generated/graphql';
 import { Clipboard } from '@capacitor/clipboard';
 import { InvitePage } from '../hub/invite/invite.page';
+import { InviteComponent } from 'src/app/components/invite/invite.component';
 
 @Component({
   selector: 'app-event',
@@ -161,7 +162,7 @@ export class EventPage implements OnInit, OnDestroy {
 
   async invite() {
     const invite = await this.modalController.create({
-      component: InvitePage,
+      component: InviteComponent,
       swipeToClose: true,
       // card modal
       presentingElement: this.routerOutlet.nativeEl
