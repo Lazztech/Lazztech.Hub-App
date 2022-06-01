@@ -181,11 +181,23 @@
     </div>
   </ion-list>
 
+  <ion-modal
+  [isOpen]="inviteModalIsOpen"
+  [swipeToClose]="true"
+  [presentingElement]="routerOutlet.nativeEl"
+>
+  <ng-template>
+    <ion-content>
+      <app-invite></app-invite>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
 </ion-content>
 
 <ion-footer translucent="true">
   <ion-toolbar>
-    <ion-button (click)="invite()" type="submit" expand="block">Invite
+    <ion-button (click)="toggleInviteModal()" type="submit" expand="block">Invite
     </ion-button>
   </ion-toolbar>
 </ion-footer>

@@ -1,16 +1,14 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { ActionSheetController, IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
+import { Clipboard } from '@capacitor/clipboard';
+import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, UsersPeopleQuery } from 'src/generated/graphql';
-import { Clipboard } from '@capacitor/clipboard';
-import { InvitePage } from '../hub/invite/invite.page';
-import { InviteComponent } from 'src/app/components/invite/invite.component';
 
 @Component({
   selector: 'app-event',
@@ -30,6 +28,7 @@ export class EventPage implements OnInit, OnDestroy {
   persons: Observable<UsersPeopleQuery['usersPeople']>;
   subscriptions: Subscription[] = [];
   userCoords: {latitude: number, longitude: number};
+  inviteModalIsOpen: boolean = false;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -41,8 +40,7 @@ export class EventPage implements OnInit, OnDestroy {
     private readonly logger: NGXLogger,
     private readonly locationService: LocationService,
     private readonly changeRef: ChangeDetectorRef,
-    private readonly modalController: ModalController,
-    private readonly routerOutlet: IonRouterOutlet,
+    public readonly routerOutlet: IonRouterOutlet,
   ) { }
 
   ngOnInit() {
@@ -160,22 +158,16 @@ export class EventPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
 
-  async invite() {
-    const invite = await this.modalController.create({
-      component: InviteComponent,
-      swipeToClose: true,
-      // card modal
-      presentingElement: this.routerOutlet.nativeEl
-    });
-    return await invite.present();
-  }
-
   goToPersonPage(id: number, user: any) {
     this.navCtrl.navigateForward('person/' + id, {
       state: {
         user
       }
     });
+  }
+
+  toggleInviteModal() {
+    this.inviteModalIsOpen = !this.inviteModalIsOpen;
   }
 
 }
