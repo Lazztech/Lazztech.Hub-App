@@ -186,4 +186,8 @@ export class EventPage implements OnInit, OnDestroy {
     this.inviteModalIsOpen = !this.inviteModalIsOpen;
   }
 
+  didDismissInviteModal() {
+    this.inviteModalIsOpen = false;
+  }
+
 }
