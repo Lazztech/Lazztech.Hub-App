@@ -55,7 +55,7 @@ export class CreateEventPage implements OnInit {
     const result = await this.createEvent.mutate({
       name: this.eventName.value,
       description: this.eventDescription.value,
-      startDateTime: (this.startDateTime.value) ? Date.parse(this.startDateTime.value).toString() : Date.parse(new Date().toString()).toString(),
+      startDateTime: (this.startDateTime.value) ? this.startDateTime.value : new Date(),
       image: this.image,
     }).toPromise();
     this.loading = false;
