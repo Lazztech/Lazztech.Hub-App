@@ -16,6 +16,8 @@ export class CreateEventPage implements OnInit {
   loading = false;
   myForm: FormGroup;
   image: any;
+  startDateTimeModalOpen: boolean = false;
+  endDateTimeModalOpen: boolean = false;
 
   get eventName() {
     return this.myForm.get('eventName');
@@ -27,6 +29,10 @@ export class CreateEventPage implements OnInit {
 
   get startDateTime() {
     return this.myForm.get('startDateTime');
+  }
+
+  get endDateTime() {
+    return this.myForm.get('endDateTime');
   }
 
   constructor(
@@ -47,6 +53,7 @@ export class CreateEventPage implements OnInit {
       ]],
       eventDescription: [''],
       startDateTime: [],
+      endDateTime: [],
     });
   }
 
@@ -56,6 +63,7 @@ export class CreateEventPage implements OnInit {
       name: this.eventName.value,
       description: this.eventDescription.value,
       startDateTime: (this.startDateTime.value) ? this.startDateTime.value : new Date(),
+      endDateTime: (this.endDateTime.value) ? this.endDateTime.value : undefined,
       image: this.image,
     }).toPromise();
     this.loading = false;
@@ -112,6 +120,14 @@ export class CreateEventPage implements OnInit {
       ]
     });
     await actionSheet.present();
+  }
+
+  toggleStartDateTimeModal() {
+    this.startDateTimeModalOpen = !this.startDateTimeModalOpen;
+  }
+
+  toggleEndDateTimeModal() {
+    this.endDateTimeModalOpen = !this.endDateTimeModalOpen;
   }
 
 }
