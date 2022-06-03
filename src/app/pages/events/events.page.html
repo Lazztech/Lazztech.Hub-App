@@ -7,10 +7,7 @@
 <ion-content fullscreen="true">
 
   <ion-list>
-    <div *ngFor="let userEvent of userEventsQueryResult?.data?.usersEvents">
-      <ion-list-header>
-        <ion-text>{{userEvent?.event?.startDateTime | amLocale:'en' | amDateFormat:'MMM YYYY'}}</ion-text>
-      </ion-list-header>
+    <div *ngFor="let userEvent of sortedEvents">
       <app-event-card
         [userEvent]="userEvent"
       ></app-event-card>

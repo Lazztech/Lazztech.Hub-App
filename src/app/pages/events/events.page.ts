@@ -24,6 +24,7 @@ export class EventsPage implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
   userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
+  sortedEvents: UserEventsQuery['usersEvents'];
 
   constructor(
     public navCtrl: NavController,
@@ -36,6 +37,11 @@ export class EventsPage implements OnInit, OnDestroy {
         pollInterval: 2000,
       }).valueChanges.subscribe(x => {
         this.userEventsQueryResult = x;
+        if (this.userEventsQueryResult?.data?.usersEvents) {
+          this.sortedEvents = [...this.userEventsQueryResult?.data?.usersEvents]?.sort(
+            (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
+          );
+        }
       })
     );
   }
