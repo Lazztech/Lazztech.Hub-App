@@ -11,12 +11,14 @@
 
   <ion-card-content *ngIf="!showRsvp" (click)="goToEventPage()">
     <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
-    {{userEvent?.event?.description}}
   </ion-card-content>
 
   <ion-card-content *ngIf="showRsvp">
-    <ion-card-title class="ion-padding-bottom">{{userEvent?.event?.name}}</ion-card-title>
+    <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
     <ion-text>{{userEvent?.event?.description}}</ion-text>
+  </ion-card-content>
+
+  <ion-card-content *ngIf="showRsvp">
     <ion-segment value="{{userEvent?.rsvp}}" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="going">
         <ion-label>Going</ion-label>
