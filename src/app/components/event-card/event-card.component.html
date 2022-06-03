@@ -1,8 +1,12 @@
 <ion-card>
   <ion-img *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent.event.image}}"></ion-img>
   <ion-card-header (click)="goToEventPage()">
-    <ion-card-subtitle class="ion-float-left">{{userEvent?.event?.startDateTime | amDateFormat:'ddd ll'}}</ion-card-subtitle>
+    <ion-card-subtitle class="ion-float-left">Start: {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll'}}</ion-card-subtitle>
     <ion-card-subtitle class="ion-float-right">{{userEvent?.event?.startDateTime | amDateFormat:'h:mm A'}}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-header *ngIf="userEvent?.event?.endDateTime" (click)="goToEventPage()">
+    <ion-card-subtitle class="ion-float-left">End: {{userEvent?.event?.endDateTime | amDateFormat:'ddd ll'}}</ion-card-subtitle>
+    <ion-card-subtitle class="ion-float-right">{{userEvent?.event?.endDateTime | amDateFormat:'h:mm A'}}</ion-card-subtitle>
   </ion-card-header>
 
   <ion-card-header (click)="goToEventPage()">
@@ -14,7 +18,7 @@
     {{userEvent?.event?.description}}
   </ion-card-content>
 
-  <ion-card-content>
+  <ion-card-content *ngIf="showRsvp">
     <ion-segment value="{{userEvent?.rsvp}}" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="going">
         <ion-label>Going</ion-label>
