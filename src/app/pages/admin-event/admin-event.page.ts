@@ -116,4 +116,12 @@ export class AdminEventPage implements OnInit {
     this.endDateTimeModalOpen = !this.endDateTimeModalOpen;
   }
 
+  didDismissStartDateTimeModal() {
+    this.startDateTimeModalOpen = false;
+  }
+
+  didDismissEndDateTimeModal() {
+    this.endDateTimeModalOpen = false;
+  }
+
 }

@@ -28,18 +28,12 @@
         <ion-input readonly type="text" placeholder="End Date & Time" [value]="endDateTime.value" (click)="toggleEndDateTimeModal()"></ion-input>
       </ion-item>
 
-      <!-- <ion-item>
-        <ion-label>
-          <ion-text>All day</ion-text>
-        </ion-label>
-        <ion-toggle class="ion-float-right"></ion-toggle>
-      </ion-item> -->
-
       <ion-modal
         [isOpen]="startDateTimeModalOpen"
         [breakpoints]="[0.5]"
         [initialBreakpoint]="0.5"
         [swipeToClose]="true"
+        (didDismiss)="didDismissStartDateTimeModal()"
       >
         <ng-template>
           <ion-content>
@@ -55,6 +49,7 @@
       [breakpoints]="[0.5]"
       [initialBreakpoint]="0.5"
       [swipeToClose]="true"
+      (didDismiss)="didDismissEndDateTimeModal()"
     >
       <ng-template>
         <ion-content>

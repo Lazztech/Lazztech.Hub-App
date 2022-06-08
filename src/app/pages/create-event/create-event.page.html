@@ -39,6 +39,7 @@
         [breakpoints]="[0.5]"
         [initialBreakpoint]="0.5"
         [swipeToClose]="true"
+        (didDismiss)="didDismissStartDateTimeModal()"
       >
         <ng-template>
           <ion-content>
@@ -54,6 +55,7 @@
       [breakpoints]="[0.5]"
       [initialBreakpoint]="0.5"
       [swipeToClose]="true"
+      (didDismiss)="didDismissEndDateTimeModal()"
     >
       <ng-template>
         <ion-content>
