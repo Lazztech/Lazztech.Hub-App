@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ApolloQueryResult } from '@apollo/client/core';
 import { ActionSheetController, IonRouterOutlet, ModalController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
+import { EventGQL, EventQuery, Scalars } from 'src/generated/graphql';
 import { MapPage } from '../map/map.page';
 
 @Component({
@@ -10,13 +14,16 @@ import { MapPage } from '../map/map.page';
   templateUrl: './admin-event.page.html',
   styleUrls: ['./admin-event.page.scss'],
 })
-export class AdminEventPage implements OnInit {
+export class AdminEventPage implements OnInit, OnDestroy {
 
   loading = false;
   myForm: FormGroup;
   image: any;
   startDateTimeModalOpen: boolean = false;
   endDateTimeModalOpen: boolean = false;
+  subscriptions: Subscription[] = [];
+  id: Scalars['ID'];
+  eventQueryResult: ApolloQueryResult<EventQuery>;
 
   get eventName() {
     return this.myForm.get('eventName');
@@ -40,10 +47,22 @@ export class AdminEventPage implements OnInit {
     private readonly cameraService: CameraService,
     private readonly logger: NGXLogger,
     private readonly modalController: ModalController,
+    private readonly route: ActivatedRoute,
+    private readonly eventService: EventGQL,
     public routerOutlet: IonRouterOutlet,
   ) { }
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    this.subscriptions.push(
+      this.eventService.fetch({
+        id: this.id,
+      }).subscribe(result => {
+        this.eventQueryResult = result;
+      })
+    );
+
     this.myForm = this.fb.group({
       eventName: ['', [
         Validators.required
@@ -52,6 +71,10 @@ export class AdminEventPage implements OnInit {
       startDateTime: [],
       endDateTime: [],
     });
+  }
+  
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(x => x.unsubscribe());
   }
 
   async save() {}

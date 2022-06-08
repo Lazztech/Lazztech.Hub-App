@@ -49,7 +49,7 @@
     <ion-list-header class="ion-padding-bottom">
       <ion-text>Your Events</ion-text>
     </ion-list-header>
-    <ion-item *ngFor="let userEvent of filteredUsersEvents; trackBy: trackByEvent" href="javascript:void(0);" (click)="adminEvent(userEvent.hubId)">
+    <ion-item *ngFor="let userEvent of filteredUsersEvents; trackBy: trackByEvent" href="javascript:void(0);" (click)="adminEvent(userEvent.eventId)">
       <ion-avatar slot="start">
         <ion-img width="100%" *ngIf="userEvent?.event?.image" src="{{userEvent?.event?.image}}"></ion-img>
       </ion-avatar>
