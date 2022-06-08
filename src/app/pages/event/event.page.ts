@@ -10,6 +10,7 @@ import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
 
 @Component({
@@ -47,6 +48,7 @@ export class EventPage implements OnInit, OnDestroy {
     private readonly changeRef: ChangeDetectorRef,
     private readonly authService: AuthService,
     public readonly routerOutlet: IonRouterOutlet,
+    public readonly navigationService: NavigationService,
   ) { }
 
   ngOnInit() {
@@ -143,46 +145,7 @@ export class EventPage implements OnInit, OnDestroy {
   }
 
   async navigate(userEvent: JoinUserEvent) {
-    // tslint:disable-next-line:max-line-length
-    const appleMaps = `http://maps.apple.com/?saddr=${this.userCoords.latitude},${this.userCoords.longitude}&daddr=${userEvent.event.latitude},${userEvent.event.longitude}&dirflg=d`;
-    // tslint:disable-next-line:max-line-length
-    const googleMaps = `https://www.google.com/maps/dir/?api=1&origin=${this.userCoords.latitude},${this.userCoords.longitude}&destination=${userEvent.event.latitude},${userEvent.event.longitude}`;
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Navigate',
-      buttons: [
-      {
-        text: 'Open in Apple Maps',
-        handler: () => {
-          this.logger.log('Open in Apple Maps clicked');
-          window.open(appleMaps);
-        }
-      },
-      {
-        text: 'Open in Google Maps',
-        handler: () => {
-          this.logger.log('Open in Google Maps clicked');
-          window.open(googleMaps);
-        }
-      },
-      {
-        text: 'Copy coordinates',
-        handler: () => {
-          this.logger.log('Copy coordinates clicked');
-          Clipboard.write({
-            string: `${userEvent.event.latitude},${userEvent.event.longitude}`
-          });
-        }
-      },
-      {
-        text: 'Cancel',
-        role: 'cancel',
-        handler: () => {
-          this.logger.log('Cancel clicked');
-        }
-      }
-    ]
-    });
-    await actionSheet.present();
+    this.navigationService.navigate(this.userCoords, userEvent.event)
   }
 
   goToPersonPage(id: number, user: any) {
