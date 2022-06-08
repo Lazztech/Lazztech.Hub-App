@@ -9,10 +9,98 @@
 
 <ion-content fullscreen="true">
 
+  <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
+    <ion-list>
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Event Details</ion-text>
+      </ion-list-header>
+  
+      <ion-item>
+        <ion-input type="text" formControlName="eventName" placeholder="Event name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input readonly type="text" placeholder="Start Date & Time" [value]="startDateTime.value" (click)="toggleStartDateTimeModal()"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input readonly type="text" placeholder="End Date & Time" [value]="endDateTime.value" (click)="toggleEndDateTimeModal()"></ion-input>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label>
+          <ion-text>All day</ion-text>
+        </ion-label>
+        <ion-toggle class="ion-float-right"></ion-toggle>
+      </ion-item> -->
+
+      <ion-modal
+        [isOpen]="startDateTimeModalOpen"
+        [breakpoints]="[0.5]"
+        [initialBreakpoint]="0.5"
+        [swipeToClose]="true"
+      >
+        <ng-template>
+          <ion-content>
+            <ion-datetime size="cover" formControlName="startDateTime">
+              <div slot="title">Start Date & Time</div>
+            </ion-datetime>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+
+    <ion-modal
+      [isOpen]="endDateTimeModalOpen"
+      [breakpoints]="[0.5]"
+      [initialBreakpoint]="0.5"
+      [swipeToClose]="true"
+    >
+      <ng-template>
+        <ion-content>
+          <ion-datetime size="cover" formControlName="endDateTime">
+            <div slot="title">End Date & Time</div>
+          </ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Description</ion-text>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-textarea type="text" formControlName="eventDescription"  placeholder="Add description"></ion-textarea>
+      </ion-item>
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Location</ion-text>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-input readonly type="text" placeholder="Location" (click)="openMapModal()"></ion-input>
+      </ion-item>
+
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Photo</ion-text>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-button class="ion-float-right" color="primary" (click)="presentActionSheet()">Upload Image</ion-button>
+      </ion-item>
+
+      <ion-card *ngIf="image">
+        <ion-img src="{{image}}"></ion-img>
+      </ion-card>
+
+    </ion-list>
+  </form>
+
 </ion-content>
 
 <ion-footer translucent="true">
   <ion-toolbar>
-    <ion-button type="submit" expand="block">Save</ion-button>
+    <ion-button [disabled]="myForm.invalid" (click)="save()" type="submit" expand="block">Save</ion-button>
   </ion-toolbar>
 </ion-footer>
