@@ -7,6 +7,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
@@ -44,6 +45,7 @@ export class EventPage implements OnInit, OnDestroy {
     private readonly logger: NGXLogger,
     private readonly locationService: LocationService,
     private readonly changeRef: ChangeDetectorRef,
+    private readonly authService: AuthService,
     public readonly routerOutlet: IonRouterOutlet,
   ) { }
 
@@ -92,38 +94,47 @@ export class EventPage implements OnInit, OnDestroy {
   }
 
   async presentActionSheet() {
+    const buttons = [];
 
-      const buttons = [];
-        buttons.push(
-        {
-          text: 'Report as Inappropriate',
-          role: 'destructive',
-          handler: () => {
-            if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
-              this.loading = true;
-              this.reportEventAsInappropriateService.mutate({
-                eventId: this.id
-              }).toPromise().then(() => {
-                this.loading = false;
-                this.navCtrl.back();
-              });
-            }
+    if (this.userEventQueryResult?.data?.event?.event?.createdBy?.id == (await this.authService.user())?.id) {
+      buttons.push({
+        text: 'Manage Event',
+        handler: () => {
+          this.navCtrl.navigateForward('admin-event/' + this.id);
+        }
+      });
+    }
+
+    buttons.push(
+      {
+        text: 'Report as Inappropriate',
+        role: 'destructive',
+        handler: () => {
+          if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
+            this.loading = true;
+            this.reportEventAsInappropriateService.mutate({
+              eventId: this.id
+            }).toPromise().then(() => {
+              this.loading = false;
+              this.navCtrl.back();
+            });
           }
-        });
+        }
+      });
 
-      const actionSheet = await this.actionSheetController.create({
-        header: 'Event Options',
-        buttons: [
-          ...buttons,
-          {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Event Options',
+      buttons: [
+        ...buttons,
+        {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
             this.logger.log('Cancel clicked');
           }
         }]
-      });
-      await actionSheet.present();
+    });
+    await actionSheet.present();
   }
 
   async sendInvites() {
