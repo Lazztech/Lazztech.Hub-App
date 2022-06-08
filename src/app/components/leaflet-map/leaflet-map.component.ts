@@ -50,7 +50,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
   @Input() enableSearch = false;
 
   @Output() loading = new EventEmitter<boolean>();
-  @Output() searchSelected = new EventEmitter<{ latitude: number, longitude: number }>();
+  @Output() searchSelected = new EventEmitter<{ latitude: number, longitude: number, label: string }>();
 
   constructor(
     public navCtrl: NavController,
@@ -136,7 +136,8 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
   selectSearch(searchResult: SearchResult<RawResult>) {
     this.searchSelected.emit({
       latitude: searchResult.y,
-      longitude: searchResult.x
+      longitude: searchResult.x,
+      label: searchResult.label,
     });
     this.searchResults = [];
   }

@@ -156,4 +156,8 @@ export class CreateEventPage implements OnInit, OnDestroy {
     this.inviteModalIsOpen = false;
   }
 
+  onSearchSelected(event: any) {
+    console.log(event);
+  }
+
 }
