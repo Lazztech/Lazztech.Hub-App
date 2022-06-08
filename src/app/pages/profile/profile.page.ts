@@ -6,12 +6,13 @@ import { CameraService } from 'src/app/services/camera/camera.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
-import { Scalars, UsersHubsQuery, MeQuery, JoinUserHub } from 'src/generated/graphql';
+import { Scalars, UsersHubsQuery, MeQuery, JoinUserHub, UserEventsGQL, UserEventsQuery, JoinUserEvent } from 'src/generated/graphql';
 import { AuthService } from '../../services/auth/auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Browser } from '@capacitor/browser';
+import { ApolloQueryResult } from '@apollo/client/core';
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +24,8 @@ export class ProfilePage implements OnInit, OnDestroy {
   loading = true;
   user: Observable<MeQuery['me']>;
   userHubs: Observable<UsersHubsQuery['usersHubs']>;
+  userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
+  filteredUsersEvents: UserEventsQuery['usersEvents'];
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -35,7 +38,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     public cameraService: CameraService,
     public profileService: ProfileService,
     private hubService: HubService,
-    private logger: NGXLogger
+    private logger: NGXLogger,
+    private readonly userEvents: UserEventsGQL,
   ) {
     this.menu.enable(true);
   }
@@ -55,6 +59,16 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.hubService.watchUserHubs().valueChanges.subscribe(x => {
         this.logger.log('loading: ', x.loading);
         this.loading = x.loading;
+      }),
+      this.userEvents.watch(null,{
+        pollInterval: 2000,
+      }).valueChanges.subscribe(x => {
+        this.userEventsQueryResult = x;
+        if (this.userEventsQueryResult?.data?.usersEvents) {
+          this.filteredUsersEvents = [...this.userEventsQueryResult?.data?.usersEvents]?.sort(
+            (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
+          );
+        }
       })
     );
   }
@@ -65,6 +79,10 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   userTrackByHub(index: any, joinUserHub: JoinUserHub) {
     return joinUserHub.hubId;
+  }
+
+  trackByEvent(index: any, joinUserEvent: JoinUserEvent) {
+    return joinUserEvent.eventId;
   }
 
   async userActionSheet() {
@@ -152,6 +170,10 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   adminHub(id: Scalars['ID']) {
     this.navCtrl.navigateForward('admin-hub/' + id);
+  }
+
+  adminEvent(id: Scalars['ID']) {
+    this.navCtrl.navigateForward('admin-event/' + id);
   }
 
 }

@@ -30,7 +30,7 @@
 
   <ion-list>
     <ion-list-header class="ion-padding-bottom">
-      <ion-text>Manage Your Hubs</ion-text>
+      <ion-text>Your Hubs</ion-text>
     </ion-list-header>
     <ion-item *ngFor="let userHub of userHubs | async; trackBy: userTrackByHub" href="javascript:void(0);" (click)="adminHub(userHub.hubId)">
       <ion-avatar slot="start">
@@ -41,6 +41,20 @@
         <ion-card-subtitle *ngIf="userHub.hub.active" class="ion-float-right" color="success">Active</ion-card-subtitle>
         <ion-card-subtitle *ngIf="!userHub.hub.active" class="ion-float-right" color="medium">Inactive
         </ion-card-subtitle>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header class="ion-padding-bottom">
+      <ion-text>Your Events</ion-text>
+    </ion-list-header>
+    <ion-item *ngFor="let userEvent of filteredUsersEvents; trackBy: trackByEvent" href="javascript:void(0);" (click)="adminEvent(userEvent.hubId)">
+      <ion-avatar slot="start">
+        <ion-img width="100%" *ngIf="userEvent?.event?.image" src="{{userEvent?.event?.image}}"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <ion-text>{{userEvent?.event?.name}}</ion-text>
       </ion-label>
     </ion-item>
   </ion-list>
