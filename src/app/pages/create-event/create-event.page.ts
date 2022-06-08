@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, ModalController, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
+import { LocationService } from 'src/app/services/location/location.service';
 import { CreateEventGQL } from 'src/generated/graphql';
 import { MapPage } from '../map/map.page';
 
@@ -11,13 +13,16 @@ import { MapPage } from '../map/map.page';
   templateUrl: './create-event.page.html',
   styleUrls: ['./create-event.page.scss'],
 })
-export class CreateEventPage implements OnInit {
+export class CreateEventPage implements OnInit, OnDestroy {
 
   loading = false;
   myForm: FormGroup;
   image: any;
   startDateTimeModalOpen: boolean = false;
   endDateTimeModalOpen: boolean = false;
+  inviteModalIsOpen: boolean = false;
+  yourLocation: { latitude: number, longitude: number };
+  subscriptions: Subscription[] = [];
 
   get eventName() {
     return this.myForm.get('eventName');
@@ -44,6 +49,9 @@ export class CreateEventPage implements OnInit {
     public readonly navCtrl: NavController,
     private readonly modalController: ModalController,
     public routerOutlet: IonRouterOutlet,
+    private locationService: LocationService,
+    private platform: Platform,
+    private changeRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -55,6 +63,18 @@ export class CreateEventPage implements OnInit {
       startDateTime: [],
       endDateTime: [],
     });
+
+    this.subscriptions.push(
+      this.locationService.coords$.subscribe(async x => {
+        await this.platform.ready();
+        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
+        this.changeRef.detectChanges();
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(x => x.unsubscribe());
   }
 
   async save() {
@@ -78,16 +98,6 @@ export class CreateEventPage implements OnInit {
   async selectPicture() {
     const image = await this.cameraService.selectPicture();
     this.image = image;
-  }
-
-  async openMapModal() {
-    const registerModal = await this.modalController.create({
-      component: MapPage,
-      swipeToClose: true,
-      // card modal
-      presentingElement: this.routerOutlet.nativeEl
-    });
-    return await registerModal.present();
   }
 
   async presentActionSheet() {
@@ -130,12 +140,20 @@ export class CreateEventPage implements OnInit {
     this.endDateTimeModalOpen = !this.endDateTimeModalOpen;
   }
 
+  toggleInviteModal() {
+    this.inviteModalIsOpen = !this.inviteModalIsOpen;
+  }
+
   didDismissStartDateTimeModal() {
     this.startDateTimeModalOpen = false;
   }
 
   didDismissEndDateTimeModal() {
     this.endDateTimeModalOpen = false;
+  }
+
+  didDismissInviteModal() {
+    this.inviteModalIsOpen = false;
   }
 
 }
