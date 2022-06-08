@@ -55,6 +55,7 @@
       </ion-avatar>
       <ion-label>
         <ion-text>{{userEvent?.event?.name}}</ion-text>
+        <ion-card-subtitle class="ion-float-right">{{userEvent?.event?.startDateTime | amDateFormat:'ddd ll'}}</ion-card-subtitle>
       </ion-label>
     </ion-item>
   </ion-list>
