@@ -89,6 +89,8 @@ export class CreateEventPage implements OnInit, OnDestroy {
       description: this.eventDescription.value,
       startDateTime: (this.startDateTime.value) ? this.startDateTime.value : new Date(),
       endDateTime: (this.endDateTime.value) ? this.endDateTime.value : undefined,
+      latitude: this.location.value?.latitude,
+      longitude: this.location?.value?.longitude,
       image: this.image,
     }).toPromise();
     this.loading = false;
