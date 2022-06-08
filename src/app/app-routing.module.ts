@@ -136,6 +136,10 @@ const routes: Routes = [
     path: 'create-event',
     loadChildren: () => import('./pages/create-event/create-event.module').then( m => m.CreateEventPageModule)
   },
+  {
+    path: 'admin-event',
+    loadChildren: () => import('./pages/admin-event/admin-event.module').then( m => m.AdminEventPageModule)
+  },
 ];
 
 @NgModule({
