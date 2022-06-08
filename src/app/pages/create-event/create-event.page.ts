@@ -40,6 +40,10 @@ export class CreateEventPage implements OnInit, OnDestroy {
     return this.myForm.get('endDateTime');
   }
 
+  get location() {
+    return this.myForm.get('location');
+  }
+
   constructor(
     private fb: FormBuilder,
     private actionSheetController: ActionSheetController,
@@ -62,6 +66,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
       eventDescription: [''],
       startDateTime: [],
       endDateTime: [],
+      location: [],
     });
 
     this.subscriptions.push(
@@ -158,6 +163,9 @@ export class CreateEventPage implements OnInit, OnDestroy {
 
   onSearchSelected(event: any) {
     console.log(event);
+    this.myForm.patchValue({
+      location: event
+    });
   }
 
 }

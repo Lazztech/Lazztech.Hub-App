@@ -72,7 +72,7 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-input readonly type="text" placeholder="Location" (click)="toggleInviteModal()"></ion-input>
+        <ion-input readonly type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleInviteModal()"></ion-input>
       </ion-item>
 
 
