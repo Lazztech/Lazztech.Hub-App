@@ -4,14 +4,12 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Manage Hub</ion-title>
-    <div slot="end">
-      <ion-label color="primary" slot="end" (click)="save()">
-        Save &nbsp;
-      </ion-label>
-      <ion-label slot="end">
-        &nbsp;
-      </ion-label>
-    </div>
+      <ion-icon
+        slot="end"
+        size="large"
+        name="trash-outline"
+        (click)="deleteHub()"
+      ></ion-icon>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
@@ -143,3 +141,9 @@
   </ion-item>
 
 </ion-content>
+
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-button [disabled]="myForm.invalid" (click)="save()" type="submit" expand="block">Save</ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -124,4 +124,6 @@ export class AdminEventPage implements OnInit {
     this.endDateTimeModalOpen = false;
   }
 
+  deleteHub() {}
+
 }
