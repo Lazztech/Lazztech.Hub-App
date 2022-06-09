@@ -6,6 +6,7 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
 import { environment } from 'src/environments/environment';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-leaflet-map',
@@ -41,6 +42,10 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
    * leaflet circle marker instance that's used to draw your location
    */
   yourLocationMarker: CircleMarker;
+
+  private debouncedSearchFunc: _.DebouncedFunc<() => Promise<void>> = _.debounce(
+    (event: any) => this.searchAddress(event), 500
+  );
 
   @Input() center: { latitude: any; longitude: any; };
   @Input() locations: Array<{ id: number, latitude: number, longitude: number }> = [];
@@ -123,7 +128,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     return circle([location.latitude, location.longitude], radiusMeters).addTo(this.map);
   }
 
-  async searchAddress(event: any) {
+  private async searchAddress(event: any) {
     console.log(event);
     this.loading.emit(true);
 

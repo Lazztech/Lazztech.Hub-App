@@ -1,5 +1,5 @@
 <div *ngIf="enableSearch">
-    <ion-searchbar debounce="1000" (ionInput)="searchAddress($event)" showCancelButton="focus"></ion-searchbar>
+    <ion-searchbar debounce="1000" (ionInput)="debouncedSearchFunc($event)" showCancelButton="focus"></ion-searchbar>
     <ion-list *ngIf="searchResults">
         <ion-item *ngFor="let result of searchResults" (click)="selectSearch(result)">{{ result.label }}</ion-item>
       </ion-list>
