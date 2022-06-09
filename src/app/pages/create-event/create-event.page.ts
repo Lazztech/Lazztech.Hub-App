@@ -1,12 +1,11 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, IonRouterOutlet, ModalController, NavController, Platform } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { CreateEventGQL } from 'src/generated/graphql';
-import { MapPage } from '../map/map.page';
 
 @Component({
   selector: 'app-create-event',
@@ -20,7 +19,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
   image: any;
   startDateTimeModalOpen: boolean = false;
   endDateTimeModalOpen: boolean = false;
-  inviteModalIsOpen: boolean = false;
+  mapModalIsOpen: boolean = false;
   yourLocation: { latitude: number, longitude: number };
   subscriptions: Subscription[] = [];
 
@@ -51,7 +50,6 @@ export class CreateEventPage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     private readonly createEvent: CreateEventGQL,
     public readonly navCtrl: NavController,
-    private readonly modalController: ModalController,
     public routerOutlet: IonRouterOutlet,
     private locationService: LocationService,
     private platform: Platform,
@@ -147,8 +145,8 @@ export class CreateEventPage implements OnInit, OnDestroy {
     this.endDateTimeModalOpen = !this.endDateTimeModalOpen;
   }
 
-  toggleInviteModal() {
-    this.inviteModalIsOpen = !this.inviteModalIsOpen;
+  toggleMapModal() {
+    this.mapModalIsOpen = !this.mapModalIsOpen;
   }
 
   didDismissStartDateTimeModal() {
@@ -159,8 +157,8 @@ export class CreateEventPage implements OnInit, OnDestroy {
     this.endDateTimeModalOpen = false;
   }
 
-  didDismissInviteModal() {
-    this.inviteModalIsOpen = false;
+  didDismissMapModal() {
+    this.mapModalIsOpen = false;
   }
 
   onSearchSelected(event: any) {

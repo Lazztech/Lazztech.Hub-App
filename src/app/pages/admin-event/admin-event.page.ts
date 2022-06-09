@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { ActionSheetController, IonRouterOutlet, ModalController } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
+import { LocationService } from 'src/app/services/location/location.service';
 import { EventGQL, EventQuery, Scalars } from 'src/generated/graphql';
-import { MapPage } from '../map/map.page';
 
 @Component({
   selector: 'app-admin-event',
@@ -21,6 +21,8 @@ export class AdminEventPage implements OnInit, OnDestroy {
   image: any;
   startDateTimeModalOpen: boolean = false;
   endDateTimeModalOpen: boolean = false;
+  mapModalIsOpen: boolean = false;
+  yourLocation: { latitude: number, longitude: number };
   subscriptions: Subscription[] = [];
   id: Scalars['ID'];
   eventQueryResult: ApolloQueryResult<EventQuery>;
@@ -41,15 +43,21 @@ export class AdminEventPage implements OnInit, OnDestroy {
     return this.myForm.get('endDateTime');
   }
 
+  get location() {
+    return this.myForm.get('location');
+  }
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly actionSheetController: ActionSheetController,
     private readonly cameraService: CameraService,
     private readonly logger: NGXLogger,
-    private readonly modalController: ModalController,
     private readonly route: ActivatedRoute,
     private readonly eventService: EventGQL,
     public routerOutlet: IonRouterOutlet,
+    private changeRef: ChangeDetectorRef,
+    private platform: Platform,
+    private locationService: LocationService,
   ) { }
 
   ngOnInit() {
@@ -60,6 +68,11 @@ export class AdminEventPage implements OnInit, OnDestroy {
         id: this.id,
       }).subscribe(result => {
         this.eventQueryResult = result;
+      }),
+      this.locationService.coords$.subscribe(async x => {
+        await this.platform.ready();
+        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
+        this.changeRef.detectChanges();
       })
     );
 
@@ -70,6 +83,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
       eventDescription: [''],
       startDateTime: [],
       endDateTime: [],
+      location: [],
     });
   }
   
@@ -87,16 +101,6 @@ export class AdminEventPage implements OnInit, OnDestroy {
   async selectPicture() {
     const image = await this.cameraService.selectPicture();
     this.image = image;
-  }
-
-  async openMapModal() {
-    const registerModal = await this.modalController.create({
-      component: MapPage,
-      swipeToClose: true,
-      // card modal
-      presentingElement: this.routerOutlet.nativeEl
-    });
-    return await registerModal.present();
   }
 
   async presentActionSheet() {
@@ -147,6 +151,21 @@ export class AdminEventPage implements OnInit, OnDestroy {
     this.endDateTimeModalOpen = false;
   }
 
+  toggleMapModal() {
+    this.mapModalIsOpen = !this.mapModalIsOpen;
+  }
+
+  didDismissMapModal() {
+    this.mapModalIsOpen = false;
+  }
+
   deleteHub() {}
+
+  onSearchSelected(event: any) {
+    console.log(event);
+    this.myForm.patchValue({
+      location: event
+    });
+  }
 
 }

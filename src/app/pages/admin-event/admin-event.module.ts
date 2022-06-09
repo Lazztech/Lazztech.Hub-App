@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AdminEventPageRoutingModule } from './admin-event-routing.module';
 
 import { AdminEventPage } from './admin-event.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { AdminEventPage } from './admin-event.page';
     IonicModule,
     AdminEventPageRoutingModule,
     ReactiveFormsModule,
+    ComponentsModule,
   ],
   declarations: [AdminEventPage]
 })

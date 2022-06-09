@@ -79,7 +79,7 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-input readonly type="text" placeholder="Location" (click)="openMapModal()"></ion-input>
+        <ion-input readonly type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleMapModal()"></ion-input>
       </ion-item>
 
 
@@ -105,3 +105,40 @@
     <ion-button [disabled]="myForm.invalid" (click)="save()" type="submit" expand="block">Save</ion-button>
   </ion-toolbar>
 </ion-footer>
+
+<ion-modal
+[isOpen]="mapModalIsOpen"
+[swipeToClose]="true"
+[presentingElement]="routerOutlet.nativeEl"
+(didDismiss)="didDismissMapModal()"
+>
+<ng-template>
+  <ion-header translucent="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Map</ion-title>
+      <ion-progress-bar *ngIf="loading || !yourLocation" type="indeterminate"></ion-progress-bar>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content fullscreen="true">
+    <app-leaflet-map
+      *ngIf="yourLocation"
+      [center]="center || yourLocation" 
+      [locations]="hubs"
+      [yourLocation]="yourLocation"
+      [navOnMarker]="true" 
+      [showControls]="true"
+      [enableSearch]="true"
+      (searchSelected)="onSearchSelected($event)"
+      (loading)="onMapLoading($event)"
+    ></app-leaflet-map>
+</ion-content>
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-button (click)="save()" type="submit" expand="block" color="primary">Save</ion-button>
+  </ion-toolbar>
+</ion-footer>
+</ng-template>
+</ion-modal>

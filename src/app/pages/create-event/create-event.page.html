@@ -72,7 +72,7 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-input readonly type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleInviteModal()"></ion-input>
+        <ion-input readonly type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleMapModal()"></ion-input>
       </ion-item>
 
 
@@ -101,10 +101,10 @@
 </ion-footer>
 
 <ion-modal
-[isOpen]="inviteModalIsOpen"
+[isOpen]="mapModalIsOpen"
 [swipeToClose]="true"
 [presentingElement]="routerOutlet.nativeEl"
-(didDismiss)="didDismissInviteModal()"
+(didDismiss)="didDismissMapModal()"
 >
 <ng-template>
   <ion-header translucent="true">
