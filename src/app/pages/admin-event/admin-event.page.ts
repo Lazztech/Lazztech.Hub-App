@@ -26,6 +26,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   id: Scalars['ID'];
   eventQueryResult: ApolloQueryResult<EventQuery>;
+  mapSearchSelection: { latitude: number, longitude: number, label: string };
 
   get eventName() {
     return this.myForm.get('eventName');
@@ -162,10 +163,14 @@ export class AdminEventPage implements OnInit, OnDestroy {
   deleteHub() {}
 
   onSearchSelected(event: any) {
-    console.log(event);
+    this.mapSearchSelection = event;
+  }
+
+  selectLocation() {
     this.myForm.patchValue({
-      location: event
+      location: this.mapSearchSelection
     });
+    this.mapModalIsOpen = false;
   }
 
 }

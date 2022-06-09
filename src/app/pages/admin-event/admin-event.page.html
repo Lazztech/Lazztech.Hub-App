@@ -125,8 +125,8 @@
   <ion-content fullscreen="true">
     <app-leaflet-map
       *ngIf="yourLocation"
-      [center]="center || yourLocation" 
-      [locations]="hubs"
+      [center]="mapSearchSelection || yourLocation" 
+      [locations]="[mapSearchSelection]"
       [yourLocation]="yourLocation"
       [navOnMarker]="true" 
       [showControls]="true"
@@ -137,7 +137,7 @@
 </ion-content>
 <ion-footer translucent="true">
   <ion-toolbar>
-    <ion-button (click)="save()" type="submit" expand="block" color="primary">Save</ion-button>
+    <ion-button [disabled]="!mapSearchSelection" (click)="selectLocation()" type="submit" expand="block" color="primary">Select Location</ion-button>
   </ion-toolbar>
 </ion-footer>
 </ng-template>
