@@ -21,6 +21,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
   endDateTimeModalOpen: boolean = false;
   mapModalIsOpen: boolean = false;
   yourLocation: { latitude: number, longitude: number };
+  center: { latitude: number, longitude: number, label: string };
   subscriptions: Subscription[] = [];
 
   get eventName() {
@@ -163,9 +164,14 @@ export class CreateEventPage implements OnInit, OnDestroy {
 
   onSearchSelected(event: any) {
     console.log(event);
+    this.center = event;
     this.myForm.patchValue({
       location: event
     });
+  }
+
+  selectLocation() {
+    
   }
 
 }

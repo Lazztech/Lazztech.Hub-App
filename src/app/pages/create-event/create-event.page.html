@@ -120,7 +120,7 @@
     <app-leaflet-map
       *ngIf="yourLocation"
       [center]="center || yourLocation" 
-      [locations]="hubs"
+      [locations]="[center]"
       [yourLocation]="yourLocation"
       [navOnMarker]="true" 
       [showControls]="true"

@@ -68,6 +68,9 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     if (this.map && changes.yourLocation) {
       this.updateYourLocationMarker();
     }
+    if (this.map && changes?.locations) {
+      this.locations?.forEach(location => this.addMarker(location));
+    }
   }
 
   /**
@@ -110,11 +113,13 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
   }
 
   addMarker(location: { id?: number, latitude: number, longitude: number }) {
-    const mk = marker([location.latitude, location.longitude]);
-    if (this.navOnMarker && location?.id) {
-      mk.on('click', () => this.navCtrl.navigateForward('hub/' + location.id));
+    if (location) {
+      const mk = marker([location.latitude, location.longitude]);
+      if (this.navOnMarker && location?.id) {
+        mk.on('click', () => this.navCtrl.navigateForward('hub/' + location.id));
+      }
+      mk.addTo(this.map);
     }
-    mk.addTo(this.map);
   }
 
   updateYourLocationMarker() {
@@ -125,7 +130,10 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
   }
 
   drawRadius(location: { latitude: number, longitude: number }, radiusMeters = environment.geofenceRadius) {
-    return circle([location.latitude, location.longitude], radiusMeters).addTo(this.map);
+    if (location) {
+      return circle([location.latitude, location.longitude], radiusMeters).addTo(this.map);
+    }
+    return undefined;
   }
 
   private async searchAddress(event: any) {
