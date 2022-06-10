@@ -2,23 +2,23 @@ mutation updateEvent(
   $eventId: ID!
   $name: String!
   $description: String
-  $allDay: Boolean
   $startDateTime: String
   $endDateTime: String
   $image: String
   $latitude: Float
   $longitude: Float
+  $locationLabel: String
 ) {
   updateEvent(
     eventId: $eventId
     name: $name
     description: $description
-    allDay: $allDay
     startDateTime: $startDateTime
     endDateTime: $endDateTime
     image: $image
     latitude: $latitude
     longitude: $longitude
+    locationLabel: $locationLabel
   ) {
     id
     createdBy {

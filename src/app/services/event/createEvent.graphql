@@ -1,22 +1,22 @@
 mutation createEvent(
   $name: String!
   $description: String
-  $allDay: Boolean
   $startDateTime: String
   $endDateTime: String
   $image: String
   $latitude: Float
   $longitude: Float
+  $locationLabel: String
 ) {
   createEvent(
     name: $name
     description: $description
-    allDay: $allDay
     startDateTime: $startDateTime
     endDateTime: $endDateTime
     image: $image
     latitude: $latitude
     longitude: $longitude
+    locationLabel: $locationLabel
   ) {
     userId
     eventId

@@ -36,6 +36,7 @@ export type Event = {
   endDateTime?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
   createdBy?: Maybe<User>;
   image?: Maybe<Scalars['String']>;
   usersConnection?: Maybe<Array<JoinUserEvent>>;
@@ -361,12 +362,12 @@ export type MutationReportEventAsInappropriateArgs = {
 
 
 export type MutationCreateEventArgs = {
+  locationLabel?: Maybe<Scalars['String']>;
   longitude?: Maybe<Scalars['Float']>;
   latitude?: Maybe<Scalars['Float']>;
   image?: Maybe<Scalars['String']>;
   endDateTime?: Maybe<Scalars['String']>;
   startDateTime?: Maybe<Scalars['String']>;
-  allDay?: Maybe<Scalars['Boolean']>;
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
@@ -390,12 +391,12 @@ export type MutationDeleteEventArgs = {
 
 
 export type MutationUpdateEventArgs = {
+  locationLabel?: Maybe<Scalars['String']>;
   longitude?: Maybe<Scalars['Float']>;
   latitude?: Maybe<Scalars['Float']>;
   image?: Maybe<Scalars['String']>;
   endDateTime?: Maybe<Scalars['String']>;
   startDateTime?: Maybe<Scalars['String']>;
-  allDay?: Maybe<Scalars['Boolean']>;
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   eventId: Scalars['ID'];
@@ -583,12 +584,12 @@ export type SendPasswordResetEmailMutation = (
 export type CreateEventMutationVariables = Exact<{
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
-  allDay?: Maybe<Scalars['Boolean']>;
   startDateTime?: Maybe<Scalars['String']>;
   endDateTime?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -697,12 +698,12 @@ export type UpdateEventMutationVariables = Exact<{
   eventId: Scalars['ID'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
-  allDay?: Maybe<Scalars['Boolean']>;
   startDateTime?: Maybe<Scalars['String']>;
   endDateTime?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1416,8 +1417,8 @@ export const SendPasswordResetEmailDocument = gql`
     
   }
 export const CreateEventDocument = gql`
-    mutation createEvent($name: String!, $description: String, $allDay: Boolean, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float) {
-  createEvent(name: $name, description: $description, allDay: $allDay, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude) {
+    mutation createEvent($name: String!, $description: String, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float, $locationLabel: String) {
+  createEvent(name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
     userId
     eventId
     user {
@@ -1599,8 +1600,8 @@ export const RsvpDocument = gql`
     
   }
 export const UpdateEventDocument = gql`
-    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $allDay: Boolean, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float) {
-  updateEvent(eventId: $eventId, name: $name, description: $description, allDay: $allDay, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude) {
+    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float, $locationLabel: String) {
+  updateEvent(eventId: $eventId, name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
     id
     createdBy {
       id
