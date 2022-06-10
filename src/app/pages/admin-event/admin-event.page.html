@@ -27,11 +27,11 @@
       </ion-item>
 
       <ion-item>
-        <ion-input readonly type="text" placeholder="Start Date & Time" [value]="startDateTime.value" (click)="toggleStartDateTimeModal()"></ion-input>
+        <ion-input readonly type="text" placeholder="Start Date & Time" [value]="startDateTime.value | amDateFormat:'ddd ll h:mm A'" (click)="toggleStartDateTimeModal()"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input readonly type="text" placeholder="End Date & Time" [value]="endDateTime.value" (click)="toggleEndDateTimeModal()"></ion-input>
+        <ion-input readonly type="text" placeholder="End Date & Time" [value]="endDateTime.value | amDateFormat:'ddd ll h:mm A'" (click)="toggleEndDateTimeModal()"></ion-input>
       </ion-item>
 
       <ion-modal
