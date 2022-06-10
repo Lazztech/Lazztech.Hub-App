@@ -30,9 +30,9 @@ export type Event = {
   id: Scalars['ID'];
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
-  /** string representation of unix timestamp */
+  /** ISO 8601 Date Time */
   startDateTime?: Maybe<Scalars['String']>;
-  /** string representation of unix timestamp */
+  /** ISO 8601 Date Time */
   endDateTime?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
@@ -159,6 +159,7 @@ export type Mutation = {
   createEvent: JoinUserEvent;
   rsvp: JoinUserEvent;
   inviteUserToEvent: JoinUserEvent;
+  deleteEvent: Scalars['Boolean'];
 };
 
 
@@ -381,6 +382,11 @@ export type MutationInviteUserToEventArgs = {
   eventId: Scalars['ID'];
 };
 
+
+export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
+};
+
 export type PageableOptions = {
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -585,6 +591,16 @@ export type CreateEventMutation = (
       & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
     )> }
   ) }
+);
+
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteEventMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteEvent'>
 );
 
 export type EventQueryVariables = Exact<{
@@ -1389,6 +1405,19 @@ export const CreateEventDocument = gql`
   })
   export class CreateEventGQL extends Apollo.Mutation<CreateEventMutation, CreateEventMutationVariables> {
     document = CreateEventDocument;
+    
+  }
+export const DeleteEventDocument = gql`
+    mutation deleteEvent($id: ID!) {
+  deleteEvent(id: $id)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteEventGQL extends Apollo.Mutation<DeleteEventMutation, DeleteEventMutationVariables> {
+    document = DeleteEventDocument;
     
   }
 export const EventDocument = gql`

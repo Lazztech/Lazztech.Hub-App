@@ -2,12 +2,12 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { EventGQL, EventQuery, Scalars } from 'src/generated/graphql';
+import { DeleteEventGQL, Event, EventGQL, EventQuery, Scalars } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-admin-event',
@@ -55,10 +55,12 @@ export class AdminEventPage implements OnInit, OnDestroy {
     private readonly logger: NGXLogger,
     private readonly route: ActivatedRoute,
     private readonly eventService: EventGQL,
+    private readonly deleteEventService: DeleteEventGQL,
     public routerOutlet: IonRouterOutlet,
     private changeRef: ChangeDetectorRef,
     private platform: Platform,
     private locationService: LocationService,
+    public readonly navCtrl: NavController,
   ) { }
 
   ngOnInit() {
@@ -160,7 +162,20 @@ export class AdminEventPage implements OnInit, OnDestroy {
     this.mapModalIsOpen = false;
   }
 
-  deleteHub() {}
+  async deleteEvent() {
+    if (confirm('Delete this event?')) {
+      await this.deleteEventService.mutate({
+        id: this.id
+      }, {
+        update: (cache, { data: { deleteEvent } }) => {
+          const normalizedId = cache.identify({id: this.id, __typename: 'Event', } as Event);
+          cache.evict({id: normalizedId});
+          cache.gc();
+         }
+      }).toPromise();
+      this.navCtrl.navigateRoot('/tabs/events');
+    }
+  }
 
   onSearchSelected(event: any) {
     this.mapSearchSelection = event;
