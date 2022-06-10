@@ -711,7 +711,7 @@ export type UpdateEventMutation = (
   { __typename?: 'Mutation' }
   & { updateEvent: (
     { __typename?: 'Event' }
-    & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+    & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
     & { createdBy?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
@@ -1620,6 +1620,7 @@ export const UpdateEventDocument = gql`
     endDateTime
     latitude
     longitude
+    locationLabel
     shareableId
     usersConnection {
       user {

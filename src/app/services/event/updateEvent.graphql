@@ -37,6 +37,7 @@ mutation updateEvent(
     endDateTime
     latitude
     longitude
+    locationLabel
     shareableId
     usersConnection {
       user {
