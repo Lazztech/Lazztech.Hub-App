@@ -633,7 +633,7 @@ export type EventQuery = (
       & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
     )>, event?: Maybe<(
       { __typename?: 'Event' }
-      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
       & { createdBy?: Maybe<(
         { __typename?: 'User' }
         & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
@@ -1499,6 +1499,7 @@ export const EventDocument = gql`
       endDateTime
       latitude
       longitude
+      locationLabel
       shareableId
       usersConnection {
         user {

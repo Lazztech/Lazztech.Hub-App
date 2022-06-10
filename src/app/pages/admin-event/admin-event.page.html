@@ -79,7 +79,7 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-input readonly type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleMapModal()"></ion-input>
+        <ion-input readonly type="text" placeholder="Location" [value]="location?.value?.label || location?.value?.locationLabel" (click)="toggleMapModal()"></ion-input>
       </ion-item>
 
 

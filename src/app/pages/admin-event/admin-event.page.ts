@@ -80,7 +80,11 @@ export class AdminEventPage implements OnInit, OnDestroy {
           eventDescription: [result?.data?.event?.event?.description],
           startDateTime: [result?.data?.event?.event?.startDateTime],
           endDateTime: [result?.data?.event?.event?.endDateTime],
-          location: [],
+          location: [{
+            latitude: result?.data?.event?.event?.latitude,
+            longitude: result?.data?.event?.event?.longitude,
+            locationLabel: result?.data?.event?.event?.locationLabel,
+          }],
         });
       }),
       this.locationService.coords$.subscribe(async x => {
@@ -104,6 +108,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
       endDateTime: this.endDateTime?.value,
       latitude: this.location?.value?.latitude,
       longitude: this.location?.value?.longitude,
+      locationLabel: this.location?.value?.label || this.location?.value?.locationLabel
     };
     if (this.image?.includes('base64')) {
       (inputValues as any).image = this.image;

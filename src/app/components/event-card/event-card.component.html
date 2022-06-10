@@ -7,6 +7,7 @@
     <ion-card-subtitle *ngIf="userEvent?.event?.createdBy">
       Created by {{userEvent?.event?.createdBy?.firstName}} {{userEvent?.event?.createdBy?.lastName}}
     </ion-card-subtitle>
+    <ion-text *ngIf="userEvent?.event?.locationLabel">{{userEvent?.event?.locationLabel}}</ion-text>
   </ion-card-header>
 
   <ion-card-content *ngIf="!showRsvp" (click)="goToEventPage()">
@@ -15,7 +16,7 @@
 
   <ion-card-content *ngIf="showRsvp">
     <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
-    <ion-text>{{userEvent?.event?.description}}</ion-text>
+    <ion-text *ngIf="userEvent?.event?.description">{{userEvent?.event?.description}}</ion-text>
   </ion-card-content>
 
   <ion-card-content *ngIf="showRsvp">

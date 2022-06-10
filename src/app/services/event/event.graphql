@@ -29,6 +29,7 @@ query event($id: ID!) {
       endDateTime
       latitude
       longitude
+      locationLabel
       shareableId
       usersConnection {
         user {
