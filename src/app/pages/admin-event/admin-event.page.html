@@ -15,7 +15,7 @@
 
 <ion-content fullscreen="true">
 
-  <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
+  <form *ngIf="this.myForm" [formGroup]="myForm" (ngSubmit)="save()" method="post">
     <ion-list>
 
       <ion-list-header class="ion-padding-bottom">
@@ -100,7 +100,7 @@
 
 </ion-content>
 
-<ion-footer translucent="true">
+<ion-footer *ngIf="myForm" translucent="true">
   <ion-toolbar>
     <ion-button [disabled]="myForm.invalid" (click)="save()" type="submit" expand="block">Save</ion-button>
   </ion-toolbar>

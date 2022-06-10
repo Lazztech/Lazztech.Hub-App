@@ -1,0 +1,57 @@
+mutation updateEvent(
+  $eventId: ID!
+  $name: String!
+  $description: String
+  $allDay: Boolean
+  $startDateTime: String
+  $endDateTime: String
+  $image: String
+  $latitude: Float
+  $longitude: Float
+) {
+  updateEvent(
+    eventId: $eventId
+    name: $name
+    description: $description
+    allDay: $allDay
+    startDateTime: $startDateTime
+    endDateTime: $endDateTime
+    image: $image
+    latitude: $latitude
+    longitude: $longitude
+  ) {
+    id
+    createdBy {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    name
+    image
+    description
+    startDateTime
+    endDateTime
+    latitude
+    longitude
+    shareableId
+    usersConnection {
+      user {
+        id
+        firstName
+        lastName
+        description
+        image
+        lastOnline
+        blocked
+      }
+      rsvp
+      lastGeofenceEvent
+      lastUpdated
+      isPresent
+    }
+  }
+}

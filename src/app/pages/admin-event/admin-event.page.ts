@@ -7,7 +7,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { DeleteEventGQL, Event, EventGQL, EventQuery, Scalars } from 'src/generated/graphql';
+import { DeleteEventGQL, Event, EventGQL, EventQuery, Scalars, UpdateEventGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-admin-event',
@@ -56,6 +56,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly eventService: EventGQL,
     private readonly deleteEventService: DeleteEventGQL,
+    private readonly updateEventService: UpdateEventGQL,
     public routerOutlet: IonRouterOutlet,
     private changeRef: ChangeDetectorRef,
     private platform: Platform,
@@ -71,6 +72,16 @@ export class AdminEventPage implements OnInit, OnDestroy {
         id: this.id,
       }).subscribe(result => {
         this.eventQueryResult = result;
+        this.image = result?.data?.event?.event?.image
+        this.myForm = this.fb.group({
+          eventName: [result?.data?.event?.event?.name, [
+            Validators.required
+          ]],
+          eventDescription: [result?.data?.event?.event?.description],
+          startDateTime: [result?.data?.event?.event?.startDateTime],
+          endDateTime: [result?.data?.event?.event?.endDateTime],
+          location: [],
+        });
       }),
       this.locationService.coords$.subscribe(async x => {
         await this.platform.ready();
@@ -78,23 +89,28 @@ export class AdminEventPage implements OnInit, OnDestroy {
         this.changeRef.detectChanges();
       })
     );
-
-    this.myForm = this.fb.group({
-      eventName: ['', [
-        Validators.required
-      ]],
-      eventDescription: [''],
-      startDateTime: [],
-      endDateTime: [],
-      location: [],
-    });
   }
   
   ngOnDestroy(): void {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
-  async save() {}
+  async save() {
+    const inputValues = {
+      eventId: this.id,
+      name: this.eventName.value,
+      description: this.eventDescription?.value,
+      startDateTime: this.startDateTime?.value,
+      endDateTime: this.endDateTime?.value,
+      latitude: this.location?.value?.latitude,
+      longitude: this.location?.value?.longitude,
+    };
+    if (this.image?.includes('base64')) {
+      (inputValues as any).image = this.image;
+    }
+    await this.updateEventService.mutate(inputValues).toPromise();
+    this.navCtrl.back();
+  }
 
   async takePicture() {
     const image = await this.cameraService.takePicture();

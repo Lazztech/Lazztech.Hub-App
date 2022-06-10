@@ -160,6 +160,7 @@ export type Mutation = {
   rsvp: JoinUserEvent;
   inviteUserToEvent: JoinUserEvent;
   deleteEvent: Scalars['Boolean'];
+  updateEvent: Event;
 };
 
 
@@ -385,6 +386,19 @@ export type MutationInviteUserToEventArgs = {
 
 export type MutationDeleteEventArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationUpdateEventArgs = {
+  longitude?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  image?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  allDay?: Maybe<Scalars['Boolean']>;
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  eventId: Scalars['ID'];
 };
 
 export type PageableOptions = {
@@ -676,6 +690,38 @@ export type RsvpMutation = (
   & { rsvp: (
     { __typename?: 'JoinUserEvent' }
     & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp'>
+  ) }
+);
+
+export type UpdateEventMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  allDay?: Maybe<Scalars['Boolean']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type UpdateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEvent: (
+    { __typename?: 'Event' }
+    & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+    & { createdBy?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, usersConnection?: Maybe<Array<(
+      { __typename?: 'JoinUserEvent' }
+      & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
+      & { user?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+      )> }
+    )>> }
   ) }
 );
 
@@ -1550,6 +1596,53 @@ export const RsvpDocument = gql`
   })
   export class RsvpGQL extends Apollo.Mutation<RsvpMutation, RsvpMutationVariables> {
     document = RsvpDocument;
+    
+  }
+export const UpdateEventDocument = gql`
+    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $allDay: Boolean, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float) {
+  updateEvent(eventId: $eventId, name: $name, description: $description, allDay: $allDay, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude) {
+    id
+    createdBy {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    name
+    image
+    description
+    startDateTime
+    endDateTime
+    latitude
+    longitude
+    shareableId
+    usersConnection {
+      user {
+        id
+        firstName
+        lastName
+        description
+        image
+        lastOnline
+        blocked
+      }
+      rsvp
+      lastGeofenceEvent
+      lastUpdated
+      isPresent
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateEventGQL extends Apollo.Mutation<UpdateEventMutation, UpdateEventMutationVariables> {
+    document = UpdateEventDocument;
     
   }
 export const UserEventsDocument = gql`
