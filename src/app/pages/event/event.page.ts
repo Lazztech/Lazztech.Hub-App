@@ -104,24 +104,24 @@ export class EventPage implements OnInit, OnDestroy {
           this.navCtrl.navigateForward('admin-event/' + this.id);
         }
       });
-    }
-
-    buttons.push(
-      {
-        text: 'Report as Inappropriate',
-        role: 'destructive',
-        handler: () => {
-          if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
-            this.loading = true;
-            this.reportEventAsInappropriateService.mutate({
-              eventId: this.id
-            }).toPromise().then(() => {
-              this.loading = false;
-              this.navCtrl.back();
-            });
+    } else {
+      buttons.push(
+        {
+          text: 'Report as Inappropriate',
+          role: 'destructive',
+          handler: () => {
+            if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
+              this.loading = true;
+              this.reportEventAsInappropriateService.mutate({
+                eventId: this.id
+              }).toPromise().then(() => {
+                this.loading = false;
+                this.navCtrl.back();
+              });
+            }
           }
-        }
-      });
+        });
+    }
 
     const actionSheet = await this.actionSheetController.create({
       header: 'Event Options',
