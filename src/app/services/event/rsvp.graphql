@@ -1,0 +1,7 @@
+mutation rsvp($eventId: ID!, $rsvp: String!) {
+  rsvp(eventId: $eventId, rsvp: $rsvp) {
+    userId
+    eventId
+    rsvp
+  }
+}

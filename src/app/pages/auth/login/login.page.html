@@ -33,17 +33,17 @@
     
     <br/>
 
-    <ion-button [disabled]="myForm.invalid" type="submit" expand="full" color="primary">Login</ion-button>
+    <ion-button [disabled]="myForm.invalid" type="submit" expand="block" color="primary">Login</ion-button>
   </form>
   <p class="ion-text-center">Don't have a account?</p>
-  <ion-button expand="full" color="danger" (click)="registerModal()">Register</ion-button>
+  <ion-button expand="block" color="danger" (click)="registerModal()">Register</ion-button>
 </ion-content>
 
-<ion-footer>
+<ion-footer translucent="true">
   <ion-toolbar>
       <ion-row>
         <ion-col>
-          <ion-button expand="full" color="secondary" (click)="resetModal()">Reset Password</ion-button>  
+          <ion-button expand="block" color="secondary" (click)="resetModal()">Reset Password</ion-button>  
         </ion-col>
       </ion-row>
   </ion-toolbar>

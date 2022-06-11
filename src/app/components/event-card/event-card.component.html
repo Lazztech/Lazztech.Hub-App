@@ -1,0 +1,38 @@
+<ion-card>
+  <ion-img *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent.event.image}}"></ion-img>
+  <ion-card-header (click)="goToEventPage()">
+    <ion-card-subtitle>Starts {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
+    <ion-card-subtitle *ngIf="userEvent?.event?.endDateTime">Ends {{userEvent?.event?.endDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
+
+    <ion-card-subtitle *ngIf="userEvent?.event?.createdBy">
+      Created by {{userEvent?.event?.createdBy?.firstName}} {{userEvent?.event?.createdBy?.lastName}}
+    </ion-card-subtitle>
+    <ion-text *ngIf="userEvent?.event?.locationLabel">{{userEvent?.event?.locationLabel}}</ion-text>
+  </ion-card-header>
+
+  <ion-card-content *ngIf="!showRsvp" (click)="goToEventPage()">
+    <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
+  </ion-card-content>
+
+  <ion-card-content *ngIf="showRsvp">
+    <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
+    <ion-text *ngIf="userEvent?.event?.description">{{userEvent?.event?.description}}</ion-text>
+  </ion-card-content>
+
+  <ion-card-content *ngIf="showRsvp">
+    <ion-segment value="{{userEvent?.rsvp}}" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="going">
+        <ion-label>Going</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="maybe">
+        <ion-label>Maybe</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="cantgo">
+        <ion-label>Can't Go</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-card-content>
+  <div *ngIf="includeMap && userEvent?.event?.latitude && userEvent?.event?.longitude" style="height: 90px;">
+    <app-leaflet-map [center]="userEvent?.event"></app-leaflet-map>
+  </div>
+</ion-card>

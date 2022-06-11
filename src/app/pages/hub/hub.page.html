@@ -30,14 +30,14 @@
     <ion-row>
 
       <ion-col [appFeatureFlag]="'uberRequestRide'" class="ion-padding-start">
-        <ion-button color="primary" expand="full" (click)="requestRide(userHub)">
+        <ion-button color="primary" expand="block" (click)="requestRide(userHub)">
           Ride with
           <ion-icon style="font-size: 64px;" src="/assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
         </ion-button>
       </ion-col>
 
       <ion-col class="ion-padding-start ion-padding-end">
-        <ion-button color="primary" expand="full" color="danger" (click)="navigate()">
+        <ion-button color="primary" expand="block" color="danger" (click)="navigate(userHub)">
           Navigate
           <ion-icon class="ion-padding-start" size="large" name="map"></ion-icon>
         </ion-button>

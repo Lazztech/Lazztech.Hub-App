@@ -1,0 +1,3 @@
+mutation reportEventAsInappropriate($eventId: ID!) {
+  reportEventAsInappropriate(eventId: $eventId)
+}

@@ -1,0 +1,23 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>Events</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+
+  <ion-list>
+    <div *ngFor="let userEvent of sortedEvents">
+      <app-event-card
+        [userEvent]="userEvent"
+      ></app-event-card>
+    </div>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="goToCreateEventPage()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

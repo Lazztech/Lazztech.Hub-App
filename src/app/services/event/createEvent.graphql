@@ -1,0 +1,46 @@
+mutation createEvent(
+  $name: String!
+  $description: String
+  $startDateTime: String
+  $endDateTime: String
+  $image: String
+  $latitude: Float
+  $longitude: Float
+  $locationLabel: String
+) {
+  createEvent(
+    name: $name
+    description: $description
+    startDateTime: $startDateTime
+    endDateTime: $endDateTime
+    image: $image
+    latitude: $latitude
+    longitude: $longitude
+    locationLabel: $locationLabel
+  ) {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}

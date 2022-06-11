@@ -15,20 +15,20 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-<ion-footer>
+<ion-footer translucent="true">
   <ion-toolbar>
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-button expand="full" color="primary" (click)="login()">Login</ion-button>
+          <ion-button expand="block" color="primary" (click)="login()">Login</ion-button>
         </ion-col>
         <ion-col>
-          <ion-button expand="full" color="danger" (click)="register()">Register</ion-button>
+          <ion-button expand="block" color="danger" (click)="register()">Register</ion-button>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="full" color="primary" (click)="triggerBioAuth()">
+          <ion-button expand="block" color="primary" (click)="triggerBioAuth()">
             Trigger Biometric Unlock
             <ion-icon name="finger-print-outline" class="ion-padding-start"></ion-icon>
           </ion-button>

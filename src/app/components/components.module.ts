@@ -15,6 +15,8 @@ import { DirectivesModule } from '../directives/directives.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { MomentModule } from 'ngx-moment';
+import { EventCardComponent } from './event-card/event-card.component';
+import { InviteComponent } from './invite/invite.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +27,9 @@ import { MomentModule } from 'ngx-moment';
         MicroChatAddPage,
         HubProfileComponent,
         BarChartComponent,
-        LeafletMapComponent
+        LeafletMapComponent,
+        EventCardComponent,
+        InviteComponent,
     ],
     imports: [
         IonicModule,
@@ -35,7 +39,7 @@ import { MomentModule } from 'ngx-moment';
         ChartsModule,
         DirectivesModule,
         PipesModule,
-        MomentModule
+        MomentModule,
     ],
     exports: [
         HubCardComponent,
@@ -44,7 +48,9 @@ import { MomentModule } from 'ngx-moment';
         MicroChatComponent,
         HubProfileComponent,
         BarChartComponent,
-        LeafletMapComponent
+        LeafletMapComponent,
+        EventCardComponent,
+        InviteComponent
     ]
 })
 export class ComponentsModule {

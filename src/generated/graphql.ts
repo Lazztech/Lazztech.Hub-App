@@ -24,6 +24,24 @@ export type Block = {
   to: User;
 };
 
+export type Event = {
+  __typename?: 'Event';
+  shareableId: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  /** ISO 8601 Date Time */
+  startDateTime?: Maybe<Scalars['String']>;
+  /** ISO 8601 Date Time */
+  endDateTime?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
+  createdBy?: Maybe<User>;
+  image?: Maybe<Scalars['String']>;
+  usersConnection?: Maybe<Array<JoinUserEvent>>;
+};
+
 export type Hub = {
   __typename?: 'Hub';
   shareableId: Scalars['String'];
@@ -60,6 +78,21 @@ export type Invite = {
   inviter?: Maybe<User>;
   invitee?: Maybe<User>;
   hub?: Maybe<Hub>;
+};
+
+export type JoinUserEvent = {
+  __typename?: 'JoinUserEvent';
+  /** going or maybe or cantgo */
+  rsvp?: Maybe<Scalars['String']>;
+  /** last update event for presence */
+  lastGeofenceEvent?: Maybe<Scalars['String']>;
+  /** unix timestamp for the last time the presence state was updated */
+  lastUpdated?: Maybe<Scalars['String']>;
+  userId: Scalars['ID'];
+  eventId: Scalars['ID'];
+  isPresent?: Maybe<Scalars['Boolean']>;
+  user?: Maybe<User>;
+  event?: Maybe<Event>;
 };
 
 export type JoinUserHub = {
@@ -123,6 +156,12 @@ export type Mutation = {
   deleteAccount: Scalars['Boolean'];
   reportHubAsInappropriate: Scalars['Boolean'];
   reportUserAsInappropriate: Scalars['Boolean'];
+  reportEventAsInappropriate: Scalars['Boolean'];
+  createEvent: JoinUserEvent;
+  rsvp: JoinUserEvent;
+  inviteUserToEvent: JoinUserEvent;
+  deleteEvent: Scalars['Boolean'];
+  updateEvent: Event;
 };
 
 
@@ -316,6 +355,53 @@ export type MutationReportUserAsInappropriateArgs = {
   toUserId: Scalars['ID'];
 };
 
+
+export type MutationReportEventAsInappropriateArgs = {
+  eventId: Scalars['ID'];
+};
+
+
+export type MutationCreateEventArgs = {
+  locationLabel?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  image?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+
+export type MutationRsvpArgs = {
+  rsvp: Scalars['String'];
+  eventId: Scalars['ID'];
+};
+
+
+export type MutationInviteUserToEventArgs = {
+  inviteesEmail: Scalars['String'];
+  eventId: Scalars['ID'];
+};
+
+
+export type MutationDeleteEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateEventArgs = {
+  locationLabel?: Maybe<Scalars['String']>;
+  longitude?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']>;
+  image?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  eventId: Scalars['ID'];
+};
+
 export type PageableOptions = {
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
@@ -343,6 +429,8 @@ export type Query = {
   ownedHubs: Array<Hub>;
   memberOfHubs: Array<Hub>;
   me?: Maybe<User>;
+  event: JoinUserEvent;
+  usersEvents: Array<JoinUserEvent>;
 };
 
 
@@ -379,6 +467,11 @@ export type QueryInvitesByUserArgs = {
 
 export type QuerySearchHubByNameArgs = {
   search: Scalars['String'];
+};
+
+
+export type QueryEventArgs = {
+  id: Scalars['ID'];
 };
 
 export type SortOptions = {
@@ -486,6 +579,169 @@ export type SendPasswordResetEmailMutationVariables = Exact<{
 export type SendPasswordResetEmailMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'sendPasswordResetEmail'>
+);
+
+export type CreateEventMutationVariables = Exact<{
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
+}>;
+
+
+export type CreateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { createEvent: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+    )> }
+  ) }
+);
+
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteEventMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteEvent'>
+);
+
+export type EventQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type EventQuery = (
+  { __typename?: 'Query' }
+  & { event: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
+      & { createdBy?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+      )>, usersConnection?: Maybe<Array<(
+        { __typename?: 'JoinUserEvent' }
+        & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
+        & { user?: Maybe<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+        )> }
+      )>> }
+    )> }
+  ) }
+);
+
+export type InviteUserToEventMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  inviteesEmail: Scalars['String'];
+}>;
+
+
+export type InviteUserToEventMutation = (
+  { __typename?: 'Mutation' }
+  & { inviteUserToEvent: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+    )> }
+  ) }
+);
+
+export type ReportEventAsInappropriateMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+}>;
+
+
+export type ReportEventAsInappropriateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reportEventAsInappropriate'>
+);
+
+export type RsvpMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  rsvp: Scalars['String'];
+}>;
+
+
+export type RsvpMutation = (
+  { __typename?: 'Mutation' }
+  & { rsvp: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp'>
+  ) }
+);
+
+export type UpdateEventMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEvent: (
+    { __typename?: 'Event' }
+    & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
+    & { createdBy?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, usersConnection?: Maybe<Array<(
+      { __typename?: 'JoinUserEvent' }
+      & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
+      & { user?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+      )> }
+    )>> }
+  ) }
+);
+
+export type UserEventsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserEventsQuery = (
+  { __typename?: 'Query' }
+  & { usersEvents: Array<(
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+    )> }
+  )> }
 );
 
 export type AcceptHubInviteMutationVariables = Exact<{
@@ -1158,6 +1414,277 @@ export const SendPasswordResetEmailDocument = gql`
   })
   export class SendPasswordResetEmailGQL extends Apollo.Mutation<SendPasswordResetEmailMutation, SendPasswordResetEmailMutationVariables> {
     document = SendPasswordResetEmailDocument;
+    
+  }
+export const CreateEventDocument = gql`
+    mutation createEvent($name: String!, $description: String, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float, $locationLabel: String) {
+  createEvent(name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateEventGQL extends Apollo.Mutation<CreateEventMutation, CreateEventMutationVariables> {
+    document = CreateEventDocument;
+    
+  }
+export const DeleteEventDocument = gql`
+    mutation deleteEvent($id: ID!) {
+  deleteEvent(id: $id)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteEventGQL extends Apollo.Mutation<DeleteEventMutation, DeleteEventMutationVariables> {
+    document = DeleteEventDocument;
+    
+  }
+export const EventDocument = gql`
+    query event($id: ID!) {
+  event(id: $id) {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      createdBy {
+        id
+        firstName
+        lastName
+        description
+        image
+        email
+        shareableId
+      }
+      name
+      image
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      locationLabel
+      shareableId
+      usersConnection {
+        user {
+          id
+          firstName
+          lastName
+          description
+          image
+          lastOnline
+          blocked
+        }
+        rsvp
+        lastGeofenceEvent
+        lastUpdated
+        isPresent
+      }
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+    isPresent
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EventGQL extends Apollo.Query<EventQuery, EventQueryVariables> {
+    document = EventDocument;
+    
+  }
+export const InviteUserToEventDocument = gql`
+    mutation inviteUserToEvent($eventId: ID!, $inviteesEmail: String!) {
+  inviteUserToEvent(eventId: $eventId, inviteesEmail: $inviteesEmail) {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class InviteUserToEventGQL extends Apollo.Mutation<InviteUserToEventMutation, InviteUserToEventMutationVariables> {
+    document = InviteUserToEventDocument;
+    
+  }
+export const ReportEventAsInappropriateDocument = gql`
+    mutation reportEventAsInappropriate($eventId: ID!) {
+  reportEventAsInappropriate(eventId: $eventId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportEventAsInappropriateGQL extends Apollo.Mutation<ReportEventAsInappropriateMutation, ReportEventAsInappropriateMutationVariables> {
+    document = ReportEventAsInappropriateDocument;
+    
+  }
+export const RsvpDocument = gql`
+    mutation rsvp($eventId: ID!, $rsvp: String!) {
+  rsvp(eventId: $eventId, rsvp: $rsvp) {
+    userId
+    eventId
+    rsvp
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RsvpGQL extends Apollo.Mutation<RsvpMutation, RsvpMutationVariables> {
+    document = RsvpDocument;
+    
+  }
+export const UpdateEventDocument = gql`
+    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float, $locationLabel: String) {
+  updateEvent(eventId: $eventId, name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    id
+    createdBy {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    name
+    image
+    description
+    startDateTime
+    endDateTime
+    latitude
+    longitude
+    locationLabel
+    shareableId
+    usersConnection {
+      user {
+        id
+        firstName
+        lastName
+        description
+        image
+        lastOnline
+        blocked
+      }
+      rsvp
+      lastGeofenceEvent
+      lastUpdated
+      isPresent
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateEventGQL extends Apollo.Mutation<UpdateEventMutation, UpdateEventMutationVariables> {
+    document = UpdateEventDocument;
+    
+  }
+export const UserEventsDocument = gql`
+    query userEvents {
+  usersEvents {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      name
+      image
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserEventsGQL extends Apollo.Query<UserEventsQuery, UserEventsQueryVariables> {
+    document = UserEventsDocument;
     
   }
 export const AcceptHubInviteDocument = gql`

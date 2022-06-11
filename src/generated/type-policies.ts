@@ -1,6 +1,6 @@
 /* tslint:disable */
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
-export type QueryKeySpecifier = ('getInAppNotifications' | 'paginatedInAppNotifications' | 'hub' | 'usersHubs' | 'commonUsersHubs' | 'invitesByHub' | 'invite' | 'invitesByUser' | 'usersPeople' | 'searchHubByName' | 'ownedHubs' | 'memberOfHubs' | 'me' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('getInAppNotifications' | 'paginatedInAppNotifications' | 'hub' | 'usersHubs' | 'commonUsersHubs' | 'invitesByHub' | 'invite' | 'invitesByUser' | 'usersPeople' | 'searchHubByName' | 'ownedHubs' | 'memberOfHubs' | 'me' | 'event' | 'usersEvents' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	getInAppNotifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	paginatedInAppNotifications?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -14,7 +14,9 @@ export type QueryFieldPolicy = {
 	searchHubByName?: FieldPolicy<any> | FieldReadFunction<any>,
 	ownedHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberOfHubs?: FieldPolicy<any> | FieldReadFunction<any>,
-	me?: FieldPolicy<any> | FieldReadFunction<any>
+	me?: FieldPolicy<any> | FieldReadFunction<any>,
+	event?: FieldPolicy<any> | FieldReadFunction<any>,
+	usersEvents?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type InAppNotificationKeySpecifier = ('id' | 'header' | 'text' | 'date' | 'actionLink' | 'userId' | 'thumbnail' | InAppNotificationKeySpecifier)[];
 export type InAppNotificationFieldPolicy = {
@@ -101,7 +103,33 @@ export type InviteFieldPolicy = {
 	invitee?: FieldPolicy<any> | FieldReadFunction<any>,
 	hub?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('addUserFcmNotificationToken' | 'deleteInAppNotification' | 'deleteAllInAppNotifications' | 'createHub' | 'inviteUserToHub' | 'acceptHubInvite' | 'deleteInvite' | 'leaveHub' | 'deleteHub' | 'editHub' | 'changeHubLocation' | 'changeHubImage' | 'setHubStarred' | 'setHubNotStarred' | 'enteredHubGeofence' | 'dwellHubGeofence' | 'exitedHubGeofence' | 'activateHub' | 'deactivateHub' | 'microChatToHub' | 'createMicroChat' | 'deleteMicroChat' | 'editUserDetails' | 'changeEmail' | 'changeUserImage' | 'blockUser' | 'unblockUser' | 'login' | 'register' | 'logout' | 'resetPassword' | 'sendPasswordResetEmail' | 'changePassword' | 'deleteAccount' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | MutationKeySpecifier)[];
+export type JoinUserEventKeySpecifier = ('rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'userId' | 'eventId' | 'isPresent' | 'user' | 'event' | JoinUserEventKeySpecifier)[];
+export type JoinUserEventFieldPolicy = {
+	rsvp?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastGeofenceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	lastUpdated?: FieldPolicy<any> | FieldReadFunction<any>,
+	userId?: FieldPolicy<any> | FieldReadFunction<any>,
+	eventId?: FieldPolicy<any> | FieldReadFunction<any>,
+	isPresent?: FieldPolicy<any> | FieldReadFunction<any>,
+	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	event?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EventKeySpecifier = ('shareableId' | 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'createdBy' | 'image' | 'usersConnection' | EventKeySpecifier)[];
+export type EventFieldPolicy = {
+	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	startDateTime?: FieldPolicy<any> | FieldReadFunction<any>,
+	endDateTime?: FieldPolicy<any> | FieldReadFunction<any>,
+	latitude?: FieldPolicy<any> | FieldReadFunction<any>,
+	longitude?: FieldPolicy<any> | FieldReadFunction<any>,
+	locationLabel?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdBy?: FieldPolicy<any> | FieldReadFunction<any>,
+	image?: FieldPolicy<any> | FieldReadFunction<any>,
+	usersConnection?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type MutationKeySpecifier = ('addUserFcmNotificationToken' | 'deleteInAppNotification' | 'deleteAllInAppNotifications' | 'createHub' | 'inviteUserToHub' | 'acceptHubInvite' | 'deleteInvite' | 'leaveHub' | 'deleteHub' | 'editHub' | 'changeHubLocation' | 'changeHubImage' | 'setHubStarred' | 'setHubNotStarred' | 'enteredHubGeofence' | 'dwellHubGeofence' | 'exitedHubGeofence' | 'activateHub' | 'deactivateHub' | 'microChatToHub' | 'createMicroChat' | 'deleteMicroChat' | 'editUserDetails' | 'changeEmail' | 'changeUserImage' | 'blockUser' | 'unblockUser' | 'login' | 'register' | 'logout' | 'resetPassword' | 'sendPasswordResetEmail' | 'changePassword' | 'deleteAccount' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'reportEventAsInappropriate' | 'createEvent' | 'rsvp' | 'inviteUserToEvent' | 'deleteEvent' | 'updateEvent' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	addUserFcmNotificationToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteInAppNotification?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -138,7 +166,13 @@ export type MutationFieldPolicy = {
 	changePassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>,
 	reportHubAsInappropriate?: FieldPolicy<any> | FieldReadFunction<any>,
-	reportUserAsInappropriate?: FieldPolicy<any> | FieldReadFunction<any>
+	reportUserAsInappropriate?: FieldPolicy<any> | FieldReadFunction<any>,
+	reportEventAsInappropriate?: FieldPolicy<any> | FieldReadFunction<any>,
+	createEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	rsvp?: FieldPolicy<any> | FieldReadFunction<any>,
+	inviteUserToEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateEvent?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type StrictTypedTypePolicies = {
 	Query?: Omit<TypePolicy, "fields" | "keyFields"> & {
@@ -180,6 +214,14 @@ export type StrictTypedTypePolicies = {
 	Invite?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | InviteKeySpecifier | (() => undefined | InviteKeySpecifier),
 		fields?: InviteFieldPolicy,
+	},
+	JoinUserEvent?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | JoinUserEventKeySpecifier | (() => undefined | JoinUserEventKeySpecifier),
+		fields?: JoinUserEventFieldPolicy,
+	},
+	Event?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EventKeySpecifier | (() => undefined | EventKeySpecifier),
+		fields?: EventFieldPolicy,
 	},
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),
