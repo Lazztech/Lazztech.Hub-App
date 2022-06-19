@@ -17,6 +17,9 @@
   
       <ion-item>
         <ion-input type="text" formControlName="eventName" placeholder="Event name"></ion-input>
+        <ion-label>
+          <ion-text *ngIf="eventName.invalid" color="danger">*</ion-text>
+        </ion-label>
       </ion-item>
 
       <ion-item>

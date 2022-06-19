@@ -29,6 +29,10 @@ export class AddHubPage implements OnInit, OnDestroy {
   } as Hub;
   persons: Observable<UsersPeopleQuery['usersPeople']>;
   subscriptions: Subscription[] = [];
+  image: any;
+  mapModalIsOpen: boolean = false;
+  yourLocation: { latitude: number, longitude: number };
+  mapSearchSelection: { latitude: number, longitude: number, label: string };
 
   locationSubscription: Subscription;
   coords: { latitude: number, longitude: number };
@@ -39,6 +43,10 @@ export class AddHubPage implements OnInit, OnDestroy {
 
   get hubDescription() {
     return this.myForm.get('hubDescription');
+  }
+
+  get location() {
+    return this.myForm.get('location');
   }
 
   constructor(
@@ -60,7 +68,8 @@ export class AddHubPage implements OnInit, OnDestroy {
       ]],
       hubDescription: ['', [
         Validators.required
-      ]]
+      ]],
+      location: [],
     });
 
     this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x.data && x.data.usersPeople));
@@ -200,6 +209,10 @@ export class AddHubPage implements OnInit, OnDestroy {
     if (this.locationSubscription) {
       this.locationSubscription.unsubscribe();
     }
+  }
+
+  toggleMapModal() {
+    this.mapModalIsOpen = !this.mapModalIsOpen;
   }
 
 }
