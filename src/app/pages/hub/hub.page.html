@@ -227,3 +227,35 @@
     </ion-button>
   </ion-toolbar>
 </ion-footer>
+
+<ion-modal
+[isOpen]="inviteModalIsOpen"
+[swipeToClose]="true"
+[presentingElement]="routerOutlet.nativeEl"
+(didDismiss)="didDismissInviteModal()"
+>
+<ng-template>
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Invite</ion-title>
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen="true">
+  <app-invite
+   [inviteType]="'hub'"
+   [id]="id"
+   [persons]="notYetInvitedPeople"
+  ></app-invite>
+</ion-content>
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-button expand="block" (click)="sendInvites()">Send
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+</ng-template>
+</ion-modal>
