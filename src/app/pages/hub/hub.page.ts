@@ -165,4 +165,6 @@ export class HubPage implements OnInit, OnDestroy {
     }
   }
 
+  toggleInviteModal() {}
+
 }

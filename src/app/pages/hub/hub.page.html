@@ -220,3 +220,10 @@
   </div>
 
 </ion-content>
+
+<ion-footer translucent="true" *ngIf="userHub?.isOwner">
+  <ion-toolbar>
+    <ion-button (click)="toggleInviteModal()" type="submit" expand="block">Invite
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
