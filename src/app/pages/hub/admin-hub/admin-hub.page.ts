@@ -2,12 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery } from 'src/generated/graphql';
+import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { NavController, ActionSheetController } from '@ionic/angular';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ApolloQueryResult } from '@apollo/client/core';
 
 @Component({
   selector: 'app-admin-hub',
@@ -17,8 +18,8 @@ import { map } from 'rxjs/operators';
 export class AdminHubPage implements OnInit, OnDestroy {
 
   loading = true;
-  userHub: Observable<HubQuery['hub']>;
-  invites: Observable<InvitesByHubQuery['invitesByHub']>;
+  invites: ApolloQueryResult<InvitesByHubQuery>;
+  userHub: ApolloQueryResult<HubQuery>;
   subscriptions: Subscription[] = [];
   id: Scalars['ID'];
 
@@ -43,25 +44,38 @@ export class AdminHubPage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     private navCtrl: NavController,
     private actionSheetController: ActionSheetController,
-    private cameraService: CameraService
+    private cameraService: CameraService,
+    private readonly hubGqlService: HubGQL,
+    private readonly inviteByHubService: InvitesByHubGQL,
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
 
-    this.loadHub();
-
-    this.myForm = this.fb.group({
-      hubName: ['', [
-        Validators.required,
-        Validators.maxLength(25)
-      ]],
-      hubDescription: ['', [
-        Validators.required,
-        Validators.maxLength(25)
-      ]],
-      location: [],
-    });
+    this.subscriptions.push(
+      this.hubGqlService.fetch({ id: this.id }).subscribe(x => {
+        this.userHub = x;
+        this.loading = x.loading;
+        this.myForm = this.fb.group({
+          hubName: [x?.data?.hub?.hub?.name, [
+            Validators.required,
+            Validators.maxLength(25)
+          ]],
+          hubDescription: [x?.data?.hub?.hub?.description, [
+            Validators.maxLength(25)
+          ]],
+          location: [{
+            latitude: x?.data?.hub?.hub?.latitude,
+            longitude: x?.data?.hub?.hub?.longitude,
+            locationLabel: x?.data?.hub?.hub?.locationLabel,
+          }],
+        });
+      }),
+      this.inviteByHubService.fetch({ hubId: this.id }).subscribe(y => {
+        this.invites = y;
+        this.loading = y.loading;
+      })
+    );
   }
 
   ngOnDestroy(): void {
@@ -70,28 +84,6 @@ export class AdminHubPage implements OnInit, OnDestroy {
 
   trackByUser(index: any, joinUserHub: JoinUserHub) {
     return joinUserHub.userId;
-  }
-
-  loadHub() {
-    this.userHub = this.hubService.watchHub(this.id).valueChanges.pipe(
-      map(x => x.data && x.data.hub)
-    );
-
-    this.subscriptions.push(
-      this.hubService.watchHub(this.id).valueChanges.subscribe(x => {
-        this.loading = x.loading;
-      })
-    );
-
-    this.invites = this.hubService.watchInvitesByHub(this.id, false).valueChanges.pipe(
-      map(x => x.data && x.data.invitesByHub)
-    );
-
-    this.subscriptions.push(
-      this.hubService.watchInvitesByHub(this.id, false).valueChanges.subscribe(x => {
-        this.loading = x.loading;
-      })
-    );
   }
 
   async save() {
