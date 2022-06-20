@@ -8,14 +8,6 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-  <!-- <app-hub-card *ngIf="coords"
-    [hub]="hub" 
-    [coords]="coords" 
-    [isOwner]="true" 
-    [showDescription]="true" 
-    [includeMap]="true"
-  ></app-hub-card> -->
-
   <form [formGroup]="myForm" (ngSubmit)="saveHub()" method="post">
     <ion-list>
       <ion-list-header class="ion-padding-bottom">
@@ -63,3 +55,40 @@
     </ion-button>
   </ion-toolbar>
 </ion-footer>
+
+<ion-modal
+[isOpen]="mapModalIsOpen"
+[swipeToClose]="true"
+[presentingElement]="routerOutlet.nativeEl"
+(didDismiss)="didDismissMapModal()"
+>
+<ng-template>
+  <ion-header translucent="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Map</ion-title>
+      <ion-progress-bar *ngIf="loading || !yourLocation" type="indeterminate"></ion-progress-bar>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content fullscreen="true">
+    <app-leaflet-map
+      *ngIf="yourLocation"
+      [center]="mapSearchSelection || yourLocation" 
+      [locations]="[mapSearchSelection]"
+      [yourLocation]="yourLocation"
+      [navOnMarker]="true" 
+      [showControls]="true"
+      [enableSearch]="true"
+      (searchSelected)="onSearchSelected($event)"
+      (loading)="onMapLoading($event)"
+    ></app-leaflet-map>
+</ion-content>
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-button [disabled]="!mapSearchSelection" (click)="selectLocation()" type="submit" expand="block" color="primary">Select Location</ion-button>
+  </ion-toolbar>
+</ion-footer>
+</ng-template>
+</ion-modal>

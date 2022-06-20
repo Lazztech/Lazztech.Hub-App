@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController, ActionSheetController } from '@ionic/angular';
+import { NavController, ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -34,9 +34,6 @@ export class AddHubPage implements OnInit, OnDestroy {
   yourLocation: { latitude: number, longitude: number };
   mapSearchSelection: { latitude: number, longitude: number, label: string };
 
-  locationSubscription: Subscription;
-  coords: { latitude: number, longitude: number };
-
   get hubName() {
     return this.myForm.get('hubName');
   }
@@ -59,6 +56,9 @@ export class AddHubPage implements OnInit, OnDestroy {
     private cameraService: CameraService,
     private logger: NGXLogger,
     private actionSheetController: ActionSheetController,
+    public routerOutlet: IonRouterOutlet,
+    private platform: Platform,
+    private changeRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -78,39 +78,29 @@ export class AddHubPage implements OnInit, OnDestroy {
       this.hubService.watchUsersPeople().valueChanges.subscribe(x => {
         this.logger.log('loading: ', x.loading);
         this.loading = x.loading;
+      }),
+      this.locationService.coords$.subscribe(async x => {
+        await this.platform.ready();
+        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
+        this.changeRef.detectChanges();
       })
     );
   }
 
-  async ionViewDidEnter() {
-    // FIXME this should be refactored into the HubService to avoid repeating code
-    this.coords = await this.locationService.coords$.pipe(take(1)).toPromise();
-    this.hub.latitude = this.coords.latitude;
-    this.hub.longitude = this.coords.longitude;
-    this.loading = false;
+  async ngOnDestroy() {
+    this.subscriptions.forEach(x => x.unsubscribe());
   }
 
   async takePicture() {
     const image = await this.cameraService.takePicture();
-    this.hub.image = image;
+    this.image = image;
   }
 
   async selectPicture() {
     const image = await this.cameraService.selectPicture();
-    this.hub.image = image;
+    this.image = image;
   }
 
-  isFree() {
-    if (this.paid) {
-      this.paid = false;
-    }
-  }
-
-  isPaid() {
-    if (!this.paid) {
-      this.paid = true;
-    }
-  }
   checkboxChanged(person) {
     const invitee = { name: person.firstName, email: person.email };
     if (this.invites.filter(x => x.email === invitee.email).length){
@@ -120,6 +110,7 @@ export class AddHubPage implements OnInit, OnDestroy {
       this.invites.push(invitee);
     }
   }
+
   async sendInvites(hubId: string): Promise<string> {
     let invited = '';
     await Promise.all(
@@ -138,13 +129,13 @@ export class AddHubPage implements OnInit, OnDestroy {
   async saveHub() {
     this.loading = true;
     const formValue = this.myForm.value;
-    this.logger.log(this.coords);
+    
     const result = await this.hubService.createHub(
       this.hubName.value,
       this.hubDescription.value,
-      this.hub.image,
-      this.coords.latitude,
-      this.coords.longitude
+      this.image,
+      this.location?.value?.latitude || this.yourLocation.latitude,
+      this.location?.value?.longitude || this.yourLocation.longitude
     );
     if (result) {
       await this.geofenceService.addGeofence({
@@ -152,21 +143,12 @@ export class AddHubPage implements OnInit, OnDestroy {
           id: result.hub.id,
           name: result.hub.name
         }),
-        latitude: this.coords.latitude,
-        longitude: this.coords.longitude,
+        latitude: result.hub.latitude,
+        longitude: result.hub.longitude,
         notifyOnEntry: true,
         notifyOnExit: true
       });
-      const invited = await this.sendInvites(result.hubId);
-      this.loading = false;
-      if (invited !== '') {
-        await this.alertService.presentToast(`${invited.slice(0, invited.length - 2)} have been sucessfully invited`, 6000);
-        await this.alertService.presentToast('Created Hub!', 3000);
-      }
-      if (this.allInvitesSucces){
-        await this.navCtrl.navigateRoot('/tabs');
-        await this.navCtrl.navigateForward(`/admin-hub/${result.hub.id}`);
-        }
+      await this.navCtrl.navigateForward(`/hub/${result.hub.id}`);
     } else {
       this.loading = false;
       this.alertService.presentRedToast('Failed to create Hub.');
@@ -205,14 +187,23 @@ export class AddHubPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
 
-  async ngOnDestroy() {
-    if (this.locationSubscription) {
-      this.locationSubscription.unsubscribe();
-    }
-  }
-
   toggleMapModal() {
     this.mapModalIsOpen = !this.mapModalIsOpen;
+  }
+
+  didDismissMapModal() {
+    this.mapModalIsOpen = false;
+  }
+
+  onSearchSelected(event: any) {
+    this.mapSearchSelection = event;
+  }
+
+  selectLocation() {
+    this.myForm.patchValue({
+      location: this.mapSearchSelection
+    });
+    this.mapModalIsOpen = false;
   }
 
 }
