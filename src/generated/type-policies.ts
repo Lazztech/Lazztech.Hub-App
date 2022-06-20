@@ -71,7 +71,7 @@ export type BlockFieldPolicy = {
 	from?: FieldPolicy<any> | FieldReadFunction<any>,
 	to?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type HubKeySpecifier = ('shareableId' | 'id' | 'name' | 'description' | 'active' | 'latitude' | 'longitude' | 'image' | 'usersConnection' | 'microChats' | 'invites' | HubKeySpecifier)[];
+export type HubKeySpecifier = ('shareableId' | 'id' | 'name' | 'description' | 'active' | 'latitude' | 'longitude' | 'locationLabel' | 'image' | 'usersConnection' | 'microChats' | 'invites' | HubKeySpecifier)[];
 export type HubFieldPolicy = {
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -80,6 +80,7 @@ export type HubFieldPolicy = {
 	active?: FieldPolicy<any> | FieldReadFunction<any>,
 	latitude?: FieldPolicy<any> | FieldReadFunction<any>,
 	longitude?: FieldPolicy<any> | FieldReadFunction<any>,
+	locationLabel?: FieldPolicy<any> | FieldReadFunction<any>,
 	image?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersConnection?: FieldPolicy<any> | FieldReadFunction<any>,
 	microChats?: FieldPolicy<any> | FieldReadFunction<any>,

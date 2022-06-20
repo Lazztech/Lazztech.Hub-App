@@ -51,6 +51,7 @@ export type Hub = {
   active?: Maybe<Scalars['Boolean']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   usersConnection?: Maybe<Array<JoinUserHub>>;
   microChats?: Maybe<Array<MicroChat>>;
@@ -176,6 +177,7 @@ export type MutationDeleteInAppNotificationArgs = {
 
 
 export type MutationCreateHubArgs = {
+  locationLabel?: Maybe<Scalars['String']>;
   longitude: Scalars['Float'];
   latitude: Scalars['Float'];
   image?: Maybe<Scalars['String']>;
@@ -834,6 +836,7 @@ export type CreateHubMutationVariables = Exact<{
   description?: Maybe<Scalars['String']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
+  locationLabel?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1801,8 +1804,8 @@ export const CommonUsersHubsDocument = gql`
     
   }
 export const CreateHubDocument = gql`
-    mutation createHub($name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!) {
-  createHub(image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude) {
+    mutation createHub($name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
+  createHub(image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
     userId
     hubId
     isOwner

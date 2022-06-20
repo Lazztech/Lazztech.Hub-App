@@ -131,7 +131,8 @@ export class AddHubPage implements OnInit, OnDestroy {
       this.hubDescription.value,
       this.image,
       this.location?.value?.latitude || this.yourLocation.latitude,
-      this.location?.value?.longitude || this.yourLocation.longitude
+      this.location?.value?.longitude || this.yourLocation.longitude,
+      this.location?.value?.label,
     );
     if (result) {
       await this.geofenceService.addGeofence({
