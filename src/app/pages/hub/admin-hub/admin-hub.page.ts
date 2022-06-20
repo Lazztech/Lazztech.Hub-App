@@ -32,6 +32,10 @@ export class AdminHubPage implements OnInit, OnDestroy {
     return this.myForm.get('hubDescription');
   }
 
+  get location() {
+    return this.myForm.get('location');
+  }
+
   constructor(
     private route: ActivatedRoute,
     private hubService: HubService,
@@ -55,7 +59,8 @@ export class AdminHubPage implements OnInit, OnDestroy {
       hubDescription: ['', [
         Validators.required,
         Validators.maxLength(25)
-      ]]
+      ]],
+      location: [],
     });
   }
 
