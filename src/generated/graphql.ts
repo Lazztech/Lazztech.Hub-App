@@ -178,8 +178,8 @@ export type MutationDeleteInAppNotificationArgs = {
 export type MutationCreateHubArgs = {
   longitude: Scalars['Float'];
   latitude: Scalars['Float'];
-  image: Scalars['String'];
-  description: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -829,9 +829,9 @@ export type CommonUsersHubsQuery = (
 );
 
 export type CreateHubMutationVariables = Exact<{
-  image: Scalars['String'];
   name: Scalars['String'];
-  description: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
 }>;
@@ -1801,7 +1801,7 @@ export const CommonUsersHubsDocument = gql`
     
   }
 export const CreateHubDocument = gql`
-    mutation createHub($image: String!, $name: String!, $description: String!, $latitude: Float!, $longitude: Float!) {
+    mutation createHub($name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!) {
   createHub(image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude) {
     userId
     hubId

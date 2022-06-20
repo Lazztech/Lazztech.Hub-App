@@ -66,9 +66,7 @@ export class AddHubPage implements OnInit, OnDestroy {
       hubName: ['', [
         Validators.required
       ]],
-      hubDescription: ['', [
-        Validators.required
-      ]],
+      hubDescription: [],
       location: [],
     });
 
@@ -127,9 +125,7 @@ export class AddHubPage implements OnInit, OnDestroy {
   }
 
   async saveHub() {
-    this.loading = true;
-    const formValue = this.myForm.value;
-    
+    this.loading = true;    
     const result = await this.hubService.createHub(
       this.hubName.value,
       this.hubDescription.value,

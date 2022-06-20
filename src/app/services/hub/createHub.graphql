@@ -1,7 +1,7 @@
 mutation createHub(
-    $image: String!
     $name: String!
-    $description: String!
+    $image: String
+    $description: String
     $latitude: Float!
     $longitude: Float!
 ){
