@@ -33,6 +33,10 @@
                 <p *ngIf="hub?.description" >{{hub?.description}}</p>
                 <ion-skeleton-text *ngIf="!hub" animated></ion-skeleton-text>
               </ion-text>
+              <ion-text *ngIf="!compact">
+                <p *ngIf="hub?.locationLabel" >{{hub?.locationLabel}}</p>
+                <ion-skeleton-text *ngIf="!hub" animated></ion-skeleton-text>
+              </ion-text>
             </ion-col>
           </ion-row>
         </ion-col>

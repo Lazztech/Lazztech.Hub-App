@@ -981,7 +981,7 @@ export type HubQuery = (
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
     & { hub?: Maybe<(
       { __typename?: 'Hub' }
-      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
@@ -1147,7 +1147,7 @@ export type UsersHubsQuery = (
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
     & { hub?: Maybe<(
       { __typename?: 'Hub' }
-      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
@@ -1990,6 +1990,7 @@ export const HubDocument = gql`
       image
       latitude
       longitude
+      locationLabel
       usersConnection {
         user {
           id
@@ -2240,6 +2241,7 @@ export const UsersHubsDocument = gql`
       image
       latitude
       longitude
+      locationLabel
       usersConnection {
         isPresent
         isOwner
