@@ -130,6 +130,7 @@ export type Mutation = {
   deleteInvite: Scalars['Boolean'];
   leaveHub: Scalars['Boolean'];
   deleteHub: Scalars['Boolean'];
+  updateHub: Hub;
   editHub: Hub;
   changeHubLocation: Hub;
   changeHubImage: Hub;
@@ -209,6 +210,17 @@ export type MutationLeaveHubArgs = {
 
 
 export type MutationDeleteHubArgs = {
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationUpdateHubArgs = {
+  locationLabel?: Maybe<Scalars['String']>;
+  longitude: Scalars['Float'];
+  latitude: Scalars['Float'];
+  image?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   hubId: Scalars['ID'];
 };
 
@@ -1135,6 +1147,29 @@ export type SetHubStarredMutationVariables = Exact<{
 export type SetHubStarredMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'setHubStarred'>
+);
+
+export type UpdateHubMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+  name: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  locationLabel?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateHubMutation = (
+  { __typename?: 'Mutation' }
+  & { updateHub: (
+    { __typename?: 'Hub' }
+    & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+    & { usersConnection?: Maybe<Array<(
+      { __typename?: 'JoinUserHub' }
+      & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
+    )>> }
+  ) }
 );
 
 export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -2223,6 +2258,31 @@ export const SetHubStarredDocument = gql`
   })
   export class SetHubStarredGQL extends Apollo.Mutation<SetHubStarredMutation, SetHubStarredMutationVariables> {
     document = SetHubStarredDocument;
+    
+  }
+export const UpdateHubDocument = gql`
+    mutation updateHub($hubId: ID!, $name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
+  updateHub(hubId: $hubId, image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    id
+    name
+    description
+    active
+    image
+    latitude
+    longitude
+    usersConnection {
+      isPresent
+      isOwner
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateHubGQL extends Apollo.Mutation<UpdateHubMutation, UpdateHubMutationVariables> {
+    document = UpdateHubDocument;
     
   }
 export const UsersHubsDocument = gql`

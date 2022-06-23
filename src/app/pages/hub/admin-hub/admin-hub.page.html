@@ -59,8 +59,8 @@
         <ion-button class="ion-float-right" color="primary" (click)="presentActionSheet()">Upload Image</ion-button>
       </ion-item>
 
-      <ion-card *ngIf="image || userHub?.hub?.image">
-        <ion-img src="{{image || userHub?.hub?.image}}"></ion-img>
+      <ion-card *ngIf="image">
+        <ion-img src="{{image}}"></ion-img>
       </ion-card>
 
     </form>
