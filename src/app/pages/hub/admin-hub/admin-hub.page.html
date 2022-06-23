@@ -22,10 +22,10 @@
 
     <ion-item>
       <ion-label>
-        <ion-text *ngIf="userHub?.data?.hub?.hub?.active" color="success">Active</ion-text>
-        <ion-text *ngIf="!userHub?.data?.hub?.hub?.active" color="medium">Inactive</ion-text>
+        <ion-text *ngIf="active" color="success">Active</ion-text>
+        <ion-text *ngIf="!active" color="medium">Inactive</ion-text>
       </ion-label>
-      <ion-toggle *ngIf="userHub" (click)="activeToggle(userHub)" class="ion-float-right"
+      <ion-toggle [(ngModel)]="active" (click)="toggleActivity()" class="ion-float-right"
         color="success"></ion-toggle>
     </ion-item>
 

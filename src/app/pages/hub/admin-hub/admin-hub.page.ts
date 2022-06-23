@@ -27,6 +27,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
   yourLocation: { latitude: number, longitude: number };
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   image: any;
+  active: boolean;
 
   myForm: FormGroup;
 
@@ -71,6 +72,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
       this.hubGqlService.fetch({ id: this.id }).subscribe(x => {
         this.userHub = x;
         this.image = x?.data?.hub?.hub?.image;
+        this.active = x?.data?.hub?.hub?.active;
         this.loading = x.loading;
         this.myForm = this.fb.group({
           hubName: [x?.data?.hub?.hub?.name, [
@@ -117,12 +119,12 @@ export class AdminHubPage implements OnInit, OnDestroy {
     this.navCtrl.back();
   }
 
-  async activeToggle(userHub: JoinUserHub) {
+  async toggleActivity() {
     this.loading = true;
-    if (userHub.hub.active === false) {
-      await this.hubService.activateHub(userHub.hub.id);
+    if (!this.userHub?.data?.hub?.hub?.active) {
+      await this.hubService.activateHub(this.id);
     } else {
-      await this.hubService.deactivateHub(userHub.hub.id);
+      await this.hubService.deactivateHub(this.id);
     }
     this.loading = false;
   }
