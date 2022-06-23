@@ -77,7 +77,7 @@
       <ion-label>Members</ion-label>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userHub?.hub?.usersConnection; trackBy: trackByUser">
+    <div *ngFor="let userConnection of userHub?.data?.hub?.hub?.usersConnection; trackBy: trackByUser">
       <ion-item-sliding>
       <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
