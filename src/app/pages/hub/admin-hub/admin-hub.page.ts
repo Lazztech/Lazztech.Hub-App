@@ -1,14 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
-import { NavController, ActionSheetController } from '@ionic/angular';
+import { NavController, ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { LocationService } from 'src/app/services/location/location.service';
 
 @Component({
   selector: 'app-admin-hub',
@@ -22,6 +23,9 @@ export class AdminHubPage implements OnInit, OnDestroy {
   userHub: ApolloQueryResult<HubQuery>;
   subscriptions: Subscription[] = [];
   id: Scalars['ID'];
+  mapModalIsOpen: boolean = false;
+  yourLocation: { latitude: number, longitude: number };
+  mapSearchSelection: { latitude: number, longitude: number, label: string };
 
   myForm: FormGroup;
 
@@ -47,12 +51,21 @@ export class AdminHubPage implements OnInit, OnDestroy {
     private cameraService: CameraService,
     private readonly hubGqlService: HubGQL,
     private readonly inviteByHubService: InvitesByHubGQL,
+    public routerOutlet: IonRouterOutlet,
+    private locationService: LocationService,
+    private platform: Platform,
+    private changeRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.subscriptions.push(
+      this.locationService.coords$.subscribe(async x => {
+        await this.platform.ready();
+        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
+        this.changeRef.detectChanges();
+      }),
       this.hubGqlService.fetch({ id: this.id }).subscribe(x => {
         this.userHub = x;
         this.loading = x.loading;
@@ -191,8 +204,27 @@ export class AdminHubPage implements OnInit, OnDestroy {
       this.loading = true;
       await this.hubService.deleteHub(this.id);
       this.loading = false;
-      this.navCtrl.back();
+      await this.navCtrl.navigateRoot('/tabs');
     }
+  }
+
+  toggleMapModal() {
+    this.mapModalIsOpen = !this.mapModalIsOpen;
+  }
+
+  didDismissMapModal() {
+    this.mapModalIsOpen = false;
+  }
+
+  onSearchSelected(event: any) {
+    this.mapSearchSelection = event;
+  }
+
+  selectLocation() {
+    this.myForm.patchValue({
+      location: this.mapSearchSelection
+    });
+    this.mapModalIsOpen = false;
   }
 
 }
