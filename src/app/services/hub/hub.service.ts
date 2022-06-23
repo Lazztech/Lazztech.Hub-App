@@ -296,9 +296,9 @@ export class HubService {
       hubId,
       inviteId
     }, {
+      
       refetchQueries: [
-        { query: InvitesByHubDocument, variables: { hubId } as InvitesByHubQueryVariables },
-        { query: InvitesByUserDocument }
+        { query: HubDocument, variables: { id: hubId } as HubQueryVariables },
       ]
     }).toPromise();
 
