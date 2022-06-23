@@ -110,7 +110,7 @@
       </ion-button>
     </ion-list-header>
 
-    <div *ngFor="let invite of invites?.data?.invites">
+    <div *ngFor="let invite of invites?.data?.invitesByHub">
       <ion-item-sliding>
       <ion-item href="javascript:void(0);" (click)="goToPersonPage(invite.inviteesId, invite.invitee)">
         <ion-avatar slot="start">
