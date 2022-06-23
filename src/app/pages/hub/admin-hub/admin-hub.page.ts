@@ -104,6 +104,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
     const formValue = this.myForm.value;
     await this.hubService.editHub(this.id, formValue.hubName, formValue.hubDescription);
     this.loading = false;
+    await this.navCtrl.back();
   }
 
   async activeToggle(userHub: JoinUserHub) {

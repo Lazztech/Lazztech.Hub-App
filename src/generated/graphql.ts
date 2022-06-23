@@ -214,7 +214,7 @@ export type MutationDeleteHubArgs = {
 
 
 export type MutationEditHubArgs = {
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   hubId: Scalars['ID'];
 };
@@ -931,7 +931,7 @@ export type DwellHubGeofenceMutation = (
 export type EditHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
   name: Scalars['String'];
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1924,7 +1924,7 @@ export const DwellHubGeofenceDocument = gql`
     
   }
 export const EditHubDocument = gql`
-    mutation editHub($hubId: ID!, $name: String!, $description: String!) {
+    mutation editHub($hubId: ID!, $name: String!, $description: String) {
   editHub(hubId: $hubId, name: $name, description: $description) {
     id
     name
