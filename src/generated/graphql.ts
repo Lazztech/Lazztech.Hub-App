@@ -51,6 +51,7 @@ export type Hub = {
   active?: Maybe<Scalars['Boolean']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   usersConnection?: Maybe<Array<JoinUserHub>>;
   microChats?: Maybe<Array<MicroChat>>;
@@ -129,6 +130,7 @@ export type Mutation = {
   deleteInvite: Scalars['Boolean'];
   leaveHub: Scalars['Boolean'];
   deleteHub: Scalars['Boolean'];
+  updateHub: Hub;
   editHub: Hub;
   changeHubLocation: Hub;
   changeHubImage: Hub;
@@ -176,10 +178,11 @@ export type MutationDeleteInAppNotificationArgs = {
 
 
 export type MutationCreateHubArgs = {
+  locationLabel?: Maybe<Scalars['String']>;
   longitude: Scalars['Float'];
   latitude: Scalars['Float'];
-  image: Scalars['String'];
-  description: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -211,8 +214,19 @@ export type MutationDeleteHubArgs = {
 };
 
 
+export type MutationUpdateHubArgs = {
+  locationLabel?: Maybe<Scalars['String']>;
+  longitude: Scalars['Float'];
+  latitude: Scalars['Float'];
+  image?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  hubId: Scalars['ID'];
+};
+
+
 export type MutationEditHubArgs = {
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   hubId: Scalars['ID'];
 };
@@ -829,11 +843,12 @@ export type CommonUsersHubsQuery = (
 );
 
 export type CreateHubMutationVariables = Exact<{
-  image: Scalars['String'];
   name: Scalars['String'];
-  description: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
+  locationLabel?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -928,7 +943,7 @@ export type DwellHubGeofenceMutation = (
 export type EditHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
   name: Scalars['String'];
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -978,7 +993,7 @@ export type HubQuery = (
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
     & { hub?: Maybe<(
       { __typename?: 'Hub' }
-      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
@@ -1134,6 +1149,29 @@ export type SetHubStarredMutation = (
   & Pick<Mutation, 'setHubStarred'>
 );
 
+export type UpdateHubMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+  name: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  locationLabel?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateHubMutation = (
+  { __typename?: 'Mutation' }
+  & { updateHub: (
+    { __typename?: 'Hub' }
+    & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+    & { usersConnection?: Maybe<Array<(
+      { __typename?: 'JoinUserHub' }
+      & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
+    )>> }
+  ) }
+);
+
 export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1144,7 +1182,7 @@ export type UsersHubsQuery = (
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
     & { hub?: Maybe<(
       { __typename?: 'Hub' }
-      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
@@ -1801,8 +1839,8 @@ export const CommonUsersHubsDocument = gql`
     
   }
 export const CreateHubDocument = gql`
-    mutation createHub($image: String!, $name: String!, $description: String!, $latitude: Float!, $longitude: Float!) {
-  createHub(image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude) {
+    mutation createHub($name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
+  createHub(image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
     userId
     hubId
     isOwner
@@ -1921,7 +1959,7 @@ export const DwellHubGeofenceDocument = gql`
     
   }
 export const EditHubDocument = gql`
-    mutation editHub($hubId: ID!, $name: String!, $description: String!) {
+    mutation editHub($hubId: ID!, $name: String!, $description: String) {
   editHub(hubId: $hubId, name: $name, description: $description) {
     id
     name
@@ -1987,6 +2025,7 @@ export const HubDocument = gql`
       image
       latitude
       longitude
+      locationLabel
       usersConnection {
         user {
           id
@@ -2221,6 +2260,31 @@ export const SetHubStarredDocument = gql`
     document = SetHubStarredDocument;
     
   }
+export const UpdateHubDocument = gql`
+    mutation updateHub($hubId: ID!, $name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
+  updateHub(hubId: $hubId, image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    id
+    name
+    description
+    active
+    image
+    latitude
+    longitude
+    usersConnection {
+      isPresent
+      isOwner
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateHubGQL extends Apollo.Mutation<UpdateHubMutation, UpdateHubMutationVariables> {
+    document = UpdateHubDocument;
+    
+  }
 export const UsersHubsDocument = gql`
     query usersHubs {
   usersHubs {
@@ -2237,6 +2301,7 @@ export const UsersHubsDocument = gql`
       image
       latitude
       longitude
+      locationLabel
       usersConnection {
         isPresent
         isOwner

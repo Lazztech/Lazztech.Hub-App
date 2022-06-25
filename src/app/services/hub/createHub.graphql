@@ -1,9 +1,10 @@
 mutation createHub(
-    $image: String!
     $name: String!
-    $description: String!
+    $image: String
+    $description: String
     $latitude: Float!
     $longitude: Float!
+    $locationLabel: String
 ){
     createHub(
         image: $image, 
@@ -11,6 +12,7 @@ mutation createHub(
         description: $description,
         latitude: $latitude,
         longitude: $longitude
+        locationLabel: $locationLabel
         ) {
             userId
             hubId

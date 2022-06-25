@@ -1,15 +1,16 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActionSheetController, NavController, Platform } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
 import { Subscription, Observable } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { Scalars, HubQuery, JoinUserHub } from 'src/generated/graphql';
+import { Scalars, HubQuery, JoinUserHub, User } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map, take } from 'rxjs/operators';
 import { Clipboard } from '@capacitor/clipboard';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { InviteComponent } from 'src/app/components/invite/invite.component';
 
 @Component({
   selector: 'app-hub',
@@ -26,6 +27,10 @@ export class HubPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   hubCoords: {latitude: number, longitude: number};
   userCoords: {latitude: number, longitude: number};
+  inviteModalIsOpen: boolean = false;
+  @ViewChild(InviteComponent)
+  private inviteComponent: InviteComponent;
+  notYetInvitedPeople: Array<User> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -38,13 +43,35 @@ export class HubPage implements OnInit, OnDestroy {
     private locationService: LocationService,
     private logger: NGXLogger,
     public readonly navigationService: NavigationService,
+    public readonly routerOutlet: IonRouterOutlet,
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.qrContent = JSON.stringify({ id: this.id });
 
-    this.loadHub();
+    this.subscriptions.push(
+      this.hubService.watchHub(this.id, null, 2000).valueChanges.subscribe(result => {
+        const data = result.data.hub;
+        this.userHub = data;
+        this.loading = result.loading;
+
+        this.hubCoords = {
+          latitude: data.hub.latitude,
+          longitude: data.hub.longitude
+        };
+        this.sortedUsers = [...data?.hub?.usersConnection]
+          .filter(x => !!x?.user)
+          .sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline))
+          .reverse();
+      }),
+      this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
+        this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
+          return !this.sortedUsers
+            ?.find(x => x.user?.id === person?.id);
+        }) as any;
+      })
+    );
   }
 
   async ionViewDidEnter() {
@@ -63,25 +90,6 @@ export class HubPage implements OnInit, OnDestroy {
 
   trackByUser(index: any, joinUserHub: JoinUserHub) {
     return joinUserHub.userId;
-  }
-
-  loadHub() {
-    this.subscriptions.push(
-      this.hubService.watchHub(this.id, null, 2000).valueChanges.subscribe(result => {
-        const data = result.data.hub;
-        this.userHub = data;
-        this.loading = result.loading;
-
-        this.hubCoords = {
-          latitude: data.hub.latitude,
-          longitude: data.hub.longitude
-        };
-        this.sortedUsers = [...data?.hub?.usersConnection]
-          .filter(x => !!x?.user)
-          .sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline))
-          .reverse();
-      }),
-    );
   }
 
   goToPersonPage(id: number, user: any) {
@@ -163,6 +171,19 @@ export class HubPage implements OnInit, OnDestroy {
       });
       await actionSheet.present();
     }
+  }
+
+  async sendInvites() {
+    await this.inviteComponent.sendInvites();
+    this.toggleInviteModal();
+  }
+
+  toggleInviteModal() {
+    this.inviteModalIsOpen = !this.inviteModalIsOpen;
+  }
+
+  didDismissInviteModal() {
+    this.inviteModalIsOpen = false;
   }
 
 }

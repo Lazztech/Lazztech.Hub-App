@@ -1,60 +1,13 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!-- <ion-menu-button></ion-menu-button> -->
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Add Hub</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
-  <app-hub-card *ngIf="coords"
-    [hub]="hub" 
-    [coords]="coords" 
-    [isOwner]="true" 
-    [showDescription]="true" 
-    [includeMap]="true"
-  ></app-hub-card>
-
-  <div [appFeatureFlag]="'paidHubSubscriptionTier'">
-    <ion-list-header>
-      <ion-text>Tier</ion-text>
-    </ion-list-header>
-
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-card (click)="isFree()" [ngClass]="paid ? null : 'glowing-card'">
-            <!-- <img src="/assets/icons/house_placeholder.png" > -->
-  
-            <ion-card-content>
-              <ion-card-subtitle>$1 Monthly</ion-card-subtitle>
-              <!-- <ion-card-title>Lazztech Hub</ion-card-title> -->
-              <!-- <p>Tier</p> -->
-  
-              <p>8 person hub</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-  
-        <ion-col>
-          <ion-card (click)="isPaid()" [ngClass]="paid ? 'glowing-card' : null">
-            <!-- <img src="/assets/icons/house_placeholder.png" > -->
-            <ion-card-content>
-              <ion-card-subtitle>$3 Monthly</ion-card-subtitle>
-              <!-- <ion-card-title>Lazztech Hub</ion-card-title> -->
-              <!-- <p>Tier</p> -->
-  
-              <p>25 person hub</p>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-
   <form [formGroup]="myForm" (ngSubmit)="saveHub()" method="post">
     <ion-list>
       <ion-list-header class="ion-padding-bottom">
@@ -62,46 +15,35 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-label position="stacked">
-          <ion-text>Name</ion-text>
-          <ion-text *ngIf="hubName.invalid" color="danger">&nbsp; *Required</ion-text>
+        <ion-input type="text" formControlName="hubName" color="" [(ngModel)]="hub.name" placeholder="Hub name"></ion-input>
+        <ion-label>
+          <ion-text *ngIf="hubName.invalid" color="danger">*</ion-text>
         </ion-label>
-        <ion-input type="text" formControlName="hubName" [(ngModel)]="hub.name"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked">
-          <ion-text>Description</ion-text>
-          <ion-text *ngIf="hubDescription.invalid" color="danger">&nbsp; *Required</ion-text>
-        </ion-label>
-        <ion-textarea type="text" formControlName="hubDescription" [(ngModel)]="hub.description"></ion-textarea>
+        <ion-textarea type="text" formControlName="hubDescription" [(ngModel)]="hub.description" placeholder="Add description"></ion-textarea>
       </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">
-          <ion-text>Image</ion-text>
-          <ion-text *ngIf="!hub.image" color="danger">&nbsp; *Required</ion-text>
-          <ion-button class="ion-float-right" color="primary" (click)="presentActionSheet()">Upload Image
-          </ion-button>
-        </ion-label>
-
-      </ion-item>
-
-      <ion-list-header [appFeatureFlag]="'inviteUsersCheckList'" class="ion-padding-bottom">
-        <ion-text>Invite People</ion-text>
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Location</ion-text>
       </ion-list-header>
 
-      <ion-item [appFeatureFlag]="'inviteUsersCheckList'" *ngFor="let person of persons | async">
-        <ion-avatar slot="start">
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image"
-            src="{{person.id | avatar}}">
-          <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <ion-text>{{person.firstName}} {{person.lastName}}</ion-text>
-        </ion-label>
-        <ion-checkbox  [value]='person.email' (click)='checkboxChanged(person)' slot="end"></ion-checkbox>
+      <ion-item>
+        <ion-input readonly type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleMapModal()"></ion-input>
       </ion-item>
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Photo</ion-text>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-button class="ion-float-right" color="primary" (click)="presentActionSheet()">Upload Image</ion-button>
+      </ion-item>
+
+      <ion-card *ngIf="image">
+        <ion-img src="{{image}}"></ion-img>
+      </ion-card>
     </ion-list>
   </form>
 
@@ -113,3 +55,40 @@
     </ion-button>
   </ion-toolbar>
 </ion-footer>
+
+<ion-modal
+[isOpen]="mapModalIsOpen"
+[swipeToClose]="true"
+[presentingElement]="routerOutlet.nativeEl"
+(didDismiss)="didDismissMapModal()"
+>
+<ng-template>
+  <ion-header translucent="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Map</ion-title>
+      <ion-progress-bar *ngIf="loading || !yourLocation" type="indeterminate"></ion-progress-bar>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content fullscreen="true">
+    <app-leaflet-map
+      *ngIf="yourLocation"
+      [center]="mapSearchSelection || yourLocation" 
+      [locations]="[mapSearchSelection]"
+      [yourLocation]="yourLocation"
+      [navOnMarker]="true" 
+      [showControls]="true"
+      [enableSearch]="true"
+      (searchSelected)="onSearchSelected($event)"
+      (loading)="onMapLoading($event)"
+    ></app-leaflet-map>
+</ion-content>
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-button [disabled]="!mapSearchSelection" (click)="selectLocation()" type="submit" expand="block" color="primary">Select Location</ion-button>
+  </ion-toolbar>
+</ion-footer>
+</ng-template>
+</ion-modal>

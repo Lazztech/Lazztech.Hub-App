@@ -13,6 +13,7 @@
             image
             latitude
             longitude
+            locationLabel
             usersConnection {
               user {
                 id

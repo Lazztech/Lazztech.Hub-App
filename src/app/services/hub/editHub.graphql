@@ -1,7 +1,7 @@
 mutation editHub(
     $hubId: ID!
     $name: String!
-    $description: String!
+    $description: String
     ) {
     editHub(
         hubId: $hubId

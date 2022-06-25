@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery } from 'src/generated/graphql';
+import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL } from 'src/generated/graphql';
 import { NGXLogger } from 'ngx-logger';
-import { NavController, ActionSheetController } from '@ionic/angular';
+import { NavController, ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ApolloQueryResult } from '@apollo/client/core';
+import { LocationService } from 'src/app/services/location/location.service';
 
 @Component({
   selector: 'app-admin-hub',
@@ -17,10 +19,15 @@ import { map } from 'rxjs/operators';
 export class AdminHubPage implements OnInit, OnDestroy {
 
   loading = true;
-  userHub: Observable<HubQuery['hub']>;
-  invites: Observable<InvitesByHubQuery['invitesByHub']>;
+  invites: ApolloQueryResult<InvitesByHubQuery>;
+  userHub: ApolloQueryResult<HubQuery>;
   subscriptions: Subscription[] = [];
   id: Scalars['ID'];
+  mapModalIsOpen: boolean = false;
+  yourLocation: { latitude: number, longitude: number };
+  mapSearchSelection: { latitude: number, longitude: number, label: string };
+  image: any;
+  active: boolean;
 
   myForm: FormGroup;
 
@@ -32,6 +39,10 @@ export class AdminHubPage implements OnInit, OnDestroy {
     return this.myForm.get('hubDescription');
   }
 
+  get location() {
+    return this.myForm.get('location');
+  }
+
   constructor(
     private route: ActivatedRoute,
     private hubService: HubService,
@@ -39,24 +50,50 @@ export class AdminHubPage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     private navCtrl: NavController,
     private actionSheetController: ActionSheetController,
-    private cameraService: CameraService
+    private cameraService: CameraService,
+    private readonly hubGqlService: HubGQL,
+    private readonly inviteByHubService: InvitesByHubGQL,
+    private readonly updateHubService: UpdateHubGQL,
+    public routerOutlet: IonRouterOutlet,
+    private locationService: LocationService,
+    private platform: Platform,
+    private changeRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
 
-    this.loadHub();
-
-    this.myForm = this.fb.group({
-      hubName: ['', [
-        Validators.required,
-        Validators.maxLength(25)
-      ]],
-      hubDescription: ['', [
-        Validators.required,
-        Validators.maxLength(25)
-      ]]
-    });
+    this.subscriptions.push(
+      this.locationService.coords$.subscribe(async x => {
+        await this.platform.ready();
+        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
+        this.changeRef.detectChanges();
+      }),
+      this.hubGqlService.fetch({ id: this.id }).subscribe(x => {
+        this.userHub = x;
+        this.image = x?.data?.hub?.hub?.image;
+        this.active = x?.data?.hub?.hub?.active;
+        this.loading = x.loading;
+        this.myForm = this.fb.group({
+          hubName: [x?.data?.hub?.hub?.name, [
+            Validators.required,
+            Validators.maxLength(25)
+          ]],
+          hubDescription: [x?.data?.hub?.hub?.description, [
+            Validators.maxLength(25)
+          ]],
+          location: [{
+            latitude: x?.data?.hub?.hub?.latitude,
+            longitude: x?.data?.hub?.hub?.longitude,
+            locationLabel: x?.data?.hub?.hub?.locationLabel,
+          }],
+        });
+      }),
+      this.inviteByHubService.fetch({ hubId: this.id }).subscribe(y => {
+        this.invites = y;
+        this.loading = y.loading;
+      })
+    );
   }
 
   ngOnDestroy(): void {
@@ -67,41 +104,27 @@ export class AdminHubPage implements OnInit, OnDestroy {
     return joinUserHub.userId;
   }
 
-  loadHub() {
-    this.userHub = this.hubService.watchHub(this.id).valueChanges.pipe(
-      map(x => x.data && x.data.hub)
-    );
-
-    this.subscriptions.push(
-      this.hubService.watchHub(this.id).valueChanges.subscribe(x => {
-        this.loading = x.loading;
-      })
-    );
-
-    this.invites = this.hubService.watchInvitesByHub(this.id, false).valueChanges.pipe(
-      map(x => x.data && x.data.invitesByHub)
-    );
-
-    this.subscriptions.push(
-      this.hubService.watchInvitesByHub(this.id, false).valueChanges.subscribe(x => {
-        this.loading = x.loading;
-      })
-    );
-  }
-
   async save() {
     this.loading = true;
-    const formValue = this.myForm.value;
-    await this.hubService.editHub(this.id, formValue.hubName, formValue.hubDescription);
+    await this.updateHubService.mutate({
+      hubId: this.id,
+      name: this.hubName?.value,
+      description: this.hubDescription?.value,
+      image: this.image?.includes('base64') ? this.image : undefined,
+      latitude: this.location?.value?.latitude,
+      longitude: this.location?.value?.longitude,
+      locationLabel: this.location?.value?.label || this.location?.value?.locationLabel,
+    }).toPromise();
     this.loading = false;
+    this.navCtrl.back();
   }
 
-  async activeToggle(userHub: JoinUserHub) {
+  async toggleActivity() {
     this.loading = true;
-    if (userHub.hub.active === false) {
-      await this.hubService.activateHub(userHub.hub.id);
+    if (!this.userHub?.data?.hub?.hub?.active) {
+      await this.hubService.activateHub(this.id);
     } else {
-      await this.hubService.deactivateHub(userHub.hub.id);
+      await this.hubService.deactivateHub(this.id);
     }
     this.loading = false;
   }
@@ -121,21 +144,13 @@ export class AdminHubPage implements OnInit, OnDestroy {
   }
 
   async takePicture() {
-    this.cameraService.takePicture().then(newImage => {
-      this.loading = true;
-      this.hubService.changeHubImage(this.id, newImage).then(() => {
-        this.loading = false;
-      });
-    });
+    const image = await this.cameraService.takePicture();
+    this.image = image;
   }
 
   async selectPicture() {
-    this.cameraService.selectPicture().then(newImage => {
-      this.loading = true;
-      this.hubService.changeHubImage(this.id, newImage).then(() => {
-        this.loading = false;
-      });
-    });
+    const image = await this.cameraService.selectPicture();
+    this.image = image;
   }
 
   async presentActionSheet() {
@@ -183,8 +198,8 @@ export class AdminHubPage implements OnInit, OnDestroy {
     });
   }
 
-  async deleteInvite(hubId: any, inviteId: any) {
-    this.hubService.deleteInvite(hubId, inviteId);
+  async deleteInvite(inviteId: any) {
+    this.hubService.deleteInvite(this.id, inviteId);
   }
 
   async deleteHub() {
@@ -194,8 +209,27 @@ export class AdminHubPage implements OnInit, OnDestroy {
       this.loading = true;
       await this.hubService.deleteHub(this.id);
       this.loading = false;
-      this.navCtrl.back();
+      await this.navCtrl.navigateRoot('/tabs');
     }
+  }
+
+  toggleMapModal() {
+    this.mapModalIsOpen = !this.mapModalIsOpen;
+  }
+
+  didDismissMapModal() {
+    this.mapModalIsOpen = false;
+  }
+
+  onSearchSelected(event: any) {
+    this.mapSearchSelection = event;
+  }
+
+  selectLocation() {
+    this.myForm.patchValue({
+      location: this.mapSearchSelection
+    });
+    this.mapModalIsOpen = false;
   }
 
 }

@@ -79,13 +79,21 @@ export class HubService {
     private alertService: AlertService,
   ) { }
 
-  async createHub(name: string, description: string, image: string, latitude: number, longitude: number) {
+  async createHub(
+    name: string, 
+    description: string, 
+    image: string, 
+    latitude: number, 
+    longitude: number,
+    locationLabel: string
+  ) {
     const result = await this.createHubGQLService.mutate({
       name,
       description,
       image,
       latitude,
-      longitude
+      longitude,
+      locationLabel
     }).toPromise();
 
     const response = result.data.createHub;
@@ -288,9 +296,9 @@ export class HubService {
       hubId,
       inviteId
     }, {
+      
       refetchQueries: [
-        { query: InvitesByHubDocument, variables: { hubId } as InvitesByHubQueryVariables },
-        { query: InvitesByUserDocument }
+        { query: HubDocument, variables: { id: hubId } as HubQueryVariables },
       ]
     }).toPromise();
 
