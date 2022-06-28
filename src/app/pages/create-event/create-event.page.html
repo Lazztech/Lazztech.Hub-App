@@ -116,6 +116,12 @@
         <ion-back-button></ion-back-button>
       </ion-buttons>
       <ion-title>Map</ion-title>
+      <ion-icon
+      slot="end" 
+      size="large"
+      name="close-outline"
+      (click)="didDismissMapModal()"
+    ></ion-icon>
       <ion-progress-bar *ngIf="loading || !yourLocation" type="indeterminate"></ion-progress-bar>
     </ion-toolbar>
   </ion-header>
