@@ -68,6 +68,42 @@ export class GeofenceService {
     }
   }
 
+  async syncGeofences() {
+    const userHubs = await this.hubService.usersHubs();
+    const geofences = await BackgroundGeolocation.getGeofences();
+    // add any missing geofences
+    for (const userHub of userHubs) {
+      const identifier = this.mapHubToGeofenceIdentifier(userHub.hub as Hub);
+      if (!geofences.some(gf => gf.identifier == identifier)) {
+        await this.addGeofence({
+          identifier: JSON.stringify(identifier),
+          latitude: userHub.hub.latitude,
+          longitude: userHub.hub.longitude,
+        });
+        this.logger.log(`Added geofence ${identifier}`);
+      }
+    }
+    // remove any no longer relivant geofences
+    const noLongerRelivantGeofences = geofences.filter(
+      geofence => !userHubs.some(
+        userHub => geofence.identifier == this.mapHubToGeofenceIdentifier(userHub.hub as Hub)
+      )
+    );
+    for (const noLongerRelivantGeofence of noLongerRelivantGeofences) {
+      await BackgroundGeolocation.removeGeofence(
+        noLongerRelivantGeofence.identifier,
+      )
+      this.logger.log(`Removed geofence ${noLongerRelivantGeofence.identifier}`);
+    }
+  }
+
+  mapHubToGeofenceIdentifier(hub: Hub) {
+    return JSON.stringify({
+      id: hub.id,
+      name: hub.name
+    });
+  }
+
   async isPowerSaveMode() {
     // FIXME: seems to always return false
     return await BackgroundGeolocation.isPowerSaveMode();
