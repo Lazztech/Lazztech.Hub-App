@@ -70,7 +70,8 @@ export class AppComponent {
       // Also is this why I get recurring notifications about entering a hub that I'm
       // already at, because this is firing in the background every time the app starts
       // up for the backgroundgeolocation plugin???
-      await this.geofenceService.refreshHubGeofences();
+      // await this.geofenceService.refreshHubGeofences();
+      await this.geofenceService.syncGeofences();
     });
   }
 

@@ -76,7 +76,7 @@ export class GeofenceService {
       const identifier = this.mapHubToGeofenceIdentifier(userHub.hub as Hub);
       if (!geofences.some(gf => gf.identifier == identifier)) {
         await this.addGeofence({
-          identifier: JSON.stringify(identifier),
+          identifier: identifier,
           latitude: userHub.hub.latitude,
           longitude: userHub.hub.longitude,
         });
@@ -97,7 +97,7 @@ export class GeofenceService {
     }
   }
 
-  mapHubToGeofenceIdentifier(hub: Hub) {
+  mapHubToGeofenceIdentifier(hub: Hub): string {
     return JSON.stringify({
       id: hub.id,
       name: hub.name
