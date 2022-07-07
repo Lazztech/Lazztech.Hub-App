@@ -17,7 +17,7 @@
   <app-hub-card 
     *ngIf="!loading && userHub" 
     [hub]="userHub?.hub" 
-    [coords]="userCoords" 
+    [coords]="locationService.location" 
     [starred]="userHub?.starred"
     [isOwner]="userHub?.isOwner" 
     [showDescription]="true"

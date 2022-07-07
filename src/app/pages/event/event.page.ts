@@ -31,7 +31,6 @@ export class EventPage implements OnInit, OnDestroy {
   persons: ApolloQueryResult<UsersPeopleQuery>;
   notYetInvitedPeople: Array<User> = [];
   subscriptions: Subscription[] = [];
-  userCoords: {latitude: number, longitude: number};
   inviteModalIsOpen: boolean = false;
   @ViewChild(InviteComponent)
   private inviteComponent: InviteComponent;
@@ -45,7 +44,6 @@ export class EventPage implements OnInit, OnDestroy {
     private readonly navCtrl: NavController,
     private readonly logger: NGXLogger,
     private readonly locationService: LocationService,
-    private readonly changeRef: ChangeDetectorRef,
     private readonly authService: AuthService,
     public readonly routerOutlet: IonRouterOutlet,
     public readonly navigationService: NavigationService,
@@ -67,10 +65,6 @@ export class EventPage implements OnInit, OnDestroy {
         this.cantgoUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'cantgo');
         this.noreplyUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => !x.rsvp);
       }),
-      this.locationService.coords$.subscribe(async x => {
-        this.userCoords = { latitude: x.latitude, longitude: x.longitude };
-        this.changeRef.detectChanges();
-      }),
       this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
         this.persons = result;
         this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
@@ -91,7 +85,7 @@ export class EventPage implements OnInit, OnDestroy {
   }
 
   async requestRide(userEvent: JoinUserEvent) {
-    this.navigationService.requestUber(this.userCoords, userEvent.event, userEvent.event.name);
+    this.navigationService.requestUber(this.locationService.location, userEvent.event, userEvent.event.name);
   }
 
   async presentActionSheet() {
@@ -144,7 +138,7 @@ export class EventPage implements OnInit, OnDestroy {
   }
 
   async navigate(userEvent: JoinUserEvent) {
-    this.navigationService.navigate(this.userCoords, userEvent.event)
+    this.navigationService.navigate(this.locationService.location, userEvent.event)
   }
 
   goToPersonPage(id: number, user: any) {

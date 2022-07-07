@@ -160,15 +160,15 @@
       name="close-outline"
       (click)="didDismissMapModal()"
     ></ion-icon>
-      <ion-progress-bar *ngIf="loading || !yourLocation" type="indeterminate"></ion-progress-bar>
+      <ion-progress-bar *ngIf="loading || !locationService.location" type="indeterminate"></ion-progress-bar>
     </ion-toolbar>
   </ion-header>
   <ion-content fullscreen="true">
     <app-leaflet-map
-      *ngIf="yourLocation"
-      [center]="mapSearchSelection || yourLocation" 
+      *ngIf="locationService.location"
+      [center]="mapSearchSelection || locationService.location" 
       [locations]="[mapSearchSelection]"
-      [yourLocation]="yourLocation"
+      [yourLocation]="locationService.location"
       [navOnMarker]="true" 
       [showControls]="true"
       [enableSearch]="true"

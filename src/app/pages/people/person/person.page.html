@@ -31,7 +31,7 @@
     <div *ngFor="let userHub of userHubs">
       <app-hub-card *ngIf="!loading && userHub?.hub" 
       [hub]="userHub.hub"
-      [coords]="yourLocation"
+      [coords]="locationService.location"
       [starred]="userHub.starred"
       [isOwner]="userHub.isOwner"
       (click)="goToHubPage(userHub.hubId)"></app-hub-card>

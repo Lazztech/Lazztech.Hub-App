@@ -13,9 +13,6 @@ import { NGXLogger } from 'ngx-logger';
 })
 export class HubCardComponent implements OnInit, OnDestroy, OnChanges {
 
-  // FIXME is this used?
-  coords$: Observable<{longitude: number, latitude: number}>;
-
   @Input() hub: Hub;
   @Input() adminControls = false;
   @Input() showDescription = false;

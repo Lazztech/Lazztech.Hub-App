@@ -4,16 +4,16 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Map</ion-title>
-    <ion-progress-bar *ngIf="loading || !yourLocation" type="indeterminate"></ion-progress-bar>
+    <ion-progress-bar *ngIf="loading || !locationService.location" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
     <app-leaflet-map
-      *ngIf="yourLocation"
-      [center]="center || yourLocation" 
+      *ngIf="locationService.location"
+      [center]="center || locationService.location" 
       [locations]="hubs"
-      [yourLocation]="yourLocation"
+      [yourLocation]="locationService.location"
       [navOnMarker]="true" 
       [showControls]="true"
       [enableSearch]="true"

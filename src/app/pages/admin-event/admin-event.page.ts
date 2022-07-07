@@ -22,7 +22,6 @@ export class AdminEventPage implements OnInit, OnDestroy {
   startDateTimeModalOpen: boolean = false;
   endDateTimeModalOpen: boolean = false;
   mapModalIsOpen: boolean = false;
-  yourLocation: { latitude: number, longitude: number };
   subscriptions: Subscription[] = [];
   id: Scalars['ID'];
   eventQueryResult: ApolloQueryResult<EventQuery>;
@@ -60,7 +59,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
     public routerOutlet: IonRouterOutlet,
     private changeRef: ChangeDetectorRef,
     private platform: Platform,
-    private locationService: LocationService,
+    public locationService: LocationService,
     public readonly navCtrl: NavController,
   ) { }
 
@@ -87,11 +86,6 @@ export class AdminEventPage implements OnInit, OnDestroy {
           }],
         });
       }),
-      this.locationService.coords$.subscribe(async x => {
-        await this.platform.ready();
-        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
-        this.changeRef.detectChanges();
-      })
     );
   }
   

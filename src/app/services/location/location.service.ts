@@ -14,12 +14,16 @@ export class LocationService {
   /**
    * observable stream of users current location
    */
-  coords$: Observable<{ latitude: number, longitude: number }>;
+  public coords$: Observable<{ latitude: number, longitude: number }>;
+  public location: { latitude: number, longitude: number };
 
   constructor(
     private logger: NGXLogger
   ) {
     this.coords$ = this.watchLocation();
+    this.coords$.subscribe(x => {
+      this.location = x
+    });
    }
 
   atHub(hub: any, coords: any, distance: number = environment.geofenceRadius) {
@@ -42,12 +46,12 @@ export class LocationService {
       return of(environment.demoData.usersLocation);
     } else {
       const result = Observable.create(
-        (observer: Observer<{ latitude: number, longitude: number}>) => {
-          const id = Geolocation.watchPosition({ enableHighAccuracy: true }, (x: GeolocationPosition, err) => {
-          // Geolocation.clearWatch({id});
+        async (observer: Observer<{ latitude: number, longitude: number}>) => {
+          const id = await Geolocation.watchPosition({ enableHighAccuracy: true }, (x: GeolocationPosition, err) => {
+          Geolocation.clearWatch({id});
           if (err) {
             this.logger.log(err);
-            // observer.complete();
+            observer.complete();
           }
           const coords = { latitude: x.coords.latitude, longitude: x.coords.longitude };
           observer.next(coords);

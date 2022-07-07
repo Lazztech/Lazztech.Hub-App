@@ -26,7 +26,6 @@ export class HubPage implements OnInit, OnDestroy {
   qrContent: string;
   subscriptions: Subscription[] = [];
   hubCoords: {latitude: number, longitude: number};
-  userCoords: {latitude: number, longitude: number};
   inviteModalIsOpen: boolean = false;
   @ViewChild(InviteComponent)
   private inviteComponent: InviteComponent;
@@ -40,7 +39,7 @@ export class HubPage implements OnInit, OnDestroy {
     public cameraService: CameraService,
     private platform: Platform,
     private changeRef: ChangeDetectorRef,
-    private locationService: LocationService,
+    public locationService: LocationService,
     private logger: NGXLogger,
     public readonly navigationService: NavigationService,
     public readonly routerOutlet: IonRouterOutlet,
@@ -74,16 +73,6 @@ export class HubPage implements OnInit, OnDestroy {
     );
   }
 
-  async ionViewDidEnter() {
-    // FIXME this should be refactored into the HubService to avoid repeating code
-    this.subscriptions.push(
-      this.locationService.coords$.subscribe(async x => {
-        this.userCoords = { latitude: x.latitude, longitude: x.longitude };
-        this.changeRef.detectChanges();
-      })
-    );
-  }
-
   async ngOnDestroy() {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
@@ -112,11 +101,11 @@ export class HubPage implements OnInit, OnDestroy {
   }
 
   async requestRide(userHub: JoinUserHub) {
-   this.navigationService.requestUber(this.userCoords, userHub.hub, userHub.hub?.name);
+   this.navigationService.requestUber(this.locationService.location, userHub.hub, userHub.hub?.name);
   }
 
   async navigate(userHub: JoinUserHub) {
-    this.navigationService.navigate(this.userCoords, userHub.hub)
+    this.navigationService.navigate(this.locationService.location, userHub.hub)
   }
 
   async presentActionSheet() {

@@ -19,7 +19,6 @@ export class PersonPage implements OnInit, OnDestroy {
   id: Scalars['ID'];
   user: User;
   subscriptions: Subscription[] = [];
-  yourLocation: { latitude: number, longitude: number };
 
   userHubs = [];
 
@@ -30,7 +29,7 @@ export class PersonPage implements OnInit, OnDestroy {
     public navCtrl: NavController,
     public actionSheetController: ActionSheetController,
     public userService: UserService,
-    private locationService: LocationService,
+    public locationService: LocationService,
     private changeRef: ChangeDetectorRef,
   ) {
     this.subscriptions.push(this.route.queryParams.subscribe(params => {
@@ -43,12 +42,6 @@ export class PersonPage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.loading = true;
-    this.subscriptions.push(
-      this.locationService.coords$.subscribe(async x => {
-        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
-        this.changeRef.detectChanges();
-      })
-    );
     this.userHubs = await this.hubService.commonUsersHubs(this.id);
     this.loading = false;
   }
