@@ -18,11 +18,11 @@ export class LocationService {
   public location: { latitude: number, longitude: number };
 
   constructor(
-    private logger: NGXLogger
+    private logger: NGXLogger,
   ) {
     this.coords$ = this.watchLocation();
-    this.coords$.subscribe(x => {
-      this.location = x
+    this.coords$.subscribe(async x => {
+      this.location = x;
     });
    }
 
@@ -48,10 +48,10 @@ export class LocationService {
       const result = Observable.create(
         async (observer: Observer<{ latitude: number, longitude: number}>) => {
           const id = await Geolocation.watchPosition({ enableHighAccuracy: true }, (x: GeolocationPosition, err) => {
-          Geolocation.clearWatch({id});
+          // Geolocation.clearWatch({id});
           if (err) {
             this.logger.log(err);
-            observer.complete();
+            // observer.complete();
           }
           const coords = { latitude: x.coords.latitude, longitude: x.coords.longitude };
           observer.next(coords);
