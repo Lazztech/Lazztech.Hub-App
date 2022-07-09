@@ -31,7 +31,6 @@ export class AddHubPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   image: any;
   mapModalIsOpen: boolean = false;
-  yourLocation: { latitude: number, longitude: number };
   mapSearchSelection: { latitude: number, longitude: number, label: string };
 
   get hubName() {
@@ -49,7 +48,7 @@ export class AddHubPage implements OnInit, OnDestroy {
   constructor(
     private hubService: HubService,
     private geofenceService: GeofenceService,
-    private locationService: LocationService,
+    public locationService: LocationService,
     private alertService: AlertService,
     private fb: FormBuilder,
     public navCtrl: NavController,
@@ -77,11 +76,6 @@ export class AddHubPage implements OnInit, OnDestroy {
         this.logger.log('loading: ', x.loading);
         this.loading = x.loading;
       }),
-      this.locationService.coords$.subscribe(async x => {
-        await this.platform.ready();
-        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
-        this.changeRef.detectChanges();
-      })
     );
   }
 
@@ -130,8 +124,8 @@ export class AddHubPage implements OnInit, OnDestroy {
       this.hubName.value,
       this.hubDescription.value,
       this.image,
-      this.location?.value?.latitude || this.yourLocation.latitude,
-      this.location?.value?.longitude || this.yourLocation.longitude,
+      this.location?.value?.latitude || this.locationService.location.latitude,
+      this.location?.value?.longitude || this.locationService.location.longitude,
       this.location?.value?.label,
     );
     if (result) {

@@ -20,7 +20,6 @@ export class CreateEventPage implements OnInit, OnDestroy {
   startDateTimeModalOpen: boolean = false;
   endDateTimeModalOpen: boolean = false;
   mapModalIsOpen: boolean = false;
-  yourLocation: { latitude: number, longitude: number };
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   subscriptions: Subscription[] = [];
 
@@ -52,7 +51,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
     private readonly createEvent: CreateEventGQL,
     public readonly navCtrl: NavController,
     public routerOutlet: IonRouterOutlet,
-    private locationService: LocationService,
+    public locationService: LocationService,
     private platform: Platform,
     private changeRef: ChangeDetectorRef,
   ) { }
@@ -67,14 +66,6 @@ export class CreateEventPage implements OnInit, OnDestroy {
       endDateTime: [],
       location: [],
     });
-
-    this.subscriptions.push(
-      this.locationService.coords$.subscribe(async x => {
-        await this.platform.ready();
-        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
-        this.changeRef.detectChanges();
-      })
-    );
   }
 
   ngOnDestroy(): void {

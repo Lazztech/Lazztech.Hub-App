@@ -17,22 +17,16 @@ export class MapPage {
   hubCoords: any;
   center: any;
   hubs = [];
-  yourLocation: { latitude: number, longitude: number };
   hubId: Scalars['ID'];
   loading = false;
 
   constructor(
     private router: Router,
     private hubService: HubService,
-    private locationService: LocationService,
+    public locationService: LocationService,
     private platform: Platform,
     private changeRef: ChangeDetectorRef,
   ) {
-    this.locationService.coords$.subscribe(async x => {
-      await this.platform.ready();
-      this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
-      this.changeRef.detectChanges();
-    });
     if (this.router.getCurrentNavigation()?.extras?.state) {
       this.hubCoords = this.router.getCurrentNavigation().extras.state.hubCoords;
       this.center = this.hubCoords;

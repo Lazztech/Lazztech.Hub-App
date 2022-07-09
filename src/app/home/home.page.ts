@@ -24,14 +24,13 @@ export class HomePage implements OnInit, OnDestroy {
   hubs: Hub[] = [];
   user: User;
   subscriptions: Subscription[] = [];
-  yourLocation: { latitude: number, longitude: number };
 
   constructor(
     private menu: MenuController,
     private authService: AuthService,
     public navCtrl: NavController,
     private hubService: HubService,
-    private locationService: LocationService,
+    public locationService: LocationService,
     private changeRef: ChangeDetectorRef,
     private logger: NGXLogger,
     private foregroundGeofenceService: ForegroundGeofenceService,
@@ -42,14 +41,12 @@ export class HomePage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.user = await this.authService.user();
-    this.foregroundGeofenceService.init();
+    await this.locationService.watchPosition(
+      (location) => this.foregroundGeofenceService.asses(location)
+    );
     await this.notificationsService.setupPushNotifications();
 
     this.subscriptions.push(
-      this.locationService.coords$.subscribe(async x => {
-        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
-        this.changeRef.detectChanges();
-      }),
       this.hubService.watchUserHubs(null, 2000).valueChanges.subscribe(x => {
         this.logger.log('loading: ', x.loading);
         this.loading = x.loading;
@@ -58,10 +55,10 @@ export class HomePage implements OnInit, OnDestroy {
           this.userHubs = environment.demoData.usersHubs.usersHubs;
         } else {
           this.userHubs = [...x?.data?.usersHubs]?.filter(x => x.hub)?.sort((a, b) => {
-            if (this?.yourLocation) {
+            if (this?.locationService.location) {
               console.log('sorting');
               
-              return this.locationService.getDistanceFromHub(a?.hub as Hub, this?.yourLocation) - this.locationService.getDistanceFromHub(b?.hub as Hub, this?.yourLocation);
+              return this.locationService.getDistanceFromHub(a?.hub as Hub, this?.locationService.location) - this.locationService.getDistanceFromHub(b?.hub as Hub, this?.locationService.location);
             } else {
               return 1;
             }
@@ -117,7 +114,7 @@ export class HomePage implements OnInit, OnDestroy {
   goToMap() {
     this.navCtrl.navigateForward('map', {
       state: {
-        hubCoords: this.yourLocation,
+        hubCoords: this.locationService.location,
         hubs: this.hubs
       }
     });

@@ -19,11 +19,11 @@
 
     <!-- <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar> -->
 
-    <ion-card *ngIf="yourLocation" style="height:30%" (click)="goToMap()">
-          <app-leaflet-map [center]="yourLocation" [yourLocation]="yourLocation" [navOnMarker]="true" [locations]="hubs"></app-leaflet-map>
+    <ion-card *ngIf="locationService.location" style="height:30%" (click)="goToMap()">
+          <app-leaflet-map [center]="locationService.location" [yourLocation]="locationService.location" [navOnMarker]="true" [locations]="hubs"></app-leaflet-map>
     </ion-card>
 
-    <ion-card *ngIf="!yourLocation" style="height:30%">
+    <ion-card *ngIf="!locationService.location" style="height:30%">
       <ion-skeleton-text animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
 
@@ -50,7 +50,7 @@
         <div *ngFor="let invite of invites">
           <app-hub-card
           [hub]="invite.hub"
-          [coords]="yourLocation"
+          [coords]="locationService.location"
           (click)="goToPreviewHubPage(invite.hubId)"></app-hub-card>
         </div>
     </ion-list>
@@ -62,7 +62,7 @@
           <div *ngFor="let userHub of userHubs; trackBy: userTrackByHub">
             <app-hub-card
             [hub]="userHub.hub"
-            [coords]="yourLocation"
+            [coords]="locationService.location"
             [starred]="userHub.starred"
             [isOwner]="userHub.isOwner"
             (click)="goToHubPage(userHub.hubId)"></app-hub-card>

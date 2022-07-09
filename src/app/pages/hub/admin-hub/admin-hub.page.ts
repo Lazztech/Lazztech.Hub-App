@@ -24,7 +24,6 @@ export class AdminHubPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   id: Scalars['ID'];
   mapModalIsOpen: boolean = false;
-  yourLocation: { latitude: number, longitude: number };
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   image: any;
   active: boolean;
@@ -55,7 +54,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
     private readonly inviteByHubService: InvitesByHubGQL,
     private readonly updateHubService: UpdateHubGQL,
     public routerOutlet: IonRouterOutlet,
-    private locationService: LocationService,
+    public locationService: LocationService,
     private platform: Platform,
     private changeRef: ChangeDetectorRef,
   ) { }
@@ -64,11 +63,6 @@ export class AdminHubPage implements OnInit, OnDestroy {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.subscriptions.push(
-      this.locationService.coords$.subscribe(async x => {
-        await this.platform.ready();
-        this.yourLocation = { latitude: x.latitude, longitude: x.longitude };
-        this.changeRef.detectChanges();
-      }),
       this.hubGqlService.fetch({ id: this.id }).subscribe(x => {
         this.userHub = x;
         this.image = x?.data?.hub?.hub?.image;
