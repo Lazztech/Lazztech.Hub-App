@@ -41,7 +41,9 @@ export class HomePage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.user = await this.authService.user();
-    this.foregroundGeofenceService.init();
+    await this.locationService.watchPosition(
+      (location) => this.foregroundGeofenceService.asses(location)
+    );
     await this.notificationsService.setupPushNotifications();
 
     this.subscriptions.push(

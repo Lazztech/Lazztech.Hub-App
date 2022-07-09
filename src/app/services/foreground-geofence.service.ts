@@ -9,8 +9,6 @@ import { LocationService } from './location/location.service';
 })
 export class ForegroundGeofenceService {
 
-  subscriptions: Array<Subscription> = [];
-
   constructor(
     private logger: NGXLogger,
     private locationService: LocationService,
@@ -18,35 +16,25 @@ export class ForegroundGeofenceService {
   ) { }
 
   /**
-   * initializes forground geofence service
-   * this watches for changes in users location in the forground
-   * and
+   * checks for changes in supplied location in the forground
+   * and users location points
    */
-  init() {
-    this.stop();
+  async asses(coords: { latitude: number, longitude: number }) {
     this.logger.log(`initializing`);
-    this.subscriptions.push(
-      this.locationService.coords$.subscribe(async coords => {
-        try {
-          const usersHubs = await this.hubService.usersHubs();
-          for (const userHub of usersHubs) {
-            const atHub = this.locationService.atHub(userHub.hub, coords);
-            if ((userHub.isPresent !== atHub) && atHub) {
-              await this.hubService.enteredHubGeofence(userHub.hubId);
-              this.logger.log(`enteredHubGeofence: ${userHub.hubId}`);
-            } else if ((userHub.isPresent !== atHub) && !atHub) {
-              await this.hubService.exitedHubGeofence(userHub.hubId);
-              this.logger.log(`exitedHubGeofence: ${userHub.hubId}`);
-            }
-          }
-        } catch (error) {
-          this.logger.error(error);
+    try {
+      const usersHubs = await this.hubService.usersHubs();
+      for (const userHub of usersHubs) {
+        const atHub = this.locationService.atHub(userHub.hub, coords);
+        if ((userHub.isPresent !== atHub) && atHub) {
+          await this.hubService.enteredHubGeofence(userHub.hubId);
+          this.logger.log(`enteredHubGeofence: ${userHub.hubId}`);
+        } else if ((userHub.isPresent !== atHub) && !atHub) {
+          await this.hubService.exitedHubGeofence(userHub.hubId);
+          this.logger.log(`exitedHubGeofence: ${userHub.hubId}`);
         }
-      })
-    );
-  }
-
-  stop() {
-    this.subscriptions?.forEach(x => x.unsubscribe());
+      }
+    } catch (error) {
+      this.logger.error(error);
+    }
   }
 }
