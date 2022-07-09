@@ -38,35 +38,15 @@ export class LocationService {
     return Geolocation.getCurrentPosition();
   }
 
-  /**
-   * @deprecated The method should not be used
-   */
-  private watchLocation(minuteInterval: number = 1): Observable<{ latitude: number, longitude: number}> {
-    if (environment.demoMode) {
-      this.logger.log('returning demo data for users location');
-      return of(environment.demoData.usersLocation);
-    } else {
-      const result = Observable.create(
-        async (observer: Observer<{ latitude: number, longitude: number}>) => {
-          const id = await Geolocation.watchPosition({ enableHighAccuracy: true }, (x: GeolocationPosition, err) => {
-          // Geolocation.clearWatch({id});
-          if (err) {
-            this.logger.log(err);
-            // observer.complete();
-          }
-          const coords = { latitude: x.coords.latitude, longitude: x.coords.longitude };
-          observer.next(coords);
-        });
-      });
-
-      return result;
-    }
-  }
-
   async watchPosition(
     callback?: (location: { latitude: number, longitude: number }) => Promise<void> | void,
     options: PositionOptions = { enableHighAccuracy: true }
   ) {
+    if (environment.demoMode) {
+      this.logger.log('returning demo data for users location');
+      this.location = (environment.demoData.usersLocation);
+      return;
+    }
     if (this.watchId) {
       await Geolocation.clearWatch({ id: this.watchId });
       this.watchId = undefined;
@@ -102,6 +82,35 @@ export class LocationService {
     return meters*0.000621371192;
   }
 
+  /**
+   * @deprecated The method should not be used
+   */
+  private watchLocation(minuteInterval: number = 1): Observable<{ latitude: number, longitude: number}> {
+    if (environment.demoMode) {
+      this.logger.log('returning demo data for users location');
+      return of(environment.demoData.usersLocation);
+    } else {
+      const result = Observable.create(
+        async (observer: Observer<{ latitude: number, longitude: number}>) => {
+          const id = await Geolocation.watchPosition({ enableHighAccuracy: true }, (x: GeolocationPosition, err) => {
+          // Geolocation.clearWatch({id});
+          if (err) {
+            this.logger.log(err);
+            // observer.complete();
+          }
+          const coords = { latitude: x.coords.latitude, longitude: x.coords.longitude };
+          observer.next(coords);
+        });
+      });
+
+      return result;
+    }
+  }
+
+
+  /**
+   * @deprecated The method should not be used
+   */
   getCurrentPositionFastIos = async (options: PositionOptions = {}): Promise<GeolocationPosition> => {
     return new Promise<GeolocationPosition>(async (resolve, reject) => {
       const id = await Geolocation.watchPosition(options, (position, err) => {
