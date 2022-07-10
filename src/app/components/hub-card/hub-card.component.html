@@ -1,4 +1,4 @@
-<ion-card>
+<ion-card [ngClass]="{'glowing-card' : hub?.active}">
   <div *ngIf="!compact">
     <ion-img *ngIf="hub.image" class="cliped" ngClass="right-box" src="{{hub.image}}"></ion-img>
   </div>
