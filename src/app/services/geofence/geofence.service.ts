@@ -118,11 +118,11 @@ export class GeofenceService {
         const hub = JSON.parse(geofence.identifier) as Hub;
 
         if (geofence.action === 'ENTER') {
-          await this.enteredGeofence(hub, geofence).catch(error => {
-            // Be sure to catch errors:  never leave you background-task hanging.
-            this.logger.error(error);
-            BackgroundGeolocation.stopBackgroundTask(taskId);
-          });
+          // await this.enteredGeofence(hub, geofence).catch(error => {
+          //   // Be sure to catch errors:  never leave you background-task hanging.
+          //   this.logger.error(error);
+          //   BackgroundGeolocation.stopBackgroundTask(taskId);
+          // });
         } else if (geofence.action === 'EXIT') {
           await this.exitedGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
@@ -130,11 +130,16 @@ export class GeofenceService {
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
         } else if (geofence.action == "DWELL") {
-          this.dwellGeofence(hub, geofence).catch(error => {
+          await this.enteredGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
+          // this.dwellGeofence(hub, geofence).catch(error => {
+          //   // Be sure to catch errors:  never leave you background-task hanging.
+          //   this.logger.error(error);
+          //   BackgroundGeolocation.stopBackgroundTask(taskId);
+          // });
         }
         // When your long-running task is complete, signal completion of taskId.
         BackgroundGeolocation.stopBackgroundTask(taskId);
