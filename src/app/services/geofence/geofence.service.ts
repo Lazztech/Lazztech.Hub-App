@@ -68,6 +68,42 @@ export class GeofenceService {
     }
   }
 
+  async syncGeofences() {
+    const userHubs = await this.hubService.usersHubs();
+    const geofences = await BackgroundGeolocation.getGeofences();
+    // add any missing geofences
+    for (const userHub of userHubs) {
+      const identifier = this.mapHubToGeofenceIdentifier(userHub.hub as Hub);
+      if (!geofences.some(gf => gf.identifier == identifier)) {
+        await this.addGeofence({
+          identifier: identifier,
+          latitude: userHub.hub.latitude,
+          longitude: userHub.hub.longitude,
+        });
+        this.logger.log(`Added geofence ${identifier}`);
+      }
+    }
+    // remove any no longer relivant geofences
+    const noLongerRelivantGeofences = geofences.filter(
+      geofence => !userHubs.some(
+        userHub => geofence.identifier == this.mapHubToGeofenceIdentifier(userHub.hub as Hub)
+      )
+    );
+    for (const noLongerRelivantGeofence of noLongerRelivantGeofences) {
+      await BackgroundGeolocation.removeGeofence(
+        noLongerRelivantGeofence.identifier,
+      )
+      this.logger.log(`Removed geofence ${noLongerRelivantGeofence.identifier}`);
+    }
+  }
+
+  mapHubToGeofenceIdentifier(hub: Hub): string {
+    return JSON.stringify({
+      id: hub.id,
+      name: hub.name
+    });
+  }
+
   async isPowerSaveMode() {
     // FIXME: seems to always return false
     return await BackgroundGeolocation.isPowerSaveMode();
@@ -82,11 +118,11 @@ export class GeofenceService {
         const hub = JSON.parse(geofence.identifier) as Hub;
 
         if (geofence.action === 'ENTER') {
-          await this.enteredGeofence(hub, geofence).catch(error => {
-            // Be sure to catch errors:  never leave you background-task hanging.
-            this.logger.error(error);
-            BackgroundGeolocation.stopBackgroundTask(taskId);
-          });
+          // await this.enteredGeofence(hub, geofence).catch(error => {
+          //   // Be sure to catch errors:  never leave you background-task hanging.
+          //   this.logger.error(error);
+          //   BackgroundGeolocation.stopBackgroundTask(taskId);
+          // });
         } else if (geofence.action === 'EXIT') {
           await this.exitedGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
@@ -94,11 +130,16 @@ export class GeofenceService {
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
         } else if (geofence.action == "DWELL") {
-          this.dwellGeofence(hub, geofence).catch(error => {
+          await this.enteredGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
+          // this.dwellGeofence(hub, geofence).catch(error => {
+          //   // Be sure to catch errors:  never leave you background-task hanging.
+          //   this.logger.error(error);
+          //   BackgroundGeolocation.stopBackgroundTask(taskId);
+          // });
         }
         // When your long-running task is complete, signal completion of taskId.
         BackgroundGeolocation.stopBackgroundTask(taskId);
