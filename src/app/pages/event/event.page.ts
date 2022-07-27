@@ -8,6 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
@@ -47,6 +48,7 @@ export class EventPage implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     public readonly routerOutlet: IonRouterOutlet,
     public readonly navigationService: NavigationService,
+    private readonly communcationService: CommunicationService,
   ) { }
 
   ngOnInit() {
@@ -82,6 +84,16 @@ export class EventPage implements OnInit, OnDestroy {
 
   trackByUser(index: any, joinUserEvent: JoinUserEvent) {
     return joinUserEvent.userId;
+  }
+
+  openPhone(event: Event, number: string) {
+    event.stopPropagation();
+    this.communcationService.openPhone(number);
+  }
+
+  openSms(event: Event, number: string) {
+    event.stopPropagation();
+    this.communcationService.openSms(number);
   }
 
   async requestRide(userEvent: JoinUserEvent) {

@@ -5,6 +5,7 @@ import { NGXLogger } from 'ngx-logger';
 import { UsersPeopleQuery } from 'src/generated/graphql';
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
+import { CommunicationService } from 'src/app/services/communication.service';
 
 @Component({
   selector: 'app-people',
@@ -20,7 +21,8 @@ export class PeoplePage implements OnInit, OnDestroy {
   constructor(
     public navCtrl: NavController,
     public hubService: HubService,
-    private logger: NGXLogger
+    private logger: NGXLogger,
+    private readonly communcationService: CommunicationService,
   ) { }
 
   ngOnInit() {
@@ -46,6 +48,16 @@ export class PeoplePage implements OnInit, OnDestroy {
     this.persons = this.hubService.watchUsersPeople('network-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
     event.target.complete();
     this.loading = false;
+  }
+
+  openPhone(event: Event, number: string) {
+    event.stopPropagation();
+    this.communcationService.openPhone(number);
+  }
+
+  openSms(event: Event, number: string) {
+    event.stopPropagation();
+    this.communcationService.openSms(number);
   }
 
   goToPersonPage(id: number, user: any) {

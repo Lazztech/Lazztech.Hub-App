@@ -90,6 +90,18 @@
             <ion-text>Admin</ion-text>
           </p>
         </ion-label>
+        <ion-icon
+          *ngIf="userConnection.user.fullPhoneNumber"
+          name="call-outline"
+          slot="end" 
+          (click)="openPhone($event, userConnection.user.fullPhoneNumber)"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="userConnection.user.fullPhoneNumber"
+          name="chatbubble-outline" 
+          slot="end" 
+          (click)="openSms($event, userConnection.user.fullPhoneNumber)"
+        ></ion-icon>
       </ion-item>
     </div>
   </ion-list>
