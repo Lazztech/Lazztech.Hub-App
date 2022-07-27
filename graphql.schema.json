@@ -3823,6 +3823,26 @@
             "defaultValue": null
           },
           {
+            "name": "phoneCountryCode",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "phoneAreaCode",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "phoneNumber",
             "description": null,
             "type": {

@@ -528,6 +528,8 @@ export type UserInput = {
   /** string representation of unix timestamp */
   birthdate: Scalars['String'];
   email: Scalars['String'];
+  phoneCountryCode?: Maybe<Scalars['Float']>;
+  phoneAreaCode?: Maybe<Scalars['Float']>;
   phoneNumber?: Maybe<Scalars['Float']>;
   password: Scalars['String'];
 };
@@ -649,19 +651,19 @@ export type EventQuery = (
     & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
     & { user?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'fullPhoneNumber'>
     )>, event?: Maybe<(
       { __typename?: 'Event' }
       & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
       & { createdBy?: Maybe<(
         { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'fullPhoneNumber'>
       )>, usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserEvent' }
         & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
         & { user?: Maybe<(
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'fullPhoneNumber'>
         )> }
       )>> }
     )> }
@@ -1203,7 +1205,7 @@ export type UsersPeopleQuery = (
   { __typename?: 'Query' }
   & { usersPeople: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'fullPhoneNumber'>
   )> }
 );
 
@@ -1526,6 +1528,7 @@ export const EventDocument = gql`
       image
       email
       shareableId
+      fullPhoneNumber
     }
     event {
       id
@@ -1537,6 +1540,7 @@ export const EventDocument = gql`
         image
         email
         shareableId
+        fullPhoneNumber
       }
       name
       image
@@ -1556,6 +1560,7 @@ export const EventDocument = gql`
           image
           lastOnline
           blocked
+          fullPhoneNumber
         }
         rsvp
         lastGeofenceEvent
@@ -2338,6 +2343,7 @@ export const UsersPeopleDocument = gql`
     image
     lastOnline
     blocked
+    fullPhoneNumber
   }
 }
     `;

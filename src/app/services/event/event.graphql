@@ -10,6 +10,7 @@ query event($id: ID!) {
       image
       email
       shareableId
+      fullPhoneNumber
     }
     event {
       id
@@ -21,6 +22,7 @@ query event($id: ID!) {
         image
         email
         shareableId
+        fullPhoneNumber
       }
       name
       image
@@ -40,6 +42,7 @@ query event($id: ID!) {
           image
           lastOnline
           blocked
+          fullPhoneNumber
         }
         rsvp
         lastGeofenceEvent
