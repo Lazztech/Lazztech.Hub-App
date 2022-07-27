@@ -503,6 +503,9 @@ export type User = {
   birthdate?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  phoneCountryCode?: Maybe<Scalars['Float']>;
+  phoneAreaCode?: Maybe<Scalars['Float']>;
+  phoneNumber?: Maybe<Scalars['Float']>;
   /** unix timestamp for the last time the user was successfully authenticated */
   lastOnline?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
@@ -524,6 +527,7 @@ export type UserInput = {
   /** string representation of unix timestamp */
   birthdate: Scalars['String'];
   email: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['Float']>;
   password: Scalars['String'];
 };
 
@@ -545,7 +549,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneCountryCode' | 'phoneAreaCode' | 'phoneNumber' | 'shareableId'>
     & { blocks?: Maybe<Array<(
       { __typename?: 'Block' }
       & { from: (
@@ -1383,6 +1387,9 @@ export const MeDocument = gql`
     description
     image
     email
+    phoneCountryCode
+    phoneAreaCode
+    phoneNumber
     shareableId
     blocks {
       from {

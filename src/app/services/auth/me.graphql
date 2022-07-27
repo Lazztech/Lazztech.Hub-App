@@ -6,6 +6,9 @@ query me {
     description
     image
     email
+    phoneCountryCode
+    phoneAreaCode
+    phoneNumber
     shareableId
     blocks {
       from {
