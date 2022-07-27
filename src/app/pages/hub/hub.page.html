@@ -122,6 +122,8 @@
           <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
             | amLocal | amTimeAgo) : 'N/A'}}</p>
         </ion-label>
+        <ion-icon name="call-outline" slot="end" (click)="openPhone($event, userConnection.user.fullPhoneNumber)"></ion-icon>
+        <ion-icon name="chatbubble-outline" slot="end" (click)="openSms($event, userConnection.user.fullPhoneNumber)"></ion-icon>
       </ion-item>
     </div>
 

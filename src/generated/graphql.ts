@@ -512,6 +512,7 @@ export type User = {
   userDevices?: Maybe<Array<UserDevice>>;
   blocks?: Maybe<Array<Block>>;
   blocked?: Maybe<Scalars['Boolean']>;
+  fullPhoneNumber?: Maybe<Scalars['String']>;
 };
 
 export type UserDevice = {
@@ -1003,7 +1004,7 @@ export type HubQuery = (
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
         & { user?: Maybe<(
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'fullPhoneNumber'>
         )> }
       )>>, microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
@@ -2042,6 +2043,7 @@ export const HubDocument = gql`
           image
           lastOnline
           blocked
+          fullPhoneNumber
         }
         isOwner
         isPresent

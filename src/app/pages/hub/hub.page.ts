@@ -108,6 +108,16 @@ export class HubPage implements OnInit, OnDestroy {
     this.navigationService.navigate(this.locationService.location, userHub.hub)
   }
 
+  openPhone(event: Event, number: string) {
+    event.preventDefault();
+    window.open(`tel:${number}`);
+  }
+
+  openSms(event: Event, number: string) {
+    event.preventDefault();
+    window.open(`sms:${number}`);
+  }
+
   async presentActionSheet() {
     if (this.userHub) {
       const buttons = [];
