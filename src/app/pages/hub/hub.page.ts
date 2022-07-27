@@ -109,12 +109,12 @@ export class HubPage implements OnInit, OnDestroy {
   }
 
   openPhone(event: Event, number: string) {
-    event.preventDefault();
+    event.stopPropagation();
     window.open(`tel:${number}`);
   }
 
   openSms(event: Event, number: string) {
-    event.preventDefault();
+    event.stopPropagation();
     window.open(`sms:${number}`);
   }
 
