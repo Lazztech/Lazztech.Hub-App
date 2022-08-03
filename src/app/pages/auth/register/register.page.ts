@@ -42,6 +42,10 @@ export class RegisterPage implements OnInit {
     return this.myForm.get('password');
   }
 
+  get phoneNumber() {
+    return this.myForm.get('phoneNumber');
+  }
+
   public countries: Array<{ code: number, flag: string, region: string}> = [];
 
   constructor(private modalController: ModalController,
@@ -65,6 +69,7 @@ export class RegisterPage implements OnInit {
         Validators.required,
         AgeRestrictionValidator(this.ageRestriction)
       ]],
+      phoneNumber: [],
       email: ['', [
         Validators.required,
         Validators.email

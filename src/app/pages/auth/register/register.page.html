@@ -56,7 +56,7 @@
       <ion-col size="8" class="ion-no-padding">
         <ion-item>
           <ion-label position="stacked">Phone Number</ion-label>
-          <ion-input type="tel" placeholder="555-555-5555"></ion-input>
+          <ion-input type="tel" formControlName="phoneNumber" placeholder="(555) 555-5555" [value]="phoneNumber.value | phoneNumberFormatter:'US'"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
