@@ -48,7 +48,7 @@
           <ion-label position="floating">Country</ion-label>
           <ion-select value="US">
             <div *ngFor="let country of countries">
-              <ion-select-option value="{{country.region}}">{{country.flag}} +{{country.code}}</ion-select-option>
+              <ion-select-option value="{{country.region}}">{{country.flag}} +{{country.code}} {{country.region}}</ion-select-option>
             </div>
           </ion-select>
         </ion-item>
