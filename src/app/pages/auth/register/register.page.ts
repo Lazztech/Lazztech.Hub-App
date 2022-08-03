@@ -7,7 +7,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { environment } from 'src/environments/environment';
 import { AgeRestrictionValidator } from '../../../directives/age-restriction.directive';
-import { LoginPage } from '../login/login.page';
 
 @Component({
   selector: 'app-register',
@@ -48,12 +47,12 @@ export class RegisterPage implements OnInit {
 
   public countries: Array<{ code: number, flag: string, region: string}> = [];
 
-  constructor(private modalController: ModalController,
-              private authService: AuthService,
-              private navCtrl: NavController,
-              private alertService: AlertService,
-              private fb: FormBuilder,
-              private readonly communicationService: CommunicationService,
+  constructor(
+    private authService: AuthService,
+    private navCtrl: NavController,
+    private alertService: AlertService,
+    private fb: FormBuilder,
+    private readonly communicationService: CommunicationService,
   ) { }
 
   ngOnInit() {
@@ -81,19 +80,6 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  dismissRegister() {
-    this.modalController.dismiss();
-  }
-
-  async loginModal() {
-    this.dismissRegister();
-    const loginModal = await this.modalController.create({
-      component: LoginPage,
-      swipeToClose: true,
-    });
-    return await loginModal.present();
-  }
-
   async register() {
     this.loading = true;
 
@@ -110,7 +96,6 @@ export class RegisterPage implements OnInit {
     if (token) {
       await this.authService.login(formValue.email, formValue.password);
       this.loading = false;
-      this.dismissRegister();
       await this.navCtrl.navigateRoot('/tabs');
     } else {
       this.loading = false;

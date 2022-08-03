@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterPage } from '../auth/register/register.page';
 import { ModalController, MenuController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
@@ -70,11 +69,7 @@ export class LandingPage implements OnInit {
   }
 
   async register() {
-    const registerModal = await this.modalController.create({
-      component: RegisterPage,
-      swipeToClose: true,
-    });
-    return await registerModal.present();
+    await this.navCtrl.navigateForward('/register');
   }
 
   async login() {
