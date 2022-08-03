@@ -46,8 +46,10 @@
       <ion-col size="4" class="ion-no-padding">
         <ion-item>
           <ion-label position="floating">Country</ion-label>
-          <ion-select placeholder="+1">
-            <ion-select-option value="1">🇺🇸 +1</ion-select-option>
+          <ion-select value="US">
+            <div *ngFor="let country of countries">
+              <ion-select-option value="{{country.region}}">{{country.flag}} +{{country.code}}</ion-select-option>
+            </div>
           </ion-select>
         </ion-item>
       </ion-col>

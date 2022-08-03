@@ -4,6 +4,7 @@ import { Browser } from '@capacitor/browser';
 import { ModalController, NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CommunicationService } from 'src/app/services/communication.service';
 import { environment } from 'src/environments/environment';
 import { AgeRestrictionValidator } from '../../../directives/age-restriction.directive';
 import { LoginPage } from '../login/login.page';
@@ -41,14 +42,18 @@ export class RegisterPage implements OnInit {
     return this.myForm.get('password');
   }
 
+  public countries: Array<{ code: number, flag: string, region: string}> = [];
+
   constructor(private modalController: ModalController,
               private authService: AuthService,
               private navCtrl: NavController,
               private alertService: AlertService,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              private readonly communicationService: CommunicationService,
   ) { }
 
   ngOnInit() {
+    this.countries = this.communicationService.countryCodes();
     this.myForm = this.fb.group({
       firstName: ['', [
         Validators.required
