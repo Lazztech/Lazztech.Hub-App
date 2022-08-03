@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterPage } from '../auth/register/register.page';
-import { LoginPage } from '../auth/login/login.page';
 import { ModalController, MenuController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { NGXLogger } from 'ngx-logger';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -16,6 +16,17 @@ import { AlertService } from 'src/app/services/alert/alert.service';
 })
 export class LandingPage implements OnInit {
 
+  loading = false;
+  myForm: FormGroup;
+
+  get email() {
+    return this.myForm.get('email');
+  }
+
+  get password() {
+    return this.myForm.get('password');
+  }
+
   constructor(
     private modalController: ModalController,
     private menu: MenuController,
@@ -24,7 +35,8 @@ export class LandingPage implements OnInit {
     private faio: FingerprintAIO,
     private notificationsService: NotificationsService,
     private logger: NGXLogger,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private fb: FormBuilder,
   ) {
     this.menu.enable(false);
   }
@@ -45,7 +57,16 @@ export class LandingPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.myForm = this.fb.group({
+      email: ['', [
+        Validators.required,
+        Validators.email
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(10)
+      ]]
+    });
   }
 
   async register() {
@@ -57,11 +78,19 @@ export class LandingPage implements OnInit {
   }
 
   async login() {
-    const loginModal = await this.modalController.create({
-      component: LoginPage,
-      swipeToClose: true,
-    });
-    return await loginModal.present();
+    this.loading = true;
+    const formValue = this.myForm.value;
+    const token = await this.authService.login(formValue.email, formValue.password);
+    this.logger.log('Result: ' + token);
+    if (token) {
+      this.loading = false;
+      // FIXME is this how I want this? It needs token to work on first launch.
+      await this.notificationsService.setupPushNotifications();
+      await this.navCtrl.navigateRoot('/tabs');
+    } else {
+      this.loading = false;
+      this.alertService.presentRedToast('Login failed!');
+    }
   }
 
   async triggerBioAuth() {
