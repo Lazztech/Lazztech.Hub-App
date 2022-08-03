@@ -572,6 +572,9 @@ export type RegisterMutationVariables = Exact<{
   birthdate: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
+  phoneCountryCode?: Maybe<Scalars['Float']>;
+  phoneAreaCode?: Maybe<Scalars['Float']>;
+  phoneNumber?: Maybe<Scalars['Float']>;
 }>;
 
 
@@ -1426,8 +1429,8 @@ export const MeDocument = gql`
     
   }
 export const RegisterDocument = gql`
-    mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!) {
-  register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password})
+    mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!, $phoneCountryCode: Float, $phoneAreaCode: Float, $phoneNumber: Float) {
+  register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password, phoneCountryCode: $phoneCountryCode, phoneAreaCode: $phoneAreaCode, phoneNumber: $phoneNumber})
 }
     `;
 

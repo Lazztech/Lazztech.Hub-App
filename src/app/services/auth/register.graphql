@@ -1,15 +1,23 @@
 mutation register(
-    $firstName: String!,
-    $lastName: String!,
-    $birthdate: String!,
-    $email: String!,
-    $password: String!
-){
-    register(data: {
-    firstName: $firstName,
-    lastName: $lastName,
-    birthdate: $birthdate,
-    email: $email,
-    password: $password
-    })
+  $firstName: String!
+  $lastName: String!
+  $birthdate: String!
+  $email: String!
+  $password: String!
+  $phoneCountryCode: Float
+  $phoneAreaCode: Float
+  $phoneNumber: Float
+) {
+  register(
+    data: {
+      firstName: $firstName
+      lastName: $lastName
+      birthdate: $birthdate
+      email: $email
+      password: $password
+      phoneCountryCode: $phoneCountryCode
+      phoneAreaCode: $phoneAreaCode
+      phoneNumber: $phoneNumber
+    }
+  )
 }

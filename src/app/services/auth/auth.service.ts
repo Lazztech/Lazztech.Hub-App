@@ -46,13 +46,25 @@ export class AuthService {
     delete this.token;
   }
 
-  async register(firstName: string, lastName: string, birthdate: string, email: string, password: string): Promise<boolean> {
+  async register(
+    firstName: string, 
+    lastName: string, 
+    birthdate: string, 
+    email: string, 
+    password: string,
+    phoneCountryCode: number,
+    phoneAreaCode: number,
+    phoneNumber: number,
+  ): Promise<boolean> {
     const result = await this.registerService.mutate({
       firstName,
       lastName,
       birthdate,
       email,
-      password
+      password,
+      phoneCountryCode,
+      phoneAreaCode,
+      phoneNumber
     }).toPromise();
 
     this.logger.log(result);
