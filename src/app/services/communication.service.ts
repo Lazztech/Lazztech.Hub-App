@@ -7,7 +7,7 @@ import getUnicodeFlagIcon from 'country-flag-icons/unicode'
 })
 export class CommunicationService {
 
-  phoneNumberUtil = PhoneNumberUtil.getInstance();
+  public phoneNumberUtil = PhoneNumberUtil.getInstance();
 
   constructor() { }
 

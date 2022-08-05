@@ -6,13 +6,10 @@
 <ion-content fullscreen="true">
   <ion-card class="welcome-card">
     <ion-img src="/assets/illustrations/banner.jpg"></ion-img>
-    <ion-card-header>
-      <ion-card-title>Lazztech Hub</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>From app to the real world - Foster Community</p>
-    </ion-card-content>
   </ion-card>
+
+  <ion-card-title class="ion-text-center">Lazztech Hub</ion-card-title>
+  <p class="ion-text-center">From app to the real world - Foster Community</p>
 
   <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
     <ion-item>

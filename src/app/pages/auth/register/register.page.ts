@@ -82,24 +82,31 @@ export class RegisterPage implements OnInit {
 
   async register() {
     this.loading = true;
-
-    const formValue = this.myForm.value;
-    const birthdateTimestamp = Date.parse(formValue.birthdate).toString();
-    const token = await this.authService.register(
-      formValue.firstName,
-      formValue.lastName,
-      birthdateTimestamp,
-      formValue.email,
-      formValue.password
-      );
-
-    if (token) {
-      await this.authService.login(formValue.email, formValue.password);
+    try {
+      const formValue = this.myForm.value;
+      const birthdateTimestamp = Date.parse(formValue.birthdate).toString();
+      const token = await this.authService.register(
+        formValue.firstName,
+        formValue.lastName,
+        birthdateTimestamp,
+        formValue.email,
+        formValue.password,
+        1,
+        this.phoneNumber.value,
+        this.phoneNumber.value,
+        );
+  
+      if (token) {
+        await this.authService.login(formValue.email, formValue.password);
+        this.loading = false;
+        await this.navCtrl.navigateRoot('/tabs');
+      } else {
+        this.loading = false;
+        this.alertService.presentToast('Registration Failed');
+      }
+    } catch (error) {
       this.loading = false;
-      await this.navCtrl.navigateRoot('/tabs');
-    } else {
-      this.loading = false;
-      this.alertService.presentToast('Registration Failed');
+      this.alertService.presentRedToast(error);
     }
   }
 
