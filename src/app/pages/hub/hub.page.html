@@ -108,7 +108,10 @@
 
   <ion-list *ngIf="userHub && userHub?.hub.active">
     <ion-list-header>
-      <ion-text>Present</ion-text>
+      <ion-label class="ion-no-margin">Present</ion-label>
+      <ion-item lines="none">
+        <ion-icon slot="end" name="chatbubbles-outline"></ion-icon>
+      </ion-item>
     </ion-list-header>
 
     <div *ngFor="let userConnection of sortedUsers; trackBy: trackByUser">
@@ -154,7 +157,7 @@
   <ion-list *ngIf="userHub && userHub?.hub.active">
     <ion-list-header>
       <ion-label class="ion-no-margin">Away</ion-label>
-      <ion-item>
+      <ion-item lines="none">
         <ion-icon slot="end" name="chatbubbles-outline"></ion-icon>
       </ion-item>
     </ion-list-header>
