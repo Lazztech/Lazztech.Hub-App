@@ -91,10 +91,8 @@ export class RegisterPage implements OnInit {
         birthdateTimestamp,
         formValue.email,
         formValue.password,
-        1,
         this.phoneNumber.value,
-        this.phoneNumber.value,
-        );
+      );
   
       if (token) {
         await this.authService.login(formValue.email, formValue.password);

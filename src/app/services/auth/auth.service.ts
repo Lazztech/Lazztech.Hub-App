@@ -52,9 +52,7 @@ export class AuthService {
     birthdate: string, 
     email: string, 
     password: string,
-    phoneCountryCode: number,
-    phoneAreaCode: number,
-    phoneNumber: number,
+    phoneNumber: string,
   ): Promise<boolean> {
     const result = await this.registerService.mutate({
       firstName,
@@ -62,8 +60,6 @@ export class AuthService {
       birthdate,
       email,
       password,
-      phoneCountryCode,
-      phoneAreaCode,
       phoneNumber
     }).toPromise();
 
