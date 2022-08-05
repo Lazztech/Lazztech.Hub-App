@@ -4,9 +4,7 @@ mutation register(
   $birthdate: String!
   $email: String!
   $password: String!
-  $phoneCountryCode: Float
-  $phoneAreaCode: Float
-  $phoneNumber: Float
+  $phoneNumber: String
 ) {
   register(
     data: {
@@ -15,8 +13,6 @@ mutation register(
       birthdate: $birthdate
       email: $email
       password: $password
-      phoneCountryCode: $phoneCountryCode
-      phoneAreaCode: $phoneAreaCode
       phoneNumber: $phoneNumber
     }
   )

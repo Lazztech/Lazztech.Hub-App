@@ -503,16 +503,13 @@ export type User = {
   birthdate?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   email: Scalars['String'];
-  phoneCountryCode?: Maybe<Scalars['Float']>;
-  phoneAreaCode?: Maybe<Scalars['Float']>;
-  phoneNumber?: Maybe<Scalars['Float']>;
+  phoneNumber?: Maybe<Scalars['String']>;
   /** unix timestamp for the last time the user was successfully authenticated */
   lastOnline?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   userDevices?: Maybe<Array<UserDevice>>;
   blocks?: Maybe<Array<Block>>;
   blocked?: Maybe<Scalars['Boolean']>;
-  fullPhoneNumber?: Maybe<Scalars['String']>;
 };
 
 export type UserDevice = {
@@ -528,9 +525,7 @@ export type UserInput = {
   /** string representation of unix timestamp */
   birthdate: Scalars['String'];
   email: Scalars['String'];
-  phoneCountryCode?: Maybe<Scalars['Float']>;
-  phoneAreaCode?: Maybe<Scalars['Float']>;
-  phoneNumber?: Maybe<Scalars['Float']>;
+  phoneNumber?: Maybe<Scalars['String']>;
   password: Scalars['String'];
 };
 
@@ -552,7 +547,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneCountryCode' | 'phoneAreaCode' | 'phoneNumber' | 'shareableId'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneNumber' | 'shareableId'>
     & { blocks?: Maybe<Array<(
       { __typename?: 'Block' }
       & { from: (
@@ -572,9 +567,7 @@ export type RegisterMutationVariables = Exact<{
   birthdate: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
-  phoneCountryCode?: Maybe<Scalars['Float']>;
-  phoneAreaCode?: Maybe<Scalars['Float']>;
-  phoneNumber?: Maybe<Scalars['Float']>;
+  phoneNumber?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -654,19 +647,19 @@ export type EventQuery = (
     & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
     & { user?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'fullPhoneNumber'>
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
     )>, event?: Maybe<(
       { __typename?: 'Event' }
       & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
       & { createdBy?: Maybe<(
         { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'fullPhoneNumber'>
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
       )>, usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserEvent' }
         & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
         & { user?: Maybe<(
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'fullPhoneNumber'>
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'phoneNumber'>
         )> }
       )>> }
     )> }
@@ -1009,7 +1002,7 @@ export type HubQuery = (
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
         & { user?: Maybe<(
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'fullPhoneNumber'>
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'phoneNumber'>
         )> }
       )>>, microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
@@ -1208,7 +1201,7 @@ export type UsersPeopleQuery = (
   { __typename?: 'Query' }
   & { usersPeople: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'fullPhoneNumber'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'phoneNumber'>
   )> }
 );
 
@@ -1393,8 +1386,6 @@ export const MeDocument = gql`
     description
     image
     email
-    phoneCountryCode
-    phoneAreaCode
     phoneNumber
     shareableId
     blocks {
@@ -1429,8 +1420,8 @@ export const MeDocument = gql`
     
   }
 export const RegisterDocument = gql`
-    mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!, $phoneCountryCode: Float, $phoneAreaCode: Float, $phoneNumber: Float) {
-  register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password, phoneCountryCode: $phoneCountryCode, phoneAreaCode: $phoneAreaCode, phoneNumber: $phoneNumber})
+    mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!, $phoneNumber: String) {
+  register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password, phoneNumber: $phoneNumber})
 }
     `;
 
@@ -1531,7 +1522,7 @@ export const EventDocument = gql`
       image
       email
       shareableId
-      fullPhoneNumber
+      phoneNumber
     }
     event {
       id
@@ -1543,7 +1534,7 @@ export const EventDocument = gql`
         image
         email
         shareableId
-        fullPhoneNumber
+        phoneNumber
       }
       name
       image
@@ -1563,7 +1554,7 @@ export const EventDocument = gql`
           image
           lastOnline
           blocked
-          fullPhoneNumber
+          phoneNumber
         }
         rsvp
         lastGeofenceEvent
@@ -2051,7 +2042,7 @@ export const HubDocument = gql`
           image
           lastOnline
           blocked
-          fullPhoneNumber
+          phoneNumber
         }
         isOwner
         isPresent
@@ -2346,7 +2337,7 @@ export const UsersPeopleDocument = gql`
     image
     lastOnline
     blocked
-    fullPhoneNumber
+    phoneNumber
   }
 }
     `;
