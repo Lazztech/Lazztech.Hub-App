@@ -91,7 +91,7 @@ export class RegisterPage implements OnInit {
         birthdateTimestamp,
         formValue.email,
         formValue.password,
-        this.phoneNumber.value,
+        `+1 ${this.phoneNumber.value}`,
       );
   
       if (token) {
