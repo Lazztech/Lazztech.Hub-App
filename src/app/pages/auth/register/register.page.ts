@@ -19,7 +19,7 @@ export class RegisterPage implements OnInit {
 
   myForm: FormGroup;
 
-  ageRestriction = 13;
+  ageRestriction = 16;
 
   get firstName() {
     return this.myForm.get('firstName');
