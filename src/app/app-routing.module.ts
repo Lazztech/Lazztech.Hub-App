@@ -16,7 +16,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'landing',
-    loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingPageModule)
+    loadChildren: () => import('./pages/auth/landing/landing.module').then(m => m.LandingPageModule)
   },
   {
     path: 'register',
