@@ -72,6 +72,10 @@ export class LandingPage implements OnInit {
     await this.navCtrl.navigateForward('/register');
   }
 
+  async resetPassword() {
+    await this.navCtrl.navigateForward('/password-reset')
+  }
+
   async login() {
     this.loading = true;
     const formValue = this.myForm.value;
