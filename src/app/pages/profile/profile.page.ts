@@ -149,6 +149,9 @@ export class ProfilePage implements OnInit, OnDestroy {
           this.navCtrl.navigateForward('tutorial');
         }
       }, {
+        text: 'Log Out',
+        handler: () => this.logout(),
+      }, {
         text: 'Cancel',
         role: 'cancel',
         handler: () => {

@@ -19,15 +19,6 @@
   <app-profile-details *ngIf="(user | async) as user"href="javascript:void(0);" (click)="userActionSheet()" [user]="user" [showLastOnline]="false">
   </app-profile-details>
 
-  <ion-card>
-    <ion-list lines="none">
-      <ion-item href="javascript:void(0);" (click)="logout()">
-        <ion-icon name="log-out" color="medium" slot="start"></ion-icon>
-        <ion-label>Logout</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-
   <ion-list>
     <ion-list-header class="ion-padding-bottom">
       <ion-text>Your Hubs</ion-text>
