@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { ResetPinPage } from '../reset-pin/reset-pin.page';
 import { Storage } from '@ionic/storage';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { LoginPage } from '../login/login.page';
 import { NGXLogger } from 'ngx-logger';
 
 @Component({
