@@ -73,7 +73,7 @@ export class LandingPage implements OnInit {
   }
 
   async resetPassword() {
-    await this.navCtrl.navigateForward('/password-reset')
+    await this.navCtrl.navigateForward('/reset-pin')
   }
 
   async login() {

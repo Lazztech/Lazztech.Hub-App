@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { PasswordResetPage } from '../password-reset/password-reset.page';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
@@ -22,11 +21,11 @@ export class ResetPinPage implements OnInit {
   }
 
   constructor(
-    private modalController: ModalController,
     private authService: AuthService,
     private alertService: AlertService,
     private storage: Storage,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private navController: NavController,
     ) { }
 
   ngOnInit() {
@@ -36,10 +35,6 @@ export class ResetPinPage implements OnInit {
         Validators.email
       ]]
     });
-  }
-
-  dismissLogin() {
-    this.modalController.dismiss();
   }
 
   async sendPin() {
@@ -52,11 +47,7 @@ export class ResetPinPage implements OnInit {
       await this.storage.set('resetEmail', formValue.email);
       this.loading = false;
       await this.alertService.presentToast('Email sent.');
-      this.dismissLogin();
-      const resetModal = await this.modalController.create({
-        component: PasswordResetPage
-      });
-      return await resetModal.present();
+      await this.navController.navigateForward('password-reset');
     } else {
       this.loading = false;
       this.alertService.presentRedToast('Email failed to send.');
