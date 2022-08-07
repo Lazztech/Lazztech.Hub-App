@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ResetPinPage } from '../reset-pin/reset-pin.page';
 import { Storage } from '@ionic/storage';
@@ -28,7 +28,6 @@ export class PasswordResetPage implements OnInit {
   }
 
   constructor(
-    private modalController: ModalController,
     private authService: AuthService,
     private alertService: AlertService,
     private storage: Storage,
@@ -49,10 +48,6 @@ export class PasswordResetPage implements OnInit {
     });
   }
 
-  dismissLogin() {
-    this.modalController.dismiss();
-  }
-
   async resetPassword() {
     this.loading = true;
 
@@ -68,11 +63,7 @@ export class PasswordResetPage implements OnInit {
       if (result) {
         this.loading = false;
         await this.alertService.presentToast('Succeeded.');
-        this.dismissLogin();
-        const loginModal = await this.modalController.create({
-          component: LoginPage
-        });
-        return await loginModal.present();
+        await this.navController.navigateRoot('');
       } else {
         this.loading = false;
         this.alertService.presentToast('Password reset failed.');
