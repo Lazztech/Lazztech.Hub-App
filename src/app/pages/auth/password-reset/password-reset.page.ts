@@ -33,7 +33,8 @@ export class PasswordResetPage implements OnInit {
     private alertService: AlertService,
     private storage: Storage,
     private fb: FormBuilder,
-    private logger: NGXLogger
+    private logger: NGXLogger,
+    private navController: NavController,
     ) { }
 
   ngOnInit() {
@@ -82,12 +83,8 @@ export class PasswordResetPage implements OnInit {
     }
   }
 
-  async resetPinModal() {
-    this.dismissLogin();
-    const resetPinModal = await this.modalController.create({
-      component: ResetPinPage
-    });
-    return await resetPinModal.present();
+  tryAgain() {
+    this.navController.navigateForward('/reset-pin');
   }
 
 }

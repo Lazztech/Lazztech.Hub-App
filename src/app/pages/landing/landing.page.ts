@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, MenuController, NavController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
@@ -27,7 +27,6 @@ export class LandingPage implements OnInit {
   }
 
   constructor(
-    private modalController: ModalController,
     private menu: MenuController,
     private authService: AuthService,
     private navCtrl: NavController,
