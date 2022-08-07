@@ -6,9 +6,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { LandingPage } from './landing.page';
-import { RegisterPage } from '../register/register.page';
-import { PasswordResetPage } from '../password-reset/password-reset.page';
-import { ResetPinPage } from '../reset-pin/reset-pin.page';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 
 const routes: Routes = [
@@ -27,6 +24,6 @@ const routes: Routes = [
         ReactiveFormsModule,
         PipesModule
     ],
-    declarations: [LandingPage, RegisterPage, PasswordResetPage, ResetPinPage]
+    declarations: [LandingPage]
 })
 export class LandingPageModule {}
