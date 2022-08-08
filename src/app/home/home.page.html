@@ -27,7 +27,7 @@
       <ion-skeleton-text animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
 
-      <ion-card class="welcome-card" *ngIf="!loading && !userHubs?.length">
+      <!-- <ion-card class="welcome-card" *ngIf="!loading && !userHubs?.length">
         <ion-card-header>
             <ion-card-subtitle>Get Started</ion-card-subtitle>
         </ion-card-header>
@@ -39,8 +39,20 @@
         </ion-item>
       
         <ion-card-content>
-            Join or start a community hub and receive notifications when people gather.
+            Start a community Hub and receive notifications when people gather.
         </ion-card-content>
+      </ion-card> -->
+
+      <ion-card *ngIf="!loading && !userHubs?.length">
+        <ion-item lines="none">
+          <ion-card-header>
+            <ion-card-subtitle>Get Started</ion-card-subtitle>
+          </ion-card-header>
+          <ion-icon slot="end" name="arrow-down"></ion-icon>
+          <ion-card-content>
+            Create a community Hub and receive notifications when people gather.
+        </ion-card-content>
+        </ion-item>
       </ion-card>
 
       <ion-list *ngIf="invites?.length">
