@@ -132,18 +132,6 @@ export class ProfilePage implements OnInit, OnDestroy {
           this.navCtrl.navigateForward('settings');
         }
       }, {
-        text: 'Privacy Policy',
-        handler: () => {
-          // this.navCtrl.navigateForward('privacy');
-          Browser.open({ url: environment.legal.privacyPolicyLink });
-        }
-      }, {
-        text: 'Terms & Conditions',
-        handler: () => {
-          // this.navCtrl.navigateForward('privacy');
-          Browser.open({ url: environment.legal.termsAndConditions });
-        }
-      }, {
         text: 'Tutorial',
         handler: () => {
           this.navCtrl.navigateForward('tutorial');

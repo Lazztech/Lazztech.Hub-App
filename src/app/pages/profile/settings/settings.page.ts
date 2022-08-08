@@ -10,7 +10,7 @@ import { AlertService } from '../../../services/alert/alert.service';
 import { DebuggerService } from '../../../services/debugger/debugger.service';
 import { GeofenceService } from '../../../services/geofence/geofence.service';
 import { NotificationsService } from '../../../services/notifications/notifications.service';
-
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-settings',
@@ -56,6 +56,14 @@ export class SettingsPage implements OnInit {
 
   async clearStorage() {
     await this.profileService.clearStorage();
+  }
+
+  openPrivacyPolicy() {
+    Browser.open({ url: environment.legal.privacyPolicyLink });
+  }
+
+  openTermsAndConditions() {
+    Browser.open({ url: environment.legal.termsAndConditions });
   }
 
   async copyPushNotificationToken() {
