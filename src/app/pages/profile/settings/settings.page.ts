@@ -46,6 +46,10 @@ export class SettingsPage implements OnInit {
     this.navCtrl.navigateForward('change-email');
   }
 
+  async changePhoneNumberl() {
+    this.navCtrl.navigateForward('change-phone-number');
+  }
+
   async changePassword() {
     this.navCtrl.navigateForward('change-password');
   }
