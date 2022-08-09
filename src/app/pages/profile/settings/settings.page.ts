@@ -11,6 +11,8 @@ import { DebuggerService } from '../../../services/debugger/debugger.service';
 import { GeofenceService } from '../../../services/geofence/geofence.service';
 import { NotificationsService } from '../../../services/notifications/notifications.service';
 import { Browser } from '@capacitor/browser';
+import { CommunicationService } from 'src/app/services/communication.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
@@ -26,17 +28,60 @@ export class SettingsPage implements OnInit {
   locationsFromBackgroundGeolocationDB = BackgroundGeolocation.getLocations();
   cache = cache;
 
+  loading = false;
+
+  myForm: FormGroup;
+
+  ageRestriction = 16;
+
+  get firstName() {
+    return this.myForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.myForm.get('lastName');
+  }
+
+  get email() {
+    return this.myForm.get('email');
+  }
+
+  get phoneNumber() {
+    return this.myForm.get('phoneNumber');
+  }
+
+  public countries: Array<{ code: number, flag: string, region: string}> = [];
+
+
   constructor(
     private navCtrl: NavController,
     private notificationService: NotificationsService,
     private profileService: ProfileService,
     private geofenceService: GeofenceService,
     private alertService: AlertService,
-    private debuggerService: DebuggerService
+    private debuggerService: DebuggerService,
+    private readonly communicationService: CommunicationService,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
+    this.countries = this.communicationService.countryCodes();
+    this.myForm = this.fb.group({
+      firstName: ['', [
+        Validators.required
+      ]],
+      lastName: ['', [
+        Validators.required
+      ]],
+      phoneNumber: [],
+      email: ['', [
+        Validators.required,
+        Validators.email
+      ]],
+    });
   }
+
+  save() {}
 
   async changeName() {
     this.navCtrl.navigateForward('change-name');
