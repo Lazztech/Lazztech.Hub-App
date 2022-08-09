@@ -13,7 +13,7 @@ import { NotificationsService } from '../../../services/notifications/notificati
 import { Browser } from '@capacitor/browser';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MeGQL } from 'src/generated/graphql';
+import { MeGQL, UpdateUserGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-settings',
@@ -68,9 +68,11 @@ export class SettingsPage implements OnInit {
     private readonly communicationService: CommunicationService,
     private fb: FormBuilder,
     private meService: MeGQL,
+    private updateUserService: UpdateUserGQL,
   ) { }
 
   async ngOnInit() {
+    this.loading = true;
     this.countries = this.communicationService.countryCodes();
     const me = await this.meService.fetch().toPromise();
     const user = me?.data?.me;
@@ -88,20 +90,21 @@ export class SettingsPage implements OnInit {
         Validators.email
       ]],
     });
+    this.loading = false;
   }
 
-  save() {}
-
-  async changeName() {
-    this.navCtrl.navigateForward('change-name');
-  }
-
-  async changeEmail() {
-    this.navCtrl.navigateForward('change-email');
-  }
-
-  async changePhoneNumberl() {
-    this.navCtrl.navigateForward('change-phone-number');
+  async save() {
+    this.loading = true;
+    await this.updateUserService.mutate({
+      data: {
+        firstName: this.firstName?.value,
+        lastName: this.lastName?.value,
+        description: this.description?.value,
+        phoneNumber: this.phoneNumber?.value,
+        email: this.email?.value,
+      }
+    }).toPromise();
+    this.loading = false;
   }
 
   async changePassword() {
@@ -110,6 +113,10 @@ export class SettingsPage implements OnInit {
 
   async deleteAccount() {
     this.navCtrl.navigateForward('delete-account');
+  }
+
+  async tutorial() {
+    this.navCtrl.navigateForward('tutorial');
   }
 
   async clearStorage() {

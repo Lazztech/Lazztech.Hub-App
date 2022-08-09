@@ -127,14 +127,9 @@ export class ProfilePage implements OnInit, OnDestroy {
     const actionSheet = await this.actionSheetController.create({
       header: 'Profile',
       buttons: [{
-        text: 'Settings',
+        text: 'Settings & More',
         handler: () => {
           this.navCtrl.navigateForward('settings');
-        }
-      }, {
-        text: 'Tutorial',
-        handler: () => {
-          this.navCtrl.navigateForward('tutorial');
         }
       }, {
         text: 'Log Out',
@@ -151,9 +146,11 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async logout() {
-    await this.authService.logout();
-    this.alertService.presentToast('Logged Out');
-    this.navCtrl.navigateRoot('/landing');
+    if (confirm('Are you sure you want to log out?')) {
+      await this.authService.logout();
+      this.alertService.presentToast('Logged Out');
+      this.navCtrl.navigateRoot('/landing');
+    }
   }
   async toggleTheme() {
     await this.themeService.toggle();
