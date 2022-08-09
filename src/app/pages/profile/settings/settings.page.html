@@ -14,7 +14,7 @@
         <ion-text>Settings</ion-text>
       </ion-list-header>
 
-      <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
+      <form *ngIf="this.myForm" [formGroup]="myForm" (ngSubmit)="save()" method="post">
         <ion-item>
           <ion-input formControlName="firstName" placeholder="First Name"></ion-input>
           <ion-text *ngIf="firstName.invalid && firstName.touched" class="ion-padding ion-text-center" color="danger">
@@ -27,6 +27,10 @@
           <ion-text *ngIf="lastName.invalid && lastName.touched" class="ion-padding ion-text-center" color="danger">
             Required
           </ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-input formControlName="description" placeholder="Description"></ion-input>
         </ion-item>
       
         <ion-grid>
@@ -208,7 +212,7 @@
 
 <ion-footer translucent="true">
   <ion-toolbar>
-    <ion-button [disabled]="myForm.invalid" (click)="save()" type="submit" expand="block" color="primary">Save
+    <ion-button [disabled]="myForm?.invalid" (click)="save()" type="submit" expand="block" color="primary">Save
     </ion-button>
   </ion-toolbar>
 </ion-footer>

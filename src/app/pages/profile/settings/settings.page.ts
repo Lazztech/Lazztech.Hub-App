@@ -13,6 +13,7 @@ import { NotificationsService } from '../../../services/notifications/notificati
 import { Browser } from '@capacitor/browser';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MeGQL } from 'src/generated/graphql';
 
 @Component({
   selector: 'app-settings',
@@ -42,6 +43,10 @@ export class SettingsPage implements OnInit {
     return this.myForm.get('lastName');
   }
 
+  get description() {
+    return this.myForm.get('description');
+  }
+
   get email() {
     return this.myForm.get('email');
   }
@@ -62,19 +67,23 @@ export class SettingsPage implements OnInit {
     private debuggerService: DebuggerService,
     private readonly communicationService: CommunicationService,
     private fb: FormBuilder,
+    private meService: MeGQL,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.countries = this.communicationService.countryCodes();
+    const me = await this.meService.fetch().toPromise();
+    const user = me?.data?.me;
     this.myForm = this.fb.group({
-      firstName: ['', [
+      firstName: [user?.firstName, [
         Validators.required
       ]],
-      lastName: ['', [
+      lastName: [user?.lastName, [
         Validators.required
       ]],
-      phoneNumber: [],
-      email: ['', [
+      description: [user?.description],
+      phoneNumber: [user?.phoneNumber],
+      email: [user?.email, [
         Validators.required,
         Validators.email
       ]],

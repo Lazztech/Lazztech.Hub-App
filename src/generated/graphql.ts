@@ -145,6 +145,7 @@ export type Mutation = {
   createMicroChat: MicroChat;
   deleteMicroChat: Scalars['Boolean'];
   editUserDetails: User;
+  updateUser: User;
   changeEmail: User;
   changeUserImage: User;
   blockUser: Block;
@@ -302,6 +303,11 @@ export type MutationEditUserDetailsArgs = {
   description: Scalars['String'];
   lastName: Scalars['String'];
   firstName: Scalars['String'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  data: UpdateUserInput;
 };
 
 
@@ -491,6 +497,14 @@ export type QueryEventArgs = {
 export type SortOptions = {
   field: Scalars['String'];
   ascending: Scalars['Boolean'];
+};
+
+export type UpdateUserInput = {
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -1313,6 +1327,19 @@ export type EditUserDetailsMutation = (
   & { editUserDetails: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'firstName' | 'lastName' | 'description'>
+  ) }
+);
+
+export type UpdateUserMutationVariables = Exact<{
+  data: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneNumber' | 'shareableId'>
   ) }
 );
 
@@ -2486,6 +2513,28 @@ export const EditUserDetailsDocument = gql`
   })
   export class EditUserDetailsGQL extends Apollo.Mutation<EditUserDetailsMutation, EditUserDetailsMutationVariables> {
     document = EditUserDetailsDocument;
+    
+  }
+export const UpdateUserDocument = gql`
+    mutation updateUser($data: UpdateUserInput!) {
+  updateUser(data: $data) {
+    id
+    firstName
+    lastName
+    description
+    image
+    email
+    phoneNumber
+    shareableId
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
+    document = UpdateUserDocument;
     
   }
 export const BlockUserDocument = gql`
