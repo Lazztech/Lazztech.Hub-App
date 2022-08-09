@@ -120,7 +120,9 @@ export class SettingsPage implements OnInit {
   }
 
   async clearStorage() {
-    await this.profileService.clearStorage();
+    if (confirm('Are you sure you want to clear this apps storage?')) {
+      await this.profileService.clearStorage();
+    }    
   }
 
   openPrivacyPolicy() {
