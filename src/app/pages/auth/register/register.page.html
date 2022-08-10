@@ -31,26 +31,10 @@
         Must be at least {{ageRestriction}} years of age.
     </ion-text>
 
-    <ion-grid>
-      <ion-row>
-        <ion-col size="4" class="ion-no-padding">
-          <ion-item>
-            <ion-label position="floating">Country</ion-label>
-            <ion-select value="US">
-              <div *ngFor="let country of countries">
-                <ion-select-option value="{{country.region}}">{{country.flag}} +{{country.code}} {{country.region}}</ion-select-option>
-              </div>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-        <ion-col size="8" class="ion-no-padding">
-          <ion-item>
-            <ion-label position="stacked">Phone Number</ion-label>
-            <ion-input type="tel" formControlName="phoneNumber" placeholder="(555) 555-5555" [value]="phoneNumber.value | phoneNumberFormatter:'US'"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-item>
+      <ion-label position="stacked">Phone Number</ion-label>
+      <ion-input type="tel" formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter"></ion-input>
+    </ion-item>
 
     <ion-item>
       <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>

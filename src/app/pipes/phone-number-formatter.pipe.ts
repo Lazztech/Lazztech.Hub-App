@@ -11,10 +11,10 @@ export class PhoneNumberFormatterPipe implements PipeTransform {
     private communicationService: CommunicationService,
   ) { }
 
-  transform(phoneValue: number | string, country: string): unknown {
+  transform(phoneValue: number): unknown {
     try {
-      const phoneNumber = this.communicationService.phoneNumberUtil.parse(phoneValue + '', country);
-      return this.communicationService.phoneNumberUtil.formatInOriginalFormat(phoneNumber);
+      const phoneNumber = this.communicationService.phoneNumberUtil.parse(phoneValue + '');
+      return this.communicationService.phoneNumberUtil.formatOutOfCountryCallingNumber(phoneNumber);
     } catch (error) {
       return phoneValue;
     }
