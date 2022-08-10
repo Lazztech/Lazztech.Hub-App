@@ -59,6 +59,18 @@
           <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
             | amLocal | amTimeAgo) : 'N/A'}}</p>
         </ion-label>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="call-outline"
+          slot="end" 
+          (click)="openPhone($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="chatbubble-outline" 
+          slot="end" 
+          (click)="openSms($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
       </ion-item>
     </div>
   </ion-list>
@@ -88,6 +100,18 @@
           <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
             | amLocal | amTimeAgo) : 'N/A'}}</p>
         </ion-label>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="call-outline"
+          slot="end" 
+          (click)="openPhone($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="chatbubble-outline" 
+          slot="end" 
+          (click)="openSms($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
       </ion-item>
     </div>
   </ion-list>
@@ -117,6 +141,18 @@
           <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
             | amLocal | amTimeAgo) : 'N/A'}}</p>
         </ion-label>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="call-outline"
+          slot="end" 
+          (click)="openPhone($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="chatbubble-outline" 
+          slot="end" 
+          (click)="openSms($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
       </ion-item>
     </div>
   </ion-list>
@@ -146,6 +182,18 @@
           <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
             | amLocal | amTimeAgo) : 'N/A'}}</p>
         </ion-label>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="call-outline"
+          slot="end" 
+          (click)="openPhone($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="chatbubble-outline" 
+          slot="end" 
+          (click)="openSms($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
       </ion-item>
     </div>
   </ion-list>
@@ -175,6 +223,18 @@
           <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
             | amLocal | amTimeAgo) : 'N/A'}}</p>
         </ion-label>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="call-outline"
+          slot="end" 
+          (click)="openPhone($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="userConnection.user.phoneNumber"
+          name="chatbubble-outline" 
+          slot="end" 
+          (click)="openSms($event, userConnection.user.phoneNumber)"
+        ></ion-icon>
       </ion-item>
     </div>
   </ion-list>

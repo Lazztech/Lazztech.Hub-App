@@ -145,6 +145,7 @@ export type Mutation = {
   createMicroChat: MicroChat;
   deleteMicroChat: Scalars['Boolean'];
   editUserDetails: User;
+  updateUser: User;
   changeEmail: User;
   changeUserImage: User;
   blockUser: Block;
@@ -302,6 +303,11 @@ export type MutationEditUserDetailsArgs = {
   description: Scalars['String'];
   lastName: Scalars['String'];
   firstName: Scalars['String'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  data: UpdateUserInput;
 };
 
 
@@ -493,6 +499,14 @@ export type SortOptions = {
   ascending: Scalars['Boolean'];
 };
 
+export type UpdateUserInput = {
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['String']>;
+};
+
 export type User = {
   __typename?: 'User';
   shareableId: Scalars['String'];
@@ -503,6 +517,7 @@ export type User = {
   birthdate?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
   /** unix timestamp for the last time the user was successfully authenticated */
   lastOnline?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
@@ -524,6 +539,7 @@ export type UserInput = {
   /** string representation of unix timestamp */
   birthdate: Scalars['String'];
   email: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
   password: Scalars['String'];
 };
 
@@ -545,7 +561,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneNumber' | 'shareableId'>
     & { blocks?: Maybe<Array<(
       { __typename?: 'Block' }
       & { from: (
@@ -565,6 +581,7 @@ export type RegisterMutationVariables = Exact<{
   birthdate: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -644,19 +661,19 @@ export type EventQuery = (
     & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
     & { user?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
     )>, event?: Maybe<(
       { __typename?: 'Event' }
       & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
       & { createdBy?: Maybe<(
         { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
       )>, usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserEvent' }
         & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
         & { user?: Maybe<(
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'phoneNumber'>
         )> }
       )>> }
     )> }
@@ -999,7 +1016,7 @@ export type HubQuery = (
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
         & { user?: Maybe<(
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'phoneNumber'>
         )> }
       )>>, microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
@@ -1198,7 +1215,7 @@ export type UsersPeopleQuery = (
   { __typename?: 'Query' }
   & { usersPeople: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'email' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'phoneNumber'>
   )> }
 );
 
@@ -1313,6 +1330,19 @@ export type EditUserDetailsMutation = (
   ) }
 );
 
+export type UpdateUserMutationVariables = Exact<{
+  data: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneNumber' | 'shareableId'>
+  ) }
+);
+
 export type BlockUserMutationVariables = Exact<{
   toUserId: Scalars['ID'];
 }>;
@@ -1383,6 +1413,7 @@ export const MeDocument = gql`
     description
     image
     email
+    phoneNumber
     shareableId
     blocks {
       from {
@@ -1416,8 +1447,8 @@ export const MeDocument = gql`
     
   }
 export const RegisterDocument = gql`
-    mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!) {
-  register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password})
+    mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!, $phoneNumber: String) {
+  register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password, phoneNumber: $phoneNumber})
 }
     `;
 
@@ -1518,6 +1549,7 @@ export const EventDocument = gql`
       image
       email
       shareableId
+      phoneNumber
     }
     event {
       id
@@ -1529,6 +1561,7 @@ export const EventDocument = gql`
         image
         email
         shareableId
+        phoneNumber
       }
       name
       image
@@ -1548,6 +1581,7 @@ export const EventDocument = gql`
           image
           lastOnline
           blocked
+          phoneNumber
         }
         rsvp
         lastGeofenceEvent
@@ -2035,6 +2069,7 @@ export const HubDocument = gql`
           image
           lastOnline
           blocked
+          phoneNumber
         }
         isOwner
         isPresent
@@ -2329,6 +2364,7 @@ export const UsersPeopleDocument = gql`
     image
     lastOnline
     blocked
+    phoneNumber
   }
 }
     `;
@@ -2477,6 +2513,28 @@ export const EditUserDetailsDocument = gql`
   })
   export class EditUserDetailsGQL extends Apollo.Mutation<EditUserDetailsMutation, EditUserDetailsMutationVariables> {
     document = EditUserDetailsDocument;
+    
+  }
+export const UpdateUserDocument = gql`
+    mutation updateUser($data: UpdateUserInput!) {
+  updateUser(data: $data) {
+    id
+    firstName
+    lastName
+    description
+    image
+    email
+    phoneNumber
+    shareableId
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
+    document = UpdateUserDocument;
     
   }
 export const BlockUserDocument = gql`

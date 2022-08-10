@@ -1,82 +1,62 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="dismissRegister()">Close</ion-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Register</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
+<ion-content>
   <form [formGroup]="myForm" (ngSubmit)="register()" method="post">
     <ion-item>
-      <ion-label position="floating">First Name</ion-label>
-      <ion-input formControlName="firstName"></ion-input>
-    </ion-item>
-
-    <ion-text class="ion-text-center" color="danger">
-      <p *ngIf="firstName.invalid && firstName.touched" color="danger">
+      <ion-input formControlName="firstName" placeholder="First Name"></ion-input>
+      <ion-text *ngIf="firstName.invalid && firstName.touched" class="ion-padding ion-text-center" color="danger">
         Required
-      </p>
-    </ion-text>
+      </ion-text>
+    </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Last Name</ion-label>
-      <ion-input formControlName="lastName"></ion-input>
-    </ion-item>
-
-    <ion-text class="ion-text-center" color="danger">
-      <p *ngIf="lastName.invalid && lastName.touched" color="danger">
+      <ion-input formControlName="lastName" placeholder="Last Name"></ion-input>
+      <ion-text *ngIf="lastName.invalid && lastName.touched" class="ion-padding ion-text-center" color="danger">
         Required
-      </p>
-    </ion-text>
+      </ion-text>
+    </ion-item>
 
     <ion-item>
       <ion-label>Birth Year</ion-label>
       <ion-datetime presentation="year" formControlName="birthdate" placeholder="Select Date"></ion-datetime>
     </ion-item>
-
-    <ion-text class="ion-text-center" color="danger">
-      <p *ngIf="birthdate.invalid" color="danger">
-        Birth year is required and you must be at or over {{ageRestriction}} years of age.
-      </p>
+    <ion-text *ngIf="birthdate.invalid" class="ion-padding ion-text-center" color="danger">
+        Must be at least {{ageRestriction}} years of age.
     </ion-text>
 
     <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
+      <ion-label position="stacked">Phone Number</ion-label>
+      <ion-input type="tel" formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter"></ion-input>
     </ion-item>
 
-    <ion-text class="ion-text-center" color="danger">
-      <p *ngIf="email.invalid && email.touched" color="danger">
+    <ion-item>
+      <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
+      <ion-text *ngIf="email.invalid && email.touched" class="ion-padding ion-text-center" color="danger">
         Please enter a valid email address
-      </p>
-    </ion-text>
-
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
+      </ion-text>
     </ion-item>
 
-    <ion-text class="ion-text-center" color="danger">
-      <p *ngIf="password.invalid && password.touched" color="danger">
-        Please enter a password with at least 10 characters
-      </p>
-    </ion-text>
+    <ion-item>
+      <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+      <ion-text *ngIf="password.invalid && password.touched" class="ion-padding ion-text-center" color="danger">
+        Must be at least 10 characters
+      </ion-text>
+    </ion-item>
 
     <br />
 
-    <ion-text class="ion-text-center" color="medium">
+    <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block" color="danger">Register</ion-button>
+    <ion-text class="ion-padding ion-text-center ion-float-end" color="medium">
       <p>
-        By creating an account, you acknowledge reading our Privacy Policy and agree to our Terms & Conditions.
+        By creating an account, you acknowledge reading our <a (click)="navigateToPrivacyPolicy()">Privacy Policy</a> and agree to our <a (click)="navigateToTermsAndConditions()">Terms & Conditions</a>.
       </p>
-    </ion-text>
-    <ion-button expand="block" color="medium" (click)="navigateToPrivacyPolicy()">Privacy Policy</ion-button>
-    <ion-button expand="block" color="medium" (click)="navigateToTermsAndConditions()">Terms & Conditions</ion-button>
-    <br />
-
-    <ion-button [disabled]="myForm.invalid" type="submit" expand="block" color="danger">Register</ion-button>
+  </ion-text>
   </form>
-  <p class="ion-text-center">Already have a account?</p>
-  <ion-button expand="block" color="primary" (click)="loginModal()">Login</ion-button>
 </ion-content>

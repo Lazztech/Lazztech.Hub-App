@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { ResetPinPage } from '../reset-pin/reset-pin.page';
 import { Storage } from '@ionic/storage';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { LoginPage } from '../login/login.page';
 import { NGXLogger } from 'ngx-logger';
 
 @Component({
@@ -28,12 +26,12 @@ export class PasswordResetPage implements OnInit {
   }
 
   constructor(
-    private modalController: ModalController,
     private authService: AuthService,
     private alertService: AlertService,
     private storage: Storage,
     private fb: FormBuilder,
-    private logger: NGXLogger
+    private logger: NGXLogger,
+    private navController: NavController,
     ) { }
 
   ngOnInit() {
@@ -46,10 +44,6 @@ export class PasswordResetPage implements OnInit {
         Validators.minLength(10)
       ]]
     });
-  }
-
-  dismissLogin() {
-    this.modalController.dismiss();
   }
 
   async resetPassword() {
@@ -67,11 +61,7 @@ export class PasswordResetPage implements OnInit {
       if (result) {
         this.loading = false;
         await this.alertService.presentToast('Succeeded.');
-        this.dismissLogin();
-        const loginModal = await this.modalController.create({
-          component: LoginPage
-        });
-        return await loginModal.present();
+        await this.navController.navigateRoot('');
       } else {
         this.loading = false;
         this.alertService.presentToast('Password reset failed.');
@@ -82,12 +72,8 @@ export class PasswordResetPage implements OnInit {
     }
   }
 
-  async resetPinModal() {
-    this.dismissLogin();
-    const resetPinModal = await this.modalController.create({
-      component: ResetPinPage
-    });
-    return await resetPinModal.present();
+  tryAgain() {
+    this.navController.navigateForward('/reset-pin');
   }
 
 }

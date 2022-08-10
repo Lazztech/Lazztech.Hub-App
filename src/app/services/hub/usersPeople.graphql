@@ -8,5 +8,6 @@ query usersPeople {
         image
         lastOnline
         blocked
+        phoneNumber
     }
 }

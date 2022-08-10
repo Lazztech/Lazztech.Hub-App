@@ -16,10 +16,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'landing',
-    loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingPageModule)
-  },
-  { path: 'login',
-    loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () => import('./pages/auth/landing/landing.module').then(m => m.LandingPageModule)
   },
   {
     path: 'register',
@@ -78,16 +75,6 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./pages/profile/settings/settings.module').then(m => m.SettingsPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'change-name',
-    loadChildren: () => import('./pages/profile/settings/change-name/change-name.module').then(m => m.ChangeNamePageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'change-email',
-    loadChildren: () => import('./pages/profile/settings/change-email/change-email.module').then(m => m.ChangeEmailPageModule),
     canActivate: [AuthGuard]
   },
   {

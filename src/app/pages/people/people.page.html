@@ -35,6 +35,18 @@
               <p>Last Online: {{(person?.lastOnline) ? (((person?.lastOnline / 1000) | amFromUnix)
                 | amLocal | amTimeAgo) : 'N/A'}}</p>
             </ion-label>
+            <ion-icon
+              *ngIf="person?.phoneNumber"
+              name="call-outline"
+              slot="end" 
+              (click)="openPhone($event, person?.phoneNumber)"
+            ></ion-icon>
+            <ion-icon
+              *ngIf="person?.phoneNumber"
+              name="chatbubble-outline" 
+              slot="end" 
+              (click)="openSms($event, person?.phoneNumber)"
+            ></ion-icon>
           </ion-item>
         </ion-list>
 

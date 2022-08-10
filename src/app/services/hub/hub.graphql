@@ -23,6 +23,7 @@
                 image
                 lastOnline
                 blocked
+                phoneNumber
               }
               isOwner
               isPresent

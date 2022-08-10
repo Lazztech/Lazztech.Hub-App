@@ -11,6 +11,7 @@ import { map, take } from 'rxjs/operators';
 import { Clipboard } from '@capacitor/clipboard';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
+import { CommunicationService } from 'src/app/services/communication.service';
 
 @Component({
   selector: 'app-hub',
@@ -43,6 +44,7 @@ export class HubPage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     public readonly navigationService: NavigationService,
     public readonly routerOutlet: IonRouterOutlet,
+    private readonly communcationService: CommunicationService,
   ) { }
 
   ngOnInit() {
@@ -106,6 +108,16 @@ export class HubPage implements OnInit, OnDestroy {
 
   async navigate(userHub: JoinUserHub) {
     this.navigationService.navigate(this.locationService.location, userHub.hub)
+  }
+
+  openPhone(event: Event, number: string) {
+    event.stopPropagation();
+    this.communcationService.openPhone(number);
+  }
+
+  openSms(event: Event, number: string) {
+    event.stopPropagation();
+    this.communcationService.openSms(number);
   }
 
   async presentActionSheet() {

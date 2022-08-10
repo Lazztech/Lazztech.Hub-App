@@ -45,7 +45,7 @@ export type JoinUserHubFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	hub?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('shareableId' | 'id' | 'firstName' | 'lastName' | 'birthdate' | 'description' | 'email' | 'lastOnline' | 'image' | 'userDevices' | 'blocks' | 'blocked' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('shareableId' | 'id' | 'firstName' | 'lastName' | 'birthdate' | 'description' | 'email' | 'phoneNumber' | 'lastOnline' | 'image' | 'userDevices' | 'blocks' | 'blocked' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -54,6 +54,7 @@ export type UserFieldPolicy = {
 	birthdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
+	phoneNumber?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastOnline?: FieldPolicy<any> | FieldReadFunction<any>,
 	image?: FieldPolicy<any> | FieldReadFunction<any>,
 	userDevices?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -130,7 +131,7 @@ export type EventFieldPolicy = {
 	image?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersConnection?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('addUserFcmNotificationToken' | 'deleteInAppNotification' | 'deleteAllInAppNotifications' | 'createHub' | 'inviteUserToHub' | 'acceptHubInvite' | 'deleteInvite' | 'leaveHub' | 'deleteHub' | 'updateHub' | 'editHub' | 'changeHubLocation' | 'changeHubImage' | 'setHubStarred' | 'setHubNotStarred' | 'enteredHubGeofence' | 'dwellHubGeofence' | 'exitedHubGeofence' | 'activateHub' | 'deactivateHub' | 'microChatToHub' | 'createMicroChat' | 'deleteMicroChat' | 'editUserDetails' | 'changeEmail' | 'changeUserImage' | 'blockUser' | 'unblockUser' | 'login' | 'register' | 'logout' | 'resetPassword' | 'sendPasswordResetEmail' | 'changePassword' | 'deleteAccount' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'reportEventAsInappropriate' | 'createEvent' | 'rsvp' | 'inviteUserToEvent' | 'deleteEvent' | 'updateEvent' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('addUserFcmNotificationToken' | 'deleteInAppNotification' | 'deleteAllInAppNotifications' | 'createHub' | 'inviteUserToHub' | 'acceptHubInvite' | 'deleteInvite' | 'leaveHub' | 'deleteHub' | 'updateHub' | 'editHub' | 'changeHubLocation' | 'changeHubImage' | 'setHubStarred' | 'setHubNotStarred' | 'enteredHubGeofence' | 'dwellHubGeofence' | 'exitedHubGeofence' | 'activateHub' | 'deactivateHub' | 'microChatToHub' | 'createMicroChat' | 'deleteMicroChat' | 'editUserDetails' | 'updateUser' | 'changeEmail' | 'changeUserImage' | 'blockUser' | 'unblockUser' | 'login' | 'register' | 'logout' | 'resetPassword' | 'sendPasswordResetEmail' | 'changePassword' | 'deleteAccount' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'reportEventAsInappropriate' | 'createEvent' | 'rsvp' | 'inviteUserToEvent' | 'deleteEvent' | 'updateEvent' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	addUserFcmNotificationToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteInAppNotification?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -156,6 +157,7 @@ export type MutationFieldPolicy = {
 	createMicroChat?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteMicroChat?: FieldPolicy<any> | FieldReadFunction<any>,
 	editUserDetails?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	changeEmail?: FieldPolicy<any> | FieldReadFunction<any>,
 	changeUserImage?: FieldPolicy<any> | FieldReadFunction<any>,
 	blockUser?: FieldPolicy<any> | FieldReadFunction<any>,
