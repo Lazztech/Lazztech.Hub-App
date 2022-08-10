@@ -7,7 +7,10 @@
   <ion-text class="ion-text-center">
     <h1 style="font-weight: bold" >{{user.firstName}} {{user.lastName}}</h1>
     <p>{{user.email}}</p>
-    <p>{{user?.phoneNumber}}</p>
+
+    <p *ngIf="user?.phoneNumber">{{user?.phoneNumber}}</p>
+    <p *ngIf="!user?.phoneNumber">No phone number available...</p>
+
     <p *ngIf="user.description">{{user.description}}</p>
   </ion-text>
 
