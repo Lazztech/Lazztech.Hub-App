@@ -127,10 +127,6 @@ const routes: Routes = [
     path: 'admin-event',
     loadChildren: () => import('./pages/admin-event/admin-event.module').then( m => m.AdminEventPageModule)
   },
-  {
-    path: 'change-phone-number',
-    loadChildren: () => import('./pages/profile/settings/change-phone-number/change-phone-number.module').then( m => m.ChangePhoneNumberPageModule)
-  },
 ];
 
 @NgModule({
