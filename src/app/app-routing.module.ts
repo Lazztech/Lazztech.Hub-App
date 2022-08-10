@@ -78,11 +78,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'change-name',
-    loadChildren: () => import('./pages/profile/settings/change-name/change-name.module').then(m => m.ChangeNamePageModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'change-email',
     loadChildren: () => import('./pages/profile/settings/change-email/change-email.module').then(m => m.ChangeEmailPageModule),
     canActivate: [AuthGuard]
