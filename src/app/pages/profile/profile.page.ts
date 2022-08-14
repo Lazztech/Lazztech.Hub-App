@@ -1,18 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ApolloQueryResult } from '@apollo/client/core';
 import { ActionSheetController, MenuController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
-import { Scalars, UsersHubsQuery, MeQuery, JoinUserHub, UserEventsGQL, UserEventsQuery, JoinUserEvent } from 'src/generated/graphql';
+import { JoinUserEvent, JoinUserHub, MeQuery, Scalars, UserEventsGQL, UserEventsQuery, UsersHubsQuery } from 'src/generated/graphql';
 import { AuthService } from '../../services/auth/auth.service';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { Browser } from '@capacitor/browser';
-import { ApolloQueryResult } from '@apollo/client/core';
 
 @Component({
   selector: 'app-profile',
@@ -20,12 +17,20 @@ import { ApolloQueryResult } from '@apollo/client/core';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit, OnDestroy {
-
-  loading = true;
-  user: Observable<MeQuery['me']>;
-  userHubs: Observable<UsersHubsQuery['usersHubs']>;
-  userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
+  
   filteredUsersEvents: UserEventsQuery['usersEvents'];
+  userResult: ApolloQueryResult<MeQuery>;
+  userHubsResult: ApolloQueryResult<UsersHubsQuery>;
+  userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
+
+  public get loading() : boolean {
+    return [
+      this.userResult,
+      this.userHubsResult,
+      this.userEventsQueryResult
+    ].some(x => x?.loading);
+  }
+  
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -45,29 +50,23 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.user = this.authService.watchUser().valueChanges.pipe(
-      map(x => x.data && x.data.me)
-    );
-
-    this.userHubs = this.hubService.watchUserHubs().valueChanges.pipe(
-      map(x => x.data && x.data.usersHubs)
-    ).pipe(
-      map(y => y.filter(z => z.isOwner))
-    );
-
     this.subscriptions.push(
-      this.hubService.watchUserHubs().valueChanges.subscribe(x => {
-        this.logger.log('loading: ', x.loading);
-        this.loading = x.loading;
+      this.authService.watchUser().valueChanges.subscribe(result => {
+        this.userResult = result;
+      }),
+      this.hubService.watchUserHubs().valueChanges.subscribe(result => {
+        this.userHubsResult = result;
       }),
       this.userEvents.watch(null,{
         pollInterval: 2000,
-      }).valueChanges.subscribe(x => {
-        this.userEventsQueryResult = x;
+      }).valueChanges.subscribe(result => {
+        this.userEventsQueryResult = result;
         if (this.userEventsQueryResult?.data?.usersEvents) {
-          this.filteredUsersEvents = [...this.userEventsQueryResult?.data?.usersEvents]?.sort(
-            (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
-          );
+          this.filteredUsersEvents = [...this.userEventsQueryResult?.data?.usersEvents]
+            ?.filter(userEvent => userEvent?.event?.createdBy?.id == this.userResult?.data?.me?.id)
+            ?.sort(
+              (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
+            );
         }
       })
     );
@@ -93,9 +92,9 @@ export class ProfilePage implements OnInit, OnDestroy {
         handler: () => {
           this.logger.log('Take Picture clicked');
           this.cameraService.takePicture().then(image => {
-            this.loading = true;
+            // this.loading = true;
             this.profileService.changeUserImage(image).then(() => {
-              this.loading = false;
+              // this.loading = false;
             });
           });
         }
@@ -105,9 +104,9 @@ export class ProfilePage implements OnInit, OnDestroy {
         handler: async () => {
           this.logger.log('Take Picture clicked');
           await this.cameraService.selectPicture().then(image => {
-            this.loading = true;
+            // this.loading = true;
             this.profileService.changeUserImage(image).then(() => {
-              this.loading = false;
+              // this.loading = false;
             });
           });
         }

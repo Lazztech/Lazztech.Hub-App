@@ -771,6 +771,10 @@ export type UserEventsQuery = (
     )>, event?: Maybe<(
       { __typename?: 'Event' }
       & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+      & { createdBy?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
+      )> }
     )> }
   )> }
 );
@@ -1736,6 +1740,16 @@ export const UserEventsDocument = gql`
     }
     event {
       id
+      createdBy {
+        id
+        firstName
+        lastName
+        description
+        image
+        email
+        shareableId
+        phoneNumber
+      }
       name
       image
       description
