@@ -13,6 +13,16 @@ query userEvents {
     }
     event {
       id
+      createdBy {
+        id
+        firstName
+        lastName
+        description
+        image
+        email
+        shareableId
+        phoneNumber
+      }
       name
       image
       description

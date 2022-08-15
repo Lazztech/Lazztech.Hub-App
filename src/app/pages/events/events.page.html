@@ -1,25 +1,39 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-title>Events</ion-title>
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
 
-  <ion-card *ngIf="!sortedEvents?.length">
-    <ion-item lines="none">
-      <ion-card-header>
-        <ion-card-subtitle>Get Started</ion-card-subtitle>
-      </ion-card-header>
-      <ion-icon slot="end" name="arrow-down"></ion-icon>
-      <ion-card-content>
-        Create an event and invite guests!
-    </ion-card-content>
-    </ion-item>
-  </ion-card>
-
   <ion-list>
-    <div *ngFor="let userEvent of sortedEvents">
+    <ion-list-header>
+      <ion-text>Upcoming</ion-text>
+    </ion-list-header>
+
+    <ion-card *ngIf="!upcomingEvents?.length">
+      <ion-item lines="none">
+        <ion-card-header>
+          <ion-card-subtitle>Get Started</ion-card-subtitle>
+        </ion-card-header>
+        <ion-icon slot="end" name="arrow-down"></ion-icon>
+        <ion-card-content>
+          Create an event and invite guests!
+      </ion-card-content>
+      </ion-item>
+    </ion-card>
+
+    <div *ngFor="let userEvent of upcomingEvents">
+      <app-event-card
+        [userEvent]="userEvent"
+      ></app-event-card>
+    </div>
+
+    <ion-list-header *ngIf="elapsedEvents?.length">
+      <ion-text>Elapsed</ion-text>
+    </ion-list-header>
+    <div *ngFor="let userEvent of elapsedEvents">
       <app-event-card
         [userEvent]="userEvent"
       ></app-event-card>
