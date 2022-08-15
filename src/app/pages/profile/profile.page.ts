@@ -18,6 +18,7 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class ProfilePage implements OnInit, OnDestroy {
   
+  filteredUsersHubs: UsersHubsQuery['usersHubs'];
   filteredUsersEvents: UserEventsQuery['usersEvents'];
   userResult: ApolloQueryResult<MeQuery>;
   userHubsResult: ApolloQueryResult<UsersHubsQuery>;
@@ -56,6 +57,11 @@ export class ProfilePage implements OnInit, OnDestroy {
       }),
       this.hubService.watchUserHubs().valueChanges.subscribe(result => {
         this.userHubsResult = result;
+        if (this.userHubsResult?.data?.usersHubs) {
+          this.filteredUsersHubs = this.userHubsResult?.data?.usersHubs.filter(
+            userHub => userHub.isOwner
+          );
+        }
       }),
       this.userEvents.watch(null,{
         pollInterval: 2000,
