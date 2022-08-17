@@ -17,14 +17,22 @@
     <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
 
     <ion-list *ngIf="!loading">
-          <ion-item *ngFor="let person of persons | async" href="javascript:void(0);" (click)="goToPersonPage(person.id, person)">
+      <div *ngFor="let item of alphabetizedPersons | keyvalue">
+        <div *ngIf="item?.value?.length">
+          <ion-item-divider>
+            <ion-label>
+              {{item.key | uppercase}}
+            </ion-label>
+          </ion-item-divider>
+          <ion-item *ngFor="let person of item.value" href="javascript:void(0);" (click)="goToPersonPage(person.id, person)">
             <ion-avatar slot="start">
                   <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image" src="{{person.id | avatar}}">
                   <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
             </ion-avatar>
             <ion-label>
               <h2>
-                <ion-text *ngIf="!person.blocked">{{person.firstName}} {{person.lastName}}</ion-text>
+                <ion-text *ngIf="!person.blocked">{{person.firstName}} 
+                  <ion-text style='font-weight: bold'>{{person.lastName}}</ion-text></ion-text>
                 <ion-text *ngIf="person.blocked" style='text-decoration:line-through'>
                   {{person.firstName}} {{person.lastName}}
                 </ion-text>
@@ -48,7 +56,9 @@
               (click)="openSms($event, person?.phoneNumber)"
             ></ion-icon>
           </ion-item>
-        </ion-list>
+        </div>
+      </div>
+    </ion-list>
 
 
       <ion-list *ngIf="loading">

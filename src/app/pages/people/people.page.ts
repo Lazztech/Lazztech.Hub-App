@@ -6,6 +6,12 @@ import { UsersPeopleQuery } from 'src/generated/graphql';
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { CommunicationService } from 'src/app/services/communication.service';
+import _ from 'lodash';
+import { ApolloQueryResult } from '@apollo/client/core';
+
+export type AlphabetMapOfUsers = {
+  [letter: string]: UsersPeopleQuery['usersPeople'];
+};
 
 @Component({
   selector: 'app-people',
@@ -14,9 +20,16 @@ import { CommunicationService } from 'src/app/services/communication.service';
 })
 export class PeoplePage implements OnInit, OnDestroy {
 
-  loading = true;
   persons: Observable<UsersPeopleQuery['usersPeople']>;
+  personsResult: ApolloQueryResult<UsersPeopleQuery>;
+  alphabetizedPersons: AlphabetMapOfUsers;
   subscriptions: Subscription[] = [];
+
+  public get loading() : boolean {
+    return [
+      this.personsResult
+    ].some(x => x?.loading);
+  }
 
   constructor(
     public navCtrl: NavController,
@@ -26,12 +39,10 @@ export class PeoplePage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x.data && x.data.usersPeople));
-
     this.subscriptions.push(
-      this.hubService.watchUsersPeople().valueChanges.subscribe(x => {
-        this.logger.log('loading: ', x.loading);
-        this.loading = x.loading;
+      this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
+        this.personsResult = result;
+        this.alphabetizedPersons = this.alphabetizePersons(result?.data?.usersPeople);
       })
     );
   }
@@ -42,12 +53,28 @@ export class PeoplePage implements OnInit, OnDestroy {
     );
   }
 
+  alphabetizePersons(persons: UsersPeopleQuery['usersPeople']): AlphabetMapOfUsers {
+    console.log('before: ', persons);
+    let alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    let alphabetArray = alphabet.split('');
+    const alphabetizedPersons = [...persons]?.sort((a, b) => (
+      a?.lastName.toLowerCase().localeCompare(b?.lastName.toLowerCase())
+    ));
+    const alphabetMap = <AlphabetMapOfUsers>{};
+    alphabetArray.forEach(letter => {
+      const startsWithLetter = alphabetizedPersons.filter(person => person?.lastName?.toLowerCase()?.startsWith(letter));
+      alphabetMap[letter] = startsWithLetter;
+    });
+    console.log('after: ', alphabetMap);
+    return alphabetMap;
+  }
+
   async doRefresh(event) {
     this.logger.log('Begin async operation');
-    this.loading = true;
+    // this.loading = true;
     this.persons = this.hubService.watchUsersPeople('network-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
     event.target.complete();
-    this.loading = false;
+    // this.loading = false;
   }
 
   openPhone(event: Event, number: string) {
