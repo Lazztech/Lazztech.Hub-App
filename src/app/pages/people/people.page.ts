@@ -6,7 +6,6 @@ import { UsersPeopleQuery } from 'src/generated/graphql';
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { CommunicationService } from 'src/app/services/communication.service';
-import _ from 'lodash';
 import { ApolloQueryResult } from '@apollo/client/core';
 
 export type AlphabetMapOfUsers = {
@@ -54,18 +53,21 @@ export class PeoplePage implements OnInit, OnDestroy {
   }
 
   alphabetizePersons(persons: UsersPeopleQuery['usersPeople']): AlphabetMapOfUsers {
-    console.log('before: ', persons);
     let alphabet = 'abcdefghijklmnopqrstuvwxyz';
     let alphabetArray = alphabet.split('');
     const alphabetizedPersons = [...persons]?.sort((a, b) => (
       a?.lastName.toLowerCase().localeCompare(b?.lastName.toLowerCase())
     ));
+    console.log(alphabetizedPersons);
     const alphabetMap = <AlphabetMapOfUsers>{};
     alphabetArray.forEach(letter => {
       const startsWithLetter = alphabetizedPersons.filter(person => person?.lastName?.toLowerCase()?.startsWith(letter));
       alphabetMap[letter] = startsWithLetter;
     });
-    console.log('after: ', alphabetMap);
+    // non alphabetical character for last name
+    alphabetMap['#'] = alphabetizedPersons.filter(
+      person => alphabet.indexOf(person?.lastName?.toLowerCase()[0]) == -1
+    );
     return alphabetMap;
   }
 
