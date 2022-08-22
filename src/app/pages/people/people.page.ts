@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { HubService } from 'src/app/services/hub/hub.service';
-import { NGXLogger } from 'ngx-logger';
-import { UsersPeopleQuery } from 'src/generated/graphql';
-import { map } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
-import { CommunicationService } from 'src/app/services/communication.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { NavController } from '@ionic/angular';
+import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CommunicationService } from 'src/app/services/communication.service';
+import { HubService } from 'src/app/services/hub/hub.service';
+import { UsersPeopleGQL, UsersPeopleQuery } from 'src/generated/graphql';
 
 export type AlphabetMapOfUsers = {
   [letter: string]: UsersPeopleQuery['usersPeople'];
@@ -19,7 +19,6 @@ export type AlphabetMapOfUsers = {
 })
 export class PeoplePage implements OnInit, OnDestroy {
 
-  persons: Observable<UsersPeopleQuery['usersPeople']>;
   personsResult: ApolloQueryResult<UsersPeopleQuery>;
   alphabetizedPersons: AlphabetMapOfUsers;
   subscriptions: Subscription[] = [];
@@ -35,11 +34,12 @@ export class PeoplePage implements OnInit, OnDestroy {
     public hubService: HubService,
     private logger: NGXLogger,
     private readonly communcationService: CommunicationService,
+    private readonly usersPeopleGQLService: UsersPeopleGQL,
   ) { }
 
   ngOnInit() {
     this.subscriptions.push(
-      this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
+      this.usersPeopleGQLService.watch().valueChanges.subscribe(result => {
         this.personsResult = result;
         this.alphabetizedPersons = this.alphabetizePersons(result?.data?.usersPeople);
       })
@@ -73,10 +73,8 @@ export class PeoplePage implements OnInit, OnDestroy {
 
   async doRefresh(event) {
     this.logger.log('Begin async operation');
-    // this.loading = true;
-    this.persons = this.hubService.watchUsersPeople('network-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
+    this.personsResult = await this.usersPeopleGQLService.fetch(null, { fetchPolicy: 'network-only' }).toPromise();
     event.target.complete();
-    // this.loading = false;
   }
 
   openPhone(event: Event, number: string) {
@@ -99,16 +97,16 @@ export class PeoplePage implements OnInit, OnDestroy {
   }
 
   async filterPeople(ev: any) {
-    this.persons = this.hubService.watchUsersPeople('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
-    const val = ev.target.value;
-    if (val && val.trim() !== '') {
-      this.persons = this.persons.pipe(
-        map(x => x.filter(y => {
-          const name = y.firstName.trim().toLowerCase() + y.lastName.trim().toLowerCase();
-          return name.includes(val.trim().toLowerCase());
-        }))
-      );
-    }
+    // this.persons = this.hubService.watchUsersPeople('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
+    // const val = ev.target.value;
+    // if (val && val.trim() !== '') {
+    //   this.persons = this.persons.pipe(
+    //     map(x => x.filter(y => {
+    //       const name = y.firstName.trim().toLowerCase() + y.lastName.trim().toLowerCase();
+    //       return name.includes(val.trim().toLowerCase());
+    //     }))
+    //   );
+    // }
   }
 
 }
