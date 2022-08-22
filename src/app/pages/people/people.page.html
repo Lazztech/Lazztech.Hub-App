@@ -16,15 +16,23 @@
 
     <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
 
-    <ion-list *ngIf="!loading">
-          <ion-item *ngFor="let person of persons | async" href="javascript:void(0);" (click)="goToPersonPage(person.id, person)">
+    <ion-list *ngIf="!loading && filter == ''">
+      <div *ngFor="let item of alphabetizedPersons | keyvalue">
+        <div *ngIf="item?.value?.length">
+          <ion-item-divider>
+            <ion-label>
+              {{item.key | uppercase}}
+            </ion-label>
+          </ion-item-divider>
+          <ion-item *ngFor="let person of item.value" href="javascript:void(0);" (click)="goToPersonPage(person.id, person)">
             <ion-avatar slot="start">
                   <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image" src="{{person.id | avatar}}">
                   <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
             </ion-avatar>
             <ion-label>
               <h2>
-                <ion-text *ngIf="!person.blocked">{{person.firstName}} {{person.lastName}}</ion-text>
+                <ion-text *ngIf="!person.blocked">{{person.firstName}} 
+                  <ion-text style='font-weight: bold'>{{person.lastName}}</ion-text></ion-text>
                 <ion-text *ngIf="person.blocked" style='text-decoration:line-through'>
                   {{person.firstName}} {{person.lastName}}
                 </ion-text>
@@ -48,14 +56,49 @@
               (click)="openSms($event, person?.phoneNumber)"
             ></ion-icon>
           </ion-item>
-        </ion-list>
+        </div>
+      </div>
+    </ion-list>
 
+    <ion-list *ngIf="!loading && filter !== ''">
+      <ion-item *ngFor="let person of filteredPersons?.data?.usersPeople" href="javascript:void(0);" (click)="goToPersonPage(person.id, person)">
+        <ion-avatar slot="start">
+              <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image" src="{{person.id | avatar}}">
+              <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h2>
+            <ion-text *ngIf="!person.blocked">{{person.firstName}} {{person.lastName}}</ion-text>
+            <ion-text *ngIf="person.blocked" style='text-decoration:line-through'>
+              {{person.firstName}} {{person.lastName}}
+            </ion-text>
+          </h2>
+          <p *ngIf="person.blocked" class="ion-float-right">
+            <ion-text>Blocked</ion-text>
+          </p>
+          <p>Last Online: {{(person?.lastOnline) ? (((person?.lastOnline / 1000) | amFromUnix)
+            | amLocal | amTimeAgo) : 'N/A'}}</p>
+        </ion-label>
+        <ion-icon
+          *ngIf="person?.phoneNumber"
+          name="call-outline"
+          slot="end" 
+          (click)="openPhone($event, person?.phoneNumber)"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="person?.phoneNumber"
+          name="chatbubble-outline" 
+          slot="end" 
+          (click)="openSms($event, person?.phoneNumber)"
+        ></ion-icon>
+      </ion-item>
+    </ion-list>
 
       <ion-list *ngIf="loading">
           <ion-list-header>
             <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
           </ion-list-header>
-          <ion-item>
+          <ion-item *ngFor="let number of [0,1,2,3,4,5,6,7,8,9]">
             <ion-avatar slot="start">
               <ion-skeleton-text animated></ion-skeleton-text>
             </ion-avatar>
@@ -71,130 +114,6 @@
               </p>
             </ion-label>
           </ion-item>
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <ion-skeleton-text animated></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-              <h3>
-                <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-              </h3>
-              <p>
-                <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-              </p>
-              <p>
-                <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-              </p>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
-            <ion-label>
-              <h3>
-                <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-              </h3>
-              <p>
-                <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-              </p>
-              <p>
-                <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-              </p>
-            </ion-label>
-          </ion-item>
-  
-          <ion-item>
-              <ion-avatar slot="start">
-                <ion-skeleton-text animated></ion-skeleton-text>
-              </ion-avatar>
-              <ion-label>
-                <h3>
-                  <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-                </h3>
-                <p>
-                  <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                </p>
-                <p>
-                  <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                </p>
-              </ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-thumbnail slot="start">
-                <ion-skeleton-text animated></ion-skeleton-text>
-              </ion-thumbnail>
-              <ion-label>
-                <h3>
-                  <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-                </h3>
-                <p>
-                  <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                </p>
-                <p>
-                  <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                </p>
-              </ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
-              <ion-label>
-                <h3>
-                  <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-                </h3>
-                <p>
-                  <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                </p>
-                <p>
-                  <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                </p>
-              </ion-label>
-            </ion-item>
-  
-            <ion-item>
-                <ion-avatar slot="start">
-                  <ion-skeleton-text animated></ion-skeleton-text>
-                </ion-avatar>
-                <ion-label>
-                  <h3>
-                    <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-                  </h3>
-                  <p>
-                    <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                  </p>
-                  <p>
-                    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                  </p>
-                </ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-thumbnail slot="start">
-                  <ion-skeleton-text animated></ion-skeleton-text>
-                </ion-thumbnail>
-                <ion-label>
-                  <h3>
-                    <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-                  </h3>
-                  <p>
-                    <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                  </p>
-                  <p>
-                    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                  </p>
-                </ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-skeleton-text animated style="width: 27px; height: 27px" slot="start"></ion-skeleton-text>
-                <ion-label>
-                  <h3>
-                    <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-                  </h3>
-                  <p>
-                    <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                  </p>
-                  <p>
-                    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                  </p>
-                </ion-label>
-              </ion-item>
         </ion-list>
 
 </ion-content>

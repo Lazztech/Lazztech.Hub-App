@@ -1,11 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ApolloQueryResult } from '@apollo/client/core';
 import { NavController } from '@ionic/angular';
-import { HubService } from 'src/app/services/hub/hub.service';
 import { NGXLogger } from 'ngx-logger';
-import { UsersPeopleQuery } from 'src/generated/graphql';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
 import { CommunicationService } from 'src/app/services/communication.service';
+import { HubService } from 'src/app/services/hub/hub.service';
+import { UsersPeopleGQL, UsersPeopleQuery } from 'src/generated/graphql';
+
+export type AlphabetMapOfUsers = {
+  [letter: string]: UsersPeopleQuery['usersPeople'];
+};
 
 @Component({
   selector: 'app-people',
@@ -14,24 +19,32 @@ import { CommunicationService } from 'src/app/services/communication.service';
 })
 export class PeoplePage implements OnInit, OnDestroy {
 
-  loading = true;
-  persons: Observable<UsersPeopleQuery['usersPeople']>;
+  personsResult: ApolloQueryResult<UsersPeopleQuery>;
+  filteredPersons: ApolloQueryResult<UsersPeopleQuery>;
+  alphabetizedPersons: AlphabetMapOfUsers;
   subscriptions: Subscription[] = [];
+  filter: string = '';
+
+  public get loading() : boolean {
+    return [
+      this.personsResult
+    ].some(x => x?.loading);
+  }
 
   constructor(
     public navCtrl: NavController,
     public hubService: HubService,
     private logger: NGXLogger,
     private readonly communcationService: CommunicationService,
+    private readonly usersPeopleGQLService: UsersPeopleGQL,
   ) { }
 
   ngOnInit() {
-    this.persons = this.hubService.watchUsersPeople().valueChanges.pipe(map(x => x.data && x.data.usersPeople));
-
     this.subscriptions.push(
-      this.hubService.watchUsersPeople().valueChanges.subscribe(x => {
-        this.logger.log('loading: ', x.loading);
-        this.loading = x.loading;
+      this.usersPeopleGQLService.watch().valueChanges.subscribe(result => {
+        this.personsResult = result;
+        this.alphabetizedPersons = this.alphabetizePersons(result?.data?.usersPeople);
+        this.filteredPersons
       })
     );
   }
@@ -42,12 +55,29 @@ export class PeoplePage implements OnInit, OnDestroy {
     );
   }
 
+  alphabetizePersons(persons: UsersPeopleQuery['usersPeople']): AlphabetMapOfUsers {
+    let alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    let alphabetArray = alphabet.split('');
+    const alphabetizedPersons = [...persons]?.sort((a, b) => (
+      a?.lastName.toLowerCase().localeCompare(b?.lastName.toLowerCase())
+    ));
+    console.log(alphabetizedPersons);
+    const alphabetMap = <AlphabetMapOfUsers>{};
+    alphabetArray.forEach(letter => {
+      const startsWithLetter = alphabetizedPersons.filter(person => person?.lastName?.toLowerCase()?.startsWith(letter));
+      alphabetMap[letter] = startsWithLetter;
+    });
+    // non alphabetical character for last name
+    alphabetMap['#'] = alphabetizedPersons.filter(
+      person => alphabet.indexOf(person?.lastName?.toLowerCase()[0]) == -1
+    );
+    return alphabetMap;
+  }
+
   async doRefresh(event) {
     this.logger.log('Begin async operation');
-    this.loading = true;
-    this.persons = this.hubService.watchUsersPeople('network-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
+    this.personsResult = await this.usersPeopleGQLService.fetch(null, { fetchPolicy: 'network-only' }).toPromise();
     event.target.complete();
-    this.loading = false;
   }
 
   openPhone(event: Event, number: string) {
@@ -70,15 +100,17 @@ export class PeoplePage implements OnInit, OnDestroy {
   }
 
   async filterPeople(ev: any) {
-    this.persons = this.hubService.watchUsersPeople('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
-    const val = ev.target.value;
-    if (val && val.trim() !== '') {
-      this.persons = this.persons.pipe(
-        map(x => x.filter(y => {
-          const name = y.firstName.trim().toLowerCase() + y.lastName.trim().toLowerCase();
-          return name.includes(val.trim().toLowerCase());
-        }))
-      );
+    this.filter = ev?.target?.value;
+    if (this.filter && this.filter?.trim() !== '') {
+      this.filteredPersons = {
+        ...this.personsResult,
+        data: {
+          usersPeople: this.personsResult?.data?.usersPeople?.filter(usersPerson => {
+            const name = usersPerson.firstName.trim().toLowerCase() + usersPerson.lastName.trim().toLowerCase();
+            return name.includes(this.filter?.trim().toLowerCase());
+          }) 
+        }
+      }
     }
   }
 
