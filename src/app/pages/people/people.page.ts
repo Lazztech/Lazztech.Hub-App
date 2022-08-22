@@ -20,8 +20,10 @@ export type AlphabetMapOfUsers = {
 export class PeoplePage implements OnInit, OnDestroy {
 
   personsResult: ApolloQueryResult<UsersPeopleQuery>;
+  filteredPersons: ApolloQueryResult<UsersPeopleQuery>;
   alphabetizedPersons: AlphabetMapOfUsers;
   subscriptions: Subscription[] = [];
+  filter: string = '';
 
   public get loading() : boolean {
     return [
@@ -42,6 +44,7 @@ export class PeoplePage implements OnInit, OnDestroy {
       this.usersPeopleGQLService.watch().valueChanges.subscribe(result => {
         this.personsResult = result;
         this.alphabetizedPersons = this.alphabetizePersons(result?.data?.usersPeople);
+        this.filteredPersons
       })
     );
   }
@@ -97,16 +100,18 @@ export class PeoplePage implements OnInit, OnDestroy {
   }
 
   async filterPeople(ev: any) {
-    // this.persons = this.hubService.watchUsersPeople('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersPeople));
-    // const val = ev.target.value;
-    // if (val && val.trim() !== '') {
-    //   this.persons = this.persons.pipe(
-    //     map(x => x.filter(y => {
-    //       const name = y.firstName.trim().toLowerCase() + y.lastName.trim().toLowerCase();
-    //       return name.includes(val.trim().toLowerCase());
-    //     }))
-    //   );
-    // }
+    this.filter = ev?.target?.value;
+    if (this.filter && this.filter?.trim() !== '') {
+      this.filteredPersons = {
+        ...this.personsResult,
+        data: {
+          usersPeople: this.personsResult?.data?.usersPeople?.filter(usersPerson => {
+            const name = usersPerson.firstName.trim().toLowerCase() + usersPerson.lastName.trim().toLowerCase();
+            return name.includes(this.filter?.trim().toLowerCase());
+          }) 
+        }
+      }
+    }
   }
 
 }
