@@ -13,6 +13,7 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-event',
@@ -142,6 +143,15 @@ export class EventPage implements OnInit, OnDestroy {
         }]
     });
     await actionSheet.present();
+  }
+
+  async share() {
+    await Share.share({
+      title: 'Join my community Hub',
+      text: 'Follow the link to join the community!',
+      url: 'https://lazz.tech/',
+      dialogTitle: 'Share with buddies',
+    });
   }
 
   async sendInvites() {

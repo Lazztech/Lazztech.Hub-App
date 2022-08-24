@@ -12,6 +12,7 @@ import { Clipboard } from '@capacitor/clipboard';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { CommunicationService } from 'src/app/services/communication.service';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-hub',
@@ -172,6 +173,15 @@ export class HubPage implements OnInit, OnDestroy {
       });
       await actionSheet.present();
     }
+  }
+
+  async share() {
+    await Share.share({
+      title: 'Join my community Hub',
+      text: 'Follow the link to join the community!',
+      url: 'https://lazz.tech/',
+      dialogTitle: 'Share with buddies',
+    });
   }
 
   async sendInvites() {
