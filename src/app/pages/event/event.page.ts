@@ -147,9 +147,9 @@ export class EventPage implements OnInit, OnDestroy {
 
   async share() {
     await Share.share({
-      title: 'Join my community Hub',
-      text: 'Follow the link to join the community!',
-      url: 'https://lazz.tech/',
+      title: 'Join my community event',
+      text: 'Follow the link to RSVP to the event!',
+      url: 'https://hub.lazz.tech/',
       dialogTitle: 'Share with buddies',
     });
   }
