@@ -177,8 +177,8 @@ export class HubPage implements OnInit, OnDestroy {
 
   async share() {
     await Share.share({
-      title: `You invited to my community Hub, "${this.userHub.hub?.name}"`,
-      text: `You invited to my community Hub, "${this.userHub.hub?.name}"`,
+      title: `You invited to my community Hub, "${this.userHub.hub?.name}"!`,
+      text: `You invited to my community Hub, "${this.userHub.hub?.name}"!`,
       url: 'https://hub.lazz.tech/',
       dialogTitle: 'Share with buddies',
     });
