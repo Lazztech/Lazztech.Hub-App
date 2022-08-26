@@ -146,9 +146,10 @@ export class EventPage implements OnInit, OnDestroy {
   }
 
   async share() {
+    const event = this.userEventQueryResult?.data?.event?.event;
     await Share.share({
-      title: 'Join my community event',
-      text: 'Follow the link to RSVP to the event!',
+      title: `You're invited to RSVP to the "${event?.name}" event!`,
+      text: `You're invited to RSVP to the "${event?.name}" event!`,
       url: 'https://hub.lazz.tech/',
       dialogTitle: 'Share with buddies',
     });
