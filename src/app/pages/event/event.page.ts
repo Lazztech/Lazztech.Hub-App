@@ -150,7 +150,7 @@ export class EventPage implements OnInit, OnDestroy {
     await Share.share({
       title: `You're invited to RSVP to the "${event?.name}" event!`,
       text: `You're invited to RSVP to the "${event?.name}" event!`,
-      url: 'https://hub.lazz.tech/',
+      url: `https://hub.lazz.tech/event/${event?.shareableId}`,
       dialogTitle: 'Share with buddies',
     });
   }

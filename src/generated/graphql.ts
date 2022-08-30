@@ -1014,7 +1014,7 @@ export type HubQuery = (
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
     & { hub?: Maybe<(
       { __typename?: 'Hub' }
-      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel'>
+      & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
       & { usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserHub' }
         & Pick<JoinUserHub, 'isOwner' | 'isPresent'>
@@ -2074,6 +2074,7 @@ export const HubDocument = gql`
       latitude
       longitude
       locationLabel
+      shareableId
       usersConnection {
         user {
           id

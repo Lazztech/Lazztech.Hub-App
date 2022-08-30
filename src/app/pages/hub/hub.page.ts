@@ -179,7 +179,7 @@ export class HubPage implements OnInit, OnDestroy {
     await Share.share({
       title: `You invited to my community Hub, "${this.userHub.hub?.name}"!`,
       text: `You invited to my community Hub, "${this.userHub.hub?.name}"!`,
-      url: 'https://hub.lazz.tech/',
+      url: `https://hub.lazz.tech/hub/${this.userHub.hub?.shareableId}`,
       dialogTitle: 'Share with buddies',
     });
   }
