@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { NavController, Platform } from '@ionic/angular';
@@ -12,6 +12,8 @@ import { NGXLogger } from 'ngx-logger';
 import { SplashScreen } from '@capacitor/splash-screen';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { environment } from '../environments/environment';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -41,6 +43,8 @@ export class AppComponent {
     private themeService: ThemeService,
     private geofenceService: GeofenceService,
     private logger: NGXLogger,
+    private router: Router,
+    private zone: NgZone,
   ) {
     this.initializeApp();
   }
@@ -52,6 +56,17 @@ export class AppComponent {
     StatusBar.setStyle({
       style: Style.Dark
     });
+
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+        const domain = 'lazz.tech';
+        const appPath = event.url.split(domain).pop();
+        if (appPath) {
+          this.router.navigateByUrl(appPath);
+        }
+      });
+    });
+
     this.platform.ready().then(async () => {
       this.logger.log('Ionic Platform Ready');
       SplashScreen.hide();
