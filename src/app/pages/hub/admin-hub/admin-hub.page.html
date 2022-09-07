@@ -78,7 +78,7 @@
     </ion-list-header>
 
     <div *ngFor="let userConnection of userHub?.data?.hub?.hub?.usersConnection; trackBy: trackByUser">
-      <ion-item-sliding>
+      <ion-item-sliding #slidingItem>
       <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
@@ -94,7 +94,7 @@
         </ion-label>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="removeUserFromHub()">
+        <ion-item-option color="danger" (click)="removeUserFromHub(userConnection?.user?.id, slidingItem)" *ngIf="!userConnection.isOwner">
           remove
         </ion-item-option>
       </ion-item-options>

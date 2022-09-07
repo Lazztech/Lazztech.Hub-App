@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL } from 'src/graphql/graphql';
+import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL, RemoveUserFromHubGQL, HubDocument } from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { NavController, ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { CameraService } from 'src/app/services/camera/camera.service';
@@ -57,13 +57,14 @@ export class AdminHubPage implements OnInit, OnDestroy {
     public locationService: LocationService,
     private platform: Platform,
     private changeRef: ChangeDetectorRef,
+    private readonly removeUserFromHubGqlService: RemoveUserFromHubGQL,
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.subscriptions.push(
-      this.hubGqlService.fetch({ id: this.id }).subscribe(x => {
+      this.hubGqlService.watch({ id: this.id }).valueChanges.subscribe(x => {
         this.userHub = x;
         this.image = x?.data?.hub?.hub?.image;
         this.active = x?.data?.hub?.hub?.active;
@@ -98,8 +99,16 @@ export class AdminHubPage implements OnInit, OnDestroy {
     return joinUserHub.userId;
   }
 
-  async removeUserFromHub() {
-    
+  async removeUserFromHub(otherUsersId: any, slidingItem: any) {
+    await this.removeUserFromHubGqlService.mutate({
+      hubId: this.userHub?.data?.hub?.hubId,
+      otherUsersId
+    }, {
+      refetchQueries: [
+        { query: HubDocument, variables: { id: this.id } }
+      ]
+    }).toPromise();
+    await slidingItem.close();
   }
 
   async save() {
