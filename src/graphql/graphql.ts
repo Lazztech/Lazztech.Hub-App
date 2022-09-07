@@ -991,6 +991,17 @@ export type RegisterMutation = (
   & Pick<Mutation, 'register'>
 );
 
+export type RemoveUserFromHubMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+  otherUsersId: Scalars['ID'];
+}>;
+
+
+export type RemoveUserFromHubMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'removeUserFromHub'>
+);
+
 export type ReportEventAsInappropriateMutationVariables = Exact<{
   eventId: Scalars['ID'];
 }>;
@@ -1964,6 +1975,19 @@ export const RegisterDocument = gql`
   })
   export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
     document = RegisterDocument;
+    
+  }
+export const RemoveUserFromHubDocument = gql`
+    mutation removeUserFromHub($hubId: ID!, $otherUsersId: ID!) {
+  removeUserFromHub(hubId: $hubId, otherUsersId: $otherUsersId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveUserFromHubGQL extends Apollo.Mutation<RemoveUserFromHubMutation, RemoveUserFromHubMutationVariables> {
+    document = RemoveUserFromHubDocument;
     
   }
 export const ReportEventAsInappropriateDocument = gql`
