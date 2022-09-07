@@ -100,14 +100,16 @@ export class AdminHubPage implements OnInit, OnDestroy {
   }
 
   async removeUserFromHub(otherUsersId: any, slidingItem: any) {
-    await this.removeUserFromHubGqlService.mutate({
-      hubId: this.userHub?.data?.hub?.hubId,
-      otherUsersId
-    }, {
-      refetchQueries: [
-        { query: HubDocument, variables: { id: this.id } }
-      ]
-    }).toPromise();
+    if (confirm('Are you sure you want to remove this user?')) {
+      await this.removeUserFromHubGqlService.mutate({
+        hubId: this.userHub?.data?.hub?.hubId,
+        otherUsersId
+      }, {
+        refetchQueries: [
+          { query: HubDocument, variables: { id: this.id } }
+        ]
+      }).toPromise();
+    }
     await slidingItem.close();
   }
 
