@@ -18,7 +18,7 @@ import {
   PaginatedInAppNotifcationsGQL,
   PaginatedInAppNotifcationsQueryVariables,
   Scalars,
-} from '../../../generated/graphql';
+} from '../../../graphql/graphql';
 import { AlertService } from '../alert/alert.service';
 
 @Injectable({

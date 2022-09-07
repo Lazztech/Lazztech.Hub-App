@@ -8,7 +8,7 @@ import { setContext } from '@apollo/client/link/context';
 import { NGXLogger } from 'ngx-logger';
 import { onError } from '@apollo/client/link/error';
 import { environment } from '../environments/environment';
-import { TypedTypePolicies } from 'src/generated/type-policies';
+import { TypedTypePolicies } from 'src/graphql/type-policies';
 
 const typePolicies: TypedTypePolicies = {
   Query: {

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL } from 'src/generated/graphql';
+import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL } from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { NavController, ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { CameraService } from 'src/app/services/camera/camera.service';

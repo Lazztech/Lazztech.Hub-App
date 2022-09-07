@@ -3,7 +3,7 @@ import BackgroundGeolocation, {
   GeofenceEvent
 } from '@transistorsoft/capacitor-background-geolocation';
 import { NGXLogger } from 'ngx-logger';
-import { Hub } from 'src/generated/graphql';
+import { Hub } from 'src/graphql/graphql';
 import { environment } from '../../../environments/environment';
 import { HubService } from '../hub/hub.service';
 import { LocalNotifications } from '@capacitor/local-notifications';

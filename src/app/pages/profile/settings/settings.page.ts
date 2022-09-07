@@ -13,7 +13,7 @@ import { NotificationsService } from '../../../services/notifications/notificati
 import { Browser } from '@capacitor/browser';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MeGQL, UpdateUserGQL } from 'src/generated/graphql';
+import { MeGQL, UpdateUserGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-settings',

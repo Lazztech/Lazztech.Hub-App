@@ -9,7 +9,7 @@ import { CameraService } from 'src/app/services/camera/camera.service';
 import { GeofenceService } from 'src/app/services/geofence/geofence.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { Hub, UsersPeopleQuery } from 'src/generated/graphql';
+import { Hub, UsersPeopleQuery } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-add-hub',

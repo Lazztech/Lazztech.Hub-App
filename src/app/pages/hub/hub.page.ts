@@ -5,7 +5,7 @@ import { Subscription, Observable } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { Scalars, HubQuery, JoinUserHub, User } from 'src/generated/graphql';
+import { Scalars, HubQuery, JoinUserHub, User } from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map, take } from 'rxjs/operators';
 import { Clipboard } from '@capacitor/clipboard';

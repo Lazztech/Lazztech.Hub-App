@@ -3,7 +3,7 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { ActionSheetController, IonRouterOutlet, ModalController } from '@ionic/angular';
 import { MicroChatAddPage } from 'src/app/pages/micro-chat-add/micro-chat-add.page';
 import { NGXLogger } from 'ngx-logger';
-import { JoinUserHub } from 'src/generated/graphql';
+import { JoinUserHub } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-micro-chat',

@@ -7,7 +7,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { DeleteEventGQL, Event, EventGQL, EventQuery, Scalars, UpdateEventGQL } from 'src/generated/graphql';
+import { DeleteEventGQL, Event, EventGQL, EventQuery, Scalars, UpdateEventGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-admin-event',

@@ -5,7 +5,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { CreateEventGQL } from 'src/generated/graphql';
+import { CreateEventGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-create-event',

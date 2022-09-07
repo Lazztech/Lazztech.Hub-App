@@ -7,7 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { InviteUserToEventGQL, Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
+import { InviteUserToEventGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
 
 export enum InviteType {
   Hub = 'hub',

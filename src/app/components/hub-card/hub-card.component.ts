@@ -3,7 +3,7 @@ import { LocationService } from 'src/app/services/location/location.service';
 import { Observable, Subscription, zip } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { Hub } from 'src/generated/graphql';
+import { Hub } from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 
 @Component({

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
-import { Hub, InvitesByUserQuery, JoinUserHub, User, UsersHubsQuery } from 'src/generated/graphql';
+import { Hub, InvitesByUserQuery, JoinUserHub, User, UsersHubsQuery } from 'src/graphql/graphql';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth/auth.service';
 import { ForegroundGeofenceService } from '../services/foreground-geofence.service';

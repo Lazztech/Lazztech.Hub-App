@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { JoinUserEvent, RsvpGQL } from 'src/generated/graphql';
+import { JoinUserEvent, RsvpGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-event-card',

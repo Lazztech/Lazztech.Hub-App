@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { ChangeEmailGQL, ChangePasswordGQL, ChangeUserImageGQL, DeleteAccountGQL, EditUserDetailsGQL } from 'src/generated/graphql';
+import { ChangeEmailGQL, ChangePasswordGQL, ChangeUserImageGQL, DeleteAccountGQL, EditUserDetailsGQL } from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 
 @Injectable({

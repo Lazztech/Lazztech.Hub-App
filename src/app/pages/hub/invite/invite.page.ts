@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { Observable, Subscription } from 'rxjs';
-import { Scalars, UsersPeopleQuery } from 'src/generated/graphql';
+import { Scalars, UsersPeopleQuery } from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { map } from 'rxjs/operators';
 import { NavController } from '@ionic/angular';
