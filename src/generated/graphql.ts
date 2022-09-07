@@ -126,6 +126,7 @@ export type Mutation = {
   deleteAllInAppNotifications: Scalars['Boolean'];
   createHub: JoinUserHub;
   inviteUserToHub: Invite;
+  removeUserFromHub: Scalars['Boolean'];
   acceptHubInvite: JoinUserHub;
   deleteInvite: Scalars['Boolean'];
   leaveHub: Scalars['Boolean'];
@@ -190,6 +191,12 @@ export type MutationCreateHubArgs = {
 
 export type MutationInviteUserToHubArgs = {
   inviteesEmail: Scalars['String'];
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationRemoveUserFromHubArgs = {
+  otherUsersId: Scalars['ID'];
   hubId: Scalars['ID'];
 };
 

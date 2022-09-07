@@ -98,6 +98,10 @@ export class AdminHubPage implements OnInit, OnDestroy {
     return joinUserHub.userId;
   }
 
+  async removeUserFromHub() {
+    
+  }
+
   async save() {
     this.loading = true;
     await this.updateHubService.mutate({
