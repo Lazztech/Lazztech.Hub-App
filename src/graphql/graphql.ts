@@ -550,242 +550,6 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type LoginMutationVariables = Exact<{
-  password: Scalars['String'];
-  email: Scalars['String'];
-}>;
-
-
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'login'>
-);
-
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MeQuery = (
-  { __typename?: 'Query' }
-  & { me?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneNumber' | 'shareableId'>
-    & { blocks?: Maybe<Array<(
-      { __typename?: 'Block' }
-      & { from: (
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
-      ), to: (
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
-      ) }
-    )>> }
-  )> }
-);
-
-export type RegisterMutationVariables = Exact<{
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  birthdate: Scalars['String'];
-  email: Scalars['String'];
-  password: Scalars['String'];
-  phoneNumber?: Maybe<Scalars['String']>;
-}>;
-
-
-export type RegisterMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'register'>
-);
-
-export type ResetPasswordMutationVariables = Exact<{
-  email: Scalars['String'];
-  newPassword: Scalars['String'];
-  resetPin: Scalars['String'];
-}>;
-
-
-export type ResetPasswordMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'resetPassword'>
-);
-
-export type SendPasswordResetEmailMutationVariables = Exact<{
-  email: Scalars['String'];
-}>;
-
-
-export type SendPasswordResetEmailMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'sendPasswordResetEmail'>
-);
-
-export type CreateEventMutationVariables = Exact<{
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  startDateTime?: Maybe<Scalars['String']>;
-  endDateTime?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  latitude?: Maybe<Scalars['Float']>;
-  longitude?: Maybe<Scalars['Float']>;
-  locationLabel?: Maybe<Scalars['String']>;
-}>;
-
-
-export type CreateEventMutation = (
-  { __typename?: 'Mutation' }
-  & { createEvent: (
-    { __typename?: 'JoinUserEvent' }
-    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
-    )>, event?: Maybe<(
-      { __typename?: 'Event' }
-      & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
-    )> }
-  ) }
-);
-
-export type DeleteEventMutationVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type DeleteEventMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteEvent'>
-);
-
-export type EventQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type EventQuery = (
-  { __typename?: 'Query' }
-  & { event: (
-    { __typename?: 'JoinUserEvent' }
-    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
-    )>, event?: Maybe<(
-      { __typename?: 'Event' }
-      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
-      & { createdBy?: Maybe<(
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
-      )>, usersConnection?: Maybe<Array<(
-        { __typename?: 'JoinUserEvent' }
-        & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
-        & { user?: Maybe<(
-          { __typename?: 'User' }
-          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'phoneNumber'>
-        )> }
-      )>> }
-    )> }
-  ) }
-);
-
-export type InviteUserToEventMutationVariables = Exact<{
-  eventId: Scalars['ID'];
-  inviteesEmail: Scalars['String'];
-}>;
-
-
-export type InviteUserToEventMutation = (
-  { __typename?: 'Mutation' }
-  & { inviteUserToEvent: (
-    { __typename?: 'JoinUserEvent' }
-    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
-    )>, event?: Maybe<(
-      { __typename?: 'Event' }
-      & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
-    )> }
-  ) }
-);
-
-export type ReportEventAsInappropriateMutationVariables = Exact<{
-  eventId: Scalars['ID'];
-}>;
-
-
-export type ReportEventAsInappropriateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reportEventAsInappropriate'>
-);
-
-export type RsvpMutationVariables = Exact<{
-  eventId: Scalars['ID'];
-  rsvp: Scalars['String'];
-}>;
-
-
-export type RsvpMutation = (
-  { __typename?: 'Mutation' }
-  & { rsvp: (
-    { __typename?: 'JoinUserEvent' }
-    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp'>
-  ) }
-);
-
-export type UpdateEventMutationVariables = Exact<{
-  eventId: Scalars['ID'];
-  name: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  startDateTime?: Maybe<Scalars['String']>;
-  endDateTime?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  latitude?: Maybe<Scalars['Float']>;
-  longitude?: Maybe<Scalars['Float']>;
-  locationLabel?: Maybe<Scalars['String']>;
-}>;
-
-
-export type UpdateEventMutation = (
-  { __typename?: 'Mutation' }
-  & { updateEvent: (
-    { __typename?: 'Event' }
-    & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
-    & { createdBy?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
-    )>, usersConnection?: Maybe<Array<(
-      { __typename?: 'JoinUserEvent' }
-      & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
-      & { user?: Maybe<(
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
-      )> }
-    )>> }
-  ) }
-);
-
-export type UserEventsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UserEventsQuery = (
-  { __typename?: 'Query' }
-  & { usersEvents: Array<(
-    { __typename?: 'JoinUserEvent' }
-    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
-    )>, event?: Maybe<(
-      { __typename?: 'Event' }
-      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
-      & { createdBy?: Maybe<(
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
-      )> }
-    )> }
-  )> }
-);
-
 export type AcceptHubInviteMutationVariables = Exact<{
   inviteId: Scalars['ID'];
 }>;
@@ -820,6 +584,48 @@ export type ActivateHubMutation = (
   ) }
 );
 
+export type AddUserFcmNotificationTokenMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type AddUserFcmNotificationTokenMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'addUserFcmNotificationToken'>
+);
+
+export type BlockUserMutationVariables = Exact<{
+  toUserId: Scalars['ID'];
+}>;
+
+
+export type BlockUserMutation = (
+  { __typename?: 'Mutation' }
+  & { blockUser: (
+    { __typename?: 'Block' }
+    & { from: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ), to: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ) }
+  ) }
+);
+
+export type ChangeEmailMutationVariables = Exact<{
+  newEmail: Scalars['String'];
+}>;
+
+
+export type ChangeEmailMutation = (
+  { __typename?: 'Mutation' }
+  & { changeEmail: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email'>
+  ) }
+);
+
 export type ChangeHubImageMutationVariables = Exact<{
   id: Scalars['ID'];
   image: Scalars['String'];
@@ -849,25 +655,55 @@ export type ChangeHubLocationMutation = (
   ) }
 );
 
-export type CommonUsersHubsQueryVariables = Exact<{
-  otherUsersId: Scalars['ID'];
+export type ChangePasswordMutationVariables = Exact<{
+  oldPassword: Scalars['String'];
+  newPassword: Scalars['String'];
 }>;
 
 
-export type CommonUsersHubsQuery = (
-  { __typename?: 'Query' }
-  & { commonUsersHubs: Array<(
-    { __typename?: 'JoinUserHub' }
-    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
-    & { hub?: Maybe<(
-      { __typename?: 'Hub' }
-      & Pick<Hub, 'id' | 'name' | 'active' | 'image' | 'latitude' | 'longitude'>
-      & { usersConnection?: Maybe<Array<(
-        { __typename?: 'JoinUserHub' }
-        & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
-      )>> }
+export type ChangePasswordMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'changePassword'>
+);
+
+export type ChangeUserImageMutationVariables = Exact<{
+  image: Scalars['String'];
+}>;
+
+
+export type ChangeUserImageMutation = (
+  { __typename?: 'Mutation' }
+  & { changeUserImage: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'image'>
+  ) }
+);
+
+export type CreateEventMutationVariables = Exact<{
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
+}>;
+
+
+export type CreateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { createEvent: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
     )> }
-  )> }
+  ) }
 );
 
 export type CreateHubMutationVariables = Exact<{
@@ -923,6 +759,35 @@ export type DeactivateHubMutation = (
   ) }
 );
 
+export type DeleteAccountMutationVariables = Exact<{
+  emailAddress: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type DeleteAccountMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteAccount'>
+);
+
+export type DeleteAllInAppNotificationsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeleteAllInAppNotificationsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteAllInAppNotifications'>
+);
+
+export type DeleteEventMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteEventMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteEvent'>
+);
+
 export type DeleteHubMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -931,6 +796,16 @@ export type DeleteHubMutationVariables = Exact<{
 export type DeleteHubMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteHub'>
+);
+
+export type DeleteInAppNotificationMutationVariables = Exact<{
+  inAppNotificationId: Scalars['ID'];
+}>;
+
+
+export type DeleteInAppNotificationMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteInAppNotification'>
 );
 
 export type DeleteInviteMutationVariables = Exact<{
@@ -983,6 +858,21 @@ export type EditHubMutation = (
   ) }
 );
 
+export type EditUserDetailsMutationVariables = Exact<{
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  description: Scalars['String'];
+}>;
+
+
+export type EditUserDetailsMutation = (
+  { __typename?: 'Mutation' }
+  & { editUserDetails: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description'>
+  ) }
+);
+
 export type EnteredHubGeofenceMutationVariables = Exact<{
   hubId: Scalars['ID'];
 }>;
@@ -1006,6 +896,323 @@ export type ExitedHubGeofenceMutation = (
   & { exitedHubGeofence: (
     { __typename?: 'JoinUserHub' }
     & Pick<JoinUserHub, 'userId' | 'hubId' | 'isPresent'>
+  ) }
+);
+
+export type InviteUserToEventMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  inviteesEmail: Scalars['String'];
+}>;
+
+
+export type InviteUserToEventMutation = (
+  { __typename?: 'Mutation' }
+  & { inviteUserToEvent: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+    )> }
+  ) }
+);
+
+export type InviteUserToHubMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+  inviteesEmail: Scalars['String'];
+}>;
+
+
+export type InviteUserToHubMutation = (
+  { __typename?: 'Mutation' }
+  & { inviteUserToHub: (
+    { __typename?: 'Invite' }
+    & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
+    & { inviter?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName'>
+    )>, invitee?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName'>
+    )>, hub?: Maybe<(
+      { __typename?: 'Hub' }
+      & Pick<Hub, 'id' | 'name'>
+    )> }
+  ) }
+);
+
+export type LeaveHubMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type LeaveHubMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'leaveHub'>
+);
+
+export type LoginMutationVariables = Exact<{
+  password: Scalars['String'];
+  email: Scalars['String'];
+}>;
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'login'>
+);
+
+export type MicroChatToHubMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+  microChatId: Scalars['ID'];
+}>;
+
+
+export type MicroChatToHubMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'microChatToHub'>
+);
+
+export type RegisterMutationVariables = Exact<{
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  birthdate: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
+}>;
+
+
+export type RegisterMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'register'>
+);
+
+export type ReportEventAsInappropriateMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+}>;
+
+
+export type ReportEventAsInappropriateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reportEventAsInappropriate'>
+);
+
+export type ReportHubAsInappropriateMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type ReportHubAsInappropriateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reportHubAsInappropriate'>
+);
+
+export type ReportUserAsInappropriateMutationVariables = Exact<{
+  toUserId: Scalars['ID'];
+}>;
+
+
+export type ReportUserAsInappropriateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reportUserAsInappropriate'>
+);
+
+export type ResetPasswordMutationVariables = Exact<{
+  email: Scalars['String'];
+  newPassword: Scalars['String'];
+  resetPin: Scalars['String'];
+}>;
+
+
+export type ResetPasswordMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'resetPassword'>
+);
+
+export type RsvpMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  rsvp: Scalars['String'];
+}>;
+
+
+export type RsvpMutation = (
+  { __typename?: 'Mutation' }
+  & { rsvp: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp'>
+  ) }
+);
+
+export type SendPasswordResetEmailMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type SendPasswordResetEmailMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'sendPasswordResetEmail'>
+);
+
+export type SetHubNotStarredMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type SetHubNotStarredMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'setHubNotStarred'>
+);
+
+export type SetHubStarredMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type SetHubStarredMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'setHubStarred'>
+);
+
+export type UnblockUserMutationVariables = Exact<{
+  toUserId: Scalars['ID'];
+}>;
+
+
+export type UnblockUserMutation = (
+  { __typename?: 'Mutation' }
+  & { unblockUser: (
+    { __typename?: 'Block' }
+    & { from: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ), to: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName'>
+    ) }
+  ) }
+);
+
+export type UpdateEventMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateEventMutation = (
+  { __typename?: 'Mutation' }
+  & { updateEvent: (
+    { __typename?: 'Event' }
+    & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
+    & { createdBy?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, usersConnection?: Maybe<Array<(
+      { __typename?: 'JoinUserEvent' }
+      & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
+      & { user?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked'>
+      )> }
+    )>> }
+  ) }
+);
+
+export type UpdateHubMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+  name: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  locationLabel?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateHubMutation = (
+  { __typename?: 'Mutation' }
+  & { updateHub: (
+    { __typename?: 'Hub' }
+    & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
+    & { usersConnection?: Maybe<Array<(
+      { __typename?: 'JoinUserHub' }
+      & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
+    )>> }
+  ) }
+);
+
+export type UpdateUserMutationVariables = Exact<{
+  data: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneNumber' | 'shareableId'>
+  ) }
+);
+
+export type CommonUsersHubsQueryVariables = Exact<{
+  otherUsersId: Scalars['ID'];
+}>;
+
+
+export type CommonUsersHubsQuery = (
+  { __typename?: 'Query' }
+  & { commonUsersHubs: Array<(
+    { __typename?: 'JoinUserHub' }
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
+    & { hub?: Maybe<(
+      { __typename?: 'Hub' }
+      & Pick<Hub, 'id' | 'name' | 'active' | 'image' | 'latitude' | 'longitude'>
+      & { usersConnection?: Maybe<Array<(
+        { __typename?: 'JoinUserHub' }
+        & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
+      )>> }
+    )> }
+  )> }
+);
+
+export type EventQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type EventQuery = (
+  { __typename?: 'Query' }
+  & { event: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
+      & { createdBy?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
+      )>, usersConnection?: Maybe<Array<(
+        { __typename?: 'JoinUserEvent' }
+        & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
+        & { user?: Maybe<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'phoneNumber'>
+        )> }
+      )>> }
+    )> }
   ) }
 );
 
@@ -1057,30 +1264,6 @@ export type InviteQuery = (
   ) }
 );
 
-export type InviteUserToHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  inviteesEmail: Scalars['String'];
-}>;
-
-
-export type InviteUserToHubMutation = (
-  { __typename?: 'Mutation' }
-  & { inviteUserToHub: (
-    { __typename?: 'Invite' }
-    & Pick<Invite, 'id' | 'invitersId' | 'inviteesId' | 'hubId' | 'accepted'>
-    & { inviter?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName'>
-    )>, invitee?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName' | 'lastName'>
-    )>, hub?: Maybe<(
-      { __typename?: 'Hub' }
-      & Pick<Hub, 'id' | 'name'>
-    )> }
-  ) }
-);
-
 export type InvitesByHubQueryVariables = Exact<{
   hubId: Scalars['ID'];
 }>;
@@ -1126,78 +1309,67 @@ export type InvitesByUserQuery = (
   )> }
 );
 
-export type LeaveHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-}>;
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LeaveHubMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'leaveHub'>
-);
-
-export type MicroChatToHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  microChatId: Scalars['ID'];
-}>;
-
-
-export type MicroChatToHubMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'microChatToHub'>
-);
-
-export type ReportHubAsInappropriateMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-}>;
-
-
-export type ReportHubAsInappropriateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reportHubAsInappropriate'>
-);
-
-export type SetHubNotStarredMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-}>;
-
-
-export type SetHubNotStarredMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setHubNotStarred'>
-);
-
-export type SetHubStarredMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-}>;
-
-
-export type SetHubStarredMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'setHubStarred'>
-);
-
-export type UpdateHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  name: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
-  locationLabel?: Maybe<Scalars['String']>;
-}>;
-
-
-export type UpdateHubMutation = (
-  { __typename?: 'Mutation' }
-  & { updateHub: (
-    { __typename?: 'Hub' }
-    & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude'>
-    & { usersConnection?: Maybe<Array<(
-      { __typename?: 'JoinUserHub' }
-      & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneNumber' | 'shareableId'>
+    & { blocks?: Maybe<Array<(
+      { __typename?: 'Block' }
+      & { from: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+      ), to: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+      ) }
     )>> }
+  )> }
+);
+
+export type PaginatedInAppNotifcationsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+  field: Scalars['String'];
+  ascending: Scalars['Boolean'];
+}>;
+
+
+export type PaginatedInAppNotifcationsQuery = (
+  { __typename?: 'Query' }
+  & { paginatedInAppNotifications: (
+    { __typename?: 'PaginatedInAppNotificationsResponse' }
+    & Pick<PaginatedInAppNotificationsResponse, 'total'>
+    & { items: Array<(
+      { __typename?: 'InAppNotification' }
+      & Pick<InAppNotification, 'id' | 'userId' | 'header' | 'text' | 'date' | 'actionLink' | 'thumbnail'>
+    )> }
   ) }
+);
+
+export type UserEventsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserEventsQuery = (
+  { __typename?: 'Query' }
+  & { usersEvents: Array<(
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId' | 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId'>
+    )>, event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+      & { createdBy?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
+      )> }
+    )> }
+  )> }
 );
 
 export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1230,220 +1402,26 @@ export type UsersPeopleQuery = (
   )> }
 );
 
-export type AddUserFcmNotificationTokenMutationVariables = Exact<{
-  token: Scalars['String'];
-}>;
-
-
-export type AddUserFcmNotificationTokenMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addUserFcmNotificationToken'>
-);
-
-export type DeleteAllInAppNotificationsMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type DeleteAllInAppNotificationsMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteAllInAppNotifications'>
-);
-
-export type DeleteInAppNotificationMutationVariables = Exact<{
-  inAppNotificationId: Scalars['ID'];
-}>;
-
-
-export type DeleteInAppNotificationMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteInAppNotification'>
-);
-
-export type PaginatedInAppNotifcationsQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  offset: Scalars['Int'];
-  field: Scalars['String'];
-  ascending: Scalars['Boolean'];
-}>;
-
-
-export type PaginatedInAppNotifcationsQuery = (
-  { __typename?: 'Query' }
-  & { paginatedInAppNotifications: (
-    { __typename?: 'PaginatedInAppNotificationsResponse' }
-    & Pick<PaginatedInAppNotificationsResponse, 'total'>
-    & { items: Array<(
-      { __typename?: 'InAppNotification' }
-      & Pick<InAppNotification, 'id' | 'userId' | 'header' | 'text' | 'date' | 'actionLink' | 'thumbnail'>
-    )> }
-  ) }
-);
-
-export type ChangeEmailMutationVariables = Exact<{
-  newEmail: Scalars['String'];
-}>;
-
-
-export type ChangeEmailMutation = (
-  { __typename?: 'Mutation' }
-  & { changeEmail: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'email'>
-  ) }
-);
-
-export type ChangePasswordMutationVariables = Exact<{
-  oldPassword: Scalars['String'];
-  newPassword: Scalars['String'];
-}>;
-
-
-export type ChangePasswordMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'changePassword'>
-);
-
-export type ChangeUserImageMutationVariables = Exact<{
-  image: Scalars['String'];
-}>;
-
-
-export type ChangeUserImageMutation = (
-  { __typename?: 'Mutation' }
-  & { changeUserImage: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'image'>
-  ) }
-);
-
-export type DeleteAccountMutationVariables = Exact<{
-  emailAddress: Scalars['String'];
-  password: Scalars['String'];
-}>;
-
-
-export type DeleteAccountMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteAccount'>
-);
-
-export type EditUserDetailsMutationVariables = Exact<{
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  description: Scalars['String'];
-}>;
-
-
-export type EditUserDetailsMutation = (
-  { __typename?: 'Mutation' }
-  & { editUserDetails: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description'>
-  ) }
-);
-
-export type UpdateUserMutationVariables = Exact<{
-  data: UpdateUserInput;
-}>;
-
-
-export type UpdateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { updateUser: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'phoneNumber' | 'shareableId'>
-  ) }
-);
-
-export type BlockUserMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
-}>;
-
-
-export type BlockUserMutation = (
-  { __typename?: 'Mutation' }
-  & { blockUser: (
-    { __typename?: 'Block' }
-    & { from: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ), to: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ) }
-  ) }
-);
-
-export type ReportUserAsInappropriateMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
-}>;
-
-
-export type ReportUserAsInappropriateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'reportUserAsInappropriate'>
-);
-
-export type UnblockUserMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
-}>;
-
-
-export type UnblockUserMutation = (
-  { __typename?: 'Mutation' }
-  & { unblockUser: (
-    { __typename?: 'Block' }
-    & { from: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ), to: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'firstName'>
-    ) }
-  ) }
-);
-
-export const LoginDocument = gql`
-    mutation login($password: String!, $email: String!) {
-  login(password: $password, email: $email)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LoginGQL extends Apollo.Mutation<LoginMutation, LoginMutationVariables> {
-    document = LoginDocument;
-    
-  }
-export const MeDocument = gql`
-    query me {
-  me {
-    id
-    firstName
-    lastName
-    description
-    image
-    email
-    phoneNumber
-    shareableId
-    blocks {
-      from {
+export const AcceptHubInviteDocument = gql`
+    mutation acceptHubInvite($inviteId: ID!) {
+  acceptHubInvite(inviteId: $inviteId) {
+    userId
+    hubId
+    isOwner
+    starred
+    isPresent
+    hub {
+      id
+      name
+      description
+      active
+      image
+      latitude
+      longitude
+      microChats {
         id
-        firstName
-        lastName
-        description
-        image
-        email
-        shareableId
-      }
-      to {
-        id
-        firstName
-        lastName
-        description
-        image
-        email
-        shareableId
+        hubId
+        text
       }
     }
   }
@@ -1453,47 +1431,137 @@ export const MeDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class MeGQL extends Apollo.Query<MeQuery, MeQueryVariables> {
-    document = MeDocument;
+  export class AcceptHubInviteGQL extends Apollo.Mutation<AcceptHubInviteMutation, AcceptHubInviteMutationVariables> {
+    document = AcceptHubInviteDocument;
     
   }
-export const RegisterDocument = gql`
-    mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!, $phoneNumber: String) {
-  register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password, phoneNumber: $phoneNumber})
+export const ActivateHubDocument = gql`
+    mutation activateHub($hubId: ID!) {
+  activateHub(hubId: $hubId) {
+    id
+    active
+  }
 }
     `;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
-    document = RegisterDocument;
+  export class ActivateHubGQL extends Apollo.Mutation<ActivateHubMutation, ActivateHubMutationVariables> {
+    document = ActivateHubDocument;
     
   }
-export const ResetPasswordDocument = gql`
-    mutation resetPassword($email: String!, $newPassword: String!, $resetPin: String!) {
-  resetPassword(usersEmail: $email, newPassword: $newPassword, resetPin: $resetPin)
+export const AddUserFcmNotificationTokenDocument = gql`
+    mutation addUserFcmNotificationToken($token: String!) {
+  addUserFcmNotificationToken(token: $token)
 }
     `;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class ResetPasswordGQL extends Apollo.Mutation<ResetPasswordMutation, ResetPasswordMutationVariables> {
-    document = ResetPasswordDocument;
+  export class AddUserFcmNotificationTokenGQL extends Apollo.Mutation<AddUserFcmNotificationTokenMutation, AddUserFcmNotificationTokenMutationVariables> {
+    document = AddUserFcmNotificationTokenDocument;
     
   }
-export const SendPasswordResetEmailDocument = gql`
-    mutation sendPasswordResetEmail($email: String!) {
-  sendPasswordResetEmail(email: $email)
+export const BlockUserDocument = gql`
+    mutation blockUser($toUserId: ID!) {
+  blockUser(toUserId: $toUserId) {
+    from {
+      id
+      firstName
+    }
+    to {
+      id
+      firstName
+    }
+  }
 }
     `;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class SendPasswordResetEmailGQL extends Apollo.Mutation<SendPasswordResetEmailMutation, SendPasswordResetEmailMutationVariables> {
-    document = SendPasswordResetEmailDocument;
+  export class BlockUserGQL extends Apollo.Mutation<BlockUserMutation, BlockUserMutationVariables> {
+    document = BlockUserDocument;
+    
+  }
+export const ChangeEmailDocument = gql`
+    mutation changeEmail($newEmail: String!) {
+  changeEmail(newEmail: $newEmail) {
+    id
+    email
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChangeEmailGQL extends Apollo.Mutation<ChangeEmailMutation, ChangeEmailMutationVariables> {
+    document = ChangeEmailDocument;
+    
+  }
+export const ChangeHubImageDocument = gql`
+    mutation changeHubImage($id: ID!, $image: String!) {
+  changeHubImage(hubId: $id, newImage: $image) {
+    id
+    image
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChangeHubImageGQL extends Apollo.Mutation<ChangeHubImageMutation, ChangeHubImageMutationVariables> {
+    document = ChangeHubImageDocument;
+    
+  }
+export const ChangeHubLocationDocument = gql`
+    mutation changeHubLocation($hubId: ID!, $latitude: Float!, $longitude: Float!) {
+  changeHubLocation(hubId: $hubId, latitude: $latitude, longitude: $longitude) {
+    id
+    latitude
+    longitude
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChangeHubLocationGQL extends Apollo.Mutation<ChangeHubLocationMutation, ChangeHubLocationMutationVariables> {
+    document = ChangeHubLocationDocument;
+    
+  }
+export const ChangePasswordDocument = gql`
+    mutation changePassword($oldPassword: String!, $newPassword: String!) {
+  changePassword(oldPassword: $oldPassword, newPassword: $newPassword)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChangePasswordGQL extends Apollo.Mutation<ChangePasswordMutation, ChangePasswordMutationVariables> {
+    document = ChangePasswordDocument;
+    
+  }
+export const ChangeUserImageDocument = gql`
+    mutation changeUserImage($image: String!) {
+  changeUserImage(newImage: $image) {
+    id
+    image
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChangeUserImageGQL extends Apollo.Mutation<ChangeUserImageMutation, ChangeUserImageMutationVariables> {
+    document = ChangeUserImageDocument;
     
   }
 export const CreateEventDocument = gql`
@@ -1534,6 +1602,96 @@ export const CreateEventDocument = gql`
     document = CreateEventDocument;
     
   }
+export const CreateHubDocument = gql`
+    mutation createHub($name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
+  createHub(image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    userId
+    hubId
+    isOwner
+    starred
+    isPresent
+    hub {
+      id
+      name
+      description
+      active
+      image
+      latitude
+      longitude
+      usersConnection {
+        isPresent
+        isOwner
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateHubGQL extends Apollo.Mutation<CreateHubMutation, CreateHubMutationVariables> {
+    document = CreateHubDocument;
+    
+  }
+export const CreateMicroChatDocument = gql`
+    mutation createMicroChat($hubId: ID!, $microChatText: String!) {
+  createMicroChat(hubId: $hubId, microChatText: $microChatText) {
+    id
+    text
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateMicroChatGQL extends Apollo.Mutation<CreateMicroChatMutation, CreateMicroChatMutationVariables> {
+    document = CreateMicroChatDocument;
+    
+  }
+export const DeactivateHubDocument = gql`
+    mutation deactivateHub($hubId: ID!) {
+  deactivateHub(hubId: $hubId) {
+    id
+    active
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeactivateHubGQL extends Apollo.Mutation<DeactivateHubMutation, DeactivateHubMutationVariables> {
+    document = DeactivateHubDocument;
+    
+  }
+export const DeleteAccountDocument = gql`
+    mutation deleteAccount($emailAddress: String!, $password: String!) {
+  deleteAccount(email: $emailAddress, password: $password)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteAccountGQL extends Apollo.Mutation<DeleteAccountMutation, DeleteAccountMutationVariables> {
+    document = DeleteAccountDocument;
+    
+  }
+export const DeleteAllInAppNotificationsDocument = gql`
+    mutation deleteAllInAppNotifications {
+  deleteAllInAppNotifications
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteAllInAppNotificationsGQL extends Apollo.Mutation<DeleteAllInAppNotificationsMutation, DeleteAllInAppNotificationsMutationVariables> {
+    document = DeleteAllInAppNotificationsDocument;
+    
+  }
 export const DeleteEventDocument = gql`
     mutation deleteEvent($id: ID!) {
   deleteEvent(id: $id)
@@ -1545,6 +1703,523 @@ export const DeleteEventDocument = gql`
   })
   export class DeleteEventGQL extends Apollo.Mutation<DeleteEventMutation, DeleteEventMutationVariables> {
     document = DeleteEventDocument;
+    
+  }
+export const DeleteHubDocument = gql`
+    mutation deleteHub($id: ID!) {
+  deleteHub(hubId: $id)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteHubGQL extends Apollo.Mutation<DeleteHubMutation, DeleteHubMutationVariables> {
+    document = DeleteHubDocument;
+    
+  }
+export const DeleteInAppNotificationDocument = gql`
+    mutation deleteInAppNotification($inAppNotificationId: ID!) {
+  deleteInAppNotification(inAppNotificationId: $inAppNotificationId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteInAppNotificationGQL extends Apollo.Mutation<DeleteInAppNotificationMutation, DeleteInAppNotificationMutationVariables> {
+    document = DeleteInAppNotificationDocument;
+    
+  }
+export const DeleteInviteDocument = gql`
+    mutation deleteInvite($hubId: ID!, $inviteId: ID!) {
+  deleteInvite(hubId: $hubId, inviteId: $inviteId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteInviteGQL extends Apollo.Mutation<DeleteInviteMutation, DeleteInviteMutationVariables> {
+    document = DeleteInviteDocument;
+    
+  }
+export const DeleteMicroChatDocument = gql`
+    mutation deleteMicroChat($hubId: ID!, $microChatId: ID!) {
+  deleteMicroChat(hubId: $hubId, microChatId: $microChatId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteMicroChatGQL extends Apollo.Mutation<DeleteMicroChatMutation, DeleteMicroChatMutationVariables> {
+    document = DeleteMicroChatDocument;
+    
+  }
+export const DwellHubGeofenceDocument = gql`
+    mutation dwellHubGeofence($hubId: ID!) {
+  dwellHubGeofence(hubId: $hubId) {
+    userId
+    hubId
+    isPresent
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DwellHubGeofenceGQL extends Apollo.Mutation<DwellHubGeofenceMutation, DwellHubGeofenceMutationVariables> {
+    document = DwellHubGeofenceDocument;
+    
+  }
+export const EditHubDocument = gql`
+    mutation editHub($hubId: ID!, $name: String!, $description: String) {
+  editHub(hubId: $hubId, name: $name, description: $description) {
+    id
+    name
+    description
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EditHubGQL extends Apollo.Mutation<EditHubMutation, EditHubMutationVariables> {
+    document = EditHubDocument;
+    
+  }
+export const EditUserDetailsDocument = gql`
+    mutation editUserDetails($firstName: String!, $lastName: String!, $description: String!) {
+  editUserDetails(firstName: $firstName, lastName: $lastName, description: $description) {
+    id
+    firstName
+    lastName
+    description
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EditUserDetailsGQL extends Apollo.Mutation<EditUserDetailsMutation, EditUserDetailsMutationVariables> {
+    document = EditUserDetailsDocument;
+    
+  }
+export const EnteredHubGeofenceDocument = gql`
+    mutation enteredHubGeofence($hubId: ID!) {
+  enteredHubGeofence(hubId: $hubId) {
+    userId
+    hubId
+    isPresent
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EnteredHubGeofenceGQL extends Apollo.Mutation<EnteredHubGeofenceMutation, EnteredHubGeofenceMutationVariables> {
+    document = EnteredHubGeofenceDocument;
+    
+  }
+export const ExitedHubGeofenceDocument = gql`
+    mutation exitedHubGeofence($hubId: ID!) {
+  exitedHubGeofence(hubId: $hubId) {
+    userId
+    hubId
+    isPresent
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ExitedHubGeofenceGQL extends Apollo.Mutation<ExitedHubGeofenceMutation, ExitedHubGeofenceMutationVariables> {
+    document = ExitedHubGeofenceDocument;
+    
+  }
+export const InviteUserToEventDocument = gql`
+    mutation inviteUserToEvent($eventId: ID!, $inviteesEmail: String!) {
+  inviteUserToEvent(eventId: $eventId, inviteesEmail: $inviteesEmail) {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      name
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class InviteUserToEventGQL extends Apollo.Mutation<InviteUserToEventMutation, InviteUserToEventMutationVariables> {
+    document = InviteUserToEventDocument;
+    
+  }
+export const InviteUserToHubDocument = gql`
+    mutation inviteUserToHub($hubId: ID!, $inviteesEmail: String!) {
+  inviteUserToHub(hubId: $hubId, inviteesEmail: $inviteesEmail) {
+    id
+    invitersId
+    inviteesId
+    hubId
+    accepted
+    inviter {
+      id
+      firstName
+      lastName
+    }
+    invitee {
+      id
+      firstName
+      lastName
+    }
+    hub {
+      id
+      name
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class InviteUserToHubGQL extends Apollo.Mutation<InviteUserToHubMutation, InviteUserToHubMutationVariables> {
+    document = InviteUserToHubDocument;
+    
+  }
+export const LeaveHubDocument = gql`
+    mutation leaveHub($hubId: ID!) {
+  leaveHub(hubId: $hubId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LeaveHubGQL extends Apollo.Mutation<LeaveHubMutation, LeaveHubMutationVariables> {
+    document = LeaveHubDocument;
+    
+  }
+export const LoginDocument = gql`
+    mutation login($password: String!, $email: String!) {
+  login(password: $password, email: $email)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LoginGQL extends Apollo.Mutation<LoginMutation, LoginMutationVariables> {
+    document = LoginDocument;
+    
+  }
+export const MicroChatToHubDocument = gql`
+    mutation microChatToHub($hubId: ID!, $microChatId: ID!) {
+  microChatToHub(hubId: $hubId, microChatId: $microChatId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MicroChatToHubGQL extends Apollo.Mutation<MicroChatToHubMutation, MicroChatToHubMutationVariables> {
+    document = MicroChatToHubDocument;
+    
+  }
+export const RegisterDocument = gql`
+    mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!, $phoneNumber: String) {
+  register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password, phoneNumber: $phoneNumber})
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
+    document = RegisterDocument;
+    
+  }
+export const ReportEventAsInappropriateDocument = gql`
+    mutation reportEventAsInappropriate($eventId: ID!) {
+  reportEventAsInappropriate(eventId: $eventId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportEventAsInappropriateGQL extends Apollo.Mutation<ReportEventAsInappropriateMutation, ReportEventAsInappropriateMutationVariables> {
+    document = ReportEventAsInappropriateDocument;
+    
+  }
+export const ReportHubAsInappropriateDocument = gql`
+    mutation reportHubAsInappropriate($hubId: ID!) {
+  reportHubAsInappropriate(hubId: $hubId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportHubAsInappropriateGQL extends Apollo.Mutation<ReportHubAsInappropriateMutation, ReportHubAsInappropriateMutationVariables> {
+    document = ReportHubAsInappropriateDocument;
+    
+  }
+export const ReportUserAsInappropriateDocument = gql`
+    mutation reportUserAsInappropriate($toUserId: ID!) {
+  reportUserAsInappropriate(toUserId: $toUserId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportUserAsInappropriateGQL extends Apollo.Mutation<ReportUserAsInappropriateMutation, ReportUserAsInappropriateMutationVariables> {
+    document = ReportUserAsInappropriateDocument;
+    
+  }
+export const ResetPasswordDocument = gql`
+    mutation resetPassword($email: String!, $newPassword: String!, $resetPin: String!) {
+  resetPassword(usersEmail: $email, newPassword: $newPassword, resetPin: $resetPin)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResetPasswordGQL extends Apollo.Mutation<ResetPasswordMutation, ResetPasswordMutationVariables> {
+    document = ResetPasswordDocument;
+    
+  }
+export const RsvpDocument = gql`
+    mutation rsvp($eventId: ID!, $rsvp: String!) {
+  rsvp(eventId: $eventId, rsvp: $rsvp) {
+    userId
+    eventId
+    rsvp
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RsvpGQL extends Apollo.Mutation<RsvpMutation, RsvpMutationVariables> {
+    document = RsvpDocument;
+    
+  }
+export const SendPasswordResetEmailDocument = gql`
+    mutation sendPasswordResetEmail($email: String!) {
+  sendPasswordResetEmail(email: $email)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SendPasswordResetEmailGQL extends Apollo.Mutation<SendPasswordResetEmailMutation, SendPasswordResetEmailMutationVariables> {
+    document = SendPasswordResetEmailDocument;
+    
+  }
+export const SetHubNotStarredDocument = gql`
+    mutation setHubNotStarred($hubId: ID!) {
+  setHubNotStarred(hubId: $hubId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SetHubNotStarredGQL extends Apollo.Mutation<SetHubNotStarredMutation, SetHubNotStarredMutationVariables> {
+    document = SetHubNotStarredDocument;
+    
+  }
+export const SetHubStarredDocument = gql`
+    mutation setHubStarred($hubId: ID!) {
+  setHubStarred(hubId: $hubId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SetHubStarredGQL extends Apollo.Mutation<SetHubStarredMutation, SetHubStarredMutationVariables> {
+    document = SetHubStarredDocument;
+    
+  }
+export const UnblockUserDocument = gql`
+    mutation unblockUser($toUserId: ID!) {
+  unblockUser(toUserId: $toUserId) {
+    from {
+      id
+      firstName
+    }
+    to {
+      id
+      firstName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UnblockUserGQL extends Apollo.Mutation<UnblockUserMutation, UnblockUserMutationVariables> {
+    document = UnblockUserDocument;
+    
+  }
+export const UpdateEventDocument = gql`
+    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float, $locationLabel: String) {
+  updateEvent(eventId: $eventId, name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    id
+    createdBy {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    name
+    image
+    description
+    startDateTime
+    endDateTime
+    latitude
+    longitude
+    locationLabel
+    shareableId
+    usersConnection {
+      user {
+        id
+        firstName
+        lastName
+        description
+        image
+        lastOnline
+        blocked
+      }
+      rsvp
+      lastGeofenceEvent
+      lastUpdated
+      isPresent
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateEventGQL extends Apollo.Mutation<UpdateEventMutation, UpdateEventMutationVariables> {
+    document = UpdateEventDocument;
+    
+  }
+export const UpdateHubDocument = gql`
+    mutation updateHub($hubId: ID!, $name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
+  updateHub(hubId: $hubId, image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    id
+    name
+    description
+    active
+    image
+    latitude
+    longitude
+    usersConnection {
+      isPresent
+      isOwner
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateHubGQL extends Apollo.Mutation<UpdateHubMutation, UpdateHubMutationVariables> {
+    document = UpdateHubDocument;
+    
+  }
+export const UpdateUserDocument = gql`
+    mutation updateUser($data: UpdateUserInput!) {
+  updateUser(data: $data) {
+    id
+    firstName
+    lastName
+    description
+    image
+    email
+    phoneNumber
+    shareableId
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
+    document = UpdateUserDocument;
+    
+  }
+export const CommonUsersHubsDocument = gql`
+    query commonUsersHubs($otherUsersId: ID!) {
+  commonUsersHubs(otherUsersId: $otherUsersId) {
+    userId
+    hubId
+    isOwner
+    starred
+    isPresent
+    hub {
+      id
+      name
+      active
+      image
+      latitude
+      longitude
+      usersConnection {
+        isPresent
+        isOwner
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CommonUsersHubsGQL extends Apollo.Query<CommonUsersHubsQuery, CommonUsersHubsQueryVariables> {
+    document = CommonUsersHubsDocument;
     
   }
 export const EventDocument = gql`
@@ -1613,455 +2288,6 @@ export const EventDocument = gql`
   })
   export class EventGQL extends Apollo.Query<EventQuery, EventQueryVariables> {
     document = EventDocument;
-    
-  }
-export const InviteUserToEventDocument = gql`
-    mutation inviteUserToEvent($eventId: ID!, $inviteesEmail: String!) {
-  inviteUserToEvent(eventId: $eventId, inviteesEmail: $inviteesEmail) {
-    userId
-    eventId
-    user {
-      id
-      firstName
-      lastName
-      description
-      image
-      email
-      shareableId
-    }
-    event {
-      id
-      name
-      description
-      startDateTime
-      endDateTime
-      latitude
-      longitude
-      shareableId
-    }
-    rsvp
-    lastGeofenceEvent
-    lastUpdated
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class InviteUserToEventGQL extends Apollo.Mutation<InviteUserToEventMutation, InviteUserToEventMutationVariables> {
-    document = InviteUserToEventDocument;
-    
-  }
-export const ReportEventAsInappropriateDocument = gql`
-    mutation reportEventAsInappropriate($eventId: ID!) {
-  reportEventAsInappropriate(eventId: $eventId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ReportEventAsInappropriateGQL extends Apollo.Mutation<ReportEventAsInappropriateMutation, ReportEventAsInappropriateMutationVariables> {
-    document = ReportEventAsInappropriateDocument;
-    
-  }
-export const RsvpDocument = gql`
-    mutation rsvp($eventId: ID!, $rsvp: String!) {
-  rsvp(eventId: $eventId, rsvp: $rsvp) {
-    userId
-    eventId
-    rsvp
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class RsvpGQL extends Apollo.Mutation<RsvpMutation, RsvpMutationVariables> {
-    document = RsvpDocument;
-    
-  }
-export const UpdateEventDocument = gql`
-    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float, $locationLabel: String) {
-  updateEvent(eventId: $eventId, name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
-    id
-    createdBy {
-      id
-      firstName
-      lastName
-      description
-      image
-      email
-      shareableId
-    }
-    name
-    image
-    description
-    startDateTime
-    endDateTime
-    latitude
-    longitude
-    locationLabel
-    shareableId
-    usersConnection {
-      user {
-        id
-        firstName
-        lastName
-        description
-        image
-        lastOnline
-        blocked
-      }
-      rsvp
-      lastGeofenceEvent
-      lastUpdated
-      isPresent
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UpdateEventGQL extends Apollo.Mutation<UpdateEventMutation, UpdateEventMutationVariables> {
-    document = UpdateEventDocument;
-    
-  }
-export const UserEventsDocument = gql`
-    query userEvents {
-  usersEvents {
-    userId
-    eventId
-    user {
-      id
-      firstName
-      lastName
-      description
-      image
-      email
-      shareableId
-    }
-    event {
-      id
-      createdBy {
-        id
-        firstName
-        lastName
-        description
-        image
-        email
-        shareableId
-        phoneNumber
-      }
-      name
-      image
-      description
-      startDateTime
-      endDateTime
-      latitude
-      longitude
-      shareableId
-    }
-    rsvp
-    lastGeofenceEvent
-    lastUpdated
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UserEventsGQL extends Apollo.Query<UserEventsQuery, UserEventsQueryVariables> {
-    document = UserEventsDocument;
-    
-  }
-export const AcceptHubInviteDocument = gql`
-    mutation acceptHubInvite($inviteId: ID!) {
-  acceptHubInvite(inviteId: $inviteId) {
-    userId
-    hubId
-    isOwner
-    starred
-    isPresent
-    hub {
-      id
-      name
-      description
-      active
-      image
-      latitude
-      longitude
-      microChats {
-        id
-        hubId
-        text
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AcceptHubInviteGQL extends Apollo.Mutation<AcceptHubInviteMutation, AcceptHubInviteMutationVariables> {
-    document = AcceptHubInviteDocument;
-    
-  }
-export const ActivateHubDocument = gql`
-    mutation activateHub($hubId: ID!) {
-  activateHub(hubId: $hubId) {
-    id
-    active
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ActivateHubGQL extends Apollo.Mutation<ActivateHubMutation, ActivateHubMutationVariables> {
-    document = ActivateHubDocument;
-    
-  }
-export const ChangeHubImageDocument = gql`
-    mutation changeHubImage($id: ID!, $image: String!) {
-  changeHubImage(hubId: $id, newImage: $image) {
-    id
-    image
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ChangeHubImageGQL extends Apollo.Mutation<ChangeHubImageMutation, ChangeHubImageMutationVariables> {
-    document = ChangeHubImageDocument;
-    
-  }
-export const ChangeHubLocationDocument = gql`
-    mutation changeHubLocation($hubId: ID!, $latitude: Float!, $longitude: Float!) {
-  changeHubLocation(hubId: $hubId, latitude: $latitude, longitude: $longitude) {
-    id
-    latitude
-    longitude
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ChangeHubLocationGQL extends Apollo.Mutation<ChangeHubLocationMutation, ChangeHubLocationMutationVariables> {
-    document = ChangeHubLocationDocument;
-    
-  }
-export const CommonUsersHubsDocument = gql`
-    query commonUsersHubs($otherUsersId: ID!) {
-  commonUsersHubs(otherUsersId: $otherUsersId) {
-    userId
-    hubId
-    isOwner
-    starred
-    isPresent
-    hub {
-      id
-      name
-      active
-      image
-      latitude
-      longitude
-      usersConnection {
-        isPresent
-        isOwner
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CommonUsersHubsGQL extends Apollo.Query<CommonUsersHubsQuery, CommonUsersHubsQueryVariables> {
-    document = CommonUsersHubsDocument;
-    
-  }
-export const CreateHubDocument = gql`
-    mutation createHub($name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
-  createHub(image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
-    userId
-    hubId
-    isOwner
-    starred
-    isPresent
-    hub {
-      id
-      name
-      description
-      active
-      image
-      latitude
-      longitude
-      usersConnection {
-        isPresent
-        isOwner
-      }
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CreateHubGQL extends Apollo.Mutation<CreateHubMutation, CreateHubMutationVariables> {
-    document = CreateHubDocument;
-    
-  }
-export const CreateMicroChatDocument = gql`
-    mutation createMicroChat($hubId: ID!, $microChatText: String!) {
-  createMicroChat(hubId: $hubId, microChatText: $microChatText) {
-    id
-    text
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CreateMicroChatGQL extends Apollo.Mutation<CreateMicroChatMutation, CreateMicroChatMutationVariables> {
-    document = CreateMicroChatDocument;
-    
-  }
-export const DeactivateHubDocument = gql`
-    mutation deactivateHub($hubId: ID!) {
-  deactivateHub(hubId: $hubId) {
-    id
-    active
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DeactivateHubGQL extends Apollo.Mutation<DeactivateHubMutation, DeactivateHubMutationVariables> {
-    document = DeactivateHubDocument;
-    
-  }
-export const DeleteHubDocument = gql`
-    mutation deleteHub($id: ID!) {
-  deleteHub(hubId: $id)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DeleteHubGQL extends Apollo.Mutation<DeleteHubMutation, DeleteHubMutationVariables> {
-    document = DeleteHubDocument;
-    
-  }
-export const DeleteInviteDocument = gql`
-    mutation deleteInvite($hubId: ID!, $inviteId: ID!) {
-  deleteInvite(hubId: $hubId, inviteId: $inviteId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DeleteInviteGQL extends Apollo.Mutation<DeleteInviteMutation, DeleteInviteMutationVariables> {
-    document = DeleteInviteDocument;
-    
-  }
-export const DeleteMicroChatDocument = gql`
-    mutation deleteMicroChat($hubId: ID!, $microChatId: ID!) {
-  deleteMicroChat(hubId: $hubId, microChatId: $microChatId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DeleteMicroChatGQL extends Apollo.Mutation<DeleteMicroChatMutation, DeleteMicroChatMutationVariables> {
-    document = DeleteMicroChatDocument;
-    
-  }
-export const DwellHubGeofenceDocument = gql`
-    mutation dwellHubGeofence($hubId: ID!) {
-  dwellHubGeofence(hubId: $hubId) {
-    userId
-    hubId
-    isPresent
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DwellHubGeofenceGQL extends Apollo.Mutation<DwellHubGeofenceMutation, DwellHubGeofenceMutationVariables> {
-    document = DwellHubGeofenceDocument;
-    
-  }
-export const EditHubDocument = gql`
-    mutation editHub($hubId: ID!, $name: String!, $description: String) {
-  editHub(hubId: $hubId, name: $name, description: $description) {
-    id
-    name
-    description
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EditHubGQL extends Apollo.Mutation<EditHubMutation, EditHubMutationVariables> {
-    document = EditHubDocument;
-    
-  }
-export const EnteredHubGeofenceDocument = gql`
-    mutation enteredHubGeofence($hubId: ID!) {
-  enteredHubGeofence(hubId: $hubId) {
-    userId
-    hubId
-    isPresent
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EnteredHubGeofenceGQL extends Apollo.Mutation<EnteredHubGeofenceMutation, EnteredHubGeofenceMutationVariables> {
-    document = EnteredHubGeofenceDocument;
-    
-  }
-export const ExitedHubGeofenceDocument = gql`
-    mutation exitedHubGeofence($hubId: ID!) {
-  exitedHubGeofence(hubId: $hubId) {
-    userId
-    hubId
-    isPresent
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ExitedHubGeofenceGQL extends Apollo.Mutation<ExitedHubGeofenceMutation, ExitedHubGeofenceMutationVariables> {
-    document = ExitedHubGeofenceDocument;
     
   }
 export const HubDocument = gql`
@@ -2147,39 +2373,6 @@ export const InviteDocument = gql`
     document = InviteDocument;
     
   }
-export const InviteUserToHubDocument = gql`
-    mutation inviteUserToHub($hubId: ID!, $inviteesEmail: String!) {
-  inviteUserToHub(hubId: $hubId, inviteesEmail: $inviteesEmail) {
-    id
-    invitersId
-    inviteesId
-    hubId
-    accepted
-    inviter {
-      id
-      firstName
-      lastName
-    }
-    invitee {
-      id
-      firstName
-      lastName
-    }
-    hub {
-      id
-      name
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class InviteUserToHubGQL extends Apollo.Mutation<InviteUserToHubMutation, InviteUserToHubMutationVariables> {
-    document = InviteUserToHubDocument;
-    
-  }
 export const InvitesByHubDocument = gql`
     query invitesByHub($hubId: ID!) {
   invitesByHub(hubId: $hubId) {
@@ -2252,84 +2445,36 @@ export const InvitesByUserDocument = gql`
     document = InvitesByUserDocument;
     
   }
-export const LeaveHubDocument = gql`
-    mutation leaveHub($hubId: ID!) {
-  leaveHub(hubId: $hubId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class LeaveHubGQL extends Apollo.Mutation<LeaveHubMutation, LeaveHubMutationVariables> {
-    document = LeaveHubDocument;
-    
-  }
-export const MicroChatToHubDocument = gql`
-    mutation microChatToHub($hubId: ID!, $microChatId: ID!) {
-  microChatToHub(hubId: $hubId, microChatId: $microChatId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MicroChatToHubGQL extends Apollo.Mutation<MicroChatToHubMutation, MicroChatToHubMutationVariables> {
-    document = MicroChatToHubDocument;
-    
-  }
-export const ReportHubAsInappropriateDocument = gql`
-    mutation reportHubAsInappropriate($hubId: ID!) {
-  reportHubAsInappropriate(hubId: $hubId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ReportHubAsInappropriateGQL extends Apollo.Mutation<ReportHubAsInappropriateMutation, ReportHubAsInappropriateMutationVariables> {
-    document = ReportHubAsInappropriateDocument;
-    
-  }
-export const SetHubNotStarredDocument = gql`
-    mutation setHubNotStarred($hubId: ID!) {
-  setHubNotStarred(hubId: $hubId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SetHubNotStarredGQL extends Apollo.Mutation<SetHubNotStarredMutation, SetHubNotStarredMutationVariables> {
-    document = SetHubNotStarredDocument;
-    
-  }
-export const SetHubStarredDocument = gql`
-    mutation setHubStarred($hubId: ID!) {
-  setHubStarred(hubId: $hubId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class SetHubStarredGQL extends Apollo.Mutation<SetHubStarredMutation, SetHubStarredMutationVariables> {
-    document = SetHubStarredDocument;
-    
-  }
-export const UpdateHubDocument = gql`
-    mutation updateHub($hubId: ID!, $name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
-  updateHub(hubId: $hubId, image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+export const MeDocument = gql`
+    query me {
+  me {
     id
-    name
+    firstName
+    lastName
     description
-    active
     image
-    latitude
-    longitude
-    usersConnection {
-      isPresent
-      isOwner
+    email
+    phoneNumber
+    shareableId
+    blocks {
+      from {
+        id
+        firstName
+        lastName
+        description
+        image
+        email
+        shareableId
+      }
+      to {
+        id
+        firstName
+        lastName
+        description
+        image
+        email
+        shareableId
+      }
     }
   }
 }
@@ -2338,8 +2483,81 @@ export const UpdateHubDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class UpdateHubGQL extends Apollo.Mutation<UpdateHubMutation, UpdateHubMutationVariables> {
-    document = UpdateHubDocument;
+  export class MeGQL extends Apollo.Query<MeQuery, MeQueryVariables> {
+    document = MeDocument;
+    
+  }
+export const PaginatedInAppNotifcationsDocument = gql`
+    query paginatedInAppNotifcations($limit: Int!, $offset: Int!, $field: String!, $ascending: Boolean!) {
+  paginatedInAppNotifications(pageableOptions: {limit: $limit, offset: $offset, sortOptions: {field: $field, ascending: $ascending}}) {
+    items {
+      id
+      userId
+      header
+      text
+      date
+      actionLink
+      thumbnail
+    }
+    total
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PaginatedInAppNotifcationsGQL extends Apollo.Query<PaginatedInAppNotifcationsQuery, PaginatedInAppNotifcationsQueryVariables> {
+    document = PaginatedInAppNotifcationsDocument;
+    
+  }
+export const UserEventsDocument = gql`
+    query userEvents {
+  usersEvents {
+    userId
+    eventId
+    user {
+      id
+      firstName
+      lastName
+      description
+      image
+      email
+      shareableId
+    }
+    event {
+      id
+      createdBy {
+        id
+        firstName
+        lastName
+        description
+        image
+        email
+        shareableId
+        phoneNumber
+      }
+      name
+      image
+      description
+      startDateTime
+      endDateTime
+      latitude
+      longitude
+      shareableId
+    }
+    rsvp
+    lastGeofenceEvent
+    lastUpdated
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserEventsGQL extends Apollo.Query<UserEventsQuery, UserEventsQueryVariables> {
+    document = UserEventsDocument;
     
   }
 export const UsersHubsDocument = gql`
@@ -2396,223 +2614,5 @@ export const UsersPeopleDocument = gql`
   })
   export class UsersPeopleGQL extends Apollo.Query<UsersPeopleQuery, UsersPeopleQueryVariables> {
     document = UsersPeopleDocument;
-    
-  }
-export const AddUserFcmNotificationTokenDocument = gql`
-    mutation addUserFcmNotificationToken($token: String!) {
-  addUserFcmNotificationToken(token: $token)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddUserFcmNotificationTokenGQL extends Apollo.Mutation<AddUserFcmNotificationTokenMutation, AddUserFcmNotificationTokenMutationVariables> {
-    document = AddUserFcmNotificationTokenDocument;
-    
-  }
-export const DeleteAllInAppNotificationsDocument = gql`
-    mutation deleteAllInAppNotifications {
-  deleteAllInAppNotifications
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DeleteAllInAppNotificationsGQL extends Apollo.Mutation<DeleteAllInAppNotificationsMutation, DeleteAllInAppNotificationsMutationVariables> {
-    document = DeleteAllInAppNotificationsDocument;
-    
-  }
-export const DeleteInAppNotificationDocument = gql`
-    mutation deleteInAppNotification($inAppNotificationId: ID!) {
-  deleteInAppNotification(inAppNotificationId: $inAppNotificationId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DeleteInAppNotificationGQL extends Apollo.Mutation<DeleteInAppNotificationMutation, DeleteInAppNotificationMutationVariables> {
-    document = DeleteInAppNotificationDocument;
-    
-  }
-export const PaginatedInAppNotifcationsDocument = gql`
-    query paginatedInAppNotifcations($limit: Int!, $offset: Int!, $field: String!, $ascending: Boolean!) {
-  paginatedInAppNotifications(pageableOptions: {limit: $limit, offset: $offset, sortOptions: {field: $field, ascending: $ascending}}) {
-    items {
-      id
-      userId
-      header
-      text
-      date
-      actionLink
-      thumbnail
-    }
-    total
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class PaginatedInAppNotifcationsGQL extends Apollo.Query<PaginatedInAppNotifcationsQuery, PaginatedInAppNotifcationsQueryVariables> {
-    document = PaginatedInAppNotifcationsDocument;
-    
-  }
-export const ChangeEmailDocument = gql`
-    mutation changeEmail($newEmail: String!) {
-  changeEmail(newEmail: $newEmail) {
-    id
-    email
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ChangeEmailGQL extends Apollo.Mutation<ChangeEmailMutation, ChangeEmailMutationVariables> {
-    document = ChangeEmailDocument;
-    
-  }
-export const ChangePasswordDocument = gql`
-    mutation changePassword($oldPassword: String!, $newPassword: String!) {
-  changePassword(oldPassword: $oldPassword, newPassword: $newPassword)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ChangePasswordGQL extends Apollo.Mutation<ChangePasswordMutation, ChangePasswordMutationVariables> {
-    document = ChangePasswordDocument;
-    
-  }
-export const ChangeUserImageDocument = gql`
-    mutation changeUserImage($image: String!) {
-  changeUserImage(newImage: $image) {
-    id
-    image
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ChangeUserImageGQL extends Apollo.Mutation<ChangeUserImageMutation, ChangeUserImageMutationVariables> {
-    document = ChangeUserImageDocument;
-    
-  }
-export const DeleteAccountDocument = gql`
-    mutation deleteAccount($emailAddress: String!, $password: String!) {
-  deleteAccount(email: $emailAddress, password: $password)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DeleteAccountGQL extends Apollo.Mutation<DeleteAccountMutation, DeleteAccountMutationVariables> {
-    document = DeleteAccountDocument;
-    
-  }
-export const EditUserDetailsDocument = gql`
-    mutation editUserDetails($firstName: String!, $lastName: String!, $description: String!) {
-  editUserDetails(firstName: $firstName, lastName: $lastName, description: $description) {
-    id
-    firstName
-    lastName
-    description
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class EditUserDetailsGQL extends Apollo.Mutation<EditUserDetailsMutation, EditUserDetailsMutationVariables> {
-    document = EditUserDetailsDocument;
-    
-  }
-export const UpdateUserDocument = gql`
-    mutation updateUser($data: UpdateUserInput!) {
-  updateUser(data: $data) {
-    id
-    firstName
-    lastName
-    description
-    image
-    email
-    phoneNumber
-    shareableId
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
-    document = UpdateUserDocument;
-    
-  }
-export const BlockUserDocument = gql`
-    mutation blockUser($toUserId: ID!) {
-  blockUser(toUserId: $toUserId) {
-    from {
-      id
-      firstName
-    }
-    to {
-      id
-      firstName
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class BlockUserGQL extends Apollo.Mutation<BlockUserMutation, BlockUserMutationVariables> {
-    document = BlockUserDocument;
-    
-  }
-export const ReportUserAsInappropriateDocument = gql`
-    mutation reportUserAsInappropriate($toUserId: ID!) {
-  reportUserAsInappropriate(toUserId: $toUserId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ReportUserAsInappropriateGQL extends Apollo.Mutation<ReportUserAsInappropriateMutation, ReportUserAsInappropriateMutationVariables> {
-    document = ReportUserAsInappropriateDocument;
-    
-  }
-export const UnblockUserDocument = gql`
-    mutation unblockUser($toUserId: ID!) {
-  unblockUser(toUserId: $toUserId) {
-    from {
-      id
-      firstName
-    }
-    to {
-      id
-      firstName
-    }
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UnblockUserGQL extends Apollo.Mutation<UnblockUserMutation, UnblockUserMutationVariables> {
-    document = UnblockUserDocument;
     
   }
