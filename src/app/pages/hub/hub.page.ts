@@ -1,18 +1,16 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Share } from '@capacitor/share';
 import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
-import { Subscription, Observable } from 'rxjs';
+import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
+import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { CameraService } from 'src/app/services/camera/camera.service';
+import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { Scalars, HubQuery, JoinUserHub, User } from 'src/graphql/graphql';
-import { NGXLogger } from 'ngx-logger';
-import { map, take } from 'rxjs/operators';
-import { Clipboard } from '@capacitor/clipboard';
 import { NavigationService } from 'src/app/services/navigation.service';
-import { InviteComponent } from 'src/app/components/invite/invite.component';
-import { CommunicationService } from 'src/app/services/communication.service';
-import { Share } from '@capacitor/share';
+import { HubQuery, JoinUserHub, Scalars, User } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-hub',
@@ -23,6 +21,8 @@ export class HubPage implements OnInit, OnDestroy {
 
   loading = true;
   userHub: HubQuery['hub'];
+  present: HubQuery['hub']['hub']['usersConnection'];
+  away: HubQuery['hub']['hub']['usersConnection'];
   sortedUsers: HubQuery['hub']['hub']['usersConnection'];
   id: Scalars['ID'];
   qrContent: string;
@@ -66,6 +66,8 @@ export class HubPage implements OnInit, OnDestroy {
           .filter(x => !!x?.user)
           .sort((a, b) => Number(a.user.lastOnline) - Number(b.user.lastOnline))
           .reverse();
+        this.present = this.sortedUsers?.filter(x => x.isPresent);
+        this.away = this.sortedUsers?.filter(x => !x.isPresent);
       }),
       this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
         this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {

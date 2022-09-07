@@ -107,12 +107,12 @@
   </ion-list>
 
   <ion-list *ngIf="userHub && userHub?.hub.active">
-    <ion-list-header>
+    <ion-list-header *ngIf="present?.length">
       <ion-text>Present</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of sortedUsers; trackBy: trackByUser">
-      <ion-item *ngIf="userConnection.isPresent" href="javascript:void(0);"
+    <div *ngFor="let userConnection of present; trackBy: trackByUser">
+      <ion-item href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
@@ -152,12 +152,12 @@
   </ion-list>
 
   <ion-list *ngIf="userHub && userHub?.hub.active">
-    <ion-list-header>
+    <ion-list-header *ngIf="away?.length">
       <ion-text>Away</ion-text>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of sortedUsers; trackBy: trackByUser">
-      <ion-item *ngIf="!userConnection.isPresent" href="javascript:void(0);"
+    <div *ngFor="let userConnection of away; trackBy: trackByUser">
+      <ion-item href="javascript:void(0);"
         (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
         <ion-avatar slot="start">
           <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
