@@ -5,12 +5,14 @@ import { ActionSheetController, IonRouterOutlet, NavController, Platform } from 
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
+import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { HubQuery, JoinUserHub, Scalars, User } from 'src/graphql/graphql';
+import { Clipboard } from '@capacitor/clipboard';
 
 @Component({
   selector: 'app-hub',
@@ -46,6 +48,7 @@ export class HubPage implements OnInit, OnDestroy {
     public readonly navigationService: NavigationService,
     public readonly routerOutlet: IonRouterOutlet,
     private readonly communcationService: CommunicationService,
+    private alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -175,6 +178,13 @@ export class HubPage implements OnInit, OnDestroy {
       });
       await actionSheet.present();
     }
+  }
+
+  async copyShareLink() {
+    await Clipboard.write({
+      string: `You invited to my community Hub, "${this.userHub.hub?.name}"!`
+    });
+    await this.alertService.presentToast('Copied');
   }
 
   async share() {

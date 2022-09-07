@@ -1,6 +1,7 @@
   <form [formGroup]="myForm" (ngSubmit)="inviteUser()" method="post">
+
     <ion-list-header class="ion-padding-bottom">
-      New Person
+      Unconnected User
     </ion-list-header>
     
     <ion-item>
@@ -10,6 +11,27 @@
     <ion-text class="ion-padding-start ion-padding-end ion-text-center" *ngIf="email.invalid && email.touched" color="danger">
       Please enter a valid email address
     </ion-text>
+
+    <ion-list-header class="ion-padding-bottom">
+      Shareable Link
+    </ion-list-header>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block">
+            Copy Link
+            <ion-icon class="ion-padding-start" name="clipboard-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block">
+            Share
+            <ion-icon class="ion-padding-start" name="share-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
     <ion-list-header class="ion-padding-bottom">
       Connected People

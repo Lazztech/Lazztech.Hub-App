@@ -253,19 +253,12 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="share()">
-      <ion-icon name="share-outline"></ion-icon>
+    <ion-fab-button (click)="toggleInviteModal()">
+      <ion-icon name="person-add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
 </ion-content>
-
-<ion-footer translucent="true" *ngIf="userHub?.isOwner">
-  <ion-toolbar>
-    <ion-button (click)="toggleInviteModal()" type="submit" expand="block">Invite
-    </ion-button>
-  </ion-toolbar>
-</ion-footer>
 
 <ion-modal
 [isOpen]="inviteModalIsOpen"
@@ -288,6 +281,8 @@
    [inviteType]="'hub'"
    [id]="id"
    [persons]="notYetInvitedPeople"
+   [copyLinkClicked]="copyShareLink(userHub?.hub)"
+   [shareClicked]="share"
   ></app-invite>
 </ion-content>
 <ion-footer translucent="true">
