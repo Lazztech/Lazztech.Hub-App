@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Share } from '@capacitor/share';
 import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -12,7 +11,6 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { HubQuery, JoinUserHub, Scalars, User } from 'src/graphql/graphql';
-import { Clipboard } from '@capacitor/clipboard';
 
 @Component({
   selector: 'app-hub',
@@ -178,22 +176,6 @@ export class HubPage implements OnInit, OnDestroy {
       });
       await actionSheet.present();
     }
-  }
-
-  async copyShareLink() {
-    await Clipboard.write({
-      string: `You invited to my community Hub, "${this.userHub.hub?.name}"!`
-    });
-    await this.alertService.presentToast('Copied');
-  }
-
-  async share() {
-    await Share.share({
-      title: `You invited to my community Hub, "${this.userHub.hub?.name}"!`,
-      text: `You invited to my community Hub, "${this.userHub.hub?.name}"!`,
-      url: `https://hub.lazz.tech/hub/${this.userHub.hub?.shareableId}`,
-      dialogTitle: 'Share with buddies',
-    });
   }
 
   async sendInvites() {
