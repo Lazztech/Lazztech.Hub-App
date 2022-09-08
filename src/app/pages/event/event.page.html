@@ -239,12 +239,6 @@
     </div>
   </ion-list>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="share()">
-      <ion-icon name="share-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
 </ion-content>
 
 <ion-footer translucent="true">
@@ -275,6 +269,7 @@
    [inviteType]="'event'"
    [id]="id"
    [persons]="notYetInvitedPeople"
+   [shareableLink]="'https://hub.lazz.tech/event/' + userEventQueryResult?.data?.event?.event?.shareableId"
   ></app-invite>
 </ion-content>
 <ion-footer translucent="true">
