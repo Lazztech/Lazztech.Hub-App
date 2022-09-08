@@ -249,6 +249,7 @@
 </ion-footer>
 
 <ion-modal
+#modal
 [isOpen]="inviteModalIsOpen"
 [swipeToClose]="true"
 [presentingElement]="routerOutlet.nativeEl"
@@ -259,6 +260,9 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="modal.dismiss()">Close</ion-button>
     </ion-buttons>
     <ion-title>Invite</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
