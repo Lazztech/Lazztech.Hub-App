@@ -106,11 +106,6 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     setTimeout(() => {
       this.map.invalidateSize();
     }, 100);
-    this.map.whenReady(() => {
-      setTimeout(() => {
-        this.map.invalidateSize();
-      }, 500);
-    });
   }
 
   setCenter() {
