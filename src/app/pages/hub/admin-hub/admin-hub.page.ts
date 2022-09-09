@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL, RemoveUserFromHubGQL, HubDocument } from 'src/graphql/graphql';
+import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL, RemoveUserFromHubGQL, HubDocument, ResetShareableHubIdGQL } from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { NavController, ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { CameraService } from 'src/app/services/camera/camera.service';
@@ -10,6 +10,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { LocationService } from 'src/app/services/location/location.service';
+import { AlertService } from 'src/app/services/alert/alert.service';
 
 @Component({
   selector: 'app-admin-hub',
@@ -58,6 +59,8 @@ export class AdminHubPage implements OnInit, OnDestroy {
     private platform: Platform,
     private changeRef: ChangeDetectorRef,
     private readonly removeUserFromHubGqlService: RemoveUserFromHubGQL,
+    private readonly resetShareableHubID: ResetShareableHubIdGQL,
+    private readonly alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -99,9 +102,18 @@ export class AdminHubPage implements OnInit, OnDestroy {
     return joinUserHub.userId;
   }
 
-  invalidateShareableLinks() {
+  async invalidateShareableLinks() {
     if (confirm('Are you sure you want to invalidate any previously shared links to this?')) {
-
+      this.loading = true;
+      const result = await this.resetShareableHubID.mutate({ 
+        id: this.id 
+      }).toPromise();
+      if (!result?.errors?.length) {
+        this.alertService.presentToast('Shareable ID Has Been Reset');
+      } else {
+        this.alertService.presentRedToast('Whoops, something went wrong...');
+      }
+      this.loading = false;
     }
   }
 
