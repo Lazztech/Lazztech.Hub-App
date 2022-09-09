@@ -99,12 +99,12 @@ export class AdminEventPage implements OnInit, OnDestroy {
   async invalidateShareableLinks() {
     if (confirm('Are you sure you want to invalidate any previously shared links to this?')) {
       this.loading = true;
-      const result = await this.resetShareableEventID.mutate({ 
-        id: this.id 
-      }).toPromise();
-      if (!result?.errors?.length) {
+      try {
+        await this.resetShareableEventID.mutate({ 
+          id: this.eventQueryResult?.data?.event?.eventId,
+        }).toPromise(); 
         this.alertService.presentToast('Shareable ID Has Been Reset');
-      } else {
+      } catch (error) {
         this.alertService.presentRedToast('Whoops, something went wrong...');
       }
       this.loading = false;
