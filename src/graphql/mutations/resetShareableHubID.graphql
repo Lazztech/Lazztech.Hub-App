@@ -1,0 +1,10 @@
+mutation resetShareableHubID($id: ID!) {
+  resetShareableHubID(id: $id) {
+    userId
+    hubId
+    hub {
+      id
+      shareableId
+    }
+  }
+}

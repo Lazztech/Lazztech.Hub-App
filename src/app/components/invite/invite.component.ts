@@ -1,13 +1,13 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Clipboard } from '@capacitor/clipboard';
+import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { InviteUserToEventGQL, Scalars, User, UsersPeopleQuery } from 'src/generated/graphql';
+import { InviteUserToEventGQL, Scalars, User } from 'src/graphql/graphql';
 
 export enum InviteType {
   Hub = 'hub',
@@ -24,6 +24,7 @@ export class InviteComponent implements OnInit, OnChanges {
   @Input() persons: Array<User> = [];
   @Input() inviteType: InviteType;
   @Input() id: Scalars['ID'];
+  @Input() shareableLink: string;
 
   loading = false;
   allInvitesSucces = true;
@@ -56,6 +57,20 @@ export class InviteComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes)
+  }
+
+  async copyShareLink() {
+    await Clipboard.write({
+      string: this.shareableLink
+    });
+    await this.alertService.presentToast('Copied Shareable Link');
+  }
+
+  async share() {
+    await Share.share({
+      url: this.shareableLink,
+      dialogTitle: 'Shareable Link',
+    });
   }
 
   checkboxChanged(person) {

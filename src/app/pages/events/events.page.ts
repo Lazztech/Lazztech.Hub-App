@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { UserEventsGQL, UserEventsQuery } from 'src/generated/graphql';
+import { UserEventsGQL, UserEventsQuery } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-events',

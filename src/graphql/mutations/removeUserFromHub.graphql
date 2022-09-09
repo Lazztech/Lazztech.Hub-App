@@ -1,0 +1,3 @@
+mutation removeUserFromHub($hubId: ID!, $otherUsersId: ID!) {
+    removeUserFromHub(hubId: $hubId, otherUsersId: $otherUsersId)
+}

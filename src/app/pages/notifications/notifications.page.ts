@@ -5,7 +5,7 @@ import {
   PaginatedInAppNotifcationsQueryVariables,
   PaginatedInAppNotifcationsQuery,
   InAppNotification,
-} from 'src/generated/graphql';
+} from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { IonInfiniteScroll, NavController } from '@ionic/angular';

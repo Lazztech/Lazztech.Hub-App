@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
-import { Scalars } from '../../../generated/graphql';
+import { Scalars } from '../../../graphql/graphql';
 import { HubService } from '../../services/hub/hub.service';
 import { LocationService } from '../../services/location/location.service';
 

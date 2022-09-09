@@ -39,7 +39,7 @@ import {
   Hub,
   UsersPeopleGQL,
   ReportHubAsInappropriateGQL,
-} from 'src/generated/graphql';
+} from 'src/graphql/graphql';
 import { AlertService } from '../alert/alert.service';
 
 @Injectable({

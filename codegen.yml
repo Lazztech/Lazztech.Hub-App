@@ -1,8 +1,8 @@
 overwrite: true
 schema: "http://localhost:8080/graphql"
-documents: "src/app/**/*.graphql"
+documents: "src/**/*.graphql"
 generates:
-  src/generated/graphql.ts:
+  src/graphql/graphql.ts:
     plugins:
       - add:
           content: "/* tslint:disable */"
@@ -12,7 +12,7 @@ generates:
   ./graphql.schema.json:
     plugins:
       - "introspection"
-  src/generated/type-policies.ts:
+  src/graphql/type-policies.ts:
     plugins:
       - add:
           content: "/* tslint:disable */"

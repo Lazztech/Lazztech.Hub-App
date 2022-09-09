@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BlockUserGQL, ReportUserAsInappropriateGQL, UnblockUserGQL } from 'src/generated/graphql';
+import { BlockUserGQL, ReportUserAsInappropriateGQL, UnblockUserGQL } from 'src/graphql/graphql';
 
 @Injectable({
   providedIn: 'root'

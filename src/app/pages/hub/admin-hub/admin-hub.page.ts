@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL } from 'src/generated/graphql';
+import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL, RemoveUserFromHubGQL, HubDocument, ResetShareableHubIdGQL } from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 import { NavController, ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { CameraService } from 'src/app/services/camera/camera.service';
@@ -10,6 +10,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { LocationService } from 'src/app/services/location/location.service';
+import { AlertService } from 'src/app/services/alert/alert.service';
 
 @Component({
   selector: 'app-admin-hub',
@@ -57,13 +58,16 @@ export class AdminHubPage implements OnInit, OnDestroy {
     public locationService: LocationService,
     private platform: Platform,
     private changeRef: ChangeDetectorRef,
+    private readonly removeUserFromHubGqlService: RemoveUserFromHubGQL,
+    private readonly resetShareableHubID: ResetShareableHubIdGQL,
+    private readonly alertService: AlertService,
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.subscriptions.push(
-      this.hubGqlService.fetch({ id: this.id }).subscribe(x => {
+      this.hubGqlService.watch({ id: this.id }).valueChanges.subscribe(x => {
         this.userHub = x;
         this.image = x?.data?.hub?.hub?.image;
         this.active = x?.data?.hub?.hub?.active;
@@ -71,10 +75,10 @@ export class AdminHubPage implements OnInit, OnDestroy {
         this.myForm = this.fb.group({
           hubName: [x?.data?.hub?.hub?.name, [
             Validators.required,
-            Validators.maxLength(25)
+            Validators.maxLength(50)
           ]],
           hubDescription: [x?.data?.hub?.hub?.description, [
-            Validators.maxLength(25)
+            Validators.maxLength(1000)
           ]],
           location: [{
             latitude: x?.data?.hub?.hub?.latitude,
@@ -96,6 +100,35 @@ export class AdminHubPage implements OnInit, OnDestroy {
 
   trackByUser(index: any, joinUserHub: JoinUserHub) {
     return joinUserHub.userId;
+  }
+
+  async invalidateShareableLinks() {
+    if (confirm('Are you sure you want to invalidate any previously shared links to this?')) {
+      this.loading = true;
+      try {
+        await this.resetShareableHubID.mutate({ 
+          id: this.userHub?.data?.hub?.hubId,
+        }).toPromise();
+        this.alertService.presentToast('Shareable ID Has Been Reset');
+      } catch (error) {
+        this.alertService.presentRedToast('Whoops, something went wrong...');
+      }
+      this.loading = false;
+    }
+  }
+
+  async removeUserFromHub(otherUsersId: any, slidingItem: any) {
+    if (confirm('Are you sure you want to remove this user?')) {
+      await this.removeUserFromHubGqlService.mutate({
+        hubId: this.userHub?.data?.hub?.hubId,
+        otherUsersId
+      }, {
+        refetchQueries: [
+          { query: HubDocument, variables: { id: this.id } }
+        ]
+      }).toPromise();
+    }
+    await slidingItem.close();
   }
 
   async save() {

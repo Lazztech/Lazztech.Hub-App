@@ -5,9 +5,10 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { DeleteEventGQL, Event, EventGQL, EventQuery, Scalars, UpdateEventGQL } from 'src/generated/graphql';
+import { DeleteEventGQL, Event, EventGQL, EventQuery, ResetShareableEventIdGQL, Scalars, UpdateEventGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-admin-event',
@@ -61,6 +62,8 @@ export class AdminEventPage implements OnInit, OnDestroy {
     private platform: Platform,
     public locationService: LocationService,
     public readonly navCtrl: NavController,
+    private readonly resetShareableEventID: ResetShareableEventIdGQL,
+    private readonly alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -91,6 +94,21 @@ export class AdminEventPage implements OnInit, OnDestroy {
   
   ngOnDestroy(): void {
     this.subscriptions.forEach(x => x.unsubscribe());
+  }
+
+  async invalidateShareableLinks() {
+    if (confirm('Are you sure you want to invalidate any previously shared links to this?')) {
+      this.loading = true;
+      try {
+        await this.resetShareableEventID.mutate({ 
+          id: this.eventQueryResult?.data?.event?.eventId,
+        }).toPromise(); 
+        this.alertService.presentToast('Shareable ID Has Been Reset');
+      } catch (error) {
+        this.alertService.presentRedToast('Whoops, something went wrong...');
+      }
+      this.loading = false;
+    }
   }
 
   async save() {

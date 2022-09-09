@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Hub } from 'src/generated/graphql';
+import { Hub } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-hub-profile',

@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { UsersPeopleGQL, UsersPeopleQuery } from 'src/generated/graphql';
+import { UsersPeopleGQL, UsersPeopleQuery } from 'src/graphql/graphql';
 
 export type AlphabetMapOfUsers = {
   [letter: string]: UsersPeopleQuery['usersPeople'];

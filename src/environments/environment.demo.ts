@@ -5,7 +5,7 @@
 import { BrowserOptions } from '@sentry/browser';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { LoggerConfig, NgxLoggerLevel } from 'ngx-logger';
-import { UsersHubsQuery } from 'src/generated/graphql';
+import { UsersHubsQuery } from 'src/graphql/graphql';
 import { Environment, EnvironmentNames } from './environment.interface';
 
 export const environment: Environment = {

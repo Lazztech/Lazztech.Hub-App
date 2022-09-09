@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as geolib from 'geolib';
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Observer, of } from 'rxjs';
-import { Hub } from 'src/generated/graphql';
+import { Hub } from 'src/graphql/graphql';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { environment } from '../../../environments/environment';
 import { AlertService } from '../alert/alert.service';

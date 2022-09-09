@@ -4,7 +4,7 @@ import { NavController } from '@ionic/angular';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { InviteQuery, Scalars } from 'src/generated/graphql';
+import { InviteQuery, Scalars } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-preview-hub',

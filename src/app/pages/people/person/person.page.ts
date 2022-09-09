@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { Scalars, User } from 'src/generated/graphql';
+import { Scalars, User } from 'src/graphql/graphql';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 import { LocationService } from 'src/app/services/location/location.service';

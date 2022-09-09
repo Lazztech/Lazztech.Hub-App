@@ -1,7 +1,7 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <div slot="end" href="javascript:void(0);" (click)="presentActionSheet()">
       <ion-icon size="large" name="ellipsis-vertical-outline"></ion-icon>
@@ -243,12 +243,13 @@
 
 <ion-footer translucent="true">
   <ion-toolbar>
-    <ion-button (click)="toggleInviteModal()" type="submit" expand="block">Invite
+    <ion-button (click)="toggleInviteModal()" type="submit" expand="block">Share / Invite
     </ion-button>
   </ion-toolbar>
 </ion-footer>
 
 <ion-modal
+#modal
 [isOpen]="inviteModalIsOpen"
 [swipeToClose]="true"
 [presentingElement]="routerOutlet.nativeEl"
@@ -260,6 +261,9 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="modal.dismiss()">Close</ion-button>
+    </ion-buttons>
     <ion-title>Invite</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
@@ -269,6 +273,7 @@
    [inviteType]="'event'"
    [id]="id"
    [persons]="notYetInvitedPeople"
+   [shareableLink]="'https://hub.lazz.tech/event/' + userEventQueryResult?.data?.event?.event?.shareableId"
   ></app-invite>
 </ion-content>
 <ion-footer translucent="true">
