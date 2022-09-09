@@ -93,6 +93,12 @@ export class AdminEventPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
+  invalidateShareableLinks() {
+    if (confirm('Are you sure you want to invalidate any previously shared links to this?')) {
+
+    }
+  }
+
   async save() {
     const inputValues = {
       eventId: this.id,

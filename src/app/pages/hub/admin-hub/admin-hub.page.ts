@@ -99,6 +99,12 @@ export class AdminHubPage implements OnInit, OnDestroy {
     return joinUserHub.userId;
   }
 
+  invalidateShareableLinks() {
+    if (confirm('Are you sure you want to invalidate any previously shared links to this?')) {
+
+    }
+  }
+
   async removeUserFromHub(otherUsersId: any, slidingItem: any) {
     if (confirm('Are you sure you want to remove this user?')) {
       await this.removeUserFromHubGqlService.mutate({

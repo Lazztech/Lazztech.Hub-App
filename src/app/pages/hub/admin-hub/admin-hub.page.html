@@ -73,12 +73,16 @@
       <app-bar-chart *ngIf="userHub"></app-bar-chart>
     </div>
 
-    <ion-list-header class="ion-padding-bottom">
+    <ion-list-header>
       <ion-label>Sharing</ion-label>
     </ion-list-header>
 
-    <ion-button color="danger" expand="block" class="ion-padding-start ion-padding-end">
-      Invalidate Shareable Links
+    <p class="ion-padding-start ion-padding-end ion-text-center">
+      <ion-text color="medium">Reset the shareable ID if you want to stop users from joining or re-joining via a previously shared link.</ion-text>
+    </p>
+
+    <ion-button color="danger" expand="block" class="ion-padding-start ion-padding-end" (click)="invalidateShareableLinks()">
+      Reset Shareable Link
     </ion-button>
 
 
