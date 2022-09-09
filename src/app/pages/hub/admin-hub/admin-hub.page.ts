@@ -72,10 +72,10 @@ export class AdminHubPage implements OnInit, OnDestroy {
         this.myForm = this.fb.group({
           hubName: [x?.data?.hub?.hub?.name, [
             Validators.required,
-            Validators.maxLength(25)
+            Validators.maxLength(50)
           ]],
           hubDescription: [x?.data?.hub?.hub?.description, [
-            Validators.maxLength(25)
+            Validators.maxLength(1000)
           ]],
           location: [{
             latitude: x?.data?.hub?.hub?.latitude,
