@@ -125,6 +125,7 @@ export type Mutation = {
   deleteInAppNotification: Scalars['Boolean'];
   deleteAllInAppNotifications: Scalars['Boolean'];
   createHub: JoinUserHub;
+  resetShareableHubID: JoinUserHub;
   inviteUserToHub: Invite;
   removeUserFromHub: Scalars['Boolean'];
   acceptHubInvite: JoinUserHub;
@@ -164,6 +165,7 @@ export type Mutation = {
   createEvent: JoinUserEvent;
   rsvp: JoinUserEvent;
   inviteUserToEvent: JoinUserEvent;
+  resetShareableEventID: JoinUserEvent;
   deleteEvent: Scalars['Boolean'];
   updateEvent: Event;
 };
@@ -186,6 +188,11 @@ export type MutationCreateHubArgs = {
   image?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+};
+
+
+export type MutationResetShareableHubIdArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -409,6 +416,11 @@ export type MutationRsvpArgs = {
 export type MutationInviteUserToEventArgs = {
   inviteesEmail: Scalars['String'];
   eventId: Scalars['ID'];
+};
+
+
+export type MutationResetShareableEventIdArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -1042,6 +1054,40 @@ export type ResetPasswordMutationVariables = Exact<{
 export type ResetPasswordMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'resetPassword'>
+);
+
+export type ResetShareableEventIdMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ResetShareableEventIdMutation = (
+  { __typename?: 'Mutation' }
+  & { resetShareableEventID: (
+    { __typename?: 'JoinUserEvent' }
+    & Pick<JoinUserEvent, 'userId' | 'eventId'>
+    & { event?: Maybe<(
+      { __typename?: 'Event' }
+      & Pick<Event, 'id' | 'shareableId'>
+    )> }
+  ) }
+);
+
+export type ResetShareableHubIdMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ResetShareableHubIdMutation = (
+  { __typename?: 'Mutation' }
+  & { resetShareableHubID: (
+    { __typename?: 'JoinUserHub' }
+    & Pick<JoinUserHub, 'userId' | 'hubId'>
+    & { hub?: Maybe<(
+      { __typename?: 'Hub' }
+      & Pick<Hub, 'id' | 'shareableId'>
+    )> }
+  ) }
 );
 
 export type RsvpMutationVariables = Exact<{
@@ -2040,6 +2086,46 @@ export const ResetPasswordDocument = gql`
   })
   export class ResetPasswordGQL extends Apollo.Mutation<ResetPasswordMutation, ResetPasswordMutationVariables> {
     document = ResetPasswordDocument;
+    
+  }
+export const ResetShareableEventIdDocument = gql`
+    mutation resetShareableEventID($id: ID!) {
+  resetShareableEventID(id: $id) {
+    userId
+    eventId
+    event {
+      id
+      shareableId
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResetShareableEventIdGQL extends Apollo.Mutation<ResetShareableEventIdMutation, ResetShareableEventIdMutationVariables> {
+    document = ResetShareableEventIdDocument;
+    
+  }
+export const ResetShareableHubIdDocument = gql`
+    mutation resetShareableHubID($id: ID!) {
+  resetShareableHubID(id: $id) {
+    userId
+    hubId
+    hub {
+      id
+      shareableId
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResetShareableHubIdGQL extends Apollo.Mutation<ResetShareableHubIdMutation, ResetShareableHubIdMutationVariables> {
+    document = ResetShareableHubIdDocument;
     
   }
 export const RsvpDocument = gql`

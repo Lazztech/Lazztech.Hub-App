@@ -1,0 +1,10 @@
+mutation resetShareableEventID($id: ID!) {
+  resetShareableEventID(id: $id) {
+    userId
+    eventId
+    event {
+      id
+      shareableId
+    }
+  }
+}
