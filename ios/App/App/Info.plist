@@ -43,11 +43,6 @@
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Used by plugin from development framework</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
