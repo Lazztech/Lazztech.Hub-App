@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 import { NetworkService } from '../network/network.service';
 import { GeofenceService } from '../geofence/geofence.service';
 import { NGXLogger } from 'ngx-logger';

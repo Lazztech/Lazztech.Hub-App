@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { Storage } from '@ionic/storage';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { GeofenceService } from 'src/app/services/geofence/geofence.service';
-import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
+import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 import { Capacitor } from '@capacitor/core';
 
 @Component({
