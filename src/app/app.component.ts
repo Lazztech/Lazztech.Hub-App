@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
-import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { AlertService } from './services/alert/alert.service';
 import { AuthService } from './services/auth/auth.service';

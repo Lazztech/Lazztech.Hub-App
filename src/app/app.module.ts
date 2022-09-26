@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
+import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,14 +17,14 @@ import { environment } from '../environments/environment';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
-import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { SentryIonicErrorHandler } from './errors/sentryIonicErrorHandler';
 import * as Sentry from '@sentry/browser';
 import { HttpRequestInterceptor } from './interceptors/http.interceptor';
 import { LoggerModule } from 'ngx-logger';
-import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 import { GraphQLModule } from './graphql.module';
-import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
+import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 
 @NgModule({
     declarations: [AppComponent],
