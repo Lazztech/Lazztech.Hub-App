@@ -2,7 +2,7 @@
   <div *ngIf="!compact">
     <ion-img *ngIf="hub.image" class="cliped" ngClass="right-box" src="{{hub.image}}"></ion-img>
   </div>
-  <ion-thumbnail class="ion-float-left" style="--size: 98px;" *ngIf="compact && hub?.image">
+  <ion-thumbnail class="ion-float-left" style="--size: 120px;" *ngIf="compact && hub?.image">
     <ion-skeleton-text *ngIf="!hub.image" animated></ion-skeleton-text>
     <ion-img *ngIf="hub.image" width="100%" ngClass="right-box" src="{{hub.image}}"></ion-img>
   </ion-thumbnail>

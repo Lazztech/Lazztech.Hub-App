@@ -1,8 +1,8 @@
 <ion-card>
   <ion-img *ngIf="userEvent?.event?.image && !compact" (click)="goToEventPage()" src="{{userEvent.event.image}}"></ion-img>
-  <ion-thumbnail class="ion-float-left ion-margin-end" style="--size: 98px;" *ngIf="compact && userEvent?.event?.image">
+  <ion-thumbnail class="ion-float-left ion-margin-end" style="--size: 120px;" *ngIf="compact && userEvent?.event?.image">
     <ion-skeleton-text *ngIf="!userEvent?.event?.image" animated></ion-skeleton-text>
-    <ion-img *ngIf="userEvent?.event?.image" width="100%" ngClass="right-box" src="{{userEvent?.event?.image}}"></ion-img>
+    <ion-img *ngIf="userEvent?.event?.image" height="100%" ngClass="right-box" src="{{userEvent?.event?.image}}"></ion-img>
   </ion-thumbnail>
   <ion-card-header (click)="goToEventPage()">
     <ion-card-subtitle ngClass="truncate" *ngIf="!showRsvp">{{userEvent?.event?.name}}</ion-card-subtitle>
