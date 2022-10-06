@@ -5,14 +5,15 @@
     <ion-img *ngIf="userEvent?.event?.image" width="100%" ngClass="right-box" src="{{userEvent?.event?.image}}"></ion-img>
   </ion-thumbnail>
   <ion-card-header (click)="goToEventPage()">
-    <ion-card-subtitle>Starts {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
+    <ion-card-title *ngIf="!showRsvp">{{userEvent?.event?.name}}</ion-card-title>
+
+    <ion-card-subtitle>{{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
     <ion-card-subtitle *ngIf="userEvent?.event?.endDateTime">Ends {{userEvent?.event?.endDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
 
     <ion-card-subtitle *ngIf="userEvent?.event?.createdBy">
       Created by {{userEvent?.event?.createdBy?.firstName}} {{userEvent?.event?.createdBy?.lastName}}
     </ion-card-subtitle>
     <ion-text *ngIf="userEvent?.event?.locationLabel">{{userEvent?.event?.locationLabel}}</ion-text>
-    <ion-card-title *ngIf="!showRsvp">{{userEvent?.event?.name}}</ion-card-title>
   </ion-card-header>
 
   <ion-card-content *ngIf="showRsvp">
