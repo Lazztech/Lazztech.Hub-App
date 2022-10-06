@@ -67,7 +67,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.subscriptions.push(
-      this.hubGqlService.watch({ id: this.id }).valueChanges.subscribe(x => {
+      this.hubGqlService.fetch({ id: this.id }).subscribe(x => {
         this.userHub = x;
         this.image = x?.data?.hub?.hub?.image;
         this.active = x?.data?.hub?.hub?.active;
