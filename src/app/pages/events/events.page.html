@@ -31,6 +31,7 @@
     <div *ngFor="let userEvent of upcomingEvents">
       <app-event-card
         [userEvent]="userEvent"
+        [compact]="true"
       ></app-event-card>
     </div>
 
@@ -40,6 +41,7 @@
     <div *ngFor="let userEvent of elapsedEvents">
       <app-event-card
         [userEvent]="userEvent"
+        [compact]="true"
       ></app-event-card>
     </div>
   </ion-list>

@@ -12,6 +12,7 @@ export class EventCardComponent implements OnInit {
   @Input() userEvent: JoinUserEvent;
   @Input() includeMap?: boolean = false;
   @Input() showRsvp?: boolean = false;
+  @Input() compact?: boolean = false;
 
   constructor(
     private readonly navCtrl: NavController,

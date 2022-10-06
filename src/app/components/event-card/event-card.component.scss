@@ -1,0 +1,24 @@
+.top-box {
+    box-shadow: inset 0 7px 9px -7px rgba(0,0,0,0.7);
+}
+.left-box {
+    box-shadow: inset 7px 0 9px -7px rgba(0,0,0,0.7);
+}
+.right-box {
+    box-shadow: inset -7px 0 9px -7px rgba(0,0,0,0.7);
+}
+.bottom-box {
+    box-shadow: inset 0 -7px 9px -7px rgba(0,0,0,0.7);
+}
+.top-gradient-box {
+    background: linear-gradient(to bottom, #999 0, #ffffff 7px, #ffffff 100%);
+}
+.left-gradient-box {
+    background: linear-gradient(to right, #999 0, #ffffff 7px, #ffffff 100%);
+}
+.right-gradient-box {
+    background: linear-gradient(to left, #999 0, #ffffff 7px, #ffffff 100%);
+}
+.bottom-gradient-box {
+    background: linear-gradient(to top, #999 0, #ffffff 7px, #ffffff 100%);
+}
