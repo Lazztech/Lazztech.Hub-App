@@ -16,6 +16,8 @@ export class EventsPage implements OnInit, OnDestroy {
   sortedEvents: UserEventsQuery['usersEvents'];
   upcomingEvents: UserEventsQuery['usersEvents'];
   elapsedEvents: UserEventsQuery['usersEvents'];
+  days: string;
+  dateTimeSelected: any;
 
   public get loading() : boolean {
     return [
@@ -35,6 +37,7 @@ export class EventsPage implements OnInit, OnDestroy {
       }).valueChanges.subscribe(result => {
         this.userEventsQueryResult = result;
         if (this.userEventsQueryResult?.data?.usersEvents) {
+          this.calculateDayValues();
           this.sortedEvents = [...this.userEventsQueryResult?.data?.usersEvents]?.sort(
             (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
           );
@@ -47,6 +50,24 @@ export class EventsPage implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  calculateDayValues() {
+    const usersEvents = this.userEventsQueryResult?.data?.usersEvents;
+    const selection = this.dateTimeSelected || new Date();
+    this.days = usersEvents
+      ?.filter(usersEvent => 
+        new Date(usersEvent?.event?.startDateTime)?.getMonth() == new Date(selection)?.getMonth()
+      )
+      ?.map(usersEvent => new Date(usersEvent?.event?.startDateTime).getDate().toString())
+      ?.reduce((previousValue, currentValue) => `${previousValue},${currentValue}`, '');
+    console.log(this.days);
+  }
+
+  dateTimeChanged(event: any) {
+    console.log(event?.detail?.value);
+    this.dateTimeSelected = event?.detail?.value;
+    this.calculateDayValues();
   }
 
   ngOnDestroy(): void {

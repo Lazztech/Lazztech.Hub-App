@@ -8,7 +8,12 @@
 <ion-content fullscreen="true">
 
   <ion-card>
-    <ion-datetime size="cover" presentation="date"></ion-datetime>
+    <ion-datetime 
+      size="cover"
+      presentation="date"
+      [dayValues]="days"
+      (ionChange)="dateTimeChanged($event)"
+    ></ion-datetime>
   </ion-card>
 
   <ion-list>
