@@ -4,6 +4,7 @@ query usersHubs {
         hubId
         isOwner
         starred
+        muted
         isPresent
         hub {
             id

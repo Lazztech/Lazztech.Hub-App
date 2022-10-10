@@ -100,6 +100,7 @@ export type JoinUserHub = {
   __typename?: 'JoinUserHub';
   isOwner: Scalars['Boolean'];
   starred: Scalars['Boolean'];
+  muted: Scalars['Boolean'];
   /** last update event for presence */
   lastGeofenceEvent?: Maybe<Scalars['String']>;
   /** unix timestamp for the last time the presence state was updated */
@@ -1282,7 +1283,7 @@ export type HubQuery = (
   { __typename?: 'Query' }
   & { hub: (
     { __typename?: 'JoinUserHub' }
-    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'muted' | 'isPresent'>
     & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel' | 'shareableId'>
@@ -1436,7 +1437,7 @@ export type UsersHubsQuery = (
   { __typename?: 'Query' }
   & { usersHubs: Array<(
     { __typename?: 'JoinUserHub' }
-    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'isPresent'>
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'isOwner' | 'starred' | 'muted' | 'isPresent'>
     & { hub?: Maybe<(
       { __typename?: 'Hub' }
       & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel'>
@@ -2407,6 +2408,7 @@ export const HubDocument = gql`
     hubId
     isOwner
     starred
+    muted
     isPresent
     hub {
       id
@@ -2677,6 +2679,7 @@ export const UsersHubsDocument = gql`
     hubId
     isOwner
     starred
+    muted
     isPresent
     hub {
       id

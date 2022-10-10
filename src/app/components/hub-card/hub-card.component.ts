@@ -18,6 +18,7 @@ export class HubCardComponent implements OnInit, OnDestroy, OnChanges {
   @Input() showDescription = false;
   @Input() coords: {longitude: number, latitude: number};
   @Input() starred = false;
+  @Input() muted = false;
   @Input() isOwner = false;
   @Input() includeMap = false;
   @Input() compact = true;

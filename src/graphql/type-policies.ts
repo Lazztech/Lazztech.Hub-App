@@ -33,10 +33,11 @@ export type PaginatedInAppNotificationsResponseFieldPolicy = {
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
 	total?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type JoinUserHubKeySpecifier = ('isOwner' | 'starred' | 'lastGeofenceEvent' | 'lastUpdated' | 'userId' | 'hubId' | 'isPresent' | 'user' | 'hub' | JoinUserHubKeySpecifier)[];
+export type JoinUserHubKeySpecifier = ('isOwner' | 'starred' | 'muted' | 'lastGeofenceEvent' | 'lastUpdated' | 'userId' | 'hubId' | 'isPresent' | 'user' | 'hub' | JoinUserHubKeySpecifier)[];
 export type JoinUserHubFieldPolicy = {
 	isOwner?: FieldPolicy<any> | FieldReadFunction<any>,
 	starred?: FieldPolicy<any> | FieldReadFunction<any>,
+	muted?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastGeofenceEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastUpdated?: FieldPolicy<any> | FieldReadFunction<any>,
 	userId?: FieldPolicy<any> | FieldReadFunction<any>,
