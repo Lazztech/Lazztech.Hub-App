@@ -139,6 +139,8 @@ export type Mutation = {
   changeHubImage: Hub;
   setHubStarred: Scalars['Boolean'];
   setHubNotStarred: Scalars['Boolean'];
+  mute: JoinUserHub;
+  unmute: JoinUserHub;
   enteredHubGeofence: JoinUserHub;
   dwellHubGeofence: JoinUserHub;
   exitedHubGeofence: JoinUserHub;
@@ -267,6 +269,16 @@ export type MutationSetHubStarredArgs = {
 
 
 export type MutationSetHubNotStarredArgs = {
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationMuteArgs = {
+  hubId: Scalars['ID'];
+};
+
+
+export type MutationUnmuteArgs = {
   hubId: Scalars['ID'];
 };
 
@@ -989,6 +1001,23 @@ export type MicroChatToHubMutation = (
   & Pick<Mutation, 'microChatToHub'>
 );
 
+export type MuteMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type MuteMutation = (
+  { __typename?: 'Mutation' }
+  & { mute: (
+    { __typename?: 'JoinUserHub' }
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'muted'>
+    & { hub?: Maybe<(
+      { __typename?: 'Hub' }
+      & Pick<Hub, 'id'>
+    )> }
+  ) }
+);
+
 export type RegisterMutationVariables = Exact<{
   firstName: Scalars['String'];
   lastName: Scalars['String'];
@@ -1151,6 +1180,23 @@ export type UnblockUserMutation = (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'firstName'>
     ) }
+  ) }
+);
+
+export type UnmuteMutationVariables = Exact<{
+  hubId: Scalars['ID'];
+}>;
+
+
+export type UnmuteMutation = (
+  { __typename?: 'Mutation' }
+  & { unmute: (
+    { __typename?: 'JoinUserHub' }
+    & Pick<JoinUserHub, 'userId' | 'hubId' | 'muted'>
+    & { hub?: Maybe<(
+      { __typename?: 'Hub' }
+      & Pick<Hub, 'id'>
+    )> }
   ) }
 );
 
@@ -2011,6 +2057,26 @@ export const MicroChatToHubDocument = gql`
     document = MicroChatToHubDocument;
     
   }
+export const MuteDocument = gql`
+    mutation mute($hubId: ID!) {
+  mute(hubId: $hubId) {
+    userId
+    hubId
+    muted
+    hub {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MuteGQL extends Apollo.Mutation<MuteMutation, MuteMutationVariables> {
+    document = MuteDocument;
+    
+  }
 export const RegisterDocument = gql`
     mutation register($firstName: String!, $lastName: String!, $birthdate: String!, $email: String!, $password: String!, $phoneNumber: String) {
   register(data: {firstName: $firstName, lastName: $lastName, birthdate: $birthdate, email: $email, password: $password, phoneNumber: $phoneNumber})
@@ -2205,6 +2271,26 @@ export const UnblockUserDocument = gql`
   })
   export class UnblockUserGQL extends Apollo.Mutation<UnblockUserMutation, UnblockUserMutationVariables> {
     document = UnblockUserDocument;
+    
+  }
+export const UnmuteDocument = gql`
+    mutation unmute($hubId: ID!) {
+  unmute(hubId: $hubId) {
+    userId
+    hubId
+    muted
+    hub {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UnmuteGQL extends Apollo.Mutation<UnmuteMutation, UnmuteMutationVariables> {
+    document = UnmuteDocument;
     
   }
 export const UpdateEventDocument = gql`
