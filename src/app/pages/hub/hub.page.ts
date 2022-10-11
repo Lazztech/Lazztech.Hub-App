@@ -10,7 +10,7 @@ import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
-import { HubQuery, JoinUserHub, Scalars, User } from 'src/graphql/graphql';
+import { HubQuery, JoinUserHub, MuteGQL, Scalars, UnmuteGQL, User } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-hub',
@@ -47,6 +47,8 @@ export class HubPage implements OnInit, OnDestroy {
     public readonly routerOutlet: IonRouterOutlet,
     private readonly communcationService: CommunicationService,
     private alertService: AlertService,
+    private muteService: MuteGQL,
+    private unmuteService: UnmuteGQL,
   ) { }
 
   ngOnInit() {
@@ -135,16 +137,41 @@ export class HubPage implements OnInit, OnDestroy {
             this.navCtrl.navigateForward('admin-hub/' + this.id);
           }
         });
-      } else if (!this.userHub.isOwner) {
+      }
+      buttons.push({
+        text: this.userHub.muted ? 'Unmute' : 'Mute',
+        handler: () => {
+          if (this.userHub.muted) {
+            this.unmuteService.mutate({ hubId: this.userHub.hubId }).toPromise()
+              .then(() => {
+                this.loading = false;
+              })
+              .catch(() => {
+                this.loading = false;
+              });
+          } else {
+            this.muteService.mutate({ hubId: this.userHub.hubId }).toPromise()
+              .then(() => {
+                this.loading = false;
+              })
+              .catch(() => {
+                this.loading = false;
+              });
+          }
+        }
+      });    
+      if (!this.userHub.isOwner) {
         buttons.push({
           text: 'Leave Hub',
           role: 'destructive',
           handler: () => {
-            this.loading = true;
-            this.hubService.leaveHub(this.id).then(() => {
-              this.loading = false;
-            });
-            this.navCtrl.back();
+            if (confirm('Are you sure you want to leave this Hub?')) {
+              this.loading = true;
+              this.hubService.leaveHub(this.id).then(() => {
+                this.loading = false;
+              });
+              this.navCtrl.back();
+            }
           }
         },
         {

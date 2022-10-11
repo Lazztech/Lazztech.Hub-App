@@ -1,0 +1,10 @@
+     mutation mute($hubId: ID!) {
+        mute(hubId: $hubId) {
+          userId
+          hubId
+          muted
+          hub {
+            id
+          }
+        }
+      }
