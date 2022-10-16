@@ -72,10 +72,31 @@
     </ion-list-header>
 
     <div scrollX="true" class="ion-padding-start">
-      <div scrollX="true">
-        
-      </div>
+      <span *ngIf="userHub" scrollX="true">
+        <div *ngFor="let event of userHub.hub.events">
+          <app-event-card
+          class="scroll-item"
+          [event]="event"
+          ></app-event-card>
+        </div>
+      </span>
     </div>
+
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      Events
+    </ion-list-header>
+
+    <ion-slides pager="true" *ngIf="userHub">
+      <ion-slide *ngFor="let event of userHub.hub.events">
+        <app-event-card
+        class="scroll-item"
+        [event]="event"
+        ></app-event-card>
+      </ion-slide>
+    </ion-slides>
 
   </ion-list>
 
