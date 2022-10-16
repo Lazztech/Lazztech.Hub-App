@@ -1,39 +1,60 @@
-     query hub($id: ID!) {
-        hub(id: $id) {
-          userId
-          hubId
-          isOwner
-          starred
-          muted
-          isPresent
-          hub {
-            id
-            name
-            description
-            active
-            image
-            latitude
-            longitude
-            locationLabel
-            shareableId
-            usersConnection {
-              user {
-                id
-                firstName
-                lastName
-                description
-                image
-                lastOnline
-                blocked
-                phoneNumber
-              }
-              isOwner
-              isPresent
-            }
-            microChats {
-              id
-              text
-            }
-          }
+query hub($id: ID!) {
+  hub(id: $id) {
+    userId
+    hubId
+    isOwner
+    starred
+    muted
+    isPresent
+    hub {
+      id
+      name
+      description
+      active
+      image
+      latitude
+      longitude
+      locationLabel
+      shareableId
+      usersConnection {
+        user {
+          id
+          firstName
+          lastName
+          description
+          image
+          lastOnline
+          blocked
+          phoneNumber
         }
+        isOwner
+        isPresent
       }
+      events {
+        id
+        createdBy {
+          id
+          firstName
+          lastName
+          description
+          image
+          email
+          shareableId
+          phoneNumber
+        }
+        name
+        image
+        description
+        startDateTime
+        endDateTime
+        latitude
+        longitude
+        shareableId
+      }
+      microChats {
+        id
+        text
+      }
+    }
+  }
+}

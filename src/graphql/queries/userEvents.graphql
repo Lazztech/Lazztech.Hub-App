@@ -23,6 +23,20 @@ query userEvents {
         shareableId
         phoneNumber
       }
+      hub {
+        id
+        name
+        description
+        active
+        image
+        latitude
+        longitude
+        locationLabel
+        usersConnection {
+          isPresent
+          isOwner
+        }
+      }
       name
       image
       description

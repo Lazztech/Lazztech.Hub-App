@@ -38,6 +38,7 @@ export type Event = {
   longitude?: Maybe<Scalars['Float']>;
   locationLabel?: Maybe<Scalars['String']>;
   createdBy?: Maybe<User>;
+  hub?: Maybe<Hub>;
   image?: Maybe<Scalars['String']>;
   usersConnection?: Maybe<Array<JoinUserEvent>>;
 };
@@ -55,6 +56,7 @@ export type Hub = {
   image?: Maybe<Scalars['String']>;
   usersConnection?: Maybe<Array<JoinUserHub>>;
   microChats?: Maybe<Array<MicroChat>>;
+  events?: Maybe<Array<Event>>;
   invites?: Maybe<Array<Invite>>;
 };
 
@@ -412,6 +414,7 @@ export type MutationCreateEventArgs = {
   locationLabel?: Maybe<Scalars['String']>;
   longitude?: Maybe<Scalars['Float']>;
   latitude?: Maybe<Scalars['Float']>;
+  hubId?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   endDateTime?: Maybe<Scalars['String']>;
   startDateTime?: Maybe<Scalars['String']>;
@@ -446,6 +449,7 @@ export type MutationUpdateEventArgs = {
   locationLabel?: Maybe<Scalars['String']>;
   longitude?: Maybe<Scalars['Float']>;
   latitude?: Maybe<Scalars['Float']>;
+  hubId?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   endDateTime?: Maybe<Scalars['String']>;
   startDateTime?: Maybe<Scalars['String']>;
@@ -1308,6 +1312,13 @@ export type EventQuery = (
       & { createdBy?: Maybe<(
         { __typename?: 'User' }
         & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
+      )>, hub?: Maybe<(
+        { __typename?: 'Hub' }
+        & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel'>
+        & { usersConnection?: Maybe<Array<(
+          { __typename?: 'JoinUserHub' }
+          & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
+        )>> }
       )>, usersConnection?: Maybe<Array<(
         { __typename?: 'JoinUserEvent' }
         & Pick<JoinUserEvent, 'rsvp' | 'lastGeofenceEvent' | 'lastUpdated' | 'isPresent'>
@@ -1339,6 +1350,13 @@ export type HubQuery = (
         & { user?: Maybe<(
           { __typename?: 'User' }
           & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'lastOnline' | 'blocked' | 'phoneNumber'>
+        )> }
+      )>>, events?: Maybe<Array<(
+        { __typename?: 'Event' }
+        & Pick<Event, 'id' | 'name' | 'image' | 'description' | 'startDateTime' | 'endDateTime' | 'latitude' | 'longitude' | 'shareableId'>
+        & { createdBy?: Maybe<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
         )> }
       )>>, microChats?: Maybe<Array<(
         { __typename?: 'MicroChat' }
@@ -1471,6 +1489,13 @@ export type UserEventsQuery = (
       & { createdBy?: Maybe<(
         { __typename?: 'User' }
         & Pick<User, 'id' | 'firstName' | 'lastName' | 'description' | 'image' | 'email' | 'shareableId' | 'phoneNumber'>
+      )>, hub?: Maybe<(
+        { __typename?: 'Hub' }
+        & Pick<Hub, 'id' | 'name' | 'description' | 'active' | 'image' | 'latitude' | 'longitude' | 'locationLabel'>
+        & { usersConnection?: Maybe<Array<(
+          { __typename?: 'JoinUserHub' }
+          & Pick<JoinUserHub, 'isPresent' | 'isOwner'>
+        )>> }
       )> }
     )> }
   )> }
@@ -2446,6 +2471,20 @@ export const EventDocument = gql`
         shareableId
         phoneNumber
       }
+      hub {
+        id
+        name
+        description
+        active
+        image
+        latitude
+        longitude
+        locationLabel
+        usersConnection {
+          isPresent
+          isOwner
+        }
+      }
       name
       image
       description
@@ -2519,6 +2558,27 @@ export const HubDocument = gql`
         }
         isOwner
         isPresent
+      }
+      events {
+        id
+        createdBy {
+          id
+          firstName
+          lastName
+          description
+          image
+          email
+          shareableId
+          phoneNumber
+        }
+        name
+        image
+        description
+        startDateTime
+        endDateTime
+        latitude
+        longitude
+        shareableId
       }
       microChats {
         id
@@ -2734,6 +2794,20 @@ export const UserEventsDocument = gql`
         email
         shareableId
         phoneNumber
+      }
+      hub {
+        id
+        name
+        description
+        active
+        image
+        latitude
+        longitude
+        locationLabel
+        usersConnection {
+          isPresent
+          isOwner
+        }
       }
       name
       image

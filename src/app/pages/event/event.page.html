@@ -34,6 +34,16 @@
     </ion-row>
   </ion-grid>
 
+  <ion-list *ngIf="userEventQueryResult?.data?.event?.event?.hub as hub">
+    <ion-list-header>
+      <ion-text>Hub</ion-text>
+    </ion-list-header>
+    <app-hub-card
+    [hub]="hub"
+    [coords]="locationService.location"
+    (click)="goToHubPage(hub.id)"></app-hub-card>
+  </ion-list>
+
   <ion-list *ngIf="presentUserEvents?.length">
     <ion-list-header>
       <ion-text>Present</ion-text>
