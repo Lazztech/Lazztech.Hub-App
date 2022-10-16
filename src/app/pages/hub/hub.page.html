@@ -71,12 +71,25 @@
       Events
     </ion-list-header>
     
-    <ion-grid>
+    <ion-grid class="ion-no-padding">
       <ion-row class="ion-nowrap horizontal-scroll">
-        <ion-col size="12" *ngFor="let event of userHub?.hub?.events">
+        <ion-col size="10" *ngFor="let event of userHub?.hub?.events">
           <app-event-card
           [event]="event"
           ></app-event-card>
+        </ion-col>
+        <ion-col size="12" *ngIf="!userHub?.hub?.events?.length">
+          <ion-card>
+            <ion-item lines="none">
+              <ion-card-header>
+                <ion-card-subtitle>Get Started</ion-card-subtitle>
+              </ion-card-header>
+              <ion-icon slot="end" name="calendar"></ion-icon>
+              <ion-card-content>
+                Create an event and invite guests!
+            </ion-card-content>
+            </ion-item>
+          </ion-card>
         </ion-col>
       </ion-row>
     </ion-grid>
