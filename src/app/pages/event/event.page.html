@@ -12,7 +12,7 @@
 
 <ion-content fullscreen="true">
   <app-event-card
-    [userEvent]="userEventQueryResult?.data?.event"
+    [event]="userEventQueryResult?.data?.event?.event"
     [includeMap]="true"
     [showRsvp]="true"
   ></app-event-card>
@@ -33,6 +33,16 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-list *ngIf="userEventQueryResult?.data?.event?.event?.hub as hub">
+    <ion-list-header>
+      <ion-text>Hub</ion-text>
+    </ion-list-header>
+    <app-hub-card
+    [hub]="hub"
+    [coords]="locationService.location"
+    (click)="goToHubPage(hub.id)"></app-hub-card>
+  </ion-list>
 
   <ion-list *ngIf="presentUserEvents?.length">
     <ion-list-header>

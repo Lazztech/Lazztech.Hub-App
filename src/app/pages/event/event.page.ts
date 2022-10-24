@@ -42,7 +42,7 @@ export class EventPage implements OnInit, OnDestroy {
     private readonly actionSheetController: ActionSheetController,
     private readonly navCtrl: NavController,
     private readonly logger: NGXLogger,
-    private readonly locationService: LocationService,
+    public readonly locationService: LocationService,
     private readonly authService: AuthService,
     public readonly routerOutlet: IonRouterOutlet,
     public readonly navigationService: NavigationService,
@@ -51,7 +51,7 @@ export class EventPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    
+
     this.subscriptions.push(
       this.eventService.watch({
         id: this.id
@@ -96,6 +96,10 @@ export class EventPage implements OnInit, OnDestroy {
 
   async requestRide(userEvent: JoinUserEvent) {
     this.navigationService.requestUber(this.locationService.location, userEvent.event, userEvent.event.name);
+  }
+
+  goToHubPage(id: number) {
+    this.navCtrl.navigateForward('hub/' + id);
   }
 
   async presentActionSheet() {
