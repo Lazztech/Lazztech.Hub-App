@@ -2,6 +2,7 @@ import { BrowserOptions } from '@sentry/browser';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { LoggerConfig, NgxLoggerLevel } from 'ngx-logger';
 import { Environment, EnvironmentNames } from './environment.interface';
+import { BrowserTracing } from "@sentry/tracing";
 
 export const environment: Environment = {
   production: true,
@@ -54,7 +55,10 @@ export const environment: Environment = {
     }
   },
   sentry: {
-    dsn: "https://772d0460b07a4d968cc3829a395ea446@o388920.ingest.sentry.io/5226414"
+    dsn: "https://772d0460b07a4d968cc3829a395ea446@o388920.ingest.sentry.io/5226414",
+    integrations: [new BrowserTracing()],
+    // To set a uniform sample rate
+    tracesSampleRate: 0.2
   } as BrowserOptions,
   apollo: {
     connectToDevTools: false
