@@ -79,7 +79,7 @@
     "@types/stripe-checkout": "^1.0.3",
     "@types/stripe-v3": "^3.1.0",
     "@zxing/library": "^0.15.1",
-    "apollo-angular": "^2.6.0",
+    "apollo-angular": "^3.0.1",
     "apollo-client": "^2.5.1",
     "apollo-link": "^1.2.11",
     "apollo-link-context": "^1.0.17",
