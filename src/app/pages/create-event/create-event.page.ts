@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { CreateEventGQL } from 'src/graphql/graphql';
 export class CreateEventPage implements OnInit, OnDestroy {
 
   loading = false;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   image: any;
   startDateTimeModalOpen: boolean = false;
   endDateTimeModalOpen: boolean = false;
@@ -44,7 +44,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
   }
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private actionSheetController: ActionSheetController,
     private cameraService: CameraService,
     private logger: NGXLogger,

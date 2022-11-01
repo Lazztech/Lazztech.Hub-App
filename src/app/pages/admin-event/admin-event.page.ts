@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
@@ -18,7 +18,7 @@ import { DeleteEventGQL, Event, EventGQL, EventQuery, ResetShareableEventIdGQL, 
 export class AdminEventPage implements OnInit, OnDestroy {
 
   loading = false;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   image: any;
   startDateTimeModalOpen: boolean = false;
   endDateTimeModalOpen: boolean = false;
@@ -49,7 +49,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly actionSheetController: ActionSheetController,
     private readonly cameraService: CameraService,
     private readonly logger: NGXLogger,

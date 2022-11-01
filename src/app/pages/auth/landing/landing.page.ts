@@ -5,7 +5,7 @@ import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { NGXLogger } from 'ngx-logger';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LandingPage implements OnInit {
 
   loading = false;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
 
   get email() {
     return this.myForm.get('email');
@@ -34,7 +34,7 @@ export class LandingPage implements OnInit {
     private notificationsService: NotificationsService,
     private logger: NGXLogger,
     private alertService: AlertService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
   ) {
     this.menu.enable(false);
   }

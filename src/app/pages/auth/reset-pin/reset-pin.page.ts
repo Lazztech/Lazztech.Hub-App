@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgForm, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -14,7 +14,7 @@ export class ResetPinPage implements OnInit {
 
   loading = false;
 
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
 
   get email() {
     return this.myForm.get('email');
@@ -24,7 +24,7 @@ export class ResetPinPage implements OnInit {
     private authService: AuthService,
     private alertService: AlertService,
     private storage: Storage,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private navController: NavController,
     ) { }
 

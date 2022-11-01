@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL, RemoveUserFromHubGQL, HubDocument, ResetShareableHubIdGQL } from 'src/graphql/graphql';
@@ -29,7 +29,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
   image: any;
   active: boolean;
 
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
 
   get hubName() {
     return this.myForm.get('hubName');
@@ -46,7 +46,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private hubService: HubService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private logger: NGXLogger,
     private navCtrl: NavController,
     private actionSheetController: ActionSheetController,
