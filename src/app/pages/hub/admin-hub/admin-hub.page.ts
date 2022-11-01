@@ -69,23 +69,27 @@ export class AdminHubPage implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.hubGqlService.watch({ id: this.id }).valueChanges.subscribe(x => {
         this.userHub = x;
-        this.image = x?.data?.hub?.hub?.image;
+        if (!this.image) {
+          this.image = x?.data?.hub?.hub?.image;
+        }
         this.active = x?.data?.hub?.hub?.active;
         this.loading = x.loading;
-        this.myForm = this.fb.group({
-          hubName: [x?.data?.hub?.hub?.name, [
-            Validators.required,
-            Validators.maxLength(50)
-          ]],
-          hubDescription: [x?.data?.hub?.hub?.description, [
-            Validators.maxLength(1000)
-          ]],
-          location: [{
-            latitude: x?.data?.hub?.hub?.latitude,
-            longitude: x?.data?.hub?.hub?.longitude,
-            locationLabel: x?.data?.hub?.hub?.locationLabel,
-          }],
-        });
+        if (!this.myForm) {
+          this.myForm = this.fb.group({
+            hubName: [x?.data?.hub?.hub?.name, [
+              Validators.required,
+              Validators.maxLength(50)
+            ]],
+            hubDescription: [x?.data?.hub?.hub?.description, [
+              Validators.maxLength(1000)
+            ]],
+            location: [{
+              latitude: x?.data?.hub?.hub?.latitude,
+              longitude: x?.data?.hub?.hub?.longitude,
+              locationLabel: x?.data?.hub?.hub?.locationLabel,
+            }],
+          });
+        }
       }),
       this.inviteByHubService.fetch({ hubId: this.id }).subscribe(y => {
         this.invites = y;
