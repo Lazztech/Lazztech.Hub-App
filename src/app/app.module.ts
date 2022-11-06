@@ -25,10 +25,30 @@ import { LoggerModule } from 'ngx-logger';
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 import { GraphQLModule } from './graphql.module';
 import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
+import {
+  OpenTelemetryInterceptorModule,
+  OtelColExporterModule,
+  CompositePropagatorModule,
+} from '@jufab/opentelemetry-angular-interceptor';
 
 @NgModule({
     declarations: [AppComponent],
     imports: [
+        OpenTelemetryInterceptorModule.forRoot({
+          commonConfig: {
+            console: true, // Display trace on console (only in DEV env)
+            production: true, // Send Trace with BatchSpanProcessor (true) or SimpleSpanProcessor (false)
+            serviceName: 'Lazztech.Hub-App', // Service name send in trace
+            probabilitySampler: '1',
+          },
+          otelcolConfig: {
+            url: 'http://143.244.157.167:4318/v1/traces', // URL of opentelemetry collector
+          },
+        }),
+        //Insert OtelCol exporter module
+        OtelColExporterModule,
+        //Insert propagator module
+        CompositePropagatorModule,
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
