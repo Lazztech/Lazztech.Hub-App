@@ -29,20 +29,24 @@ export class TutorialGuard implements CanActivate {
 
     // user is signed in and completed tutorial
     if (isComplete && isAuthed) {
-      // permissions
-      await this.notificationsService.setupPushNotifications();
-      // setup background geolocation
-      await this.geofenceService.configureBackgroundGeolocation();
-      let state = await this.geofenceService.ready();
-      if (!state.enabled) {
-        state = await this.geofenceService.start();
+      try {
+        // permissions
+        await this.notificationsService.setupPushNotifications();
+        // setup background geolocation
+        await this.geofenceService.configureBackgroundGeolocation();
+        let state = await this.geofenceService.ready();
+        if (!state.enabled) {
+          state = await this.geofenceService.start();
+        }
+        // hydrate hub geofences
+        // FIXME: Should this be updated on polling of users hubs?
+        // Also is this why I get recurring notifications about entering a hub that I'm
+        // already at, because this is firing in the background every time the app starts
+        // up for the backgroundgeolocation plugin???
+        await this.geofenceService.syncGeofences(); 
+      } catch (error) {
+        
       }
-      // hydrate hub geofences
-      // FIXME: Should this be updated on polling of users hubs?
-      // Also is this why I get recurring notifications about entering a hub that I'm
-      // already at, because this is firing in the background every time the app starts
-      // up for the backgroundgeolocation plugin???
-      await this.geofenceService.syncGeofences();
     }
 
     return isComplete;
