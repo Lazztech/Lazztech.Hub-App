@@ -28,14 +28,6 @@ export class TutorialPage implements OnInit {
   ngOnInit() {
   }
 
-  async pushNotifications() {
-    await this.notificationsService.setupPushNotifications();
-  }
-
-  async geoPermissions() {
-    await this.geofenceService.configureBackgroundGeolocation();
-  }
-
   async finish() {
     if (this.platform === 'android') {
       alert('Lazztech Hub collects location data to enable automatic check in and out of your community Hubs, even when the app is closed or not in use.');

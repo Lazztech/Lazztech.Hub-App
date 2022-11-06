@@ -45,9 +45,6 @@ export class LandingPage implements OnInit {
         this.faio.show({
           subtitle: 'authorize'
         }).then(async () => {
-          // FIXME is this how I want this? It needs token to work on first launch.
-          await this.notificationsService.setupPushNotifications();
-
           await this.navCtrl.navigateRoot('/tabs');
         }).catch(err => this.logger.error(err));
       }
@@ -82,8 +79,6 @@ export class LandingPage implements OnInit {
     this.logger.log('Result: ' + token);
     if (token) {
       this.loading = false;
-      // FIXME is this how I want this? It needs token to work on first launch.
-      await this.notificationsService.setupPushNotifications();
       await this.navCtrl.navigateRoot('/tabs');
     } else {
       this.loading = false;
@@ -97,9 +92,6 @@ export class LandingPage implements OnInit {
         this.faio.show({
           subtitle: 'authorize'
         }).then(async () => {
-          // FIXME is this how I want this? It needs token to work on first launch.
-          await this.notificationsService.setupPushNotifications();
-
           await this.navCtrl.navigateRoot('/tabs');
         }).catch(err => this.logger.error(err));
       } else {

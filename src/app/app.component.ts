@@ -1,19 +1,13 @@
 import { Component, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
-import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { NavController, Platform } from '@ionic/angular';
+import { NGXLogger } from 'ngx-logger';
 import { AlertService } from './services/alert/alert.service';
 import { AuthService } from './services/auth/auth.service';
-import { GeofenceService } from './services/geofence/geofence.service';
-import { NetworkService } from './services/network/network.service';
 import { ThemeService } from './services/theme/theme.service';
-import { UpdateService } from './services/update/update.service';
-import { NGXLogger } from 'ngx-logger';
-import { SplashScreen } from '@capacitor/splash-screen';
-import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
-import { environment } from '../environments/environment';
-import { App, URLOpenListenerEvent } from '@capacitor/app';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +35,6 @@ export class AppComponent {
     private navCtrl: NavController,
     private alertService: AlertService,
     private themeService: ThemeService,
-    private geofenceService: GeofenceService,
     private logger: NGXLogger,
     private router: Router,
     private zone: NgZone,
@@ -72,21 +65,6 @@ export class AppComponent {
       SplashScreen.hide();
 
       this.authService.getToken();
-
-      // setup background geolocation
-      await this.geofenceService.configureBackgroundGeolocation();
-      let state = await this.geofenceService.ready();
-      if (!state.enabled) {
-        state = await this.geofenceService.start();
-      }
-      // hydrate hub geofences
-      // FIXME: this needs to be performed more intelligently then just at startup.
-      // Should this be updated on polling of users hubs?
-      // Also is this why I get recurring notifications about entering a hub that I'm
-      // already at, because this is firing in the background every time the app starts
-      // up for the backgroundgeolocation plugin???
-      // await this.geofenceService.refreshHubGeofences();
-      await this.geofenceService.syncGeofences();
     });
   }
 
