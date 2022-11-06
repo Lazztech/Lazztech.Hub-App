@@ -249,14 +249,13 @@
     </div>
   </ion-list>
 
-</ion-content>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="toggleInviteModal()">
+      <ion-icon name="person-add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-<ion-footer translucent="true">
-  <ion-toolbar>
-    <ion-button (click)="toggleInviteModal()" type="submit" expand="block">Share / Invite
-    </ion-button>
-  </ion-toolbar>
-</ion-footer>
+</ion-content>
 
 <ion-modal
 #modal
