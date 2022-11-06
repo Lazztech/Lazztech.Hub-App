@@ -5,6 +5,7 @@ import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/an
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
+import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
@@ -47,6 +48,7 @@ export class EventPage implements OnInit, OnDestroy {
     public readonly routerOutlet: IonRouterOutlet,
     public readonly navigationService: NavigationService,
     private readonly communcationService: CommunicationService,
+    private readonly alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -64,14 +66,14 @@ export class EventPage implements OnInit, OnDestroy {
         this.maybeUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'maybe');
         this.cantgoUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'cantgo');
         this.noreplyUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => !x.rsvp);
-      }),
+      }, err => this.handleError(err)),
       this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
         this.persons = result;
         this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
           return !this.userEventQueryResult?.data?.event?.event?.usersConnection
             ?.find(x => x.user?.id === person?.id);
         }) as any;
-      })
+      }, err => this.handleError(err))
     );
   }
 
@@ -79,6 +81,10 @@ export class EventPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
+  }
 
   trackByUser(index: any, joinUserEvent: JoinUserEvent) {
     return joinUserEvent.userId;
