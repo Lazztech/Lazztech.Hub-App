@@ -21,7 +21,7 @@ import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { SentryIonicErrorHandler } from './errors/sentryIonicErrorHandler';
 import * as Sentry from '@sentry/browser';
 import { HttpRequestInterceptor } from './interceptors/http.interceptor';
-import { LoggerModule } from 'ngx-logger';
+import { LoggerModule, NGXLogger } from 'ngx-logger';
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 import { GraphQLModule } from './graphql.module';
 import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
@@ -29,6 +29,7 @@ import {
   OpenTelemetryInterceptorModule,
   OtelColExporterModule,
   CompositePropagatorModule,
+  OTEL_LOGGER,
 } from '@jufab/opentelemetry-angular-interceptor';
 
 @NgModule({
@@ -36,9 +37,9 @@ import {
     imports: [
         OpenTelemetryInterceptorModule.forRoot({
           commonConfig: {
-            console: true, // Display trace on console (only in DEV env)
-            production: true, // Send Trace with BatchSpanProcessor (true) or SimpleSpanProcessor (false)
-            serviceName: 'Lazztech.Hub-App', // Service name send in trace
+            console: environment.production ? false : true, // Display trace on console (only in DEV env)
+            production: environment.production ? false : true, // Send Trace with BatchSpanProcessor (true) or SimpleSpanProcessor (false)
+            serviceName: `Lazztech.Hub-App ${environment.name}`, // Service name send in trace
             probabilitySampler: '1',
           },
           otelcolConfig: {
@@ -65,6 +66,7 @@ import {
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
         { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
+        { provide: OTEL_LOGGER, useExisting: NGXLogger },
         BackgroundGeolocation,
         FingerprintAIO,
         Diagnostic,
