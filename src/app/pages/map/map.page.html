@@ -16,13 +16,8 @@
       [yourLocation]="locationService.location"
       [navOnMarker]="true" 
       [showControls]="true"
-      [enableSearch]="true"
+      [enableSearch]="false"
       (searchSelected)="onSearchSelected($event)"
       (loading)="onMapLoading($event)"
     ></app-leaflet-map>
 </ion-content>
-<ion-footer translucent="true">
-  <ion-toolbar>
-    <ion-button (click)="save()" type="submit" expand="block" color="primary">Save</ion-button>
-  </ion-toolbar>
-</ion-footer>
