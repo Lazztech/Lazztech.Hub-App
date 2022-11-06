@@ -20,17 +20,14 @@
   </ion-card-content>
 
   <ion-card-content *ngIf="showRsvp">
-    <ion-segment value="{{rsvp}}" (ionChange)="segmentChanged($event)">
-      <ion-segment-button value="going">
-        <ion-label>Going</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="maybe">
-        <ion-label>Maybe</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="cantgo">
-        <ion-label>Can't Go</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+      <ion-item class="matchedItemBackground ion-no-padding" lines="none">
+        <ion-label style="font-weight: 700;">RSVP</ion-label>
+        <ion-select placeholder="No Reply" interface="popover" style="font-weight: 700;" (ionChange)="segmentChanged($event)">
+          <ion-select-option value="going">Going</ion-select-option>
+          <ion-select-option value="maybe">Maybe</ion-select-option>
+          <ion-select-option value="cantgo">Can't Go</ion-select-option>
+        </ion-select>
+      </ion-item>
   </ion-card-content>
   <div *ngIf="includeMap && event?.latitude && event?.longitude" style="height: 90px;">
     <app-leaflet-map [center]="event"></app-leaflet-map>
