@@ -1,35 +1,35 @@
 <ion-card>
-  <ion-img *ngIf="event?.image" (click)="goToEventPage()" src="{{event?.image}}"></ion-img>
+  <ion-img *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent?.event?.image}}"></ion-img>
   <ion-card-header (click)="goToEventPage()">
-    <ion-card-subtitle>Starts {{event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
-    <ion-card-subtitle *ngIf="event?.endDateTime">Ends {{event?.endDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
+    <ion-card-subtitle>Starts {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
+    <ion-card-subtitle *ngIf="userEvent?.event?.endDateTime">Ends {{userEvent?.event?.endDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
 
-    <ion-card-subtitle *ngIf="event?.createdBy">
-      Created by {{event?.createdBy?.firstName}} {{event?.createdBy?.lastName}}
+    <ion-card-subtitle *ngIf="userEvent?.event?.createdBy">
+      Created by {{userEvent?.event?.createdBy?.firstName}} {{userEvent?.event?.createdBy?.lastName}}
     </ion-card-subtitle>
-    <ion-text *ngIf="event?.locationLabel">{{event?.locationLabel}}</ion-text>
+    <ion-text *ngIf="userEvent?.event?.locationLabel">{{userEvent?.event?.locationLabel}}</ion-text>
   </ion-card-header>
 
   <ion-card-content *ngIf="!showRsvp" (click)="goToEventPage()">
-    <ion-card-title>{{event?.name}}</ion-card-title>
+    <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
   </ion-card-content>
 
   <ion-card-content *ngIf="showRsvp">
-    <ion-card-title>{{event?.name}}</ion-card-title>
-    <ion-text *ngIf="event?.description">{{event?.description}}</ion-text>
+    <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
+    <ion-text *ngIf="userEvent?.event?.description">{{userEvent?.event?.description}}</ion-text>
   </ion-card-content>
 
   <ion-card-content *ngIf="showRsvp">
-      <ion-item class="matchedItemBackground ion-no-padding" lines="none">
-        <ion-label style="font-weight: 700;">RSVP</ion-label>
-        <ion-select placeholder="No Reply" interface="popover" style="font-weight: 700;" (ionChange)="segmentChanged($event)">
-          <ion-select-option value="going">Going</ion-select-option>
-          <ion-select-option value="maybe">Maybe</ion-select-option>
-          <ion-select-option value="cantgo">Can't Go</ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ion-item class="matchedItemBackground ion-no-padding" lines="none">
+      <ion-label style="font-weight: 700;">RSVP</ion-label>
+      <ion-select placeholder="No Reply" interface="popover" style="font-weight: 700;" [value]="userEvent?.rsvp" (ionChange)="segmentChanged($event)">
+        <ion-select-option value="going">Going</ion-select-option>
+        <ion-select-option value="maybe">Maybe</ion-select-option>
+        <ion-select-option value="cantgo">Can't Go</ion-select-option>
+      </ion-select>
+    </ion-item>
   </ion-card-content>
-  <div *ngIf="includeMap && event?.latitude && event?.longitude" style="height: 90px;">
+  <div *ngIf="includeMap && userEvent?.event?.latitude && userEvent?.event?.longitude" style="height: 90px;">
     <app-leaflet-map [center]="event"></app-leaflet-map>
   </div>
 </ion-card>
