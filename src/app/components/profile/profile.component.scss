@@ -1,9 +1,7 @@
-.avatars img{
+ion-avatar,
+ion-avatar > img{
     margin: auto;
-}
-
-.custom-avatar {
-    width:40% !important;  
-    height : 40% !important;
-    margin: auto;
+    border-radius:50%;
+    height:8rem;
+    width:8rem;
 }
