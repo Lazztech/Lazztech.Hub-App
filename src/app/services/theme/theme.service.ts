@@ -146,22 +146,13 @@ export class ThemeService {
     await this.storage.set('theme', this.darkTheme); // <--- SAVE THEME HERE
   }
 
-  async isDark(): Promise<boolean> {
-    const cssText = await this.storage.get('theme');
-    if (cssText === this.darkTheme) {
-      this.logger.log(`Is DarkMode: true`);
-      return true;
-    } else if (cssText === this.lightTheme) {
-      this.logger.log(`Is DarkMode: false`);
-      return false;
-    } else {
-      this.logger.log(`Is DarkMode: false`);
-      return false;
-    }
+  isDark(): boolean {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
   async toggle() {
-    const isDark = await this.isDark();
+    // document.body.classList.toggle('dark', true);
+    const isDark = this.isDark();
     if (isDark) {
       this.logger.log('setting light');
       await this.setLight();

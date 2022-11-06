@@ -43,11 +43,11 @@ export class AppComponent {
   }
 
   async initializeApp() {
-    // this.isDark = await this.themeService.isDark();
-    document.body.classList.toggle('dark', true);
+    this.isDark = this.themeService.isDark();
+    document.body.classList.toggle('dark', this.isDark);
 
     StatusBar.setStyle({
-      style: Style.Dark
+      style: Style.Default,
     });
 
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
