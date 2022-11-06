@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
-import { Storage } from '@ionic/storage';
-import { NotificationsService } from 'src/app/services/notifications/notifications.service';
-import { GeofenceService } from 'src/app/services/geofence/geofence.service';
 import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 import { Capacitor } from '@capacitor/core';
+import { IonSlides } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tutorial',
@@ -14,18 +12,24 @@ import { Capacitor } from '@capacitor/core';
 })
 export class TutorialPage implements OnInit {
 
+  @ViewChild('slides') slides: IonSlides;
+  isEnd = false
+
   platform = Capacitor.getPlatform();
 
   constructor(
     private storage: Storage,
     private router: Router,
-    private notificationsService: NotificationsService,
-    private geofenceService: GeofenceService,
-    private faio: FingerprintAIO,
     private nativeSettings: OpenNativeSettings
   ) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  slideChanged() {
+    let me = this;
+    me.slides.isEnd().then((istrue) => {
+      this.isEnd = istrue;
+    });
   }
 
   async finish() {
@@ -39,10 +43,10 @@ export class TutorialPage implements OnInit {
   async openAppSettings() {
     this.nativeSettings
       .open('application_details')
-      .then( res => {
+      .then(res => {
         console.log(res);
       })
-      .catch( err => {
+      .catch(err => {
         console.log(err);
       });
   }

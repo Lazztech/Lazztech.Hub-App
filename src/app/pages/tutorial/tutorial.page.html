@@ -2,13 +2,16 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
-  </ion-buttons>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isEnd" (click)="slides.slideNext()" > Next </ion-button>
+    </ion-buttons>
     <ion-title>Tutorial</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen class="ion-padding-top" scroll-y="false">
-  <ion-slides pager="true">
+  <ion-slides pager="true" #slides (ionSlideWillChange)="slideChanged()">
 
     <ion-slide>
       <div class="slide">
