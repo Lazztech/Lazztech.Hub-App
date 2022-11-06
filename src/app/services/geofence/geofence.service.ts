@@ -49,25 +49,6 @@ export class GeofenceService {
     this.logger.log('[removeGeofences] all geofences have been destroyed');
   }
 
-  async refreshHubGeofences() {
-    await this.removeAllGeofences();
-    const userHubs = await this.hubService.usersHubs();
-    for (const userHub of userHubs) {
-      const hub = userHub.hub;
-      const identifier = {
-        id: hub.id,
-        name: hub.name
-      };
-      await this.addGeofence({
-        identifier: JSON.stringify(identifier),
-        latitude: hub.latitude,
-        longitude: hub.longitude,
-      });
-
-      this.logger.log(`Added geofence for ${JSON.stringify(hub)}`);
-    }
-  }
-
   async syncGeofences() {
     const userHubs = await this.hubService.usersHubs();
     const geofences = await BackgroundGeolocation.getGeofences();

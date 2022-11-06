@@ -1,9 +1,7 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Scalars } from '../../../graphql/graphql';
-import { HubService } from '../../services/hub/hub.service';
 import { LocationService } from '../../services/location/location.service';
 
 @Component({
@@ -22,10 +20,7 @@ export class MapPage {
 
   constructor(
     private router: Router,
-    private hubService: HubService,
     public locationService: LocationService,
-    private platform: Platform,
-    private changeRef: ChangeDetectorRef,
   ) {
     if (this.router.getCurrentNavigation()?.extras?.state) {
       this.hubCoords = this.router.getCurrentNavigation().extras.state.hubCoords;
@@ -43,13 +38,6 @@ export class MapPage {
   onSearchSelected(event: { latitude: number, longitude: number }) {
     console.log('onSearchSelected');
     this.center = event;
-  }
-
-  async save() {
-    console.log(`map save hubId: ${this.hubId}, center latitude: ${this.center.latitude}, center longitude: ${this.center.longitude}`);
-    this.loading = true;
-    await this.hubService.changeHubLocation(this.hubId, this.center.latitude, this.center.longitude);
-    this.loading = false;
   }
 
   onMapLoading(loading: boolean) {

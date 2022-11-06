@@ -45,9 +45,6 @@ export class LandingPage implements OnInit {
         this.faio.show({
           subtitle: 'authorize'
         }).then(async () => {
-          // FIXME is this how I want this? It needs token to work on first launch.
-          await this.notificationsService.setupPushNotifications();
-
           await this.navCtrl.navigateRoot('/tabs');
         }).catch(err => this.logger.error(err));
       }
@@ -78,16 +75,15 @@ export class LandingPage implements OnInit {
   async login() {
     this.loading = true;
     const formValue = this.myForm.value;
-    const token = await this.authService.login(formValue.email, formValue.password);
-    this.logger.log('Result: ' + token);
-    if (token) {
+    try {
+      const token = await this.authService.login(formValue.email, formValue.password);
+      if (token) {
+        this.loading = false;
+        await this.navCtrl.navigateRoot('/tabs');
+      }
+    } catch (error) {
+      this.alertService.presentRedToast(`Login failed: ${error}`, 5000);
       this.loading = false;
-      // FIXME is this how I want this? It needs token to work on first launch.
-      await this.notificationsService.setupPushNotifications();
-      await this.navCtrl.navigateRoot('/tabs');
-    } else {
-      this.loading = false;
-      this.alertService.presentRedToast('Login failed!');
     }
   }
 
@@ -97,9 +93,6 @@ export class LandingPage implements OnInit {
         this.faio.show({
           subtitle: 'authorize'
         }).then(async () => {
-          // FIXME is this how I want this? It needs token to work on first launch.
-          await this.notificationsService.setupPushNotifications();
-
           await this.navCtrl.navigateRoot('/tabs');
         }).catch(err => this.logger.error(err));
       } else {

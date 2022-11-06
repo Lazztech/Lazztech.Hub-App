@@ -1,16 +1,15 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { HubService } from 'src/app/services/hub/hub.service';
-import { HubQuery, Scalars, JoinUserHub, InvitesByHubQuery, HubGQL, InvitesByHubGQL, UpdateHubGQL, RemoveUserFromHubGQL, HubDocument, ResetShareableHubIdGQL } from 'src/graphql/graphql';
-import { NGXLogger } from 'ngx-logger';
-import { NavController, ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
-import { CameraService } from 'src/app/services/camera/camera.service';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { LocationService } from 'src/app/services/location/location.service';
+import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
+import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { CameraService } from 'src/app/services/camera/camera.service';
+import { HubService } from 'src/app/services/hub/hub.service';
+import { LocationService } from 'src/app/services/location/location.service';
+import { HubDocument, HubGQL, HubQuery, InvitesByHubGQL, InvitesByHubQuery, JoinUserHub, RemoveUserFromHubGQL, ResetShareableHubIdGQL, Scalars, UpdateHubGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-admin-hub',

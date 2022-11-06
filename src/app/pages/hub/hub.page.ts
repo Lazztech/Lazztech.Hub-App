@@ -71,14 +71,19 @@ export class HubPage implements OnInit, OnDestroy {
           .reverse();
         this.present = this.sortedUsers?.filter(x => x.isPresent);
         this.away = this.sortedUsers?.filter(x => !x.isPresent);
-      }),
+      }, err => this.handleError(err)),
       this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
         this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
           return !this.sortedUsers
             ?.find(x => x.user?.id === person?.id);
         }) as any;
-      })
+      }, err => this.handleError(err))
     );
+  }
+
+  async handleError(err) {
+      await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+      this.loading = false;
   }
 
   async ngOnDestroy() {

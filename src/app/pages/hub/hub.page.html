@@ -282,12 +282,16 @@
     </ion-list>
   </div>
 
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="userHub?.isOwner">
+    <ion-fab-button (click)="toggleInviteModal()">
+      <ion-icon name="person-add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
 
-<ion-footer translucent="true" *ngIf="userHub?.isOwner">
+<ion-footer translucent="true">
   <ion-toolbar>
-    <ion-button (click)="toggleInviteModal()" type="submit" expand="block">Share / Invite
-    </ion-button>
   </ion-toolbar>
 </ion-footer>
 
