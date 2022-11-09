@@ -96,7 +96,7 @@ export class HubService {
     return response;
   }
 
-  async usersHubs(fetchPolicy: FetchPolicy = 'network-only') {
+  async usersHubs(fetchPolicy: FetchPolicy = 'cache-first') {
     const result = await this.userHubsGQLService.fetch(null, {
       fetchPolicy
     }).toPromise();
