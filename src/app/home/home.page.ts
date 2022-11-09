@@ -1,12 +1,12 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuController, NavController } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
-import { Hub, InvitesByUserQuery, JoinUserHub, User, UsersHubsQuery } from 'src/graphql/graphql';
+import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserHub, User, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth/auth.service';
 import { ForegroundGeofenceService } from '../services/foreground-geofence.service';
-import { HubService } from '../services/hub/hub.service';
 import { LocationService } from '../services/location/location.service';
 
 @Component({
@@ -22,17 +22,18 @@ export class HomePage implements OnInit, OnDestroy {
   userHubs: UsersHubsQuery['usersHubs'];
   hubs: Hub[] = [];
   user: User;
+  queryRefs: QueryRef<any>[] = [];
   subscriptions: Subscription[] = [];
 
   constructor(
     private menu: MenuController,
     private authService: AuthService,
     public navCtrl: NavController,
-    private hubService: HubService,
     public locationService: LocationService,
-    private changeRef: ChangeDetectorRef,
     private logger: NGXLogger,
     private foregroundGeofenceService: ForegroundGeofenceService,
+    private readonly invitesByUserGQLService: InvitesByUserGQL,
+    private readonly userHubsGQLService: UsersHubsGQL,
   ) {
     this.menu.enable(true);
   }
@@ -43,8 +44,12 @@ export class HomePage implements OnInit, OnDestroy {
       (location) => this.foregroundGeofenceService.asses(location)
     );
 
+    const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
+    const invitesByUserRef = this.invitesByUserGQLService.watch(null, { pollInterval: 3000 });
+    this.queryRefs.push(userHubsQueryRef, invitesByUserRef);
+
     this.subscriptions.push(
-      this.hubService.watchUserHubs(null, 2000).valueChanges.subscribe(x => {
+      userHubsQueryRef.valueChanges.subscribe(x => {
         this.logger.log('loading: ', x.loading);
         this.loading = x.loading;
 
@@ -64,11 +69,19 @@ export class HomePage implements OnInit, OnDestroy {
           this.hubs = this.userHubs?.map(x => x.hub as Hub);
         }
       }),
-      this.hubService.watchInvitesByUser(null, 10000).valueChanges.subscribe(x => {
+      invitesByUserRef.valueChanges.subscribe(x => {
         this.invites = x?.data?.invitesByUser;
         this.loading = x.loading;
       })
     );
+  }
+
+  async ionViewDidEnter() {
+    this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
+  }
+
+  async ionViewDidLeave() {
+    this.queryRefs.forEach(queryRef => queryRef.stopPolling());
   }
 
   async ngOnDestroy() {

@@ -12,12 +12,8 @@ import {
   DeactivateHubGQL,
   DeleteHubGQL,
   DeleteInviteGQL,
-  DeleteMicroChatGQL,
-  EditHubGQL,
-  EnteredHubGeofenceGQL,
-  DwellHubGeofenceGQL,
-  ExitedHubGeofenceGQL,
-  HubDocument,
+  DeleteMicroChatGQL, DwellHubGeofenceGQL, EditHubGQL,
+  EnteredHubGeofenceGQL, ExitedHubGeofenceGQL, Hub, HubDocument,
   HubGQL,
   HubQuery,
   HubQueryVariables,
@@ -25,20 +21,14 @@ import {
   InvitesByHubDocument,
   InvitesByHubGQL,
   InvitesByHubQueryVariables,
-  InvitesByUserDocument,
-  InvitesByUserGQL,
-  InviteUserToHubGQL,
+  InvitesByUserDocument, InviteUserToHubGQL,
   LeaveHubGQL,
   MicroChatToHubGQL,
-  QueryInvitesByHubArgs,
-  Scalars,
+  QueryInvitesByHubArgs, ReportHubAsInappropriateGQL, Scalars,
   SetHubNotStarredGQL,
   SetHubStarredGQL,
   UsersHubsDocument,
-  UsersHubsGQL,
-  Hub,
-  UsersPeopleGQL,
-  ReportHubAsInappropriateGQL,
+  UsersHubsGQL, UsersPeopleGQL
 } from 'src/graphql/graphql';
 import { AlertService } from '../alert/alert.service';
 
@@ -71,7 +61,6 @@ export class HubService {
     private readonly invitesByHubGQLService: InvitesByHubGQL,
     private readonly deleteInviteGQLService: DeleteInviteGQL,
     private readonly inviteGQLService: InviteGQL,
-    private readonly invitesByUserGQLService: InvitesByUserGQL,
     private readonly acceptHubInviteGQLService: AcceptHubInviteGQL,
     private readonly leaveHubGQLService: LeaveHubGQL,
     private readonly changeHubLocationGQLService: ChangeHubLocationGQL,
@@ -121,13 +110,6 @@ export class HubService {
     }
 
     return response;
-  }
-
-  watchUserHubs(fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
-    return this.userHubsGQLService.watch(null, {
-      pollInterval,
-      fetchPolicy
-    });
   }
 
   watchUsersPeople(fetchPolicy: FetchPolicy = 'cache-first') {
@@ -251,14 +233,6 @@ export class HubService {
     } as QueryInvitesByHubArgs, {
       fetchPolicy
     });
-  }
-
-  watchInvitesByUser(fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
-    return this.invitesByUserGQLService.watch(null,
-      {
-        fetchPolicy,
-        pollInterval
-      });
   }
 
   async inviteUserToHub(hubId: Scalars['ID'], inviteesEmail: string) {

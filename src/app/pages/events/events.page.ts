@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { NavController } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { UserEventsGQL, UserEventsQuery } from 'src/graphql/graphql';
 
@@ -12,6 +13,8 @@ import { UserEventsGQL, UserEventsQuery } from 'src/graphql/graphql';
 export class EventsPage implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
+  queryRefs: QueryRef<any>[] = [];
+
   userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
   sortedEvents: UserEventsQuery['usersEvents'];
   upcomingEvents: UserEventsQuery['usersEvents'];
@@ -29,10 +32,11 @@ export class EventsPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    const userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
+    this.queryRefs.push(userEventsQueryRef);
+
     this.subscriptions.push(
-      this.userEvents.watch(null,{
-        pollInterval: 2000,
-      }).valueChanges.subscribe(result => {
+      userEventsQueryRef.valueChanges.subscribe(result => {
         this.userEventsQueryResult = result;
         if (this.userEventsQueryResult?.data?.usersEvents) {
           this.sortedEvents = [...this.userEventsQueryResult?.data?.usersEvents]?.sort(
@@ -47,6 +51,14 @@ export class EventsPage implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  async ionViewDidEnter() {
+    this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
+  }
+
+  async ionViewDidLeave() {
+    this.queryRefs.forEach(queryRef => queryRef.stopPolling());
   }
 
   ngOnDestroy(): void {
