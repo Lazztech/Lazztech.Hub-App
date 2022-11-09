@@ -8,6 +8,9 @@ import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth/auth.service';
 import { ForegroundGeofenceService } from '../services/foreground-geofence.service';
 import { LocationService } from '../services/location/location.service';
+import _ from 'lodash';
+import { DebuggerService } from '../services/debugger/debugger.service';
+import { AlertService } from '../services/alert/alert.service';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +18,10 @@ import { LocationService } from '../services/location/location.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
+
+  devModeEasterEggEnabled: boolean = false;
+  devModeEasterEggTimeoutId: any;
+  devModeEasterEggCount = 0;
 
   loading = true;
   invites: InvitesByUserQuery['invitesByUser'];
@@ -34,8 +41,30 @@ export class HomePage implements OnInit, OnDestroy {
     private foregroundGeofenceService: ForegroundGeofenceService,
     private readonly invitesByUserGQLService: InvitesByUserGQL,
     private readonly userHubsGQLService: UsersHubsGQL,
+    private readonly debugService: DebuggerService,
+    private readonly alertService: AlertService,
   ) {
     this.menu.enable(true);
+  }
+
+  async devModeEasterEgg() {
+    clearTimeout(this.devModeEasterEggTimeoutId)
+    this.devModeEasterEggCount += 1;
+    console.log('devModeEasterEggCount: ', this.devModeEasterEggCount);
+    if (this.devModeEasterEggCount >= 5 && !this.devModeEasterEggEnabled) {
+      this.debugService.start();
+      this.alertService.create({
+        message: `✨✨ 🪄 You're a wizard now! 🪄 ✨✨`,
+        duration: 2000,
+        position: 'top',
+        translucent: true,
+      });
+      this.devModeEasterEggCount = 0;
+    }
+    this.devModeEasterEggTimeoutId = setTimeout(() => {
+      this.devModeEasterEggCount = 0;
+      console.log('reset devModeEasterEggCount: ', this.devModeEasterEggCount);
+    }, 1000);
   }
 
   async ngOnInit() {
