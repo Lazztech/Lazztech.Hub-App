@@ -30,6 +30,6 @@
     </ion-item>
   </ion-card-content>
   <div *ngIf="includeMap && userEvent?.event?.latitude && userEvent?.event?.longitude" style="height: 90px;">
-    <app-leaflet-map [center]="event"></app-leaflet-map>
+    <app-leaflet-map [center]="userEvent?.event"></app-leaflet-map>
   </div>
 </ion-card>

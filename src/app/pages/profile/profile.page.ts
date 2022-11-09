@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { ActionSheetController, MenuController, NavController } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
-import { HubService } from 'src/app/services/hub/hub.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
-import { JoinUserEvent, JoinUserHub, MeQuery, Scalars, UserEventsGQL, UserEventsQuery, UsersHubsQuery } from 'src/graphql/graphql';
+import { JoinUserEvent, JoinUserHub, MeQuery, Scalars, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
@@ -33,6 +33,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
   
   subscriptions: Subscription[] = [];
+  queryRefs: QueryRef<any>[] = [];
 
   constructor(
     private menu: MenuController,
@@ -43,19 +44,24 @@ export class ProfilePage implements OnInit, OnDestroy {
     public actionSheetController: ActionSheetController,
     public cameraService: CameraService,
     public profileService: ProfileService,
-    private hubService: HubService,
     private logger: NGXLogger,
     private readonly userEvents: UserEventsGQL,
+    private readonly userHubsGQLService: UsersHubsGQL,
   ) {
     this.menu.enable(true);
   }
 
   async ngOnInit() {
+    const userQueryRef = this.authService.watchUser();
+    const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
+    const userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
+    this.queryRefs.push(userQueryRef, userHubsQueryRef, userEventsQueryRef);
+
     this.subscriptions.push(
-      this.authService.watchUser().valueChanges.subscribe(result => {
+      userQueryRef.valueChanges.subscribe(result => {
         this.userResult = result;
       }),
-      this.hubService.watchUserHubs().valueChanges.subscribe(result => {
+      userHubsQueryRef.valueChanges.subscribe(result => {
         this.userHubsResult = result;
         if (this.userHubsResult?.data?.usersHubs) {
           this.filteredUsersHubs = this.userHubsResult?.data?.usersHubs.filter(
@@ -63,9 +69,7 @@ export class ProfilePage implements OnInit, OnDestroy {
           );
         }
       }),
-      this.userEvents.watch(null,{
-        pollInterval: 2000,
-      }).valueChanges.subscribe(result => {
+      userEventsQueryRef.valueChanges.subscribe(result => {
         this.userEventsQueryResult = result;
         if (this.userEventsQueryResult?.data?.usersEvents) {
           this.filteredUsersEvents = [...this.userEventsQueryResult?.data?.usersEvents]
@@ -76,6 +80,14 @@ export class ProfilePage implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  async ionViewDidEnter() {
+    this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
+  }
+
+  async ionViewDidLeave() {
+    this.queryRefs.forEach(queryRef => queryRef.stopPolling());
   }
 
   ngOnDestroy(): void {

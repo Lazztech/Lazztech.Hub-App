@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
@@ -26,12 +27,14 @@ export class HubPage implements OnInit, OnDestroy {
   sortedUsers: HubQuery['hub']['hub']['usersConnection'];
   id: Scalars['ID'];
   qrContent: string;
-  subscriptions: Subscription[] = [];
   hubCoords: {latitude: number, longitude: number};
   inviteModalIsOpen: boolean = false;
   @ViewChild(InviteComponent)
   private inviteComponent: InviteComponent;
   notYetInvitedPeople: Array<User> = [];
+
+  subscriptions: Subscription[] = [];
+  queryRefs: QueryRef<any>[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -55,8 +58,12 @@ export class HubPage implements OnInit, OnDestroy {
     this.id = this.route.snapshot.paramMap.get('id');
     this.qrContent = JSON.stringify({ id: this.id });
 
+    const hubQueryRef = this.hubService.watchHub(this.id, null, 3000);
+    const usersPeopleQueryRef = this.hubService.watchUsersPeople(null, 3000);
+    this.queryRefs.push(hubQueryRef, usersPeopleQueryRef);
+
     this.subscriptions.push(
-      this.hubService.watchHub(this.id, null, 2000).valueChanges.subscribe(result => {
+      hubQueryRef.valueChanges.subscribe(result => {
         const data = result.data.hub;
         this.userHub = data;
         this.loading = result.loading;
@@ -72,7 +79,7 @@ export class HubPage implements OnInit, OnDestroy {
         this.present = this.sortedUsers?.filter(x => x.isPresent);
         this.away = this.sortedUsers?.filter(x => !x.isPresent);
       }, err => this.handleError(err)),
-      this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
+      usersPeopleQueryRef.valueChanges.subscribe(result => {
         this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
           return !this.sortedUsers
             ?.find(x => x.user?.id === person?.id);
@@ -84,6 +91,14 @@ export class HubPage implements OnInit, OnDestroy {
   async handleError(err) {
       await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
       this.loading = false;
+  }
+
+  async ionViewDidEnter() {
+    this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
+  }
+
+  async ionViewDidLeave() {
+    this.queryRefs.forEach(queryRef => queryRef.stopPolling());
   }
 
   async ngOnDestroy() {

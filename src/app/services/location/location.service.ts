@@ -74,7 +74,6 @@ export class LocationService {
       coords,
       hubCoords
     );
-    this.logger.log(`distanceInMeters from hubId ${hub.id}: ` + distance);
     return distance;
   }
 

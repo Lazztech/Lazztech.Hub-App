@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
@@ -30,10 +31,13 @@ export class EventPage implements OnInit, OnDestroy {
   noreplyUserEvents: EventQuery['event']['event']['usersConnection'];
   persons: ApolloQueryResult<UsersPeopleQuery>;
   notYetInvitedPeople: Array<User> = [];
-  subscriptions: Subscription[] = [];
   inviteModalIsOpen: boolean = false;
   @ViewChild(InviteComponent)
   private inviteComponent: InviteComponent;
+
+  queryRefs: QueryRef<any>[] = [];
+  subscriptions: Subscription[] = [];
+
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -54,12 +58,12 @@ export class EventPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
 
+    const eventQueryRef = this.eventService.watch({id: this.id }, { pollInterval: 3000 });
+    const usersPeopleQueryRef = this.hubService.watchUsersPeople(null, 3000);
+    this.queryRefs.push(eventQueryRef, usersPeopleQueryRef);
+
     this.subscriptions.push(
-      this.eventService.watch({
-        id: this.id
-      }, {
-        pollInterval: 2000,
-      }).valueChanges.subscribe(x => {
+      eventQueryRef.valueChanges.subscribe(x => {
         this.userEventQueryResult = x;
         this.presentUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.isPresent);
         this.goingUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'going');
@@ -67,7 +71,7 @@ export class EventPage implements OnInit, OnDestroy {
         this.cantgoUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'cantgo');
         this.noreplyUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => !x.rsvp);
       }, err => this.handleError(err)),
-      this.hubService.watchUsersPeople().valueChanges.subscribe(result => {
+      usersPeopleQueryRef.valueChanges.subscribe(result => {
         this.persons = result;
         this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
           return !this.userEventQueryResult?.data?.event?.event?.usersConnection
@@ -75,6 +79,14 @@ export class EventPage implements OnInit, OnDestroy {
         }) as any;
       }, err => this.handleError(err))
     );
+  }
+
+  async ionViewDidEnter() {
+    this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
+  }
+
+  async ionViewDidLeave() {
+    this.queryRefs.forEach(queryRef => queryRef.stopPolling());
   }
 
   ngOnDestroy(): void {

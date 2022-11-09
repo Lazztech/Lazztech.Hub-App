@@ -75,7 +75,7 @@
       <ion-row class="ion-nowrap horizontal-scroll">
         <ion-col size="10" *ngFor="let event of userHub?.hub?.events">
           <app-event-card
-          [event]="event"
+          [userEvent]="{event}"
           ></app-event-card>
         </ion-col>
         <ion-col size="12" *ngIf="!userHub?.hub?.events?.length">
