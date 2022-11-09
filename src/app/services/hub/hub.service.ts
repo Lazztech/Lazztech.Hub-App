@@ -112,9 +112,10 @@ export class HubService {
     return response;
   }
 
-  watchUsersPeople(fetchPolicy: FetchPolicy = 'cache-first') {
+  watchUsersPeople(fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
     return this.usersPeopleGQLService.watch(null, {
-      fetchPolicy
+      fetchPolicy,
+      pollInterval
     });
   }
 
