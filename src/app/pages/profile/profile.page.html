@@ -34,9 +34,10 @@
       </ion-avatar>
       <ion-label>
         <ion-text>{{userHub.hub.name}}</ion-text>
-        <ion-card-subtitle *ngIf="userHub.hub.active" class="ion-float-right" color="success">Active</ion-card-subtitle>
-        <ion-card-subtitle *ngIf="!userHub.hub.active" class="ion-float-right" color="medium">Inactive
-        </ion-card-subtitle>
+        <p>
+          <ion-text *ngIf="userHub.hub.active" color="success">Active</ion-text>
+          <ion-text *ngIf="!userHub.hub.active" color="medium">Inactive</ion-text>
+        </p>
       </ion-label>
     </ion-item>
   </ion-list>
@@ -51,7 +52,7 @@
       </ion-avatar>
       <ion-label>
         <ion-text>{{userEvent?.event?.name}}</ion-text>
-        <ion-card-subtitle class="ion-float-right">{{userEvent?.event?.startDateTime | amDateFormat:'ddd ll'}}</ion-card-subtitle>
+        <p>{{userEvent?.event?.startDateTime | amDateFormat:'ddd ll'}}</p>
       </ion-label>
     </ion-item>
   </ion-list>
