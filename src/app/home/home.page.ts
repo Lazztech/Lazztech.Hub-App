@@ -8,7 +8,6 @@ import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth/auth.service';
 import { ForegroundGeofenceService } from '../services/foreground-geofence.service';
 import { LocationService } from '../services/location/location.service';
-import _ from 'lodash';
 import { DebuggerService } from '../services/debugger/debugger.service';
 import { AlertService } from '../services/alert/alert.service';
 
