@@ -1,4 +1,5 @@
-<ion-tabs>
+<!-- ionTabsDidChange workaround to get page lifecycle hooks working as expected https://github.com/ionic-team/ionic-framework/issues/16834#issuecomment-631676434  -->
+<ion-tabs #tabs (ionTabsDidChange)="tabChange(tabs)">
   <!-- Tab bar -->
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="home">
