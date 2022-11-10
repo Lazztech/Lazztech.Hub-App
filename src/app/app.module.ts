@@ -31,6 +31,7 @@ import {
   CompositePropagatorModule,
   OTEL_LOGGER,
 } from '@jufab/opentelemetry-angular-interceptor';
+import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -70,7 +71,8 @@ import {
         BackgroundGeolocation,
         FingerprintAIO,
         Diagnostic,
-        OpenNativeSettings
+        OpenNativeSettings,
+        Calendar,
     ],
     bootstrap: [AppComponent]
 })

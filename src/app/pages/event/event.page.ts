@@ -13,6 +13,7 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
+import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
 
 @Component({
   selector: 'app-event',
@@ -53,6 +54,7 @@ export class EventPage implements OnInit, OnDestroy {
     public readonly navigationService: NavigationService,
     private readonly communcationService: CommunicationService,
     private readonly alertService: AlertService,
+    private readonly calendar: Calendar,
   ) { }
 
   ngOnInit() {
@@ -152,6 +154,18 @@ export class EventPage implements OnInit, OnDestroy {
     const actionSheet = await this.actionSheetController.create({
       header: 'Event Options',
       buttons: [
+        {
+          text: 'Add to calendar',
+          handler: () => {
+            this.calendar.createEventInteractively(
+              this.userEventQueryResult?.data?.event?.event?.name,
+              this.userEventQueryResult?.data?.event?.event?.locationLabel,
+              this.userEventQueryResult?.data?.event?.event?.description,
+              new Date(this.userEventQueryResult?.data?.event?.event?.startDateTime),
+              new Date(this.userEventQueryResult?.data?.event?.event?.endDateTime),
+            )
+          }
+        },
         ...buttons,
         {
           text: 'Cancel',
