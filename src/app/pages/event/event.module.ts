@@ -10,6 +10,7 @@ import { EventPage } from './event.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { MomentModule } from 'ngx-moment';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { MomentModule } from 'ngx-moment';
     ComponentsModule,
     PipesModule,
     MomentModule,
+    DirectivesModule,
   ],
   declarations: [EventPage]
 })

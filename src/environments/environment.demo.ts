@@ -118,7 +118,7 @@ export const environment: Environment = {
     paidHubSubscriptionTier: false,
     // https://github.com/adorableio/avatars-api-middleware
     adorableAvatarsUserImage: true,
-    uberRequestRide: true,
+    uberRequestRide: false,
     microChat: false,
     lightDarkThemeToggle: false,
     inviteUsersCheckList: true,
