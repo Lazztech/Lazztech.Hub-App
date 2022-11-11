@@ -2,7 +2,7 @@
   "index": "/index.html",
   "assetGroups": [
     {
-      "name": "app",
+      "name": "Lazztech Hub",
       "installMode": "prefetch",
       "resources": {
         "files": [
