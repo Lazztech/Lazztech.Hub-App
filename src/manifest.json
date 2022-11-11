@@ -4,7 +4,7 @@
   "theme_color": "#222428",
   "background_color": "#fafafa",
   "display": "standalone",
-  "scope": "/",
+  "scope": "/app/",
   "start_url": "/app/",
   "gcm_sender_id": "103953800507",
   "icons": [
