@@ -16,7 +16,7 @@
     "start:prod": "ng serve --configuration=production",
     "start:demo": "ng serve --configuration=demo",
     "build": "ng build",
-    "build:prod": "ng build --configuration production --base-href app",
+    "build:prod": "ng build --configuration production --base-href /app/",
     "prepare:ios:dev": "ionic build && npx cap sync && npx cap copy && npx cap open ios",
     "prepare:ios:stg": "ionic build --configuration=staging && npx cap sync && npx cap copy && npx cap open ios",
     "prepare:ios:prod": "ionic build --configuration production && npx cap sync && npx cap copy && npx cap open ios",
