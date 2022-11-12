@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
@@ -58,8 +58,6 @@ export class AdminEventPage implements OnInit, OnDestroy {
     private readonly deleteEventService: DeleteEventGQL,
     private readonly updateEventService: UpdateEventGQL,
     public routerOutlet: IonRouterOutlet,
-    private changeRef: ChangeDetectorRef,
-    private platform: Platform,
     public locationService: LocationService,
     public readonly navCtrl: NavController,
     private readonly resetShareableEventID: ResetShareableEventIdGQL,
@@ -212,6 +210,10 @@ export class AdminEventPage implements OnInit, OnDestroy {
 
   onSearchSelected(event: any) {
     this.mapSearchSelection = event;
+  }
+
+  onMapLoading(loading: boolean) {
+    this.loading = loading;
   }
 
   selectLocation() {
