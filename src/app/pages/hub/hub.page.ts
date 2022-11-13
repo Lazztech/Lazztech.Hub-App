@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -42,8 +42,6 @@ export class HubPage implements OnInit, OnDestroy {
     public actionSheetController: ActionSheetController,
     public navCtrl: NavController,
     public cameraService: CameraService,
-    private platform: Platform,
-    private changeRef: ChangeDetectorRef,
     public locationService: LocationService,
     private logger: NGXLogger,
     public readonly navigationService: NavigationService,
