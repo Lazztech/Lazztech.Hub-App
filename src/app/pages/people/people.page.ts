@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AlertService } from 'src/app/services/alert/alert.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { UsersPeopleGQL, UsersPeopleQuery } from 'src/graphql/graphql';
@@ -25,11 +26,7 @@ export class PeoplePage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   filter: string = '';
 
-  public get loading() : boolean {
-    return [
-      this.personsResult
-    ].some(x => x?.loading);
-  }
+  loading = true;
 
   constructor(
     public navCtrl: NavController,
@@ -37,15 +34,17 @@ export class PeoplePage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     private readonly communcationService: CommunicationService,
     private readonly usersPeopleGQLService: UsersPeopleGQL,
+    private readonly alertService: AlertService,
   ) { }
 
   ngOnInit() {
     this.subscriptions.push(
       this.usersPeopleGQLService.watch().valueChanges.subscribe(result => {
+        this.loading = result.loading;
         this.personsResult = result;
         this.alphabetizedPersons = this.alphabetizePersons(result?.data?.usersPeople);
         this.filteredPersons
-      })
+      }, err => this.handleError(err))
     );
   }
 
@@ -54,6 +53,12 @@ export class PeoplePage implements OnInit, OnDestroy {
       x => x.unsubscribe()
     );
   }
+
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
+  }
+
 
   alphabetizePersons(persons: UsersPeopleQuery['usersPeople']): AlphabetMapOfUsers {
     let alphabet = 'abcdefghijklmnopqrstuvwxyz';

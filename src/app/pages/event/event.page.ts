@@ -21,7 +21,7 @@ import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Sca
 })
 export class EventPage implements OnInit, OnDestroy {
 
-  loading = false;
+  loading = true;
   id: Scalars['ID'];
   userEventQueryResult: ApolloQueryResult<EventQuery>;
   presentUserEvents: EventQuery['event']['event']['usersConnection'];
@@ -64,6 +64,7 @@ export class EventPage implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       eventQueryRef.valueChanges.subscribe(x => {
+        this.loading = x.loading;
         this.userEventQueryResult = x;
         this.presentUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.isPresent);
         this.goingUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'going');
