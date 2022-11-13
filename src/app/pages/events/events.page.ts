@@ -44,7 +44,9 @@ export class EventsPage implements OnInit, OnDestroy {
           );
           this.upcomingEvents = this.sortedEvents?.filter(userEvents => (
             new Date().valueOf() <= new Date(userEvents?.event?.startDateTime).valueOf()
-          ));
+          )).sort(
+            (a, b) => new Date(a?.event?.startDateTime).valueOf() - new Date(b?.event?.startDateTime).valueOf()
+          );
           this.elapsedEvents = this.sortedEvents?.filter(userEvents => (
             new Date().valueOf() > new Date(userEvents?.event?.startDateTime).valueOf()
           ));
