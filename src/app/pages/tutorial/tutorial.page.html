@@ -4,7 +4,8 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button *ngIf="!isEnd" (click)="slides.slideNext()" > Next </ion-button>
+      <ion-button *ngIf="!isEnd" (click)="slides.slideNext()"> Next </ion-button>
+      <ion-button *ngIf="isEnd" (click)="finish()"> Continue </ion-button>
     </ion-buttons>
     <ion-title>Tutorial</ion-title>
   </ion-toolbar>

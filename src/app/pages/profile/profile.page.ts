@@ -24,13 +24,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   userHubsResult: ApolloQueryResult<UsersHubsQuery>;
   userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
 
-  public get loading() : boolean {
-    return [
-      this.userResult,
-      this.userHubsResult,
-      this.userEventsQueryResult
-    ].some(x => x?.loading);
-  }
+  loading: boolean = true;
   
   subscriptions: Subscription[] = [];
   queryRefs: QueryRef<any>[] = [];
@@ -60,7 +54,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.subscriptions.push(
       userQueryRef.valueChanges.subscribe(result => {
         this.userResult = result;
-      }),
+        this.loading = result.loading;
+      }, err => this.handleError(err)),
       userHubsQueryRef.valueChanges.subscribe(result => {
         this.userHubsResult = result;
         if (this.userHubsResult?.data?.usersHubs) {
@@ -68,7 +63,7 @@ export class ProfilePage implements OnInit, OnDestroy {
             userHub => userHub.isOwner
           );
         }
-      }),
+      }, err => this.handleError(err)),
       userEventsQueryRef.valueChanges.subscribe(result => {
         this.userEventsQueryResult = result;
         if (this.userEventsQueryResult?.data?.usersEvents) {
@@ -78,8 +73,13 @@ export class ProfilePage implements OnInit, OnDestroy {
               (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
             );
         }
-      })
+      }, err => this.handleError(err))
     );
+  }
+
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
   }
 
   async ionViewDidEnter() {

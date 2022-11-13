@@ -20,11 +20,7 @@ export class EventsPage implements OnInit, OnDestroy {
   upcomingEvents: UserEventsQuery['usersEvents'];
   elapsedEvents: UserEventsQuery['usersEvents'];
 
-  public get loading() : boolean {
-    return [
-      this.userEventsQueryResult,
-    ].some(x => x?.loading);
-  }
+  loading: boolean = true;
 
   constructor(
     public navCtrl: NavController,
@@ -38,13 +34,16 @@ export class EventsPage implements OnInit, OnDestroy {
     this.subscriptions.push(
       userEventsQueryRef.valueChanges.subscribe(result => {
         this.userEventsQueryResult = result;
+        this.loading = result.loading;
         if (this.userEventsQueryResult?.data?.usersEvents) {
           this.sortedEvents = [...this.userEventsQueryResult?.data?.usersEvents]?.sort(
             (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
           );
           this.upcomingEvents = this.sortedEvents?.filter(userEvents => (
             new Date().valueOf() <= new Date(userEvents?.event?.startDateTime).valueOf()
-          ));
+          )).sort(
+            (a, b) => new Date(a?.event?.startDateTime).valueOf() - new Date(b?.event?.startDateTime).valueOf()
+          );
           this.elapsedEvents = this.sortedEvents?.filter(userEvents => (
             new Date().valueOf() > new Date(userEvents?.event?.startDateTime).valueOf()
           ));
