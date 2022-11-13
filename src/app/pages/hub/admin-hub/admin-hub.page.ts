@@ -224,6 +224,10 @@ export class AdminHubPage implements OnInit, OnDestroy {
     });
   }
 
+  onMapLoading(loading: boolean) {
+    this.loading = loading;
+  }
+
   async deleteInvite(inviteId: any) {
     this.hubService.deleteInvite(this.id, inviteId);
   }

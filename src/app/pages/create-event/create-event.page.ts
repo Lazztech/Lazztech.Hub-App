@@ -158,6 +158,10 @@ export class CreateEventPage implements OnInit, OnDestroy {
     this.mapSearchSelection = event;
   }
 
+  onMapLoading(loading: boolean) {
+    this.loading = loading;
+  }
+
   selectLocation() {
     this.myForm.patchValue({
       location: this.mapSearchSelection
