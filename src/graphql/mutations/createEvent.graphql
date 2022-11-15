@@ -3,20 +3,20 @@ mutation createEvent(
   $description: String
   $startDateTime: String
   $endDateTime: String
-  $image: String
   $latitude: Float
   $longitude: Float
   $locationLabel: String
+  $file: Upload
 ) {
   createEvent(
     name: $name
     description: $description
     startDateTime: $startDateTime
     endDateTime: $endDateTime
-    image: $image
     latitude: $latitude
     longitude: $longitude
     locationLabel: $locationLabel
+    file: $file
   ) {
     userId
     eventId

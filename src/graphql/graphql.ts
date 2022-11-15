@@ -424,6 +424,7 @@ export type MutationCreateEventArgs = {
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   locationLabel?: Maybe<Scalars['String']>;
+  file?: Maybe<Scalars['Upload']>;
 };
 
 
@@ -718,10 +719,10 @@ export type CreateEventMutationVariables = Exact<{
   description?: Maybe<Scalars['String']>;
   startDateTime?: Maybe<Scalars['String']>;
   endDateTime?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   locationLabel?: Maybe<Scalars['String']>;
+  file?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -1701,8 +1702,8 @@ export const ChangeUserImageDocument = gql`
     
   }
 export const CreateEventDocument = gql`
-    mutation createEvent($name: String!, $description: String, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float, $locationLabel: String) {
-  createEvent(name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    mutation createEvent($name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $file: Upload) {
+  createEvent(name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, file: $file) {
     userId
     eventId
     user {

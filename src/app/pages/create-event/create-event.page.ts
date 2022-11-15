@@ -1,8 +1,10 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
+import { Photo } from '@capacitor/camera';
+import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { CreateEventGQL } from 'src/graphql/graphql';
@@ -52,8 +54,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
     public readonly navCtrl: NavController,
     public routerOutlet: IonRouterOutlet,
     public locationService: LocationService,
-    private platform: Platform,
-    private changeRef: ChangeDetectorRef,
+    private readonly alertService: AlertService,
   ) { }
 
   ngOnInit() {
@@ -72,9 +73,14 @@ export class CreateEventPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
+  }
+
   async save() {
     this.loading = true;
-    const result = await this.createEvent.mutate({
+    await this.createEvent.mutate({
       name: this.eventName.value,
       description: this.eventDescription.value,
       startDateTime: (this.startDateTime.value) ? this.startDateTime.value : new Date(),
@@ -82,10 +88,16 @@ export class CreateEventPage implements OnInit, OnDestroy {
       latitude: this.location.value?.latitude,
       longitude: this.location?.value?.longitude,
       locationLabel: this.location?.value?.label,
-      image: this.image,
-    }).toPromise();
-    this.loading = false;
-    await this.navCtrl.navigateForward(`/event/${result.data?.createEvent?.eventId}`);
+      file: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
+    }, {
+      context: { useMultipart: true },
+    })
+      .toPromise()
+      .then(async result => {
+        this.loading = false;
+        await this.navCtrl.navigateForward(`/event/${result?.data?.createEvent?.eventId}`);
+      })
+      .catch(err => this.handleError(err));
   }
 
   async takePicture() {
