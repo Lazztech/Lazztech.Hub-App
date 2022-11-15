@@ -6,6 +6,7 @@ mutation updateHub(
   $latitude: Float!
   $longitude: Float!
   $locationLabel: String
+  $file: Upload
 ) {
   updateHub(
     hubId: $hubId
@@ -15,6 +16,7 @@ mutation updateHub(
     latitude: $latitude
     longitude: $longitude
     locationLabel: $locationLabel
+    file: $file
   ) {
     id
     name

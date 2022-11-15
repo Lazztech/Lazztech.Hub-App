@@ -244,6 +244,7 @@ export type MutationUpdateHubArgs = {
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   locationLabel?: Maybe<Scalars['String']>;
+  file?: Maybe<Scalars['Upload']>;
 };
 
 
@@ -1248,6 +1249,7 @@ export type UpdateHubMutationVariables = Exact<{
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   locationLabel?: Maybe<Scalars['String']>;
+  file?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -2372,8 +2374,8 @@ export const UpdateEventDocument = gql`
     
   }
 export const UpdateHubDocument = gql`
-    mutation updateHub($hubId: ID!, $name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
-  updateHub(hubId: $hubId, image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    mutation updateHub($hubId: ID!, $name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String, $file: Upload) {
+  updateHub(hubId: $hubId, image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, file: $file) {
     id
     name
     description
