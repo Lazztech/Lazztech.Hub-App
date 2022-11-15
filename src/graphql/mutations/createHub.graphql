@@ -4,7 +4,7 @@ mutation createHub(
     $latitude: Float!
     $longitude: Float!
     $locationLabel: String
-    $file: Upload
+    $imageFile: Upload
 ){
     createHub(
         name: $name, 
@@ -12,7 +12,7 @@ mutation createHub(
         latitude: $latitude,
         longitude: $longitude
         locationLabel: $locationLabel
-        file: $file
+        imageFile: $imageFile
         ) {
             userId
             hubId

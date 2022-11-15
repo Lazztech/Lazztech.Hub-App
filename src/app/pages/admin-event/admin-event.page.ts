@@ -127,7 +127,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
         latitude: this.location?.value?.latitude,
         longitude: this.location?.value?.longitude,
         locationLabel: this.location?.value?.label || this.location?.value?.locationLabel,
-        file: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
+        imageFile: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
     }, {
       context: { useMultipart: true },
       refetchQueries: [

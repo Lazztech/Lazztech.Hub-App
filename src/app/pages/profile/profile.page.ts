@@ -115,7 +115,7 @@ export class ProfilePage implements OnInit, OnDestroy {
               this.loading = true;
               this.cameraService.getImageBlob(image).then((blob) => {
                 this.updateUserService.mutate({
-                  image: blob,
+                  imageFile: blob,
                 }, {
                   context: { useMultipart: true },
                   refetchQueries: [
@@ -141,7 +141,7 @@ export class ProfilePage implements OnInit, OnDestroy {
               this.loading = true;
               this.cameraService.getImageBlob(image).then((blob) => {
                 this.updateUserService.mutate({
-                  image: blob,
+                  imageFile: blob,
                 }, {
                   context: { useMultipart: true },
                   refetchQueries: [

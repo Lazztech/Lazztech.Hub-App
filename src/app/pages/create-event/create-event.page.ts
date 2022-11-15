@@ -88,7 +88,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
       latitude: this.location.value?.latitude,
       longitude: this.location?.value?.longitude,
       locationLabel: this.location?.value?.label,
-      file: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
+      imageFile: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
     }, {
       context: { useMultipart: true },
     })

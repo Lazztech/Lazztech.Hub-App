@@ -6,7 +6,7 @@ mutation createEvent(
   $latitude: Float
   $longitude: Float
   $locationLabel: String
-  $file: Upload
+  $imageFile: Upload
 ) {
   createEvent(
     name: $name
@@ -16,7 +16,7 @@ mutation createEvent(
     latitude: $latitude
     longitude: $longitude
     locationLabel: $locationLabel
-    file: $file
+    imageFile: $imageFile
   ) {
     userId
     eventId

@@ -195,7 +195,7 @@ export type MutationCreateHubArgs = {
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   locationLabel?: Maybe<Scalars['String']>;
-  file?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
 };
 
 
@@ -245,7 +245,7 @@ export type MutationUpdateHubArgs = {
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   locationLabel?: Maybe<Scalars['String']>;
-  file?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
 };
 
 
@@ -340,7 +340,7 @@ export type MutationEditUserDetailsArgs = {
 
 
 export type MutationUpdateUserArgs = {
-  image?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
   data?: Maybe<UpdateUserInput>;
 };
 
@@ -425,7 +425,7 @@ export type MutationCreateEventArgs = {
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   locationLabel?: Maybe<Scalars['String']>;
-  file?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
 };
 
 
@@ -462,7 +462,7 @@ export type MutationUpdateEventArgs = {
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   locationLabel?: Maybe<Scalars['String']>;
-  file?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
 };
 
 export type PageableOptions = {
@@ -724,7 +724,7 @@ export type CreateEventMutationVariables = Exact<{
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   locationLabel?: Maybe<Scalars['String']>;
-  file?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -749,7 +749,7 @@ export type CreateHubMutationVariables = Exact<{
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   locationLabel?: Maybe<Scalars['String']>;
-  file?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -1221,7 +1221,7 @@ export type UpdateEventMutationVariables = Exact<{
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   locationLabel?: Maybe<Scalars['String']>;
-  file?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -1247,12 +1247,11 @@ export type UpdateEventMutation = (
 export type UpdateHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
   name: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   locationLabel?: Maybe<Scalars['String']>;
-  file?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -1270,7 +1269,7 @@ export type UpdateHubMutation = (
 
 export type UpdateUserMutationVariables = Exact<{
   data?: Maybe<UpdateUserInput>;
-  image?: Maybe<Scalars['Upload']>;
+  imageFile?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -1704,8 +1703,8 @@ export const ChangeUserImageDocument = gql`
     
   }
 export const CreateEventDocument = gql`
-    mutation createEvent($name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $file: Upload) {
-  createEvent(name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, file: $file) {
+    mutation createEvent($name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload) {
+  createEvent(name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, imageFile: $imageFile) {
     userId
     eventId
     user {
@@ -1742,8 +1741,8 @@ export const CreateEventDocument = gql`
     
   }
 export const CreateHubDocument = gql`
-    mutation createHub($name: String!, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String, $file: Upload) {
-  createHub(name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, file: $file) {
+    mutation createHub($name: String!, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String, $imageFile: Upload) {
+  createHub(name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, imageFile: $imageFile) {
     userId
     hubId
     isOwner
@@ -2329,8 +2328,8 @@ export const UnmuteDocument = gql`
     
   }
 export const UpdateEventDocument = gql`
-    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $file: Upload) {
-  updateEvent(eventId: $eventId, name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, file: $file) {
+    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload) {
+  updateEvent(eventId: $eventId, name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, imageFile: $imageFile) {
     id
     createdBy {
       id
@@ -2377,8 +2376,8 @@ export const UpdateEventDocument = gql`
     
   }
 export const UpdateHubDocument = gql`
-    mutation updateHub($hubId: ID!, $name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String, $file: Upload) {
-  updateHub(hubId: $hubId, image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, file: $file) {
+    mutation updateHub($hubId: ID!, $name: String!, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String, $imageFile: Upload) {
+  updateHub(hubId: $hubId, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, imageFile: $imageFile) {
     id
     name
     description
@@ -2402,8 +2401,8 @@ export const UpdateHubDocument = gql`
     
   }
 export const UpdateUserDocument = gql`
-    mutation updateUser($data: UpdateUserInput, $image: Upload) {
-  updateUser(data: $data, image: $image) {
+    mutation updateUser($data: UpdateUserInput, $imageFile: Upload) {
+  updateUser(data: $data, imageFile: $imageFile) {
     id
     firstName
     lastName

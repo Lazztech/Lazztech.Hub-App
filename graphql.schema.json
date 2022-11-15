@@ -2080,7 +2080,7 @@
                 "defaultValue": null
               },
               {
-                "name": "file",
+                "name": "imageFile",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2452,7 +2452,7 @@
                 "defaultValue": null
               },
               {
-                "name": "file",
+                "name": "imageFile",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -3111,7 +3111,7 @@
             "description": null,
             "args": [
               {
-                "name": "image",
+                "name": "imageFile",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -3723,7 +3723,7 @@
                 "defaultValue": null
               },
               {
-                "name": "file",
+                "name": "imageFile",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -4010,7 +4010,7 @@
                 "defaultValue": null
               },
               {
-                "name": "file",
+                "name": "imageFile",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",

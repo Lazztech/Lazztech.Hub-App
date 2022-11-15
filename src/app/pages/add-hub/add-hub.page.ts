@@ -131,7 +131,7 @@ export class AddHubPage implements OnInit, OnDestroy {
       latitude: this.location?.value?.latitude || this.locationService.position.coords.latitude,
       longitude: this.location?.value?.longitude || this.locationService.position.coords.longitude,
       locationLabel: this.location?.value?.label,
-      file: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
+      imageFile: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
     }, {
       context: { useMultipart: true },
     })
