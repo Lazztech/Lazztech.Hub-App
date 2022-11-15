@@ -171,7 +171,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
 
   async takePicture() {
     const image = await this.cameraService.takePicture();
-    this.image = image;
+    this.image = image.dataUrl;
   }
 
   async selectPicture() {

@@ -129,12 +129,12 @@ export class AdminEventPage implements OnInit, OnDestroy {
 
   async takePicture() {
     const image = await this.cameraService.takePicture();
-    this.image = image;
+    this.image = image.dataUrl;
   }
 
   async selectPicture() {
     const image = await this.cameraService.selectPicture();
-    this.image = image;
+    this.image = image.dataUrl;
   }
 
   async presentActionSheet() {
