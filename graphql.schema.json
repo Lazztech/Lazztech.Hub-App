@@ -163,16 +163,6 @@
             "description": null,
             "args": [
               {
-                "name": "includeAccepted",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
                 "name": "hubId",
                 "description": null,
                 "type": {
@@ -183,6 +173,16 @@
                     "name": "ID",
                     "ofType": null
                   }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "includeAccepted",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -2008,7 +2008,21 @@
             "description": null,
             "args": [
               {
-                "name": "locationLabel",
+                "name": "name",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "description",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -2018,16 +2032,12 @@
                 "defaultValue": null
               },
               {
-                "name": "longitude",
+                "name": "image",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               },
@@ -2046,36 +2056,26 @@
                 "defaultValue": null
               },
               {
-                "name": "image",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "description",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "name",
+                "name": "longitude",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Float",
                     "ofType": null
                   }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "locationLabel",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -2128,20 +2128,6 @@
             "description": null,
             "args": [
               {
-                "name": "inviteesEmail",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
                 "name": "hubId",
                 "description": null,
                 "type": {
@@ -2150,6 +2136,20 @@
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "inviteesEmail",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -2173,7 +2173,7 @@
             "description": null,
             "args": [
               {
-                "name": "otherUsersId",
+                "name": "hubId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -2187,7 +2187,7 @@
                 "defaultValue": null
               },
               {
-                "name": "hubId",
+                "name": "otherUsersId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -2249,7 +2249,7 @@
             "description": null,
             "args": [
               {
-                "name": "inviteId",
+                "name": "hubId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -2263,7 +2263,7 @@
                 "defaultValue": null
               },
               {
-                "name": "hubId",
+                "name": "inviteId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -2356,60 +2356,16 @@
             "description": null,
             "args": [
               {
-                "name": "locationLabel",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "longitude",
+                "name": "hubId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Float",
+                    "name": "ID",
                     "ofType": null
                   }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "latitude",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Float",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "image",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "description",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
                 },
                 "defaultValue": null
               },
@@ -2428,16 +2384,60 @@
                 "defaultValue": null
               },
               {
-                "name": "hubId",
+                "name": "description",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "image",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "latitude",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "ID",
+                    "name": "Float",
                     "ofType": null
                   }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "longitude",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Float",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "locationLabel",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -2459,12 +2459,16 @@
             "description": null,
             "args": [
               {
-                "name": "description",
+                "name": "hubId",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null
               },
@@ -2483,16 +2487,12 @@
                 "defaultValue": null
               },
               {
-                "name": "hubId",
+                "name": "description",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -2514,14 +2514,14 @@
             "description": null,
             "args": [
               {
-                "name": "longitude",
+                "name": "hubId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Float",
+                    "name": "ID",
                     "ofType": null
                   }
                 },
@@ -2542,14 +2542,14 @@
                 "defaultValue": null
               },
               {
-                "name": "hubId",
+                "name": "longitude",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "ID",
+                    "name": "Float",
                     "ofType": null
                   }
                 },
@@ -2573,20 +2573,6 @@
             "description": null,
             "args": [
               {
-                "name": "newImage",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
                 "name": "hubId",
                 "description": null,
                 "type": {
@@ -2595,6 +2581,20 @@
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "newImage",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -2897,7 +2897,7 @@
             "description": null,
             "args": [
               {
-                "name": "microChatId",
+                "name": "hubId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -2911,7 +2911,7 @@
                 "defaultValue": null
               },
               {
-                "name": "hubId",
+                "name": "microChatId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -2942,20 +2942,6 @@
             "description": null,
             "args": [
               {
-                "name": "microChatText",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
                 "name": "hubId",
                 "description": null,
                 "type": {
@@ -2964,6 +2950,20 @@
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "microChatText",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -2987,7 +2987,7 @@
             "description": null,
             "args": [
               {
-                "name": "microChatId",
+                "name": "hubId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3001,7 +3001,7 @@
                 "defaultValue": null
               },
               {
-                "name": "hubId",
+                "name": "microChatId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3032,7 +3032,7 @@
             "description": null,
             "args": [
               {
-                "name": "description",
+                "name": "firstName",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3060,7 +3060,7 @@
                 "defaultValue": null
               },
               {
-                "name": "firstName",
+                "name": "description",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3091,16 +3091,22 @@
             "description": null,
             "args": [
               {
+                "name": "image",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Upload",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "data",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "UpdateUserInput",
-                    "ofType": null
-                  }
+                  "kind": "INPUT_OBJECT",
+                  "name": "UpdateUserInput",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -3246,7 +3252,7 @@
             "description": null,
             "args": [
               {
-                "name": "password",
+                "name": "email",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3260,7 +3266,7 @@
                 "defaultValue": null
               },
               {
-                "name": "email",
+                "name": "password",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3330,7 +3336,7 @@
             "description": null,
             "args": [
               {
-                "name": "newPassword",
+                "name": "usersEmail",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3358,7 +3364,7 @@
                 "defaultValue": null
               },
               {
-                "name": "usersEmail",
+                "name": "newPassword",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3420,7 +3426,7 @@
             "description": null,
             "args": [
               {
-                "name": "newPassword",
+                "name": "oldPassword",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3434,7 +3440,7 @@
                 "defaultValue": null
               },
               {
-                "name": "oldPassword",
+                "name": "newPassword",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3465,7 +3471,7 @@
             "description": null,
             "args": [
               {
-                "name": "password",
+                "name": "email",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3479,7 +3485,7 @@
                 "defaultValue": null
               },
               {
-                "name": "email",
+                "name": "password",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3603,57 +3609,21 @@
             "description": null,
             "args": [
               {
-                "name": "locationLabel",
+                "name": "name",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null
               },
               {
-                "name": "longitude",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "latitude",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "hubId",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "image",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "endDateTime",
+                "name": "description",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -3673,7 +3643,7 @@
                 "defaultValue": null
               },
               {
-                "name": "description",
+                "name": "endDateTime",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -3683,16 +3653,52 @@
                 "defaultValue": null
               },
               {
-                "name": "name",
+                "name": "image",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "hubId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "latitude",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "longitude",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "locationLabel",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -3714,20 +3720,6 @@
             "description": null,
             "args": [
               {
-                "name": "rsvp",
-                "description": "going || maybe || cantgo",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
                 "name": "eventId",
                 "description": null,
                 "type": {
@@ -3736,6 +3728,20 @@
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "rsvp",
+                "description": "going || maybe || cantgo",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -3759,20 +3765,6 @@
             "description": null,
             "args": [
               {
-                "name": "inviteesEmail",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
                 "name": "eventId",
                 "description": null,
                 "type": {
@@ -3781,6 +3773,20 @@
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "inviteesEmail",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -3866,57 +3872,35 @@
             "description": null,
             "args": [
               {
-                "name": "locationLabel",
+                "name": "eventId",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null
               },
               {
-                "name": "longitude",
+                "name": "name",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null
               },
               {
-                "name": "latitude",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "hubId",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "image",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "endDateTime",
+                "name": "description",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -3936,7 +3920,7 @@
                 "defaultValue": null
               },
               {
-                "name": "description",
+                "name": "endDateTime",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -3946,30 +3930,52 @@
                 "defaultValue": null
               },
               {
-                "name": "name",
+                "name": "image",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               },
               {
-                "name": "eventId",
+                "name": "hubId",
                 "description": null,
                 "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "latitude",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "longitude",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "locationLabel",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
                 },
                 "defaultValue": null
               }
@@ -3989,6 +3995,16 @@
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Upload",
+        "description": "The `Upload` scalar type represents a file upload.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },
@@ -4944,14 +4960,14 @@
     "directives": [
       {
         "name": "specifiedBy",
-        "description": "Exposes a URL that specifies the behaviour of this scalar.",
+        "description": "Exposes a URL that specifies the behavior of this scalar.",
         "locations": [
           "SCALAR"
         ],
         "args": [
           {
             "name": "url",
-            "description": "The URL that specifies the behaviour of this scalar.",
+            "description": "The URL that specifies the behavior of this scalar.",
             "type": {
               "kind": "NON_NULL",
               "name": null,

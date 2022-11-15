@@ -13,6 +13,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 
@@ -187,12 +189,12 @@ export type MutationDeleteInAppNotificationArgs = {
 
 
 export type MutationCreateHubArgs = {
-  locationLabel?: Maybe<Scalars['String']>;
-  longitude: Scalars['Float'];
-  latitude: Scalars['Float'];
-  image?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  locationLabel?: Maybe<Scalars['String']>;
 };
 
 
@@ -202,14 +204,14 @@ export type MutationResetShareableHubIdArgs = {
 
 
 export type MutationInviteUserToHubArgs = {
-  inviteesEmail: Scalars['String'];
   hubId: Scalars['ID'];
+  inviteesEmail: Scalars['String'];
 };
 
 
 export type MutationRemoveUserFromHubArgs = {
-  otherUsersId: Scalars['ID'];
   hubId: Scalars['ID'];
+  otherUsersId: Scalars['ID'];
 };
 
 
@@ -219,8 +221,8 @@ export type MutationAcceptHubInviteArgs = {
 
 
 export type MutationDeleteInviteArgs = {
-  inviteId: Scalars['ID'];
   hubId: Scalars['ID'];
+  inviteId: Scalars['ID'];
 };
 
 
@@ -235,33 +237,33 @@ export type MutationDeleteHubArgs = {
 
 
 export type MutationUpdateHubArgs = {
-  locationLabel?: Maybe<Scalars['String']>;
-  longitude: Scalars['Float'];
-  latitude: Scalars['Float'];
-  image?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
   hubId: Scalars['ID'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  locationLabel?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationEditHubArgs = {
-  description?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
   hubId: Scalars['ID'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationChangeHubLocationArgs = {
-  longitude: Scalars['Float'];
-  latitude: Scalars['Float'];
   hubId: Scalars['ID'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
 };
 
 
 export type MutationChangeHubImageArgs = {
-  newImage: Scalars['String'];
   hubId: Scalars['ID'];
+  newImage: Scalars['String'];
 };
 
 
@@ -311,32 +313,33 @@ export type MutationDeactivateHubArgs = {
 
 
 export type MutationMicroChatToHubArgs = {
-  microChatId: Scalars['ID'];
   hubId: Scalars['ID'];
+  microChatId: Scalars['ID'];
 };
 
 
 export type MutationCreateMicroChatArgs = {
-  microChatText: Scalars['String'];
   hubId: Scalars['ID'];
+  microChatText: Scalars['String'];
 };
 
 
 export type MutationDeleteMicroChatArgs = {
-  microChatId: Scalars['ID'];
   hubId: Scalars['ID'];
+  microChatId: Scalars['ID'];
 };
 
 
 export type MutationEditUserDetailsArgs = {
-  description: Scalars['String'];
-  lastName: Scalars['String'];
   firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  description: Scalars['String'];
 };
 
 
 export type MutationUpdateUserArgs = {
-  data: UpdateUserInput;
+  image?: Maybe<Scalars['Upload']>;
+  data?: Maybe<UpdateUserInput>;
 };
 
 
@@ -361,8 +364,8 @@ export type MutationUnblockUserArgs = {
 
 
 export type MutationLoginArgs = {
-  password: Scalars['String'];
   email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
@@ -372,9 +375,9 @@ export type MutationRegisterArgs = {
 
 
 export type MutationResetPasswordArgs = {
-  newPassword: Scalars['String'];
-  resetPin: Scalars['String'];
   usersEmail: Scalars['String'];
+  resetPin: Scalars['String'];
+  newPassword: Scalars['String'];
 };
 
 
@@ -384,14 +387,14 @@ export type MutationSendPasswordResetEmailArgs = {
 
 
 export type MutationChangePasswordArgs = {
-  newPassword: Scalars['String'];
   oldPassword: Scalars['String'];
+  newPassword: Scalars['String'];
 };
 
 
 export type MutationDeleteAccountArgs = {
-  password: Scalars['String'];
   email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
@@ -411,27 +414,27 @@ export type MutationReportEventAsInappropriateArgs = {
 
 
 export type MutationCreateEventArgs = {
-  locationLabel?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['Float']>;
-  latitude?: Maybe<Scalars['Float']>;
-  hubId?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  endDateTime?: Maybe<Scalars['String']>;
-  startDateTime?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  hubId?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationRsvpArgs = {
-  rsvp: Scalars['String'];
   eventId: Scalars['ID'];
+  rsvp: Scalars['String'];
 };
 
 
 export type MutationInviteUserToEventArgs = {
-  inviteesEmail: Scalars['String'];
   eventId: Scalars['ID'];
+  inviteesEmail: Scalars['String'];
 };
 
 
@@ -446,16 +449,16 @@ export type MutationDeleteEventArgs = {
 
 
 export type MutationUpdateEventArgs = {
-  locationLabel?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['Float']>;
-  latitude?: Maybe<Scalars['Float']>;
-  hubId?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  endDateTime?: Maybe<Scalars['String']>;
-  startDateTime?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
   eventId: Scalars['ID'];
+  name: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  hubId?: Maybe<Scalars['String']>;
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  locationLabel?: Maybe<Scalars['String']>;
 };
 
 export type PageableOptions = {
@@ -506,8 +509,8 @@ export type QueryCommonUsersHubsArgs = {
 
 
 export type QueryInvitesByHubArgs = {
-  includeAccepted?: Maybe<Scalars['Boolean']>;
   hubId: Scalars['ID'];
+  includeAccepted?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -542,6 +545,7 @@ export type UpdateUserInput = {
   email?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
 };
+
 
 export type User = {
   __typename?: 'User';
@@ -1260,7 +1264,8 @@ export type UpdateHubMutation = (
 );
 
 export type UpdateUserMutationVariables = Exact<{
-  data: UpdateUserInput;
+  data?: Maybe<UpdateUserInput>;
+  image?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -2392,8 +2397,8 @@ export const UpdateHubDocument = gql`
     
   }
 export const UpdateUserDocument = gql`
-    mutation updateUser($data: UpdateUserInput!) {
-  updateUser(data: $data) {
+    mutation updateUser($data: UpdateUserInput, $image: Upload) {
+  updateUser(data: $data, image: $image) {
     id
     firstName
     lastName

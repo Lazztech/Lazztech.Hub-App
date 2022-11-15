@@ -1,5 +1,5 @@
-mutation updateUser($data: UpdateUserInput!) {
-  updateUser(data: $data) {
+mutation updateUser($data: UpdateUserInput, $image: Upload) {
+  updateUser(data: $data, image: $image) {
     id
     firstName
     lastName
