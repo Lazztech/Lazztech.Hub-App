@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { Photo } from '@capacitor/camera';
 import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { DeleteEventGQL, Event, EventGQL, EventQuery, ResetShareableEventIdGQL, Scalars, UpdateEventGQL } from 'src/graphql/graphql';
+import { DeleteEventGQL, Event, EventDocument, EventGQL, EventQuery, ResetShareableEventIdGQL, Scalars, UpdateEventGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-admin-event',
@@ -17,7 +18,7 @@ import { DeleteEventGQL, Event, EventGQL, EventQuery, ResetShareableEventIdGQL, 
 })
 export class AdminEventPage implements OnInit, OnDestroy {
 
-  loading = false;
+  loading = true;
   myForm: FormGroup;
   image: any;
   startDateTimeModalOpen: boolean = false;
@@ -68,9 +69,10 @@ export class AdminEventPage implements OnInit, OnDestroy {
     this.id = this.route.snapshot.paramMap.get('id');
 
     this.subscriptions.push(
-      this.eventService.fetch({
+      this.eventService.watch({
         id: this.id,
-      }).subscribe(result => {
+      }).valueChanges.subscribe(result => {
+        this.loading = result.loading;
         this.eventQueryResult = result;
         this.image = result?.data?.event?.event?.image
         this.myForm = this.fb.group({
@@ -86,12 +88,17 @@ export class AdminEventPage implements OnInit, OnDestroy {
             locationLabel: result?.data?.event?.event?.locationLabel,
           }],
         });
-      }),
+      }, err => this.handleError(err)),
     );
   }
   
   ngOnDestroy(): void {
     this.subscriptions.forEach(x => x.unsubscribe());
+  }
+
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
   }
 
   async invalidateShareableLinks() {
@@ -110,21 +117,30 @@ export class AdminEventPage implements OnInit, OnDestroy {
   }
 
   async save() {
-    const inputValues = {
-      eventId: this.id,
-      name: this.eventName.value,
-      description: this.eventDescription?.value,
-      startDateTime: this.startDateTime?.value,
-      endDateTime: this.endDateTime?.value,
-      latitude: this.location?.value?.latitude,
-      longitude: this.location?.value?.longitude,
-      locationLabel: this.location?.value?.label || this.location?.value?.locationLabel
-    };
-    if (this.image?.includes('base64')) {
-      (inputValues as any).image = this.image;
-    }
-    await this.updateEventService.mutate(inputValues).toPromise();
-    this.navCtrl.back();
+    this.loading = true;
+    await this.updateEventService.mutate({
+        eventId: this.id,
+        name: this.eventName.value,
+        description: this.eventDescription?.value,
+        startDateTime: this.startDateTime?.value,
+        endDateTime: this.endDateTime?.value,
+        latitude: this.location?.value?.latitude,
+        longitude: this.location?.value?.longitude,
+        locationLabel: this.location?.value?.label || this.location?.value?.locationLabel,
+        file: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
+    }, {
+      context: { useMultipart: true },
+      refetchQueries: [
+        { query: EventDocument, variables: { id: this.id } }
+      ],
+      awaitRefetchQueries: true,
+    })
+      .toPromise()
+      .then(() => {
+        this.loading = false;
+        this.navCtrl.back();
+      })
+      .catch(err => this.handleError(err));
   }
 
   async takePicture() {

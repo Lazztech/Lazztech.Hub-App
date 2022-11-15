@@ -10,6 +10,7 @@
         name="trash-outline"
         (click)="deleteEvent()"
       ></ion-icon>
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 

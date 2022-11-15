@@ -461,6 +461,7 @@ export type MutationUpdateEventArgs = {
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   locationLabel?: Maybe<Scalars['String']>;
+  file?: Maybe<Scalars['Upload']>;
 };
 
 export type PageableOptions = {
@@ -1216,10 +1217,10 @@ export type UpdateEventMutationVariables = Exact<{
   description?: Maybe<Scalars['String']>;
   startDateTime?: Maybe<Scalars['String']>;
   endDateTime?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   locationLabel?: Maybe<Scalars['String']>;
+  file?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -2327,8 +2328,8 @@ export const UnmuteDocument = gql`
     
   }
 export const UpdateEventDocument = gql`
-    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $image: String, $latitude: Float, $longitude: Float, $locationLabel: String) {
-  updateEvent(eventId: $eventId, name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, image: $image, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $file: Upload) {
+  updateEvent(eventId: $eventId, name: $name, description: $description, startDateTime: $startDateTime, endDateTime: $endDateTime, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, file: $file) {
     id
     createdBy {
       id
