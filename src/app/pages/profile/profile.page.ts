@@ -111,7 +111,7 @@ export class ProfilePage implements OnInit, OnDestroy {
           this.logger.log('Take Picture clicked');
           this.cameraService.takePicture().then(image => {
             // this.loading = true;
-            this.profileService.changeUserImage(image.base64String).then(() => {
+            this.profileService.changeUserImage(image.dataUrl).then(() => {
               // this.loading = false;
             });
           });

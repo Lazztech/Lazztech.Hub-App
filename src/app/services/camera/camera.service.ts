@@ -13,7 +13,7 @@ export class CameraService {
       width: 500,
       height: 500,
       quality: 100,
-      resultType: CameraResultType.DataUrl,
+      resultType: CameraResultType.Uri,
       source: CameraSource.Camera
     });
   }
@@ -23,7 +23,7 @@ export class CameraService {
       width: 500,
       height: 500,
       quality: 100,
-      resultType: CameraResultType.DataUrl,
+      resultType: CameraResultType.Uri,
       source: CameraSource.Photos
     });
   }
