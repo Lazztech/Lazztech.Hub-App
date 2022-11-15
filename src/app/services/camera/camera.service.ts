@@ -27,4 +27,10 @@ export class CameraService {
       source: CameraSource.Photos
     });
   }
+
+  async getImageBlob(photo: Photo): Promise<Blob> {
+    // Fetch the photo, read as a blob
+    const response = await fetch(photo?.webPath);
+    return response.blob();
+  }
 }
