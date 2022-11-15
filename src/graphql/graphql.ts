@@ -195,6 +195,7 @@ export type MutationCreateHubArgs = {
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   locationLabel?: Maybe<Scalars['String']>;
+  file?: Maybe<Scalars['Upload']>;
 };
 
 
@@ -744,11 +745,11 @@ export type CreateEventMutation = (
 
 export type CreateHubMutationVariables = Exact<{
   name: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   locationLabel?: Maybe<Scalars['String']>;
+  file?: Maybe<Scalars['Upload']>;
 }>;
 
 
@@ -1741,8 +1742,8 @@ export const CreateEventDocument = gql`
     
   }
 export const CreateHubDocument = gql`
-    mutation createHub($name: String!, $image: String, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String) {
-  createHub(image: $image, name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel) {
+    mutation createHub($name: String!, $description: String, $latitude: Float!, $longitude: Float!, $locationLabel: String, $file: Upload) {
+  createHub(name: $name, description: $description, latitude: $latitude, longitude: $longitude, locationLabel: $locationLabel, file: $file) {
     userId
     hubId
     isOwner
