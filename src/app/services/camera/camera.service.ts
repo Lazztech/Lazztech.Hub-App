@@ -13,7 +13,6 @@ export class CameraService {
       width: 500,
       height: 500,
       quality: 100,
-      allowEditing: true,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera
     });
@@ -26,7 +25,6 @@ export class CameraService {
       width: 500,
       height: 500,
       quality: 100,
-      allowEditing: true,
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Photos
     });
