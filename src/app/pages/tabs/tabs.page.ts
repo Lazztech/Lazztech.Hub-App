@@ -14,6 +14,11 @@ export class TabsPage {
   private activeTab?: HTMLElement;
 
   constructor() {}
+
+  isMobile() {
+    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    return width < 992;
+  }
   
   /**
    * ionTabsDidChange workaround to get page lifecycle hooks working as expected 
