@@ -8,7 +8,7 @@ import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
-import { JoinUserEvent, JoinUserHub, MeQuery, Scalars, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
+import { JoinUserEvent, JoinUserHub, MeDocument, MeQuery, Scalars, UpdateUserGQL, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
@@ -41,6 +41,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     private readonly userEvents: UserEventsGQL,
     private readonly userHubsGQLService: UsersHubsGQL,
+    private readonly updateUserService: UpdateUserGQL,
   ) {
     this.menu.enable(true);
   }
@@ -109,24 +110,52 @@ export class ProfilePage implements OnInit, OnDestroy {
         text: 'Take Picture',
         handler: () => {
           this.logger.log('Take Picture clicked');
-          this.cameraService.takePicture().then(image => {
-            // this.loading = true;
-            this.profileService.changeUserImage(image).then(() => {
-              // this.loading = false;
+          try {
+            this.cameraService.takePicture().then(image => {
+              this.loading = true;
+              this.cameraService.getImageBlob(image).then((blob) => {
+                this.updateUserService.mutate({
+                  imageFile: blob,
+                }, {
+                  context: { useMultipart: true },
+                  refetchQueries: [
+                    { query: MeDocument }
+                  ],
+                  awaitRefetchQueries: true,
+                }).toPromise().then(() => {
+                  this.loading = false;
+                }).catch(err => this.handleError(err));
+              });
             });
-          });
+          } catch (error) {
+            this.handleError(error);
+          }
         }
       },
       {
         text: 'Select Picture',
         handler: async () => {
           this.logger.log('Take Picture clicked');
-          await this.cameraService.selectPicture().then(image => {
-            // this.loading = true;
-            this.profileService.changeUserImage(image).then(() => {
-              // this.loading = false;
+          try {
+            await this.cameraService.selectPicture().then(image => {
+              this.loading = true;
+              this.cameraService.getImageBlob(image).then((blob) => {
+                this.updateUserService.mutate({
+                  imageFile: blob,
+                }, {
+                  context: { useMultipart: true },
+                  refetchQueries: [
+                    { query: MeDocument }
+                  ],
+                  awaitRefetchQueries: true,
+                }).toPromise().then(() => {
+                  this.loading = false;
+                }).catch(err => this.handleError(err));
+              });
             });
-          });
+          } catch (error) {
+            this.handleError(error);
+          }
         }
       },
       {

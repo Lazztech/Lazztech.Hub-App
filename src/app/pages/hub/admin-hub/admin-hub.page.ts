@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { Photo } from '@capacitor/camera';
 import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -26,6 +27,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
   mapModalIsOpen: boolean = false;
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   image: any;
+  photo: Photo;
   active: boolean;
 
   myForm: FormGroup;
@@ -97,6 +99,11 @@ export class AdminHubPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
+  }
+
   trackByUser(index: any, joinUserHub: JoinUserHub) {
     return joinUserHub.userId;
   }
@@ -136,11 +143,17 @@ export class AdminHubPage implements OnInit, OnDestroy {
       hubId: this.id,
       name: this.hubName?.value,
       description: this.hubDescription?.value,
-      image: this.image?.includes('base64') ? this.image : undefined,
       latitude: this.location?.value?.latitude,
       longitude: this.location?.value?.longitude,
       locationLabel: this.location?.value?.label || this.location?.value?.locationLabel,
-    }).toPromise();
+      imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : undefined,
+    }, {
+      context: { useMultipart: true },
+      refetchQueries: [
+        { query: HubDocument, variables: { id: this.id } }
+      ],
+      awaitRefetchQueries: true,
+    }).toPromise().catch(err => this.handleError(err));
     this.loading = false;
     this.navCtrl.back();
   }
@@ -170,13 +183,13 @@ export class AdminHubPage implements OnInit, OnDestroy {
   }
 
   async takePicture() {
-    const image = await this.cameraService.takePicture();
-    this.image = image;
+    this.photo = await this.cameraService.takePicture();
+    this.image = this.photo.webPath;
   }
 
   async selectPicture() {
-    const image = await this.cameraService.selectPicture();
-    this.image = image;
+    this.photo = await this.cameraService.selectPicture();
+    this.image = this.photo.webPath;
   }
 
   async presentActionSheet() {

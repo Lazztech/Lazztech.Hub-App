@@ -39,7 +39,6 @@ export class HubService {
 
   constructor(
     private readonly logger: NGXLogger,
-    private readonly createHubGQLService: CreateHubGQL,
     private readonly userHubsGQLService: UsersHubsGQL,
     private readonly usersPeopleGQLService: UsersPeopleGQL,
     private readonly commonUsersHubsGQLService: CommonUsersHubsGQL,
@@ -67,34 +66,6 @@ export class HubService {
     private readonly reportHubAsInappropriate: ReportHubAsInappropriateGQL,
     private alertService: AlertService,
   ) { }
-
-  async createHub(
-    name: string, 
-    description: string, 
-    image: string, 
-    latitude: number, 
-    longitude: number,
-    locationLabel: string
-  ) {
-    const result = await this.createHubGQLService.mutate({
-      name,
-      description,
-      image,
-      latitude,
-      longitude,
-      locationLabel
-    }).toPromise();
-
-    const response = result.data.createHub;
-
-    if (response) {
-      this.logger.log('createHub successful.');
-    } else {
-      this.logger.log('createHub failure');
-    }
-
-    return response;
-  }
 
   async usersHubs(fetchPolicy: FetchPolicy = 'cache-first') {
     const result = await this.userHubsGQLService.fetch(null, {

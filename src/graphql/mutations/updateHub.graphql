@@ -1,20 +1,20 @@
 mutation updateHub(
   $hubId: ID!
   $name: String!
-  $image: String
   $description: String
   $latitude: Float!
   $longitude: Float!
   $locationLabel: String
+  $imageFile: Upload
 ) {
   updateHub(
     hubId: $hubId
-    image: $image
     name: $name
     description: $description
     latitude: $latitude
     longitude: $longitude
     locationLabel: $locationLabel
+    imageFile: $imageFile
   ) {
     id
     name

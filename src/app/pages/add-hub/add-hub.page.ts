@@ -1,15 +1,16 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController, ActionSheetController, IonRouterOutlet, Platform } from '@ionic/angular';
+import { Photo } from '@capacitor/camera';
+import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { GeofenceService } from 'src/app/services/geofence/geofence.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { Hub, UsersPeopleQuery } from 'src/graphql/graphql';
+import { CreateHubGQL, Hub, UsersPeopleQuery } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-add-hub',
@@ -29,6 +30,7 @@ export class AddHubPage implements OnInit, OnDestroy {
   } as Hub;
   persons: Observable<UsersPeopleQuery['usersPeople']>;
   subscriptions: Subscription[] = [];
+  photo: Photo;
   image: any;
   mapModalIsOpen: boolean = false;
   mapSearchSelection: { latitude: number, longitude: number, label: string };
@@ -56,8 +58,7 @@ export class AddHubPage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     private actionSheetController: ActionSheetController,
     public routerOutlet: IonRouterOutlet,
-    private platform: Platform,
-    private changeRef: ChangeDetectorRef,
+    private readonly createHubGQLService: CreateHubGQL,
   ) { }
 
   ngOnInit() {
@@ -75,7 +76,7 @@ export class AddHubPage implements OnInit, OnDestroy {
       this.hubService.watchUsersPeople().valueChanges.subscribe(x => {
         this.logger.log('loading: ', x.loading);
         this.loading = x.loading;
-      }),
+      }, err => this.handleError(err)),
     );
   }
 
@@ -83,14 +84,19 @@ export class AddHubPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
+  }
+
   async takePicture() {
-    const image = await this.cameraService.takePicture();
-    this.image = image;
+    this.photo = await this.cameraService.takePicture();
+    this.image = this.photo.webPath;
   }
 
   async selectPicture() {
-    const image = await this.cameraService.selectPicture();
-    this.image = image;
+    this.photo = await this.cameraService.selectPicture();
+    this.image = this.photo.webPath;
   }
 
   checkboxChanged(person) {
@@ -120,30 +126,34 @@ export class AddHubPage implements OnInit, OnDestroy {
 
   async saveHub() {
     this.loading = true;    
-    const result = await this.hubService.createHub(
-      this.hubName.value,
-      this.hubDescription.value,
-      this.image,
-      this.location?.value?.latitude || this.locationService.location.latitude,
-      this.location?.value?.longitude || this.locationService.location.longitude,
-      this.location?.value?.label,
-    );
-    if (result) {
-      await this.geofenceService.addGeofence({
-        identifier: JSON.stringify({
-          id: result.hub.id,
-          name: result.hub.name
-        }),
-        latitude: result.hub.latitude,
-        longitude: result.hub.longitude,
-        notifyOnEntry: true,
-        notifyOnExit: true
-      });
-      await this.navCtrl.navigateForward(`/hub/${result.hub.id}`);
-    } else {
-      this.loading = false;
-      this.alertService.presentRedToast('Failed to create Hub.');
-    }
+    await this.createHubGQLService.mutate({
+      name: this.hubName.value,
+      description: this.hubDescription.value,
+      latitude: this.location?.value?.latitude || this.locationService.position.coords.latitude,
+      longitude: this.location?.value?.longitude || this.locationService.position.coords.longitude,
+      locationLabel: this.location?.value?.label,
+      imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : undefined,
+    }, {
+      context: { useMultipart: true },
+    })
+      .toPromise()
+      .then(async result => {
+        if (result) {
+          await this.geofenceService.addGeofence({
+            identifier: JSON.stringify({
+              id: result?.data?.createHub?.hub.id,
+              name: result?.data?.createHub?.hub.name,
+            }),
+            latitude: result?.data?.createHub?.hub.latitude,
+            longitude: result?.data?.createHub?.hub.longitude,
+            notifyOnEntry: true,
+            notifyOnExit: true
+          });
+          await this.navCtrl.navigateForward(`/hub/${result?.data?.createHub?.hub.id}`);
+        }
+        this.loading = false;
+      })
+      .catch(err => this.handleError(err));
   }
 
   async presentActionSheet() {
