@@ -25,6 +25,7 @@ const routes: Routes = [
     DirectivesModule,
     MomentModule,
   ],
-  declarations: [ProfilePage]
+  declarations: [ProfilePage],
+  exports: [ProfilePage],
 })
 export class ProfilePageModule {}

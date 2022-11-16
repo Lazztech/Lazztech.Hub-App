@@ -31,6 +31,7 @@ import {
   CompositePropagatorModule,
   OTEL_LOGGER,
 } from '@jufab/opentelemetry-angular-interceptor';
+import { ProfilePageModule } from './pages/profile/profile.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -59,6 +60,7 @@ import {
         ReactiveFormsModule,
         LoggerModule.forRoot(environment.logging),
         GraphQLModule,
+        ProfilePageModule,
     ],
     providers: [
         StatusBar,
