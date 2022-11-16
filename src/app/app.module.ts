@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, isPlatform, Platform } from '@ionic/angular';
 import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
 import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 
@@ -31,6 +31,7 @@ import {
   CompositePropagatorModule,
   OTEL_LOGGER,
 } from '@jufab/opentelemetry-angular-interceptor';
+import { ProfilePageModule } from './pages/profile/profile.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -51,7 +52,9 @@ import {
         //Insert propagator module
         CompositePropagatorModule,
         BrowserModule,
-        IonicModule.forRoot(),
+        IonicModule.forRoot({
+          mode: !isPlatform('android') ? 'ios' : 'md',
+        }),
         AppRoutingModule,
         HttpClientModule,
         IonicStorageModule.forRoot(),
@@ -59,6 +62,7 @@ import {
         ReactiveFormsModule,
         LoggerModule.forRoot(environment.logging),
         GraphQLModule,
+        ProfilePageModule,
     ],
     providers: [
         StatusBar,
