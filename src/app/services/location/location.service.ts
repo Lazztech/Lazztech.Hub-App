@@ -61,7 +61,6 @@ export class LocationService {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       };
-      this.logger.log(this.position);
       if (callback) {
         await callback(this.location);
       }
