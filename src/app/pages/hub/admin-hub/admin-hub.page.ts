@@ -27,6 +27,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
   mapModalIsOpen: boolean = false;
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   image: any;
+  photo: Photo;
   active: boolean;
 
   myForm: FormGroup;
@@ -145,7 +146,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
       latitude: this.location?.value?.latitude,
       longitude: this.location?.value?.longitude,
       locationLabel: this.location?.value?.label || this.location?.value?.locationLabel,
-      imageFile: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
+      imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : undefined,
     }, {
       context: { useMultipart: true },
       refetchQueries: [
@@ -182,13 +183,13 @@ export class AdminHubPage implements OnInit, OnDestroy {
   }
 
   async takePicture() {
-    const image = await this.cameraService.takePicture();
-    this.image = image.webPath;
+    this.photo = await this.cameraService.takePicture();
+    this.image = this.photo.webPath;
   }
 
   async selectPicture() {
-    const image = await this.cameraService.selectPicture();
-    this.image = image.webPath;
+    this.photo = await this.cameraService.selectPicture();
+    this.image = this.photo.webPath;
   }
 
   async presentActionSheet() {

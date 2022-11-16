@@ -30,6 +30,7 @@ export class AddHubPage implements OnInit, OnDestroy {
   } as Hub;
   persons: Observable<UsersPeopleQuery['usersPeople']>;
   subscriptions: Subscription[] = [];
+  photo: Photo;
   image: any;
   mapModalIsOpen: boolean = false;
   mapSearchSelection: { latitude: number, longitude: number, label: string };
@@ -89,13 +90,13 @@ export class AddHubPage implements OnInit, OnDestroy {
   }
 
   async takePicture() {
-    const image = await this.cameraService.takePicture();
-    this.image = image.webPath;
+    this.photo = await this.cameraService.takePicture();
+    this.image = this.photo.webPath;
   }
 
   async selectPicture() {
-    const image = await this.cameraService.selectPicture();
-    this.image = image.webPath;
+    this.photo = await this.cameraService.selectPicture();
+    this.image = this.photo.webPath;
   }
 
   checkboxChanged(person) {
@@ -131,7 +132,7 @@ export class AddHubPage implements OnInit, OnDestroy {
       latitude: this.location?.value?.latitude || this.locationService.position.coords.latitude,
       longitude: this.location?.value?.longitude || this.locationService.position.coords.longitude,
       locationLabel: this.location?.value?.label,
-      imageFile: this.image?.includes('blob') ? await this.cameraService.getImageBlob({ webPath: this.image } as Photo) : undefined,
+      imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : undefined,
     }, {
       context: { useMultipart: true },
     })
