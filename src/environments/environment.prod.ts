@@ -26,8 +26,8 @@ export const environment: Environment = {
     inviteUsersCheckList: true
   },
   logging: {
-    level: NgxLoggerLevel.DEBUG,
-    serverLogLevel: NgxLoggerLevel.DEBUG,
+    level: NgxLoggerLevel.ERROR,
+    serverLogLevel: NgxLoggerLevel.ERROR,
   } as LoggerConfig,
   geofenceRadius: 200,
   backgroundGeoLocationConfig: {
