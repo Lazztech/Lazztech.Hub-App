@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { NavController } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,6 +24,8 @@ export class PeoplePage implements OnInit, OnDestroy {
   personsResult: ApolloQueryResult<UsersPeopleQuery>;
   filteredPersons: ApolloQueryResult<UsersPeopleQuery>;
   alphabetizedPersons: AlphabetMapOfUsers;
+
+  queryRefs: QueryRef<any>[] = [];
   subscriptions: Subscription[] = [];
   filter: string = '';
 
@@ -38,14 +41,26 @@ export class PeoplePage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    const usersPeopleQueryRef = this.usersPeopleGQLService.watch(null, { pollInterval: 3000 });
+    this.queryRefs.push(usersPeopleQueryRef);
+
     this.subscriptions.push(
-      this.usersPeopleGQLService.watch().valueChanges.subscribe(result => {
+      usersPeopleQueryRef.valueChanges.subscribe(result => {
         this.loading = result.loading;
         this.personsResult = result;
         this.alphabetizedPersons = this.alphabetizePersons(result?.data?.usersPeople);
         this.filteredPersons
       }, err => this.handleError(err))
     );
+  }
+
+  async ionViewDidEnter() {
+    this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
+  }
+
+  async ionViewDidLeave() {
+    this.queryRefs.forEach(queryRef => queryRef.stopPolling());
   }
 
   ngOnDestroy() {
