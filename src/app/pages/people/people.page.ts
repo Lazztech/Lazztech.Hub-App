@@ -50,7 +50,6 @@ export class PeoplePage implements OnInit, OnDestroy {
         this.loading = result.loading;
         this.personsResult = result;
         this.alphabetizedPersons = this.alphabetizePersons(result?.data?.usersPeople);
-        this.filteredPersons
       }, err => this.handleError(err))
     );
   }

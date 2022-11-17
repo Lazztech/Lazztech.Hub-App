@@ -10,6 +10,7 @@ import { ForegroundGeofenceService } from '../services/foreground-geofence.servi
 import { LocationService } from '../services/location/location.service';
 import { DebuggerService } from '../services/debugger/debugger.service';
 import { AlertService } from '../services/alert/alert.service';
+import { ApolloQueryResult } from '@apollo/client/core';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,8 @@ export class HomePage implements OnInit, OnDestroy {
 
   loading = true;
   invites: InvitesByUserQuery['invitesByUser'];
-  userHubsFilter = '';
+  filter = '';
+  filteredUserHubs: UsersHubsQuery['usersHubs'];
   userHubs: UsersHubsQuery['usersHubs'];
   hubs: Hub[] = [];
   user: User;
@@ -139,14 +141,14 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async filterHubs(ev: any) {
-    // this.userHubsFilter = ev.target.value;
+    this.filter = ev.target.value;
 
-    // this.userHubs = this.hubService.watchUserHubs('cache-only').valueChanges.pipe(map(x => x.data && x.data.usersHubs));
-    // if (this.userHubsFilter && this.userHubsFilter.trim() !== '') {
-    //   this.userHubs = this.userHubs.pipe(
-    //     map(x => x.filter(y => y.hub.name.toLowerCase().includes(val.toLowerCase())))
-    //   );
-    // }
+    if (this.filter && this.filter.trim() !== '') {
+      this.filteredUserHubs = this.userHubs.filter(y => {
+        const name = y.hub.name.trim().toLowerCase();
+        return name.includes(this.filter.trim().toLowerCase());
+      });
+    }
   }
 
   goToMap() {
