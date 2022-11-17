@@ -7,7 +7,9 @@
 
 <ion-content fullscreen="true">
 
-  <ion-list>
+  <ion-searchbar (ionInput)="filterEvents($event)" showCancelButton="focus"></ion-searchbar>
+
+  <ion-list *ngIf="filter == ''">
     <ion-list-header>
       <ion-text>Upcoming</ion-text>
     </ion-list-header>
@@ -29,11 +31,25 @@
         [userEvent]="userEvent"
       ></app-event-card>
     </div>
+  </ion-list>
+  
 
+  <ion-list *ngIf="filter == ''">
     <ion-list-header *ngIf="elapsedEvents?.length">
       <ion-text>Elapsed</ion-text>
     </ion-list-header>
     <div *ngFor="let userEvent of elapsedEvents">
+      <app-event-card
+        [userEvent]="userEvent"
+      ></app-event-card>
+    </div>
+  </ion-list>
+
+  <ion-list *ngIf="filter != ''">
+    <ion-list-header *ngIf="filteredEvents?.length">
+      <ion-text>Search</ion-text>
+    </ion-list-header>
+    <div *ngFor="let userEvent of filteredEvents">
       <app-event-card
         [userEvent]="userEvent"
       ></app-event-card>

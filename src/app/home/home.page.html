@@ -17,7 +17,7 @@
 
 <ion-content fullscreen="true">
 
-    <!-- <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar> -->
+    <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
 
     <ion-card *ngIf="locationService.location" style="height:30%" (click)="goToMap()">
           <app-leaflet-map [center]="locationService.location" [yourLocation]="locationService.location" [navOnMarker]="true" [locations]="hubs"></app-leaflet-map>
@@ -26,22 +26,6 @@
     <ion-card *ngIf="!locationService.location" style="height:30%">
       <ion-skeleton-text animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
-
-      <!-- <ion-card class="welcome-card" *ngIf="!loading && !userHubs?.length">
-        <ion-card-header>
-            <ion-card-subtitle>Get Started</ion-card-subtitle>
-        </ion-card-header>
-
-        <ion-item (click)="goToAddHubPage()">
-          <ion-icon name="cube" slot="start"></ion-icon>
-          <ion-label>Add a Hub</ion-label>
-          <ion-icon slot="end" name="arrow-forward"></ion-icon>
-        </ion-item>
-      
-        <ion-card-content>
-            Start a community Hub and receive notifications when people gather.
-        </ion-card-content>
-      </ion-card> -->
 
       <ion-card *ngIf="!loading && !userHubs?.length">
         <ion-item lines="none">
@@ -67,7 +51,7 @@
         </div>
     </ion-list>
 
-      <ion-list>
+      <ion-list *ngIf="filter == ''">
           <ion-list-header>
               <ion-text>Hubs</ion-text>
           </ion-list-header>
@@ -81,6 +65,21 @@
             (click)="goToHubPage(userHub.hubId)"></app-hub-card>
           </div>
       </ion-list>
+
+      <ion-list *ngIf="filter != ''">
+        <ion-list-header>
+            <ion-text>Hubs</ion-text>
+        </ion-list-header>
+        <div *ngFor="let userHub of filteredUserHubs; trackBy: userTrackByHub">
+          <app-hub-card
+          [hub]="userHub.hub"
+          [coords]="locationService.location"
+          [starred]="userHub.starred"
+          [muted]="userHub.muted"
+          [isOwner]="userHub.isOwner"
+          (click)="goToHubPage(userHub.hubId)"></app-hub-card>
+        </div>
+    </ion-list>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button (click)="goToAddHubPage()">
