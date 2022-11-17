@@ -140,7 +140,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('add-hub');
   }
 
-  async filterHubs(ev: any) {
+  filterHubs(ev: any) {
     this.filter = ev.target.value;
 
     if (this.filter && this.filter.trim() !== '') {

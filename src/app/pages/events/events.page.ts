@@ -14,8 +14,9 @@ export class EventsPage implements OnInit, OnDestroy {
 
   subscriptions: Subscription[] = [];
   queryRefs: QueryRef<any>[] = [];
-
+  filter = '';
   userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
+  filteredEvents: UserEventsQuery['usersEvents'];
   sortedEvents: UserEventsQuery['usersEvents'];
   upcomingEvents: UserEventsQuery['usersEvents'];
   elapsedEvents: UserEventsQuery['usersEvents'];
@@ -66,6 +67,17 @@ export class EventsPage implements OnInit, OnDestroy {
 
   goToCreateEventPage() {
     this.navCtrl.navigateForward('create-event');
+  }
+
+  filterEvents(ev: any) {
+    this.filter = ev.target.value;
+
+    if (this.filter?.trim() !== '') {
+      this.filteredEvents = this.sortedEvents.filter(x => {
+        const name = x.event.name.trim().toLowerCase();
+        return name.includes(this.filter.trim().toLowerCase());
+      });
+    }
   }
 
 }
