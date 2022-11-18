@@ -113,19 +113,23 @@ const routes: Routes = [
   },
   {
     path: 'events',
-    loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule)
+    loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'event',
-    loadChildren: () => import('./pages/event/event.module').then( m => m.EventPageModule)
+    loadChildren: () => import('./pages/event/event.module').then( m => m.EventPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'create-event',
-    loadChildren: () => import('./pages/create-event/create-event.module').then( m => m.CreateEventPageModule)
+    loadChildren: () => import('./pages/create-event/create-event.module').then( m => m.CreateEventPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'admin-event',
-    loadChildren: () => import('./pages/admin-event/admin-event.module').then( m => m.AdminEventPageModule)
+    loadChildren: () => import('./pages/admin-event/admin-event.module').then( m => m.AdminEventPageModule),
+    canActivate: [AuthGuard]
   },
 ];
 
