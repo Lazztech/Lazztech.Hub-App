@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Browser } from '@capacitor/browser';
 import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert/alert.service';
@@ -16,9 +17,8 @@ import { AgeRestrictionValidator } from '../../../directives/age-restriction.dir
 export class RegisterPage implements OnInit {
 
   loading = false;
-
   myForm: FormGroup;
-
+  returnUrl: string;
   ageRestriction = 16;
 
   get firstName() {
@@ -53,7 +53,10 @@ export class RegisterPage implements OnInit {
     private alertService: AlertService,
     private fb: FormBuilder,
     private readonly communicationService: CommunicationService,
-  ) { }
+    private readonly route: ActivatedRoute,
+  ) {
+    this.returnUrl = this.route?.snapshot?.queryParams['returnUrl'];
+   }
 
   ngOnInit() {
     this.countries = this.communicationService.countryCodes();
@@ -97,7 +100,7 @@ export class RegisterPage implements OnInit {
       if (token) {
         await this.authService.login(formValue.email, formValue.password);
         this.loading = false;
-        await this.navCtrl.navigateRoot('/tabs');
+        await this.navCtrl.navigateRoot(this.returnUrl || '/tabs');
       } else {
         this.loading = false;
         this.alertService.presentToast('Registration Failed');

@@ -6,6 +6,7 @@ import { NotificationsService } from 'src/app/services/notifications/notificatio
 import { NGXLogger } from 'ngx-logger';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class LandingPage implements OnInit {
 
   loading = false;
   myForm: FormGroup;
+  returnUrl: string;
 
   get email() {
     return this.myForm.get('email');
@@ -35,8 +37,10 @@ export class LandingPage implements OnInit {
     private logger: NGXLogger,
     private alertService: AlertService,
     private fb: FormBuilder,
+    private readonly route: ActivatedRoute,
   ) {
     this.menu.enable(false);
+    this.returnUrl = this.route?.snapshot?.queryParams['returnUrl'];
   }
 
   ionViewWillEnter() {
@@ -65,11 +69,19 @@ export class LandingPage implements OnInit {
   }
 
   async register() {
-    await this.navCtrl.navigateForward('/register');
+    await this.navCtrl.navigateForward('/register', {
+      queryParams: {
+        returnUrl: this.returnUrl,
+      },
+    });
   }
 
   async resetPassword() {
-    await this.navCtrl.navigateForward('/reset-pin')
+    await this.navCtrl.navigateForward('/reset-pin', {
+      queryParams: {
+        returnUrl: this.returnUrl,
+      },
+    });
   }
 
   async login() {
@@ -79,7 +91,7 @@ export class LandingPage implements OnInit {
       const token = await this.authService.login(formValue.email, formValue.password);
       if (token) {
         this.loading = false;
-        await this.navCtrl.navigateRoot('/tabs');
+        await this.navCtrl.navigateRoot(this.returnUrl || '/tabs');
       }
     } catch (error) {
       this.alertService.presentRedToast(`Login failed: ${error}`, 5000);

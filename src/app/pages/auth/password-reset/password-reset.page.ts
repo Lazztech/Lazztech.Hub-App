@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { NGXLogger } from 'ngx-logger';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-password-reset',
@@ -14,7 +15,7 @@ import { NGXLogger } from 'ngx-logger';
 export class PasswordResetPage implements OnInit {
 
   loading = false;
-
+  returnUrl: string;
   myForm: FormGroup;
 
   get resetPin() {
@@ -32,7 +33,10 @@ export class PasswordResetPage implements OnInit {
     private fb: FormBuilder,
     private logger: NGXLogger,
     private navController: NavController,
-    ) { }
+    private readonly route: ActivatedRoute,
+    ) {
+      this.returnUrl = this.route?.snapshot?.queryParams['returnUrl'];
+    }
 
   ngOnInit() {
     this.myForm = this.fb.group({
@@ -61,7 +65,11 @@ export class PasswordResetPage implements OnInit {
       if (result) {
         this.loading = false;
         await this.alertService.presentToast('Succeeded.');
-        await this.navController.navigateRoot('');
+        await this.navController.navigateRoot('/landing', {
+          queryParams: {
+            returnUrl: this.returnUrl,
+          },
+        });
       } else {
         this.loading = false;
         this.alertService.presentToast('Password reset failed.');
@@ -73,7 +81,11 @@ export class PasswordResetPage implements OnInit {
   }
 
   tryAgain() {
-    this.navController.navigateForward('/reset-pin');
+    this.navController.navigateForward('/reset-pin', {
+      queryParams: {
+        returnUrl: this.returnUrl,
+      },
+    });
   }
 
 }

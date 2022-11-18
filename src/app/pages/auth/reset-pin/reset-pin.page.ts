@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-reset-pin',
@@ -13,7 +14,7 @@ import { Storage } from '@ionic/storage';
 export class ResetPinPage implements OnInit {
 
   loading = false;
-
+  returnUrl: string;
   myForm: FormGroup;
 
   get email() {
@@ -26,7 +27,10 @@ export class ResetPinPage implements OnInit {
     private storage: Storage,
     private fb: FormBuilder,
     private navController: NavController,
-    ) { }
+    private readonly route: ActivatedRoute,
+    ) {
+      this.returnUrl = this.route?.snapshot?.queryParams['returnUrl'];
+    }
 
   ngOnInit() {
     this.myForm = this.fb.group({
@@ -47,7 +51,11 @@ export class ResetPinPage implements OnInit {
       await this.storage.set('resetEmail', formValue.email);
       this.loading = false;
       await this.alertService.presentToast('Email sent.');
-      await this.navController.navigateForward('password-reset');
+      await this.navController.navigateForward('password-reset', {
+        queryParams: {
+          returnUrl: this.returnUrl,
+        },
+      });
     } else {
       this.loading = false;
       this.alertService.presentRedToast('Email failed to send.');
