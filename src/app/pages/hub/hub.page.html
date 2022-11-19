@@ -14,272 +14,279 @@
 
 <ion-content fullscreen="true">
 
-  <app-hub-card 
-    *ngIf="!loading && userHub" 
-    [hub]="userHub?.hub" 
-    [coords]="locationService.location" 
-    [starred]="userHub?.starred"
-    [muted]="userHub.muted"
-    [isOwner]="userHub?.isOwner" 
-    [showDescription]="true"
-    [includeMap]="true"
-    [compact]="false">
-  </app-hub-card>
-
-  <ion-grid *ngIf="!loading && userHub as userHub">
+  <ion-grid class="ion-no-padding">
     <ion-row>
-      <ion-col [appFeatureFlag]="'uberRequestRide'">
-        <ion-button color="primary" expand="block" (click)="requestRide(userHub)">
-          Ride with
-          <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
-        </ion-button>
+      <ion-col size="12" size-md="6">
+        <app-hub-card 
+        *ngIf="!loading && userHub" 
+        [hub]="userHub?.hub" 
+        [coords]="locationService.location" 
+        [starred]="userHub?.starred"
+        [muted]="userHub.muted"
+        [isOwner]="userHub?.isOwner" 
+        [showDescription]="true"
+        [includeMap]="true"
+        [compact]="false">
+      </app-hub-card>
+    
+      <ion-grid *ngIf="!loading && userHub as userHub">
+        <ion-row>
+          <ion-col [appFeatureFlag]="'uberRequestRide'">
+            <ion-button color="primary" expand="block" (click)="requestRide(userHub)">
+              Ride with
+              <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="primary" expand="block" color="danger" (click)="navigate(userHub)">
+              Navigate
+              <ion-icon class="ion-padding-start" size="large" name="map"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    
+      <ion-list [appFeatureFlag]="'microChat'" *ngIf="!loading && userHub as userHub">
+        <ion-list-header>
+          <ion-text>MicroChat</ion-text>
+        </ion-list-header>
+      
+        <app-micro-chat
+          [hubId]="id" 
+          [userHub]="userHub"
+        ></app-micro-chat>
+      </ion-list>
+
+      <ion-list *ngIf="!loading && userHub && !userHub?.hub.active">
+        <ion-list-header>
+          <ion-text>Hub Inactive</ion-text>
+        </ion-list-header>
+    
+        <ion-item lines="none">
+          <ion-note>Hub member's presence information is only available when the hub is set to active by the admin.
+          </ion-note>
+        </ion-item>
+      </ion-list>
+    
+      <ion-list>
+        <ion-list-header>
+          Events
+        </ion-list-header>
+        
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-nowrap horizontal-scroll">
+            <ion-col size="10" *ngFor="let event of userHub?.hub?.events">
+              <app-event-card
+              [userEvent]="{event}"
+              ></app-event-card>
+            </ion-col>
+            <ion-col size="12" *ngIf="!userHub?.hub?.events?.length">
+              <ion-card>
+                <ion-item lines="none">
+                  <ion-card-header>
+                    <ion-card-subtitle>Get Started</ion-card-subtitle>
+                  </ion-card-header>
+                  <ion-icon slot="end" name="calendar"></ion-icon>
+                  <ion-card-content>
+                    Create an event and invite guests!
+                </ion-card-content>
+                </ion-item>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
       </ion-col>
-      <ion-col>
-        <ion-button color="primary" expand="block" color="danger" (click)="navigate(userHub)">
-          Navigate
-          <ion-icon class="ion-padding-start" size="large" name="map"></ion-icon>
-        </ion-button>
+      <ion-col size="12" size-md="6">      
+        <ion-list *ngIf="userHub && !userHub?.hub.active">
+          <ion-list-header>
+            <ion-text>Members</ion-text>
+          </ion-list-header>
+      
+          <div *ngFor="let userConnection of userHub?.hub.usersConnection; trackBy: trackByUser">
+            <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
+              <ion-avatar slot="start">
+                <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
+                <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h3 class="ion-float-left">
+                  <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+                  <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
+                    {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+                  </ion-text>
+                </h3>
+                <p *ngIf="userConnection.user.blocked" class="ion-float-right">
+                  <ion-text>Blocked</ion-text>
+                </p>
+                <p *ngIf="userConnection.isOwner" class="ion-float-right">
+                  <ion-text>Admin</ion-text>
+                </p>
+              </ion-label>
+              <ion-icon
+                *ngIf="userConnection.user.phoneNumber"
+                name="call-outline"
+                slot="end" 
+                (click)="openPhone($event, userConnection.user.phoneNumber)"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="userConnection.user.phoneNumber"
+                name="chatbubble-outline" 
+                slot="end" 
+                (click)="openSms($event, userConnection.user.phoneNumber)"
+              ></ion-icon>
+            </ion-item>
+          </div>
+        </ion-list>
+      
+        <ion-list *ngIf="userHub && userHub?.hub.active">
+          <ion-list-header *ngIf="present?.length">
+            <ion-text>Present</ion-text>
+          </ion-list-header>
+      
+          <div *ngFor="let userConnection of present; trackBy: trackByUser">
+            <ion-item href="javascript:void(0);"
+              (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
+              <ion-avatar slot="start">
+                <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
+                <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h2>
+                  <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+                  <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
+                    {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+                  </ion-text>
+                </h2>
+                <p *ngIf="userConnection.user.blocked" class="ion-float-right">
+                  <ion-text>Blocked</ion-text>
+                </p>
+                <p *ngIf="userConnection.isOwner" class="ion-float-right">
+                  <ion-text>Admin</ion-text>
+                </p>
+                <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
+                  | amLocal | amTimeAgo) : 'N/A'}}</p>
+              </ion-label>
+              <ion-icon 
+                *ngIf="userConnection.user.phoneNumber"
+                name="call-outline"
+                slot="end" 
+                (click)="openPhone($event, userConnection.user.phoneNumber)"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="userConnection.user.phoneNumber"
+                name="chatbubble-outline" 
+                slot="end" 
+                (click)="openSms($event, userConnection.user.phoneNumber)"
+              ></ion-icon>
+            </ion-item>
+          </div>
+      
+        </ion-list>
+      
+        <ion-list *ngIf="userHub && userHub?.hub.active">
+          <ion-list-header *ngIf="away?.length">
+            <ion-text>Away</ion-text>
+          </ion-list-header>
+      
+          <div *ngFor="let userConnection of away; trackBy: trackByUser">
+            <ion-item href="javascript:void(0);"
+              (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
+              <ion-avatar slot="start">
+                <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
+                <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
+              </ion-avatar>
+              <ion-label>
+                <h2>
+                  <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+                  <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
+                    {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+                  </ion-text>
+                </h2>
+                <p *ngIf="userConnection.user.blocked" class="ion-float-right">
+                  <ion-text>Blocked</ion-text>
+                </p>
+                <p *ngIf="userConnection.isOwner" class="ion-float-right">
+                  <ion-text>Admin</ion-text>
+                </p>
+                <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
+                  | amLocal | amTimeAgo) : 'N/A'}}</p>
+              </ion-label>
+              <ion-icon
+                *ngIf="userConnection.user.phoneNumber"
+                name="call-outline"
+                slot="end" 
+                (click)="openPhone($event, userConnection.user.phoneNumber)"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="userConnection.user.phoneNumber"
+                name="chatbubble-outline" 
+                slot="end" 
+                (click)="openSms($event, userConnection.user.phoneNumber)"
+              ></ion-icon>
+            </ion-item>
+          </div>
+      
+        </ion-list>
+      
+        <div *ngIf="loading">
+      
+          <ion-list *ngIf="loading">
+            <ion-list-header>
+              <ion-text>Present</ion-text>
+            </ion-list-header>
+      
+            <div *ngFor="let number of [0,1,2]">
+      
+              <ion-item>
+                <ion-avatar slot="start">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-avatar>
+                <ion-label>
+                  <h3>
+                    <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                  </h3>
+                  <p>
+                    <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                  </p>
+                  <p>
+                    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                  </p>
+                </ion-label>
+              </ion-item>
+      
+            </div>
+      
+            <ion-list-header>
+              <ion-text>Away</ion-text>
+            </ion-list-header>
+      
+            <div *ngFor="let number of [0,1,2]">
+      
+              <ion-item>
+                <ion-avatar slot="start">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-avatar>
+                <ion-label>
+                  <h3>
+                    <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+                  </h3>
+                  <p>
+                    <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+                  </p>
+                  <p>
+                    <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                  </p>
+                </ion-label>
+              </ion-item>
+      
+            </div>
+      
+          </ion-list>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <ion-list [appFeatureFlag]="'microChat'" *ngIf="!loading && userHub as userHub">
-    <ion-list-header>
-      <ion-text>MicroChat</ion-text>
-    </ion-list-header>
-  
-    <app-micro-chat
-      [hubId]="id" 
-      [userHub]="userHub"
-    ></app-micro-chat>
-  </ion-list>
-
-  <ion-list *ngIf="!loading && userHub && !userHub?.hub.active">
-    <ion-list-header>
-      <ion-text>Hub Inactive</ion-text>
-    </ion-list-header>
-
-    <ion-item lines="none">
-      <ion-note>Hub member's presence information is only available when the hub is set to active by the admin.
-      </ion-note>
-    </ion-item>
-  </ion-list>
-
-  <ion-list>
-    <ion-list-header>
-      Events
-    </ion-list-header>
-    
-    <ion-grid class="ion-no-padding">
-      <ion-row class="ion-nowrap horizontal-scroll">
-        <ion-col size="10" *ngFor="let event of userHub?.hub?.events">
-          <app-event-card
-          [userEvent]="{event}"
-          ></app-event-card>
-        </ion-col>
-        <ion-col size="12" *ngIf="!userHub?.hub?.events?.length">
-          <ion-card>
-            <ion-item lines="none">
-              <ion-card-header>
-                <ion-card-subtitle>Get Started</ion-card-subtitle>
-              </ion-card-header>
-              <ion-icon slot="end" name="calendar"></ion-icon>
-              <ion-card-content>
-                Create an event and invite guests!
-            </ion-card-content>
-            </ion-item>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-list>
-
-  <ion-list *ngIf="userHub && !userHub?.hub.active">
-    <ion-list-header>
-      <ion-text>Members</ion-text>
-    </ion-list-header>
-
-    <div *ngFor="let userConnection of userHub?.hub.usersConnection; trackBy: trackByUser">
-      <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
-        <ion-avatar slot="start">
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
-          <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <h3 class="ion-float-left">
-            <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
-            <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
-              {{userConnection.user.firstName}} {{userConnection.user.lastName}}
-            </ion-text>
-          </h3>
-          <p *ngIf="userConnection.user.blocked" class="ion-float-right">
-            <ion-text>Blocked</ion-text>
-          </p>
-          <p *ngIf="userConnection.isOwner" class="ion-float-right">
-            <ion-text>Admin</ion-text>
-          </p>
-        </ion-label>
-        <ion-icon
-          *ngIf="userConnection.user.phoneNumber"
-          name="call-outline"
-          slot="end" 
-          (click)="openPhone($event, userConnection.user.phoneNumber)"
-        ></ion-icon>
-        <ion-icon
-          *ngIf="userConnection.user.phoneNumber"
-          name="chatbubble-outline" 
-          slot="end" 
-          (click)="openSms($event, userConnection.user.phoneNumber)"
-        ></ion-icon>
-      </ion-item>
-    </div>
-  </ion-list>
-
-  <ion-list *ngIf="userHub && userHub?.hub.active">
-    <ion-list-header *ngIf="present?.length">
-      <ion-text>Present</ion-text>
-    </ion-list-header>
-
-    <div *ngFor="let userConnection of present; trackBy: trackByUser">
-      <ion-item href="javascript:void(0);"
-        (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
-        <ion-avatar slot="start">
-          <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
-          <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <h2>
-            <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
-            <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
-              {{userConnection.user.firstName}} {{userConnection.user.lastName}}
-            </ion-text>
-          </h2>
-          <p *ngIf="userConnection.user.blocked" class="ion-float-right">
-            <ion-text>Blocked</ion-text>
-          </p>
-          <p *ngIf="userConnection.isOwner" class="ion-float-right">
-            <ion-text>Admin</ion-text>
-          </p>
-          <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
-            | amLocal | amTimeAgo) : 'N/A'}}</p>
-        </ion-label>
-        <ion-icon 
-          *ngIf="userConnection.user.phoneNumber"
-          name="call-outline"
-          slot="end" 
-          (click)="openPhone($event, userConnection.user.phoneNumber)"
-        ></ion-icon>
-        <ion-icon
-          *ngIf="userConnection.user.phoneNumber"
-          name="chatbubble-outline" 
-          slot="end" 
-          (click)="openSms($event, userConnection.user.phoneNumber)"
-        ></ion-icon>
-      </ion-item>
-    </div>
-
-  </ion-list>
-
-  <ion-list *ngIf="userHub && userHub?.hub.active">
-    <ion-list-header *ngIf="away?.length">
-      <ion-text>Away</ion-text>
-    </ion-list-header>
-
-    <div *ngFor="let userConnection of away; trackBy: trackByUser">
-      <ion-item href="javascript:void(0);"
-        (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
-        <ion-avatar slot="start">
-          <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
-          <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <h2>
-            <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
-            <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
-              {{userConnection.user.firstName}} {{userConnection.user.lastName}}
-            </ion-text>
-          </h2>
-          <p *ngIf="userConnection.user.blocked" class="ion-float-right">
-            <ion-text>Blocked</ion-text>
-          </p>
-          <p *ngIf="userConnection.isOwner" class="ion-float-right">
-            <ion-text>Admin</ion-text>
-          </p>
-          <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
-            | amLocal | amTimeAgo) : 'N/A'}}</p>
-        </ion-label>
-        <ion-icon
-          *ngIf="userConnection.user.phoneNumber"
-          name="call-outline"
-          slot="end" 
-          (click)="openPhone($event, userConnection.user.phoneNumber)"
-        ></ion-icon>
-        <ion-icon
-          *ngIf="userConnection.user.phoneNumber"
-          name="chatbubble-outline" 
-          slot="end" 
-          (click)="openSms($event, userConnection.user.phoneNumber)"
-        ></ion-icon>
-      </ion-item>
-    </div>
-
-  </ion-list>
-
-  <div *ngIf="loading">
-
-    <ion-list *ngIf="loading">
-      <ion-list-header>
-        <ion-text>Present</ion-text>
-      </ion-list-header>
-
-      <div *ngFor="let number of [0,1,2]">
-
-        <ion-item>
-          <ion-avatar slot="start">
-            <ion-skeleton-text animated></ion-skeleton-text>
-          </ion-avatar>
-          <ion-label>
-            <h3>
-              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-            </h3>
-            <p>
-              <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-            </p>
-            <p>
-              <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-            </p>
-          </ion-label>
-        </ion-item>
-
-      </div>
-
-      <ion-list-header>
-        <ion-text>Away</ion-text>
-      </ion-list-header>
-
-      <div *ngFor="let number of [0,1,2]">
-
-        <ion-item>
-          <ion-avatar slot="start">
-            <ion-skeleton-text animated></ion-skeleton-text>
-          </ion-avatar>
-          <ion-label>
-            <h3>
-              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-            </h3>
-            <p>
-              <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-            </p>
-            <p>
-              <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-            </p>
-          </ion-label>
-        </ion-item>
-
-      </div>
-
-    </ion-list>
-  </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="userHub?.isOwner">
     <ion-fab-button (click)="toggleInviteModal()">
