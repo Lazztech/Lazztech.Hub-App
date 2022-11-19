@@ -15,23 +15,34 @@
   <ion-slides pager="true" #slides (ionSlideWillChange)="slideChanged()">
 
     <ion-slide>
-      <div class="slide">
-        <ion-img src="assets/illustrations/hubs-around.png"  style="width: 65%; margin: auto;"></ion-img>
-        <p><b>Lazztech Hub</b> is a tool for bringing communities of people together for in person gatherings.</p>
-
-        <p><b>Hubs</b> use <b>Geo-fences</b> which are a virtual perimeter around the Hub's physical location.</p>
-
-        <p>As a <b>Hub</b> member you can see which of the <b>Hub's</b> community members are presently at the <b>Hub's</b> location.</p>
-
-        <p>This gives you as a user a glanceable overview of who's present at your favorite community gathering spots.</p>
-      </div>
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size="12" size-md="6">
+              <ion-img src="assets/illustrations/hubs-around.png"  style="width: 65%; margin: auto;"></ion-img>
+            </ion-col>
+            <ion-col size="12" size-md="6">
+              <p><b>Lazztech Hub</b> is a tool for bringing communities of people together for in person gatherings.</p>
+              <p><b>Hubs</b> use <b>Geo-fences</b> which are a virtual perimeter around the Hub's physical location.</p>
+              <p>As a <b>Hub</b> member you can see which of the <b>Hub's</b> community members are presently at the <b>Hub's</b> location.</p>
+              <p>This gives you as a user a glanceable overview of who's present at your favorite community gathering spots.</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
     </ion-slide>
 
     <ion-slide>
-      <ion-img src="assets/illustrations/lock.png" style="width: 65%; margin: auto;"></ion-img>
-      <p>A <b>Hub</b> is a private invite only virtual community associated with a physical location in the world.<p>
-      <p>As the admin of a <b>Hub</b> you can <b>deactivate</b> it at any time to conceal the details of which members are presently away or at the location.<p>
-      <p>You may then at any time <b>Reactivate</b> your <b>Hub</b> and members will recieve a notification that the <b>Hub</b> is active.<p>
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="12" size-md="6">
+            <ion-img src="assets/illustrations/lock.png" style="width: 65%; margin: auto;"></ion-img>
+          </ion-col>
+          <ion-col size="12" size-md="6">
+            <p>A <b>Hub</b> is a private invite only virtual community associated with a physical location in the world.<p>
+            <p>As the admin of a <b>Hub</b> you can <b>deactivate</b> it at any time to conceal the details of which members are presently away or at the location.<p>
+            <p>You may then at any time <b>Reactivate</b> your <b>Hub</b> and members will recieve a notification that the <b>Hub</b> is active.<p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-slide>
 
     <!-- <ion-slide>
@@ -68,10 +79,17 @@
     </ion-slide> -->
 
     <ion-slide>
-      <ion-img src="assets/illustrations/hand-checking-hubs.png" style="width: 65%; margin: auto;"></ion-img>
-
-      <h2>Ready?</h2>
-      <ion-button fill="clear" (click)="finish()">Continue <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="12" size-md="6">
+            <ion-img src="assets/illustrations/hand-checking-hubs.png" style="width: 65%; margin: auto;"></ion-img>
+          </ion-col>
+          <ion-col size="12" size-md="6">
+            <h2>Ready?</h2>
+            <ion-button fill="clear" (click)="finish()">Continue <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-slide>
 
   </ion-slides>
