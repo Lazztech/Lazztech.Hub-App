@@ -4,35 +4,44 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen="true">
-  <ion-card class="welcome-card">
-    <ion-img src="assets/illustrations/banner.jpg"></ion-img>
-  </ion-card>
 
-  <ion-card-title class="ion-text-center">Lazztech Hub</ion-card-title>
-  <p class="ion-text-center">From app to the real world - Foster Community</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6">
+        <ion-card class="welcome-card">
+          <ion-img src="assets/illustrations/banner.jpg"></ion-img>
+        </ion-card>
+      
+        <ion-card-title class="ion-text-center">Lazztech Hub</ion-card-title>
+        <p class="ion-text-center">From app to the real world - Foster Community</p>
+      </ion-col>
+      <ion-col size="12" size-md="6" class="ion-no-padding">
+        <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+      
+          <ion-text class="ion-padding ion-text-center" *ngIf="email.invalid && email.touched" color="danger">
+                  Please enter a valid email address
+          </ion-text>
+        
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+          </ion-item>
+          <ion-text class="ion-padding ion-text-center" *ngIf="password.invalid && password.touched" color="danger">
+                  Please enter a password at least 10 characters
+          </ion-text>
+          
+          <br/>
+      
+          <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block" color="primary">Login</ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
-    </ion-item>
-
-    <ion-text class="ion-padding ion-text-center" *ngIf="email.invalid && email.touched" color="danger">
-            Please enter a valid email address
-    </ion-text>
-  
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
-    </ion-item>
-    <ion-text class="ion-padding ion-text-center" *ngIf="password.invalid && password.touched" color="danger">
-            Please enter a password at least 10 characters
-    </ion-text>
-    
-    <br/>
-
-    <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block" color="primary">Login</ion-button>
-  </form>
 </ion-content>
 <ion-footer translucent="true">
   <ion-toolbar>
@@ -45,14 +54,6 @@
           <ion-button expand="block" color="secondary" (click)="resetPassword()">Reset Password</ion-button>  
         </ion-col>
       </ion-row>
-      <!-- <ion-row>
-        <ion-col>
-          <ion-button expand="block" color="primary" (click)="triggerBioAuth()">
-            Trigger Biometric Unlock
-            <ion-icon name="finger-print-outline" class="ion-padding-start"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row> -->
     </ion-grid>
   </ion-toolbar>
 </ion-footer>

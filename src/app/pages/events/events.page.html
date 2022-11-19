@@ -25,12 +25,16 @@
       </ion-card-content>
       </ion-item>
     </ion-card>
-
-    <div *ngFor="let userEvent of upcomingEvents">
-      <app-event-card
-        [userEvent]="userEvent"
-      ></app-event-card>
-    </div>
+  
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let userEvent of upcomingEvents">
+          <app-event-card
+          [userEvent]="userEvent"
+        ></app-event-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-list>
   
 
@@ -38,22 +42,30 @@
     <ion-list-header *ngIf="elapsedEvents?.length">
       <ion-text>Elapsed</ion-text>
     </ion-list-header>
-    <div *ngFor="let userEvent of elapsedEvents">
-      <app-event-card
-        [userEvent]="userEvent"
-      ></app-event-card>
-    </div>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let userEvent of elapsedEvents">
+          <app-event-card
+          [userEvent]="userEvent"
+        ></app-event-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-list>
 
   <ion-list *ngIf="filter != ''">
     <ion-list-header *ngIf="filteredEvents?.length">
       <ion-text>Search</ion-text>
     </ion-list-header>
-    <div *ngFor="let userEvent of filteredEvents">
-      <app-event-card
-        [userEvent]="userEvent"
-      ></app-event-card>
-    </div>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let userEvent of filteredEvents">
+          <app-event-card
+          [userEvent]="userEvent"
+        ></app-event-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
