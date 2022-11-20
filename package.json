@@ -104,7 +104,7 @@
     "firebase": "^9.14.0",
     "geolib": "^3.3.3",
     "google-libphonenumber": "^3.2.31",
-    "graphql": "^14.3.0",
+    "graphql": "^15.8.0",
     "graphql-tag": "^2.12.6",
     "jetifier": "^2.0.0",
     "jsqr": "^1.4.0",
