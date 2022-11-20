@@ -8,7 +8,7 @@ import {
 } from '@capacitor/push-notifications';
 import '@firebase/messaging';
 import { NavController, Platform } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { NGXLogger } from 'ngx-logger';
 import {
   AddUserFcmNotificationTokenGQL,
