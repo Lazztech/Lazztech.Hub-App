@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Storage } from '@ionic/storage-angular';
+import { Storage } from '@ionic/storage';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
