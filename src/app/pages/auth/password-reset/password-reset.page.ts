@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Storage } from '@ionic/storage';
-import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgForm, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { NGXLogger } from 'ngx-logger';
 import { ActivatedRoute } from '@angular/router';
@@ -16,7 +16,7 @@ export class PasswordResetPage implements OnInit {
 
   loading = false;
   returnUrl: string;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
 
   get resetPin() {
     return this.myForm.get('resetPin');
@@ -30,7 +30,7 @@ export class PasswordResetPage implements OnInit {
     private authService: AuthService,
     private alertService: AlertService,
     private storage: Storage,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private logger: NGXLogger,
     private navController: NavController,
     private readonly route: ActivatedRoute,

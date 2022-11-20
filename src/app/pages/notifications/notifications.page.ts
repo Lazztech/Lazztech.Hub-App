@@ -79,12 +79,13 @@ export class NotificationsPage implements OnInit, OnDestroy {
         ...this.pageableOptions,
         offset: this.InAppNotifications.length,
       },
-      updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult?.paginatedInAppNotifications.items.length) {
-          this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
-          return previousResult;
-        }
-      },
+      // FIXME: broken from apollo v2 -> v3 migration, though in app notifications aren't geing used so this is dead code for now.
+      // updateQuery: (previousResult, { fetchMoreResult }) => {
+      //   if (!fetchMoreResult?.paginatedInAppNotifications.items.length) {
+      //     this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+      //     return previousResult;
+      //   }
+      // },
     });
   }
 
