@@ -1,4 +1,4 @@
-/* tslint:disable */
+/* eslint-disable */
 import gql from 'graphql-tag';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
