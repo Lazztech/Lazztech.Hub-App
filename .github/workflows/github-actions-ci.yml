@@ -32,8 +32,8 @@ jobs:
       run: |
         npm run lint
 
-      - name: npm test
-        run: |
+    - name: npm test
+      run: |
           npm run test
 
       # - name: npm e2e
