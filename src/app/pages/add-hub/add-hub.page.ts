@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Photo } from '@capacitor/camera';
 import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
@@ -23,7 +23,7 @@ export class AddHubPage implements OnInit, OnDestroy {
   invites: Array<{name?: string, email: string}> = [];
   allInvitesSucces = true;
   paid = false;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   hub: Hub = {
     active: true,
     usersConnection: []
@@ -52,7 +52,7 @@ export class AddHubPage implements OnInit, OnDestroy {
     private geofenceService: GeofenceService,
     public locationService: LocationService,
     private alertService: AlertService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public navCtrl: NavController,
     private cameraService: CameraService,
     private logger: NGXLogger,
