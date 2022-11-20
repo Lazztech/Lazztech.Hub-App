@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
 
 @Component({
@@ -6,7 +6,7 @@ import { ChartDataset, ChartOptions, ChartType } from 'chart.js';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss'],
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent {
   public barChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -21,8 +21,5 @@ export class BarChartComponent implements OnInit {
   ];
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

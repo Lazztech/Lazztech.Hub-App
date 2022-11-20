@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { HubService } from 'src/app/services/hub/hub.service';
+import { Component, Input } from '@angular/core';
 import { ActionSheetController, IonRouterOutlet, ModalController } from '@ionic/angular';
-import { MicroChatAddPage } from 'src/app/pages/micro-chat-add/micro-chat-add.page';
 import { NGXLogger } from 'ngx-logger';
+import { MicroChatAddPage } from 'src/app/pages/micro-chat-add/micro-chat-add.page';
+import { HubService } from 'src/app/services/hub/hub.service';
 import { JoinUserHub } from 'src/graphql/graphql';
 
 @Component({
@@ -10,7 +10,7 @@ import { JoinUserHub } from 'src/graphql/graphql';
   templateUrl: './micro-chat.component.html',
   styleUrls: ['./micro-chat.component.scss'],
 })
-export class MicroChatComponent implements OnInit {
+export class MicroChatComponent {
 
   @Input()
   hubId: any;
@@ -25,8 +25,6 @@ export class MicroChatComponent implements OnInit {
     private modalController: ModalController,
     private logger: NGXLogger
   ) { }
-
-  ngOnInit() {}
 
   async addNewMicroChat() {
     const modal = await this.modalController.create({
