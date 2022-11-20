@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FetchPolicy } from 'apollo-client';
+import { FetchPolicy } from '@apollo/client/core';
 import { NGXLogger } from 'ngx-logger';
 import {
   AcceptHubInviteGQL,

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { InMemoryCache, ApolloClientOptions, from } from '@apollo/client/core';
@@ -82,7 +82,7 @@ export function createApollo(
 }
 
 @NgModule({
-  exports: [HttpClientModule],
+  imports: [ApolloModule, HttpClientModule],
   providers: [
     {
       provide: APOLLO_OPTIONS,
