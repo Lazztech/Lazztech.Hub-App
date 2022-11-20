@@ -9,6 +9,8 @@ import { NGXLogger } from 'ngx-logger';
 import { onError } from '@apollo/client/link/error';
 import { environment } from '../environments/environment';
 import { TypedTypePolicies } from 'src/graphql/type-policies';
+import extractFiles from 'extract-files/extractFiles.mjs'
+import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 
 const typePolicies: TypedTypePolicies = {
   Query: {
@@ -72,6 +74,7 @@ export function createApollo(
   const apolloLink = httpLink.create({
     uri: `${environment.serverUrl}graphql`,
     withCredentials: true,
+    extractFiles: (body) => extractFiles(body, isExtractableFile),
   });
 
   return {
