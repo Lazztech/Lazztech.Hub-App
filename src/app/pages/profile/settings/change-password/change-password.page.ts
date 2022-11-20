@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
-import { NgForm, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { NgForm, UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-change-password',
@@ -13,7 +13,7 @@ export class ChangePasswordPage implements OnInit {
 
   loading = false;
 
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
 
   get oldPassword() {
     return this.myForm.get('oldPassword');
@@ -27,7 +27,7 @@ export class ChangePasswordPage implements OnInit {
     private modalController: ModalController,
     private profileService: ProfileService,
     private alertService: AlertService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) { }
 
   ngOnInit() {

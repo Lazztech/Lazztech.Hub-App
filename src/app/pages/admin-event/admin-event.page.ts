@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Photo } from '@capacitor/camera';
@@ -19,7 +19,7 @@ import { DeleteEventGQL, Event, EventDocument, EventGQL, EventQuery, ResetSharea
 export class AdminEventPage implements OnInit, OnDestroy {
 
   loading = true;
-  myForm: FormGroup;
+  myForm: UntypedFormGroup;
   image: any;
   photo: Photo;
   startDateTimeModalOpen: boolean = false;
@@ -51,7 +51,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly fb: FormBuilder,
+    private readonly fb: UntypedFormBuilder,
     private readonly actionSheetController: ActionSheetController,
     private readonly cameraService: CameraService,
     private readonly logger: NGXLogger,
