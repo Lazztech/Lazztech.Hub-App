@@ -4,8 +4,8 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "engines": {
-    "node": "12.x",
-    "npm": "6.x"
+    "node": "16.x",
+    "npm": "8.x"
   },
   "scripts": {
     "ng": "ng",
