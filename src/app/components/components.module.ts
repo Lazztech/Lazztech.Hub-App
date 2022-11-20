@@ -10,7 +10,7 @@ import { MicroChatAddPageModule } from '../pages/micro-chat-add/micro-chat-add.m
 import { MicroChatAddPage } from '../pages/micro-chat-add/micro-chat-add.page';
 import { HubProfileComponent } from './hub-profile/hub-profile.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
-import { NgChartsModule } from 'ng2-charts';
+import { ChartsModule } from 'ng2-charts';
 import { DirectivesModule } from '../directives/directives.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
@@ -36,7 +36,7 @@ import { InviteComponent } from './invite/invite.component';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        NgChartsModule,
+        ChartsModule,
         DirectivesModule,
         PipesModule,
         MomentModule,

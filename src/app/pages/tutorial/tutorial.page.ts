@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 import { Capacitor } from '@capacitor/core';
@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
   templateUrl: './tutorial.page.html',
   styleUrls: ['./tutorial.page.scss'],
 })
-export class TutorialPage {
+export class TutorialPage implements OnInit {
 
   @ViewChild('slides') slides: IonSlides;
   isEnd = false
@@ -22,6 +22,8 @@ export class TutorialPage {
     private router: Router,
     private nativeSettings: OpenNativeSettings
   ) { }
+
+  ngOnInit() { }
 
   slideChanged() {
     let me = this;

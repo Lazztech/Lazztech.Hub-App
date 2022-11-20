@@ -1,5 +1,5 @@
 import { BrowserOptions } from '@sentry/browser';
-import { INGXLoggerConfig } from 'ngx-logger';
+import { LoggerConfig } from 'ngx-logger';
 import { Config as BackgroundGeolocationConfig } from '@transistorsoft/capacitor-background-geolocation';
 
 export interface Environment {
@@ -24,7 +24,7 @@ export interface Environment {
       lightDarkThemeToggle: boolean,
       inviteUsersCheckList: boolean,
     };
-    logging: INGXLoggerConfig;
+    logging: LoggerConfig;
     geofenceRadius: number;
     backgroundGeoLocationConfig: BackgroundGeolocationConfig;
     sentry: BrowserOptions;

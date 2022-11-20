@@ -16,7 +16,7 @@
 
     <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
 
-    <ion-list *ngIf="!loading && filter === ''">
+    <ion-list *ngIf="!loading && filter == ''">
       <div *ngFor="let item of alphabetizedPersons | keyvalue">
         <div *ngIf="item?.value?.length">
           <ion-item-divider>

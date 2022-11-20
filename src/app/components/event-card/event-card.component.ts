@@ -1,13 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { JoinUserEvent, RsvpGQL } from 'src/graphql/graphql';
+import { Event, JoinUserEvent, RsvpGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-event-card',
   templateUrl: './event-card.component.html',
   styleUrls: ['./event-card.component.scss'],
 })
-export class EventCardComponent {
+export class EventCardComponent implements OnInit {
 
   @Input() userEvent: JoinUserEvent;
   @Input() includeMap?: boolean = false;
@@ -17,6 +17,8 @@ export class EventCardComponent {
     private readonly navCtrl: NavController,
     private readonly rsvpService: RsvpGQL,
   ) { }
+
+  ngOnInit() {}
 
   goToEventPage() {
     this.navCtrl.navigateForward('event/' + this.userEvent?.event?.id);
