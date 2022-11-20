@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { NgForm, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -15,7 +15,7 @@ export class DeleteAccountPage implements OnInit {
 
   loading = false;
 
-  myForm: UntypedFormGroup;
+  myForm: FormGroup;
 
   get email() {
     return this.myForm.get('email');
@@ -32,7 +32,7 @@ export class DeleteAccountPage implements OnInit {
     private storage: Storage,
     private authService: AuthService,
     private navCtrl: NavController,
-    private fb: UntypedFormBuilder
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {

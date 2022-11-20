@@ -12,7 +12,7 @@ import { GeofenceService } from '../../../services/geofence/geofence.service';
 import { NotificationsService } from '../../../services/notifications/notifications.service';
 import { Browser } from '@capacitor/browser';
 import { CommunicationService } from 'src/app/services/communication.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MeGQL, UpdateUserGQL } from 'src/graphql/graphql';
 
 @Component({
@@ -31,7 +31,7 @@ export class SettingsPage implements OnInit {
 
   loading = false;
 
-  myForm: UntypedFormGroup;
+  myForm: FormGroup;
 
   ageRestriction = 16;
 
@@ -66,7 +66,7 @@ export class SettingsPage implements OnInit {
     private alertService: AlertService,
     private debuggerService: DebuggerService,
     private readonly communicationService: CommunicationService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private meService: MeGQL,
     private updateUserService: UpdateUserGQL,
   ) { }

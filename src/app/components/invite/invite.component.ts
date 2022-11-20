@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Clipboard } from '@capacitor/clipboard';
 import { Share } from '@capacitor/share';
@@ -29,7 +29,7 @@ export class InviteComponent implements OnInit, OnChanges {
   loading = false;
   allInvitesSucces = true;
   invites: Array<{ name?: string, email: string }> = [];
-  myForm: UntypedFormGroup;
+  myForm: FormGroup;
 
   get email() {
     return this.myForm.get('email');
@@ -37,7 +37,7 @@ export class InviteComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly hubService: HubService,
-    private readonly fb: UntypedFormBuilder,
+    private readonly fb: FormBuilder,
     private readonly alertService: AlertService,
     private readonly route: ActivatedRoute,
     private readonly logger: NGXLogger,

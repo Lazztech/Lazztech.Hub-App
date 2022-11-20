@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
@@ -18,7 +18,7 @@ export class InvitePage implements OnInit, OnDestroy {
   loading = false;
   allInvitesSucces = true;
   invites: Array<{name?: string, email: string}> = [];
-  myForm: UntypedFormGroup;
+  myForm: FormGroup;
   id: Scalars['ID'];
   persons: Observable<UsersPeopleQuery['usersPeople']>;
   subscriptions: Subscription[] = [];
@@ -29,7 +29,7 @@ export class InvitePage implements OnInit, OnDestroy {
 
   constructor(
     private hubService: HubService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private alertService: AlertService,
     private route: ActivatedRoute,
     private logger: NGXLogger,

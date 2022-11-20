@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Browser } from '@capacitor/browser';
 import { NavController } from '@ionic/angular';
@@ -17,7 +17,7 @@ import { AgeRestrictionValidator } from '../../../directives/age-restriction.dir
 export class RegisterPage implements OnInit {
 
   loading = false;
-  myForm: UntypedFormGroup;
+  myForm: FormGroup;
   returnUrl: string;
   ageRestriction = 16;
 
@@ -51,7 +51,7 @@ export class RegisterPage implements OnInit {
     private authService: AuthService,
     private navCtrl: NavController,
     private alertService: AlertService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private readonly communicationService: CommunicationService,
     private readonly route: ActivatedRoute,
   ) {

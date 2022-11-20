@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Photo } from '@capacitor/camera';
@@ -30,7 +30,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
   photo: Photo;
   active: boolean;
 
-  myForm: UntypedFormGroup;
+  myForm: FormGroup;
 
   get hubName() {
     return this.myForm.get('hubName');
@@ -47,7 +47,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private hubService: HubService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private logger: NGXLogger,
     private navCtrl: NavController,
     private actionSheetController: ActionSheetController,

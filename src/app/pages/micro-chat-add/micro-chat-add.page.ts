@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { HubService } from 'src/app/services/hub/hub.service';
 
@@ -13,7 +13,7 @@ export class MicroChatAddPage implements OnInit {
   loading = false;
   @Input()
   hubId: any;
-  myForm: UntypedFormGroup;
+  myForm: FormGroup;
 
   get text() {
     return this.myForm.get('text');
@@ -21,7 +21,7 @@ export class MicroChatAddPage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private hubService: HubService
   ) { }
 
