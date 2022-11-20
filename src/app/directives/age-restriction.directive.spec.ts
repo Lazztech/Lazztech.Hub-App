@@ -1,8 +1,8 @@
-import { AgeRestrictionDirective } from './age-restriction.directive';
+import { AgeRestrictionValidator } from './age-restriction.directive';
 
 describe('AgeRestrictionDirective', () => {
   it('should create an instance', () => {
-    const directive = new AgeRestrictionDirective();
+    const directive = AgeRestrictionValidator;
     expect(directive).toBeTruthy();
   });
 });

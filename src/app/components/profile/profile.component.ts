@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-profile-details',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
 
   @Input()
   user: any;
@@ -14,7 +14,5 @@ export class ProfileComponent implements OnInit {
   showLastOnline = true;
 
   constructor() { }
-
-  ngOnInit() {}
 
 }

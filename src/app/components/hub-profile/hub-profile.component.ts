@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Hub } from 'src/graphql/graphql';
 
 @Component({
@@ -6,13 +6,11 @@ import { Hub } from 'src/graphql/graphql';
   templateUrl: './hub-profile.component.html',
   styleUrls: ['./hub-profile.component.scss'],
 })
-export class HubProfileComponent implements OnInit {
+export class HubProfileComponent {
 
   @Input()
   hub: Hub;
 
   constructor() { }
-
-  ngOnInit() {}
 
 }

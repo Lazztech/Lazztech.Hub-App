@@ -4,7 +4,7 @@
 
 import { BrowserOptions } from '@sentry/browser';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
-import { LoggerConfig, NgxLoggerLevel } from 'ngx-logger';
+import { INGXLoggerConfig, NgxLoggerLevel } from 'ngx-logger';
 import { UsersHubsQuery } from 'src/graphql/graphql';
 import { Environment, EnvironmentNames } from './environment.interface';
 
@@ -126,7 +126,7 @@ export const environment: Environment = {
   logging: {
     level: NgxLoggerLevel.DEBUG,
     serverLogLevel: NgxLoggerLevel.DEBUG,
-  } as LoggerConfig,
+  } as INGXLoggerConfig,
   geofenceRadius: 200,
   backgroundGeoLocationConfig: {
     reset: true,
