@@ -100,7 +100,7 @@
     "country-flag-icons": "^1.5.5",
     "date-fns": "2.29.3",
     "eruda": "^2.5.0",
-    "firebase": "^6.3.1",
+    "firebase": "^9.14.0",
     "geolib": "^3.2.0",
     "google-libphonenumber": "^3.2.30",
     "graphql": "^14.3.0",
