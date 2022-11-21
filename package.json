@@ -77,7 +77,7 @@
     "@graphql-codegen/typescript-apollo-client-helpers": "^2.2.6",
     "@ionic/angular": "^6.3.7",
     "@ionic/pwa-elements": "^3.1.1",
-    "@ionic/storage-angular": "^3.0.6",
+    "@ionic/storage": "^2.2.0",
     "@jufab/opentelemetry-angular-interceptor": "^1.2.0-1",
     "@sentry/browser": "^7.20.0",
     "@transistorsoft/capacitor-background-fetch": "^1.0.2",

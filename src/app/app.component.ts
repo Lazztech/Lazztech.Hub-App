@@ -4,7 +4,6 @@ import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { NavController, Platform } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
 import { NGXLogger } from 'ngx-logger';
 import { AlertService } from './services/alert/alert.service';
 import { AuthService } from './services/auth/auth.service';
@@ -39,7 +38,6 @@ export class AppComponent {
     private logger: NGXLogger,
     private router: Router,
     private zone: NgZone,
-    private storage: Storage,
   ) {
     this.initializeApp();
   }
@@ -51,8 +49,6 @@ export class AppComponent {
     StatusBar.setStyle({
       style: Style.Default,
     });
-
-    await this.storage.create();
 
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       this.zone.run(() => {

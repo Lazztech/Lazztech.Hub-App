@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { Storage } from '@ionic/storage-angular';
+import { Storage } from '@ionic/storage';
 import { NgForm, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { NGXLogger } from 'ngx-logger';
