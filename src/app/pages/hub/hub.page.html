@@ -29,9 +29,8 @@
         [compact]="false">
       </app-hub-card>
     
-      <ion-grid *ngIf="!loading && userHub as userHub">
-        <ion-row>
-          <ion-col [appFeatureFlag]="'uberRequestRide'">
+        <ion-row *ngIf="!loading && userHub as userHub" class="ion-padding-start ion-padding-end">
+          <ion-col [appFeatureFlag]="'uberRequestRide'" class="ion-padding-end">
             <ion-button color="primary" expand="block" (click)="requestRide(userHub)">
               Ride with
               <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
@@ -44,7 +43,6 @@
             </ion-button>
           </ion-col>
         </ion-row>
-      </ion-grid>
     
       <ion-list [appFeatureFlag]="'microChat'" *ngIf="!loading && userHub as userHub">
         <ion-list-header>
