@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 import { Capacitor } from '@capacitor/core';
 import { IonSlides } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-tutorial',

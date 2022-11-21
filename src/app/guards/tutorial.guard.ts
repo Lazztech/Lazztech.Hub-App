@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { AuthService } from '../services/auth/auth.service';
 import { GeofenceService } from '../services/geofence/geofence.service';
 import { NotificationsService } from '../services/notifications/notifications.service';

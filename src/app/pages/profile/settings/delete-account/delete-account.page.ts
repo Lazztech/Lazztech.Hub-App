@@ -3,7 +3,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { NgForm, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
