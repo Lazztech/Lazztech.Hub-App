@@ -6,7 +6,7 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
 import { environment } from 'src/environments/environment';
-import _ from 'lodash';
+import _ from 'lodash-es';
 
 @Component({
   selector: 'app-leaflet-map',

@@ -1,22 +1,19 @@
-import { NgModule } from '@angular/core';
-import { HubCardComponent } from './hub-card/hub-card.component';
-import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { ActivityDotComponent } from './activity-dot/activity-dot.component';
-import { ProfileComponent } from './profile/profile.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MicroChatComponent } from './micro-chat/micro-chat.component';
-import { MicroChatAddPageModule } from '../pages/micro-chat-add/micro-chat-add.module';
-import { MicroChatAddPage } from '../pages/micro-chat-add/micro-chat-add.page';
-import { HubProfileComponent } from './hub-profile/hub-profile.component';
-import { BarChartComponent } from './bar-chart/bar-chart.component';
-import { NgChartsModule } from 'ng2-charts';
-import { DirectivesModule } from '../directives/directives.module';
-import { PipesModule } from '../pipes/pipes.module';
-import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
+import { IonicModule } from '@ionic/angular';
 import { MomentModule } from 'ngx-moment';
+import { DirectivesModule } from '../directives/directives.module';
+import { MicroChatAddPage } from '../pages/micro-chat-add/micro-chat-add.page';
+import { PipesModule } from '../pipes/pipes.module';
+import { ActivityDotComponent } from './activity-dot/activity-dot.component';
 import { EventCardComponent } from './event-card/event-card.component';
+import { HubCardComponent } from './hub-card/hub-card.component';
+import { HubProfileComponent } from './hub-profile/hub-profile.component';
 import { InviteComponent } from './invite/invite.component';
+import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
+import { MicroChatComponent } from './micro-chat/micro-chat.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +23,6 @@ import { InviteComponent } from './invite/invite.component';
         MicroChatComponent,
         MicroChatAddPage,
         HubProfileComponent,
-        BarChartComponent,
         LeafletMapComponent,
         EventCardComponent,
         InviteComponent,
@@ -36,7 +32,6 @@ import { InviteComponent } from './invite/invite.component';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        NgChartsModule,
         DirectivesModule,
         PipesModule,
         MomentModule,
@@ -47,7 +42,6 @@ import { InviteComponent } from './invite/invite.component';
         ProfileComponent,
         MicroChatComponent,
         HubProfileComponent,
-        BarChartComponent,
         LeafletMapComponent,
         EventCardComponent,
         InviteComponent
