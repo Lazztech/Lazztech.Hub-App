@@ -26,8 +26,8 @@
           </ion-item-divider>
           <ion-item *ngFor="let person of item.value" href="javascript:void(0);" (click)="goToPersonPage(person.id, person)">
             <ion-avatar slot="start">
-                  <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image" src="{{person.id | avatar}}">
-                  <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
+                  <ion-img width="100%" src="{{person.image || (person.id | avatar)}}" (ionImgWillLoad)="loaded = false" (ionImgDidLoad)="loaded = true"></ion-img>
+                  <ion-skeleton-text animated [hidden]="loaded"></ion-skeleton-text>
             </ion-avatar>
             <ion-label>
               <h2>
