@@ -25,10 +25,12 @@
             </ion-label>
           </ion-item-divider>
           <ion-item *ngFor="let person of item.value" href="javascript:void(0);" (click)="goToPersonPage(person.id, person)">
-            <ion-avatar slot="start">
+            <!-- <ion-avatar slot="start">
                   <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image" src="{{person.id | avatar}}">
                   <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
-            </ion-avatar>
+            </ion-avatar> -->
+            <app-avatar-loader slot="start" url="{{(person.image || (person.id | avatar))}}"></app-avatar-loader>
+
             <ion-label>
               <h2>
                 <ion-text *ngIf="!person.blocked">{{person.firstName}} 

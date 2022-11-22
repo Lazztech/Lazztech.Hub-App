@@ -1,0 +1,4 @@
+<ion-avatar>
+    <ion-skeleton-text animated [hidden]="viewImage"></ion-skeleton-text>
+    <ion-img #image alt=""(ionImgDidLoad)="loadImage()" (ionError)="errorLoad()"></ion-img>
+</ion-avatar>
