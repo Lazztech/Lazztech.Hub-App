@@ -14,7 +14,6 @@ import { InviteComponent } from './invite/invite.component';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { MicroChatComponent } from './micro-chat/micro-chat.component';
 import { ProfileComponent } from './profile/profile.component';
-import { AvatarLoaderComponent } from './avatar-loader/avatar-loader.component';
 
 @NgModule({
     declarations: [
@@ -27,7 +26,6 @@ import { AvatarLoaderComponent } from './avatar-loader/avatar-loader.component';
         LeafletMapComponent,
         EventCardComponent,
         InviteComponent,
-        AvatarLoaderComponent,
     ],
     imports: [
         IonicModule,
@@ -46,8 +44,7 @@ import { AvatarLoaderComponent } from './avatar-loader/avatar-loader.component';
         HubProfileComponent,
         LeafletMapComponent,
         EventCardComponent,
-        InviteComponent,
-        AvatarLoaderComponent,
+        InviteComponent
     ]
 })
 export class ComponentsModule {

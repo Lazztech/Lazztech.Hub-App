@@ -9,7 +9,6 @@ import { PeoplePage } from './people.page';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { MomentModule } from 'ngx-moment';
-import { ComponentsModule } from 'src/app/components/components.module';
 
 const routes: Routes = [
   {
@@ -27,7 +26,6 @@ const routes: Routes = [
     DirectivesModule,
     PipesModule,
     MomentModule,
-    ComponentsModule
   ],
   declarations: [PeoplePage]
 })
