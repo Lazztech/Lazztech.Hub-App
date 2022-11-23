@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
 
 import { DeleteAccountPage } from './delete-account.page';
 
@@ -11,6 +12,9 @@ describe('DeleteAccountPage', () => {
     TestBed.configureTestingModule({
       declarations: [ DeleteAccountPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        IonicModule.forRoot(),
+      ]
     })
     .compileComponents();
   }));

@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
 
 import { ChangePasswordPage } from './change-password.page';
 
@@ -11,6 +12,9 @@ describe('ChangePasswordPage', () => {
     TestBed.configureTestingModule({
       declarations: [ ChangePasswordPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        IonicModule.forRoot(),
+      ]
     })
     .compileComponents();
   }));
