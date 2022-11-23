@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { RegisterPage } from './register.page';
 
@@ -11,6 +12,9 @@ describe('RegisterPage', () => {
     TestBed.configureTestingModule({
       declarations: [ RegisterPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        IonicStorageModule.forRoot(),
+      ]
     })
     .compileComponents();
   }));

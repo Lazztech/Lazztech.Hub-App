@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { NotificationsPage } from './notifications.page';
 
@@ -11,6 +12,9 @@ describe('NotificationsPage', () => {
     TestBed.configureTestingModule({
       declarations: [ NotificationsPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        IonicStorageModule.forRoot(),
+      ]
     })
     .compileComponents();
   }));
