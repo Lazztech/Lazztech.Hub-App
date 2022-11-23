@@ -4,6 +4,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { InvitePage } from './invite.page';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('InvitePage', () => {
   let component: InvitePage;
@@ -14,6 +15,7 @@ describe('InvitePage', () => {
       imports: [
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        ReactiveFormsModule,
       ],
       declarations: [ InvitePage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

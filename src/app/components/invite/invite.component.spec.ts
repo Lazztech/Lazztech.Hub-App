@@ -4,6 +4,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { InviteComponent } from './invite.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('InviteComponent', () => {
   let component: InviteComponent;
@@ -16,6 +17,7 @@ describe('InviteComponent', () => {
         IonicModule.forRoot(),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        ReactiveFormsModule,
       ]
     }).compileComponents();
 

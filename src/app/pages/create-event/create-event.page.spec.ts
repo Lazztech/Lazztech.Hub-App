@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CreateEventPage } from './create-event.page';
@@ -10,7 +11,10 @@ describe('CreateEventPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CreateEventPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [
+        IonicModule.forRoot(),
+        ReactiveFormsModule,
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateEventPage);

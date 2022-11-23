@@ -4,6 +4,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AddHubPage } from './add-hub.page';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AddHubPage', () => {
   let component: AddHubPage;
@@ -14,6 +15,7 @@ describe('AddHubPage', () => {
       imports: [
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        ReactiveFormsModule,
       ],
       declarations: [ AddHubPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

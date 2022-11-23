@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { MicroChatAddPage } from './micro-chat-add.page';
@@ -10,7 +11,10 @@ describe('MicroChatAddPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MicroChatAddPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [
+        IonicModule.forRoot(),
+        ReactiveFormsModule,
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MicroChatAddPage);

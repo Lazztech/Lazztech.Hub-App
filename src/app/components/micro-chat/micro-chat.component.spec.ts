@@ -4,6 +4,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { MicroChatComponent } from './micro-chat.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('MicroChatComponent', () => {
   let component: MicroChatComponent;
@@ -16,6 +17,7 @@ describe('MicroChatComponent', () => {
         IonicModule.forRoot(),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        ReactiveFormsModule,
       ]
     }).compileComponents();
 
