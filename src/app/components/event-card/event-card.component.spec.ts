@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ApolloTestingModule } from 'apollo-angular/testing';
+import { MomentModule } from 'ngx-moment';
 import { EventCardComponent } from './event-card.component';
 
 describe('EventCardComponent', () => {
@@ -13,6 +14,7 @@ describe('EventCardComponent', () => {
       imports: [
         IonicModule.forRoot(),
         ApolloTestingModule,
+        MomentModule,
       ]
     }).compileComponents();
 

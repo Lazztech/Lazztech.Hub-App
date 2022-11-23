@@ -5,6 +5,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { CreateEventPage } from './create-event.page';
+import { MomentModule } from 'ngx-moment';
 
 describe('CreateEventPage', () => {
   let component: CreateEventPage;
@@ -18,6 +19,7 @@ describe('CreateEventPage', () => {
         ReactiveFormsModule,
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        MomentModule,
       ],
       providers: [
         {
