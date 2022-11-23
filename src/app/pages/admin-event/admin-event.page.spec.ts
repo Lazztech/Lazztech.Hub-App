@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
-
+import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AdminEventPage } from './admin-event.page';
 
 describe('AdminEventPage', () => {
@@ -19,6 +19,7 @@ describe('AdminEventPage', () => {
         ReactiveFormsModule,
         LoggerModule.forRoot(environment.logging),
         RouterTestingModule.withRoutes([]),
+        ApolloTestingModule,
       ]
     }).compileComponents();
 

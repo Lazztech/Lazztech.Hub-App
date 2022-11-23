@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
-
+import { ApolloTestingModule } from 'apollo-angular/testing';
 import { PreviewHubPage } from './preview-hub.page';
 
 describe('PreviewHubPage', () => {
@@ -17,6 +17,7 @@ describe('PreviewHubPage', () => {
         IonicModule.forRoot(),
         RouterTestingModule.withRoutes([]),
         LoggerModule.forRoot(environment.logging),
+        ApolloTestingModule,
       ]
     }).compileComponents();
 

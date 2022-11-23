@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
-
+import { ApolloTestingModule } from 'apollo-angular/testing';
 import { HubPage } from './hub.page';
 
 describe('HubPage', () => {
@@ -17,6 +17,7 @@ describe('HubPage', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         LoggerModule.forRoot(environment.logging),
+        ApolloTestingModule,
       ]
     })
     .compileComponents();
