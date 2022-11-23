@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { IonicStorageModule } from '@ionic/storage';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { LoggerModule } from 'ngx-logger';
@@ -20,6 +21,7 @@ describe('PasswordResetPage', () => {
         ApolloTestingModule,
         LoggerModule.forRoot(environment.logging),
         ReactiveFormsModule,
+        RouterTestingModule.withRoutes([]),
       ]
     })
     .compileComponents();
