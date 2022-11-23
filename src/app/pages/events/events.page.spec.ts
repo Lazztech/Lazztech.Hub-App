@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
+import { ApolloTestingModule } from 'apollo-angular/testing';
 import { EventsPage } from './events.page';
 
 describe('EventsPage', () => {
@@ -10,7 +10,10 @@ describe('EventsPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EventsPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [
+        IonicModule.forRoot(),
+        ApolloTestingModule,
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(EventsPage);

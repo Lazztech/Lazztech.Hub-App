@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
-
+import { ApolloTestingModule } from 'apollo-angular/testing';
 import { InviteComponent } from './invite.component';
 
 describe('InviteComponent', () => {
@@ -15,6 +15,7 @@ describe('InviteComponent', () => {
       imports: [
         IonicModule.forRoot(),
         LoggerModule.forRoot(environment.logging),
+        ApolloTestingModule,
       ]
     }).compileComponents();
 
