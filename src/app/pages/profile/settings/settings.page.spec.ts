@@ -1,6 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicStorageModule } from '@ionic/storage';
+import { LoggerModule } from 'ngx-logger';
+import { environment } from 'src/environments/environment';
 
 import { SettingsPage } from './settings.page';
 
@@ -14,6 +16,7 @@ describe('SettingsPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         IonicStorageModule.forRoot(),
+        LoggerModule.forRoot(environment.logging),
       ]
     })
     .compileComponents();

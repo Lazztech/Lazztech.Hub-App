@@ -2,6 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicStorageModule } from '@ionic/storage';
 import { ApolloTestingModule } from 'apollo-angular/testing';
+import { LoggerModule } from 'ngx-logger';
+import { environment } from 'src/environments/environment';
 import { LandingPage } from './landing.page';
 
 describe('LandingPage', () => {
@@ -15,6 +17,7 @@ describe('LandingPage', () => {
       imports: [
         IonicStorageModule.forRoot(),
         ApolloTestingModule,
+        LoggerModule.forRoot(environment.logging),
       ]
     })
     .compileComponents();

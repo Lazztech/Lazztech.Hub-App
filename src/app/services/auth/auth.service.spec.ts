@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { IonicStorageModule } from '@ionic/storage';
 import { ApolloTestingModule } from 'apollo-angular/testing';
+import { LoggerModule } from 'ngx-logger';
+import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
@@ -8,6 +10,7 @@ describe('AuthService', () => {
     imports: [
       IonicStorageModule.forRoot(),
       ApolloTestingModule,
+      LoggerModule.forRoot(environment.logging),
     ]
   }));
 

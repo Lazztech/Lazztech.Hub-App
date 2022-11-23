@@ -8,6 +8,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
+import { LoggerModule } from 'ngx-logger';
+import { environment } from 'src/environments/environment';
 
 describe('AppComponent', () => {
 
@@ -31,6 +33,7 @@ describe('AppComponent', () => {
         RouterTestingModule.withRoutes([]),
         IonicStorageModule.forRoot(),
         ApolloTestingModule,
+        LoggerModule.forRoot(environment.logging),
       ],
     }).compileComponents();
   }));
