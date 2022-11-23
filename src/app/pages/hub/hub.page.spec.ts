@@ -5,6 +5,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { HubPage } from './hub.page';
+import { IonRouterOutlet } from '@ionic/angular';
 
 describe('HubPage', () => {
   let component: HubPage;
@@ -18,6 +19,15 @@ describe('HubPage', () => {
         RouterTestingModule.withRoutes([]),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+      ],
+      providers: [
+        {
+          provide: IonRouterOutlet,
+          useValue: {
+            //add whatever property of IonRouterOutlet you're using in component class
+            nativeEl: ""
+          }
+        }
       ]
     })
     .compileComponents();
