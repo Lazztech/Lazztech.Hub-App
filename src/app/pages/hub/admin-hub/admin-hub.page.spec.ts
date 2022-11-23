@@ -5,6 +5,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AdminHubPage } from './admin-hub.page';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AdminHubPage', () => {
   let component: AdminHubPage;
@@ -18,6 +19,7 @@ describe('AdminHubPage', () => {
         RouterTestingModule.withRoutes([]),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        ReactiveFormsModule,
       ]
     }).compileComponents();
 

@@ -5,6 +5,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { SettingsPage } from './settings.page';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('SettingsPage', () => {
   let component: SettingsPage;
@@ -18,6 +19,7 @@ describe('SettingsPage', () => {
         IonicStorageModule.forRoot(),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        ReactiveFormsModule,
       ]
     })
     .compileComponents();
