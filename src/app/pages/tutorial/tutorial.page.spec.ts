@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -14,6 +15,9 @@ describe('TutorialPage', () => {
       imports: [
         IonicModule.forRoot(),
         IonicStorageModule.forRoot(),
+      ],
+      providers: [
+        OpenNativeSettings,
       ]
     }).compileComponents();
 
