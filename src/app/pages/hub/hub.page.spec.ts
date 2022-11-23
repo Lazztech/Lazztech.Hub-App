@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { HubPage } from './hub.page';
 
@@ -11,6 +12,9 @@ describe('HubPage', () => {
     TestBed.configureTestingModule({
       declarations: [ HubPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+      ]
     })
     .compileComponents();
   }));

@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { PersonPage } from './person.page';
 
@@ -11,6 +12,9 @@ describe('PersonPage', () => {
     TestBed.configureTestingModule({
       declarations: [ PersonPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+      ]
     })
     .compileComponents();
   }));

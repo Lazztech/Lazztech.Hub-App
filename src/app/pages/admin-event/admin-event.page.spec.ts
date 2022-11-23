@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
@@ -17,6 +18,7 @@ describe('AdminEventPage', () => {
         IonicModule.forRoot(),
         ReactiveFormsModule,
         LoggerModule.forRoot(environment.logging),
+        RouterTestingModule.withRoutes([]),
       ]
     }).compileComponents();
 
