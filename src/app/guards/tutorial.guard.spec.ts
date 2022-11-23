@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { IonicStorageModule } from '@ionic/storage';
-
+import { ApolloTestingModule } from 'apollo-angular/testing';
 import { TutorialGuard } from './tutorial.guard';
 
 describe('TutorialGuard', () => {
@@ -10,6 +10,7 @@ describe('TutorialGuard', () => {
     TestBed.configureTestingModule({
       imports: [
         IonicStorageModule.forRoot(),
+        ApolloTestingModule,
       ],
     });
     guard = TestBed.inject(TutorialGuard);

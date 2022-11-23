@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicStorageModule } from '@ionic/storage';
-
+import { ApolloTestingModule } from 'apollo-angular/testing';
 import { RegisterPage } from './register.page';
 
 describe('RegisterPage', () => {
@@ -14,6 +14,7 @@ describe('RegisterPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         IonicStorageModule.forRoot(),
+        ApolloTestingModule,
       ]
     })
     .compileComponents();

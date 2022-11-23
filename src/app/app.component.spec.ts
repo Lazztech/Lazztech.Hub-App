@@ -5,7 +5,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
 import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 import { RouterTestingModule } from '@angular/router/testing';
-
+import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -30,6 +30,7 @@ describe('AppComponent', () => {
       imports: [ 
         RouterTestingModule.withRoutes([]),
         IonicStorageModule.forRoot(),
+        ApolloTestingModule,
       ],
     }).compileComponents();
   }));

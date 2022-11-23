@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicStorageModule } from '@ionic/storage';
-
+import { ApolloTestingModule } from 'apollo-angular/testing';
 import { PasswordResetPage } from './password-reset.page';
 
 describe('PasswordResetPage', () => {
@@ -14,6 +14,7 @@ describe('PasswordResetPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         IonicStorageModule.forRoot(),
+        ApolloTestingModule,
       ]
     })
     .compileComponents();
