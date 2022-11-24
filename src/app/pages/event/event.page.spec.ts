@@ -8,6 +8,7 @@ import { EventPage } from './event.page';
 import { IonicStorageModule } from '@ionic/storage';
 import { EventGQL } from 'src/graphql/graphql';
 import { HubService } from 'src/app/services/hub/hub.service';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 describe('EventPage', () => {
   let component: EventPage;
@@ -31,6 +32,7 @@ describe('EventPage', () => {
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
         IonicStorageModule.forRoot(),
+        ComponentsModule,
       ],
       providers: [
         {
