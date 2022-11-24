@@ -15,7 +15,7 @@
     <form [formGroup]="myForm" (ngSubmit)="sendPin()" method="post">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
+        <ion-input type="email" ngDefaultControl formControlName="email"></ion-input>
       </ion-item>
       <ion-text *ngIf="email.invalid && email.touched" class="ion-padding ion-text-center" color="danger">
         Please enter a valid email address
