@@ -46,10 +46,6 @@ export class AppComponent {
     this.isDark = this.themeService.isDark();
     document.body.classList.toggle('dark', this.isDark);
 
-    StatusBar.setStyle({
-      style: Style.Default,
-    });
-
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
         const domain = 'lazz.tech';
@@ -62,7 +58,14 @@ export class AppComponent {
 
     this.platform.ready().then(async () => {
       this.logger.log('Ionic Platform Ready');
-      SplashScreen.hide();
+      try {
+        await SplashScreen.hide();
+        await StatusBar.setStyle({
+          style: Style.Default,
+        });
+      } catch (err) {
+        console.log('This does not have influence on the browser', err);
+      }
 
       this.authService.getToken();
     });
