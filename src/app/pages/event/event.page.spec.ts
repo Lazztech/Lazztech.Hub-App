@@ -6,12 +6,23 @@ import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { EventPage } from './event.page';
 import { IonicStorageModule } from '@ionic/storage';
+import { EventGQL } from 'src/graphql/graphql';
+import { HubService } from 'src/app/services/hub/hub.service';
 
 describe('EventPage', () => {
   let component: EventPage;
   let fixture: ComponentFixture<EventPage>;
+  let eventGqlSpy;
+  let hubServiceSpy;
 
   beforeEach(waitForAsync(() => {
+    eventGqlSpy = jasmine.createSpyObj({
+      watch: () => undefined,
+    });
+    hubServiceSpy = jasmine.createSpyObj({
+      watchUsersPeople: () => undefined,
+    })
+
     TestBed.configureTestingModule({
       declarations: [ EventPage ],
       imports: [
@@ -28,7 +39,9 @@ describe('EventPage', () => {
             //add whatever property of IonRouterOutlet you're using in component class
             nativeEl: ""
           }
-        }
+        },
+        { provide: EventGQL, useValue: eventGqlSpy },
+        { provide: HubService, useValue: hubServiceSpy },
       ]
     }).compileComponents();
 

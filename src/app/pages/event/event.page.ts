@@ -63,7 +63,7 @@ export class EventPage implements OnInit, OnDestroy {
     this.queryRefs.push(eventQueryRef, usersPeopleQueryRef);
 
     this.subscriptions.push(
-      eventQueryRef.valueChanges.subscribe(x => {
+      eventQueryRef?.valueChanges?.subscribe(x => {
         this.loading = x.loading;
         this.userEventQueryResult = x;
         this.presentUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.isPresent);
@@ -72,7 +72,7 @@ export class EventPage implements OnInit, OnDestroy {
         this.cantgoUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'cantgo');
         this.noreplyUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => !x.rsvp);
       }, err => this.handleError(err)),
-      usersPeopleQueryRef.valueChanges.subscribe(result => {
+      usersPeopleQueryRef?.valueChanges?.subscribe(result => {
         this.persons = result;
         this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
           return !this.userEventQueryResult?.data?.event?.event?.usersConnection
