@@ -39,7 +39,7 @@
         [isOpen]="startDateTimeModalOpen"
         [breakpoints]="[0.5, 0.75, 1]"
         [initialBreakpoint]="0.5"
-        [swipeToClose]="true"
+        [canDismiss]="true"
         (didDismiss)="didDismissStartDateTimeModal()"
       >
         <ng-template>
@@ -55,7 +55,7 @@
       [isOpen]="endDateTimeModalOpen"
       [breakpoints]="[0.5, 0.75, 1]"
       [initialBreakpoint]="0.5"
-      [swipeToClose]="true"
+      [canDismiss]="true"
       (didDismiss)="didDismissEndDateTimeModal()"
     >
       <ng-template>
@@ -121,7 +121,7 @@
 
 <ion-modal
 [isOpen]="mapModalIsOpen"
-[swipeToClose]="true"
+[canDismiss]="true"
 [presentingElement]="routerOutlet.nativeEl"
 (didDismiss)="didDismissMapModal()"
 >
