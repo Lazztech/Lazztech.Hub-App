@@ -17,7 +17,7 @@
   <form [formGroup]="myForm" (ngSubmit)="inviteUser()" method="post">
     <ion-item>
       <ion-label position="floating">Email Address</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
+      <ion-input type="email" ngDefaultControl formControlName="email"></ion-input>
     </ion-item>
 
     <ion-text class="ion-padding ion-text-center" color="danger">

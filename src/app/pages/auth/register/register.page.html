@@ -10,14 +10,14 @@
 <ion-content>
   <form [formGroup]="myForm" (ngSubmit)="register()" method="post">
     <ion-item>
-      <ion-input formControlName="firstName" placeholder="First Name"></ion-input>
+      <ion-input ngDefaultControl formControlName="firstName" placeholder="First Name"></ion-input>
       <ion-text *ngIf="firstName.invalid && firstName.touched" class="ion-padding ion-text-center" color="danger">
         Required
       </ion-text>
     </ion-item>
 
     <ion-item>
-      <ion-input formControlName="lastName" placeholder="Last Name"></ion-input>
+      <ion-input ngDefaultControl formControlName="lastName" placeholder="Last Name"></ion-input>
       <ion-text *ngIf="lastName.invalid && lastName.touched" class="ion-padding ion-text-center" color="danger">
         Required
       </ion-text>
@@ -25,7 +25,7 @@
 
     <ion-item>
       <ion-label>Birth Year</ion-label>
-      <ion-datetime presentation="year" formControlName="birthdate" placeholder="Select Date"></ion-datetime>
+      <ion-datetime presentation="year" ngDefaultControl formControlName="birthdate" placeholder="Select Date"></ion-datetime>
     </ion-item>
     <ion-text *ngIf="birthdate.invalid" class="ion-padding ion-text-center" color="danger">
         Must be at least {{ageRestriction}} years of age.
@@ -33,18 +33,18 @@
 
     <ion-item>
       <ion-label position="stacked">Phone Number</ion-label>
-      <ion-input type="tel" formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter"></ion-input>
+      <ion-input type="tel" ngDefaultControl formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
+      <ion-input type="email" ngDefaultControl formControlName="email" placeholder="Email"></ion-input>
       <ion-text *ngIf="email.invalid && email.touched" class="ion-padding ion-text-center" color="danger">
         Please enter a valid email address
       </ion-text>
     </ion-item>
 
     <ion-item>
-      <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+      <ion-input type="password" ngDefaultControl formControlName="password" placeholder="Password"></ion-input>
       <ion-text *ngIf="password.invalid && password.touched" class="ion-padding ion-text-center" color="danger">
         Must be at least 10 characters
       </ion-text>
