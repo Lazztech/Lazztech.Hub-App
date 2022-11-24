@@ -1,6 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { NavController, Platform } from '@ionic/angular';
@@ -58,13 +59,11 @@ export class AppComponent {
 
     this.platform.ready().then(async () => {
       this.logger.log('Ionic Platform Ready');
-      try {
+      if(Capacitor.isNativePlatform()) {
         await SplashScreen.hide();
         await StatusBar.setStyle({
           style: Style.Default,
         });
-      } catch (err) {
-        console.log('This does not have influence on the browser', err);
       }
 
       this.authService.getToken();
