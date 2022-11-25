@@ -34,7 +34,7 @@ jobs:
 
     - name: npm test
       run: |
-          npm run test
+          npm test -- --watch=false --browsers=ChromeHeadless
 
       # - name: npm e2e
       #   run: |
