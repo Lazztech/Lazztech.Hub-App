@@ -33,9 +33,7 @@ export class PersonPage implements OnInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
   ) {
     this.subscriptions.push(this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.user = this.router.getCurrentNavigation().extras.state.user;
-      }
+        this.user = this.router.getCurrentNavigation()?.extras?.state?.user;
     }));
     this.id = this.route.snapshot.paramMap.get('id');
   }

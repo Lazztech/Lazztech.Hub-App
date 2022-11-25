@@ -1,6 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { NavController, Platform } from '@ionic/angular';
@@ -46,10 +47,6 @@ export class AppComponent {
     this.isDark = this.themeService.isDark();
     document.body.classList.toggle('dark', this.isDark);
 
-    StatusBar.setStyle({
-      style: Style.Default,
-    });
-
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
         const domain = 'lazz.tech';
@@ -62,7 +59,12 @@ export class AppComponent {
 
     this.platform.ready().then(async () => {
       this.logger.log('Ionic Platform Ready');
-      SplashScreen.hide();
+      if(Capacitor.isNativePlatform()) {
+        await SplashScreen.hide();
+        await StatusBar.setStyle({
+          style: Style.Default,
+        });
+      }
 
       this.authService.getToken();
     });

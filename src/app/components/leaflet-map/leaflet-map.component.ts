@@ -97,7 +97,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
       this.updateYourLocationMarker();
     }
 
-    if (!this.locations?.length) {
+    if (!this.locations?.length && this.center?.latitude && this.center?.longitude) {
       this.addMarker({ latitude: this.center.latitude, longitude: this.center.longitude });
       this.drawRadius({ latitude: this.center.latitude, longitude: this.center.longitude });
     }
@@ -109,7 +109,9 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
   }
 
   setCenter() {
-    this.map.setView([this.center.latitude, this.center.longitude], 13);
+    if (this.center?.latitude && this.center?.longitude) {
+      this.map.setView([this.center?.latitude, this.center?.longitude], 13);
+    }
   }
 
   addMarker(location: { id?: number, latitude: number, longitude: number }) {

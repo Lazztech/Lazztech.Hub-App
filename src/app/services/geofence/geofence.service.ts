@@ -7,6 +7,7 @@ import { Hub } from 'src/graphql/graphql';
 import { environment } from '../../../environments/environment';
 import { HubService } from '../hub/hub.service';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { Capacitor } from '@capacitor/core';
 
 export interface IGeofence {
   identifier: string;
@@ -86,8 +87,10 @@ export class GeofenceService {
   }
 
   async isPowerSaveMode() {
-    // FIXME: seems to always return false
-    return await BackgroundGeolocation.isPowerSaveMode();
+    if (Capacitor.isNativePlatform()) {
+      // FIXME: seems to always return false
+      return await BackgroundGeolocation.isPowerSaveMode();
+    }
   }
 
   async configureBackgroundGeolocation() {
@@ -153,7 +156,21 @@ export class GeofenceService {
   }
 
   public async getBackgroundGeolocationState() {
-    return await BackgroundGeolocation.getState();
+    if (Capacitor.isNativePlatform()) {
+      return await BackgroundGeolocation.getState();
+    }
+  }
+
+  public async getGeofences() {
+    if (Capacitor.isNativePlatform()) {
+      return BackgroundGeolocation.getGeofences();
+    }
+  }
+
+  public async getLocations() {
+    if (Capacitor.isNativePlatform()) {
+      return BackgroundGeolocation.getLocations();
+    }
   }
 
   private async exitedGeofence(hub: Hub, geofence: GeofenceEvent) {

@@ -15,14 +15,14 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-input type="text" formControlName="hubName" color="" [(ngModel)]="hub.name" placeholder="Hub name"></ion-input>
+        <ion-input type="text" ngDefaultControl formControlName="hubName" color="" [(ngModel)]="hub.name" placeholder="Hub name"></ion-input>
         <ion-label>
           <ion-text *ngIf="hubName.invalid" color="danger">*</ion-text>
         </ion-label>
       </ion-item>
 
       <ion-item>
-        <ion-textarea type="text" formControlName="hubDescription" [(ngModel)]="hub.description" placeholder="Add description"></ion-textarea>
+        <ion-textarea type="text" ngDefaultControl formControlName="hubDescription" [(ngModel)]="hub.description" placeholder="Add description"></ion-textarea>
       </ion-item>
 
       <ion-list-header class="ion-padding-bottom">
@@ -58,7 +58,7 @@
 
 <ion-modal
 [isOpen]="mapModalIsOpen"
-[swipeToClose]="true"
+[canDismiss]="true"
 [presentingElement]="routerOutlet.nativeEl"
 (didDismiss)="didDismissMapModal()"
 >

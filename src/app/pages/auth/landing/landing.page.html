@@ -19,7 +19,7 @@
         <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
           <ion-item>
             <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" formControlName="email"></ion-input>
+            <ion-input type="email" ngDefaultControl formControlName="email"></ion-input>
           </ion-item>
       
           <ion-text class="ion-padding ion-text-center" *ngIf="email.invalid && email.touched" color="danger">
@@ -28,7 +28,7 @@
         
           <ion-item>
             <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" formControlName="password"></ion-input>
+            <ion-input type="password" ngDefaultControl formControlName="password"></ion-input>
           </ion-item>
           <ion-text class="ion-padding ion-text-center" *ngIf="password.invalid && password.touched" color="danger">
                   Please enter a password at least 10 characters

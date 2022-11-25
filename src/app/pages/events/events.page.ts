@@ -33,7 +33,7 @@ export class EventsPage implements OnInit, OnDestroy {
     this.queryRefs.push(userEventsQueryRef);
 
     this.subscriptions.push(
-      userEventsQueryRef.valueChanges.subscribe(result => {
+      userEventsQueryRef?.valueChanges?.subscribe(result => {
         this.userEventsQueryResult = result;
         this.loading = result.loading;
         if (this.userEventsQueryResult?.data?.usersEvents) {

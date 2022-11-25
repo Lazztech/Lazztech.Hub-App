@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 import { IonicModule } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { TutorialPage } from './tutorial.page';
 
@@ -10,7 +12,13 @@ describe('TutorialPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TutorialPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [
+        IonicModule.forRoot(),
+        IonicStorageModule.forRoot(),
+      ],
+      providers: [
+        OpenNativeSettings,
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TutorialPage);

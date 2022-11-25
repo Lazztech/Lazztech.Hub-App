@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
 import { DiagnosticService } from 'src/app/services/diagnostic/diagnostic.service';
 import { DevicePermissions } from 'src/app/services/diagnostic/models/devicePermissions';
 import { DeviceSettings } from 'src/app/services/diagnostic/models/deviceSettings';
@@ -26,8 +27,14 @@ export class StatusPage implements OnInit {
 
   async ngOnInit() {
     this.loading = true;
-    this.deviceSettings = await this.diagnosticService.checkIosSettings();
-    this.devicePermissions = await this.diagnosticService.checkIosPermissions();
+    try {
+      if (Capacitor.isNativePlatform()) {
+        this.deviceSettings = await this.diagnosticService.checkIosSettings();
+        this.devicePermissions = await this.diagnosticService.checkIosPermissions();
+      }
+    } catch (error) {
+      this.loading = false;      
+    }
     this.loading = false;
   }
 
