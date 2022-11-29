@@ -190,9 +190,9 @@ export class HubService {
       });
   }
 
-  watchInvite(hubId: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
+  watchInvite(inviteId: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
     return this.inviteGQLService.watch({
-        hubId
+        inviteId
       }, {
         fetchPolicy
       });
