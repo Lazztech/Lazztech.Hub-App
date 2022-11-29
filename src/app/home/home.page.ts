@@ -98,11 +98,11 @@ export class HomePage implements OnInit, OnDestroy {
 
           this.hubs = this.userHubs?.map(x => x.hub as Hub);
         }
-      }),
+      }, err => this.handleError(err)),
       invitesByUserRef.valueChanges.subscribe(x => {
         this.invites = x?.data?.invitesByUser;
         this.loading = x.loading;
-      })
+      }, err => this.handleError(err))
     );
   }
 
@@ -118,6 +118,11 @@ export class HomePage implements OnInit, OnDestroy {
     this.subscriptions.forEach(
       x => x.unsubscribe()
     );
+  }
+
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
   }
 
   userTrackByHub(index: any, joinUserHub: JoinUserHub) {

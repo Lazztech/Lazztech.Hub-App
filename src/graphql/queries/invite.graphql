@@ -1,5 +1,5 @@
-query invite($hubId: ID!) {
-  invite(hubId: $hubId) {
+query invite($inviteId: ID!) {
+  invite(inviteId: $inviteId) {
     id
     invitersId
     inviteesId
@@ -20,6 +20,7 @@ query invite($hubId: ID!) {
       image
       latitude
       longitude
+      locationLabel
     }
   }
 }

@@ -190,9 +190,9 @@ export class HubService {
       });
   }
 
-  watchInvite(hubId: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
+  watchInvite(inviteId: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
     return this.inviteGQLService.watch({
-        hubId
+        inviteId
       }, {
         fetchPolicy
       });
@@ -232,8 +232,9 @@ export class HubService {
     }, {
       refetchQueries: [
         { query: UsersHubsDocument },
-        { query: InvitesByUserDocument }
-      ]
+        { query: InvitesByUserDocument },
+      ],
+      awaitRefetchQueries: true,
     }).toPromise();
   }
 
@@ -242,10 +243,11 @@ export class HubService {
       hubId,
       inviteId
     }, {
-      
       refetchQueries: [
-        { query: HubDocument, variables: { id: hubId } as HubQueryVariables },
-      ]
+        { query: UsersHubsDocument },
+        { query: InvitesByUserDocument }
+      ],
+      awaitRefetchQueries: true,
     }).toPromise();
 
     return result.data.deleteInvite;

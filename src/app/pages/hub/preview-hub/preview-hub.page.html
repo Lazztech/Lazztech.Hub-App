@@ -1,7 +1,7 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>Hub Invite</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
@@ -9,12 +9,12 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-  <app-hub-profile *ngIf="(invite | async) as invite" [hub]="invite?.hub"></app-hub-profile>
+  <app-hub-profile *ngIf="invite" [hub]="invite?.hub"></app-hub-profile>
 
   <ion-list-header>Hub Location</ion-list-header>
 
-  <ion-card *ngIf="!loading && (invite | async) && hubCoords" style="height:30%" (click)="goToMap()">
-      <app-leaflet-map *ngIf="invite && hubCoords" [center]="hubCoords" [hubs]="[(invite | async).hub]">
+  <ion-card *ngIf="!loading && invite?.hub && hubCoords" style="height:30%" (click)="goToMap()">
+      <app-leaflet-map *ngIf="invite?.hub && hubCoords" [center]="hubCoords" [hubs]="[invite.hub]">
       </app-leaflet-map>
   </ion-card>
 </ion-content>

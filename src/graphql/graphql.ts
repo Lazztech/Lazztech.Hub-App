@@ -511,7 +511,8 @@ export type QueryHubArgs = {
 
 
 export type QueryInviteArgs = {
-  hubId: Scalars['ID'];
+  hubId?: InputMaybe<Scalars['ID']>;
+  inviteId?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -992,11 +993,11 @@ export type HubQueryVariables = Exact<{
 export type HubQuery = { __typename?: 'Query', hub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, usersConnection?: Array<{ __typename?: 'JoinUserHub', isOwner: boolean, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null, events?: Array<{ __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string, phoneNumber?: string | null } | null }> | null, microChats?: Array<{ __typename?: 'MicroChat', id: string, text: string }> | null } | null } };
 
 export type InviteQueryVariables = Exact<{
-  hubId: Scalars['ID'];
+  inviteId: Scalars['ID'];
 }>;
 
 
-export type InviteQuery = { __typename?: 'Query', invite: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null } | null } };
+export type InviteQuery = { __typename?: 'Query', invite: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null } | null } };
 
 export type InvitesByHubQueryVariables = Exact<{
   hubId: Scalars['ID'];
@@ -2303,8 +2304,8 @@ export const HubDocument = gql`
     }
   }
 export const InviteDocument = gql`
-    query invite($hubId: ID!) {
-  invite(hubId: $hubId) {
+    query invite($inviteId: ID!) {
+  invite(inviteId: $inviteId) {
     id
     invitersId
     inviteesId
@@ -2325,6 +2326,7 @@ export const InviteDocument = gql`
       image
       latitude
       longitude
+      locationLabel
     }
   }
 }
