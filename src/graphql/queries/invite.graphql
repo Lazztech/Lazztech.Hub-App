@@ -20,6 +20,7 @@ query invite($hubId: ID!) {
       image
       latitude
       longitude
+      locationLabel
     }
   }
 }

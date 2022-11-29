@@ -996,7 +996,7 @@ export type InviteQueryVariables = Exact<{
 }>;
 
 
-export type InviteQuery = { __typename?: 'Query', invite: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null } | null } };
+export type InviteQuery = { __typename?: 'Query', invite: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null } | null } };
 
 export type InvitesByHubQueryVariables = Exact<{
   hubId: Scalars['ID'];
@@ -2325,6 +2325,7 @@ export const InviteDocument = gql`
       image
       latitude
       longitude
+      locationLabel
     }
   }
 }
