@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { InviteQuery, Scalars } from 'src/graphql/graphql';
