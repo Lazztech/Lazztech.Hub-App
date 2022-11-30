@@ -25,7 +25,7 @@
 
     <ion-item>
       <ion-input type="numeric" appAutofill ngDefaultControl formControlName="birthdate" placeholder="Select Date" autocomplete="bday-year"></ion-input>
-      <ion-text *ngIf="birthdate.invalid" class="ion-padding ion-text-center" color="danger">
+      <ion-text *ngIf="birthdate.invalid && birthdate.touched" class="ion-padding ion-text-center" color="danger">
         Must be at least {{ageRestriction}} years of age.
       </ion-text>
     </ion-item>
