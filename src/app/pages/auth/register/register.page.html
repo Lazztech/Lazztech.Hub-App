@@ -10,14 +10,14 @@
 <ion-content>
   <form [formGroup]="myForm" (ngSubmit)="register()" method="post">
     <ion-item>
-      <ion-input ngDefaultControl formControlName="firstName" placeholder="First Name"></ion-input>
+      <ion-input appAutofill ngDefaultControl formControlName="firstName" placeholder="First Name" autocomplete="given-name"></ion-input>
       <ion-text *ngIf="firstName.invalid && firstName.touched" class="ion-padding ion-text-center" color="danger">
         Required
       </ion-text>
     </ion-item>
 
     <ion-item>
-      <ion-input ngDefaultControl formControlName="lastName" placeholder="Last Name"></ion-input>
+      <ion-input appAutofill ngDefaultControl formControlName="lastName" placeholder="Last Name" autocomplete="family-name"></ion-input>
       <ion-text *ngIf="lastName.invalid && lastName.touched" class="ion-padding ion-text-center" color="danger">
         Required
       </ion-text>
@@ -33,11 +33,11 @@
 
     <ion-item>
       <ion-label position="stacked">Phone Number</ion-label>
-      <ion-input type="tel" ngDefaultControl formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter"></ion-input>
+      <ion-input appAutofill type="tel" ngDefaultControl formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter" autocomplete="tel-national"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="email" ngDefaultControl formControlName="email" placeholder="Email"></ion-input>
+      <ion-input appAutofill type="email" ngDefaultControl formControlName="email" placeholder="Email" autocomplete="email"></ion-input>
       <ion-text *ngIf="email.invalid && email.touched" class="ion-padding ion-text-center" color="danger">
         Please enter a valid email address
       </ion-text>
