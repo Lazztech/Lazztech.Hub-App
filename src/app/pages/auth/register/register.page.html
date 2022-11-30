@@ -10,14 +10,14 @@
 <ion-content>
   <form [formGroup]="myForm" (ngSubmit)="register()" method="post">
     <ion-item>
-      <ion-input appAutofill ngDefaultControl formControlName="firstName" placeholder="First Name" autocomplete="given-name"></ion-input>
+      <ion-input type="text" appAutofill ngDefaultControl formControlName="firstName" placeholder="First Name" autocomplete="given-name"></ion-input>
       <ion-text *ngIf="firstName.invalid && firstName.touched" class="ion-padding ion-text-center" color="danger">
         Required
       </ion-text>
     </ion-item>
 
     <ion-item>
-      <ion-input appAutofill ngDefaultControl formControlName="lastName" placeholder="Last Name" autocomplete="family-name"></ion-input>
+      <ion-input type="text" appAutofill ngDefaultControl formControlName="lastName" placeholder="Last Name" autocomplete="family-name"></ion-input>
       <ion-text *ngIf="lastName.invalid && lastName.touched" class="ion-padding ion-text-center" color="danger">
         Required
       </ion-text>
