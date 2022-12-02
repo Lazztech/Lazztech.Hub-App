@@ -1,9 +1,5 @@
-<ion-header translucent="true">
-  <ion-toolbar>
-    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
-  </ion-toolbar>
-</ion-header>
 <ion-content fullscreen="true">
+  <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
 
   <ion-grid>
     <ion-row>
@@ -15,8 +11,18 @@
         <ion-card-title class="ion-text-center">Lazztech Hub</ion-card-title>
         <p class="ion-text-center">From app to the real world - Foster Community</p>
       </ion-col>
+
       <ion-col size="12" size-md="6" class="ion-no-padding">
+        <ion-list-header>
+          <ion-text>Register</ion-text>
+        </ion-list-header>
+        <br/>
+        <ion-button expand="block" class="ion-padding-start ion-padding-end" (click)="register()">Get Started!</ion-button>
+
         <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
+          <ion-list-header>
+            <ion-text>Login</ion-text>
+          </ion-list-header>
           <ion-item>
             <ion-label position="floating">Email</ion-label>
             <ion-input type="email" ngDefaultControl formControlName="email"></ion-input>
@@ -36,24 +42,15 @@
           
           <br/>
       
-          <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block" color="primary">Login</ion-button>
+          <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block" color="medium">Login</ion-button>
+          <ion-text class="ion-padding ion-text-center ion-float-end" color="medium">
+            <p>
+              Or <a (click)="resetPassword()">Reset Password</a>
+            </p>
+        </ion-text>
         </form>
       </ion-col>
     </ion-row>
   </ion-grid>
 
 </ion-content>
-<ion-footer translucent="true">
-  <ion-toolbar>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-button expand="block" color="danger" (click)="register()">Register</ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button expand="block" color="secondary" (click)="resetPassword()">Reset Password</ion-button>  
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-footer>
