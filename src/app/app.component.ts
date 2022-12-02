@@ -29,6 +29,7 @@ export class AppComponent {
   ];
 
   isDark = false;
+  isLoggedIn$;
 
   constructor(
     private platform: Platform,
@@ -66,7 +67,7 @@ export class AppComponent {
         });
       }
 
-      this.authService.getToken();
+      this.isLoggedIn$ = this.authService.isLoggedIn$;
     });
   }
 
