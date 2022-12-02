@@ -14,10 +14,11 @@
 
       <ion-col size="12" size-md="6" class="ion-no-padding">
         <ion-list-header>
-          <ion-text>Register</ion-text>
+          <ion-text>Get Started</ion-text>
         </ion-list-header>
         <br/>
-        <ion-button expand="block" class="ion-padding-start ion-padding-end" (click)="register()">Get Started!</ion-button>
+        <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="register()">Register</ion-button>
+        <br/>
 
         <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
           <ion-list-header>
@@ -42,7 +43,7 @@
           
           <br/>
       
-          <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block" color="medium">Login</ion-button>
+          <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block">Login</ion-button>
           <ion-text class="ion-padding ion-text-center ion-float-end" color="medium">
             <p>
               Or <a (click)="resetPassword()">Reset Password</a>
