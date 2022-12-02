@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NGXLogger } from 'ngx-logger';
+import { Subject } from 'rxjs';
 import { LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
 
 @Injectable({
@@ -8,6 +9,7 @@ import { LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailG
 })
 export class AuthService {
   isLoggedIn = false;
+  isLoggedIn$: Subject<boolean> = new Subject();
   token: any;
 
   constructor(
@@ -19,6 +21,11 @@ export class AuthService {
     private meService: MeGQL,
     private logger: NGXLogger
   ) { }
+
+  private setIsLoggedIn(value: boolean) {
+    this.isLoggedIn = value;
+    this.isLoggedIn$.next(value);
+  }
 
   async login(email: string, password: string): Promise<boolean> {
     const result = await this.loginService.mutate({
@@ -32,7 +39,7 @@ export class AuthService {
     if (this.token) {
       this.logger.log('Login successful.');
       await this.storage.set('token', this.token);
-      this.isLoggedIn = true;
+      this.setIsLoggedIn(true);
     } else {
       this.logger.log('Login failure');
     }
@@ -42,7 +49,7 @@ export class AuthService {
 
   async logout() {
     await this.storage.remove('token');
-    this.isLoggedIn = false;
+    this.setIsLoggedIn(false);
     delete this.token;
   }
 
@@ -135,15 +142,15 @@ export class AuthService {
       this.token = await this.storage.get('token');
 
       if (this.token != null) {
-        this.isLoggedIn = true;
+        this.setIsLoggedIn(true);
       } else {
-        this.isLoggedIn = false;
+        this.setIsLoggedIn(false);
       }
 
       return this.token;
     } catch (error) {
       this.token = null;
-      this.isLoggedIn = false;
+      this.setIsLoggedIn(false);
     }
   }
 }
