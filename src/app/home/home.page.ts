@@ -110,7 +110,8 @@ export class HomePage implements OnInit, OnDestroy {
 
   async ionViewDidEnter() {
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
-    this.leafletMap.initMap();
+    this.leafletMap.invalidateSize();
+    setTimeout(() => this.leafletMap.invalidateSize(), 3000);
   }
 
   async ionViewDidLeave() {
