@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MenuController, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserHub, User, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { environment } from '../../environments/environment';
+import { LeafletMapComponent } from '../components/leaflet-map/leaflet-map.component';
+import { AlertService } from '../services/alert/alert.service';
 import { AuthService } from '../services/auth/auth.service';
+import { DebuggerService } from '../services/debugger/debugger.service';
 import { ForegroundGeofenceService } from '../services/foreground-geofence.service';
 import { LocationService } from '../services/location/location.service';
-import { DebuggerService } from '../services/debugger/debugger.service';
-import { AlertService } from '../services/alert/alert.service';
-import { ApolloQueryResult } from '@apollo/client/core';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +24,8 @@ export class HomePage implements OnInit, OnDestroy {
   devModeEasterEggCount = 0;
 
   loading = true;
+  @ViewChild(LeafletMapComponent)
+  leafletMap: LeafletMapComponent;
   invites: InvitesByUserQuery['invitesByUser'];
   filter = '';
   filteredUserHubs: UsersHubsQuery['usersHubs'];
@@ -108,6 +110,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   async ionViewDidEnter() {
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
+    this.leafletMap.initMap();
   }
 
   async ionViewDidLeave() {
