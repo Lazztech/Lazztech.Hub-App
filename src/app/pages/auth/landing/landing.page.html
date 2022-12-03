@@ -23,6 +23,29 @@
         <br/>
         <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="register()">Register</ion-button>
         <br/>
+        <ion-list-header>
+          <ion-text>3rd Party Sign in</ion-text>
+        </ion-list-header>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block">
+                <ion-icon name="logo-google"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block">
+                <ion-icon name="logo-apple"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block">
+                <ion-icon name="logo-microsoft"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
 
         <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
           <ion-list-header>
