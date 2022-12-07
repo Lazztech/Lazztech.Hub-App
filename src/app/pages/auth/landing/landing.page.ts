@@ -7,6 +7,8 @@ import { NGXLogger } from 'ngx-logger';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Browser } from '@capacitor/browser';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -111,6 +113,14 @@ export class LandingPage implements OnInit {
         this.alertService.presentRedToast('You must have logged into an active account recently.');
       }
     });
+  }
+
+  async navigateToPrivacyPolicy() {
+    await Browser.open({ url: environment.legal.privacyPolicyLink });
+  }
+
+  async navigateToTermsAndConditions() {
+    await Browser.open({ url: environment.legal.termsAndConditions });
   }
 
 }
