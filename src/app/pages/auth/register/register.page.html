@@ -24,11 +24,12 @@
     </ion-item>
 
     <ion-item>
-      <ion-input type="numeric" appAutofill ngDefaultControl formControlName="birthdate" placeholder="Birth Year" autocomplete="bday-year"></ion-input>
-      <ion-text *ngIf="birthdate.invalid && birthdate.touched" class="ion-padding ion-text-center" color="danger">
-        Must be at least {{ageRestriction}} years of age.
-      </ion-text>
+      <ion-label>Birth Year</ion-label>
+      <ion-datetime presentation="year" ngDefaultControl formControlName="birthdate" placeholder="Select Date"></ion-datetime>
     </ion-item>
+    <ion-text *ngIf="birthdate.invalid" class="ion-padding ion-text-center" color="danger">
+        Must be at least {{ageRestriction}} years of age.
+    </ion-text>
 
     <ion-item>
       <ion-input appAutofill type="tel" ngDefaultControl formControlName="phoneNumber" placeholder="Phone Number: +1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter" autocomplete="tel"></ion-input>
