@@ -21,6 +21,11 @@ export type EventFieldPolicy = {
 	startDateTime?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersConnection?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type ExpeditedRegistrationKeySpecifier = ('jwt' | 'password' | ExpeditedRegistrationKeySpecifier)[];
+export type ExpeditedRegistrationFieldPolicy = {
+	jwt?: FieldPolicy<any> | FieldReadFunction<any>,
+	password?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type HubKeySpecifier = ('active' | 'description' | 'events' | 'id' | 'image' | 'invites' | 'latitude' | 'locationLabel' | 'longitude' | 'microChats' | 'name' | 'shareableId' | 'usersConnection' | HubKeySpecifier)[];
 export type HubFieldPolicy = {
 	active?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -89,7 +94,7 @@ export type MicroChatFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'blockUser' | 'changeEmail' | 'changeHubImage' | 'changeHubLocation' | 'changePassword' | 'changeUserImage' | 'createEvent' | 'createHub' | 'createMicroChat' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'deleteMicroChat' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredHubGeofence' | 'exitedHubGeofence' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'microChatToHub' | 'mute' | 'register' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'blockUser' | 'changeEmail' | 'changeHubImage' | 'changeHubLocation' | 'changePassword' | 'changeUserImage' | 'createEvent' | 'createHub' | 'createMicroChat' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'deleteMicroChat' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredHubGeofence' | 'exitedHubGeofence' | 'expeditedRegistration' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'microChatToHub' | 'mute' | 'register' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptHubInvite?: FieldPolicy<any> | FieldReadFunction<any>,
 	activateHub?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -116,6 +121,7 @@ export type MutationFieldPolicy = {
 	editUserDetails?: FieldPolicy<any> | FieldReadFunction<any>,
 	enteredHubGeofence?: FieldPolicy<any> | FieldReadFunction<any>,
 	exitedHubGeofence?: FieldPolicy<any> | FieldReadFunction<any>,
+	expeditedRegistration?: FieldPolicy<any> | FieldReadFunction<any>,
 	inviteUserToEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	inviteUserToHub?: FieldPolicy<any> | FieldReadFunction<any>,
 	leaveHub?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -164,7 +170,7 @@ export type QueryFieldPolicy = {
 	usersHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersPeople?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('birthdate' | 'blocked' | 'blocks' | 'description' | 'email' | 'firstName' | 'id' | 'image' | 'lastName' | 'lastOnline' | 'phoneNumber' | 'shareableId' | 'userDevices' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('birthdate' | 'blocked' | 'blocks' | 'description' | 'email' | 'firstName' | 'id' | 'image' | 'lastName' | 'lastOnline' | 'phoneNumber' | 'shareableId' | 'userDevices' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	birthdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	blocked?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -178,7 +184,8 @@ export type UserFieldPolicy = {
 	lastOnline?: FieldPolicy<any> | FieldReadFunction<any>,
 	phoneNumber?: FieldPolicy<any> | FieldReadFunction<any>,
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
-	userDevices?: FieldPolicy<any> | FieldReadFunction<any>
+	userDevices?: FieldPolicy<any> | FieldReadFunction<any>,
+	username?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type UserDeviceKeySpecifier = ('fcmPushUserToken' | 'id' | 'userId' | UserDeviceKeySpecifier)[];
 export type UserDeviceFieldPolicy = {
@@ -194,6 +201,10 @@ export type StrictTypedTypePolicies = {
 	Event?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EventKeySpecifier | (() => undefined | EventKeySpecifier),
 		fields?: EventFieldPolicy,
+	},
+	ExpeditedRegistration?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | ExpeditedRegistrationKeySpecifier | (() => undefined | ExpeditedRegistrationKeySpecifier),
+		fields?: ExpeditedRegistrationFieldPolicy,
 	},
 	Hub?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | HubKeySpecifier | (() => undefined | HubKeySpecifier),
