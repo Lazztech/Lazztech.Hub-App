@@ -1,5 +1,6 @@
 mutation expeditedRegistration {
   expeditedRegistration {
+    username
     jwt
     password
   }

@@ -21,10 +21,11 @@ export type EventFieldPolicy = {
 	startDateTime?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersConnection?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ExpeditedRegistrationKeySpecifier = ('jwt' | 'password' | ExpeditedRegistrationKeySpecifier)[];
+export type ExpeditedRegistrationKeySpecifier = ('jwt' | 'password' | 'username' | ExpeditedRegistrationKeySpecifier)[];
 export type ExpeditedRegistrationFieldPolicy = {
 	jwt?: FieldPolicy<any> | FieldReadFunction<any>,
-	password?: FieldPolicy<any> | FieldReadFunction<any>
+	password?: FieldPolicy<any> | FieldReadFunction<any>,
+	username?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type HubKeySpecifier = ('active' | 'description' | 'events' | 'id' | 'image' | 'invites' | 'latitude' | 'locationLabel' | 'longitude' | 'microChats' | 'name' | 'shareableId' | 'usersConnection' | HubKeySpecifier)[];
 export type HubFieldPolicy = {

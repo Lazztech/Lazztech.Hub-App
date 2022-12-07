@@ -123,4 +123,18 @@ export class LandingPage implements OnInit {
     await Browser.open({ url: environment.legal.termsAndConditions });
   }
 
+  async expeditedRegistration() {
+    const result = await this.authService.expeditedRegistration();
+    if (result.jwt) {
+      await this.authService.login(result.username, result.password);
+      this.loading = false;
+      await this.navCtrl.navigateRoot(this.returnUrl || '/tabs');
+    } else {
+      this.loading = false;
+      this.alertService.presentToast('Registration Failed');
+    }
+  } catch (error) {
+    this.loading = false;
+    this.alertService.presentRedToast(error);
+  }
 }

@@ -47,6 +47,7 @@ export type ExpeditedRegistration = {
   __typename?: 'ExpeditedRegistration';
   jwt: Scalars['String'];
   password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type Hub = {
@@ -793,7 +794,7 @@ export type ExitedHubGeofenceMutation = { __typename?: 'Mutation', exitedHubGeof
 export type ExpeditedRegistrationMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ExpeditedRegistrationMutation = { __typename?: 'Mutation', expeditedRegistration: { __typename?: 'ExpeditedRegistration', jwt: string, password: string } };
+export type ExpeditedRegistrationMutation = { __typename?: 'Mutation', expeditedRegistration: { __typename?: 'ExpeditedRegistration', username: string, jwt: string, password: string } };
 
 export type InviteUserToEventMutationVariables = Exact<{
   eventId: Scalars['ID'];
@@ -1593,6 +1594,7 @@ export const ExitedHubGeofenceDocument = gql`
 export const ExpeditedRegistrationDocument = gql`
     mutation expeditedRegistration {
   expeditedRegistration {
+    username
     jwt
     password
   }
