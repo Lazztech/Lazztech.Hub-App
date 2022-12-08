@@ -12,7 +12,7 @@
 
     <ion-list lines="none">
       <ion-list-header>
-        <ion-text>Settings</ion-text>
+        <ion-text>Profile Settings</ion-text>
       </ion-list-header>
 
       <form *ngIf="this.myForm" [formGroup]="myForm" (ngSubmit)="save()" method="post">
@@ -80,10 +80,10 @@
         <ion-label>Delete Account</ion-label>
       </ion-item>
 
-      <ion-item href="javascript:void(0);" (click)="clearStorage()">
+      <!-- <ion-item href="javascript:void(0);" (click)="clearStorage()">
         <ion-icon name="trash" color="medium" slot="start"></ion-icon>
         <ion-label>Clear Device App Storage</ion-label>
-      </ion-item>
+      </ion-item> -->
     </ion-list>
 
     <ion-list lines="none" *ngIf="false">
