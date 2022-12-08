@@ -57,6 +57,13 @@ export class AuthService {
   async expeditedRegistration() {
     const result = await this.expeditedRegistrationService.mutate().toPromise();
     this.token = result.data.expeditedRegistration.jwt;
+    if (this.token) {
+      this.logger.log('Login successful.');
+      await this.storage.set('token', this.token);
+      this.setIsLoggedIn(true);
+    } else {
+      this.logger.log('Login failure');
+    }
     return result.data.expeditedRegistration;
   }
 

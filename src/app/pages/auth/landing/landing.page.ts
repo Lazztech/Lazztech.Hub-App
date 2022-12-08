@@ -70,6 +70,11 @@ export class LandingPage implements OnInit {
     });
   }
 
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
+  }
+
   async register() {
     await this.navCtrl.navigateForward('/register', {
       queryParams: {
@@ -124,17 +129,18 @@ export class LandingPage implements OnInit {
   }
 
   async expeditedRegistration() {
-    const result = await this.authService.expeditedRegistration();
-    if (result.jwt) {
-      await this.authService.login(result.username, result.password);
-      this.loading = false;
-      await this.navCtrl.navigateRoot(this.returnUrl || '/tabs');
-    } else {
-      this.loading = false;
-      this.alertService.presentToast('Registration Failed');
+    try {
+      this.loading = true;
+      const result = await this.authService.expeditedRegistration();
+      if (result.jwt) {
+        this.loading = false;
+        await this.navCtrl.navigateRoot(this.returnUrl || '/tabs');
+      } else {
+        this.loading = false;
+        this.alertService.presentToast('Registration Failed');
+      }
+    } catch (error) {
+      this.handleError(error);
     }
-  } catch (error) {
-    this.loading = false;
-    this.alertService.presentRedToast(error);
   }
 }
