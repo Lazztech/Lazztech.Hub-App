@@ -60,6 +60,7 @@ export class AuthService {
     if (this.token) {
       this.logger.log('Login successful.');
       await this.storage.set('token', this.token);
+      await this.storage.set('expeditedRegistration', result.data.expeditedRegistration);
       this.setIsLoggedIn(true);
     } else {
       this.logger.log('Login failure');
