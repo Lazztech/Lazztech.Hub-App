@@ -107,6 +107,12 @@ export class ProfilePage implements OnInit, OnDestroy {
     const actionSheet = await this.actionSheetController.create({
       header: 'Profile Picture',
       buttons: [{
+        text: 'Profile Settings & More',
+        handler: () => {
+          this.navCtrl.navigateForward('settings');
+        }
+      },
+      {
         text: 'Take Picture',
         handler: () => {
           this.logger.log('Take Picture clicked');
@@ -173,7 +179,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     const actionSheet = await this.actionSheetController.create({
       header: 'Profile',
       buttons: [{
-        text: 'Settings & More',
+        text: 'Profile Settings & More',
         handler: () => {
           this.navCtrl.navigateForward('settings');
         }
