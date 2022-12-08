@@ -198,8 +198,17 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.navCtrl.navigateRoot('/landing');
     }
   }
+
   async toggleTheme() {
     await this.themeService.toggle();
+  }
+
+  goToAddHubPage() {
+    this.navCtrl.navigateForward('add-hub');
+  }
+
+  goToCreateEventPage() {
+    this.navCtrl.navigateForward('create-event');
   }
 
   adminHub(id: Scalars['ID']) {

@@ -27,18 +27,6 @@
       <ion-skeleton-text animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
 
-      <ion-card *ngIf="!loading && !userHubs?.length">
-        <ion-item lines="none">
-          <ion-card-header>
-            <ion-card-subtitle>Get Started</ion-card-subtitle>
-          </ion-card-header>
-          <ion-icon slot="end" name="arrow-down"></ion-icon>
-          <ion-card-content>
-            Create a community Hub and receive notifications when people gather.
-        </ion-card-content>
-        </ion-item>
-      </ion-card>
-
       <ion-list *ngIf="invites?.length">
         <ion-list-header>
             <ion-text>Invites</ion-text>
@@ -55,6 +43,19 @@
           <ion-list-header>
               <ion-text>Hubs</ion-text>
           </ion-list-header>
+
+          <ion-card *ngIf="!loading && !userHubs?.length">
+            <ion-item lines="none">
+              <ion-card-header>
+                <ion-card-subtitle>Get Started</ion-card-subtitle>
+              </ion-card-header>
+              <ion-icon slot="end" name="arrow-down"></ion-icon>
+              <ion-card-content>
+                Create a community Hub and receive notifications when people gather.
+            </ion-card-content>
+            </ion-item>
+          </ion-card>
+          
           <div *ngFor="let userHub of userHubs; trackBy: userTrackByHub">
             <app-hub-card
             [hub]="userHub.hub"
