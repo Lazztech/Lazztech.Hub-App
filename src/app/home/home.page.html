@@ -27,7 +27,7 @@
       <ion-skeleton-text animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
 
-      <ion-item *ngIf="completedInitialAccountSetup == false" lines="none" href="javascript:void(0);" (click)="goToSettingsPage()">
+      <ion-item *ngIf="completedInitialAccountSetup === false" lines="none" href="javascript:void(0);" (click)="goToSettingsPage()">
         <ion-card-header>
           <ion-card-subtitle color="warning">
             Warning
