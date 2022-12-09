@@ -31,10 +31,6 @@
         </ion-item>
 
         <ion-item>
-          <ion-input formControlName="description" placeholder="Description"></ion-input>
-        </ion-item>
-
-        <ion-item>
           <ion-label position="stacked">Phone Number</ion-label>
           <ion-input appAutofill autocomplete="tel" type="tel" formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter"></ion-input>
         </ion-item>
@@ -52,6 +48,10 @@
           <ion-text *ngIf="password.invalid" class="ion-padding ion-text-center" color="danger">
             *Must be at least 10 characters
           </ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-input formControlName="description" placeholder="Description"></ion-input>
         </ion-item>
       </form>
     </ion-list>
