@@ -16,6 +16,15 @@
 
     <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
 
+    <ion-item lines="none" *ngIf="!loading && !personsResult?.data?.usersPeople?.length">
+      <ion-card-header>
+        <ion-card-subtitle>Get Started</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        Your common community members of shared Hubs will show up here. Create your first Hub and invite people to get started!
+    </ion-card-content>
+    </ion-item>
+
     <ion-list *ngIf="!loading && filter === ''">
       <div *ngFor="let item of alphabetizedPersons | keyvalue">
         <div *ngIf="item?.value?.length">

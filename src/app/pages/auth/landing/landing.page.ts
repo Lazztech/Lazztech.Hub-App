@@ -7,6 +7,8 @@ import { NGXLogger } from 'ngx-logger';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Browser } from '@capacitor/browser';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -68,6 +70,11 @@ export class LandingPage implements OnInit {
     });
   }
 
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
+  }
+
   async register() {
     await this.navCtrl.navigateForward('/register', {
       queryParams: {
@@ -113,4 +120,27 @@ export class LandingPage implements OnInit {
     });
   }
 
+  async navigateToPrivacyPolicy() {
+    await Browser.open({ url: environment.legal.privacyPolicyLink });
+  }
+
+  async navigateToTermsAndConditions() {
+    await Browser.open({ url: environment.legal.termsAndConditions });
+  }
+
+  async expeditedRegistration() {
+    try {
+      this.loading = true;
+      const result = await this.authService.expeditedRegistration();
+      if (result.jwt) {
+        this.loading = false;
+        await this.navCtrl.navigateRoot(this.returnUrl || '/tabs');
+      } else {
+        this.loading = false;
+        this.alertService.presentToast('Registration Failed');
+      }
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
 }

@@ -14,17 +14,16 @@
       <ion-text>Upcoming</ion-text>
     </ion-list-header>
 
-    <ion-card *ngIf="!upcomingEvents?.length">
-      <ion-item lines="none">
-        <ion-card-header>
-          <ion-card-subtitle>Get Started</ion-card-subtitle>
-        </ion-card-header>
-        <ion-icon slot="end" name="arrow-down"></ion-icon>
-        <ion-card-content>
-          Create an event and invite guests!
-      </ion-card-content>
-      </ion-item>
-    </ion-card>
+
+    <ion-item lines="none" *ngIf="!upcomingEvents?.length">
+      <ion-card-header>
+        <ion-card-subtitle>Get Started</ion-card-subtitle>
+      </ion-card-header>
+      <ion-icon slot="end" name="arrow-down"></ion-icon>
+      <ion-card-content>
+        Create an event and invite guests!
+    </ion-card-content>
+    </ion-item>
   
     <ion-grid class="ion-no-padding">
       <ion-row>

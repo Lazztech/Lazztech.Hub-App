@@ -3,6 +3,7 @@ query me {
     id
     firstName
     lastName
+    username
     description
     image
     email

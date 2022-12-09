@@ -23,6 +23,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   userResult: ApolloQueryResult<MeQuery>;
   userHubsResult: ApolloQueryResult<UsersHubsQuery>;
   userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
+  completedInitialAccountSetup: boolean;
 
   loading: boolean = true;
   
@@ -84,6 +85,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async ionViewDidEnter() {
+    this.completedInitialAccountSetup = await this.authService.completedInitialAccountSetup();
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
   }
 
@@ -107,6 +109,12 @@ export class ProfilePage implements OnInit, OnDestroy {
     const actionSheet = await this.actionSheetController.create({
       header: 'Profile Picture',
       buttons: [{
+        text: 'Profile Settings & More',
+        handler: () => {
+          this.navCtrl.navigateForward('settings');
+        }
+      },
+      {
         text: 'Take Picture',
         handler: () => {
           this.logger.log('Take Picture clicked');
@@ -173,7 +181,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     const actionSheet = await this.actionSheetController.create({
       header: 'Profile',
       buttons: [{
-        text: 'Settings & More',
+        text: 'Profile Settings & More',
         handler: () => {
           this.navCtrl.navigateForward('settings');
         }
@@ -198,8 +206,21 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.navCtrl.navigateRoot('/landing');
     }
   }
+
   async toggleTheme() {
     await this.themeService.toggle();
+  }
+
+  goToAddHubPage() {
+    this.navCtrl.navigateForward('add-hub');
+  }
+
+  goToCreateEventPage() {
+    this.navCtrl.navigateForward('create-event');
+  }
+
+  goToSettingsPage() {
+    this.navCtrl.navigateForward('settings');
   }
 
   adminHub(id: Scalars['ID']) {

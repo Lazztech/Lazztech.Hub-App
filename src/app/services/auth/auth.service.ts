@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NGXLogger } from 'ngx-logger';
 import { Subject } from 'rxjs';
-import { LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
+import { ExpeditedRegistration, ExpeditedRegistrationGQL, LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,7 @@ export class AuthService {
     private sendPasswordResetEmailService: SendPasswordResetEmailGQL,
     private resetPasswordService: ResetPasswordGQL,
     private meService: MeGQL,
+    private expeditedRegistrationService: ExpeditedRegistrationGQL,
     private logger: NGXLogger
   ) { }
 
@@ -51,6 +52,32 @@ export class AuthService {
     await this.storage.remove('token');
     this.setIsLoggedIn(false);
     delete this.token;
+  }
+
+  async expeditedRegistration() {
+    const result = await this.expeditedRegistrationService.mutate().toPromise();
+    this.token = result.data.expeditedRegistration.jwt;
+    if (this.token) {
+      this.logger.log('Login successful.');
+      await this.storage.set('token', this.token);
+      await this.storage.set('expeditedRegistration', result.data.expeditedRegistration);
+      this.setIsLoggedIn(true);
+    } else {
+      this.logger.log('Login failure');
+    }
+    return result.data.expeditedRegistration;
+  }
+
+  async getExpeditedRegistrationDetails(): Promise<ExpeditedRegistration> {
+    return this.storage.get('expeditedRegistration');
+  }
+
+  async completedInitialAccountSetup(): Promise<boolean> {
+    return !!!await this.storage.get('expeditedRegistration');
+  }
+
+  async setInitialAccountSetupTrue() {
+    await this.storage.set('expeditedRegistration', undefined);
   }
 
   async register(

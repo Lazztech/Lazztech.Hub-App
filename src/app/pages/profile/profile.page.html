@@ -24,10 +24,34 @@
     [showLastOnline]="false">
   </app-profile-details>
 
+
+    <ion-item *ngIf="completedInitialAccountSetup === false" lines="none" href="javascript:void(0);" (click)="goToSettingsPage()">
+      <ion-card-header>
+        <ion-card-subtitle color="warning">
+          Warning
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-icon slot="end" name="warning-outline" color="warning"></ion-icon>
+      <ion-card-content>
+        Finish your account set up to ensure you're able to recover your account if signed out!
+    </ion-card-content>
+    </ion-item>
+
+
   <ion-list>
     <ion-list-header class="ion-padding-bottom">
       <ion-text>Your Hubs</ion-text>
     </ion-list-header>
+
+    <ion-item *ngIf="!loading && !filteredUsersHubs?.length" lines="none" href="javascript:void(0);" (click)="goToAddHubPage()">
+      <ion-card-header>
+        <ion-card-subtitle>Get Started</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        Create a community Hub and receive notifications when people gather.
+    </ion-card-content>
+    </ion-item>
+
     <ion-item *ngFor="let userHub of filteredUsersHubs; trackBy: userTrackByHub" href="javascript:void(0);" (click)="adminHub(userHub.hubId)">
       <ion-avatar slot="start">
         <ion-img width="100%" *ngIf="userHub.hub.image" src="{{userHub.hub.image}}"></ion-img>
@@ -46,6 +70,17 @@
     <ion-list-header class="ion-padding-bottom">
       <ion-text>Your Events</ion-text>
     </ion-list-header>
+
+
+    <ion-item *ngIf="!loading && !filteredUsersEvents?.length" lines="none" href="javascript:void(0);" (click)="goToCreateEventPage()">
+      <ion-card-header>
+        <ion-card-subtitle>Get Started</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        Create an event and invite guests!
+    </ion-card-content>
+    </ion-item>
+
     <ion-item *ngFor="let userEvent of filteredUsersEvents; trackBy: trackByEvent" href="javascript:void(0);" (click)="adminEvent(userEvent.eventId)">
       <ion-avatar slot="start">
         <ion-img width="100%" *ngIf="userEvent?.event?.image" src="{{userEvent?.event?.image}}"></ion-img>

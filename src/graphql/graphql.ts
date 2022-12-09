@@ -43,6 +43,13 @@ export type Event = {
   usersConnection?: Maybe<Array<JoinUserEvent>>;
 };
 
+export type ExpeditedRegistration = {
+  __typename?: 'ExpeditedRegistration';
+  jwt: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
 export type Hub = {
   __typename?: 'Hub';
   active?: Maybe<Scalars['Boolean']>;
@@ -149,6 +156,7 @@ export type Mutation = {
   editUserDetails: User;
   enteredHubGeofence: JoinUserHub;
   exitedHubGeofence: JoinUserHub;
+  expeditedRegistration: ExpeditedRegistration;
   inviteUserToEvent: JoinUserEvent;
   inviteUserToHub: Invite;
   leaveHub: Scalars['Boolean'];
@@ -556,16 +564,17 @@ export type User = {
   blocked?: Maybe<Scalars['Boolean']>;
   blocks?: Maybe<Array<Block>>;
   description?: Maybe<Scalars['String']>;
-  email: Scalars['String'];
-  firstName: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
-  lastName: Scalars['String'];
+  lastName?: Maybe<Scalars['String']>;
   /** unix timestamp for the last time the user was successfully authenticated */
   lastOnline?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   shareableId: Scalars['String'];
   userDevices?: Maybe<Array<UserDevice>>;
+  username?: Maybe<Scalars['String']>;
 };
 
 export type UserDevice = {
@@ -611,14 +620,14 @@ export type BlockUserMutationVariables = Exact<{
 }>;
 
 
-export type BlockUserMutation = { __typename?: 'Mutation', blockUser: { __typename?: 'Block', from: { __typename?: 'User', id: string, firstName: string }, to: { __typename?: 'User', id: string, firstName: string } } };
+export type BlockUserMutation = { __typename?: 'Mutation', blockUser: { __typename?: 'Block', from: { __typename?: 'User', id: string, firstName?: string | null }, to: { __typename?: 'User', id: string, firstName?: string | null } } };
 
 export type ChangeEmailMutationVariables = Exact<{
   newEmail: Scalars['String'];
 }>;
 
 
-export type ChangeEmailMutation = { __typename?: 'Mutation', changeEmail: { __typename?: 'User', id: string, email: string } };
+export type ChangeEmailMutation = { __typename?: 'Mutation', changeEmail: { __typename?: 'User', id: string, email?: string | null } };
 
 export type ChangeHubImageMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -664,7 +673,7 @@ export type CreateEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, user?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string } | null } };
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string } | null } };
 
 export type CreateHubMutationVariables = Exact<{
   name: Scalars['String'];
@@ -766,7 +775,7 @@ export type EditUserDetailsMutationVariables = Exact<{
 }>;
 
 
-export type EditUserDetailsMutation = { __typename?: 'Mutation', editUserDetails: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null } };
+export type EditUserDetailsMutation = { __typename?: 'Mutation', editUserDetails: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null } };
 
 export type EnteredHubGeofenceMutationVariables = Exact<{
   hubId: Scalars['ID'];
@@ -782,13 +791,18 @@ export type ExitedHubGeofenceMutationVariables = Exact<{
 
 export type ExitedHubGeofenceMutation = { __typename?: 'Mutation', exitedHubGeofence: { __typename?: 'JoinUserHub', userId: string, hubId: string, isPresent?: boolean | null } };
 
+export type ExpeditedRegistrationMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ExpeditedRegistrationMutation = { __typename?: 'Mutation', expeditedRegistration: { __typename?: 'ExpeditedRegistration', username: string, jwt: string, password: string } };
+
 export type InviteUserToEventMutationVariables = Exact<{
   eventId: Scalars['ID'];
   inviteesEmail: Scalars['String'];
 }>;
 
 
-export type InviteUserToEventMutation = { __typename?: 'Mutation', inviteUserToEvent: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, user?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string } | null } };
+export type InviteUserToEventMutation = { __typename?: 'Mutation', inviteUserToEvent: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string } | null } };
 
 export type InviteUserToHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
@@ -796,7 +810,7 @@ export type InviteUserToHubMutationVariables = Exact<{
 }>;
 
 
-export type InviteUserToHubMutation = { __typename?: 'Mutation', inviteUserToHub: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName: string, lastName: string } | null, invitee?: { __typename?: 'User', id: string, firstName: string, lastName: string } | null, hub?: { __typename?: 'Hub', id: string, name: string } | null } };
+export type InviteUserToHubMutation = { __typename?: 'Mutation', inviteUserToHub: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, invitee?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string } | null } };
 
 export type LeaveHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
@@ -926,7 +940,7 @@ export type UnblockUserMutationVariables = Exact<{
 }>;
 
 
-export type UnblockUserMutation = { __typename?: 'Mutation', unblockUser: { __typename?: 'Block', from: { __typename?: 'User', id: string, firstName: string }, to: { __typename?: 'User', id: string, firstName: string } } };
+export type UnblockUserMutation = { __typename?: 'Mutation', unblockUser: { __typename?: 'Block', from: { __typename?: 'User', id: string, firstName?: string | null }, to: { __typename?: 'User', id: string, firstName?: string | null } } };
 
 export type UnmuteMutationVariables = Exact<{
   hubId: Scalars['ID'];
@@ -948,7 +962,7 @@ export type UpdateEventMutationVariables = Exact<{
 }>;
 
 
-export type UpdateEventMutation = { __typename?: 'Mutation', updateEvent: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null } | null }> | null } };
+export type UpdateEventMutation = { __typename?: 'Mutation', updateEvent: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null } | null }> | null } };
 
 export type UpdateHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
@@ -969,7 +983,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, phoneNumber?: string | null, shareableId: string } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, phoneNumber?: string | null, shareableId: string } };
 
 export type CommonUsersHubsQueryVariables = Exact<{
   otherUsersId: Scalars['ID'];
@@ -983,38 +997,38 @@ export type EventQueryVariables = Exact<{
 }>;
 
 
-export type EventQuery = { __typename?: 'Query', event: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string, phoneNumber?: string | null } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null } | null } };
+export type EventQuery = { __typename?: 'Query', event: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null } | null } };
 
 export type HubQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type HubQuery = { __typename?: 'Query', hub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, usersConnection?: Array<{ __typename?: 'JoinUserHub', isOwner: boolean, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null, events?: Array<{ __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string, phoneNumber?: string | null } | null }> | null, microChats?: Array<{ __typename?: 'MicroChat', id: string, text: string }> | null } | null } };
+export type HubQuery = { __typename?: 'Query', hub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, usersConnection?: Array<{ __typename?: 'JoinUserHub', isOwner: boolean, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null, events?: Array<{ __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null }> | null, microChats?: Array<{ __typename?: 'MicroChat', id: string, text: string }> | null } | null } };
 
 export type InviteQueryVariables = Exact<{
   inviteId: Scalars['ID'];
 }>;
 
 
-export type InviteQuery = { __typename?: 'Query', invite: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null } | null } };
+export type InviteQuery = { __typename?: 'Query', invite: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null } | null } };
 
 export type InvitesByHubQueryVariables = Exact<{
   hubId: Scalars['ID'];
 }>;
 
 
-export type InvitesByHubQuery = { __typename?: 'Query', invitesByHub: Array<{ __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName: string, lastName: string, image?: string | null } | null, invitee?: { __typename?: 'User', id: string, firstName: string, lastName: string, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string } | null }> };
+export type InvitesByHubQuery = { __typename?: 'Query', invitesByHub: Array<{ __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, image?: string | null } | null, invitee?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string } | null }> };
 
 export type InvitesByUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type InvitesByUserQuery = { __typename?: 'Query', invitesByUser: Array<{ __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null }> | null } | null }> };
+export type InvitesByUserQuery = { __typename?: 'Query', invitesByUser: Array<{ __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null }> | null } | null }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, phoneNumber?: string | null, shareableId: string, blocks?: Array<{ __typename?: 'Block', from: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string }, to: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string } }> | null } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, email?: string | null, phoneNumber?: string | null, shareableId: string, blocks?: Array<{ __typename?: 'Block', from: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string }, to: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } }> | null } | null };
 
 export type PaginatedInAppNotifcationsQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -1029,7 +1043,7 @@ export type PaginatedInAppNotifcationsQuery = { __typename?: 'Query', paginatedI
 export type UserEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserEventsQuery = { __typename?: 'Query', usersEvents: Array<{ __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, user?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName: string, lastName: string, description?: string | null, image?: string | null, email: string, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null } | null }> };
+export type UserEventsQuery = { __typename?: 'Query', usersEvents: Array<{ __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null } | null }> };
 
 export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1039,7 +1053,7 @@ export type UsersHubsQuery = { __typename?: 'Query', usersHubs: Array<{ __typena
 export type UsersPeopleQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersPeopleQuery = { __typename?: 'Query', usersPeople: Array<{ __typename?: 'User', id: string, firstName: string, lastName: string, email: string, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null }> };
+export type UsersPeopleQuery = { __typename?: 'Query', usersPeople: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null }> };
 
 export const AcceptHubInviteDocument = gql`
     mutation acceptHubInvite($inviteId: ID!) {
@@ -1572,6 +1586,26 @@ export const ExitedHubGeofenceDocument = gql`
   })
   export class ExitedHubGeofenceGQL extends Apollo.Mutation<ExitedHubGeofenceMutation, ExitedHubGeofenceMutationVariables> {
     document = ExitedHubGeofenceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ExpeditedRegistrationDocument = gql`
+    mutation expeditedRegistration {
+  expeditedRegistration {
+    username
+    jwt
+    password
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ExpeditedRegistrationGQL extends Apollo.Mutation<ExpeditedRegistrationMutation, ExpeditedRegistrationMutationVariables> {
+    document = ExpeditedRegistrationDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -2426,6 +2460,7 @@ export const MeDocument = gql`
     id
     firstName
     lastName
+    username
     description
     image
     email
