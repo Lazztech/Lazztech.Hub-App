@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
 import { Storage } from '@ionic/storage';
 import { NGXLogger } from 'ngx-logger';
 import { Subject } from 'rxjs';
 import { ExpeditedRegistration, ExpeditedRegistrationGQL, LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
+import { SavePassword } from 'capacitor-ios-autofill-save-password';
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +80,15 @@ export class AuthService {
 
   async setInitialAccountSetupTrue() {
     await this.storage.set('expeditedRegistration', undefined);
+  }
+
+  async iOSAutofillSavePassword(username: string, password: string) {
+    if (Capacitor.getPlatform() === 'ios') {
+      await SavePassword.promptDialog({
+          username,
+          password,
+      });
+    }
   }
 
   async register(

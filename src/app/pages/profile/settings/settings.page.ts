@@ -157,10 +157,14 @@ export class SettingsPage implements OnInit {
         );
         this.authService.setInitialAccountSetupTrue();
         this.completedInitialAccountSetup = true;
-      }
+        this.alertService.presentToast('Saved');
+        this.loading = false;
 
-      this.alertService.presentToast('Saved');
-      this.loading = false;
+        await this.authService.iOSAutofillSavePassword(this.email.value, this.password.value);
+      } else {
+        this.alertService.presentToast('Saved');
+        this.loading = false;
+      }
     } catch (error) {
       this.handleError(error);
     }
