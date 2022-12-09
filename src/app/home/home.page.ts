@@ -24,6 +24,7 @@ export class HomePage implements OnInit, OnDestroy {
   devModeEasterEggCount = 0;
 
   loading = true;
+  completedInitialAccountSetup: boolean;
   invites: InvitesByUserQuery['invitesByUser'];
   filter = '';
   filteredUserHubs: UsersHubsQuery['usersHubs'];
@@ -107,6 +108,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async ionViewDidEnter() {
+    this.completedInitialAccountSetup = await this.authService.completedInitialAccountSetup();
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
   }
 

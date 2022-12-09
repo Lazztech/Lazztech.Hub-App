@@ -23,6 +23,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   userResult: ApolloQueryResult<MeQuery>;
   userHubsResult: ApolloQueryResult<UsersHubsQuery>;
   userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
+  completedInitialAccountSetup: boolean;
 
   loading: boolean = true;
   
@@ -84,6 +85,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   async ionViewDidEnter() {
+    this.completedInitialAccountSetup = await this.authService.completedInitialAccountSetup();
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
   }
 
