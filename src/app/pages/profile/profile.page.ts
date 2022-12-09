@@ -217,6 +217,10 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('create-event');
   }
 
+  goToSettingsPage() {
+    this.navCtrl.navigateForward('settings');
+  }
+
   adminHub(id: Scalars['ID']) {
     this.navCtrl.navigateForward('admin-hub/' + id);
   }

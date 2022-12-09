@@ -18,15 +18,15 @@
       <form *ngIf="this.myForm" [formGroup]="myForm" (ngSubmit)="save()" method="post">
         <ion-item>
           <ion-input formControlName="firstName" placeholder="First Name"></ion-input>
-          <ion-text *ngIf="firstName.invalid && firstName.touched" class="ion-padding ion-text-center" color="danger">
-            Required
+          <ion-text *ngIf="firstName.invalid" class="ion-padding ion-text-center" color="danger">
+            *
           </ion-text>
         </ion-item>
       
         <ion-item>
           <ion-input formControlName="lastName" placeholder="Last Name"></ion-input>
-          <ion-text *ngIf="lastName.invalid && lastName.touched" class="ion-padding ion-text-center" color="danger">
-            Required
+          <ion-text *ngIf="lastName.invalid" class="ion-padding ion-text-center" color="danger">
+            *
           </ion-text>
         </ion-item>
 
@@ -42,8 +42,8 @@
       
         <ion-item>
           <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
-          <ion-text *ngIf="email.invalid && email.touched" class="ion-padding ion-text-center" color="danger">
-            Please enter a valid email address
+          <ion-text *ngIf="email.invalid" class="ion-padding ion-text-center" color="danger">
+            *Please enter a valid email address
           </ion-text>
         </ion-item>
       </form>

@@ -145,6 +145,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('add-hub');
   }
 
+  goToSettingsPage() {
+    this.navCtrl.navigateForward('settings');
+  }
+
   filterHubs(ev: any) {
     this.filter = ev.target.value;
 
