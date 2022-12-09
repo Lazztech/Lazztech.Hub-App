@@ -132,6 +132,10 @@ export class SettingsPage implements OnInit {
     this.loading = false;
   }
 
+  gotoNextField(nextElement){
+    nextElement.setFocus();
+  }
+
   async save() {
     try {
       this.loading = true;
