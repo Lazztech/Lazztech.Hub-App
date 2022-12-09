@@ -127,18 +127,39 @@ export class SettingsPage implements OnInit {
     this.loading = false;
   }
 
-  async save() {
-    this.loading = true;
-    await this.updateUserService.mutate({
-      data: {
-        firstName: this.firstName?.value,
-        lastName: this.lastName?.value,
-        description: this.description?.value,
-        phoneNumber: this.phoneNumber?.value,
-        email: this.email?.value,
-      }
-    }).toPromise();
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
     this.loading = false;
+  }
+
+  async save() {
+    try {
+      this.loading = true;
+      await this.updateUserService.mutate({
+        data: {
+          firstName: this.firstName?.value,
+          lastName: this.lastName?.value,
+          description: this.description?.value,
+          phoneNumber: this.phoneNumber?.value,
+          email: this.email?.value,
+        }
+      }).toPromise();
+
+      if (!this.completedInitialAccountSetup && this.email?.value && this.password?.value) {
+        const initialDetails = await this.authService.getExpeditedRegistrationDetails();
+        await this.profileService.changePassword(
+          initialDetails.password,
+          this.password.value
+        );
+        this.authService.setInitialAccountSetupTrue();
+        this.completedInitialAccountSetup = true;
+      }
+
+      this.alertService.presentToast('Saved');
+      this.loading = false;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   async changePassword() {

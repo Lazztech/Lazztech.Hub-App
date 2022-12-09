@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NGXLogger } from 'ngx-logger';
 import { Subject } from 'rxjs';
-import { ExpeditedRegistrationGQL, LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
+import { ExpeditedRegistration, ExpeditedRegistrationGQL, LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -68,8 +68,16 @@ export class AuthService {
     return result.data.expeditedRegistration;
   }
 
-  async completedInitialAccountSetup() {
+  async getExpeditedRegistrationDetails(): Promise<ExpeditedRegistration> {
+    return this.storage.get('expeditedRegistration');
+  }
+
+  async completedInitialAccountSetup(): Promise<boolean> {
     return !!!await this.storage.get('expeditedRegistration');
+  }
+
+  async setInitialAccountSetupTrue() {
+    await this.storage.set('expeditedRegistration', undefined);
   }
 
   async register(
