@@ -14,6 +14,7 @@ import { Browser } from '@capacitor/browser';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MeGQL, UpdateUserGQL } from 'src/graphql/graphql';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -35,6 +36,8 @@ export class SettingsPage implements OnInit {
 
   ageRestriction = 16;
 
+  completedInitialAccountSetup: boolean;
+
   get firstName() {
     return this.myForm.get('firstName');
   }
@@ -55,6 +58,10 @@ export class SettingsPage implements OnInit {
     return this.myForm.get('phoneNumber');
   }
 
+  get password() {
+    return this.myForm.get('password');
+  }
+
   public countries: Array<{ code: number, flag: string, region: string}> = [];
 
 
@@ -69,6 +76,7 @@ export class SettingsPage implements OnInit {
     private fb: UntypedFormBuilder,
     private meService: MeGQL,
     private updateUserService: UpdateUserGQL,
+    private authService: AuthService,
   ) { }
 
   async ngOnInit() {
@@ -76,20 +84,46 @@ export class SettingsPage implements OnInit {
     this.countries = this.communicationService.countryCodes();
     const me = await this.meService.fetch().toPromise();
     const user = me?.data?.me;
-    this.myForm = this.fb.group({
-      firstName: [user?.firstName, [
-        Validators.required
-      ]],
-      lastName: [user?.lastName, [
-        Validators.required
-      ]],
-      description: [user?.description],
-      phoneNumber: [user?.phoneNumber],
-      email: [user?.email, [
-        Validators.required,
-        Validators.email
-      ]],
-    });
+
+    this.completedInitialAccountSetup = await this.authService.completedInitialAccountSetup();
+    console.log('completedInitialAccountSetup: ', this.completedInitialAccountSetup);
+
+    if (!this.completedInitialAccountSetup) {
+      this.myForm = this.fb.group({
+        firstName: [user?.firstName, [
+          Validators.required
+        ]],
+        lastName: [user?.lastName, [
+          Validators.required
+        ]],
+        description: [user?.description],
+        phoneNumber: [user?.phoneNumber],
+        email: [user?.email, [
+          Validators.required,
+          Validators.email
+        ]],
+        password: ['', [
+          Validators.required,
+          Validators.minLength(10)
+        ]]
+      });
+    } else {
+      this.myForm = this.fb.group({
+        firstName: [user?.firstName, [
+          Validators.required
+        ]],
+        lastName: [user?.lastName, [
+          Validators.required
+        ]],
+        description: [user?.description],
+        phoneNumber: [user?.phoneNumber],
+        email: [user?.email, [
+          Validators.required,
+          Validators.email
+        ]],
+      });
+    }
+
     this.loading = false;
   }
 

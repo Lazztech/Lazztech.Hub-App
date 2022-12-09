@@ -68,6 +68,10 @@ export class AuthService {
     return result.data.expeditedRegistration;
   }
 
+  async completedInitialAccountSetup() {
+    return !!!await this.storage.get('expeditedRegistration');
+  }
+
   async register(
     firstName: string, 
     lastName: string, 

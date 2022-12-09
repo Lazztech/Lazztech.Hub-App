@@ -46,6 +46,13 @@
             *Please enter a valid email address
           </ion-text>
         </ion-item>
+
+        <ion-item *ngIf="!completedInitialAccountSetup">
+          <ion-input type="password" ngDefaultControl formControlName="password" placeholder="Password"></ion-input>
+          <ion-text *ngIf="password.invalid" class="ion-padding ion-text-center" color="danger">
+            *Must be at least 10 characters
+          </ion-text>
+        </ion-item>
       </form>
     </ion-list>
 
