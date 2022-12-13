@@ -114,6 +114,11 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     }
   }
 
+  public invalidateSize() {
+    this.map?.invalidateSize();
+    console.log('invalidateSize');
+  }
+
   addMarker(location: { id?: number, latitude: number, longitude: number }) {
     if (location) {
       const mk = marker([location.latitude, location.longitude]);
