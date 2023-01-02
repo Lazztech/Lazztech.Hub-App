@@ -143,6 +143,14 @@ export class CreateEventPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
 
+  startDateTimeChange(ev) {
+    const dateTime = new Date(ev?.detail?.value);
+    dateTime.setHours(dateTime.getHours() + 1);
+    this.myForm.patchValue({
+      endDateTime: dateTime,
+    });
+  }
+
   toggleStartDateTimeModal() {
     this.startDateTimeModalOpen = !this.startDateTimeModalOpen;
   }

@@ -39,7 +39,12 @@
       >
         <ng-template>
           <ion-content>
-            <ion-datetime size="cover" formControlName="startDateTime" minuteValues="0,15,30,45">
+            <ion-datetime 
+              size="cover" 
+              formControlName="startDateTime"
+              minuteValues="0,15,30,45"
+              (ionChange)="startDateTimeChange($event)"
+            >
               <div slot="title">Start Date & Time</div>
             </ion-datetime>
           </ion-content>
@@ -55,7 +60,11 @@
     >
       <ng-template>
         <ion-content>
-          <ion-datetime size="cover" formControlName="endDateTime" minuteValues="0,15,30,45">
+          <ion-datetime 
+            size="cover"
+            formControlName="endDateTime"
+            minuteValues="0,15,30,45"
+          >
             <div slot="title">End Date & Time</div>
           </ion-datetime>
         </ion-content>
