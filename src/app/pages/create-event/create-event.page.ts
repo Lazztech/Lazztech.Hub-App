@@ -60,15 +60,14 @@ export class CreateEventPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     const now = new Date();
-    const roundedMinutes = (Math.round(now.getMinutes()/15) * 15) % 60;
-    now.setMinutes(roundedMinutes);
+    now.setMinutes(0);
     this.myForm = this.fb.group({
       eventName: ['', [
         Validators.required
       ]],
       eventDescription: [''],
       startDateTime: [now.setHours(now.getHours() + 1)],
-      endDateTime: [now.setHours(now.getHours() + 1)],
+      endDateTime: [now.setHours(now.getHours() + 3)],
       location: [],
     });
   }
@@ -148,7 +147,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
 
   startDateTimeChange(ev) {
     const dateTime = new Date(ev?.detail?.value);
-    dateTime.setHours(dateTime.getHours() + 1);
+    dateTime.setHours(dateTime.getHours() + 3);
     this.myForm.patchValue({
       endDateTime: dateTime,
     });
