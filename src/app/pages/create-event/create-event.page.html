@@ -49,6 +49,7 @@
               size="cover"
               formControlName="startDateTime"
               minuteValues="0,15,30,45"
+              [min]="startMin"
             >
               <div slot="title">Start Date & Time</div>
             </ion-datetime>
@@ -69,6 +70,7 @@
             size="cover"
             formControlName="endDateTime"
             minuteValues="0,15,30,45"
+            [min]="endMin"
           >
             <div slot="title">End Date & Time</div>
           </ion-datetime>

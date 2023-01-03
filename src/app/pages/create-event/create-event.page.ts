@@ -36,6 +36,10 @@ export class CreateEventPage implements OnInit, OnDestroy {
   mapModalIsOpen: boolean = false;
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   subscriptions: Subscription[] = [];
+  startMin = moment().format();
+  get endMin() {
+    return moment(this.startDateTime.value).add(15, 'minutes').format();
+  }
 
   get eventName() {
     return this.myForm.get('eventName');
