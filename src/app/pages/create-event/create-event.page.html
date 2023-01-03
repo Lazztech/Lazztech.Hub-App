@@ -28,6 +28,12 @@
 
       <ion-item>
         <ion-input readonly type="text" placeholder="End Date & Time" [value]="endDateTime.value | amDateFormat:'ddd ll h:mm A'" (click)="toggleEndDateTimeModal()"></ion-input>
+        <ion-label>
+          <ion-text *ngIf="myForm.errors?.['invalidEndDate']" color="danger">*</ion-text>
+        </ion-label>
+        <ion-note *ngIf="myForm.errors?.['invalidEndDate']" slot="helper" color="danger">
+          Enter an end date that's after the start date.
+        </ion-note>
       </ion-item>
 
       <ion-modal
@@ -39,7 +45,12 @@
       >
         <ng-template>
           <ion-content>
-            <ion-datetime size="cover" formControlName="startDateTime">
+            <ion-datetime
+              size="cover"
+              formControlName="startDateTime"
+              minuteValues="0,15,30,45"
+              [min]="startMin"
+            >
               <div slot="title">Start Date & Time</div>
             </ion-datetime>
           </ion-content>
@@ -55,7 +66,12 @@
     >
       <ng-template>
         <ion-content>
-          <ion-datetime size="cover" formControlName="endDateTime">
+          <ion-datetime 
+            size="cover"
+            formControlName="endDateTime"
+            minuteValues="0,15,30,45"
+            [min]="endMin"
+          >
             <div slot="title">End Date & Time</div>
           </ion-datetime>
         </ion-content>

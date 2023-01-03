@@ -109,6 +109,7 @@
     "leaflet": "^1.9.3",
     "leaflet-geosearch": "^3.7.0",
     "lodash-es": "^4.17.21",
+    "moment": "^2.29.4",
     "ngx-logger": "^5.0.11",
     "ngx-moment": "^6.0.2",
     "rxjs": "^7.5.7",

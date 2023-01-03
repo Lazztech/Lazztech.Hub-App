@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Photo } from '@capacitor/camera';
 import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
@@ -8,6 +8,17 @@ import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { CreateEventGQL } from 'src/graphql/graphql';
+import datefns from 'date-fns';
+import moment from 'moment';
+
+export const eventGroupValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const start = control.get('startDateTime');
+  const end = control.get('endDateTime');
+  return new Date(end.value) <= new Date(start.value) ? {
+    invalidEndDate: true,
+    message: `Enter an end date that's after the start date.` 
+  } : null;
+};
 
 @Component({
   selector: 'app-create-event',
@@ -25,6 +36,10 @@ export class CreateEventPage implements OnInit, OnDestroy {
   mapModalIsOpen: boolean = false;
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   subscriptions: Subscription[] = [];
+  startMin = moment().format();
+  get endMin() {
+    return moment(this.startDateTime.value).add(15, 'minutes').format();
+  }
 
   get eventName() {
     return this.myForm.get('eventName');
@@ -47,7 +62,6 @@ export class CreateEventPage implements OnInit, OnDestroy {
   }
 
   constructor(
-    private fb: UntypedFormBuilder,
     private actionSheetController: ActionSheetController,
     private cameraService: CameraService,
     private logger: NGXLogger,
@@ -59,15 +73,22 @@ export class CreateEventPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.myForm = this.fb.group({
-      eventName: ['', [
+    const start = new Date();
+    start.setMinutes(0);
+    start.setHours(start.getHours() + 1);
+    const end = new Date();
+    end.setMinutes(0);
+    end.setHours(end.getHours() + 3);
+
+    this.myForm = new FormGroup({
+      eventName: new FormControl('', [
         Validators.required
-      ]],
-      eventDescription: [''],
-      startDateTime: [],
-      endDateTime: [],
-      location: [],
-    });
+      ]),
+      eventDescription: new FormControl(''),
+      startDateTime: new FormControl(moment(start).format()),
+      endDateTime: new FormControl(moment(end).format()),
+      location: new FormControl(),
+    }, { validators: eventGroupValidator });
   }
 
   ngOnDestroy(): void {
@@ -84,8 +105,8 @@ export class CreateEventPage implements OnInit, OnDestroy {
     await this.createEvent.mutate({
       name: this.eventName.value,
       description: this.eventDescription.value,
-      startDateTime: (this.startDateTime.value) ? this.startDateTime.value : new Date(),
-      endDateTime: (this.endDateTime.value) ? this.endDateTime.value : undefined,
+      startDateTime: new Date(this.startDateTime.value).toISOString(),
+      endDateTime: new Date(this.endDateTime.value).toISOString(),
       latitude: this.location.value?.latitude,
       longitude: this.location?.value?.longitude,
       locationLabel: this.location?.value?.label,
