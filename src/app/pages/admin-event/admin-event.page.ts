@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Photo } from '@capacitor/camera';
@@ -10,6 +10,15 @@ import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { DeleteEventGQL, Event, EventDocument, EventGQL, EventQuery, ResetShareableEventIdGQL, Scalars, UpdateEventGQL } from 'src/graphql/graphql';
+
+export const eventGroupValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const start = control.get('startDateTime');
+  const end = control.get('endDateTime');
+  return new Date(end.value) <= new Date(start.value) ? {
+    invalidEndDate: true,
+    message: `Enter an end date that's after the start date.` 
+  } : null;
+};
 
 @Component({
   selector: 'app-admin-event',
@@ -51,7 +60,6 @@ export class AdminEventPage implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly fb: UntypedFormBuilder,
     private readonly actionSheetController: ActionSheetController,
     private readonly cameraService: CameraService,
     private readonly logger: NGXLogger,
@@ -76,19 +84,19 @@ export class AdminEventPage implements OnInit, OnDestroy {
         this.loading = result.loading;
         this.eventQueryResult = result;
         this.image = result?.data?.event?.event?.image
-        this.myForm = this.fb.group({
-          eventName: [result?.data?.event?.event?.name, [
+        this.myForm =new FormGroup({
+          eventName: new FormControl(result?.data?.event?.event?.name, [
             Validators.required
-          ]],
-          eventDescription: [result?.data?.event?.event?.description],
-          startDateTime: [result?.data?.event?.event?.startDateTime],
-          endDateTime: [result?.data?.event?.event?.endDateTime],
-          location: [{
+          ]),
+          eventDescription: new FormControl(result?.data?.event?.event?.description),
+          startDateTime: new FormControl(result?.data?.event?.event?.startDateTime),
+          endDateTime: new FormControl(result?.data?.event?.event?.endDateTime),
+          location: new FormControl({
             latitude: result?.data?.event?.event?.latitude,
             longitude: result?.data?.event?.event?.longitude,
             locationLabel: result?.data?.event?.event?.locationLabel,
-          }],
-        });
+          }),
+        }, { validators: eventGroupValidator });
       }, err => this.handleError(err)),
     );
   }
