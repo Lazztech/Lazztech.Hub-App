@@ -10,6 +10,7 @@ import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { DeleteEventGQL, Event, EventDocument, EventGQL, EventQuery, ResetShareableEventIdGQL, Scalars, UpdateEventGQL } from 'src/graphql/graphql';
+import moment from 'moment';
 
 export const eventGroupValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const start = control.get('startDateTime');
@@ -89,8 +90,8 @@ export class AdminEventPage implements OnInit, OnDestroy {
             Validators.required
           ]),
           eventDescription: new FormControl(result?.data?.event?.event?.description),
-          startDateTime: new FormControl(result?.data?.event?.event?.startDateTime),
-          endDateTime: new FormControl(result?.data?.event?.event?.endDateTime),
+          startDateTime: new FormControl(moment(result?.data?.event?.event?.startDateTime).format()),
+          endDateTime: new FormControl(moment(result?.data?.event?.event?.endDateTime).format()),
           location: new FormControl({
             latitude: result?.data?.event?.event?.latitude,
             longitude: result?.data?.event?.event?.longitude,
