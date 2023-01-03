@@ -8,6 +8,8 @@ import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { CreateEventGQL } from 'src/graphql/graphql';
+import datefns from 'date-fns';
+import moment from 'moment';
 
 export const eventGroupValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const start = control.get('startDateTime');
@@ -67,15 +69,20 @@ export class CreateEventPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    const now = new Date();
-    now.setMinutes(0);
+    const start = new Date();
+    start.setMinutes(0);
+    start.setHours(start.getHours() + 1);
+    const end = new Date();
+    end.setMinutes(0);
+    end.setHours(end.getHours() + 3);
+
     this.myForm = new FormGroup({
       eventName: new FormControl('', [
         Validators.required
       ]),
       eventDescription: new FormControl(''),
-      startDateTime: new FormControl(now.setHours(now.getHours() + 1)),
-      endDateTime: new FormControl(now.setHours(now.getHours() + 3)),
+      startDateTime: new FormControl(moment(start).format()),
+      endDateTime: new FormControl(moment(end).format()),
       location: new FormControl(),
     }, { validators: eventGroupValidator });
   }
