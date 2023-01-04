@@ -37,6 +37,8 @@ export class CameraService {
   async getLocalObjectUrl(url: string): Promise<string> {
     const response = await fetch(url);
     const blob = await response.blob();
+    // response doesn't have content type so we're setting an arbitrary image content type
+    // so it can be uploaded successfully
     const file = new File([blob], '', { type: 'image/webp' });
     return URL.createObjectURL(file);
   }
