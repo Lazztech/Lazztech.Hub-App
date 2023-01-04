@@ -10,6 +10,7 @@ import { LocationService } from 'src/app/services/location/location.service';
 import { CreateEventGQL } from 'src/graphql/graphql';
 import datefns from 'date-fns';
 import moment from 'moment';
+import { Router } from '@angular/router';
 
 export const eventGroupValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const start = control.get('startDateTime');
@@ -37,6 +38,9 @@ export class CreateEventPage implements OnInit, OnDestroy {
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   subscriptions: Subscription[] = [];
   startMin = moment().format();
+
+  seed: any;
+
   get endMin() {
     return moment(this.startDateTime.value).add(15, 'minutes').format();
   }
@@ -70,7 +74,10 @@ export class CreateEventPage implements OnInit, OnDestroy {
     public routerOutlet: IonRouterOutlet,
     public locationService: LocationService,
     private readonly alertService: AlertService,
-  ) { }
+    private readonly router: Router,
+  ) {
+    this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
+   }
 
   ngOnInit() {
     const start = new Date();
