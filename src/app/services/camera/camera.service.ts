@@ -36,14 +36,19 @@ export class CameraService {
 
   async getLocalObjectUrl(url: string): Promise<string> {
     const response = await fetch(url);
-    let blob = await response.blob();
-    // response doesn't have content type so we're setting an arbitrary image content type
-    // so it can be uploaded successfully
-    blob = blob.slice(0, blob.size, "image/jpeg");
-    return URL.createObjectURL(blob);
+    if (response.status == 200) {
+      let blob = await response.blob();
+      // response doesn't have content type so we're setting an arbitrary image content type
+      // so it can be uploaded successfully
+      blob = blob.slice(0, blob.size, "image/jpeg");
+      return URL.createObjectURL(blob); 
+    }
   }
 
   async getBlobFromObjectUrl(url: string): Promise<Blob> {
-    return fetch(url).then(r => r.blob());
+    const response = await fetch(url);
+    if (response.status == 200) {
+      return response.blob();
+    }
   }
 }
