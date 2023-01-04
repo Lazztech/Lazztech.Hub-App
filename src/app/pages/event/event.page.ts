@@ -131,6 +131,16 @@ export class EventPage implements OnInit, OnDestroy {
           this.navCtrl.navigateForward('admin-event/' + this.id);
         }
       });
+      buttons.push({
+        text: 'Copy Event',
+        handler: () => {
+          this.navCtrl.navigateForward('create-event', {
+            state: {
+              seed: this.userEventQueryResult?.data?.event?.event,
+            }
+          });
+        }
+      })
     } else {
       buttons.push(
         {
