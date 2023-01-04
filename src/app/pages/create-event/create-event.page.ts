@@ -7,8 +7,7 @@ import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { CreateEventGQL } from 'src/graphql/graphql';
-import datefns from 'date-fns';
+import { CreateEventGQL, Event } from 'src/graphql/graphql';
 import moment from 'moment';
 import { Router } from '@angular/router';
 
@@ -39,7 +38,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   startMin = moment().format();
 
-  seed: any;
+  seed: Event;
 
   get endMin() {
     return moment(this.startDateTime.value).add(15, 'minutes').format();
@@ -88,14 +87,24 @@ export class CreateEventPage implements OnInit, OnDestroy {
     end.setHours(end.getHours() + 3);
 
     this.myForm = new FormGroup({
-      eventName: new FormControl('', [
+      eventName: new FormControl(this?.seed?.name || '', [
         Validators.required
       ]),
-      eventDescription: new FormControl(''),
+      eventDescription: new FormControl(this?.seed?.description || ''),
       startDateTime: new FormControl(moment(start).format()),
       endDateTime: new FormControl(moment(end).format()),
       location: new FormControl(),
     }, { validators: eventGroupValidator });
+    
+    if (this.seed?.latitude && this.seed?.longitude && this.seed?.locationLabel) {
+      this.myForm.patchValue({
+        location: {
+          latitude: this.seed.latitude,
+          longitude: this.seed.longitude,
+          label: this.seed.locationLabel,
+        } as { latitude: number, longitude: number, label: string }
+      });
+    }
   }
 
   ngOnDestroy(): void {

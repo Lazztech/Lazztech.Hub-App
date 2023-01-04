@@ -136,7 +136,7 @@ export class EventPage implements OnInit, OnDestroy {
         handler: () => {
           this.navCtrl.navigateForward('create-event', {
             state: {
-              seed: undefined,
+              seed: this.userEventQueryResult?.data?.event?.event,
             }
           });
         }
