@@ -78,7 +78,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
     this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
    }
 
-  ngOnInit() {
+  async ngOnInit() {
     const start = new Date();
     start.setMinutes(0);
     start.setHours(start.getHours() + 1);
@@ -105,6 +105,10 @@ export class CreateEventPage implements OnInit, OnDestroy {
         } as { latitude: number, longitude: number, label: string }
       });
     }
+
+    if (this.seed?.image) {
+      this.image = await this.cameraService.getLocalObjectUrl(this.seed?.image);
+    }
   }
 
   ngOnDestroy(): void {
@@ -126,7 +130,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
       latitude: this.location.value?.latitude,
       longitude: this.location?.value?.longitude,
       locationLabel: this.location?.value?.label,
-      imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : undefined,
+      imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image),
     }, {
       context: { useMultipart: true },
     })

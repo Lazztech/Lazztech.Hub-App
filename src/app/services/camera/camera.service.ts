@@ -33,4 +33,15 @@ export class CameraService {
     const response = await fetch(photo?.webPath);
     return response.blob();
   }
+
+  async getLocalObjectUrl(url: string): Promise<string> {
+    const response = await fetch(url);
+    console.log(response);
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  }
+
+  async getBlobFromObjectUrl(url: string): Promise<Blob> {
+    return fetch(url).then(r => r.blob());
+  }
 }
