@@ -44,7 +44,6 @@ export class ProfilePage implements OnInit, OnDestroy {
     private readonly userEvents: UserEventsGQL,
     private readonly userHubsGQLService: UsersHubsGQL,
     private readonly updateUserService: UpdateUserGQL,
-    public readonly routerOutlet: IonRouterOutlet,
   ) {
     this.menu.enable(true);
   }
