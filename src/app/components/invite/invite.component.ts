@@ -8,6 +8,7 @@ import { NGXLogger } from 'ngx-logger';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { InviteUserToEventGQL, Scalars, User } from 'src/graphql/graphql';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
 export enum InviteType {
   Hub = 'hub',
@@ -57,6 +58,25 @@ export class InviteComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes)
+  }
+
+  async scanQR() {
+    // Check camera permission
+    // This is just a simple example, check out the better checks below
+    await BarcodeScanner.checkPermission({ force: true });
+
+    // make background of WebView transparent
+    // note: if you are using ionic this might not be enough, check below
+    BarcodeScanner.hideBackground();
+    document.querySelector('body').classList.add('scanner-active');
+
+    const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
+
+    document.querySelector('body').classList.remove('scanner-active');
+    // if the result has content
+    if (result.hasContent) {
+      console.log(result.content); // log the raw scanned content
+    }
   }
 
   async copyShareLink() {
