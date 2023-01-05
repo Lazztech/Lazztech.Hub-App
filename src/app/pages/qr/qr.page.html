@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-  <div class="qrcodeImage center">
+  <div class="qrcodeImage center" *ngIf="showCode">
     <qrcode
       [qrdata]="'https://github.com/Cordobo/angularx-qrcode'"
       [allowEmptyString]="true"
@@ -28,3 +28,16 @@
     ></qrcode>
   </div>
 </ion-content>
+
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-segment value="show-code" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="scan-code">
+        <ion-label>Scan code</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="show-code">
+        <ion-label>Show code</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-footer>
