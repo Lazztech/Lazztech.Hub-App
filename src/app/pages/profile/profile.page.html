@@ -1,7 +1,7 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon size="large" name="qr-code-outline" href="javascript:void(0);" (click)="toggleQrModal()"></ion-icon>
+      <ion-icon size="large" name="qr-code-outline" href="javascript:void(0);" (click)="goToQrPage()"></ion-icon>
     </ion-buttons>
     <div slot="start" [appFeatureFlag]="'lightDarkThemeToggle'" href="javascript:void(0);" (click)="toggleTheme()">
       <ion-icon size="large" name="moon"></ion-icon>
@@ -93,57 +93,3 @@
   </ion-list>
 
 </ion-content>
-
-<ion-modal
-  [isOpen]="qrModalIsOpen"
-  [canDismiss]="true"
-  (didDismiss)="didDismissQrModal()"
->
-<ng-template>
-  <ion-header translucent="true">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-      <ion-title>QR Code</ion-title>
-      <ion-icon
-      slot="end" 
-      size="large"
-      name="close-outline"
-      (click)="didDismissQrModal()"
-    ></ion-icon>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content fullscreen="true">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <div class="qrcodeImage center">
-            <qrcode
-              [qrdata]="'https://github.com/Cordobo/angularx-qrcode'"
-              [allowEmptyString]="true"
-              [ariaLabel]="'QR Code image with the following content...'"
-              [cssClass]="'center'"
-              [colorDark]="'#000000ff'"
-              [colorLight]="'#ffffffff'"
-              [elementType]="'canvas'"
-              [errorCorrectionLevel]="'M'"
-              [imageSrc]="'http://localhost:8080/file/7845cf50-6929-11ed-a75c-a98b2dec0e07.webp'"
-              [imageHeight]="75"
-              [imageWidth]="75"
-              [margin]="1"
-              [scale]="1"
-              [title]="'A custom title attribute'"
-              [width]="300"
-            ></qrcode>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-</ion-content>
-<ion-footer translucent="true">
-  <ion-toolbar>
-  </ion-toolbar>
-</ion-footer>
-</ng-template>
-</ion-modal>

@@ -7,7 +7,6 @@ import { MomentModule } from 'ngx-moment';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { ProfilePage } from './profile.page';
-import { QRCodeModule } from 'angularx-qrcode';
 
 const routes: Routes = [
   {
@@ -25,7 +24,6 @@ const routes: Routes = [
     ComponentsModule,
     DirectivesModule,
     MomentModule,
-    QRCodeModule
   ],
   declarations: [ProfilePage],
   exports: [ProfilePage],
