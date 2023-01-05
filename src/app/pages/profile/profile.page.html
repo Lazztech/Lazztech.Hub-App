@@ -1,7 +1,7 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon size="large" name="qr-code-outline"></ion-icon>
+      <ion-icon size="large" name="qr-code-outline" href="javascript:void(0);" (click)="toggleQrModal()"></ion-icon>
     </ion-buttons>
     <div slot="start" [appFeatureFlag]="'lightDarkThemeToggle'" href="javascript:void(0);" (click)="toggleTheme()">
       <ion-icon size="large" name="moon"></ion-icon>
@@ -93,3 +93,34 @@
   </ion-list>
 
 </ion-content>
+
+<ion-modal
+  [isOpen]="qrModalIsOpen"
+  [canDismiss]="true"
+  [presentingElement]="routerOutlet.nativeEl"
+  (didDismiss)="didDismissQrModal()"
+>
+<ng-template>
+  <ion-header translucent="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>QR Code</ion-title>
+      <ion-icon
+      slot="end" 
+      size="large"
+      name="close-outline"
+      (click)="didDismissQrModal()"
+    ></ion-icon>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content fullscreen="true">
+
+</ion-content>
+<ion-footer translucent="true">
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-footer>
+</ng-template>
+</ion-modal>

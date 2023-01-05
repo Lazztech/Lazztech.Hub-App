@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { ActionSheetController, MenuController, NavController } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, MenuController, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -24,6 +24,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   userHubsResult: ApolloQueryResult<UsersHubsQuery>;
   userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
   completedInitialAccountSetup: boolean;
+  qrModalIsOpen: boolean = false;
 
   loading: boolean = true;
   
@@ -43,6 +44,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     private readonly userEvents: UserEventsGQL,
     private readonly userHubsGQLService: UsersHubsGQL,
     private readonly updateUserService: UpdateUserGQL,
+    public readonly routerOutlet: IonRouterOutlet,
   ) {
     this.menu.enable(true);
   }
@@ -229,6 +231,14 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   adminEvent(id: Scalars['ID']) {
     this.navCtrl.navigateForward('admin-event/' + id);
+  }
+
+  toggleQrModal() {
+    this.qrModalIsOpen = !this.qrModalIsOpen;
+  }
+
+  didDismissQrModal() {
+    this.qrModalIsOpen = false;
   }
 
 }
