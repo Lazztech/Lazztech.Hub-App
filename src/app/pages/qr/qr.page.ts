@@ -66,6 +66,7 @@ export class QrPage implements OnInit, OnDestroy {
 
     // if the result has content
     if (result.hasContent) {
+      alert(result.content);
       console.log(result.content); // log the raw scanned content
     }
   }
