@@ -58,6 +58,7 @@
     "@awesome-cordova-plugins/status-bar": "6.2.0",
     "@awesome-cordova-plugins/stripe": "6.2.0",
     "@capacitor-community/barcode-scanner": "^3.0.1",
+    "@capacitor-community/screen-brightness": "^4.0.0",
     "@capacitor-community/sqlite": "4.2.2",
     "@capacitor/android": "4.5.0",
     "@capacitor/app": "4.1.1",

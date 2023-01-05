@@ -4,6 +4,10 @@
 		"classpath": "com.getcapacitor.community.barcodescanner.BarcodeScanner"
 	},
 	{
+		"pkg": "@capacitor-community/screen-brightness",
+		"classpath": "com.elylucas.capscreenbrightness.ScreenBrightnessPlugin"
+	},
+	{
 		"pkg": "@capacitor-community/sqlite",
 		"classpath": "com.getcapacitor.community.database.sqlite.CapacitorSQLitePlugin"
 	},
