@@ -115,26 +115,31 @@
     </ion-toolbar>
   </ion-header>
   <ion-content fullscreen="true">
-    <div class="qrcodeImage">
-      <qrcode
-        [qrdata]="'https://github.com/Cordobo/angularx-qrcode'"
-        [allowEmptyString]="true"
-        [ariaLabel]="'QR Code image with the following content...'"
-        [cssClass]="'center'"
-        [colorDark]="'#000000ff'"
-        [colorLight]="'#ffffffff'"
-        [elementType]="'canvas'"
-        [errorCorrectionLevel]="'M'"
-        [imageSrc]="'./assets/angular-logo.png'"
-        [imageHeight]="75"
-        [imageWidth]="75"
-        [margin]="4"
-        [scale]="1"
-        [title]="'A custom title attribute'"
-        [width]="300"
-      ></qrcode>
-    </div>
-
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div class="qrcodeImage center">
+            <qrcode
+              [qrdata]="'https://github.com/Cordobo/angularx-qrcode'"
+              [allowEmptyString]="true"
+              [ariaLabel]="'QR Code image with the following content...'"
+              [cssClass]="'center'"
+              [colorDark]="'#000000ff'"
+              [colorLight]="'#ffffffff'"
+              [elementType]="'canvas'"
+              [errorCorrectionLevel]="'M'"
+              [imageSrc]="'http://localhost:8080/file/7845cf50-6929-11ed-a75c-a98b2dec0e07.webp'"
+              [imageHeight]="75"
+              [imageWidth]="75"
+              [margin]="1"
+              [scale]="1"
+              [title]="'A custom title attribute'"
+              [width]="300"
+            ></qrcode>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 </ion-content>
 <ion-footer translucent="true">
   <ion-toolbar>
