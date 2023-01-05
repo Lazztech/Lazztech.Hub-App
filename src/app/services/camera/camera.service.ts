@@ -35,6 +35,9 @@ export class CameraService {
   }
 
   async getLocalObjectUrl(url: string): Promise<string> {
+    if (!url) {
+      return;
+    }
     const response = await fetch(url);
     if (response.status == 200) {
       let blob = await response.blob();
@@ -46,7 +49,11 @@ export class CameraService {
   }
 
   async getBlobFromObjectUrl(url: string): Promise<Blob> {
+    if (!url) {
+      return;
+    }
     const response = await fetch(url);
+    console.log(response)
     if (response.status == 200) {
       return response.blob();
     }
