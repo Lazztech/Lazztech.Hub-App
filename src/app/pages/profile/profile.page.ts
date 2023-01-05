@@ -10,6 +10,7 @@ import { ProfileService } from 'src/app/services/profile/profile.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { JoinUserEvent, JoinUserHub, MeDocument, MeQuery, Scalars, UpdateUserGQL, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { AuthService } from '../../services/auth/auth.service';
+import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +26,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
   completedInitialAccountSetup: boolean;
   qrModalIsOpen: boolean = false;
+  initialScreenBrightness: number;
 
   loading: boolean = true;
   
@@ -78,6 +80,7 @@ export class ProfilePage implements OnInit, OnDestroy {
         }
       }, err => this.handleError(err))
     );
+    this.initialScreenBrightness = (await ScreenBrightness.getBrightness()).brightness;
   }
 
   async handleError(err) {
@@ -232,12 +235,18 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('admin-event/' + id);
   }
 
-  toggleQrModal() {
+  async toggleQrModal() {
     this.qrModalIsOpen = !this.qrModalIsOpen;
+    if (this.qrModalIsOpen) {
+      await ScreenBrightness.setBrightness({ brightness: 1 });
+    } else {
+      await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
+    }
   }
 
-  didDismissQrModal() {
+  async didDismissQrModal() {
     this.qrModalIsOpen = false;
+    await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
   }
 
 }
