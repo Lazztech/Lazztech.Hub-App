@@ -325,6 +325,9 @@
    [id]="id"
    [persons]="notYetInvitedPeople"
    [shareableLink]="'https://hub.lazz.tech/hub/' + userHub.hub?.shareableId"
+   [qrData]="'https://hub.lazz.tech/hub/' + userHub.hub?.shareableId"
+   [qrTitle]="userHub?.hub?.name"
+   [qrSubtitle]="'Scan to join: ' + userHub?.hub.locationLabel"
   ></app-invite>
 </ion-content>
 <ion-footer translucent="true">

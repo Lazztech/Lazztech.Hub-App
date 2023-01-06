@@ -25,6 +25,10 @@ export class InviteComponent implements OnInit, OnChanges {
   @Input() inviteType: InviteType;
   @Input() id: Scalars['ID'];
   @Input() shareableLink: string;
+  @Input() qrData: string;
+  @Input() qrTitle: string;
+  @Input() qrSubtitle: string;
+  @Input() qrImage: string;
 
   loading = false;
   allInvitesSucces = true;
@@ -120,6 +124,17 @@ export class InviteComponent implements OnInit, OnChanges {
     }
     if (this.allInvitesSucces) { this.navCtrl.back(); }
     this.invites = [];
+  }
+
+  async goToQrPage() {
+    this.navCtrl.navigateForward('qr', {
+      state: {
+        data: this.qrData,
+        title: this.qrTitle,
+        subtitle: this.qrSubtitle,
+        image: this.qrImage,
+      }
+    });
   }
 
 }

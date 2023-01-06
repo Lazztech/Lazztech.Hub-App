@@ -22,20 +22,16 @@
     </ion-grid>
 
     <ion-list-header class="ion-padding-bottom">
-      Invite by QR code
+      Scan Code to Invite
     </ion-list-header>
     
-    <ion-button expand="block" class="ion-padding-start ion-padding-end">
+    <ion-button expand="block" class="ion-padding-start ion-padding-end" (click)="goToQrPage()">
       Scan Code
       <ion-icon class="ion-padding-start" name="qr-code-outline"></ion-icon>
     </ion-button>
 
-    <ion-text class="ion-padding-start ion-padding-end ion-text-center" *ngIf="email.invalid && email.touched" color="danger">
-      Please enter a valid email address
-    </ion-text>
-
     <ion-list-header class="ion-padding-bottom">
-      Connected People
+      People
     </ion-list-header>
 
     <ion-list *ngIf="!loading">
