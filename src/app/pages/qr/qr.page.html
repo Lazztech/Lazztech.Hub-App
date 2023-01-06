@@ -28,6 +28,12 @@
     ></qrcode>
   </div>
   <div *ngIf="!showCode" class="scanBox"></div>
+
+  <ion-fab *ngIf="!showCode" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="toggleTorch()">
+      <ion-icon name="flashlight-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 
 <ion-footer translucent="true">

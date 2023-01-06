@@ -52,6 +52,10 @@ export class QrPage implements OnInit, OnDestroy {
     await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
   }
 
+  async toggleTorch() {
+    await BarcodeScanner.toggleTorch();
+  }
+
   async openScanner() {
     // Check camera permission
     // This is just a simple example, check out the better checks below
