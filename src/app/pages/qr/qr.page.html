@@ -11,14 +11,14 @@
   <div *ngIf="showCode">
     <ion-card>
       <ion-card-header class="ion-text-center">
-        <ion-card-title>Card Title</ion-card-title>
-        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+        <ion-card-title>{{title}}</ion-card-title>
+        <ion-card-subtitle>{{subtitle}}</ion-card-subtitle>
       </ion-card-header>
     
       <ion-card-content>
         <div class="qrcodeImage center">
           <qrcode
-            [qrdata]="'https://github.com/Cordobo/angularx-qrcode'"
+            [qrdata]="data"
             [allowEmptyString]="true"
             [ariaLabel]="'QR Code image with the following content...'"
             [cssClass]="'center'"

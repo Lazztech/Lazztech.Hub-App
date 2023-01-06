@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { ThemeService } from 'src/app/services/theme/theme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-qr',
@@ -12,12 +13,22 @@ export class QrPage implements OnInit, OnDestroy {
 
   initialScreenBrightness: number;
   showCode: boolean = true;
-
   qrForegroundColor = this.themeService.isDark() ? '#ffffff' : '#000000';
+  title: string;
+  subtitle: string;
+  image: string;
+  data: string;
 
   constructor(
     private readonly themeService: ThemeService,
-  ) { }
+    private readonly router: Router,
+  ) {
+    const state = this.router.getCurrentNavigation()?.extras?.state;
+    this.title = state?.title;
+    this.subtitle = state?.subtitle;
+    this.image = state?.image;
+    this.data = state?.data;
+   }
 
   async ngOnInit() {
     this.initialScreenBrightness = (await ScreenBrightness.getBrightness()).brightness;
