@@ -133,6 +133,7 @@ export class InviteComponent implements OnInit, OnChanges {
         title: this.qrTitle,
         subtitle: this.qrSubtitle,
         image: this.qrImage,
+        initialMode: 'scan-code',
       }
     });
   }

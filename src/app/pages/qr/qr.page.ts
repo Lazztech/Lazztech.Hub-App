@@ -12,12 +12,13 @@ import { Router } from '@angular/router';
 export class QrPage implements OnInit, OnDestroy {
 
   initialScreenBrightness: number;
-  showCode: boolean = true;
+  showCode: boolean;
   qrForegroundColor = this.themeService.isDark() ? '#ffffff' : '#000000';
   title: string;
   subtitle: string;
   image: string;
   data: string;
+  initialMode: 'show-code' | 'scan-code' = 'show-code';
 
   constructor(
     private readonly themeService: ThemeService,
@@ -28,11 +29,24 @@ export class QrPage implements OnInit, OnDestroy {
     this.subtitle = state?.subtitle;
     this.image = state?.image;
     this.data = state?.data;
+    if (state?.initialMode) {
+      this.initialMode = state?.initialMode;
+    }
+    this.showCode = this.initialMode == 'show-code';
    }
 
   async ngOnInit() {
     this.initialScreenBrightness = (await ScreenBrightness.getBrightness()).brightness;
-    this.openCode();
+    switch (this.initialMode) {
+      case 'show-code':
+        await this.openCode()
+        break;
+      case 'scan-code':
+        await this.openScanner();
+        break;
+      default:
+        break;
+    }
   }
 
   async ngOnDestroy() {

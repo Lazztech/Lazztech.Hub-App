@@ -70,7 +70,7 @@
 
 <ion-footer translucent="true">
   <ion-toolbar>
-    <ion-segment value="show-code" (ionChange)="segmentChanged($event)">
+    <ion-segment [value]="initialMode" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="scan-code">
         <ion-label>Scan code</ion-label>
       </ion-segment-button>
