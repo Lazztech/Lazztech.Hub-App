@@ -4,6 +4,8 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { Router } from '@angular/router';
 import { Share } from '@capacitor/share';
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-qr',
@@ -111,7 +113,9 @@ export class QrPage implements OnInit, OnDestroy {
     document.querySelector('body').classList.remove('scanner-active');
   }
 
-  async print() {}
+  async print() {
+    await this.generatePdf('myQr')
+  }
 
   async email() {}
 
@@ -120,6 +124,19 @@ export class QrPage implements OnInit, OnDestroy {
       url: this.data,
       dialogTitle: 'Shareable Link',
     });
+  }
+
+  async generatePdf(divId) {
+      let data = document.getElementById(divId);  
+      console.log(data)
+      html2canvas(data).then(canvas => {
+        const contentDataURL = canvas.toDataURL('image/png')  
+        console.log(contentDataURL)
+        let pdf = new jspdf('l', 'cm', 'a4'); //Generates PDF in landscape mode
+        // let pdf = new jspdf('p', 'cm', 'a4'); Generates PDF in portrait mode
+        pdf.addImage(contentDataURL, 'PNG', 0, 0, 29.7, 21.0);  
+        pdf.save('Filename.pdf');   
+      }); 
   }
 
 }
