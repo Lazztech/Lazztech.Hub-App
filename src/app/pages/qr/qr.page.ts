@@ -143,10 +143,8 @@ export class QrPage implements OnInit, OnDestroy {
       const base64 = await this.blobToBase64(blob);
       const email = '';
       const subject = '';
-      const emailBody = `<img src="${contentDataURL}" />`;
-      const attach = base64;
-      const content = "mailto:"+email+"?subject="+subject+"&body="+emailBody+
-          "?attach="+attach;
+      const emailBody = encodeURIComponent(`<html><body><img src="${contentDataURL}" /></body></html>`);
+      const content = "mailto:"+email+"?subject="+subject+"&body="+emailBody;
       window.open(content);
       this.loading = false;
     } catch (error) {
