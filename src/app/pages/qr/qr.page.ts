@@ -10,6 +10,7 @@ import jspdf from 'jspdf';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { FileOpener } from '@capacitor-community/file-opener';
+import { isPlatform } from '@ionic/angular';
 
 @Component({
   selector: 'app-qr',
@@ -125,9 +126,9 @@ export class QrPage implements OnInit, OnDestroy {
   }
 
   async print() {
-    await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
+    await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness }).catch(x => undefined);
     await this.generatePdf('myQr');
-    await ScreenBrightness.setBrightness({ brightness: 1 });
+    await ScreenBrightness.setBrightness({ brightness: 1 }).catch(x => undefined);
   }
 
   async email() {}
@@ -149,15 +150,21 @@ export class QrPage implements OnInit, OnDestroy {
       console.log(contentDataURL);
       console.log('width: ', canvas.width);
       console.log('height: ', canvas.height);
-      let pdf = new jspdf('l', 'pt', 'a4'); //Generates PDF in landscape mode
+      let pdf = new jspdf('portrait', 'pt', 'a4'); //Generates PDF in landscape mode
       pdf.addImage(contentDataURL, 'PNG', 0, 0, canvas.width * 0.25, canvas.height * 0.25);
       let blob = pdf.output('blob');
       console.log('here: ', blob);
-      // const url = URL.createObjectURL(blob);
       const url = await this.savePdf(blob);
-      await FileOpener.open({
-        filePath: url,
-      });
+      if (isPlatform('hybrid')) {
+        await FileOpener.open({
+          filePath: url,
+        });
+      } else {
+        await Browser.open({
+          url: URL.createObjectURL(blob),
+        });
+      }
+
       this.loading = false;
     } catch (error) {
       this.handleError(error);
