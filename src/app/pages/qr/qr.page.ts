@@ -28,6 +28,7 @@ export class QrPage implements OnInit, OnDestroy {
   subtitle: string;
   image: string;
   data: string;
+  shareableLink: string;
   initialMode: 'show-code' | 'scan-code' = 'show-code';
   isHybrid: boolean = isPlatform('hybrid');
 
@@ -42,6 +43,7 @@ export class QrPage implements OnInit, OnDestroy {
     this.subtitle = state?.subtitle;
     this.image = state?.image;
     this.data = state?.data;
+    this.shareableLink = state?.shareableLink;
     if (state?.initialMode) {
       this.initialMode = state?.initialMode;
     }
@@ -152,7 +154,7 @@ export class QrPage implements OnInit, OnDestroy {
 
   async share() {
     await Share.share({
-      url: this.data,
+      url: this.shareableLink,
       dialogTitle: 'Shareable Link',
     });
   }

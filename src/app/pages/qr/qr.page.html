@@ -40,8 +40,8 @@
     </ion-card>
     <ion-grid>
       <ion-row>
-        <ion-col>
-          <ion-button shape="round" class="ion-float-right" (click)="print()">
+        <ion-col class="ion-text-center">
+          <ion-button shape="round" (click)="print()">
             <ion-icon name="print-outline"></ion-icon>
           </ion-button>
         </ion-col>
@@ -50,8 +50,8 @@
             <ion-icon name="mail-outline"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col>
-          <ion-button shape="round" class="ion-float-start" (click)="share()">
+        <ion-col class="ion-text-center" *ngIf="shareableLink">
+          <ion-button shape="round" (click)="share()">
             <ion-icon name="share-outline"></ion-icon>
           </ion-button>
         </ion-col>

@@ -240,6 +240,7 @@ export class HubPage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('qr', {
       state: {
         data: 'https://hub.lazz.tech/hub/' + this.userHub.hub?.shareableId,
+        shareableLink: 'https://hub.lazz.tech/hub/' + this.userHub.hub?.shareableId,
         title: this.userHub.hub.name,
         subtitle: 'Scan to join hub @ ' + this.userHub?.hub.locationLabel,
         image: this.userHub.hub?.image,
