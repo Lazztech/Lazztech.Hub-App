@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Share } from '@capacitor/share';
 import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
+import { Browser } from '@capacitor/browser';
 
 @Component({
   selector: 'app-qr',
@@ -138,7 +139,11 @@ export class QrPage implements OnInit, OnDestroy {
     console.log('height: ', canvas.height);
     let pdf = new jspdf('l', 'pt', 'a4'); //Generates PDF in landscape mode
     pdf.addImage(contentDataURL, 'PNG', 0, 0, canvas.width * 0.25, canvas.height * 0.25);
-    pdf.save('Filename.pdf');
+    const blob = pdf.output('blob');
+    const url = URL.createObjectURL(blob);
+    await Browser.open({
+      url,
+    });
     this.loading = false;
   }
 
