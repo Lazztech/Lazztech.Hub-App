@@ -7,6 +7,7 @@ import { Share } from '@capacitor/share';
 import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Browser } from '@capacitor/browser';
+import { AlertService } from 'src/app/services/alert/alert.service';
 
 @Component({
   selector: 'app-qr',
@@ -28,6 +29,7 @@ export class QrPage implements OnInit, OnDestroy {
   constructor(
     private readonly themeService: ThemeService,
     private readonly router: Router,
+    private readonly alertService: AlertService,
   ) {
     const state = this.router.getCurrentNavigation()?.extras?.state;
     this.title = state?.title;
@@ -57,6 +59,11 @@ export class QrPage implements OnInit, OnDestroy {
   async ngOnDestroy() {
     await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
     await this.closeScanner();
+  }
+
+  async handleError(err) {
+    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    this.loading = false;
   }
 
   async segmentChanged(event) {
@@ -130,21 +137,25 @@ export class QrPage implements OnInit, OnDestroy {
 
   async generatePdf(divId) {
     this.loading = true;
-    let data = document.getElementById(divId);  
-    console.log(data);
-    const canvas = await html2canvas(data);
-    const contentDataURL = canvas.toDataURL('image/png')  ;
-    console.log(contentDataURL);
-    console.log('width: ', canvas.width);
-    console.log('height: ', canvas.height);
-    let pdf = new jspdf('l', 'pt', 'a4'); //Generates PDF in landscape mode
-    pdf.addImage(contentDataURL, 'PNG', 0, 0, canvas.width * 0.25, canvas.height * 0.25);
-    const blob = pdf.output('blob');
-    const url = URL.createObjectURL(blob);
-    await Browser.open({
-      url,
-    });
-    this.loading = false;
+    try {
+      let data = document.getElementById(divId);  
+      console.log(data);
+      const canvas = await html2canvas(data);
+      const contentDataURL = canvas.toDataURL('image/png')  ;
+      console.log(contentDataURL);
+      console.log('width: ', canvas.width);
+      console.log('height: ', canvas.height);
+      let pdf = new jspdf('l', 'pt', 'a4'); //Generates PDF in landscape mode
+      pdf.addImage(contentDataURL, 'PNG', 0, 0, canvas.width * 0.25, canvas.height * 0.25);
+      const blob = pdf.output('blob');
+      const url = URL.createObjectURL(blob);
+      await Browser.open({
+        url,
+      });
+      this.loading = false;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
 }
