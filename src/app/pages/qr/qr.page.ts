@@ -144,16 +144,11 @@ export class QrPage implements OnInit, OnDestroy {
     this.loading = true;
     try {
       let data = document.getElementById(divId);  
-      console.log(data);
       const canvas = await html2canvas(data);
       const contentDataURL = canvas.toDataURL('image/png')  ;
-      console.log(contentDataURL);
-      console.log('width: ', canvas.width);
-      console.log('height: ', canvas.height);
       let pdf = new jspdf('portrait', 'pt', 'a4'); //Generates PDF in landscape mode
       pdf.addImage(contentDataURL, 'PNG', 0, 0, canvas.width * 0.25, canvas.height * 0.25);
       let blob = pdf.output('blob');
-      console.log('here: ', blob);
       const url = await this.savePdf(blob);
       if (isPlatform('hybrid')) {
         await FileOpener.open({
@@ -172,31 +167,24 @@ export class QrPage implements OnInit, OnDestroy {
   }
 
   async savePdf(blob: Blob) {
-    console.log('in savePdf')
-    const base64 = await this.blobToBase64(blob).catch(x => console.log(x)) as string;
-    console.log(base64);
+    const base64 = await this.blobToBase64(blob) as string;
     const result = await Filesystem.writeFile({
       path: 'qr.pdf',
       data: base64,
       directory: Directory.Documents,
     });
-    console.log(result.uri)
     return result.uri;
   }
 
   private blobToBase64(blob: Blob): Promise<string> {
-    console.log('here: ', blob);
     return new Promise((resolve, reject) => {
-      console.log('here: ', blob)
       const reader = this.getFileReader();
       reader.onerror = reject;
       reader.onabort = reject;
       reader.onload = () => {
-        console.log(reader)
         resolve(reader.result as string)
       };
       reader.readAsDataURL(blob);
-      console.log('here: ', reader, blob);
     })
   }
 
