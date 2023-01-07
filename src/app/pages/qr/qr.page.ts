@@ -8,6 +8,8 @@ import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Browser } from '@capacitor/browser';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { reject } from 'lodash-es';
 
 @Component({
   selector: 'app-qr',
@@ -147,15 +149,36 @@ export class QrPage implements OnInit, OnDestroy {
       console.log('height: ', canvas.height);
       let pdf = new jspdf('l', 'pt', 'a4'); //Generates PDF in landscape mode
       pdf.addImage(contentDataURL, 'PNG', 0, 0, canvas.width * 0.25, canvas.height * 0.25);
-      const blob = pdf.output('blob');
-      const url = URL.createObjectURL(blob);
-      await Browser.open({
-        url,
-      });
-      this.loading = false;
+      let blob = pdf.output('blob');
+      console.log('here: ', blob);
+      // const url = URL.createObjectURL(blob);
     } catch (error) {
       this.handleError(error);
     }
+  }
+
+  async savePdf(blob: Blob) {
+    console.log('in savePdf')
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onabort = reject;
+    reader.onload = async () => {
+      console.log(reader)
+      const base64 = reader.result as string;
+      console.log('here: ', reader, blob);
+      console.log(base64);
+      const result = await Filesystem.writeFile({
+        path: 'qr.pdf',
+        data: base64,
+        directory: Directory.Data,
+      });
+      console.log(result.uri)
+      await Browser.open({
+        url: result.uri,
+      });
+      this.loading = false;
+    };
+    reader.readAsDataURL(blob);
   }
 
 }
