@@ -40,17 +40,17 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-button shape="round" class="ion-float-right" >
+          <ion-button shape="round" class="ion-float-right" (click)="print()">
             <ion-icon name="print-outline"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="ion-text-center">
-          <ion-button shape="round">
+          <ion-button shape="round" (click)="email()">
             <ion-icon name="mail-outline"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col>
-          <ion-button shape="round" class="ion-float-start">
+          <ion-button shape="round" class="ion-float-start" (click)="share()">
             <ion-icon name="share-outline"></ion-icon>
           </ion-button>
         </ion-col>

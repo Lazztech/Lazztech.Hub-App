@@ -3,6 +3,7 @@ import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { Router } from '@angular/router';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-qr',
@@ -108,6 +109,17 @@ export class QrPage implements OnInit, OnDestroy {
   async closeScanner() {
     await BarcodeScanner.showBackground();
     document.querySelector('body').classList.remove('scanner-active');
+  }
+
+  async print() {}
+
+  async email() {}
+
+  async share() {
+    await Share.share({
+      url: this.data,
+      dialogTitle: 'Shareable Link',
+    });
   }
 
 }
