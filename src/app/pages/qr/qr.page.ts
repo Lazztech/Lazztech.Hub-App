@@ -131,14 +131,17 @@ export class QrPage implements OnInit, OnDestroy {
   }
 
   async print() {
+    this.loading = true;
     await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness }).catch(x => undefined);
     await this.generatePdf('myQr');
     await ScreenBrightness.setBrightness({ brightness: 1 }).catch(x => undefined);
+    this.loading = false;
   }
 
   async email() {
     try {
       this.loading = true;
+      await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness }).catch(x => undefined);
       let data = document.getElementById('myQr');  
       const canvas = await html2canvas(data);
       const contentDataURL = canvas.toDataURL('image/png');
@@ -146,6 +149,7 @@ export class QrPage implements OnInit, OnDestroy {
       await this.emailComposer.open({
         attachments: [`base64:image.png//${contentDataURL.split(',').pop()}`],
       });
+      await ScreenBrightness.setBrightness({ brightness: 1 }).catch(x => undefined);
       this.loading = false;
     } catch (error) {
       this.handleError(error);
@@ -160,7 +164,6 @@ export class QrPage implements OnInit, OnDestroy {
   }
 
   async generatePdf(divId) {
-    this.loading = true;
     try {
       let data = document.getElementById(divId);  
       const canvas = await html2canvas(data);
@@ -178,8 +181,6 @@ export class QrPage implements OnInit, OnDestroy {
           url: URL.createObjectURL(blob),
         });
       }
-
-      this.loading = false;
     } catch (error) {
       this.handleError(error);
     }
