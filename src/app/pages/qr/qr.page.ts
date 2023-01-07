@@ -152,6 +152,11 @@ export class QrPage implements OnInit, OnDestroy {
       let blob = pdf.output('blob');
       console.log('here: ', blob);
       // const url = URL.createObjectURL(blob);
+      const url = await this.savePdf(blob);
+      await Browser.open({
+        url,
+      });
+      this.loading = false;
     } catch (error) {
       this.handleError(error);
     }
@@ -159,26 +164,38 @@ export class QrPage implements OnInit, OnDestroy {
 
   async savePdf(blob: Blob) {
     console.log('in savePdf')
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onabort = reject;
-    reader.onload = async () => {
-      console.log(reader)
-      const base64 = reader.result as string;
+    const base64 = await this.blobToBase64(blob).catch(x => console.log(x)) as string;
+    console.log(base64);
+    const result = await Filesystem.writeFile({
+      path: 'qr.pdf',
+      data: base64,
+      directory: Directory.Data,
+    });
+    console.log(result.uri)
+    return result.uri;
+  }
+
+  private blobToBase64(blob: Blob): Promise<string> {
+    console.log('here: ', blob);
+    return new Promise((resolve, reject) => {
+      console.log('here: ', blob)
+      const reader = this.getFileReader();
+      reader.onerror = reject;
+      reader.onabort = reject;
+      reader.onload = () => {
+        console.log(reader)
+        resolve(reader.result as string)
+      };
+      reader.readAsDataURL(blob);
       console.log('here: ', reader, blob);
-      console.log(base64);
-      const result = await Filesystem.writeFile({
-        path: 'qr.pdf',
-        data: base64,
-        directory: Directory.Data,
-      });
-      console.log(result.uri)
-      await Browser.open({
-        url: result.uri,
-      });
-      this.loading = false;
-    };
-    reader.readAsDataURL(blob);
+    })
+  }
+
+  // 🤦‍♂️ https://github.com/ionic-team/capacitor/issues/1564#issuecomment-538200971
+  getFileReader(): FileReader {
+    const fileReader = new FileReader();
+    const zoneOriginalInstance = (fileReader as any)["__zone_symbol__originalInstance"];
+    return zoneOriginalInstance || fileReader;
   }
 
 }
