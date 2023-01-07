@@ -32,7 +32,7 @@ import {
   OTEL_LOGGER,
 } from '@jufab/opentelemetry-angular-interceptor';
 import { ProfilePageModule } from './pages/profile/profile.module';
-
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -75,6 +75,7 @@ import { ProfilePageModule } from './pages/profile/profile.module';
         FingerprintAIO,
         Diagnostic,
         OpenNativeSettings,
+        EmailComposer,
     ],
     bootstrap: [AppComponent]
 })

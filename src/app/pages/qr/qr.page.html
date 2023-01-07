@@ -45,7 +45,7 @@
             <ion-icon name="print-outline"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col class="ion-text-center">
+        <ion-col class="ion-text-center" *ngIf="isHybrid">
           <ion-button shape="round" (click)="email()">
             <ion-icon name="mail-outline"></ion-icon>
           </ion-button>

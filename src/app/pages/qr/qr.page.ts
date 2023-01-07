@@ -11,6 +11,7 @@ import { AlertService } from 'src/app/services/alert/alert.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { FileOpener } from '@capacitor-community/file-opener';
 import { isPlatform } from '@ionic/angular';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 
 @Component({
   selector: 'app-qr',
@@ -28,11 +29,13 @@ export class QrPage implements OnInit, OnDestroy {
   image: string;
   data: string;
   initialMode: 'show-code' | 'scan-code' = 'show-code';
+  isHybrid: boolean = isPlatform('hybrid');
 
   constructor(
     private readonly themeService: ThemeService,
     private readonly router: Router,
     private readonly alertService: AlertService,
+    private readonly emailComposer: EmailComposer,
   ) {
     const state = this.router.getCurrentNavigation()?.extras?.state;
     this.title = state?.title;
@@ -136,16 +139,11 @@ export class QrPage implements OnInit, OnDestroy {
       this.loading = true;
       let data = document.getElementById('myQr');  
       const canvas = await html2canvas(data);
-      const contentDataURL = canvas.toDataURL('image/png')  ;
-      let pdf = new jspdf('portrait', 'pt', 'a4');
-      pdf.addImage(contentDataURL, 'PNG', 0, 0, canvas.width * 0.25, canvas.height * 0.25);
-      let blob = pdf.output('blob');
-      const base64 = await this.blobToBase64(blob);
-      const email = '';
-      const subject = '';
-      const emailBody = encodeURIComponent(`<html><body><img src="${contentDataURL}" /></body></html>`);
-      const content = "mailto:"+email+"?subject="+subject+"&body="+emailBody;
-      window.open(content);
+      const contentDataURL = canvas.toDataURL('image/png');
+      console.log(contentDataURL);
+      await this.emailComposer.open({
+        attachments: [`base64:image.png//${contentDataURL.split(',').pop()}`],
+      });
       this.loading = false;
     } catch (error) {
       this.handleError(error);
