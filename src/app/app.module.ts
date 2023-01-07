@@ -74,7 +74,7 @@ import { ProfilePageModule } from './pages/profile/profile.module';
         BackgroundGeolocation,
         FingerprintAIO,
         Diagnostic,
-        OpenNativeSettings
+        OpenNativeSettings,
     ],
     bootstrap: [AppComponent]
 })

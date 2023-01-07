@@ -1,15 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ScreenBrightness } from '@capacitor-community/screen-brightness';
-import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
-import { ThemeService } from 'src/app/services/theme/theme.service';
 import { Router } from '@angular/router';
-import { Share } from '@capacitor/share';
-import jspdf from 'jspdf';
-import html2canvas from 'html2canvas';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { Browser } from '@capacitor/browser';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
+import html2canvas from 'html2canvas';
+import jspdf from 'jspdf';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-import { reject } from 'lodash-es';
+import { ThemeService } from 'src/app/services/theme/theme.service';
+import { FileOpener } from '@capacitor-community/file-opener';
 
 @Component({
   selector: 'app-qr',
@@ -125,7 +125,9 @@ export class QrPage implements OnInit, OnDestroy {
   }
 
   async print() {
-    await this.generatePdf('myQr')
+    await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
+    await this.generatePdf('myQr');
+    await ScreenBrightness.setBrightness({ brightness: 1 });
   }
 
   async email() {}
@@ -153,8 +155,8 @@ export class QrPage implements OnInit, OnDestroy {
       console.log('here: ', blob);
       // const url = URL.createObjectURL(blob);
       const url = await this.savePdf(blob);
-      await Browser.open({
-        url,
+      await FileOpener.open({
+        filePath: url,
       });
       this.loading = false;
     } catch (error) {
@@ -169,7 +171,7 @@ export class QrPage implements OnInit, OnDestroy {
     const result = await Filesystem.writeFile({
       path: 'qr.pdf',
       data: base64,
-      directory: Directory.Data,
+      directory: Directory.Documents,
     });
     console.log(result.uri)
     return result.uri;
