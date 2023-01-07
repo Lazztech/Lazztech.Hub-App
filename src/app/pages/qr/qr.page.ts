@@ -64,6 +64,10 @@ export class QrPage implements OnInit, OnDestroy {
     }
   }
 
+  async ionViewWillLeave() {
+    await this.closeScanner();
+  }
+
   async ngOnDestroy() {
     await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
     await this.closeScanner();
@@ -127,6 +131,7 @@ export class QrPage implements OnInit, OnDestroy {
 
   async closeScanner() {
     await BarcodeScanner.showBackground();
+    await BarcodeScanner.stopScan();
     document.querySelector('body').classList.remove('scanner-active');
   }
 
