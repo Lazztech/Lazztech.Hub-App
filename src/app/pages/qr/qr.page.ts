@@ -131,7 +131,28 @@ export class QrPage implements OnInit, OnDestroy {
     await ScreenBrightness.setBrightness({ brightness: 1 }).catch(x => undefined);
   }
 
-  async email() {}
+  async email() {
+    try {
+      this.loading = true;
+      let data = document.getElementById('myQr');  
+      const canvas = await html2canvas(data);
+      const contentDataURL = canvas.toDataURL('image/png')  ;
+      let pdf = new jspdf('portrait', 'pt', 'a4');
+      pdf.addImage(contentDataURL, 'PNG', 0, 0, canvas.width * 0.25, canvas.height * 0.25);
+      let blob = pdf.output('blob');
+      const base64 = await this.blobToBase64(blob);
+      const email = '';
+      const subject = '';
+      const emailBody = `<img src="${contentDataURL}" />`;
+      const attach = base64;
+      const content = "mailto:"+email+"?subject="+subject+"&body="+emailBody+
+          "?attach="+attach;
+      window.open(content);
+      this.loading = false;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
 
   async share() {
     await Share.share({
