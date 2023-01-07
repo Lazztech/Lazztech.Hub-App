@@ -14,6 +14,7 @@ import html2canvas from 'html2canvas';
 })
 export class QrPage implements OnInit, OnDestroy {
 
+  loading: boolean = false;
   initialScreenBrightness: number;
   showCode: boolean;
   qrForegroundColor = this.themeService.isDark() ? '#ffffff' : '#000000';
@@ -127,16 +128,18 @@ export class QrPage implements OnInit, OnDestroy {
   }
 
   async generatePdf(divId) {
-      let data = document.getElementById(divId);  
-      console.log(data)
-      html2canvas(data).then(canvas => {
-        const contentDataURL = canvas.toDataURL('image/png')  
-        console.log(contentDataURL)
-        let pdf = new jspdf('l', 'cm', 'a4'); //Generates PDF in landscape mode
-        // let pdf = new jspdf('p', 'cm', 'a4'); Generates PDF in portrait mode
-        pdf.addImage(contentDataURL, 'PNG', 0, 0, 29.7, 21.0);  
-        pdf.save('Filename.pdf');   
-      }); 
+    this.loading = true;
+    let data = document.getElementById(divId);  
+    console.log(data);
+    const canvas = await html2canvas(data);
+    const contentDataURL = canvas.toDataURL('image/png')  ;
+    console.log(contentDataURL);
+    console.log('width: ', canvas.width);
+    console.log('height: ', canvas.height);
+    let pdf = new jspdf('l', 'pt', 'a4'); //Generates PDF in landscape mode
+    pdf.addImage(contentDataURL, 'PNG', 0, 0, canvas.width * 0.25, canvas.height * 0.25);
+    pdf.save('Filename.pdf');
+    this.loading = false;
   }
 
 }
