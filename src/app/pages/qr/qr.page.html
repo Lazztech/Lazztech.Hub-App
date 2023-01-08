@@ -9,6 +9,27 @@
 </ion-header>
 
 <ion-content fullscreen="true">
+
+  <div *ngIf="!showCode && isHybrid">
+    <div class="scanBox"></div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="toggleTorch()">
+        <ion-icon name="flashlight-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+
+  <!-- Fallback for web platforms where native isn't available -->
+  <!-- Fallback for iOS PWA -->
+  <input #fileinput type="file" accept="image/*;capture=camera" hidden (change)="handleFile($event.target.files)">
+  <!-- Shows our camera stream -->
+  <video #video [hidden]="!scanActive" width="100%"></video>
+  <!-- Used to render the camera stream images -->
+  <canvas #canvas hidden></canvas>
+  <div class="scanBox" *ngIf="!showCode"></div>
+
+
   <div *ngIf="showCode">
     <ion-card id="myQr">
       <ion-card-header class="ion-text-center">
@@ -58,15 +79,6 @@
       </ion-row>
     </ion-grid>
   </div>
-
-
-  <div *ngIf="!showCode" class="scanBox"></div>
-
-  <ion-fab *ngIf="!showCode" vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="toggleTorch()">
-      <ion-icon name="flashlight-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>
 
 <ion-footer translucent="true">
