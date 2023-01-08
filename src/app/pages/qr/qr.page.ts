@@ -248,7 +248,6 @@ export class QrPage implements OnInit, OnDestroy {
   }
 
   async handleQrContent(content: any) {
-    alert(content);
     console.log(content); // log the raw scanned content
 
     const domain = 'lazz.tech';
@@ -257,6 +256,8 @@ export class QrPage implements OnInit, OnDestroy {
       if (appPath) {
         this.router.navigateByUrl(appPath);
       }
+    } else {
+      alert(content);
     }
   }
 
