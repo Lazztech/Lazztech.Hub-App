@@ -250,6 +250,14 @@ export class QrPage implements OnInit, OnDestroy {
   async handleQrContent(content: any) {
     alert(content);
     console.log(content); // log the raw scanned content
+
+    const domain = 'lazz.tech';
+    if ((content as string)?.includes(domain)) {
+      const appPath = content.split(domain).pop();
+      if (appPath) {
+        this.router.navigateByUrl(appPath);
+      }
+    }
   }
 
   async print() {
