@@ -1,10 +1,12 @@
 mutation inviteUserToHub(
     $hubId: ID!
-    $inviteesEmail: String!
+    $inviteesEmail: String
+    $inviteesShareableId: String
     ) {
     inviteUserToHub(
         hubId: $hubId, 
         inviteesEmail: $inviteesEmail
+        inviteesShareableId: $inviteesShareableId
         ) {
             id
             invitersId

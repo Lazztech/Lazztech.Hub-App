@@ -1,0 +1,91 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+
+  <ion-fab *ngIf="!showCode && isHybrid" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="toggleTorch()">
+      <ion-icon name="flashlight-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Fallback for web platforms where native isn't available -->
+  <!-- Fallback for iOS PWA -->
+  <input #fileinput type="file" accept="image/*;capture=camera" hidden (change)="handleFile($event.target.files)">
+  <!-- Shows our camera stream -->
+  <video #video [hidden]="!scanActive" width="100%"></video>
+  <!-- Used to render the camera stream images -->
+  <canvas #canvas hidden></canvas>
+  <div class="scanBox" *ngIf="!showCode"></div>
+
+
+  <div *ngIf="showCode">
+    <ion-card id="myQr">
+      <ion-card-header class="ion-text-center">
+        <ion-card-title>{{title}}</ion-card-title>
+        <ion-card-subtitle>{{subtitle}}</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <div class="qrcodeImage center">
+          <qrcode
+            [qrdata]="data"
+            [allowEmptyString]="true"
+            [ariaLabel]="'QR Code image with the following content...'"
+            [cssClass]="'center'"
+            [colorDark]="qrForegroundColor"
+            [colorLight]="'#ffffff00'"
+            [elementType]="'canvas'"
+            [errorCorrectionLevel]="'M'"
+            [imageSrc]="'assets/iconx/android-chrome-192x192.png'"
+            [imageHeight]="75"
+            [imageWidth]="75"
+            [margin]="1"
+            [scale]="1"
+            [title]="'A custom title attribute'"
+            [width]="300"
+          ></qrcode>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button shape="round" (click)="print()">
+            <ion-icon name="print-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-text-center" *ngIf="isHybrid">
+          <ion-button shape="round" (click)="email()">
+            <ion-icon name="mail-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="ion-text-center" *ngIf="shareableLink">
+          <ion-button shape="round" (click)="share()">
+            <ion-icon name="share-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-segment [value]="initialMode" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="scan-code">
+        <ion-label>Scan code</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="show-code">
+        <ion-label>Show code</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-footer>

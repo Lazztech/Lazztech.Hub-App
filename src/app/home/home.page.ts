@@ -174,4 +174,16 @@ export class HomePage implements OnInit, OnDestroy {
     });
   }
 
+  async goToQrPage() {
+    const user = await this.authService.user();
+    this.navCtrl.navigateForward('qr', {
+      state: {
+        data: user?.shareableId,
+        title: user?.firstName && user?.lastName ? `${user?.firstName} ${user?.lastName}` : undefined,
+        subtitle: 'Scan to invite me',
+        image: user?.image,
+      }
+    });
+  }
+
 }

@@ -3,9 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <div slot="end" href="javascript:void(0);" (click)="presentActionSheet()">
-      <ion-icon size="large" name="ellipsis-vertical-outline"></ion-icon>
-    </div>
+    <ion-buttons slot="end">
+      <ion-icon class="ion-padding-end" size="large" name="qr-code-outline" href="javascript:void(0);" (click)="goToQrPage()"></ion-icon>
+      <ion-icon size="large" name="ellipsis-vertical-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
+    </ion-buttons>
+
     <ion-title>Event</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
@@ -294,6 +296,10 @@
    [id]="id"
    [persons]="notYetInvitedPeople"
    [shareableLink]="'https://hub.lazz.tech/event/' + userEventQueryResult?.data?.event?.event?.shareableId"
+   [qrData]="'https://hub.lazz.tech/event/' + userEventQueryResult?.data?.event?.event?.shareableId"
+   [qrTitle]="userEventQueryResult?.data?.event?.event?.name"
+   [qrSubtitle]="'Scan to join event @ ' + userEventQueryResult?.data?.event?.event?.locationLabel"
+   [modal]="modal"
   ></app-invite>
 </ion-content>
 <ion-footer translucent="true">

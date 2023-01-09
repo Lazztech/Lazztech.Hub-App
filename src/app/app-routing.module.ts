@@ -107,6 +107,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'qr',
+    loadChildren: () => import('./pages/qr/qr.module').then(m => m.QrPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'preview-hub',
     loadChildren: () => import('./pages/hub/preview-hub/preview-hub.module').then(m => m.PreviewHubPageModule),
     canActivate: [AuthGuard]

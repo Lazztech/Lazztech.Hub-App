@@ -13,6 +13,7 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
+import { InviteContext } from '../qr/qr.page';
 
 @Component({
   selector: 'app-event',
@@ -198,6 +199,22 @@ export class EventPage implements OnInit, OnDestroy {
 
   didDismissInviteModal() {
     this.inviteModalIsOpen = false;
+  }
+
+  async goToQrPage() {
+    this.navCtrl.navigateForward('qr', {
+      state: {
+        data: 'https://hub.lazz.tech/hub/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+        shareableLink: 'https://hub.lazz.tech/hub/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+        title: this.userEventQueryResult?.data?.event?.event?.name,
+        subtitle: 'Scan to join event @ ' + this.userEventQueryResult?.data?.event?.event?.locationLabel,
+        image: this.userEventQueryResult?.data?.event?.event?.image,
+        inviteContext: {
+          type: 'event',
+          id: this.userEventQueryResult?.data?.event?.event?.id
+        } as InviteContext,
+      }
+    });
   }
 
 }

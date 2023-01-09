@@ -12,6 +12,7 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { HubQuery, JoinUserHub, MuteGQL, Scalars, UnmuteGQL, User } from 'src/graphql/graphql';
+import { InviteContext } from '../qr/qr.page';
 
 @Component({
   selector: 'app-hub',
@@ -236,4 +237,19 @@ export class HubPage implements OnInit, OnDestroy {
     this.inviteModalIsOpen = false;
   }
 
+  async goToQrPage() {
+    this.navCtrl.navigateForward('qr', {
+      state: {
+        data: 'https://hub.lazz.tech/hub/' + this.userHub.hub?.shareableId,
+        shareableLink: 'https://hub.lazz.tech/hub/' + this.userHub.hub?.shareableId,
+        title: this.userHub.hub.name,
+        subtitle: 'Scan to join hub @ ' + this.userHub?.hub.locationLabel,
+        image: this.userHub.hub?.image,
+        inviteContext: {
+          type: 'hub',
+          id: this.userHub?.hubId
+        } as InviteContext,
+      }
+    });
+  }
 }

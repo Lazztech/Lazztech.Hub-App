@@ -5,6 +5,7 @@ import { Clipboard } from '@capacitor/clipboard';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
+import { InviteContext } from 'src/app/pages/qr/qr.page';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { InviteUserToEventGQL, Scalars, User } from 'src/graphql/graphql';
@@ -25,6 +26,11 @@ export class InviteComponent implements OnInit, OnChanges {
   @Input() inviteType: InviteType;
   @Input() id: Scalars['ID'];
   @Input() shareableLink: string;
+  @Input() qrData: string;
+  @Input() qrTitle: string;
+  @Input() qrSubtitle: string;
+  @Input() qrImage: string;
+  @Input() modal: any;
 
   loading = false;
   allInvitesSucces = true;
@@ -120,6 +126,23 @@ export class InviteComponent implements OnInit, OnChanges {
     }
     if (this.allInvitesSucces) { this.navCtrl.back(); }
     this.invites = [];
+  }
+
+  async goToQrPage() {
+    await this.modal?.dismiss();
+    this.navCtrl.navigateForward('qr', {
+      state: {
+        data: this.qrData,
+        title: this.qrTitle,
+        subtitle: this.qrSubtitle,
+        image: this.qrImage,
+        initialMode: 'scan-code',
+        inviteContext: {
+          type: this.inviteType,
+          id: this.id,
+        } as InviteContext,
+      }
+    });
   }
 
 }
