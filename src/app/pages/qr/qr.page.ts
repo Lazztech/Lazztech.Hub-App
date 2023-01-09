@@ -19,7 +19,7 @@ import jsQR from 'jsqr';
   templateUrl: './qr.page.html',
   styleUrls: ['./qr.page.scss'],
 })
-export class QrPage implements OnInit, OnDestroy, AfterViewInit {
+export class QrPage implements OnInit, OnDestroy {
 
   loading: boolean = false;
   initialScreenBrightness: number;
@@ -67,7 +67,7 @@ export class QrPage implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  async ngAfterViewInit() {
+  async ionViewDidEnter() {
     switch (this.initialMode) {
       case 'show-code':
         console.log('show-code');
