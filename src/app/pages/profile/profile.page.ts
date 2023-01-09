@@ -235,7 +235,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('qr', {
       state: {
         data: this.userResult.data?.me?.shareableId,
-        title: `${this.userResult.data?.me?.firstName} ${this.userResult.data?.me?.lastName}`,
+        title: this.userResult.data?.me?.firstName && this.userResult.data?.me?.lastName ? `${this.userResult.data?.me?.firstName} ${this.userResult.data?.me?.lastName}` : undefined,
         subtitle: 'Scan to invite me',
         image: this.userResult.data?.me?.image,
       }

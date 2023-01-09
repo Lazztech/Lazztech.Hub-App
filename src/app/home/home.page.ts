@@ -179,7 +179,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('qr', {
       state: {
         data: user?.shareableId,
-        title: `${user?.firstName} ${user?.lastName}`,
+        title: user?.firstName && user?.lastName ? `${user?.firstName} ${user?.lastName}` : undefined,
         subtitle: 'Scan to invite me',
         image: user?.image,
       }
