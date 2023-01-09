@@ -78,6 +78,9 @@ export class QrPage implements OnInit, OnDestroy {
   }
 
   async ionViewWillLeave() {
+    if (this.isHybrid) {
+      await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
+    }
     await this.closeScanner();
   }
 
