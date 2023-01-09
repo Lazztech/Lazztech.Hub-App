@@ -1,18 +1,24 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
+import { FileOpener } from '@capacitor-community/file-opener';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { Browser } from '@capacitor/browser';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
+import { isPlatform } from '@ionic/angular';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
+import jsQR from 'jsqr';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
-import { FileOpener } from '@capacitor-community/file-opener';
-import { isPlatform } from '@ionic/angular';
-import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
-import jsQR from 'jsqr';
+import { InvitesByHubDocument, InvitesByHubQueryVariables, InviteUserToEventGQL, InviteUserToHubGQL } from 'src/graphql/graphql';
+
+export interface InviteContext { 
+  type: 'hub' | 'event',
+  id: any,
+}
 
 @Component({
   selector: 'app-qr',
@@ -31,6 +37,7 @@ export class QrPage implements OnInit, OnDestroy {
   data: string;
   shareableLink: string;
   initialMode: 'show-code' | 'scan-code' = 'show-code';
+  inviteContext: InviteContext;
   isHybrid: boolean = isPlatform('hybrid');
 
   @ViewChild('video', { static: false }) video: ElementRef;
@@ -48,6 +55,8 @@ export class QrPage implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly alertService: AlertService,
     private readonly emailComposer: EmailComposer,
+    private readonly inviteUserToEventService: InviteUserToEventGQL,
+    private readonly inviteUserToHubGQLService: InviteUserToHubGQL,
   ) {
     const state = this.router.getCurrentNavigation()?.extras?.state;
     this.title = state?.title;
@@ -55,6 +64,7 @@ export class QrPage implements OnInit, OnDestroy {
     this.image = state?.image;
     this.data = state?.data;
     this.shareableLink = state?.shareableLink;
+    this.inviteContext = state?.inviteContext;
     if (state?.initialMode) {
       this.initialMode = state?.initialMode;
     }
@@ -261,16 +271,38 @@ export class QrPage implements OnInit, OnDestroy {
 
   async handleQrContent(content: any) {
     console.log(content); // log the raw scanned content
-
-    const domain = 'lazz.tech';
-    if ((content as string)?.includes(domain)) {
-      const appPath = content.split(domain).pop();
-      if (appPath) {
-        this.router.navigateByUrl(appPath);
+    try {
+      const domain = 'lazz.tech';
+      if ((content as string)?.includes(domain)) {
+        const appPath = content.split(domain).pop();
+        if (appPath) {
+          this.router.navigateByUrl(appPath);
+        }
+      } else if (this.inviteContext?.id && this.inviteContext?.type) {
+        if (this.inviteContext.type === 'event') {
+          const result = await this.inviteUserToEventService.mutate({
+            eventId: this.inviteContext.id,
+            inviteesShareableId: content,
+          }).toPromise();
+          this.alertService.presentToast(`Sucessfully invited ${result.data?.inviteUserToEvent?.user?.firstName}`);
+        } else {
+          const result = await this.inviteUserToHubGQLService.mutate({
+            hubId: this.inviteContext.id,
+            inviteesShareableId: content,
+          }, {
+            refetchQueries: [
+              { query: InvitesByHubDocument, variables: { hubId: this.inviteContext.id, includeAccepted: false } as InvitesByHubQueryVariables }
+            ]
+          }).toPromise();
+          await this.alertService.presentToast(`Sucessfully invited ${result.data?.inviteUserToHub?.invitee?.firstName}`);
+        }
+      } else {
+        alert(content);
       }
-    } else {
-      alert(content);
+    } catch (error) {
+      this.handleError(error);
     }
+
   }
 
   async print() {

@@ -12,6 +12,7 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { HubQuery, JoinUserHub, MuteGQL, Scalars, UnmuteGQL, User } from 'src/graphql/graphql';
+import { InviteContext } from '../qr/qr.page';
 
 @Component({
   selector: 'app-hub',
@@ -244,6 +245,10 @@ export class HubPage implements OnInit, OnDestroy {
         title: this.userHub.hub.name,
         subtitle: 'Scan to join hub @ ' + this.userHub?.hub.locationLabel,
         image: this.userHub.hub?.image,
+        inviteContext: {
+          type: 'hub',
+          id: this.userHub?.hubId
+        } as InviteContext,
       }
     });
   }

@@ -333,13 +333,15 @@ export type MutationExitedHubGeofenceArgs = {
 
 export type MutationInviteUserToEventArgs = {
   eventId: Scalars['ID'];
-  inviteesEmail: Scalars['String'];
+  inviteesEmail?: InputMaybe<Scalars['String']>;
+  inviteesShareableId?: InputMaybe<Scalars['String']>;
 };
 
 
 export type MutationInviteUserToHubArgs = {
   hubId: Scalars['ID'];
-  inviteesEmail: Scalars['String'];
+  inviteesEmail?: InputMaybe<Scalars['String']>;
+  inviteesShareableId?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -798,7 +800,8 @@ export type ExpeditedRegistrationMutation = { __typename?: 'Mutation', expedited
 
 export type InviteUserToEventMutationVariables = Exact<{
   eventId: Scalars['ID'];
-  inviteesEmail: Scalars['String'];
+  inviteesEmail?: InputMaybe<Scalars['String']>;
+  inviteesShareableId?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -806,7 +809,8 @@ export type InviteUserToEventMutation = { __typename?: 'Mutation', inviteUserToE
 
 export type InviteUserToHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
-  inviteesEmail: Scalars['String'];
+  inviteesEmail?: InputMaybe<Scalars['String']>;
+  inviteesShareableId?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -1612,8 +1616,12 @@ export const ExpeditedRegistrationDocument = gql`
     }
   }
 export const InviteUserToEventDocument = gql`
-    mutation inviteUserToEvent($eventId: ID!, $inviteesEmail: String!) {
-  inviteUserToEvent(eventId: $eventId, inviteesEmail: $inviteesEmail) {
+    mutation inviteUserToEvent($eventId: ID!, $inviteesEmail: String, $inviteesShareableId: String) {
+  inviteUserToEvent(
+    eventId: $eventId
+    inviteesEmail: $inviteesEmail
+    inviteesShareableId: $inviteesShareableId
+  ) {
     userId
     eventId
     user {
@@ -1653,8 +1661,12 @@ export const InviteUserToEventDocument = gql`
     }
   }
 export const InviteUserToHubDocument = gql`
-    mutation inviteUserToHub($hubId: ID!, $inviteesEmail: String!) {
-  inviteUserToHub(hubId: $hubId, inviteesEmail: $inviteesEmail) {
+    mutation inviteUserToHub($hubId: ID!, $inviteesEmail: String, $inviteesShareableId: String) {
+  inviteUserToHub(
+    hubId: $hubId
+    inviteesEmail: $inviteesEmail
+    inviteesShareableId: $inviteesShareableId
+  ) {
     id
     invitersId
     inviteesId

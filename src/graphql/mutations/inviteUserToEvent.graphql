@@ -1,5 +1,5 @@
-mutation inviteUserToEvent($eventId: ID!, $inviteesEmail: String!) {
-  inviteUserToEvent(eventId: $eventId, inviteesEmail: $inviteesEmail) {
+mutation inviteUserToEvent($eventId: ID!, $inviteesEmail: String, $inviteesShareableId: String) {
+  inviteUserToEvent(eventId: $eventId, inviteesEmail: $inviteesEmail, inviteesShareableId: $inviteesShareableId) {
     userId
     eventId
     user {

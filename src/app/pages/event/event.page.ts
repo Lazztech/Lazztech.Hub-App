@@ -13,6 +13,7 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
+import { InviteContext } from '../qr/qr.page';
 
 @Component({
   selector: 'app-event',
@@ -208,6 +209,10 @@ export class EventPage implements OnInit, OnDestroy {
         title: this.userEventQueryResult?.data?.event?.event?.name,
         subtitle: 'Scan to join event @ ' + this.userEventQueryResult?.data?.event?.event?.locationLabel,
         image: this.userEventQueryResult?.data?.event?.event?.image,
+        inviteContext: {
+          type: 'event',
+          id: this.userEventQueryResult?.data?.event?.event?.id
+        } as InviteContext,
       }
     });
   }
