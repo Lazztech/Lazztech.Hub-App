@@ -150,13 +150,14 @@ export class QrPage implements OnInit, OnDestroy {
 
   stopPwaScan() {
     this.scanActive = false;
-    const stream = this.videoElement.srcObject;
-    const tracks = stream.getTracks();
-    tracks.forEach(function(track) {
+    const stream = this.videoElement?.srcObject;
+    const tracks = stream?.getTracks();
+    tracks?.forEach(function(track) {
       track.stop();
     });
-    
-    this.videoElement.srcObject = null;
+    if (this.videoElement?.srcObject) {
+      this.videoElement.srcObject = null;
+    }
   }
 
   async startPwaScan() {

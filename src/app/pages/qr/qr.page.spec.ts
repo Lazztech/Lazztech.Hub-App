@@ -1,30 +1,29 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { IonicModule } from '@ionic/angular';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
+import { QrPage } from './qr.page';
 
-import { StatusPage } from './qr.page';
-
-describe('StatusPage', () => {
-  let component: StatusPage;
-  let fixture: ComponentFixture<StatusPage>;
+describe('QrPage', () => {
+  let component: QrPage;
+  let fixture: ComponentFixture<QrPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ StatusPage ],
+      declarations: [QrPage],
       imports: [
         IonicModule.forRoot(),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
       ],
       providers: [
-        Diagnostic,
+        EmailComposer,
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(StatusPage);
+    fixture = TestBed.createComponent(QrPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
