@@ -8,12 +8,13 @@ import { Browser } from '@capacitor/browser';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { isPlatform, NavController } from '@ionic/angular';
+import { Query } from 'apollo-angular';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 import jsQR from 'jsqr';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
-import { InvitesByHubDocument, InvitesByHubQueryVariables, InviteUserToEventGQL, InviteUserToHubGQL } from 'src/graphql/graphql';
+import { EventDocument, InvitesByHubDocument, InvitesByHubQueryVariables, InviteUserToEventGQL, InviteUserToHubGQL } from 'src/graphql/graphql';
 
 export interface InviteContext { 
   type: 'hub' | 'event',
@@ -285,6 +286,10 @@ export class QrPage implements OnInit, OnDestroy {
           const result = await this.inviteUserToEventService.mutate({
             eventId: this.inviteContext.id,
             inviteesShareableId: content,
+          }, {
+            refetchQueries: [
+              { query: EventDocument, variables: { id: this.inviteContext.id } }
+            ]
           }).toPromise();
           this.navCtrl.back();
           this.alertService.presentToast(`Sucessfully invited ${result.data?.inviteUserToEvent?.user?.firstName}`);

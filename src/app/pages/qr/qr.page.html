@@ -10,15 +10,11 @@
 
 <ion-content fullscreen="true">
 
-  <div *ngIf="!showCode && isHybrid">
-    <div class="scanBox"></div>
-
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button (click)="toggleTorch()">
-        <ion-icon name="flashlight-outline"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
-  </div>
+  <ion-fab *ngIf="!showCode && isHybrid" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="toggleTorch()">
+      <ion-icon name="flashlight-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <!-- Fallback for web platforms where native isn't available -->
   <!-- Fallback for iOS PWA -->
