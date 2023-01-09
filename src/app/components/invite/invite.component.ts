@@ -29,6 +29,7 @@ export class InviteComponent implements OnInit, OnChanges {
   @Input() qrTitle: string;
   @Input() qrSubtitle: string;
   @Input() qrImage: string;
+  @Input() modal: any;
 
   loading = false;
   allInvitesSucces = true;
@@ -127,6 +128,7 @@ export class InviteComponent implements OnInit, OnChanges {
   }
 
   async goToQrPage() {
+    await this.modal?.dismiss();
     this.navCtrl.navigateForward('qr', {
       state: {
         data: this.qrData,
