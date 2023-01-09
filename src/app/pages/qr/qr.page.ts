@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { ScreenBrightness } from '@capacitor-community/screen-brightness';
@@ -19,7 +19,7 @@ import jsQR from 'jsqr';
   templateUrl: './qr.page.html',
   styleUrls: ['./qr.page.scss'],
 })
-export class QrPage implements OnInit, OnDestroy {
+export class QrPage implements OnInit, OnDestroy, AfterViewInit {
 
   loading: boolean = false;
   initialScreenBrightness: number;
@@ -65,11 +65,16 @@ export class QrPage implements OnInit, OnDestroy {
     if (this.isHybrid) {
       this.initialScreenBrightness = (await ScreenBrightness.getBrightness()).brightness;
     }
+  }
+
+  async ngAfterViewInit() {
     switch (this.initialMode) {
       case 'show-code':
+        console.log('show-code');
         await this.openCode()
         break;
       case 'scan-code':
+        console.log('scan-code');
         this.isHybrid ? await this.openScanner() : await this.startPwaScan();
         break;
       default:
@@ -80,15 +85,19 @@ export class QrPage implements OnInit, OnDestroy {
   async ionViewWillLeave() {
     if (this.isHybrid) {
       await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
+      await this.closeScanner();
+    } else {
+      this.stopPwaScan();
     }
-    await this.closeScanner();
   }
 
   async ngOnDestroy() {
     if (this.isHybrid) {
       await ScreenBrightness.setBrightness({ brightness: this.initialScreenBrightness });
+      await this.closeScanner();
+    } else {
+      this.stopPwaScan();
     }
-    await this.closeScanner();
   }
 
   async handleError(err) {
