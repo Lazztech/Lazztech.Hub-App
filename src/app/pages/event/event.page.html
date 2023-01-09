@@ -299,6 +299,7 @@
    [qrData]="'https://hub.lazz.tech/event/' + userEventQueryResult?.data?.event?.event?.shareableId"
    [qrTitle]="userEventQueryResult?.data?.event?.event?.name"
    [qrSubtitle]="'Scan to join event @ ' + userEventQueryResult?.data?.event?.event?.locationLabel"
+   [modal]="modal"
   ></app-invite>
 </ion-content>
 <ion-footer translucent="true">

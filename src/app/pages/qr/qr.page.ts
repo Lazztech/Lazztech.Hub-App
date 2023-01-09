@@ -7,7 +7,7 @@ import { ScreenBrightness } from '@capacitor-community/screen-brightness';
 import { Browser } from '@capacitor/browser';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
-import { isPlatform } from '@ionic/angular';
+import { isPlatform, NavController } from '@ionic/angular';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 import jsQR from 'jsqr';
@@ -57,6 +57,7 @@ export class QrPage implements OnInit, OnDestroy {
     private readonly emailComposer: EmailComposer,
     private readonly inviteUserToEventService: InviteUserToEventGQL,
     private readonly inviteUserToHubGQLService: InviteUserToHubGQL,
+    private readonly navCtrl: NavController,
   ) {
     const state = this.router.getCurrentNavigation()?.extras?.state;
     this.title = state?.title;
@@ -284,6 +285,7 @@ export class QrPage implements OnInit, OnDestroy {
             eventId: this.inviteContext.id,
             inviteesShareableId: content,
           }).toPromise();
+          this.navCtrl.back();
           this.alertService.presentToast(`Sucessfully invited ${result.data?.inviteUserToEvent?.user?.firstName}`);
         } else {
           const result = await this.inviteUserToHubGQLService.mutate({
@@ -294,12 +296,15 @@ export class QrPage implements OnInit, OnDestroy {
               { query: InvitesByHubDocument, variables: { hubId: this.inviteContext.id, includeAccepted: false } as InvitesByHubQueryVariables }
             ]
           }).toPromise();
+          this.navCtrl.back();
           await this.alertService.presentToast(`Sucessfully invited ${result.data?.inviteUserToHub?.invitee?.firstName}`);
         }
       } else {
-        alert(content);
+        this.navCtrl.back();
+        alert('Go to a Hub or Event page then scan to invite someone.');
       }
     } catch (error) {
+      this.navCtrl.back();
       this.handleError(error);
     }
 
