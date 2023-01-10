@@ -14,7 +14,7 @@ import jspdf from 'jspdf';
 import jsQR from 'jsqr';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
-import { EventDocument, InvitesByHubDocument, InvitesByHubQueryVariables, InviteUserToEventGQL, InviteUserToHubGQL } from 'src/graphql/graphql';
+import { EventDocument, InvitesByHubDocument, InvitesByHubQueryVariables, InviteUserToEventGQL, InviteUserToHubGQL, UsersPeopleDocument } from 'src/graphql/graphql';
 
 export interface InviteContext { 
   type: 'hub' | 'event',
@@ -299,7 +299,8 @@ export class QrPage implements OnInit, OnDestroy {
             inviteesShareableId: content,
           }, {
             refetchQueries: [
-              { query: InvitesByHubDocument, variables: { hubId: this.inviteContext.id, includeAccepted: false } as InvitesByHubQueryVariables }
+              { query: InvitesByHubDocument, variables: { hubId: this.inviteContext.id, includeAccepted: false } as InvitesByHubQueryVariables },
+              { query: UsersPeopleDocument },
             ]
           }).toPromise();
           this.navCtrl.back();

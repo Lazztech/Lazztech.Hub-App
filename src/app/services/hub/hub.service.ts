@@ -28,7 +28,7 @@ import {
   SetHubNotStarredGQL,
   SetHubStarredGQL,
   UsersHubsDocument,
-  UsersHubsGQL, UsersPeopleGQL
+  UsersHubsGQL, UsersPeopleDocument, UsersPeopleGQL
 } from 'src/graphql/graphql';
 import { AlertService } from '../alert/alert.service';
 
@@ -214,7 +214,8 @@ export class HubService {
         inviteesEmail
       }, {
         refetchQueries: [
-          { query: InvitesByHubDocument, variables: { hubId, includeAccepted: false } as InvitesByHubQueryVariables }
+          { query: InvitesByHubDocument, variables: { hubId, includeAccepted: false } as InvitesByHubQueryVariables },
+          { query: UsersPeopleDocument },
         ]
       }).toPromise();
 

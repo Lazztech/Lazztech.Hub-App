@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Photo } from '@capacitor/camera';
-import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -64,8 +64,6 @@ export class AdminHubPage implements OnInit, OnDestroy {
     private readonly updateHubService: UpdateHubGQL,
     public routerOutlet: IonRouterOutlet,
     public locationService: LocationService,
-    private platform: Platform,
-    private changeRef: ChangeDetectorRef,
     private readonly removeUserFromHubGqlService: RemoveUserFromHubGQL,
     private readonly resetShareableHubID: ResetShareableHubIdGQL,
     private readonly alertService: AlertService,
@@ -75,10 +73,12 @@ export class AdminHubPage implements OnInit, OnDestroy {
     this.id = this.route.snapshot.paramMap.get('id');
 
     const usersPeopleQueryRef = this.hubService.watchUsersPeople(null, 3000);
-    this.queryRefs.push(usersPeopleQueryRef);
+    const hubQueryRef = this.hubGqlService.watch({ id: this.id });
+    const invitesByHubQueryRef = this.inviteByHubService.watch({ hubId: this.id });
+    this.queryRefs.push(usersPeopleQueryRef, hubQueryRef, invitesByHubQueryRef);
 
     this.subscriptions.push(
-      this.hubGqlService.watch({ id: this.id }).valueChanges.subscribe(x => {
+      hubQueryRef.valueChanges.subscribe(x => {
         this.userHub = x;
         this.image = x?.data?.hub?.hub?.image;
         this.active = x?.data?.hub?.hub?.active;
@@ -98,7 +98,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
           }],
         });
       }),
-      this.inviteByHubService.fetch({ hubId: this.id }).subscribe(y => {
+      invitesByHubQueryRef.valueChanges.subscribe(y => {
         this.invites = y;
         this.loading = y.loading;
       }),
@@ -113,6 +113,10 @@ export class AdminHubPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(x => x.unsubscribe());
+  }
+
+  async ionViewDidLeave() {
+    this.queryRefs.forEach(queryRef => queryRef.stopPolling());
   }
 
   async handleError(err) {
