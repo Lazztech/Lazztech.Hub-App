@@ -1,16 +1,18 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Photo } from '@capacitor/camera';
 import { ActionSheetController, IonRouterOutlet, NavController, Platform } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
+import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { HubDocument, HubGQL, HubQuery, InvitesByHubGQL, InvitesByHubQuery, JoinUserHub, RemoveUserFromHubGQL, ResetShareableHubIdGQL, Scalars, UpdateHubGQL } from 'src/graphql/graphql';
+import { HubDocument, HubGQL, HubQuery, InvitesByHubGQL, InvitesByHubQuery, JoinUserHub, RemoveUserFromHubGQL, ResetShareableHubIdGQL, Scalars, UpdateHubGQL, User } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-admin-hub',
@@ -29,6 +31,11 @@ export class AdminHubPage implements OnInit, OnDestroy {
   image: any;
   photo: Photo;
   active: boolean;
+  inviteModalIsOpen: boolean = false;
+  @ViewChild(InviteComponent)
+  private inviteComponent: InviteComponent;
+  notYetInvitedPeople: Array<User> = [];
+  queryRefs: QueryRef<any>[] = [];
 
   myForm: UntypedFormGroup;
 
@@ -67,6 +74,9 @@ export class AdminHubPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
 
+    const usersPeopleQueryRef = this.hubService.watchUsersPeople(null, 3000);
+    this.queryRefs.push(usersPeopleQueryRef);
+
     this.subscriptions.push(
       this.hubGqlService.watch({ id: this.id }).valueChanges.subscribe(x => {
         this.userHub = x;
@@ -91,7 +101,13 @@ export class AdminHubPage implements OnInit, OnDestroy {
       this.inviteByHubService.fetch({ hubId: this.id }).subscribe(y => {
         this.invites = y;
         this.loading = y.loading;
-      })
+      }),
+      usersPeopleQueryRef.valueChanges.subscribe(result => {
+        this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
+          return !this.invites?.data?.invitesByHub
+            ?.find(x => x.inviteesId === person?.id);
+        }) as any;
+      }, err => this.handleError(err)),
     );
   }
 
@@ -166,11 +182,6 @@ export class AdminHubPage implements OnInit, OnDestroy {
       await this.hubService.deactivateHub(this.id);
     }
     this.loading = false;
-  }
-
-  async invite() {
-    this.navCtrl.navigateForward('invite/' + this.id);
-    this.logger.log('Invite clicked');
   }
 
   goToPersonPage(id: number, user: any) {
@@ -273,6 +284,19 @@ export class AdminHubPage implements OnInit, OnDestroy {
       location: this.mapSearchSelection
     });
     this.mapModalIsOpen = false;
+  }
+
+  async sendInvites() {
+    await this.inviteComponent.sendInvites();
+    this.toggleInviteModal();
+  }
+
+  toggleInviteModal() {
+    this.inviteModalIsOpen = !this.inviteModalIsOpen;
+  }
+
+  didDismissInviteModal() {
+    this.inviteModalIsOpen = false;
   }
 
 }

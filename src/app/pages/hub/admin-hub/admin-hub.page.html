@@ -108,10 +108,6 @@
 
     <ion-list-header class="ion-padding-bottom">
       <ion-label>Invites</ion-label>
-      <ion-button (click)="invite()">
-        <ion-icon size="large" name="add"></ion-icon>
-        Invites
-      </ion-button>
     </ion-list-header>
 
     <div *ngFor="let invite of invites?.data?.invitesByHub">
@@ -136,6 +132,12 @@
     </div>
 
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="toggleInviteModal()">
+      <ion-icon name="person-add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
 
@@ -183,6 +185,47 @@
 <ion-footer translucent="true">
   <ion-toolbar>
     <ion-button [disabled]="!mapSearchSelection" (click)="selectLocation()" type="submit" expand="block" color="primary">Select Location</ion-button>
+  </ion-toolbar>
+</ion-footer>
+</ng-template>
+</ion-modal>
+
+<ion-modal
+#modal
+[isOpen]="inviteModalIsOpen"
+[canDismiss]="true"
+[presentingElement]="routerOutlet.nativeEl"
+(didDismiss)="didDismissInviteModal()"
+>
+<ng-template>
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="modal.dismiss()">Close</ion-button>
+    </ion-buttons>
+    <ion-title>Invite</ion-title>
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen="true">
+  <app-invite
+   [inviteType]="'hub'"
+   [id]="id"
+   [persons]="notYetInvitedPeople"
+   [shareableLink]="'https://hub.lazz.tech/hub/' + userHub?.data?.hub?.hub?.shareableId"
+   [qrData]="'https://hub.lazz.tech/hub/' + userHub?.data?.hub?.hub?.shareableId"
+   [qrTitle]="userHub?.data?.hub?.hub?.name"
+   [qrSubtitle]="'Scan to join hub @ ' + userHub?.data?.hub?.hub?.locationLabel"
+   [modal]="modal"
+  ></app-invite>
+</ion-content>
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-button expand="block" (click)="sendInvites()">Send
+    </ion-button>
   </ion-toolbar>
 </ion-footer>
 </ng-template>
