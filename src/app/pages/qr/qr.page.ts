@@ -8,13 +8,11 @@ import { Browser } from '@capacitor/browser';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { isPlatform, NavController } from '@ionic/angular';
-import { Query } from 'apollo-angular';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 import jsQR from 'jsqr';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { ThemeService } from 'src/app/services/theme/theme.service';
-import { EventDocument, InvitesByHubDocument, InvitesByHubQueryVariables, InviteUserToEventGQL, InviteUserToHubGQL } from 'src/graphql/graphql';
+import { EventDocument, InvitesByHubDocument, InvitesByHubQueryVariables, InviteUserToEventGQL, InviteUserToHubGQL, UsersPeopleDocument } from 'src/graphql/graphql';
 
 export interface InviteContext { 
   type: 'hub' | 'event',
@@ -31,7 +29,6 @@ export class QrPage implements OnInit, OnDestroy {
   loading: boolean = false;
   initialScreenBrightness: number;
   showCode: boolean;
-  qrForegroundColor = this.themeService.isDark() ? '#ffffff' : '#000000';
   title: string;
   subtitle: string;
   image: string;
@@ -52,7 +49,6 @@ export class QrPage implements OnInit, OnDestroy {
   scanResult = null;
 
   constructor(
-    private readonly themeService: ThemeService,
     private readonly router: Router,
     private readonly alertService: AlertService,
     private readonly emailComposer: EmailComposer,
@@ -255,8 +251,9 @@ export class QrPage implements OnInit, OnDestroy {
 
     // make background of WebView transparent
     // note: if you are using ionic this might not be enough, check below
-    BarcodeScanner.hideBackground();
+    document.querySelector('body').style.removeProperty('background-color');
     document.querySelector('body').classList.add('scanner-active');
+    BarcodeScanner.hideBackground();
 
     const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
 
@@ -299,7 +296,8 @@ export class QrPage implements OnInit, OnDestroy {
             inviteesShareableId: content,
           }, {
             refetchQueries: [
-              { query: InvitesByHubDocument, variables: { hubId: this.inviteContext.id, includeAccepted: false } as InvitesByHubQueryVariables }
+              { query: InvitesByHubDocument, variables: { hubId: this.inviteContext.id, includeAccepted: false } as InvitesByHubQueryVariables },
+              { query: UsersPeopleDocument },
             ]
           }).toPromise();
           this.navCtrl.back();

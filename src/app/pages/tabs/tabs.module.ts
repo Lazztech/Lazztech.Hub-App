@@ -59,15 +59,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'invite',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../hub/invite/invite.module').then(m => m.InvitePageModule)
-          }
-        ]
-      },
-      {
         path: 'events',
         children: [
           {

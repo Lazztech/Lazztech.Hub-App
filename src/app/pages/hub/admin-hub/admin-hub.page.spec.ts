@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AdminHubPage } from './admin-hub.page';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AdminHubPage', () => {
   let component: AdminHubPage;
@@ -14,6 +15,7 @@ describe('AdminHubPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AdminHubPage ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         IonicModule.forRoot(),
         RouterTestingModule.withRoutes([]),
@@ -31,11 +33,16 @@ describe('AdminHubPage', () => {
         }
       ]
     }).compileComponents();
+  }));
 
+  // for some reasone this must be done here as apposed to the
+  // waitForAsync callback, otherwise it times out due to the
+  // apollo client polling?..
+  beforeEach(() => {
     fixture = TestBed.createComponent(AdminHubPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

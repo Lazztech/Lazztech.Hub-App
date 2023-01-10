@@ -63,11 +63,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'invite',
-    loadChildren: () => import('./pages/hub/invite/invite.module').then(m => m.InvitePageModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'person',
     loadChildren: () => import('./pages/people/person/person.module').then(m => m.PersonPageModule),
     canActivate: [AuthGuard]
