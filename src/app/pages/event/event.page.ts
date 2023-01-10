@@ -204,8 +204,8 @@ export class EventPage implements OnInit, OnDestroy {
   async goToQrPage() {
     this.navCtrl.navigateForward('qr', {
       state: {
-        data: 'https://hub.lazz.tech/hub/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
-        shareableLink: 'https://hub.lazz.tech/hub/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+        data: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+        shareableLink: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
         title: this.userEventQueryResult?.data?.event?.event?.name,
         subtitle: 'Scan to join event @ ' + this.userEventQueryResult?.data?.event?.event?.locationLabel,
         image: this.userEventQueryResult?.data?.event?.event?.image,
