@@ -8,12 +8,10 @@ import { Browser } from '@capacitor/browser';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { isPlatform, NavController } from '@ionic/angular';
-import { Query } from 'apollo-angular';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 import jsQR from 'jsqr';
 import { AlertService } from 'src/app/services/alert/alert.service';
-import { ThemeService } from 'src/app/services/theme/theme.service';
 import { EventDocument, InvitesByHubDocument, InvitesByHubQueryVariables, InviteUserToEventGQL, InviteUserToHubGQL, UsersPeopleDocument } from 'src/graphql/graphql';
 
 export interface InviteContext { 
@@ -31,7 +29,6 @@ export class QrPage implements OnInit, OnDestroy {
   loading: boolean = false;
   initialScreenBrightness: number;
   showCode: boolean;
-  qrForegroundColor = this.themeService.isDark() ? '#ffffff' : '#000000';
   title: string;
   subtitle: string;
   image: string;
@@ -52,7 +49,6 @@ export class QrPage implements OnInit, OnDestroy {
   scanResult = null;
 
   constructor(
-    private readonly themeService: ThemeService,
     private readonly router: Router,
     private readonly alertService: AlertService,
     private readonly emailComposer: EmailComposer,
