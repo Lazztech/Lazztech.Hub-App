@@ -96,7 +96,7 @@
 	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-	<string>mailto</string>
+		<string>mailto</string>
 	</array>
 </dict>
 </plist>
