@@ -255,8 +255,9 @@ export class QrPage implements OnInit, OnDestroy {
 
     // make background of WebView transparent
     // note: if you are using ionic this might not be enough, check below
-    BarcodeScanner.hideBackground();
+    document.querySelector('body').style.removeProperty('background-color');
     document.querySelector('body').classList.add('scanner-active');
+    BarcodeScanner.hideBackground();
 
     const result = await BarcodeScanner.startScan(); // start scanning and wait for a result
 
