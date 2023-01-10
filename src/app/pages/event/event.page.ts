@@ -207,7 +207,7 @@ export class EventPage implements OnInit, OnDestroy {
         data: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
         shareableLink: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
         title: this.userEventQueryResult?.data?.event?.event?.name,
-        subtitle: 'Scan to join event @ ' + this.userEventQueryResult?.data?.event?.event?.locationLabel,
+        subtitle: this.userEventQueryResult?.data?.event?.event?.locationLabel ? 'Scan to join event @ ' + this.userEventQueryResult?.data?.event?.event?.locationLabel : 'Scan to join event',
         image: this.userEventQueryResult?.data?.event?.event?.image,
         inviteContext: {
           type: 'event',

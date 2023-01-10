@@ -298,7 +298,7 @@
    [shareableLink]="'https://hub.lazz.tech/event/' + userEventQueryResult?.data?.event?.event?.shareableId"
    [qrData]="'https://hub.lazz.tech/event/' + userEventQueryResult?.data?.event?.event?.shareableId"
    [qrTitle]="userEventQueryResult?.data?.event?.event?.name"
-   [qrSubtitle]="'Scan to join event @ ' + userEventQueryResult?.data?.event?.event?.locationLabel"
+   [qrSubtitle]="userEventQueryResult?.data?.event?.event?.locationLabel ? 'Scan to join event @ ' + userEventQueryResult?.data?.event?.event?.locationLabel : 'Scan to join event'"
    [modal]="modal"
   ></app-invite>
 </ion-content>
