@@ -257,7 +257,13 @@ export class AdminHubPage implements OnInit, OnDestroy {
   }
 
   async deleteInvite(inviteId: any) {
-    this.hubService.deleteInvite(this.id, inviteId);
+    try {
+      this.loading = true;
+      await this.hubService.deleteInvite(this.id, inviteId);
+      this.loading = false;
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   async deleteHub() {
