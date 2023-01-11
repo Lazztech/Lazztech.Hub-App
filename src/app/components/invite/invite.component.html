@@ -36,21 +36,30 @@
 
     <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
 
-    <ion-list *ngIf="!loading && filter == ''">
-      <ion-item *ngFor="let person of persons">
-        <ion-avatar slot="start">
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image"
-            src="{{person.id | avatar}}">
-          <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <ion-text>{{person.firstName}} {{person.lastName}}</ion-text>
-        </ion-label>
-        <ion-checkbox [value]='person.email' (click)='checkboxChanged(person)' slot="end"></ion-checkbox>
-      </ion-item>
+    <ion-list *ngIf="!loading && filter === ''">
+      <div *ngFor="let item of alphabetizedPersons | keyvalue">
+        <div *ngIf="item?.value?.length">
+          <ion-item-divider>
+            <ion-label>
+              {{item?.key | uppercase}}
+            </ion-label>
+          </ion-item-divider>
+        </div>
+        <ion-item *ngFor="let person of item.value">
+          <ion-avatar slot="start">
+            <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image"
+              src="{{person.id | avatar}}">
+            <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
+          </ion-avatar>
+          <ion-label>
+            <ion-text>{{person.firstName}} {{person.lastName}}</ion-text>
+          </ion-label>
+          <ion-checkbox [value]='person.email' (click)='checkboxChanged(person)' slot="end"></ion-checkbox>
+        </ion-item>
+      </div>
     </ion-list>
 
-    <ion-list *ngIf="!loading && filter != ''">
+    <ion-list *ngIf="!loading && filter !== ''">
       <ion-item *ngFor="let person of filteredPersons">
         <ion-avatar slot="start">
           <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image"
