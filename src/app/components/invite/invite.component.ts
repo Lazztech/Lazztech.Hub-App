@@ -36,6 +36,8 @@ export class InviteComponent implements OnInit, OnChanges {
   allInvitesSucces = true;
   invites: Array<{ name?: string, email: string }> = [];
   myForm: UntypedFormGroup;
+  filter: string = '';
+  filteredPersons: Array<User> = [];
 
   get email() {
     return this.myForm.get('email');
@@ -143,6 +145,16 @@ export class InviteComponent implements OnInit, OnChanges {
         } as InviteContext,
       }
     });
+  }
+
+  async filterPeople(ev: any) {
+    this.filter = ev?.target?.value;
+    if (this.filter && this.filter?.trim() !== '') {
+      this.filteredPersons = this.persons?.filter(usersPerson => {
+        const name = usersPerson?.firstName?.trim()?.toLowerCase() + usersPerson?.lastName?.trim()?.toLowerCase();
+        return name.includes(this.filter?.trim().toLowerCase());
+      }) 
+    }
   }
 
 }
