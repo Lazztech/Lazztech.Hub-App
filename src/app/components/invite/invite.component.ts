@@ -69,11 +69,13 @@ export class InviteComponent implements OnInit, OnChanges {
     this.alphabetizedPersons = this.alphabetizePersons(
       this.persons
     );
-    console.log(this.alphabetizePersons)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
+    this.alphabetizedPersons = this.alphabetizePersons(
+      this.persons
+    );
   }
 
   async copyShareLink() {
