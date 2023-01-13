@@ -76,10 +76,8 @@ export class EventPage implements OnInit, OnDestroy {
       usersPeopleQueryRef?.valueChanges?.subscribe(result => {
         this.persons = result;
         this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
-          if (this.userEventQueryResult?.data?.event?.event?.usersConnection?.length) {
-            return !this.userEventQueryResult?.data?.event?.event?.usersConnection
-              ?.find(x => x.user?.id === person?.id);
-          }
+          return !this.userEventQueryResult?.data?.event?.event?.usersConnection
+            ?.find(x => x.user?.id === person?.id);
         }) as any;
       }, err => this.handleError(err))
     );
