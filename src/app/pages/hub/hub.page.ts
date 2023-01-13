@@ -80,8 +80,10 @@ export class HubPage implements OnInit, OnDestroy {
       }, err => this.handleError(err)),
       usersPeopleQueryRef.valueChanges.subscribe(result => {
         this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
-          return !this.sortedUsers
-            ?.find(x => x.user?.id === person?.id);
+          if (this.sortedUsers?.length) {
+            return !this.sortedUsers
+              ?.find(x => x.user?.id === person?.id);
+          }
         }) as any;
       }, err => this.handleError(err))
     );
