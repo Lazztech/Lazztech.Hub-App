@@ -6,7 +6,7 @@ import { Photo } from '@capacitor/camera';
 import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
@@ -112,10 +112,10 @@ export class AdminHubPage implements OnInit, OnDestroy {
         this.invites = y;
         this.loading = y.loading;
       }),
-      usersPeopleQueryRef.valueChanges.subscribe(result => {
-        this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
-          return !this.invites?.data?.invitesByHub
-            ?.find(x => x.inviteesId === person?.id);
+      combineLatest([hubQueryRef.valueChanges, usersPeopleQueryRef.valueChanges]).subscribe(result => {
+        this.notYetInvitedPeople = result[1]?.data?.usersPeople?.filter(person => {
+          return !result[0]?.data?.hub?.hub?.usersConnection
+            ?.some(x => x.user?.id === person?.id);
         }) as any;
       }, err => this.handleError(err)),
     );
