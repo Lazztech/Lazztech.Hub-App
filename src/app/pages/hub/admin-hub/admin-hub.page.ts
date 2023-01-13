@@ -14,6 +14,10 @@ import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { HubDocument, HubGQL, HubQuery, InvitesByHubGQL, InvitesByHubQuery, JoinUserHub, RemoveUserFromHubGQL, ResetShareableHubIdGQL, Scalars, UpdateHubGQL, User } from 'src/graphql/graphql';
 
+export type AlphabetMapOfJoinUserHubs = {
+  [letter: string]: Array<JoinUserHub>;
+};
+
 @Component({
   selector: 'app-admin-hub',
   templateUrl: './admin-hub.page.html',
@@ -36,6 +40,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
   private inviteComponent: InviteComponent;
   notYetInvitedPeople: Array<User> = [];
   queryRefs: QueryRef<any>[] = [];
+  alphabetizedMembers: AlphabetMapOfJoinUserHubs;
 
   myForm: UntypedFormGroup;
 
@@ -97,6 +102,11 @@ export class AdminHubPage implements OnInit, OnDestroy {
             locationLabel: x?.data?.hub?.hub?.locationLabel,
           }],
         });
+
+        this.alphabetizedMembers = this.alphabetizePersons(
+          this.userHub?.data?.hub?.hub?.usersConnection as Array<JoinUserHub>
+        );
+        console.log(this.alphabetizedMembers)
       }),
       invitesByHubQueryRef.valueChanges.subscribe(y => {
         this.invites = y;
@@ -117,6 +127,25 @@ export class AdminHubPage implements OnInit, OnDestroy {
 
   async ionViewDidLeave() {
     this.queryRefs.forEach(queryRef => queryRef.stopPolling());
+  }
+
+  alphabetizePersons(persons: Array<JoinUserHub>): AlphabetMapOfJoinUserHubs {
+    let alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    let alphabetArray = alphabet.split('');
+    const alphabetizedPersons = [...persons]?.sort((a, b) => (
+      a?.user?.lastName.toLowerCase().localeCompare(b?.user?.lastName.toLowerCase())
+    ));
+    console.log(alphabetizedPersons);
+    const alphabetMap = <AlphabetMapOfJoinUserHubs>{};
+    alphabetArray.forEach(letter => {
+      const startsWithLetter = alphabetizedPersons.filter(join => join?.user?.lastName?.toLowerCase()?.startsWith(letter));
+      alphabetMap[letter] = startsWithLetter;
+    });
+    // non alphabetical character for last name
+    alphabetMap['#'] = alphabetizedPersons.filter(
+      join => alphabet.indexOf(join?.user?.lastName?.toLowerCase()[0]) == -1
+    );
+    return alphabetMap;
   }
 
   async handleError(err) {
