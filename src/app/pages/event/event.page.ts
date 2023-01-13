@@ -4,7 +4,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -73,13 +73,13 @@ export class EventPage implements OnInit, OnDestroy {
         this.cantgoUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'cantgo');
         this.noreplyUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => !x.rsvp);
       }, err => this.handleError(err)),
-      usersPeopleQueryRef?.valueChanges?.subscribe(result => {
-        this.persons = result;
-        this.notYetInvitedPeople = result?.data?.usersPeople?.filter(person => {
-          return !this.userEventQueryResult?.data?.event?.event?.usersConnection
-            ?.find(x => x.user?.id === person?.id);
+      combineLatest([eventQueryRef?.valueChanges, usersPeopleQueryRef?.valueChanges]).subscribe(result => {
+        this.persons = result[1];
+        this.notYetInvitedPeople = result[1]?.data?.usersPeople?.filter(person => {
+          return !result[0]?.data?.event?.event?.usersConnection
+            ?.some(x => x.user?.id === person?.id);
         }) as any;
-      }, err => this.handleError(err))
+      }, err => this.handleError(err)),
     );
   }
 

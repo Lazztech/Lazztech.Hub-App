@@ -82,28 +82,37 @@
       <ion-label>Members</ion-label>
     </ion-list-header>
 
-    <div *ngFor="let userConnection of userHub?.data?.hub?.hub?.usersConnection; trackBy: trackByUser">
-      <ion-item-sliding #slidingItem>
-      <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
-        <ion-avatar slot="start">
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
-          <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <h3 class="ion-float-left">
-            <ion-text>{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
-          </h3>
-          <p *ngIf="userConnection.isOwner" class="ion-float-right">
-            <ion-text>Admin</ion-text>
-          </p>
-        </ion-label>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="removeUserFromHub(userConnection?.user?.id, slidingItem)" *ngIf="!userConnection.isOwner">
-          remove
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
+    <div *ngFor="let item of alphabetizedMembers | keyvalue">
+      <div *ngIf="item?.value?.length">
+        <ion-item-divider>
+          <ion-label>
+            {{item?.key | uppercase}}
+          </ion-label>
+        </ion-item-divider>
+      </div>
+      <div *ngFor="let userConnection of item.value">
+        <ion-item-sliding #slidingItem>
+        <ion-item href="javascript:void(0);" (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
+          <ion-avatar slot="start">
+            <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
+            <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
+          </ion-avatar>
+          <ion-label>
+            <h3 class="ion-float-left">
+              <ion-text>{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+            </h3>
+            <p *ngIf="userConnection.isOwner" class="ion-float-right">
+              <ion-text>Admin</ion-text>
+            </p>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="removeUserFromHub(userConnection?.user?.id, slidingItem)" *ngIf="!userConnection.isOwner">
+            remove
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      </div>
     </div>
 
     <ion-list-header class="ion-padding-bottom">
@@ -212,6 +221,7 @@
 </ion-header>
 <ion-content fullscreen="true">
   <app-invite
+    *ngIf="notYetInvitedPeople"
    [inviteType]="'hub'"
    [id]="id"
    [persons]="notYetInvitedPeople"

@@ -15,6 +15,10 @@ export enum InviteType {
   Event = 'event',
 }
 
+export type AlphabetMapOfUsers = {
+  [letter: string]: Array<User>;
+};
+
 @Component({
   selector: 'app-invite',
   templateUrl: './invite.component.html',
@@ -36,6 +40,9 @@ export class InviteComponent implements OnInit, OnChanges {
   allInvitesSucces = true;
   invites: Array<{ name?: string, email: string }> = [];
   myForm: UntypedFormGroup;
+  filter: string = '';
+  filteredPersons: Array<User> = [];
+  alphabetizedPersons: AlphabetMapOfUsers;
 
   get email() {
     return this.myForm.get('email');
@@ -59,10 +66,13 @@ export class InviteComponent implements OnInit, OnChanges {
         Validators.email
       ]],
     });
+    this.alphabetizedPersons = this.alphabetizePersons(
+      this.persons
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
+    console.log(changes);
   }
 
   async copyShareLink() {
@@ -143,6 +153,35 @@ export class InviteComponent implements OnInit, OnChanges {
         } as InviteContext,
       }
     });
+  }
+
+  async filterPeople(ev: any) {
+    this.filter = ev?.target?.value;
+    if (this.filter && this.filter?.trim() !== '') {
+      this.filteredPersons = this.persons?.filter(usersPerson => {
+        const name = usersPerson?.firstName?.trim()?.toLowerCase() + usersPerson?.lastName?.trim()?.toLowerCase();
+        return name.includes(this.filter?.trim().toLowerCase());
+      }) 
+    }
+  }
+
+  alphabetizePersons(persons: Array<User>): AlphabetMapOfUsers {
+    let alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    let alphabetArray = alphabet.split('');
+    const alphabetizedPersons = [...persons]?.sort((a, b) => (
+      a?.lastName.toLowerCase().localeCompare(b?.lastName.toLowerCase())
+    ));
+    console.log(alphabetizedPersons);
+    const alphabetMap = <AlphabetMapOfUsers>{};
+    alphabetArray.forEach(letter => {
+      const startsWithLetter = alphabetizedPersons.filter(person => person?.lastName?.toLowerCase()?.startsWith(letter));
+      alphabetMap[letter] = startsWithLetter;
+    });
+    // non alphabetical character for last name
+    alphabetMap['#'] = alphabetizedPersons.filter(
+      person => alphabet.indexOf(person?.lastName?.toLowerCase()[0]) == -1
+    );
+    return alphabetMap;
   }
 
 }

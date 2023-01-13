@@ -323,6 +323,7 @@
 </ion-header>
 <ion-content fullscreen="true">
   <app-invite
+    *ngIf="notYetInvitedPeople"
    [inviteType]="'hub'"
    [id]="id"
    [persons]="notYetInvitedPeople"

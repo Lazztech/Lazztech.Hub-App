@@ -292,6 +292,7 @@
 </ion-header>
 <ion-content fullscreen="true">
   <app-invite
+    *ngIf="notYetInvitedPeople"
    [inviteType]="'event'"
    [id]="id"
    [persons]="notYetInvitedPeople"
