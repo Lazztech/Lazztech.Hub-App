@@ -9,6 +9,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { EventGQL } from 'src/graphql/graphql';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
 
 describe('EventPage', () => {
   let component: EventPage;
@@ -44,6 +45,7 @@ describe('EventPage', () => {
         },
         { provide: EventGQL, useValue: eventGqlSpy },
         { provide: HubService, useValue: hubServiceSpy },
+        Calendar,
       ]
     }).compileComponents();
 

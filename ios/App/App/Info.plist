@@ -48,7 +48,7 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Used by plugin from development framework</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Used by plugin from development framework</string>
+	<string>Used to add events to your calendar</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To allow you to take photos and videos to upload to your community Hubs, Events, and Profile picture</string>
 	<key>NSContactsUsageDescription</key>
@@ -97,6 +97,15 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>mailto</string>
+	</array>
+	<key>CFBundleLocalizations</key>
+	<array>
+	<string>en</string>
+	<string>de</string>
+	<string>nl</string>
+	<string>fr</string>
+	<string>it</string>
+	<string>pt-BR</string>
 	</array>
 </dict>
 </plist>
