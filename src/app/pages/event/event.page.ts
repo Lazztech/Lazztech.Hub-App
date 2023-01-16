@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
+import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
+import { ActionSheetController, IonRouterOutlet, isPlatform, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { combineLatest, Subscription } from 'rxjs';
@@ -54,6 +55,7 @@ export class EventPage implements OnInit, OnDestroy {
     public readonly navigationService: NavigationService,
     private readonly communcationService: CommunicationService,
     private readonly alertService: AlertService,
+    private readonly calendar: Calendar,
   ) { }
 
   ngOnInit() {
@@ -122,8 +124,37 @@ export class EventPage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('hub/' + id);
   }
 
+  async addEventToCalendar() {
+    try {
+      if (isPlatform('hybrid')) {
+        await this.calendar.createEventWithOptions(
+          this.userEventQueryResult?.data?.event?.event?.name,
+          this.userEventQueryResult?.data?.event?.event?.locationLabel,
+          this.userEventQueryResult?.data?.event?.event?.description,
+          new Date(this.userEventQueryResult?.data?.event?.event?.startDateTime),
+          new Date(this.userEventQueryResult?.data?.event?.event?.endDateTime),
+          {
+            firstReminderMinutes: 180, // 3 hours before
+            url: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+          }
+        );
+      }
+
+      await this.alertService.presentToast('Added to Calendar');
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
   async presentActionSheet() {
     const buttons = [];
+
+    buttons.push({
+      text: 'Add to Calendar',
+      handler: () => {
+        this.addEventToCalendar();
+      }
+    });
 
     if (this.userEventQueryResult?.data?.event?.event?.createdBy?.id == (await this.authService.user())?.id) {
       buttons.push({

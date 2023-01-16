@@ -33,6 +33,7 @@ import {
 } from '@jufab/opentelemetry-angular-interceptor';
 import { ProfilePageModule } from './pages/profile/profile.module';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
+import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -76,6 +77,7 @@ import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
         Diagnostic,
         OpenNativeSettings,
         EmailComposer,
+        Calendar,
     ],
     bootstrap: [AppComponent]
 })
