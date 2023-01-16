@@ -133,7 +133,7 @@ export class EventPage implements OnInit, OnDestroy {
   async addEventToCalendar() {
     try {
       if (isPlatform('hybrid')) {
-        await this.calendar.createEventWithOptions(
+        const result = await this.calendar.createEventInteractivelyWithOptions(
           this.userEventQueryResult?.data?.event?.event?.name,
           this.userEventQueryResult?.data?.event?.event?.locationLabel,
           this.userEventQueryResult?.data?.event?.event?.description,
@@ -144,6 +144,7 @@ export class EventPage implements OnInit, OnDestroy {
             url: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
           }
         );
+        console.log(result)
         await this.alertService.presentToast('Added to Calendar');
       } else {
         throw new Error('Not yet implemented on web');
