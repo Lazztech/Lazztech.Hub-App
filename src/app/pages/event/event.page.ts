@@ -148,6 +148,8 @@ export class EventPage implements OnInit, OnDestroy {
         console.log(result)
         await this.alertService.presentToast('Added to Calendar');
       } else {
+        // TODO: finish ics export
+        return;
         const event = ics.createEvent({
           start: [2018, 5, 30, 6, 30],
           duration: { hours: 6, minutes: 30 },
@@ -183,12 +185,15 @@ export class EventPage implements OnInit, OnDestroy {
   async presentActionSheet() {
     const buttons = [];
 
-    buttons.push({
-      text: 'Add to Calendar',
-      handler: () => {
-        this.addEventToCalendar();
-      }
-    });
+    // TODO: finish ics export
+    if (isPlatform('hybrid')) {
+      buttons.push({
+        text: 'Add to Calendar',
+        handler: () => {
+          this.addEventToCalendar();
+        }
+      });
+    }
 
     if (this.userEventQueryResult?.data?.event?.event?.createdBy?.id == (await this.authService.user())?.id) {
       buttons.push({
