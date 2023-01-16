@@ -15,6 +15,7 @@ import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
 import { InviteContext } from '../qr/qr.page';
+import { Component as IcsComponent, Property } from 'immutable-ics'
 
 @Component({
   selector: 'app-event',
@@ -147,7 +148,54 @@ export class EventPage implements OnInit, OnDestroy {
         console.log(result)
         await this.alertService.presentToast('Added to Calendar');
       } else {
-        throw new Error('Not yet implemented on web');
+        const calendar = new IcsComponent({
+          name: 'VCALENDAR',
+          properties: [
+            new Property({ name: 'VERSION', value: 2 })
+          ],
+          components: [
+            new IcsComponent({
+              name: 'VEVENT',
+              properties: [
+                new Property({
+                  name: 'SUMMARY',
+                  value: this.userEventQueryResult?.data?.event?.event?.name,
+                }),
+                new Property({
+                  name: 'DESCRIPTION',
+                  value: this.userEventQueryResult?.data?.event?.event?.description || '',
+                }),
+                new Property({
+                  name: 'LOCATION',
+                  value: this.userEventQueryResult?.data?.event?.event?.locationLabel || '',
+                }),
+                new Property({
+                  name: 'DTSTART',
+                  parameters: { VALUE: 'DATE' },
+                  value: new Date(this.userEventQueryResult?.data?.event?.event?.startDateTime),
+                }),
+                new Property({
+                  name: 'DTEND',
+                  parameters: { VALUE: 'DATE' },
+                  value: new Date(this.userEventQueryResult?.data?.event?.event?.endDateTime),
+                })
+              ]
+            })
+          ]
+        });
+        console.log(calendar.toString());
+        const blob = new Blob([calendar.toString()], { type: 'text/calendar' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        document.body.appendChild(a);
+        a.href = url;
+        a.download = 'download.ics';
+        a.click();
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }, 0);
+        await this.alertService.presentToast('Added to Calendar');
       }
     } catch (error) {
       this.handleError(error);
