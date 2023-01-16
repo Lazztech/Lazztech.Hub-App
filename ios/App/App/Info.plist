@@ -100,12 +100,12 @@
 	</array>
 	<key>CFBundleLocalizations</key>
 	<array>
-	<string>en</string>
-	<string>de</string>
-	<string>nl</string>
-	<string>fr</string>
-	<string>it</string>
-	<string>pt-BR</string>
+		<string>en</string>
+		<string>de</string>
+		<string>nl</string>
+		<string>fr</string>
+		<string>it</string>
+		<string>pt-BR</string>
 	</array>
 </dict>
 </plist>
