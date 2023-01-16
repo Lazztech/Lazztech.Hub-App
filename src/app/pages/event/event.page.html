@@ -21,6 +21,7 @@
           [userEvent]="userEventQueryResult?.data?.event"
           [includeMap]="true"
           [showRsvp]="true"
+          (shouldPromptToAddEventToCalendar)="promptToAddEventToCalendar()"
         ></app-event-card>
       
           <ion-row class="ion-padding-start ion-padding-end">

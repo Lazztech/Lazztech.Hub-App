@@ -1,17 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { JoinUserEvent, RsvpGQL } from 'src/graphql/graphql';
+import { EventDocument, JoinUserEvent, RsvpGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-event-card',
   templateUrl: './event-card.component.html',
   styleUrls: ['./event-card.component.scss'],
 })
-export class EventCardComponent {
+export class EventCardComponent implements OnChanges {
 
   @Input() userEvent: JoinUserEvent;
   @Input() includeMap?: boolean = false;
   @Input() showRsvp?: boolean = false;
+  @Output() shouldPromptToAddEventToCalendar = new EventEmitter();
 
   constructor(
     private readonly navCtrl: NavController,
@@ -26,11 +27,28 @@ export class EventCardComponent {
     this.navCtrl.navigateForward('create-event');
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    const previousRsvp = changes?.userEvent?.previousValue?.rsvp;
+    const currentRsvp = changes?.userEvent?.currentValue?.rsvp;
+    if (
+      previousRsvp !== undefined && currentRsvp !== undefined // neither rsvp should be undefined
+      && currentRsvp !== null // rsvp should not be null which is equivalent to initial 'no reply'
+      && !previousRsvp && currentRsvp !== 'cantgo' // rsvp should be first affirmative rsvp change
+    ) {
+      setTimeout(() =>  this.shouldPromptToAddEventToCalendar.emit(), 100);
+    }
+  }
+
   async segmentChanged(ev: any) {
     console.log('Segment changed', ev?.detail?.value);
     await this.rsvpService.mutate({
       eventId: this.userEvent?.event?.id,
-      rsvp: ev?.detail?.value
+      rsvp: ev?.detail?.value,
+    }, {
+      refetchQueries: [
+        { query: EventDocument, variables: { id: this.userEvent?.event?.id } },
+      ],
+      awaitRefetchQueries: true,
     }).toPromise();
   }
 

@@ -124,6 +124,12 @@ export class EventPage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('hub/' + id);
   }
 
+  async promptToAddEventToCalendar() {
+    if (confirm('Add to Calendar?')) {
+      await this.addEventToCalendar();
+    }
+  }
+
   async addEventToCalendar() {
     try {
       if (isPlatform('hybrid')) {
@@ -138,9 +144,10 @@ export class EventPage implements OnInit, OnDestroy {
             url: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
           }
         );
+        await this.alertService.presentToast('Added to Calendar');
+      } else {
+        throw new Error('Not yet implemented on web');
       }
-
-      await this.alertService.presentToast('Added to Calendar');
     } catch (error) {
       this.handleError(error);
     }
