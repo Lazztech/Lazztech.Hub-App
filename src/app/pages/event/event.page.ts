@@ -15,7 +15,7 @@ import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
 import { InviteContext } from '../qr/qr.page';
-import { Component as IcsComponent, Property } from 'immutable-ics'
+import * as ics from 'ics';
 
 @Component({
   selector: 'app-event',
@@ -148,47 +148,21 @@ export class EventPage implements OnInit, OnDestroy {
         console.log(result)
         await this.alertService.presentToast('Added to Calendar');
       } else {
-        const calendar = new IcsComponent({
-          name: 'VCALENDAR',
-          properties: [
-            new Property({ name: 'VERSION', value: 2 })
-          ],
-          components: [
-            new IcsComponent({
-              name: 'VEVENT',
-              properties: [
-                new Property({
-                  name: 'SUMMARY',
-                  value: this.userEventQueryResult?.data?.event?.event?.name,
-                }),
-                new Property({
-                  name: 'DESCRIPTION',
-                  value: this.userEventQueryResult?.data?.event?.event?.description || '',
-                }),
-                new Property({
-                  name: 'URL',
-                  value: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
-                }),
-                new Property({
-                  name: 'LOCATION',
-                  value: this.userEventQueryResult?.data?.event?.event?.locationLabel || '',
-                }),
-                new Property({
-                  name: 'DTSTART',
-                  parameters: { VALUE: 'DATE' },
-                  value: new Date(this.userEventQueryResult?.data?.event?.event?.startDateTime),
-                }),
-                new Property({
-                  name: 'DTEND',
-                  parameters: { VALUE: 'DATE' },
-                  value: new Date(this.userEventQueryResult?.data?.event?.event?.endDateTime),
-                })
-              ]
-            })
-          ]
+        const event = ics.createEvent({
+          start: [2018, 5, 30, 6, 30],
+          duration: { hours: 6, minutes: 30 },
+          title: this.userEventQueryResult?.data?.event?.event?.name,
+          description: this.userEventQueryResult?.data?.event?.event?.description || '',
+          location: this.userEventQueryResult?.data?.event?.event?.locationLabel || '',
+          url: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+          busyStatus: 'BUSY',
+          organizer: { 
+            name: `${this.userEventQueryResult?.data?.event?.event?.createdBy?.firstName} ${this.userEventQueryResult?.data?.event?.event?.createdBy?.lastName}`, 
+            email: `${this.userEventQueryResult?.data?.event?.event?.createdBy?.email}` 
+          },
         });
-        console.log(calendar.toString());
-        const blob = new Blob([calendar.toString()], { type: 'text/calendar' });
+        console.log(event.value);
+        const blob = new Blob([event.value], { type: 'text/calendar' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         document.body.appendChild(a);
