@@ -166,6 +166,10 @@ export class EventPage implements OnInit, OnDestroy {
                   value: this.userEventQueryResult?.data?.event?.event?.description || '',
                 }),
                 new Property({
+                  name: 'URL',
+                  value: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+                }),
+                new Property({
                   name: 'LOCATION',
                   value: this.userEventQueryResult?.data?.event?.event?.locationLabel || '',
                 }),
