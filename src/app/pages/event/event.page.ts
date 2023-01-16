@@ -126,8 +126,10 @@ export class EventPage implements OnInit, OnDestroy {
   }
 
   async promptToAddEventToCalendar() {
-    if (confirm('Add to Calendar?')) {
-      await this.addEventToCalendar();
+    if (isPlatform('hybrid')) {
+      if (confirm('Add to Calendar?')) {
+        await this.addEventToCalendar();
+      }
     }
   }
 
