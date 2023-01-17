@@ -16,6 +16,7 @@ import { NavigationService } from 'src/app/services/navigation.service';
 import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
 import { InviteContext } from '../qr/qr.page';
 import * as ics from 'ics';
+import moment from 'moment';
 
 @Component({
   selector: 'app-event',
@@ -126,10 +127,8 @@ export class EventPage implements OnInit, OnDestroy {
   }
 
   async promptToAddEventToCalendar() {
-    if (isPlatform('hybrid')) {
-      if (confirm('Add to Calendar?')) {
-        await this.addEventToCalendar();
-      }
+    if (confirm('Add to Calendar?')) {
+      await this.addEventToCalendar();
     }
   }
 
@@ -150,22 +149,24 @@ export class EventPage implements OnInit, OnDestroy {
         console.log(result)
         await this.alertService.presentToast('Added to Calendar');
       } else {
-        // TODO: finish ics export
-        return;
+        const start = moment(new Date(this.userEventQueryResult?.data?.event?.event?.startDateTime))
+          .format('YYYY-M-D-H-m')
+          .split('-')
+          .map(x => Number(x));
+        const end = moment(new Date(this.userEventQueryResult?.data?.event?.event?.endDateTime))
+          .format('YYYY-M-D-H-m')
+          .split('-')
+          .map(x => Number(x));
+
         const event = ics.createEvent({
-          start: [2018, 5, 30, 6, 30],
-          duration: { hours: 6, minutes: 30 },
           title: this.userEventQueryResult?.data?.event?.event?.name,
-          description: this.userEventQueryResult?.data?.event?.event?.description || '',
           location: this.userEventQueryResult?.data?.event?.event?.locationLabel || '',
+          description: this.userEventQueryResult?.data?.event?.event?.description || '',
+          start: start as any,
+          end: end as any,
           url: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
-          busyStatus: 'BUSY',
-          organizer: { 
-            name: `${this.userEventQueryResult?.data?.event?.event?.createdBy?.firstName} ${this.userEventQueryResult?.data?.event?.event?.createdBy?.lastName}`, 
-            email: `${this.userEventQueryResult?.data?.event?.event?.createdBy?.email}` 
-          },
         });
-        console.log(event.value);
+
         const blob = new Blob([event.value], { type: 'text/calendar' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -187,15 +188,12 @@ export class EventPage implements OnInit, OnDestroy {
   async presentActionSheet() {
     const buttons = [];
 
-    // TODO: finish ics export
-    if (isPlatform('hybrid')) {
-      buttons.push({
-        text: 'Add to Calendar',
-        handler: () => {
-          this.addEventToCalendar();
-        }
-      });
-    }
+    buttons.push({
+      text: 'Add to Calendar',
+      handler: () => {
+        this.addEventToCalendar();
+      }
+    });
 
     if (this.userEventQueryResult?.data?.event?.event?.createdBy?.id == (await this.authService.user())?.id) {
       buttons.push({
