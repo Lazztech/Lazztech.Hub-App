@@ -155,14 +155,17 @@ export class InviteComponent implements OnInit, OnChanges {
     });
   }
 
+  personIsFiltered(person: User) {
+    if (this.filter && this.filter?.trim() !== '') {
+      const name = person?.firstName?.trim()?.toLowerCase() + person?.lastName?.trim()?.toLowerCase();
+      return !name.includes(this.filter?.trim().toLowerCase());
+    }
+
+    return false;
+  }
+
   async filterPeople(ev: any) {
     this.filter = ev?.target?.value;
-    if (this.filter && this.filter?.trim() !== '') {
-      this.filteredPersons = this.persons?.filter(usersPerson => {
-        const name = usersPerson?.firstName?.trim()?.toLowerCase() + usersPerson?.lastName?.trim()?.toLowerCase();
-        return name.includes(this.filter?.trim().toLowerCase());
-      }) 
-    }
   }
 
   alphabetizePersons(persons: Array<User>): AlphabetMapOfUsers {
