@@ -146,14 +146,18 @@ export class AdminEventPage implements OnInit, OnDestroy {
 
   async removeUserFromEvent(otherUsersId: any, slidingItem: any) {
     if (confirm('Are you sure you want to remove this user?')) {
-      await this.removeUserFromEventGqlService.mutate({
-        eventId: this.eventQueryResult?.data?.event?.eventId,
-        otherUsersId
-      }, {
-        refetchQueries: [
-          { query: EventDocument, variables: { id: this.id } }
-        ]
-      }).toPromise();
+      try {
+        await this.removeUserFromEventGqlService.mutate({
+          eventId: this.eventQueryResult?.data?.event?.eventId,
+          otherUsersId
+        }, {
+          refetchQueries: [
+            { query: EventDocument, variables: { id: this.id } }
+          ]
+        }).toPromise(); 
+      } catch (error) {
+        this.handleError(error);
+      }
     }
     await slidingItem.close();
   }
