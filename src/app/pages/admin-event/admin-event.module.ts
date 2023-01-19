@@ -9,6 +9,7 @@ import { AdminEventPageRoutingModule } from './admin-event-routing.module';
 import { AdminEventPage } from './admin-event.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { MomentModule } from 'ngx-moment';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { MomentModule } from 'ngx-moment';
     AdminEventPageRoutingModule,
     ReactiveFormsModule,
     ComponentsModule,
-    MomentModule
+    MomentModule,
+    PipesModule,
   ],
   declarations: [AdminEventPage]
 })

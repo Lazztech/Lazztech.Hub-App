@@ -165,6 +165,7 @@ export type Mutation = {
   microChatToHub: Scalars['Boolean'];
   mute: JoinUserHub;
   register?: Maybe<Scalars['String']>;
+  removeUserFromEvent: Scalars['Boolean'];
   removeUserFromHub: Scalars['Boolean'];
   reportEventAsInappropriate: Scalars['Boolean'];
   reportHubAsInappropriate: Scalars['Boolean'];
@@ -369,6 +370,12 @@ export type MutationMuteArgs = {
 
 export type MutationRegisterArgs = {
   data: UserInput;
+};
+
+
+export type MutationRemoveUserFromEventArgs = {
+  eventId: Scalars['ID'];
+  otherUsersId: Scalars['ID'];
 };
 
 
@@ -857,6 +864,14 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register?: string | null };
+
+export type RemoveUserFromEventMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+  otherUsersId: Scalars['ID'];
+}>;
+
+
+export type RemoveUserFromEventMutation = { __typename?: 'Mutation', removeUserFromEvent: boolean };
 
 export type RemoveUserFromHubMutationVariables = Exact<{
   hubId: Scalars['ID'];
@@ -1784,6 +1799,22 @@ export const RegisterDocument = gql`
   })
   export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
     document = RegisterDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RemoveUserFromEventDocument = gql`
+    mutation removeUserFromEvent($eventId: ID!, $otherUsersId: ID!) {
+  removeUserFromEvent(eventId: $eventId, otherUsersId: $otherUsersId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveUserFromEventGQL extends Apollo.Mutation<RemoveUserFromEventMutation, RemoveUserFromEventMutationVariables> {
+    document = RemoveUserFromEventDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
