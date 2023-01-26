@@ -43,6 +43,7 @@ export class InviteComponent implements OnInit, OnChanges {
   filter: string = '';
   filteredPersons: Array<User> = [];
   alphabetizedPersons: AlphabetMapOfUsers;
+  showPeopleFrom: 'all-people' | 'events-i-hosted' | 'events-i-attended' | 'hubs-i-created' | 'hubs-im-a-member-of' = 'all-people';
 
   get email() {
     return this.myForm.get('email');
@@ -87,6 +88,10 @@ export class InviteComponent implements OnInit, OnChanges {
       url: this.shareableLink,
       dialogTitle: 'Shareable Link',
     });
+  }
+
+  showPeopleFromChanged(ev) {
+    this.showPeopleFrom = ev.target.value;
   }
 
   checkboxChanged(person) {

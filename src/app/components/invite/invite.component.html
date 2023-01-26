@@ -1,7 +1,7 @@
   <form [formGroup]="myForm" (ngSubmit)="inviteUser()" method="post">
 
     <ion-list-header class="ion-padding-bottom">
-      Shareable Link
+      Shareable Invite Link
     </ion-list-header>
 
     <ion-grid>
@@ -31,10 +31,38 @@
     </ion-button>
 
     <ion-list-header>
-      People
+      <ion-select [value]="showPeopleFrom" class="ion-no-padding ion-padding-end" (ionChange)="showPeopleFromChanged($event)">
+        <ion-select-option value="all-people">All People</ion-select-option>
+        <ion-select-option value="events-i-hosted">Events I Hosted</ion-select-option>
+        <ion-select-option value="events-i-attended">Events I Attended</ion-select-option>
+        <ion-select-option value="hubs-i-created">Hubs I Created</ion-select-option>
+        <ion-select-option value="hubs-im-a-member-of">Hubs I’m a Member Of</ion-select-option>
+      </ion-select>
     </ion-list-header>
+    
+    <ion-accordion-group class="ion-padding-top" *ngIf="showPeopleFrom !== 'all-people'">
+      <ion-accordion value="first">
+        <ion-item slot="header">
+          <ion-label *ngIf="showPeopleFrom === 'events-i-hosted'">Events</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'events-i-attended'">Events</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'hubs-i-created'">Hubs</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'hubs-im-a-member-of'">Hubs</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          First Content
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
 
-    <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
+    <ion-grid *ngIf="showPeopleFrom !== 'all-people'" class="ion-no-padding">
+      <ion-row>
+        <ion-col size="12" class="ion-text-center">
+          <ion-button fill="clear">Select All</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-searchbar *ngIf="showPeopleFrom === 'all-people'" (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
 
     <ion-list *ngIf="!loading">
       <div *ngFor="let item of alphabetizedPersons | keyvalue">
