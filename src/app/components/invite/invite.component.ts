@@ -4,11 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Clipboard } from '@capacitor/clipboard';
 import { Share } from '@capacitor/share';
 import { NavController } from '@ionic/angular';
+import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
+import { Subscription } from 'rxjs';
 import { InviteContext } from 'src/app/pages/qr/qr.page';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { InviteUserToEventGQL, Scalars, User } from 'src/graphql/graphql';
+import { InviteUserToEventGQL, JoinUserEvent, JoinUserHub, Scalars, User, UserEventsGQL, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 
 export enum InviteType {
   Hub = 'hub',
@@ -35,6 +38,9 @@ export class InviteComponent implements OnInit, OnChanges {
   @Input() qrSubtitle: string;
   @Input() qrImage: string;
   @Input() modal: any;
+  userHubs: UsersHubsQuery['usersHubs'];
+  queryRefs: QueryRef<any>[] = [];
+  subscriptions: Subscription[] = [];
 
   loading = false;
   allInvitesSucces = true;
@@ -44,6 +50,11 @@ export class InviteComponent implements OnInit, OnChanges {
   filteredPersons: Array<User> = [];
   alphabetizedPersons: AlphabetMapOfUsers;
   showPeopleFrom: 'all-people' | 'events-i-hosted' | 'events-i-attended' | 'hubs-i-created' | 'hubs-im-a-member-of' = 'all-people';
+  hubsICreated: Array<JoinUserHub> = [];
+  hubsImAMemberOf: Array<JoinUserHub> = [];
+  eventsIHosted: Array<JoinUserEvent> = [];
+  eventsIAttended: Array<JoinUserEvent> = [];
+  userId: any;
 
   get email() {
     return this.myForm.get('email');
@@ -57,9 +68,12 @@ export class InviteComponent implements OnInit, OnChanges {
     private readonly logger: NGXLogger,
     private readonly navCtrl: NavController,
     private readonly inviteUserToEventService: InviteUserToEventGQL,
+    private readonly userHubsGQLService: UsersHubsGQL,
+    private readonly userEvents: UserEventsGQL,
+    private readonly authService: AuthService,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.myForm = this.fb.group({
       email: ['', [
@@ -69,6 +83,31 @@ export class InviteComponent implements OnInit, OnChanges {
     });
     this.alphabetizedPersons = this.alphabetizePersons(
       this.persons
+    );
+    const userHubsRef = this.userHubsGQLService.watch();
+    const userEventsRef = this.userEvents.watch();
+    this.queryRefs.push(
+      userHubsRef,
+      userEventsRef
+    );
+
+    this.userId = (await this.authService.user())?.id;
+
+    this.subscriptions.push(
+      userHubsRef.valueChanges.subscribe(result => {
+        const userHubs = result?.data?.usersHubs;
+        this.hubsICreated = userHubs?.filter(x => x?.isOwner) as JoinUserHub[];
+        this.hubsImAMemberOf = userHubs?.filter(x => !x?.isOwner) as JoinUserHub[];
+      }),
+      userEventsRef.valueChanges.subscribe(result => {
+        const userEvents = result?.data?.usersEvents;
+        this.eventsIHosted = userEvents.filter(x => {
+          return x?.event?.createdBy?.id === this.userId
+        }) as JoinUserEvent[];
+        this.eventsIAttended = userEvents.filter(x => {
+          return x?.event?.createdBy?.id !== this.userId
+        }) as JoinUserEvent[];
+      }),
     );
   }
 

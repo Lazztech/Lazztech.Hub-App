@@ -48,8 +48,17 @@
           <ion-label *ngIf="showPeopleFrom === 'hubs-i-created'">Hubs</ion-label>
           <ion-label *ngIf="showPeopleFrom === 'hubs-im-a-member-of'">Hubs</ion-label>
         </ion-item>
-        <div class="ion-padding" slot="content">
-          First Content
+        <div [hidden]="showPeopleFrom !== 'events-i-hosted'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsIHosted">
+          {{userEvent?.event?.name}}
+        </div>
+        <div [hidden]="showPeopleFrom !== 'events-i-attended'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsIAttended">
+          {{userEvent?.event?.name}}
+        </div>
+        <div [hidden]="showPeopleFrom !== 'hubs-i-created'" class="ion-padding" slot="content" *ngFor="let userHub of hubsICreated">
+          {{userHub?.hub?.name}}
+        </div>
+        <div [hidden]="showPeopleFrom !== 'hubs-im-a-member-of'" class="ion-padding" slot="content" *ngFor="let userHub of hubsImAMemberOf">
+          {{userHub?.hub?.name}}
         </div>
       </ion-accordion>
     </ion-accordion-group>
