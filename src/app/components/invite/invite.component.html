@@ -40,7 +40,7 @@
       </ion-select>
     </ion-list-header>
     
-    <ion-accordion-group class="ion-padding-top" *ngIf="showPeopleFrom !== 'all-people'">
+    <ion-accordion-group class="ion-padding-top" *ngIf="showPeopleFrom !== 'all-people'" [value]="['first']">
       <ion-accordion value="first">
         <ion-item slot="header">
           <ion-label *ngIf="showPeopleFrom === 'events-i-hosted'">Events</ion-label>
