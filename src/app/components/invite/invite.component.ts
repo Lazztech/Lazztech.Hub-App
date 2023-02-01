@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Clipboard } from '@capacitor/clipboard';
@@ -27,7 +27,7 @@ export type AlphabetMapOfUsers = {
   templateUrl: './invite.component.html',
   styleUrls: ['./invite.component.scss'],
 })
-export class InviteComponent implements OnInit, OnChanges {
+export class InviteComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() persons: Array<User> = [];
   @Input() inviteType: InviteType;
@@ -113,6 +113,11 @@ export class InviteComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
+  }
+
+  ngOnDestroy(): void {
+    this.queryRefs?.forEach(x => x.stopPolling());
+    this.subscriptions?.forEach(x => x.unsubscribe());
   }
 
   async copyShareLink() {
