@@ -34,8 +34,8 @@
       <ion-select [value]="showPeopleFrom" class="ion-no-padding ion-padding-end" (ionChange)="showPeopleFromChanged($event)">
         <ion-select-option value="all-people">All People</ion-select-option>
         <ion-select-option value="events-i-hosted">Events I Hosted</ion-select-option>
-        <ion-select-option value="events-i-attended">Events I Attended</ion-select-option>
-        <ion-select-option value="hubs-i-created">Hubs I Created</ion-select-option>
+        <ion-select-option value="events-im-invited-to">Events I'm Invited To</ion-select-option>
+        <ion-select-option value="hubs-im-an-admin-of">Hubs I'm an Admin Of</ion-select-option>
         <ion-select-option value="hubs-im-a-member-of">Hubs I’m a Member Of</ion-select-option>
       </ion-select>
     </ion-list-header>
@@ -44,17 +44,17 @@
       <ion-accordion value="first">
         <ion-item slot="header">
           <ion-label *ngIf="showPeopleFrom === 'events-i-hosted'">Events</ion-label>
-          <ion-label *ngIf="showPeopleFrom === 'events-i-attended'">Events</ion-label>
-          <ion-label *ngIf="showPeopleFrom === 'hubs-i-created'">Hubs</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'events-im-invited-to'">Events</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'hubs-im-an-admin-of'">Hubs</ion-label>
           <ion-label *ngIf="showPeopleFrom === 'hubs-im-a-member-of'">Hubs</ion-label>
         </ion-item>
         <div [hidden]="showPeopleFrom !== 'events-i-hosted'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsIHosted">
           {{userEvent?.event?.name}}
         </div>
-        <div [hidden]="showPeopleFrom !== 'events-i-attended'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsIAttended">
+        <div [hidden]="showPeopleFrom !== 'events-im-invited-to'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsImInvitedTo">
           {{userEvent?.event?.name}}
         </div>
-        <div [hidden]="showPeopleFrom !== 'hubs-i-created'" class="ion-padding" slot="content" *ngFor="let userHub of hubsICreated">
+        <div [hidden]="showPeopleFrom !== 'hubs-im-an-admin-of'" class="ion-padding" slot="content" *ngFor="let userHub of hubsImAnAdminOf">
           {{userHub?.hub?.name}}
         </div>
         <div [hidden]="showPeopleFrom !== 'hubs-im-a-member-of'" class="ion-padding" slot="content" *ngFor="let userHub of hubsImAMemberOf">

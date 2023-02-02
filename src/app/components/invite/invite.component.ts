@@ -49,11 +49,11 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
   filter: string = '';
   filteredPersons: Array<User> = [];
   alphabetizedPersons: AlphabetMapOfUsers;
-  showPeopleFrom: 'all-people' | 'events-i-hosted' | 'events-i-attended' | 'hubs-i-created' | 'hubs-im-a-member-of' = 'all-people';
-  hubsICreated: Array<JoinUserHub> = [];
+  showPeopleFrom: 'all-people' | 'events-i-hosted' | 'events-im-invited-to' | 'hubs-im-an-admin-of' | 'hubs-im-a-member-of' = 'all-people';
+  hubsImAnAdminOf: Array<JoinUserHub> = [];
   hubsImAMemberOf: Array<JoinUserHub> = [];
   eventsIHosted: Array<JoinUserEvent> = [];
-  eventsIAttended: Array<JoinUserEvent> = [];
+  eventsImInvitedTo: Array<JoinUserEvent> = [];
   userId: any;
 
   get email() {
@@ -96,7 +96,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.push(
       userHubsRef.valueChanges.subscribe(result => {
         const userHubs = result?.data?.usersHubs;
-        this.hubsICreated = userHubs?.filter(x => x?.isOwner) as JoinUserHub[];
+        this.hubsImAnAdminOf = userHubs?.filter(x => x?.isOwner) as JoinUserHub[];
         this.hubsImAMemberOf = userHubs?.filter(x => !x?.isOwner) as JoinUserHub[];
       }),
       userEventsRef.valueChanges.subscribe(result => {
@@ -104,7 +104,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
         this.eventsIHosted = userEvents.filter(x => {
           return x?.event?.createdBy?.id === this.userId
         }) as JoinUserEvent[];
-        this.eventsIAttended = userEvents.filter(x => {
+        this.eventsImInvitedTo = userEvents.filter(x => {
           return x?.event?.createdBy?.id !== this.userId
         }) as JoinUserEvent[];
       }),
