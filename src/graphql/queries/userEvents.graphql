@@ -33,6 +33,7 @@ query userEvents {
         longitude
         locationLabel
         usersConnection {
+          userId
           isPresent
           isOwner
         }
@@ -45,6 +46,15 @@ query userEvents {
       latitude
       longitude
       shareableId
+      usersConnection {
+        userId
+        user {
+          id
+          firstName
+          lastName
+          username
+        }
+      }
     }
     rsvp
     lastGeofenceEvent

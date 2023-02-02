@@ -144,6 +144,9 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
     if (this.showPeopleFrom !== 'all-people') {
       this.filterAccordianGroup.value = ['first'];
     } else {
+      this.alphabetizedPersons = this.alphabetizePersons(
+        this.persons
+      );
       this.filterAccordianGroup.value = undefined;
     }
   }
@@ -215,21 +218,27 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   personIsFiltered(person: User) {
-    if (this.filter && this.filter?.trim() !== '') {
+    if (this.showPeopleFrom !== 'all-people' && this.eventFilter) {
+      return !this.eventFilter.event.usersConnection?.some(x => x.userId === person.id);
+    } else if (this.showPeopleFrom !== 'all-people' && this.hubFilter) {
+      return !this.hubFilter.hub.usersConnection?.some(x => x.userId === person.id);
+    } else if (this.filter && this.filter?.trim() !== '') {
       const name = person?.firstName?.trim()?.toLowerCase() + person?.lastName?.trim()?.toLowerCase();
       return !name.includes(this.filter?.trim().toLowerCase());
+    } else {
+      return false;
     }
-
-    return false;
   }
 
   eventFilterClicked(userEvent: JoinUserEvent) {
     this.eventFilter = userEvent;
+    this.alphabetizedPersons = this.alphabetizePersons(userEvent?.event?.usersConnection?.map(x => x.user));
     this.filterAccordianGroup.value = undefined;
   }
 
   hubFilterClicked(userHub: JoinUserHub) {
     this.hubFilter = userHub;
+    this.alphabetizedPersons = this.alphabetizePersons(userHub?.hub?.usersConnection?.map(x => x.user));
     this.filterAccordianGroup.value = undefined;
   }
 

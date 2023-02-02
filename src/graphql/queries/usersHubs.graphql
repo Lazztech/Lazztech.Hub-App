@@ -16,6 +16,13 @@ query usersHubs {
             longitude
             locationLabel
             usersConnection {
+                userId
+                user {
+                    id
+                    firstName
+                    lastName
+                    username
+                }
                 isPresent
                 isOwner
             }
