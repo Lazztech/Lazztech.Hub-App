@@ -1,9 +1,9 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Clipboard } from '@capacitor/clipboard';
 import { Share } from '@capacitor/share';
-import { NavController } from '@ionic/angular';
+import { IonAccordionGroup, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -55,6 +55,9 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
   eventsIHosted: Array<JoinUserEvent> = [];
   eventsImInvitedTo: Array<JoinUserEvent> = [];
   userId: any;
+  eventFilter: JoinUserEvent;
+  hubFilter: JoinUserHub;
+  @ViewChild('filterAccordionGroup', { static: true }) filterAccordianGroup: IonAccordionGroup;
 
   get email() {
     return this.myForm.get('email');
@@ -136,6 +139,13 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
 
   showPeopleFromChanged(ev) {
     this.showPeopleFrom = ev.target.value;
+    this.eventFilter = undefined;
+    this.hubFilter = undefined;
+    if (this.showPeopleFrom !== 'all-people') {
+      this.filterAccordianGroup.value = ['first'];
+    } else {
+      this.filterAccordianGroup.value = undefined;
+    }
   }
 
   checkboxChanged(person) {
@@ -211,6 +221,16 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     return false;
+  }
+
+  eventFilterClicked(userEvent: JoinUserEvent) {
+    this.eventFilter = userEvent;
+    this.filterAccordianGroup.value = undefined;
+  }
+
+  hubFilterClicked(userHub: JoinUserHub) {
+    this.hubFilter = userHub;
+    this.filterAccordianGroup.value = undefined;
   }
 
   async filterPeople(ev: any) {

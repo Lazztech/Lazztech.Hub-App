@@ -40,24 +40,24 @@
       </ion-select>
     </ion-list-header>
     
-    <ion-accordion-group class="ion-padding-top" *ngIf="showPeopleFrom !== 'all-people'" [value]="['first']">
+    <ion-accordion-group [hidden]="showPeopleFrom === 'all-people'" #filterAccordionGroup class="ion-padding-top">
       <ion-accordion value="first">
         <ion-item slot="header">
-          <ion-label *ngIf="showPeopleFrom === 'events-i-hosted'">Events</ion-label>
-          <ion-label *ngIf="showPeopleFrom === 'events-im-invited-to'">Events</ion-label>
-          <ion-label *ngIf="showPeopleFrom === 'hubs-im-an-admin-of'">Hubs</ion-label>
-          <ion-label *ngIf="showPeopleFrom === 'hubs-im-a-member-of'">Hubs</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'events-i-hosted'">{{eventFilter ? eventFilter?.event?.name : 'Events'}}</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'events-im-invited-to'">{{eventFilter ? eventFilter?.event?.name : 'Events'}}</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'hubs-im-an-admin-of'">{{hubFilter ? hubFilter?.hub?.name : 'Hubs'}}</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'hubs-im-a-member-of'">{{hubFilter ? hubFilter?.hub?.name : 'Hubs'}}</ion-label>
         </ion-item>
-        <div [hidden]="showPeopleFrom !== 'events-i-hosted'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsIHosted">
+        <div [hidden]="showPeopleFrom !== 'events-i-hosted'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsIHosted" (click)="eventFilterClicked(userEvent)">
           {{userEvent?.event?.name}}
         </div>
-        <div [hidden]="showPeopleFrom !== 'events-im-invited-to'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsImInvitedTo">
+        <div [hidden]="showPeopleFrom !== 'events-im-invited-to'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsImInvitedTo" (click)="eventFilterClicked(userEvent)">
           {{userEvent?.event?.name}}
         </div>
-        <div [hidden]="showPeopleFrom !== 'hubs-im-an-admin-of'" class="ion-padding" slot="content" *ngFor="let userHub of hubsImAnAdminOf">
+        <div [hidden]="showPeopleFrom !== 'hubs-im-an-admin-of'" class="ion-padding" slot="content" *ngFor="let userHub of hubsImAnAdminOf" (click)="hubFilterClicked(userHub)">
           {{userHub?.hub?.name}}
         </div>
-        <div [hidden]="showPeopleFrom !== 'hubs-im-a-member-of'" class="ion-padding" slot="content" *ngFor="let userHub of hubsImAMemberOf">
+        <div [hidden]="showPeopleFrom !== 'hubs-im-a-member-of'" class="ion-padding" slot="content" *ngFor="let userHub of hubsImAMemberOf" (click)="hubFilterClicked(userHub)">
           {{userHub?.hub?.name}}
         </div>
       </ion-accordion>
