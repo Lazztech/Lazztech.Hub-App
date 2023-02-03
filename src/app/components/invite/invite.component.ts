@@ -85,7 +85,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
       ]],
     });
     this.alphabetizedPersons = this.alphabetizePersons(
-      this.removeThisUser(this.persons)
+      this.filterToValidToInvitePersons(this.persons)
     );
     const userHubsRef = this.userHubsGQLService.watch();
     const userEventsRef = this.userEvents.watch();
@@ -145,7 +145,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
       this.filterAccordianGroup.value = ['first'];
     } else {
       this.alphabetizedPersons = this.alphabetizePersons(
-        this.removeThisUser(this.persons)
+        this.filterToValidToInvitePersons(this.persons)
       );
       this.filterAccordianGroup.value = undefined;
     }
@@ -233,7 +233,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
   eventFilterClicked(userEvent: JoinUserEvent) {
     this.eventFilter = userEvent;
     this.alphabetizedPersons = this.alphabetizePersons(
-      this.removeThisUser(userEvent?.event?.usersConnection?.map(x => x.user))
+      this.filterToValidToInvitePersons(userEvent?.event?.usersConnection?.map(x => x.user))
     );
     this.filterAccordianGroup.value = undefined;
   }
@@ -241,7 +241,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
   hubFilterClicked(userHub: JoinUserHub) {
     this.hubFilter = userHub;
     this.alphabetizedPersons = this.alphabetizePersons(
-      this.removeThisUser(userHub?.hub?.usersConnection?.map(x => x.user))
+      this.filterToValidToInvitePersons(userHub?.hub?.usersConnection?.map(x => x.user))
     );
     this.filterAccordianGroup.value = undefined;
   }
@@ -250,8 +250,14 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
     this.filter = ev?.target?.value;
   }
 
-  removeThisUser(persons: Array<User>): Array<User> {
-    return persons.filter(x => x.id !== this.userId);
+  filterToValidToInvitePersons(persons: Array<User>): Array<User> {
+    // remove this user as they shouldn't be able to invite themselves
+    const personsWithOutThisUser = persons.filter(x => x.id !== this.userId);
+    // assuming the input persons are only those that haven't been invited already
+    // they're the only valid options to show so we filter the input down to them
+    return personsWithOutThisUser.filter(
+      x => this.persons.some(y => y.id === x.id)
+    );
   }
 
   alphabetizePersons(persons: Array<User>): AlphabetMapOfUsers {
