@@ -58,6 +58,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
   eventFilter: JoinUserEvent;
   hubFilter: JoinUserHub;
   @ViewChild('filterAccordionGroup', { static: true }) filterAccordianGroup: IonAccordionGroup;
+  selectAll: boolean = false;
 
   get email() {
     return this.myForm.get('email');
@@ -151,18 +152,25 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  checkboxChanged(person) {
+  checkboxChanged(person, ev) {
     const invitee = { name: person.firstName, email: person.email };
-    if (this.invites.filter(x => x.email === invitee.email).length) {
+    if (!ev.detail.checked && this.invites.some(x => x.email === invitee.email)) {
       const i = this.invites.findIndex(x => x.email === invitee.email);
       this.invites.splice(i, 1);
-    } else {
+    } else if (ev.detail.checked && !this.invites.some(x => x.email === invitee.email)) {
       this.invites.push(invitee);
     }
   }
 
   isChecked(person) {
     return this.invites.some(x => x.email === person?.email);
+  }
+
+  toggleSelectAll() {
+    this.selectAll = !this.selectAll;
+    if (!this.selectAll) {
+      this.invites = [];
+    }
   }
 
   async sendInvites(): Promise<string> {

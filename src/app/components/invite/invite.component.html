@@ -66,7 +66,7 @@
     <ion-grid *ngIf="showPeopleFrom !== 'all-people'" class="ion-no-padding">
       <ion-row>
         <ion-col size="12" class="ion-text-center">
-          <ion-button fill="clear">Select All</ion-button>
+          <ion-button (click)="toggleSelectAll()" fill="clear">{{selectAll ? 'Deselect All' : 'Select All'}}</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -83,7 +83,7 @@
           </ion-item-divider>
         </div>
         <div *ngFor="let person of item.value">
-          <ion-item [hidden]="personIsFiltered(person)" (ionChange)='checkboxChanged(person)'>
+          <ion-item [hidden]="personIsFiltered(person)" (ionChange)='checkboxChanged(person, $event)'>
             <ion-avatar slot="start">
               <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!person.image"
                 src="{{person.id | avatar}}">
@@ -93,7 +93,7 @@
                   <ion-text *ngIf="!person.blocked">{{person.firstName}} 
                     <ion-text style='font-weight: bold'>{{person.lastName}}</ion-text></ion-text>
             </ion-label>
-            <ion-checkbox [checked]="isChecked(person)" slot="end"></ion-checkbox>
+            <ion-checkbox [checked]="isChecked(person) || selectAll" slot="end"></ion-checkbox>
           </ion-item>
         </div>
       </div>
