@@ -53,6 +53,7 @@ query userEvents {
           firstName
           lastName
           username
+          image
         }
       }
     }
