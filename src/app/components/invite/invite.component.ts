@@ -161,6 +161,10 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  isChecked(person) {
+    return this.invites.some(x => x.email === person?.email);
+  }
+
   async sendInvites(): Promise<string> {
     let invited = '';
     await Promise.all(
