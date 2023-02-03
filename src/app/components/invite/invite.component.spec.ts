@@ -6,6 +6,7 @@ import { ApolloTestingModule } from 'apollo-angular/testing';
 import { InviteComponent } from './invite.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { IonicStorageModule } from '@ionic/storage';
 
 describe('InviteComponent', () => {
   let component: InviteComponent;
@@ -20,6 +21,7 @@ describe('InviteComponent', () => {
         ApolloTestingModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([]),
+        IonicStorageModule.forRoot(),
       ]
     }).compileComponents();
 
