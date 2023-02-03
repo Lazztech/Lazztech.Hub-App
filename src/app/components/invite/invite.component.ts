@@ -85,7 +85,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
       ]],
     });
     this.alphabetizedPersons = this.alphabetizePersons(
-      this.persons
+      this.removeThisUser(this.persons)
     );
     const userHubsRef = this.userHubsGQLService.watch();
     const userEventsRef = this.userEvents.watch();
@@ -145,7 +145,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
       this.filterAccordianGroup.value = ['first'];
     } else {
       this.alphabetizedPersons = this.alphabetizePersons(
-        this.persons
+        this.removeThisUser(this.persons)
       );
       this.filterAccordianGroup.value = undefined;
     }
@@ -232,18 +232,26 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
 
   eventFilterClicked(userEvent: JoinUserEvent) {
     this.eventFilter = userEvent;
-    this.alphabetizedPersons = this.alphabetizePersons(userEvent?.event?.usersConnection?.map(x => x.user));
+    this.alphabetizedPersons = this.alphabetizePersons(
+      this.removeThisUser(userEvent?.event?.usersConnection?.map(x => x.user))
+    );
     this.filterAccordianGroup.value = undefined;
   }
 
   hubFilterClicked(userHub: JoinUserHub) {
     this.hubFilter = userHub;
-    this.alphabetizedPersons = this.alphabetizePersons(userHub?.hub?.usersConnection?.map(x => x.user));
+    this.alphabetizedPersons = this.alphabetizePersons(
+      this.removeThisUser(userHub?.hub?.usersConnection?.map(x => x.user))
+    );
     this.filterAccordianGroup.value = undefined;
   }
 
   async filterPeople(ev: any) {
     this.filter = ev?.target?.value;
+  }
+
+  removeThisUser(persons: Array<User>): Array<User> {
+    return persons.filter(x => x.id !== this.userId);
   }
 
   alphabetizePersons(persons: Array<User>): AlphabetMapOfUsers {
