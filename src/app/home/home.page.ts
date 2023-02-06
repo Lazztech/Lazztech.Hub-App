@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { DebuggerService } from '../services/debugger/debugger.service';
 import { ForegroundGeofenceService } from '../services/foreground-geofence.service';
 import { LocationService } from '../services/location/location.service';
+import { Config } from "@ionic/angular";
 
 @Component({
   selector: 'app-home',
@@ -35,6 +36,7 @@ export class HomePage implements OnInit, OnDestroy {
   user: User;
   queryRefs: QueryRef<any>[] = [];
   subscriptions: Subscription[] = [];
+  public mode: string;
 
   constructor(
     private menu: MenuController,
@@ -47,8 +49,10 @@ export class HomePage implements OnInit, OnDestroy {
     private readonly userHubsGQLService: UsersHubsGQL,
     private readonly debugService: DebuggerService,
     private readonly alertService: AlertService,
+    private readonly config: Config,
   ) {
     this.menu.enable(true);
+    this.mode = this.config.get("mode");
   }
 
   async devModeEasterEgg() {
