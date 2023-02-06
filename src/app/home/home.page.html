@@ -7,11 +7,8 @@
         <ion-icon size="large" name="navigate-circle" (click)="goToStatusPage()"></ion-icon>
     </ion-buttons>
     <ion-title (click)="devModeEasterEgg()">
-      <!-- LAZZTECH HUB -->
-      <!-- <ion-icon style="font-size: 140px;" src="assets/lazztech_hub_R1.svg"></ion-icon> -->
-      <!-- <ion-icon style="font-size: 140px;" src="assets/lazztech_hub_R2-02.svg"></ion-icon> -->
-      <!-- <ion-icon style="font-size: 140px;" src="assets/lazztech_hub_R3.svg"></ion-icon> -->
-      <ion-icon style="font-size: 140px;" src="assets/lazztech_hub_R4.svg"></ion-icon>
+      <ion-icon *ngIf="mode === 'ios'" style="font-size: 140px;" src="assets/lazztech_hub_R4.svg"></ion-icon>
+      <img *ngIf="mode === 'md'" src="assets/lazztech_hub_R4.svg" style="width: 140px" />
     </ion-title>
 
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
