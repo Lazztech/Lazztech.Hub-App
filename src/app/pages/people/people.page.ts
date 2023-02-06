@@ -78,7 +78,7 @@ export class PeoplePage implements OnInit, OnDestroy {
     let alphabet = 'abcdefghijklmnopqrstuvwxyz';
     let alphabetArray = alphabet.split('');
     const alphabetizedPersons = [...persons]?.sort((a, b) => (
-      a?.lastName.toLowerCase().localeCompare(b?.lastName.toLowerCase())
+      a?.lastName?.toLowerCase().localeCompare(b?.lastName?.toLowerCase())
     ));
     console.log(alphabetizedPersons);
     const alphabetMap = <AlphabetMapOfUsers>{};
@@ -125,8 +125,8 @@ export class PeoplePage implements OnInit, OnDestroy {
         ...this.personsResult,
         data: {
           usersPeople: this.personsResult?.data?.usersPeople?.filter(usersPerson => {
-            const name = usersPerson.firstName.trim().toLowerCase() + usersPerson.lastName.trim().toLowerCase();
-            return name.includes(this.filter?.trim().toLowerCase());
+            const name = usersPerson?.firstName?.trim()?.toLowerCase() + usersPerson?.lastName?.trim()?.toLowerCase();
+            return name.includes(this.filter?.trim()?.toLowerCase());
           }) 
         }
       }

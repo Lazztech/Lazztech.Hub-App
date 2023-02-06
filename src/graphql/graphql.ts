@@ -1072,7 +1072,7 @@ export type UsersHubsQuery = { __typename?: 'Query', usersHubs: Array<{ __typena
 export type UsersPeopleQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersPeopleQuery = { __typename?: 'Query', usersPeople: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null }> };
+export type UsersPeopleQuery = { __typename?: 'Query', usersPeople: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null }> };
 
 export const AcceptHubInviteDocument = gql`
     mutation acceptHubInvite($inviteId: ID!) {
@@ -2702,6 +2702,7 @@ export const UsersPeopleDocument = gql`
     id
     firstName
     lastName
+    username
     email
     description
     image

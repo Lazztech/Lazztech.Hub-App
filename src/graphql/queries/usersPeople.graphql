@@ -3,6 +3,7 @@ query usersPeople {
         id
         firstName
         lastName
+        username
         email
         description
         image
