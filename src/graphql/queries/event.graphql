@@ -52,6 +52,7 @@ query event($id: ID!) {
           id
           firstName
           lastName
+          username
           description
           image
           lastOnline

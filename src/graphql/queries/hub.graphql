@@ -21,6 +21,7 @@ query hub($id: ID!) {
           id
           firstName
           lastName
+          username
           description
           image
           lastOnline
