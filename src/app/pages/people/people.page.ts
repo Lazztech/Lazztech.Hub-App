@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
@@ -129,8 +128,10 @@ export class PeoplePage implements OnInit, OnDestroy {
             if (name) {
               return name.includes(this.filter?.trim()?.toLowerCase());
             }
-            return usersPerson?.username?.includes(this.filter?.trim()?.toLowerCase());
-          }) 
+            return usersPerson?.username?.trim().toLocaleLowerCase().includes(
+              this.filter?.trim().toLowerCase()
+            );
+          })
         }
       }
     }

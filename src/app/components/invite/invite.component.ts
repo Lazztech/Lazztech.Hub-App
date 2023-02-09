@@ -226,7 +226,12 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
       return !this.hubFilter.hub.usersConnection?.some(x => x.userId === person.id);
     } else if (this.filter && this.filter?.trim() !== '') {
       const name = person?.firstName?.trim()?.toLowerCase() + person?.lastName?.trim()?.toLowerCase();
-      return !name.includes(this.filter?.trim().toLowerCase());
+      if (name) {
+        return !name.includes(this.filter?.trim().toLowerCase());
+      }
+      return !person?.username?.trim().toLocaleLowerCase().includes(
+        this.filter?.trim().toLowerCase()
+      );
     } else {
       return false;
     }
