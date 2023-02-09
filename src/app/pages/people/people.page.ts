@@ -126,7 +126,10 @@ export class PeoplePage implements OnInit, OnDestroy {
         data: {
           usersPeople: this.personsResult?.data?.usersPeople?.filter(usersPerson => {
             const name = usersPerson?.firstName?.trim()?.toLowerCase() + usersPerson?.lastName?.trim()?.toLowerCase();
-            return name.includes(this.filter?.trim()?.toLowerCase());
+            if (name) {
+              return name.includes(this.filter?.trim()?.toLowerCase());
+            }
+            return usersPerson?.username?.includes(this.filter?.trim()?.toLowerCase());
           }) 
         }
       }
