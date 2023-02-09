@@ -44,7 +44,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
 
   loading = false;
   allInvitesSucces = true;
-  invites: Array<{ name?: string, email: string }> = [];
+  invites: Array<User> = [];
   myForm: UntypedFormGroup;
   filter: string = '';
   filteredPersons: Array<User> = [];
@@ -59,10 +59,6 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
   hubFilter: JoinUserHub;
   @ViewChild('filterAccordionGroup', { static: true }) filterAccordianGroup: IonAccordionGroup;
   selectAll: boolean = false;
-
-  get email() {
-    return this.myForm.get('email');
-  }
 
   constructor(
     private readonly hubService: HubService,
@@ -79,12 +75,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
 
   async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    this.myForm = this.fb.group({
-      email: ['', [
-        Validators.required,
-        Validators.email
-      ]],
-    });
+
     this.alphabetizedPersons = this.alphabetizePersons(
       this.filterToValidToInvitePersons(this.persons)
     );
@@ -152,18 +143,17 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  checkboxChanged(person, ev) {
-    const invitee = { name: person.firstName, email: person.email };
-    if (!ev.detail.checked && this.invites.some(x => x.email === invitee.email)) {
-      const i = this.invites.findIndex(x => x.email === invitee.email);
+  checkboxChanged(invitee: User, ev) {
+    if (!ev.detail.checked && this.invites.some(x => x.shareableId === invitee.shareableId)) {
+      const i = this.invites.findIndex(x => x.shareableId === invitee.shareableId);
       this.invites.splice(i, 1);
-    } else if (ev.detail.checked && !this.invites.some(x => x.email === invitee.email)) {
+    } else if (ev.detail.checked && !this.invites.some(x => x.shareableId === invitee.shareableId)) {
       this.invites.push(invitee);
     }
   }
 
-  isChecked(person) {
-    return this.invites.some(x => x.email === person?.email);
+  isChecked(person: User) {
+    return this.invites.some(x => x.shareableId === person?.shareableId);
   }
 
   toggleSelectAll() {
@@ -178,7 +168,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
     await Promise.all(
       this.invites.map(async invite => {
         if (this.inviteType == InviteType.Hub) {
-          const result = await this.hubService.inviteUserToHub(this.id, invite.email);
+          const result = await this.hubService.inviteUserToHub(this.id, invite.shareableId);
           if (result) {
             invited = invited.concat(`${result?.invitee?.firstName}, `);
           } else {
@@ -187,7 +177,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
         } else if (this.inviteType == InviteType.Event) {
           const result = await this.inviteUserToEventService.mutate({
             eventId: this.id,
-            inviteesEmail: invite.email,
+            inviteesShareableId: invite.shareableId,
           }).toPromise();
           if (result) {
             invited = invited.concat(`${result?.data?.inviteUserToEvent?.user?.firstName}, `);

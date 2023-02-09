@@ -50,6 +50,7 @@ query event($id: ID!) {
       usersConnection {
         user {
           id
+          shareableId
           firstName
           lastName
           username
