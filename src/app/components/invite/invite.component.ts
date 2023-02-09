@@ -276,7 +276,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
     let alphabet = 'abcdefghijklmnopqrstuvwxyz';
     let alphabetArray = alphabet.split('');
     const alphabetizedPersons = [...persons]?.sort((a, b) => (
-      a?.lastName.toLowerCase().localeCompare(b?.lastName.toLowerCase())
+      a?.lastName?.toLowerCase().localeCompare(b?.lastName?.toLowerCase())
     ));
     console.log(alphabetizedPersons);
     const alphabetMap = <AlphabetMapOfUsers>{};
