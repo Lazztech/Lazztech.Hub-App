@@ -1,8 +1,10 @@
 query usersPeople {
     usersPeople {
         id
+        shareableId
         firstName
         lastName
+        username
         email
         description
         image

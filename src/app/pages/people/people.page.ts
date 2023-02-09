@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
@@ -78,7 +77,7 @@ export class PeoplePage implements OnInit, OnDestroy {
     let alphabet = 'abcdefghijklmnopqrstuvwxyz';
     let alphabetArray = alphabet.split('');
     const alphabetizedPersons = [...persons]?.sort((a, b) => (
-      a?.lastName.toLowerCase().localeCompare(b?.lastName.toLowerCase())
+      a?.lastName?.toLowerCase().localeCompare(b?.lastName?.toLowerCase())
     ));
     console.log(alphabetizedPersons);
     const alphabetMap = <AlphabetMapOfUsers>{};
@@ -125,9 +124,14 @@ export class PeoplePage implements OnInit, OnDestroy {
         ...this.personsResult,
         data: {
           usersPeople: this.personsResult?.data?.usersPeople?.filter(usersPerson => {
-            const name = usersPerson.firstName.trim().toLowerCase() + usersPerson.lastName.trim().toLowerCase();
-            return name.includes(this.filter?.trim().toLowerCase());
-          }) 
+            const name = usersPerson?.firstName?.trim()?.toLowerCase() + usersPerson?.lastName?.trim()?.toLowerCase();
+            if (name) {
+              return name.includes(this.filter?.trim()?.toLowerCase());
+            }
+            return usersPerson?.username?.trim().toLocaleLowerCase().includes(
+              this.filter?.trim().toLowerCase()
+            );
+          })
         }
       }
     }

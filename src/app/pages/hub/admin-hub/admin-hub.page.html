@@ -100,7 +100,14 @@
           <ion-label>
             <h3 class="ion-float-left">
               <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} 
-                <ion-text style='font-weight: bold'>{{userConnection.user.lastName}}</ion-text></ion-text>
+                <ion-text style='font-weight: bold'>{{userConnection.user.lastName}}</ion-text>
+              </ion-text>
+              <ion-text *ngIf="!userConnection.user.blocked && !userConnection.user.firstName && !userConnection.user.lastName && userConnection.user.username" style='font-weight: bold'>
+                {{userConnection.user.username}}
+              </ion-text>
+              <ion-text *ngIf="userConnection.user.blocked" style='text-decoration:line-through'>
+                {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+              </ion-text>
             </h3>
             <p *ngIf="userConnection.isOwner" class="ion-float-right">
               <ion-text>Admin</ion-text>

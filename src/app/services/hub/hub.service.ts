@@ -207,11 +207,11 @@ export class HubService {
     });
   }
 
-  async inviteUserToHub(hubId: Scalars['ID'], inviteesEmail: string) {
+  async inviteUserToHub(hubId: Scalars['ID'], shareableId: string) {
     try {
       const result = await this.inviteUserToHubGQLService.mutate({
         hubId,
-        inviteesEmail
+        inviteesShareableId: shareableId
       }, {
         refetchQueries: [
           { query: InvitesByHubDocument, variables: { hubId, includeAccepted: false } as InvitesByHubQueryVariables },

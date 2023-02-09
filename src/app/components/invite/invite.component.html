@@ -1,4 +1,4 @@
-  <form [formGroup]="myForm" (ngSubmit)="inviteUser()" method="post">
+  <form (ngSubmit)="inviteUser()" method="post">
 
     <ion-list-header class="ion-padding-bottom">
       Shareable Invite Link
@@ -90,8 +90,15 @@
               <ion-img width="100%" *ngIf="person.image" src="{{person.image}}"></ion-img>
             </ion-avatar>
             <ion-label>
-                  <ion-text *ngIf="!person.blocked">{{person.firstName}} 
-                    <ion-text style='font-weight: bold'>{{person.lastName}}</ion-text></ion-text>
+              <ion-text *ngIf="!person.blocked">{{person.firstName}} 
+                <ion-text style='font-weight: bold'>{{person.lastName}}</ion-text>
+              </ion-text>
+              <ion-text *ngIf="!person.blocked && !person.firstName && !person.lastName && person.username" style='font-weight: bold'>
+                {{person.username}}
+              </ion-text>
+              <ion-text *ngIf="person.blocked" style='text-decoration:line-through'>
+                {{person.firstName}} {{person.lastName}}
+              </ion-text>
             </ion-label>
             <ion-checkbox [checked]="isChecked(person) || selectAll" slot="end"></ion-checkbox>
           </ion-item>

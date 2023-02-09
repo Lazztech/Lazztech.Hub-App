@@ -133,7 +133,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
     let alphabet = 'abcdefghijklmnopqrstuvwxyz';
     let alphabetArray = alphabet.split('');
     const alphabetizedPersons = [...persons]?.sort((a, b) => (
-      a?.user?.lastName.toLowerCase().localeCompare(b?.user?.lastName.toLowerCase())
+      a?.user?.lastName?.toLowerCase().localeCompare(b?.user?.lastName?.toLowerCase())
     ));
     console.log(alphabetizedPersons);
     const alphabetMap = <AlphabetMapOfJoinUserHubs>{};

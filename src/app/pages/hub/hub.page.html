@@ -111,9 +111,13 @@
               </ion-avatar>
               <ion-label>
                 <h3 class="ion-float-left">
-                  <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+                  <ion-text *ngIf="!userConnection.user.blocked">
+                    {{userConnection.user.firstName && userConnection.user.lastName 
+                      ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
+                  </ion-text>
                   <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
-                    {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+                    {{userConnection.user.firstName && userConnection.user.lastName 
+                      ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
                   </ion-text>
                 </h3>
                 <p *ngIf="userConnection.user.blocked" class="ion-float-right">
@@ -153,9 +157,13 @@
               </ion-avatar>
               <ion-label>
                 <h2>
-                  <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+                  <ion-text *ngIf="!userConnection.user.blocked">
+                    {{userConnection.user.firstName && userConnection.user.lastName 
+                      ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
+                  </ion-text>
                   <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
-                    {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+                    {{userConnection.user.firstName && userConnection.user.lastName 
+                      ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
                   </ion-text>
                 </h2>
                 <p *ngIf="userConnection.user.blocked" class="ion-float-right">
@@ -198,9 +206,13 @@
               </ion-avatar>
               <ion-label>
                 <h2>
-                  <ion-text *ngIf="!userConnection.user.blocked">{{userConnection.user.firstName}} {{userConnection.user.lastName}}</ion-text>
+                  <ion-text *ngIf="!userConnection.user.blocked">
+                    {{userConnection.user.firstName && userConnection.user.lastName 
+                      ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
+                  </ion-text>
                   <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
-                    {{userConnection.user.firstName}} {{userConnection.user.lastName}}
+                    {{userConnection.user.firstName && userConnection.user.lastName 
+                      ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
                   </ion-text>
                 </h2>
                 <p *ngIf="userConnection.user.blocked" class="ion-float-right">
