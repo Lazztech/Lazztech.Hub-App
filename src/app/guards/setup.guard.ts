@@ -10,7 +10,6 @@ import { NotificationsService } from '../services/notifications/notifications.se
 export class SetupGuard implements CanActivate {
 
   constructor(
-    private storage: Storage,
     private authService: AuthService,
     private notificationsService: NotificationsService,
     private geofenceService: GeofenceService,
