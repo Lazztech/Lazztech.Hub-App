@@ -19,13 +19,13 @@ export class SetupGuard implements CanActivate {
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
-    const isAuthed = await this.authService.getToken();
+    // permissions
+    await this.notificationsService.setupPushNotifications();
 
+    const isAuthed = await this.authService.getToken();
     // user is signed in
     if (isAuthed) {
       try {
-        // permissions
-        await this.notificationsService.setupPushNotifications();
         // setup background geolocation
         await this.geofenceService.configureBackgroundGeolocation();
         let state = await this.geofenceService.ready();
