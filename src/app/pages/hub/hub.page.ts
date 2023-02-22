@@ -240,7 +240,7 @@ export class HubPage implements OnInit, OnDestroy {
   async goToCreateEventPage() {
     this.navCtrl.navigateForward('create-event', {
       state: {
-        // seed: this.userEventQueryResult?.data?.event?.event,
+        seed: this.userHub?.hub,
       }
     });
   }
