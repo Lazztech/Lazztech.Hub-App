@@ -108,7 +108,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
       });
     }
 
-    if (this.seed?.image) {
+    if (this.seedType !== 'hub' && this.seed?.image) {
       this.image = await this.cameraService.getLocalObjectUrl(this.seed?.image);
     }
   }
