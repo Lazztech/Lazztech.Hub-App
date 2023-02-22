@@ -38,7 +38,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   startMin = moment().format();
 
-  seed: Event | Hub;
+  seed: any;
   seedType: 'hub' | 'event';
 
   get endMin() {
@@ -89,7 +89,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
     end.setHours(end.getHours() + 3);
 
     this.myForm = new FormGroup({
-      eventName: new FormControl(this?.seed?.name || '', [
+      eventName: new FormControl(this.seedType === 'event' ? this?.seed?.name : '', [
         Validators.required
       ]),
       eventDescription: new FormControl(this?.seed?.description || ''),
@@ -133,7 +133,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
       longitude: this.location?.value?.longitude,
       locationLabel: this.location?.value?.label,
       imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image),
-      hubId: this.seedType === 'hub' ? this.seed?.id : undefined,
+      hubId: this.seedType === 'hub' ? this.seed?.id : this.seed?.hub?.id || undefined,
     }, {
       context: { useMultipart: true },
     })
