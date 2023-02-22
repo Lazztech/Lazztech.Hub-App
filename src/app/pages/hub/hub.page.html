@@ -81,14 +81,22 @@
               ></app-event-card>
             </ion-col>
             <ion-col size="12" *ngIf="!userHub?.hub?.events?.length">
-              <ion-card>
-                <ion-item lines="none">
+              <ion-card *ngIf="userHub?.isOwner">
+                <ion-item button lines="none" (click)="goToCreateEventPage()">
                   <ion-card-header>
                     <ion-card-subtitle>Get Started</ion-card-subtitle>
                   </ion-card-header>
                   <ion-icon slot="end" name="calendar"></ion-icon>
                   <ion-card-content>
-                    Create an event and invite guests!
+                    Create an Event and invite people for them to see all your Events at this Hub!
+                </ion-card-content>
+                </ion-item>
+              </ion-card>
+              <ion-card *ngIf="!userHub?.isOwner">
+                <ion-item lines="none">
+                  <ion-icon slot="end" name="calendar"></ion-icon>
+                  <ion-card-content>
+                    Events at this Hub, by the Admin, will be listed here.
                 </ion-card-content>
                 </ion-item>
               </ion-card>

@@ -237,6 +237,14 @@ export class HubPage implements OnInit, OnDestroy {
     this.inviteModalIsOpen = false;
   }
 
+  async goToCreateEventPage() {
+    this.navCtrl.navigateForward('create-event', {
+      state: {
+        // seed: this.userEventQueryResult?.data?.event?.event,
+      }
+    });
+  }
+
   async goToQrPage() {
     this.navCtrl.navigateForward('qr', {
       state: {
