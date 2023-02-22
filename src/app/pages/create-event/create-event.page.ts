@@ -226,4 +226,8 @@ export class CreateEventPage implements OnInit, OnDestroy {
     this.mapModalIsOpen = false;
   }
 
+  goToHubPage(id: number) {
+    this.navCtrl.navigateForward('hub/' + id);
+  }
+
 }
