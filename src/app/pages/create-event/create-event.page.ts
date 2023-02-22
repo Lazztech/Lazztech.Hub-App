@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { CreateEventGQL, Event } from 'src/graphql/graphql';
+import { CreateEventGQL, Event, Hub } from 'src/graphql/graphql';
 import moment from 'moment';
 import { Router } from '@angular/router';
 
@@ -38,7 +38,8 @@ export class CreateEventPage implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   startMin = moment().format();
 
-  seed: Event;
+  seed: Event | Hub;
+  seedType: 'hub' | 'event';
 
   get endMin() {
     return moment(this.startDateTime.value).add(15, 'minutes').format();
@@ -76,6 +77,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
     private readonly router: Router,
   ) {
     this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
+    this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
    }
 
   async ngOnInit() {
@@ -131,6 +133,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
       longitude: this.location?.value?.longitude,
       locationLabel: this.location?.value?.label,
       imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image),
+      hubId: this.seedType === 'hub' ? this.seed?.id : undefined,
     }, {
       context: { useMultipart: true },
     })

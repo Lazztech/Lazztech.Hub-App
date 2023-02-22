@@ -672,6 +672,7 @@ export type ChangeUserImageMutation = { __typename?: 'Mutation', changeUserImage
 
 export type CreateEventMutationVariables = Exact<{
   name: Scalars['String'];
+  hubId?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   startDateTime?: InputMaybe<Scalars['String']>;
   endDateTime?: InputMaybe<Scalars['String']>;
@@ -1264,9 +1265,10 @@ export const ChangeUserImageDocument = gql`
     }
   }
 export const CreateEventDocument = gql`
-    mutation createEvent($name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload) {
+    mutation createEvent($name: String!, $hubId: String, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload) {
   createEvent(
     name: $name
+    hubId: $hubId
     description: $description
     startDateTime: $startDateTime
     endDateTime: $endDateTime

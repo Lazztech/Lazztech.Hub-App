@@ -91,9 +91,14 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-input readonly type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleMapModal()"></ion-input>
+        <ion-input readonly [disabled]="this.seedType == 'hub'" type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleMapModal()"></ion-input>
       </ion-item>
 
+      <app-hub-card
+      *ngIf="this.seedType == 'hub'"
+      [hub]="this.seed"
+      [coords]="locationService.location"
+      (click)="goToHubPage(hub.id)"></app-hub-card>
 
       <ion-list-header class="ion-padding-bottom">
         <ion-text>Photo</ion-text>
