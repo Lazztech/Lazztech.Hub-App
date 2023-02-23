@@ -90,9 +90,14 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-input readonly type="text" placeholder="Location" [value]="location?.value?.label || location?.value?.locationLabel" (click)="toggleMapModal()"></ion-input>
+        <ion-input readonly [disabled]="eventQueryResult?.data?.event?.event?.hub" type="text" placeholder="Location" [value]="location?.value?.label || location?.value?.locationLabel" (click)="toggleMapModal()"></ion-input>
       </ion-item>
 
+      <app-hub-card
+      *ngIf="eventQueryResult?.data?.event?.event?.hub"
+      [hub]="eventQueryResult?.data?.event?.event?.hub"
+      [coords]="locationService.location"
+      (click)="goToHubPage(eventQueryResult?.data?.event?.event?.hub?.id)"></app-hub-card>
 
       <ion-list-header class="ion-padding-bottom">
         <ion-text>Photo</ion-text>

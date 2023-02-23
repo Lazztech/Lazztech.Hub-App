@@ -1,5 +1,6 @@
 mutation createEvent(
   $name: String!
+  $hubId: String
   $description: String
   $startDateTime: String
   $endDateTime: String
@@ -10,6 +11,7 @@ mutation createEvent(
 ) {
   createEvent(
     name: $name
+    hubId: $hubId
     description: $description
     startDateTime: $startDateTime
     endDateTime: $endDateTime
