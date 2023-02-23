@@ -144,7 +144,7 @@
           },
           {
             "name": "latitude",
-            "description": null,
+            "description": "Returns from Hub if available, or else value from Event is returned",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -156,7 +156,7 @@
           },
           {
             "name": "locationLabel",
-            "description": null,
+            "description": "Returns value from Hub if available, or else value from Event is returned",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -168,7 +168,7 @@
           },
           {
             "name": "longitude",
-            "description": null,
+            "description": "Returns from Hub if available, or else value from Event is returned",
             "args": [],
             "type": {
               "kind": "SCALAR",

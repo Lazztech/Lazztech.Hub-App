@@ -8,6 +8,7 @@ mutation updateEvent(
   $longitude: Float
   $locationLabel: String
   $imageFile: Upload
+  $hubId: String
 ) {
   updateEvent(
     eventId: $eventId
@@ -19,6 +20,7 @@ mutation updateEvent(
     longitude: $longitude
     locationLabel: $locationLabel
     imageFile: $imageFile
+    hubId: $hubId
   ) {
     id
     createdBy {

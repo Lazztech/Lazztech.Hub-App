@@ -33,8 +33,11 @@ export type Event = {
   hub?: Maybe<Hub>;
   id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
+  /** Returns from Hub if available, or else value from Event is returned */
   latitude?: Maybe<Scalars['Float']>;
+  /** Returns value from Hub if available, or else value from Event is returned */
   locationLabel?: Maybe<Scalars['String']>;
+  /** Returns from Hub if available, or else value from Event is returned */
   longitude?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
   shareableId: Scalars['String'];
@@ -979,6 +982,7 @@ export type UpdateEventMutationVariables = Exact<{
   longitude?: InputMaybe<Scalars['Float']>;
   locationLabel?: InputMaybe<Scalars['String']>;
   imageFile?: InputMaybe<Scalars['Upload']>;
+  hubId?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -2069,7 +2073,7 @@ export const UnmuteDocument = gql`
     }
   }
 export const UpdateEventDocument = gql`
-    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload) {
+    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload, $hubId: String) {
   updateEvent(
     eventId: $eventId
     name: $name
@@ -2080,6 +2084,7 @@ export const UpdateEventDocument = gql`
     longitude: $longitude
     locationLabel: $locationLabel
     imageFile: $imageFile
+    hubId: $hubId
   ) {
     id
     createdBy {
