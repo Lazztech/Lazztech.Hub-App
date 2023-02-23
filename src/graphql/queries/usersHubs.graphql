@@ -19,6 +19,7 @@ query usersHubs {
                 userId
                 user {
                     id
+                    shareableId
                     firstName
                     lastName
                     username

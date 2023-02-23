@@ -50,6 +50,7 @@ query userEvents {
         userId
         user {
           id
+          shareableId
           firstName
           lastName
           username
