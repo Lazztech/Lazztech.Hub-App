@@ -95,14 +95,13 @@ export type MicroChatFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'blockUser' | 'changeEmail' | 'changeHubImage' | 'changeHubLocation' | 'changePassword' | 'createEvent' | 'createHub' | 'createMicroChat' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'deleteMicroChat' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredHubGeofence' | 'exitedHubGeofence' | 'expeditedRegistration' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'microChatToHub' | 'mute' | 'register' | 'removeUserFromEvent' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'blockUser' | 'changeEmail' | 'changeHubLocation' | 'changePassword' | 'createEvent' | 'createHub' | 'createMicroChat' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'deleteMicroChat' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredHubGeofence' | 'exitedHubGeofence' | 'expeditedRegistration' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'microChatToHub' | 'mute' | 'register' | 'removeUserFromEvent' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptHubInvite?: FieldPolicy<any> | FieldReadFunction<any>,
 	activateHub?: FieldPolicy<any> | FieldReadFunction<any>,
 	addUserFcmNotificationToken?: FieldPolicy<any> | FieldReadFunction<any>,
 	blockUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	changeEmail?: FieldPolicy<any> | FieldReadFunction<any>,
-	changeHubImage?: FieldPolicy<any> | FieldReadFunction<any>,
 	changeHubLocation?: FieldPolicy<any> | FieldReadFunction<any>,
 	changePassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	createEvent?: FieldPolicy<any> | FieldReadFunction<any>,

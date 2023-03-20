@@ -4,7 +4,6 @@ import { NGXLogger } from 'ngx-logger';
 import {
   AcceptHubInviteGQL,
   ActivateHubGQL,
-  ChangeHubImageGQL,
   ChangeHubLocationGQL,
   CommonUsersHubsGQL,
   CreateHubGQL,
@@ -46,7 +45,6 @@ export class HubService {
     private readonly hubGQLService: HubGQL,
     private readonly inviteUserToHubGQLService: InviteUserToHubGQL,
     private readonly deleteHubGQLService: DeleteHubGQL,
-    private readonly changeHubImageGQLService: ChangeHubImageGQL,
     private readonly setHubStarredGQLService: SetHubStarredGQL,
     private readonly setHubNotStarredGQLService: SetHubNotStarredGQL,
     private readonly enteredHubGeofenceGQLService: EnteredHubGeofenceGQL,
@@ -278,16 +276,6 @@ export class HubService {
 
     const response = result.data.deleteHub;
     return response;
-  }
-
-  async changeHubImage(id: Scalars['ID'], image: string): Promise<boolean> {
-    const result = await this.changeHubImageGQLService.mutate({
-      id,
-      image
-    }).toPromise();
-
-    const response = result.data.changeHubImage;
-    return (response) ? true : false;
   }
 
   async setHubStarred(hubId: Scalars['ID']) {

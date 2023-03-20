@@ -139,7 +139,6 @@ export type Mutation = {
   addUserFcmNotificationToken: Scalars['Boolean'];
   blockUser: Block;
   changeEmail: User;
-  changeHubImage: Hub;
   changeHubLocation: Hub;
   changePassword: Scalars['Boolean'];
   createEvent: JoinUserEvent;
@@ -209,12 +208,6 @@ export type MutationBlockUserArgs = {
 
 export type MutationChangeEmailArgs = {
   newEmail: Scalars['String'];
-};
-
-
-export type MutationChangeHubImageArgs = {
-  hubId: Scalars['ID'];
-  newImage: Scalars['String'];
 };
 
 
@@ -634,14 +627,6 @@ export type ChangeEmailMutationVariables = Exact<{
 
 
 export type ChangeEmailMutation = { __typename?: 'Mutation', changeEmail: { __typename?: 'User', id: string, email?: string | null } };
-
-export type ChangeHubImageMutationVariables = Exact<{
-  id: Scalars['ID'];
-  image: Scalars['String'];
-}>;
-
-
-export type ChangeHubImageMutation = { __typename?: 'Mutation', changeHubImage: { __typename?: 'Hub', id: string, image?: string | null } };
 
 export type ChangeHubLocationMutationVariables = Exact<{
   hubId: Scalars['ID'];
@@ -1176,25 +1161,6 @@ export const ChangeEmailDocument = gql`
   })
   export class ChangeEmailGQL extends Apollo.Mutation<ChangeEmailMutation, ChangeEmailMutationVariables> {
     document = ChangeEmailDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ChangeHubImageDocument = gql`
-    mutation changeHubImage($id: ID!, $image: String!) {
-  changeHubImage(hubId: $id, newImage: $image) {
-    id
-    image
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ChangeHubImageGQL extends Apollo.Mutation<ChangeHubImageMutation, ChangeHubImageMutationVariables> {
-    document = ChangeHubImageDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
