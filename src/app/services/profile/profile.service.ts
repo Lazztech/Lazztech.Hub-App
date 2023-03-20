@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { ChangeEmailGQL, ChangePasswordGQL, ChangeUserImageGQL, DeleteAccountGQL, EditUserDetailsGQL } from 'src/graphql/graphql';
+import { ChangeEmailGQL, ChangePasswordGQL, DeleteAccountGQL, EditUserDetailsGQL } from 'src/graphql/graphql';
 import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
@@ -13,7 +13,6 @@ export class ProfileService {
     private editUserDetailsGQLService: EditUserDetailsGQL,
     private changeEmailGQLService: ChangeEmailGQL,
     private changePasswordGQLService: ChangePasswordGQL,
-    private changeUserImageGQLService: ChangeUserImageGQL,
     private deleteAccountGQLService: DeleteAccountGQL,
     private logger: NGXLogger
   ) { }
@@ -64,16 +63,6 @@ export class ProfileService {
       this.logger.log('Failed to change password.');
       return false;
     }
-  }
-
-  async changeUserImage(image: string): Promise<any> {
-    const result = await this.changeUserImageGQLService.mutate({
-      image
-    }).toPromise();
-
-    this.logger.log(result);
-    const response = (result as any).data.changeUserImage;
-    return response;
   }
 
   async deleteAccount(emailAddress: string, password: string) {

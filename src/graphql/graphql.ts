@@ -142,7 +142,6 @@ export type Mutation = {
   changeHubImage: Hub;
   changeHubLocation: Hub;
   changePassword: Scalars['Boolean'];
-  changeUserImage: User;
   createEvent: JoinUserEvent;
   createHub: JoinUserHub;
   createMicroChat: MicroChat;
@@ -229,11 +228,6 @@ export type MutationChangeHubLocationArgs = {
 export type MutationChangePasswordArgs = {
   newPassword: Scalars['String'];
   oldPassword: Scalars['String'];
-};
-
-
-export type MutationChangeUserImageArgs = {
-  newImage: Scalars['String'];
 };
 
 
@@ -665,13 +659,6 @@ export type ChangePasswordMutationVariables = Exact<{
 
 
 export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: boolean };
-
-export type ChangeUserImageMutationVariables = Exact<{
-  image: Scalars['String'];
-}>;
-
-
-export type ChangeUserImageMutation = { __typename?: 'Mutation', changeUserImage: { __typename?: 'User', id: string, image?: string | null } };
 
 export type CreateEventMutationVariables = Exact<{
   name: Scalars['String'];
@@ -1244,25 +1231,6 @@ export const ChangePasswordDocument = gql`
   })
   export class ChangePasswordGQL extends Apollo.Mutation<ChangePasswordMutation, ChangePasswordMutationVariables> {
     document = ChangePasswordDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const ChangeUserImageDocument = gql`
-    mutation changeUserImage($image: String!) {
-  changeUserImage(newImage: $image) {
-    id
-    image
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class ChangeUserImageGQL extends Apollo.Mutation<ChangeUserImageMutation, ChangeUserImageMutationVariables> {
-    document = ChangeUserImageDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
