@@ -8,9 +8,10 @@
       <ion-icon size="large" name="ellipsis-vertical-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
     </ion-buttons>
 
-    <ion-title>Min {{userEventQueryResult?.data?.event?.event?.minimumCapacity || 0}}, Max {{userEventQueryResult?.data?.event?.event?.maximumCapacity}}</ion-title>
+    <ion-title *ngIf="!userEventQueryResult?.data?.event?.event?.maximumCapacity">Event</ion-title>
+    <ion-title *ngIf="userEventQueryResult?.data?.event?.event?.maximumCapacity">Min {{userEventQueryResult?.data?.event?.event?.minimumCapacity || 0}}, Max {{userEventQueryResult?.data?.event?.event?.maximumCapacity}}</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
-    <ion-progress-bar *ngIf="!loading" color="success" [value]="capacityPercentage()"></ion-progress-bar>
+    <ion-progress-bar *ngIf="!loading && userEventQueryResult?.data?.event?.event?.maximumCapacity" color="success" [value]="capacityPercentage()"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
