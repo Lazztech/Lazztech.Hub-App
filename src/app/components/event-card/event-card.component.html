@@ -5,7 +5,9 @@
       <ion-row>
         <ion-col size="8">
           <ion-card-subtitle *ngIf="userEvent?.event?.maximumCapacity">
-            {{capacityPercentage() > 1 ? 'Over ' : undefined}}{{hasHitMinimumCapacity() ? 'Capacity - Min' : 'Under Capacity Min'}} {{userEvent?.event?.minimumCapacity || 0}}, Max {{userEvent?.event?.maximumCapacity}}
+            {{capacityPercentage() > 1 ? (goingCount() - userEvent?.event?.maximumCapacity) + ' Over ' : undefined}}
+            {{hasHitMinimumCapacity() ? 'Capacity — Min' : (userEvent?.event?.minimumCapacity - goingCount()) + ' Under Capacity — Min '}}
+            {{userEvent?.event?.minimumCapacity || 0}}, Max {{userEvent?.event?.maximumCapacity}}
           </ion-card-subtitle>
         </ion-col>
         <ion-col>

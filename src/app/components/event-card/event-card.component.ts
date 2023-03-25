@@ -39,15 +39,19 @@ export class EventCardComponent implements OnChanges {
     }
   }
 
+  goingCount() {
+    return this.userEvent?.event?.usersConnection?.filter(user => user.rsvp === 'going')?.length;
+  }
+
   capacityPercentage() {
     const min = this.userEvent?.event?.minimumCapacity;
     const max = this.userEvent?.event?.maximumCapacity;
-    const currentCapacity = this.userEvent?.event?.usersConnection?.filter(user => user.rsvp === 'going')?.length;
+    const currentCapacity = this.goingCount();
     return parseFloat(`${(100 * currentCapacity / max)}%`)  / 100;
   }
 
   hasHitMinimumCapacity() {
-    const currentCapacity = this.userEvent?.event?.usersConnection?.filter(user => user.rsvp === 'going')?.length;
+    const currentCapacity = this.goingCount();
     const min = this.userEvent?.event?.minimumCapacity;
     return currentCapacity >= min;
   }
