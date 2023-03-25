@@ -1,6 +1,5 @@
 <ion-card>
   <ion-img *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent?.event?.image}}"></ion-img>
-  <ion-progress-bar *ngIf="userEvent?.event?.maximumCapacity" color="success" [value]="capacityPercentage()"></ion-progress-bar>
   <ion-card-header (click)="goToEventPage()">
     <ion-grid class="ion-no-padding" *ngIf="userEvent?.event?.maximumCapacity">
       <ion-row>
@@ -16,6 +15,8 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+  <ion-progress-bar *ngIf="userEvent?.event?.maximumCapacity" color="success" [value]="capacityPercentage()"></ion-progress-bar>
+
 
     <br />
     <ion-card-subtitle>Starts {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
