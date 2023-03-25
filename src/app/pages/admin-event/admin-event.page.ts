@@ -57,6 +57,14 @@ export class AdminEventPage implements OnInit, OnDestroy {
     return this.myForm.get('startDateTime');
   }
 
+  get minimumCapacity() {
+    return this.myForm.get('minimumCapacity');
+  }
+
+  get maximumCapacity() {
+    return this.myForm.get('maximumCapacity');
+  }
+
   get endDateTime() {
     return this.myForm.get('endDateTime');
   }
@@ -98,6 +106,8 @@ export class AdminEventPage implements OnInit, OnDestroy {
           eventDescription: new FormControl(result?.data?.event?.event?.description),
           startDateTime: new FormControl(moment(result?.data?.event?.event?.startDateTime).format()),
           endDateTime: new FormControl(moment(result?.data?.event?.event?.endDateTime).format()),
+          minimumCapacity: new FormControl(result?.data?.event?.event?.minimumCapacity),
+          maximumCapacity: new FormControl(result?.data?.event?.event?.maximumCapacity),
           location: new FormControl({
             latitude: result?.data?.event?.event?.latitude,
             longitude: result?.data?.event?.event?.longitude,
@@ -190,6 +200,8 @@ export class AdminEventPage implements OnInit, OnDestroy {
         description: this.eventDescription?.value,
         startDateTime: this.startDateTime?.value,
         endDateTime: this.endDateTime?.value,
+        minimumCapacity: this.minimumCapacity?.value,
+        maximumCapacity: this.maximumCapacity?.value,
         latitude: this.location?.value?.latitude,
         longitude: this.location?.value?.longitude,
         locationLabel: this.location?.value?.label || this.location?.value?.locationLabel,
