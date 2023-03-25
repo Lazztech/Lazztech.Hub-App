@@ -32,7 +32,9 @@
 
   <ion-card-content *ngIf="showRsvp">
     <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
-    <ion-text *ngIf="userEvent?.event?.description">{{userEvent?.event?.description}}</ion-text>
+    <ion-text class="formatted" *ngIf="userEvent?.event?.description">
+      {{userEvent?.event?.description}}
+    </ion-text>
   </ion-card-content>
 
   <ion-card-content *ngIf="showRsvp">

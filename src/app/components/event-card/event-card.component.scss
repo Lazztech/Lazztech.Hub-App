@@ -1,3 +1,7 @@
 .matchedItemBackground {
     --background: var(--ion-card-background, var(--ion-item-background, var(--ion-background-color, #fff)));
 }
+
+.formatted {
+    white-space: pre-wrap;
+}
