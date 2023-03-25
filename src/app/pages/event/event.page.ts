@@ -104,6 +104,13 @@ export class EventPage implements OnInit, OnDestroy {
     this.loading = false;
   }
 
+  capacityPercentage() {
+    const min = this.userEventQueryResult?.data?.event?.event?.minimumCapacity;
+    const max = this.userEventQueryResult?.data?.event?.event?.maximumCapacity;
+    const currentCapacity = 7;
+    return parseFloat(`${(100 * currentCapacity / max)}%`)  / 100;
+  }
+
   trackByUser(index: any, joinUserEvent: JoinUserEvent) {
     return joinUserEvent.userId;
   }
