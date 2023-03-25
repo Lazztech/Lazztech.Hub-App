@@ -46,6 +46,16 @@ export class EventCardComponent implements OnChanges {
     return parseFloat(`${(100 * currentCapacity / max)}%`)  / 100;
   }
 
+  hasHitMinimumCapacity() {
+    const currentCapacity = this.userEvent?.event?.usersConnection?.filter(user => user.rsvp === 'going')?.length;
+    const min = this.userEvent?.event?.minimumCapacity;
+    return currentCapacity >= min;
+  }
+
+  capacityColor() {
+    return (this.capacityPercentage() > 1 || !this.hasHitMinimumCapacity()) ? 'danger' : 'success';
+  }
+
   prettyCapacityPercentage() {
     return `${Math.trunc(this.capacityPercentage() * 100)}%`
   }
