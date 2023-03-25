@@ -47,7 +47,7 @@ export class EventCardComponent implements OnChanges {
   }
 
   prettyCapacityPercentage() {
-    return `${this.capacityPercentage() * 100}%`
+    return `${Math.trunc(this.capacityPercentage() * 100)}%`
   }
 
   async segmentChanged(ev: any) {
