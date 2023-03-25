@@ -42,8 +42,12 @@ export class EventCardComponent implements OnChanges {
   capacityPercentage() {
     const min = this.userEvent?.event?.minimumCapacity;
     const max = this.userEvent?.event?.maximumCapacity;
-    const currentCapacity = 7;
+    const currentCapacity = this.userEvent?.event?.usersConnection?.filter(user => user.rsvp === 'going')?.length;
     return parseFloat(`${(100 * currentCapacity / max)}%`)  / 100;
+  }
+
+  prettyCapacityPercentage() {
+    return `${this.capacityPercentage() * 100}%`
   }
 
   async segmentChanged(ev: any) {
