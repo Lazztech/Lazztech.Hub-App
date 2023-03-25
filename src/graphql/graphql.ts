@@ -668,6 +668,8 @@ export type CreateEventMutationVariables = Exact<{
   description?: InputMaybe<Scalars['String']>;
   startDateTime?: InputMaybe<Scalars['String']>;
   endDateTime?: InputMaybe<Scalars['String']>;
+  minimumCapacity?: InputMaybe<Scalars['Int']>;
+  maximumCapacity?: InputMaybe<Scalars['Int']>;
   latitude?: InputMaybe<Scalars['Float']>;
   longitude?: InputMaybe<Scalars['Float']>;
   locationLabel?: InputMaybe<Scalars['String']>;
@@ -1222,13 +1224,15 @@ export const ChangePasswordDocument = gql`
     }
   }
 export const CreateEventDocument = gql`
-    mutation createEvent($name: String!, $hubId: String, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload) {
+    mutation createEvent($name: String!, $hubId: String, $description: String, $startDateTime: String, $endDateTime: String, $minimumCapacity: Int, $maximumCapacity: Int, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload) {
   createEvent(
     name: $name
     hubId: $hubId
     description: $description
     startDateTime: $startDateTime
     endDateTime: $endDateTime
+    minimumCapacity: $minimumCapacity
+    maximumCapacity: $maximumCapacity
     latitude: $latitude
     longitude: $longitude
     locationLabel: $locationLabel
