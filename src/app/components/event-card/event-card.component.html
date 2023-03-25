@@ -9,13 +9,13 @@
           </ion-card-subtitle>
         </ion-col>
         <ion-col>
-          <ion-card-subtitle class="ion-float-right">
+          <ion-card-subtitle class="ion-float-right" color="{{capacityPercentage() > 1 ? 'danger' : undefined}}">
             {{prettyCapacityPercentage()}}
           </ion-card-subtitle>
         </ion-col>
       </ion-row>
     </ion-grid>
-  <ion-progress-bar *ngIf="userEvent?.event?.maximumCapacity" color="success" [value]="capacityPercentage()"></ion-progress-bar>
+  <ion-progress-bar *ngIf="userEvent?.event?.maximumCapacity" color="{{capacityPercentage() > 1 ? 'danger' : 'success'}}" [value]="capacityPercentage()"></ion-progress-bar>
 
 
     <br />
