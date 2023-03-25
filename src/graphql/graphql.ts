@@ -26,6 +26,7 @@ export type Block = {
 
 export type Event = {
   __typename?: 'Event';
+  coverImage?: Maybe<File>;
   createdBy?: Maybe<User>;
   description?: Maybe<Scalars['String']>;
   /** ISO 8601 Date Time */
@@ -39,6 +40,8 @@ export type Event = {
   locationLabel?: Maybe<Scalars['String']>;
   /** Returns from Hub if available, or else value from Event is returned */
   longitude?: Maybe<Scalars['Float']>;
+  maximumCapacity?: Maybe<Scalars['Float']>;
+  minimumCapacity?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
   shareableId: Scalars['String'];
   /** ISO 8601 Date Time */
@@ -53,9 +56,22 @@ export type ExpeditedRegistration = {
   username: Scalars['String'];
 };
 
+export type File = {
+  __typename?: 'File';
+  createdBy: User;
+  /** ISO 8601 Date Time */
+  createdOn: Scalars['String'];
+  fileName: Scalars['String'];
+  id: Scalars['ID'];
+  mimetype?: Maybe<Scalars['String']>;
+  shareableId: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+};
+
 export type Hub = {
   __typename?: 'Hub';
   active?: Maybe<Scalars['Boolean']>;
+  coverImage?: Maybe<File>;
   description?: Maybe<Scalars['String']>;
   events?: Maybe<Array<Event>>;
   id: Scalars['ID'];
@@ -228,11 +244,12 @@ export type MutationCreateEventArgs = {
   description?: InputMaybe<Scalars['String']>;
   endDateTime?: InputMaybe<Scalars['String']>;
   hubId?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
   imageFile?: InputMaybe<Scalars['Upload']>;
   latitude?: InputMaybe<Scalars['Float']>;
   locationLabel?: InputMaybe<Scalars['String']>;
   longitude?: InputMaybe<Scalars['Float']>;
+  maximumCapacity?: InputMaybe<Scalars['Int']>;
+  minimumCapacity?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
   startDateTime?: InputMaybe<Scalars['String']>;
 };
@@ -240,7 +257,6 @@ export type MutationCreateEventArgs = {
 
 export type MutationCreateHubArgs = {
   description?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
   imageFile?: InputMaybe<Scalars['Upload']>;
   latitude: Scalars['Float'];
   locationLabel?: InputMaybe<Scalars['String']>;
@@ -443,11 +459,12 @@ export type MutationUpdateEventArgs = {
   endDateTime?: InputMaybe<Scalars['String']>;
   eventId: Scalars['ID'];
   hubId?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
   imageFile?: InputMaybe<Scalars['Upload']>;
   latitude?: InputMaybe<Scalars['Float']>;
   locationLabel?: InputMaybe<Scalars['String']>;
   longitude?: InputMaybe<Scalars['Float']>;
+  maximumCapacity?: InputMaybe<Scalars['Int']>;
+  minimumCapacity?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
   startDateTime?: InputMaybe<Scalars['String']>;
 };
@@ -456,7 +473,6 @@ export type MutationUpdateEventArgs = {
 export type MutationUpdateHubArgs = {
   description?: InputMaybe<Scalars['String']>;
   hubId: Scalars['ID'];
-  image?: InputMaybe<Scalars['String']>;
   imageFile?: InputMaybe<Scalars['Upload']>;
   latitude: Scalars['Float'];
   locationLabel?: InputMaybe<Scalars['String']>;
@@ -571,6 +587,7 @@ export type User = {
   /** unix timestamp for the last time the user was successfully authenticated */
   lastOnline?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
+  profileImage?: Maybe<File>;
   shareableId: Scalars['String'];
   userDevices?: Maybe<Array<UserDevice>>;
   username?: Maybe<Scalars['String']>;
@@ -651,6 +668,8 @@ export type CreateEventMutationVariables = Exact<{
   description?: InputMaybe<Scalars['String']>;
   startDateTime?: InputMaybe<Scalars['String']>;
   endDateTime?: InputMaybe<Scalars['String']>;
+  minimumCapacity?: InputMaybe<Scalars['Int']>;
+  maximumCapacity?: InputMaybe<Scalars['Int']>;
   latitude?: InputMaybe<Scalars['Float']>;
   longitude?: InputMaybe<Scalars['Float']>;
   locationLabel?: InputMaybe<Scalars['String']>;
@@ -950,6 +969,8 @@ export type UpdateEventMutationVariables = Exact<{
   description?: InputMaybe<Scalars['String']>;
   startDateTime?: InputMaybe<Scalars['String']>;
   endDateTime?: InputMaybe<Scalars['String']>;
+  minimumCapacity?: InputMaybe<Scalars['Int']>;
+  maximumCapacity?: InputMaybe<Scalars['Int']>;
   latitude?: InputMaybe<Scalars['Float']>;
   longitude?: InputMaybe<Scalars['Float']>;
   locationLabel?: InputMaybe<Scalars['String']>;
@@ -993,7 +1014,7 @@ export type EventQueryVariables = Exact<{
 }>;
 
 
-export type EventQuery = { __typename?: 'Query', event: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null } | null } };
+export type EventQuery = { __typename?: 'Query', event: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, minimumCapacity?: number | null, maximumCapacity?: number | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null } | null } };
 
 export type HubQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1203,13 +1224,15 @@ export const ChangePasswordDocument = gql`
     }
   }
 export const CreateEventDocument = gql`
-    mutation createEvent($name: String!, $hubId: String, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload) {
+    mutation createEvent($name: String!, $hubId: String, $description: String, $startDateTime: String, $endDateTime: String, $minimumCapacity: Int, $maximumCapacity: Int, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload) {
   createEvent(
     name: $name
     hubId: $hubId
     description: $description
     startDateTime: $startDateTime
     endDateTime: $endDateTime
+    minimumCapacity: $minimumCapacity
+    maximumCapacity: $maximumCapacity
     latitude: $latitude
     longitude: $longitude
     locationLabel: $locationLabel
@@ -2007,13 +2030,15 @@ export const UnmuteDocument = gql`
     }
   }
 export const UpdateEventDocument = gql`
-    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload, $hubId: String) {
+    mutation updateEvent($eventId: ID!, $name: String!, $description: String, $startDateTime: String, $endDateTime: String, $minimumCapacity: Int, $maximumCapacity: Int, $latitude: Float, $longitude: Float, $locationLabel: String, $imageFile: Upload, $hubId: String) {
   updateEvent(
     eventId: $eventId
     name: $name
     description: $description
     startDateTime: $startDateTime
     endDateTime: $endDateTime
+    minimumCapacity: $minimumCapacity
+    maximumCapacity: $maximumCapacity
     latitude: $latitude
     longitude: $longitude
     locationLabel: $locationLabel
@@ -2209,6 +2234,8 @@ export const EventDocument = gql`
       description
       startDateTime
       endDateTime
+      minimumCapacity
+      maximumCapacity
       latitude
       longitude
       locationLabel

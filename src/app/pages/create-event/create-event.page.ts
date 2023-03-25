@@ -61,6 +61,14 @@ export class CreateEventPage implements OnInit, OnDestroy {
     return this.myForm.get('endDateTime');
   }
 
+  get minimumCapacity() {
+    return this.myForm.get('minimumCapacity');
+  }
+
+  get maximumCapacity() {
+    return this.myForm.get('maximumCapacity');
+  }
+
   get location() {
     return this.myForm.get('location');
   }
@@ -95,6 +103,8 @@ export class CreateEventPage implements OnInit, OnDestroy {
       eventDescription: new FormControl(this?.seed?.description || ''),
       startDateTime: new FormControl(moment(start).format()),
       endDateTime: new FormControl(moment(end).format()),
+      minimumCapacity: new FormControl(),
+      maximumCapacity: new FormControl(),
       location: new FormControl(),
     }, { validators: eventGroupValidator });
     
@@ -129,6 +139,8 @@ export class CreateEventPage implements OnInit, OnDestroy {
       description: this.eventDescription.value,
       startDateTime: new Date(this.startDateTime.value).toISOString(),
       endDateTime: new Date(this.endDateTime.value).toISOString(),
+      minimumCapacity: this.minimumCapacity?.value ? Number(this.minimumCapacity?.value) : undefined,
+      maximumCapacity: this.maximumCapacity?.value ? Number(this.maximumCapacity?.value) : undefined,
       latitude: this.location.value?.latitude,
       longitude: this.location?.value?.longitude,
       locationLabel: this.location?.value?.label,

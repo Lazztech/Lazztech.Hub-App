@@ -4,6 +4,8 @@ mutation updateEvent(
   $description: String
   $startDateTime: String
   $endDateTime: String
+  $minimumCapacity: Int
+  $maximumCapacity: Int
   $latitude: Float
   $longitude: Float
   $locationLabel: String
@@ -16,6 +18,8 @@ mutation updateEvent(
     description: $description
     startDateTime: $startDateTime
     endDateTime: $endDateTime
+    minimumCapacity: $minimumCapacity
+    maximumCapacity: $maximumCapacity
     latitude: $latitude
     longitude: $longitude
     locationLabel: $locationLabel

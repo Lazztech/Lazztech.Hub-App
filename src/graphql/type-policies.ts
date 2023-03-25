@@ -5,8 +5,9 @@ export type BlockFieldPolicy = {
 	from?: FieldPolicy<any> | FieldReadFunction<any>,
 	to?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EventKeySpecifier = ('createdBy' | 'description' | 'endDateTime' | 'hub' | 'id' | 'image' | 'latitude' | 'locationLabel' | 'longitude' | 'name' | 'shareableId' | 'startDateTime' | 'usersConnection' | EventKeySpecifier)[];
+export type EventKeySpecifier = ('coverImage' | 'createdBy' | 'description' | 'endDateTime' | 'hub' | 'id' | 'image' | 'latitude' | 'locationLabel' | 'longitude' | 'maximumCapacity' | 'minimumCapacity' | 'name' | 'shareableId' | 'startDateTime' | 'usersConnection' | EventKeySpecifier)[];
 export type EventFieldPolicy = {
+	coverImage?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdBy?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	endDateTime?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -16,6 +17,8 @@ export type EventFieldPolicy = {
 	latitude?: FieldPolicy<any> | FieldReadFunction<any>,
 	locationLabel?: FieldPolicy<any> | FieldReadFunction<any>,
 	longitude?: FieldPolicy<any> | FieldReadFunction<any>,
+	maximumCapacity?: FieldPolicy<any> | FieldReadFunction<any>,
+	minimumCapacity?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	startDateTime?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -27,9 +30,20 @@ export type ExpeditedRegistrationFieldPolicy = {
 	password?: FieldPolicy<any> | FieldReadFunction<any>,
 	username?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type HubKeySpecifier = ('active' | 'description' | 'events' | 'id' | 'image' | 'invites' | 'latitude' | 'locationLabel' | 'longitude' | 'microChats' | 'name' | 'shareableId' | 'usersConnection' | HubKeySpecifier)[];
+export type FileKeySpecifier = ('createdBy' | 'createdOn' | 'fileName' | 'id' | 'mimetype' | 'shareableId' | 'url' | FileKeySpecifier)[];
+export type FileFieldPolicy = {
+	createdBy?: FieldPolicy<any> | FieldReadFunction<any>,
+	createdOn?: FieldPolicy<any> | FieldReadFunction<any>,
+	fileName?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	mimetype?: FieldPolicy<any> | FieldReadFunction<any>,
+	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
+	url?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type HubKeySpecifier = ('active' | 'coverImage' | 'description' | 'events' | 'id' | 'image' | 'invites' | 'latitude' | 'locationLabel' | 'longitude' | 'microChats' | 'name' | 'shareableId' | 'usersConnection' | HubKeySpecifier)[];
 export type HubFieldPolicy = {
 	active?: FieldPolicy<any> | FieldReadFunction<any>,
+	coverImage?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -170,7 +184,7 @@ export type QueryFieldPolicy = {
 	usersHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersPeople?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('birthdate' | 'blocked' | 'blocks' | 'description' | 'email' | 'firstName' | 'id' | 'image' | 'lastName' | 'lastOnline' | 'phoneNumber' | 'shareableId' | 'userDevices' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('birthdate' | 'blocked' | 'blocks' | 'description' | 'email' | 'firstName' | 'id' | 'image' | 'lastName' | 'lastOnline' | 'phoneNumber' | 'profileImage' | 'shareableId' | 'userDevices' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	birthdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	blocked?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -183,6 +197,7 @@ export type UserFieldPolicy = {
 	lastName?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastOnline?: FieldPolicy<any> | FieldReadFunction<any>,
 	phoneNumber?: FieldPolicy<any> | FieldReadFunction<any>,
+	profileImage?: FieldPolicy<any> | FieldReadFunction<any>,
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	userDevices?: FieldPolicy<any> | FieldReadFunction<any>,
 	username?: FieldPolicy<any> | FieldReadFunction<any>
@@ -205,6 +220,10 @@ export type StrictTypedTypePolicies = {
 	ExpeditedRegistration?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ExpeditedRegistrationKeySpecifier | (() => undefined | ExpeditedRegistrationKeySpecifier),
 		fields?: ExpeditedRegistrationFieldPolicy,
+	},
+	File?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | FileKeySpecifier | (() => undefined | FileKeySpecifier),
+		fields?: FileFieldPolicy,
 	},
 	Hub?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | HubKeySpecifier | (() => undefined | HubKeySpecifier),

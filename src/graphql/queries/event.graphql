@@ -43,6 +43,8 @@ query event($id: ID!) {
       description
       startDateTime
       endDateTime
+      minimumCapacity
+      maximumCapacity
       latitude
       longitude
       locationLabel

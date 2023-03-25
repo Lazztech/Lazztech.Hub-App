@@ -39,6 +39,31 @@ export class EventCardComponent implements OnChanges {
     }
   }
 
+  goingCount() {
+    return this.userEvent?.event?.usersConnection?.filter(user => user.rsvp === 'going')?.length;
+  }
+
+  capacityPercentage() {
+    const min = this.userEvent?.event?.minimumCapacity;
+    const max = this.userEvent?.event?.maximumCapacity;
+    const currentCapacity = this.goingCount();
+    return parseFloat(`${(100 * currentCapacity / max)}%`)  / 100;
+  }
+
+  hasHitMinimumCapacity() {
+    const currentCapacity = this.goingCount();
+    const min = this.userEvent?.event?.minimumCapacity;
+    return currentCapacity >= min;
+  }
+
+  capacityColor() {
+    return (this.capacityPercentage() > 1 || !this.hasHitMinimumCapacity()) ? 'danger' : 'success';
+  }
+
+  prettyCapacityPercentage() {
+    return `${Math.trunc(this.capacityPercentage() * 100)}%`
+  }
+
   async segmentChanged(ev: any) {
     console.log('Segment changed', ev?.detail?.value);
     await this.rsvpService.mutate({
