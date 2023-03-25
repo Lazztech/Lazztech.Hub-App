@@ -43,11 +43,14 @@ query userEvents {
       description
       startDateTime
       endDateTime
+      minimumCapacity
+      maximumCapacity
       latitude
       longitude
       shareableId
       usersConnection {
         userId
+        rsvp
         user {
           id
           shareableId
