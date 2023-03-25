@@ -1,9 +1,13 @@
 <ion-card>
   <ion-img *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent?.event?.image}}"></ion-img>
+  <ion-progress-bar *ngIf="userEvent?.event?.maximumCapacity" color="success" [value]="capacityPercentage()"></ion-progress-bar>
   <ion-card-header (click)="goToEventPage()">
+    <ion-card-subtitle>
+      Participant Capacity: Min {{userEvent?.event?.minimumCapacity || 0}}, Max {{userEvent?.event?.maximumCapacity}}
+    </ion-card-subtitle>
+    <br />
     <ion-card-subtitle>Starts {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
     <ion-card-subtitle *ngIf="userEvent?.event?.endDateTime">Ends {{userEvent?.event?.endDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
-
     <ion-card-subtitle *ngIf="userEvent?.event?.createdBy">
       Created by {{userEvent?.event?.createdBy?.firstName}} {{userEvent?.event?.createdBy?.lastName}}
     </ion-card-subtitle>
