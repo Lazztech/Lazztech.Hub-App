@@ -23,6 +23,10 @@
 
     <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
 
+    <ion-card style="height:30%" (click)="goToMap()">
+      <app-maplibre></app-maplibre>
+    </ion-card>
+
     <ion-card *ngIf="locationService.location" style="height:30%" (click)="goToMap()">
           <app-leaflet-map [center]="locationService.location" [yourLocation]="locationService.location" [navOnMarker]="true" [locations]="hubs"></app-leaflet-map>
     </ion-card>
