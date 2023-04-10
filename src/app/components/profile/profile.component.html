@@ -22,8 +22,8 @@
       </ion-col>
       <ion-col>
         <ion-avatar>
-          <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!user.image" src="{{user.id | avatar}}">
-          <img *ngIf="user.image" src="{{user.image}}">
+          <img ionImgViewer width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!user.image" src="{{user.id | avatar}}">
+          <img ionImgViewer *ngIf="user.image" src="{{user.image}}">
         </ion-avatar>
       </ion-col>
     </ion-row>

@@ -1,5 +1,5 @@
 <ion-card>
-  <ion-img *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent?.event?.image}}"></ion-img>
+  <ion-img ionImgViewer *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent?.event?.image}}"></ion-img>
   <ion-card-header (click)="goToEventPage()">
     <ion-grid class="ion-no-padding" *ngIf="userEvent?.event?.maximumCapacity">
       <ion-row>
