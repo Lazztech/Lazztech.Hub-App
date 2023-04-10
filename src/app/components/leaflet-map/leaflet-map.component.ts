@@ -120,7 +120,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
 
   setCenter() {
     if (this.center?.latitude && this.center?.longitude) {
-      this.map.setView([this.center?.latitude, this.center?.longitude], 13);
+      this.map.setView([this.center?.latitude, this.center?.longitude], 12);
     }
   }
 
