@@ -124,6 +124,8 @@
     "moment": "^2.29.4",
     "ngx-logger": "^5.0.11",
     "ngx-moment": "^6.0.2",
+    "pmtiles": "^2.7.1",
+    "protomaps": "^1.23.1",
     "rxjs": "^7.5.7",
     "stripe": "^11.1.0",
     "tslib": "^2.4.1",
