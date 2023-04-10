@@ -14,6 +14,8 @@ import { InviteComponent } from './invite/invite.component';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { MicroChatComponent } from './micro-chat/micro-chat.component';
 import { ProfileComponent } from './profile/profile.component';
+import { NgxIonicImageViewerModule } from 'ngx-ionic-image-viewer';
+
 
 @NgModule({
     declarations: [
@@ -35,6 +37,7 @@ import { ProfileComponent } from './profile/profile.component';
         DirectivesModule,
         PipesModule,
         MomentModule,
+        NgxIonicImageViewerModule,
     ],
     exports: [
         HubCardComponent,

@@ -1,6 +1,6 @@
 <ion-card>
   <div *ngIf="!compact">
-    <ion-img *ngIf="hub.image" class="cliped" ngClass="right-box" src="{{hub.image}}"></ion-img>
+    <ion-img ionImgViewer *ngIf="hub.image" class="cliped" ngClass="right-box" src="{{hub.image}}"></ion-img>
   </div>
   <ion-thumbnail class="ion-float-left" style="--size: 98px;" *ngIf="compact && hub?.image">
     <ion-skeleton-text *ngIf="!hub.image" animated></ion-skeleton-text>

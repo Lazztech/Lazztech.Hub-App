@@ -86,7 +86,9 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
       dragging: this.showControls,
       doubleClickZoom: this.showControls
     }).addLayer(tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        tileSize: 128,
+        zoomOffset: 1
     }));
 
     this.setCenter();

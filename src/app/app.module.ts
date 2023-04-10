@@ -34,6 +34,7 @@ import {
 import { ProfilePageModule } from './pages/profile/profile.module';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
+import { NgxIonicImageViewerModule } from 'ngx-ionic-image-viewer';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -64,6 +65,7 @@ import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
         LoggerModule.forRoot(environment.logging),
         GraphQLModule,
         ProfilePageModule,
+        NgxIonicImageViewerModule
     ],
     providers: [
         StatusBar,
