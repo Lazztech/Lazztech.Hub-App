@@ -84,9 +84,10 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
     this.map = new Map(`map${this.id}`, {
       zoomControl: this.showControls,
       dragging: this.showControls,
-      doubleClickZoom: this.showControls
+      doubleClickZoom: this.showControls,
+      attributionControl: false,
     }).addLayer(tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         tileSize: 128,
         zoomOffset: 1
     }));
