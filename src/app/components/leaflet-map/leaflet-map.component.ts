@@ -7,6 +7,7 @@ import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
 import { environment } from 'src/environments/environment';
 import _ from 'lodash-es';
+import * as protomaps from 'protomaps';
 
 @Component({
   selector: 'app-leaflet-map',
@@ -81,16 +82,21 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
   }
 
   initMap() {
+    const pmtilesUrl = 'https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles';
     this.map = new Map(`map${this.id}`, {
       zoomControl: this.showControls,
       dragging: this.showControls,
-      doubleClickZoom: this.showControls,
+      maxZoom: 11,
+      // doubleClickZoom: this.showControls,
       attributionControl: false,
-    }).addLayer(tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        tileSize: 128,
-        zoomOffset: 1
-    }));
+    });
+    // .addLayer(tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    //     tileSize: 128,
+    //     zoomOffset: 1
+    // }));
+    const layer = protomaps.leafletLayer({url: pmtilesUrl})
+    layer.addTo(this.map);
 
     this.setCenter();
     this.locations?.forEach(hub => this.addMarker(hub));
@@ -113,7 +119,7 @@ export class LeafletMapComponent implements OnChanges, AfterViewInit {
 
   setCenter() {
     if (this.center?.latitude && this.center?.longitude) {
-      this.map.setView([this.center?.latitude, this.center?.longitude], 13);
+      this.map.setView([this.center?.latitude, this.center?.longitude], 11);
     }
   }
 
