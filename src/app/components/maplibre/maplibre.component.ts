@@ -47,14 +47,14 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         sources: {
           "protomaps": {
             type: "vector",
-            url: 'https://api.protomaps.com/tiles/v2/{z}/{x}/{y}.pbf?key=6fc55da14fd4da85',
+            url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
             attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
           }
         },
         layers: layers("protomaps", "light")
       },
       center: { lat: this.center.latitude, lon: this.center.longitude },
-      zoom: 9 // starting zoom
+      zoom: 10 // starting zoom
     });
   }
 
