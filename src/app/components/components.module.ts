@@ -14,6 +14,7 @@ import { InviteComponent } from './invite/invite.component';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { MicroChatComponent } from './micro-chat/micro-chat.component';
 import { ProfileComponent } from './profile/profile.component';
+import { MaplibreComponent } from './maplibre/maplibre.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { ProfileComponent } from './profile/profile.component';
         LeafletMapComponent,
         EventCardComponent,
         InviteComponent,
+        MaplibreComponent,
     ],
     imports: [
         IonicModule,
