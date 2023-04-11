@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import maplibregl, { Map } from 'maplibre-gl';
+import * as pmtiles from "pmtiles";
+import layers from 'protomaps-themes-base';
 
 @Component({
   selector: 'app-maplibre',
@@ -35,9 +37,22 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const map = new maplibregl.Map({
+    let protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol("pmtiles",protocol.tile);
+    this.map = new maplibregl.Map({
       container: 'map',
-      style: 'https://demotiles.maplibre.org/style.json', // stylesheet location
+      style: {
+        version: 8,
+        glyphs: 'https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf',
+        sources: {
+          "protomaps": {
+            type: "vector",
+            url: 'https://api.protomaps.com/tiles/v2/{z}/{x}/{y}.pbf?key=6fc55da14fd4da85',
+            attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
+          }
+        },
+        layers: layers("protomaps", "light")
+      },
       center: { lat: this.center.latitude, lon: this.center.longitude },
       zoom: 9 // starting zoom
     });
