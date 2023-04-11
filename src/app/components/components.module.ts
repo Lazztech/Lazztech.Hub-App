@@ -46,7 +46,8 @@ import { MaplibreComponent } from './maplibre/maplibre.component';
         HubProfileComponent,
         LeafletMapComponent,
         EventCardComponent,
-        InviteComponent
+        InviteComponent,
+        MaplibreComponent,
     ]
 })
 export class ComponentsModule {
