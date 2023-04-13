@@ -41,20 +41,14 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     maplibregl.addProtocol("pmtiles",protocol.tile);
     this.map = new maplibregl.Map({
       container: 'map',
-      style: {
-        version: 8,
-        glyphs: 'https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf',
-        sources: {
-          "protomaps": {
-            type: "vector",
-            url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
-            attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
-          }
-        },
-        layers: layers("protomaps", "light")
-      },
+      style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
       center: { lat: this.center.latitude, lon: this.center.longitude },
       zoom: 10 // starting zoom
+    })
+    this.map.addSource('protomaps', {
+      type: "vector",
+      url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
+      attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
     });
   }
 
