@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-    <app-leaflet-map
+    <app-maplibre>
       *ngIf="locationService.location"
       [center]="center || locationService.location" 
       [locations]="hubs"
@@ -19,5 +19,5 @@
       [enableSearch]="false"
       (searchSelected)="onSearchSelected($event)"
       (loading)="onMapLoading($event)"
-    ></app-leaflet-map>
+    </app-maplibre>
 </ion-content>
