@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import maplibregl, { Map } from 'maplibre-gl';
+import maplibregl, { GeoJSONSource, Map } from 'maplibre-gl';
 import * as pmtiles from "pmtiles";
 
 @Component({
@@ -37,15 +37,16 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
 
   // implementation of StyleImageInterface to draw a pulsing dot icon on the map
   // see https://maplibre.org/maplibre-gl-js-docs/api/properties/#styleimageinterface for more info
-  pulsingDot: any;
+  yourLocationPulsingDot: any;
+  yourLocationPulsingDotGeoData: any;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.map && changes.center) {
       this.flyTo();
     }
-    // if (this.map && changes.yourLocation) {
-    //   this.updateYourLocationMarker();
-    // }
+    if (this.map && changes.yourLocation) {
+      this.updateYourLocationMarker();
+    }
     if (this.map && changes?.locations) {
       this.locations?.forEach(location => this.addMarker(location));
     }
@@ -81,7 +82,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       this.map.addControl(new maplibregl.NavigationControl({
         showCompass: true,
         showZoom: false,
-        // visualizePitch: true,
       }));
 
       console.log(this.map)
@@ -90,33 +90,29 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         compact: false,
       }));
 
-
-
-
       // this.rotateCamera(0, this.map);
-      this.pulsingDot = this.createPulsingDot(this.map, this.size);
-
-      this.map.addImage('pulsing-dot', this.pulsingDot, { pixelRatio: 2 });
-
-      this.map.addSource('points', {
-        'type': 'geojson',
-        'data': {
-          'type': 'FeatureCollection',
-          'features': [
-            {
-              'type': 'Feature',
-              'geometry': {
-                'type': 'Point',
-                'coordinates': [this.center.longitude, this.center.latitude]
-              }
+      this.yourLocationPulsingDot = this.createPulsingDot(this.map, this.size);
+      this.map.addImage('pulsing-dot', this.yourLocationPulsingDot, { pixelRatio: 2 });
+      this.yourLocationPulsingDotGeoData = {
+        'type': 'FeatureCollection',
+        'features': [
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [this.center.longitude, this.center.latitude]
             }
-          ]
-        }
+          }
+        ]
+      };
+      this.map.addSource('yourLocationPulsingDotPoint', {
+        'type': 'geojson',
+        'data': this.yourLocationPulsingDotGeoData,
       });
       this.map.addLayer({
-        'id': 'points',
+        'id': 'yourLocationPulsingDotPoint',
         'type': 'symbol',
-        'source': 'points',
+        'source': 'yourLocationPulsingDotPoint',
         'layout': {
           'icon-image': 'pulsing-dot'
         }
@@ -161,6 +157,13 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       }
       mk.addTo(this.map);
     }
+  }
+
+  updateYourLocationMarker() {
+    // Update the Point feature in `geojson` coordinates
+    // and call setData to the source layer `point` on it.
+    this.yourLocationPulsingDotGeoData.features[0].geometry.coordinates = [this.yourLocation.longitude, this.yourLocation.latitude];
+    (this.map.getSource('yourLocationPulsingDotPoint') as GeoJSONSource).setData(this.yourLocationPulsingDotGeoData);
   }
 
   createPulsingDot = (map: Map, size: number) => ({
