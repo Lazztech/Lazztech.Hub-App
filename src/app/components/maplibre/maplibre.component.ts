@@ -45,32 +45,31 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
       // style: 'https://raw.githubusercontent.com/openmaptiles/maptiler-3d-gl-style/master/style.json',
       // style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
-      center: { lat: this.center?.latitude, lon: this.center?.longitude },
       zoom: 16, // starting zoom
       pitch: 45,
       bearing: -17.6,
       antialias: true,
       attributionControl: true,
       customAttribution: 'asdf'
-    })
-    this.map.addSource('protomaps', {
-      type: "vector",
-      url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
-      attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
     });
-
-    // this.map.addControl(new maplibregl.AttributionControl({
-      
-    //   }));
 
     // The 'building' layer in the streets vector source contains building-height
     // data from OpenStreetMap.
-    this.map.on('load', function () {
-      // Insert the layer beneath any symbol layer.
-      var layers = this.map.getStyle().layers;
+    this.map.on('load', () => {
+      this.map.resize();
+      this.setCenter();
 
-      var labelLayerId;
-      for (var i = 0; i < layers.length; i++) {
+      this.map.addSource('protomaps', {
+        type: "vector",
+        url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
+        attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
+      });
+
+      // Insert the layer beneath any symbol layer.
+      const layers = this.map.getStyle().layers;
+
+      let labelLayerId;
+      for (let i = 0; i < layers.length; i++) {
         if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
           labelLayerId = layers[i].id;
           break;
@@ -97,7 +96,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
               15,
               0,
               15.05,
-              ['get', 'height']
+              ['get', 'height'] as any
             ],
             'fill-extrusion-base': [
               'interpolate',
@@ -106,7 +105,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
               15,
               0,
               15.05,
-              ['get', 'min_height']
+              ['get', 'min_height']  as any
             ],
             'fill-extrusion-opacity': 0.6
           }
