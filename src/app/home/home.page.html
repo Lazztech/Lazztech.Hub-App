@@ -27,10 +27,6 @@
       <app-maplibre [center]="locationService.location" [yourLocation]="locationService.location" [navOnMarker]="true" [locations]="hubs"></app-maplibre>
     </ion-card>
 
-    <!-- <ion-card *ngIf="locationService.location" style="height:30%" (click)="goToMap()">
-          <app-leaflet-map [center]="locationService.location" [yourLocation]="locationService.location" [navOnMarker]="true" [locations]="hubs"></app-leaflet-map>
-    </ion-card> -->
-
     <ion-card *ngIf="!locationService.location" style="height:30%">
       <ion-skeleton-text animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
