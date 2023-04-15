@@ -53,8 +53,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       container: `map${this.id}`,
       scrollZoom: true,
       style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
-      // style: 'https://raw.githubusercontent.com/openmaptiles/maptiler-3d-gl-style/master/style.json',
-      // style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
       zoom: 16, // starting zoom
       pitch: 45,
       bearing: -17.6,
@@ -72,54 +70,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       });
-
-      // Insert the layer beneath any symbol layer.
-      const layers = this.map.getStyle().layers;
-
-      let labelLayerId;
-      for (let i = 0; i < layers.length; i++) {
-        if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
-          labelLayerId = layers[i].id;
-          break;
-        }
-      }
-
-      this.map.addLayer(
-        {
-          'id': '3d-buildings',
-          'source': 'openmaptiles',
-          'source-layer': 'building',
-          'filter': ['==', 'extrude', 'true'],
-          'type': 'fill-extrusion',
-          'minzoom': 15,
-          'paint': {
-            'fill-extrusion-color': '#aaa',
-
-            // use an 'interpolate' expression to add a smooth transition effect to the
-            // buildings as the user zooms in
-            'fill-extrusion-height': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              15,
-              0,
-              15.05,
-              ['get', 'height'] as any
-            ],
-            'fill-extrusion-base': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              15,
-              0,
-              15.05,
-              ['get', 'min_height']  as any
-            ],
-            'fill-extrusion-opacity': 0.6
-          }
-        },
-        labelLayerId
-      );
     });
   }
 
