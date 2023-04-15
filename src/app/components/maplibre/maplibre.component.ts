@@ -60,7 +60,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       scrollZoom: true,
       style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
       zoom: 16, // starting zoom
-      pitch: 45,
+      pitch: 10,
       // bearing: -17.6,
       antialias: true,
       attributionControl: false
