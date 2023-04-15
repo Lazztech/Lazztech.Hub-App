@@ -47,9 +47,9 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     // if (this.map && changes.yourLocation) {
     //   this.updateYourLocationMarker();
     // }
-    // if (this.map && changes?.locations) {
-    //   this.locations?.forEach(location => this.addMarker(location));
-    // }
+    if (this.map && changes?.locations) {
+      this.locations?.forEach(location => this.addMarker(location));
+    }
   }
 
   ngAfterViewInit(): void {
@@ -89,7 +89,12 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
 
       this.map.addControl(new maplibregl.AttributionControl({
         compact: false,
-      }))
+      }));
+
+
+      if (this.locations) {
+        this.locations?.forEach(location => this.addMarker(location));
+      }
 
       // this.rotateCamera(0, this.map);
       this.pulsingDot = this.createPulsingDot(this.map, this.size);
@@ -142,6 +147,18 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   setCenter() {
     if (this.center?.latitude && this.center?.longitude) {
       this.map.setCenter({ lat: this.center.latitude, lon: this.center.longitude }, 12);
+    }
+  }
+
+  addMarker(location: { id?: number, latitude: number, longitude: number }) {
+    if (location) {
+      const mk = new maplibregl.Marker()
+        .setLngLat({ lat: location.latitude, lon: location.longitude })
+        .addTo(this.map);
+      if (this.navOnMarker && location?.id) {
+        mk.on('click', () => this.navCtrl.navigateForward('hub/' + location.id));
+      }
+      mk.addTo(this.map);
     }
   }
 
