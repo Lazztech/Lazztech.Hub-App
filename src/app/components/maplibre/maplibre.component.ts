@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import maplibregl, { Map } from 'maplibre-gl';
 import * as pmtiles from "pmtiles";
 import layers from 'protomaps-themes-base';
@@ -10,6 +11,13 @@ import layers from 'protomaps-themes-base';
 })
 export class MaplibreComponent implements OnChanges, AfterViewInit {
 
+  /**
+   * used to ensure unique map instances to allow for multiple maps
+   */
+  id = Date.now();
+  /**
+   * for accessing map instance
+   */
   map: Map;
 
   @Input() center: { latitude: any; longitude: any; };
@@ -22,7 +30,9 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   @Output() loading = new EventEmitter<boolean>();
   @Output() searchSelected = new EventEmitter<{ latitude: number, longitude: number, label: string }>();
 
-  constructor() { }
+  constructor(
+    public navCtrl: NavController,
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.map && changes.center) {
@@ -40,11 +50,11 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     let protocol = new pmtiles.Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
     this.map = new maplibregl.Map({
-      container: 'map',
+      container: `map${this.id}`,
       scrollZoom: true,
-      style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
+      // style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
       // style: 'https://raw.githubusercontent.com/openmaptiles/maptiler-3d-gl-style/master/style.json',
-      // style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
+      style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
       zoom: 16, // starting zoom
       pitch: 45,
       bearing: -17.6,
