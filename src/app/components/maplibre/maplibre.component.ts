@@ -71,6 +71,13 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       });
 
+      // Add zoom and rotation controls to the map.
+      this.map.addControl(new maplibregl.NavigationControl({
+        showCompass: true,
+        showZoom: false,
+        // visualizePitch: true,
+      }));
+
       this.rotateCamera(0, this.map);
     });
   }
