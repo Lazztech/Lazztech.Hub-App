@@ -38,6 +38,7 @@
               "src/firebase-messaging-sw.js"
             ],
             "styles": [
+              "./node_modules/maplibre-gl/dist/maplibre-gl.css",
               {
                 "input": "src/theme/variables.scss",
                 "inject": true

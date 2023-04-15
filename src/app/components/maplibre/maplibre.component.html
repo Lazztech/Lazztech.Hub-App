@@ -1,1 +1,7 @@
+<div *ngIf="enableSearch">
+    <ion-searchbar debounce="1000" (ionInput)="debouncedSearchFunc($event)" showCancelButton="focus"></ion-searchbar>
+    <ion-list *ngIf="searchResults">
+        <ion-item *ngFor="let result of searchResults" (click)="selectSearch(result)">{{ result.label }}</ion-item>
+      </ion-list>
+</div>
 <div id='map' style='width: 100%; height: 100%;'></div>

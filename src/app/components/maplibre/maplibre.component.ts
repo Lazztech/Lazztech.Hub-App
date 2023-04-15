@@ -49,8 +49,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       pitch: 45,
       bearing: -17.6,
       antialias: true,
-      attributionControl: true,
-      customAttribution: 'asdf'
     });
 
     // The 'building' layer in the streets vector source contains building-height
