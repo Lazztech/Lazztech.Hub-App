@@ -42,7 +42,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.map && changes.center) {
-      this.setCenter();
+      this.flyTo();
     }
     // if (this.map && changes.yourLocation) {
     //   this.updateYourLocationMarker();
@@ -61,8 +61,9 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
       zoom: 16, // starting zoom
       pitch: 45,
-      bearing: -17.6,
+      // bearing: -17.6,
       antialias: true,
+      attributionControl: false
     });
 
     // The 'building' layer in the streets vector source contains building-height
@@ -84,7 +85,13 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         // visualizePitch: true,
       }));
 
-      this.rotateCamera(0, this.map);
+      console.log(this.map)
+
+      this.map.addControl(new maplibregl.AttributionControl({
+        compact: false,
+      }))
+
+      // this.rotateCamera(0, this.map);
       this.pulsingDot = this.createPulsingDot(this.map, this.size);
 
       this.map.addImage('pulsing-dot', this.pulsingDot, { pixelRatio: 2 });
@@ -121,6 +128,15 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     map.rotateTo((timestamp / 100) % 360, { duration: 0 });
     // Request the next frame of the animation.
     requestAnimationFrame((t) => this.rotateCamera(t, map));
+  }
+
+  flyTo() {
+    if (this.center?.latitude && this.center?.longitude) {
+      this.map.flyTo({ 
+        center: { lat: this.center.latitude, lon: this.center.longitude },
+        zoom: 16,
+      });
+    }
   }
 
   setCenter() {
