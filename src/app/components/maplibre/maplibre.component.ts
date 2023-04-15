@@ -70,7 +70,17 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       });
+
+      this.rotateCamera(0, this.map);
     });
+  }
+
+  rotateCamera(timestamp, map) {
+    // clamp the rotation between 0 -360 degrees
+    // Divide timestamp by 100 to slow rotation to ~10 degrees / sec
+    map.rotateTo((timestamp / 100) % 360, { duration: 0 });
+    // Request the next frame of the animation.
+    requestAnimationFrame((t) => this.rotateCamera(t, map));
   }
 
   setCenter() {
