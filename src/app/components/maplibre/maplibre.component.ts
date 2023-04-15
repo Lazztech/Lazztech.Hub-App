@@ -33,8 +33,9 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     public navCtrl: NavController,
   ) { }
 
-  size = 100;
+  modalInitialBreakpoint: number;
 
+  size = 100;
   // implementation of StyleImageInterface to draw a pulsing dot icon on the map
   // see https://maplibre.org/maplibre-gl-js-docs/api/properties/#styleimageinterface for more info
   yourLocationPulsingDot: any;
@@ -65,6 +66,13 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       antialias: true,
       attributionControl: false
     });
+
+    const searchBarHeightPixes = 60;
+    const screenHeight = window.screen.height;
+    const percentage = ( screenHeight - searchBarHeightPixes ) / screenHeight ; // 0.92%
+    console.log(percentage)
+    this.modalInitialBreakpoint = percentage / 10;
+
 
     // The 'building' layer in the streets vector source contains building-height
     // data from OpenStreetMap.
