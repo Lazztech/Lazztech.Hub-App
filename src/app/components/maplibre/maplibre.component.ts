@@ -52,9 +52,9 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     this.map = new maplibregl.Map({
       container: `map${this.id}`,
       scrollZoom: true,
-      // style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
+      style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
       // style: 'https://raw.githubusercontent.com/openmaptiles/maptiler-3d-gl-style/master/style.json',
-      style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
+      // style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
       zoom: 16, // starting zoom
       pitch: 45,
       bearing: -17.6,
