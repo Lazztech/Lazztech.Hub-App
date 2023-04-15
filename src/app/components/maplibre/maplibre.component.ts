@@ -2,7 +2,6 @@ import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, Simpl
 import { NavController } from '@ionic/angular';
 import maplibregl, { Map } from 'maplibre-gl';
 import * as pmtiles from "pmtiles";
-import layers from 'protomaps-themes-base';
 
 @Component({
   selector: 'app-maplibre',
@@ -92,9 +91,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       }));
 
 
-      if (this.locations) {
-        this.locations?.forEach(location => this.addMarker(location));
-      }
+
 
       // this.rotateCamera(0, this.map);
       this.pulsingDot = this.createPulsingDot(this.map, this.size);
@@ -125,6 +122,10 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         }
       });
     });
+
+    if (this.locations) {
+      this.locations?.forEach(location => this.addMarker(location));
+    }
   }
 
   rotateCamera(timestamp, map) {
@@ -152,7 +153,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
 
   addMarker(location: { id?: number, latitude: number, longitude: number }) {
     if (location) {
-      const mk = new maplibregl.Marker()
+      const mk = new maplibregl.Marker({ color: getComputedStyle(document.documentElement).getPropertyValue('--ion-color-primary') })
         .setLngLat({ lat: location.latitude, lon: location.longitude })
         .addTo(this.map);
       if (this.navOnMarker && location?.id) {
