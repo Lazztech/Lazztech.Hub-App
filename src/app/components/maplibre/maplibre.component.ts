@@ -2,6 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, Simpl
 import { NavController } from '@ionic/angular';
 import maplibregl, { GeoJSONSource, Map } from 'maplibre-gl';
 import * as pmtiles from "pmtiles";
+import layers from 'protomaps-themes-base';
 
 @Component({
   selector: 'app-maplibre',
@@ -9,6 +10,19 @@ import * as pmtiles from "pmtiles";
   styleUrls: ['./maplibre.component.css']
 })
 export class MaplibreComponent implements OnChanges, AfterViewInit {
+
+  style: any =  {
+    version:8,
+    glyphs:'https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf',
+    sources: {
+        "protomaps": {
+            type: "vector",
+            url: "pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles",
+            attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
+        }
+    },
+    layers: layers("protomaps","light")
+}
 
   /**
    * used to ensure unique map instances to allow for multiple maps
@@ -67,17 +81,10 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     console.log('map loaded', map);
     this.map = map;
 
-    // The 'building' layer in the streets vector source contains building-height
-    // data from OpenStreetMap.
     this.map.resize();
 
-    this.map.addSource('protomaps', {
-      type: "vector",
-      url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
-      attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
-    });
-
     // this.rotateCamera(0, this.map);
+
     this.yourLocationPulsingDot = this.createPulsingDot(this.map, this.size);
     this.map.addImage('pulsing-dot', this.yourLocationPulsingDot, { pixelRatio: 2 });
     this.yourLocationPulsingDotGeoData = {
