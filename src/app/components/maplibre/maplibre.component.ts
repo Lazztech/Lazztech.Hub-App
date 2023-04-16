@@ -61,9 +61,9 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   yourLocationPulsingDotGeoData: any;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.map && changes.center) {
-      this.flyTo();
-    }
+    // if (this.map && changes.center) {
+    //   this.flyTo();
+    // }
     if (this.map && changes.yourLocation) {
       this.updateYourLocationMarker();
     }
@@ -85,6 +85,8 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     this.map = map;
 
     this.map.resize();
+    
+    setTimeout(() => this.flyTo(), 1000);
 
     // this.rotateCamera(0, this.map);
 
