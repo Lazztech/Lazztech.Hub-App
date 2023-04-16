@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import maplibregl, { GeoJSONSource, Map } from 'maplibre-gl';
 import * as pmtiles from "pmtiles";
@@ -17,6 +17,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   /**
    * for accessing map instance
    */
+  @ViewChild('map')
   map: Map;
 
   @Input() center: { latitude: any; longitude: any; };
@@ -34,6 +35,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   ) { }
 
   modalInitialBreakpoint: number;
+  markerColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-primary');
 
   size = 100;
   // implementation of StyleImageInterface to draw a pulsing dot icon on the map
@@ -48,88 +50,60 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     if (this.map && changes.yourLocation) {
       this.updateYourLocationMarker();
     }
-    if (this.map && changes?.locations) {
-      this.locations?.forEach(location => this.addMarker(location));
-    }
   }
 
   ngAfterViewInit(): void {
     let protocol = new pmtiles.Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
-    this.map = new maplibregl.Map({
-      container: `map${this.id}`,
-      scrollZoom: true,
-      style: 'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json',
-      zoom: 16, // starting zoom
-      pitch: 10,
-      // bearing: -17.6,
-      antialias: true,
-      attributionControl: false
-    });
 
     const searchBarHeightPixes = 60;
     const screenHeight = window.screen.height;
     const percentage = ( screenHeight - searchBarHeightPixes ) / screenHeight ; // 0.92%
     console.log(percentage)
     this.modalInitialBreakpoint = percentage / 10;
+  }
 
+  onMapLoad(map: Map) {
+    console.log('map loaded', map);
+    this.map = map;
 
     // The 'building' layer in the streets vector source contains building-height
     // data from OpenStreetMap.
-    this.map.on('load', () => {
-      this.map.resize();
-      this.setCenter();
+    this.map.resize();
 
-      this.map.addSource('protomaps', {
-        type: "vector",
-        url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
-        attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
-      });
-
-      // Add zoom and rotation controls to the map.
-      this.map.addControl(new maplibregl.NavigationControl({
-        showCompass: true,
-        showZoom: false,
-      }));
-
-      console.log(this.map)
-
-      this.map.addControl(new maplibregl.AttributionControl({
-        compact: false,
-      }));
-
-      // this.rotateCamera(0, this.map);
-      this.yourLocationPulsingDot = this.createPulsingDot(this.map, this.size);
-      this.map.addImage('pulsing-dot', this.yourLocationPulsingDot, { pixelRatio: 2 });
-      this.yourLocationPulsingDotGeoData = {
-        'type': 'FeatureCollection',
-        'features': [
-          {
-            'type': 'Feature',
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [this.center.longitude, this.center.latitude]
-            }
-          }
-        ]
-      };
-      this.map.addSource('yourLocationPulsingDotPoint', {
-        'type': 'geojson',
-        'data': this.yourLocationPulsingDotGeoData,
-      });
-      this.map.addLayer({
-        'id': 'yourLocationPulsingDotPoint',
-        'type': 'symbol',
-        'source': 'yourLocationPulsingDotPoint',
-        'layout': {
-          'icon-image': 'pulsing-dot'
-        }
-      });
+    this.map.addSource('protomaps', {
+      type: "vector",
+      url: 'pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles',
+      attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
     });
 
-    if (this.locations) {
-      this.locations?.forEach(location => this.addMarker(location));
-    }
+    // this.rotateCamera(0, this.map);
+    this.yourLocationPulsingDot = this.createPulsingDot(this.map, this.size);
+    this.map.addImage('pulsing-dot', this.yourLocationPulsingDot, { pixelRatio: 2 });
+    this.yourLocationPulsingDotGeoData = {
+      'type': 'FeatureCollection',
+      'features': [
+        {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [this.center.longitude, this.center.latitude]
+          }
+        }
+      ]
+    };
+    this.map.addSource('yourLocationPulsingDotPoint', {
+      'type': 'geojson',
+      'data': this.yourLocationPulsingDotGeoData,
+    });
+    this.map.addLayer({
+      'id': 'yourLocationPulsingDotPoint',
+      'type': 'symbol',
+      'source': 'yourLocationPulsingDotPoint',
+      'layout': {
+        'icon-image': 'pulsing-dot'
+      }
+    });
   }
 
   rotateCamera(timestamp, map) {
@@ -149,22 +123,8 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  setCenter() {
-    if (this.center?.latitude && this.center?.longitude) {
-      this.map.setCenter({ lat: this.center.latitude, lon: this.center.longitude }, 12);
-    }
-  }
-
-  addMarker(location: { id?: number, latitude: number, longitude: number }) {
-    if (location) {
-      const mk = new maplibregl.Marker({ color: getComputedStyle(document.documentElement).getPropertyValue('--ion-color-primary') })
-        .setLngLat({ lat: location.latitude, lon: location.longitude })
-        .addTo(this.map);
-      if (this.navOnMarker && location?.id) {
-        mk.on('click', () => this.navCtrl.navigateForward('hub/' + location.id));
-      }
-      mk.addTo(this.map);
-    }
+  markerOnClick(location) {
+    this.navCtrl.navigateForward('hub/' + location.id)
   }
 
   updateYourLocationMarker() {

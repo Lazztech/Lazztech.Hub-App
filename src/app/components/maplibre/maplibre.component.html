@@ -1,4 +1,49 @@
-<div id="map{{id}}" style='width: 100%; height: 100%;'></div>
+<mgl-map
+  #map
+  [style]="'https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json'"
+  [zoom]="[16]"
+  [center]="[center?.longitude, center?.latitude]"
+  [zoom]="16"
+  [pitch]="10"
+  [antialias]="true"
+  (mapLoad)="onMapLoad($event)"
+  [attributionControl]="false"
+>
+  <!-- Map Configuration -->
+  <mgl-control
+    mglNavigation
+    [showCompass]="true"
+    [showZoom]="false"
+  ></mgl-control>
+  <mgl-control
+    mglAttribution
+    [compact]="false"
+  ></mgl-control>
+
+  <!-- Users Animated Location Dot -->
+  <!-- <mgl-image
+  [id]="'pulsing-dot'"
+  [data]="yourLocationPulsingDot"
+  >
+  </mgl-image>
+  <mgl-geojson-source
+    [id]="'yourLocationPulsingDotPoint'"
+    [data]="yourLocationPulsingDotGeoData"
+  ></mgl-geojson-source>
+  <mgl-layer
+    [id]="'yourLocationPulsingDotPoint'"
+    [type]="'symbol'"
+    [source]="'yourLocationPulsingDotPoint'"
+    [layout]="{  }"
+  ></mgl-layer> -->
+
+  <!-- Location Markers -->
+  <mgl-marker
+  *ngFor="let location of locations"
+  [lngLat]="[location?.longitude, location?.latitude]"
+  (onclick)="markerOnClick(location)"
+  ></mgl-marker>
+</mgl-map>
 <div *ngIf="enableSearch">
     <ion-modal #modal trigger="open-modal" [initialBreakpoint]="modalInitialBreakpoint" [breakpoints]="[0, 0.25, 0.5, 0.75]" [isOpen]="true">
       <ng-template>

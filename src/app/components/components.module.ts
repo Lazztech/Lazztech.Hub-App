@@ -15,6 +15,7 @@ import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { MicroChatComponent } from './micro-chat/micro-chat.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MaplibreComponent } from './maplibre/maplibre.component';
+import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import { MaplibreComponent } from './maplibre/maplibre.component';
         DirectivesModule,
         PipesModule,
         MomentModule,
+        NgxMapLibreGLModule
     ],
     exports: [
         HubCardComponent,
