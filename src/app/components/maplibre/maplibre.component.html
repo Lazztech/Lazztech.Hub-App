@@ -43,7 +43,7 @@
   (onclick)="markerOnClick(location)"
   >
   <div class="map-pin">
-    <div class="pin-point"></div>
+    <div class="pin-point" [ngStyle]="{'background-color': location?.active ?  'var(--ion-color-success)' : 'var(--ion-color-medium)'}"></div>
     <div
       class="map-pin-image"
       [ngStyle]="{'background-image': 'url(' + location?.image + ')'}"

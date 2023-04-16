@@ -8,6 +8,7 @@ mgl-map {
   display: inline-block;
   width: 40px;
   height: 60px;
+  transform: translateY(-40%);
 }
 
 .map-pin:before {
@@ -56,7 +57,7 @@ mgl-map {
   left: 0;
   width: 35px;
   height: 35px;
-  background-color: var(--ion-color-primary);
+  /* background-color: var(--ion-color-primary); */
   border-radius: 50% 50% 50% 0;
   transform: translateX(8%) translateY(35%) rotate(-45deg);
 }
