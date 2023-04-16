@@ -128,7 +128,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     if (this.center?.latitude && this.center?.longitude) {
       this.map.flyTo({
         center: { lat: this.center.latitude, lon: this.center.longitude },
-        zoom: 16,
+        zoom: 11,
       });
     }
   }

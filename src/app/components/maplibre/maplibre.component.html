@@ -1,9 +1,8 @@
 <mgl-map
   #map
   [style]="style"
-  [zoom]="[16]"
   [center]="[center?.longitude, center?.latitude]"
-  [zoom]="16"
+  [zoom]="8"
   [pitch]="10"
   [antialias]="true"
   (mapLoad)="onMapLoad($event)"
@@ -17,7 +16,7 @@
   ></mgl-control>
   <mgl-control
     mglAttribution
-    [compact]="false"
+    [compact]="true"
   ></mgl-control>
 
   <!-- Users Animated Location Dot -->
