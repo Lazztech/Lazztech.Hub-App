@@ -1,6 +1,6 @@
 <mgl-map
   #map
-  [style]="style"
+  [style]="osmLibertyStyle"
   [center]="[center?.longitude, center?.latitude]"
   [zoom]="8"
   [pitch]="10"
@@ -41,7 +41,11 @@
   *ngFor="let location of locations"
   [lngLat]="[location?.longitude, location?.latitude]"
   (onclick)="markerOnClick(location)"
-  ></mgl-marker>
+  >
+  <ion-avatar >
+    <img [src]="location?.image">
+  </ion-avatar>
+</mgl-marker>
 </mgl-map>
 <div *ngIf="enableSearch">
     <ion-modal #modal trigger="open-modal" [initialBreakpoint]="modalInitialBreakpoint" [breakpoints]="[0, 0.25, 0.5, 0.75]" [isOpen]="true">
