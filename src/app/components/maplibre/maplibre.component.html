@@ -42,9 +42,17 @@
   [lngLat]="[location?.longitude, location?.latitude]"
   (onclick)="markerOnClick(location)"
   >
-  <ion-avatar >
+  <div class="map-pin">
+    <div class="pin-point"></div>
+    <div
+      class="map-pin-image"
+      [ngStyle]="{'background-image': 'url(' + location?.image + ')'}"
+    ></div>
+  </div>
+
+  <!-- <ion-avatar >
     <img [src]="location?.image">
-  </ion-avatar>
+  </ion-avatar> -->
 </mgl-marker>
 </mgl-map>
 <div *ngIf="enableSearch">
