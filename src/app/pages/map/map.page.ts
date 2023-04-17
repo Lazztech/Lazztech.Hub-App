@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Scalars } from '../../../graphql/graphql';
+import { Hub, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
 import { LocationService } from '../../services/location/location.service';
 
 @Component({
@@ -9,30 +9,31 @@ import { LocationService } from '../../services/location/location.service';
   templateUrl: './map.page.html',
   styleUrls: ['./map.page.scss'],
 })
-export class MapPage {
-
-  queryParamsSubscription: Subscription;
-  hubCoords: any;
-  center: any;
-  hubs = [];
-  hubId: Scalars['ID'];
+export class MapPage implements OnInit, OnDestroy {
   loading = false;
+  subscriptions: Array<Subscription> = [];
+  center: any;
+  locations: Array<any>;
+  userHubs: UsersHubsQuery['usersHubs'];
 
   constructor(
-    private router: Router,
     public locationService: LocationService,
-  ) {
-    if (this.router.getCurrentNavigation()?.extras?.state) {
-      this.hubCoords = this.router.getCurrentNavigation().extras.state.hubCoords;
-      this.center = this.hubCoords;
-      if (this.router.getCurrentNavigation().extras.state?.hub) {
-        this.hubId = this.router.getCurrentNavigation().extras.state.hub.id;
-        this.hubs.push(this.router.getCurrentNavigation().extras.state.hub);
-      }
-      if (this.router.getCurrentNavigation().extras.state?.hubs) {
-        this.hubs = this.router.getCurrentNavigation().extras.state.hubs;
-      }
-    }
+    private readonly userHubsGQLService: UsersHubsGQL,
+  ) {}
+
+  ngOnInit(): void {
+    const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
+    this.subscriptions.push(
+      userHubsQueryRef.valueChanges.subscribe(x => {
+        this.loading = x.loading;
+        this.userHubs = [...x?.data?.usersHubs]?.filter(x => x.hub);
+        this.locations = this.userHubs?.map(x => x.hub as Hub);
+      }),
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions?.forEach(x => x.unsubscribe());
   }
 
   onSearchSelected(event: { latitude: number, longitude: number }) {

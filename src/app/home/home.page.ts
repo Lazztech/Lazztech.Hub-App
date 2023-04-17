@@ -164,12 +164,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   goToMap() {
-    this.navCtrl.navigateForward('map', {
-      state: {
-        hubCoords: this.locationService.location,
-        hubs: this.hubs
-      }
-    });
+    this.navCtrl.navigateForward('map');
   }
 
   async goToQrPage() {
