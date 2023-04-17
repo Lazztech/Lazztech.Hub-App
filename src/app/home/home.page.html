@@ -23,12 +23,9 @@
 
     <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
 
-    <ion-card *ngIf="locationService.location" style="height:30%" (click)="goToMap()">
-      <app-maplibre [center]="locationService.location" [yourLocation]="locationService.location" [navOnMarker]="true" [locations]="hubs"></app-maplibre>
-    </ion-card>
-
-    <ion-card *ngIf="!locationService.location" style="height:30%">
-      <ion-skeleton-text animated style="height: 100%;"></ion-skeleton-text>
+    <ion-card style="height:30%" (click)="goToMap()">
+      <app-maplibre *ngIf="locationService.location" [center]="locationService.location" [yourLocation]="locationService.location" [navOnMarker]="true" [locations]="hubs"></app-maplibre>
+      <ion-skeleton-text [hidden]="locationService.location" animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
 
       <ion-item *ngIf="completedInitialAccountSetup === false" lines="none" href="javascript:void(0);" (click)="goToSettingsPage()">
