@@ -43,9 +43,9 @@ mgl-map {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 24px;
-  height: 24px;
-  /* border: 2px solid white; */
+  width: 28px;
+  height: 28px;
+  /* border: 1px solid black; */
   border-radius: 50%;
   background-size: cover;
   background-position: center;
@@ -59,6 +59,6 @@ mgl-map {
   width: 35px;
   height: 35px;
   border-radius: 50% 50% 50% 0;
-  transform: translateX(8%) translateY(35%) rotate(-45deg);
+  transform: translateX(7%) translateY(36%) rotate(-45deg);
   border: 2px solid black;
 }
