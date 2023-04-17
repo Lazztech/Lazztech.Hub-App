@@ -46,6 +46,10 @@
     </ion-grid>
 
   <div *ngIf="includeMap" style="height: 90px;">
-      <app-maplibre [center]="hub"></app-maplibre>
+      <app-maplibre 
+        [center]="hub"
+        [locations]="[hub]"
+        [yourLocation]="locationService?.location"
+      ></app-maplibre>
   </div>
 </ion-card>

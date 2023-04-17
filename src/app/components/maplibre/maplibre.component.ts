@@ -101,7 +101,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
           'type': 'Feature',
           'geometry': {
             'type': 'Point',
-            'coordinates': [this.center.longitude, this.center.latitude]
+            'coordinates': [this.yourLocation?.longitude, this.yourLocation?.latitude]
           }
         }
       ]
