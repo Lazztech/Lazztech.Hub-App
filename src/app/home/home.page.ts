@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
+import { Config, MenuController, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -9,9 +9,7 @@ import { LeafletMapComponent } from '../components/leaflet-map/leaflet-map.compo
 import { AlertService } from '../services/alert/alert.service';
 import { AuthService } from '../services/auth/auth.service';
 import { DebuggerService } from '../services/debugger/debugger.service';
-import { ForegroundGeofenceService } from '../services/foreground-geofence.service';
 import { LocationService } from '../services/location/location.service';
-import { Config } from "@ionic/angular";
 
 @Component({
   selector: 'app-home',
@@ -44,7 +42,6 @@ export class HomePage implements OnInit, OnDestroy {
     public navCtrl: NavController,
     public locationService: LocationService,
     private logger: NGXLogger,
-    private foregroundGeofenceService: ForegroundGeofenceService,
     private readonly invitesByUserGQLService: InvitesByUserGQL,
     private readonly userHubsGQLService: UsersHubsGQL,
     private readonly debugService: DebuggerService,
@@ -77,9 +74,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.user = await this.authService.user();
-    await this.locationService.watchPosition(
-      (location) => this.foregroundGeofenceService.asses(location)
-    );
 
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
     const invitesByUserRef = this.invitesByUserGQLService.watch(null, { pollInterval: 3000 });
