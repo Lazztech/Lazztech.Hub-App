@@ -23,7 +23,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       }
     },
-    layers: layers("protomaps", "light")
+    layers: layers("protomaps", "white")
   };
 
   // for reference if wanted later
