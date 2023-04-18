@@ -1,8 +1,12 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
+import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import maplibregl, { GeoJSONSource, Map } from 'maplibre-gl';
 import * as pmtiles from "pmtiles";
 import layers from 'protomaps-themes-base';
+import _ from 'lodash-es';
 
 @Component({
   selector: 'app-maplibre',
@@ -25,19 +29,25 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     },
     layers: layers("protomaps", "white")
   };
-
   // for reference if wanted later
-  osmLibertyStyle = "https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json"
+  osmLibertyStyle = "https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json";
 
-  /**
-   * used to ensure unique map instances to allow for multiple maps
-   */
-  id = Date.now();
   /**
    * for accessing map instance
    */
   @ViewChild('map')
   map: Map;
+  /**
+   * leaflet geosearch results
+   */
+  searchResults: SearchResult<RawResult>[] = [];
+  /**
+   * leaflet geosearch provider
+   */
+  provider = new OpenStreetMapProvider();
+  private debouncedSearchFunc: _.DebouncedFunc<() => Promise<void>> = _.debounce(
+    (event: any) => this.searchAddress(event), 500
+  );
 
   @Input() center: { latitude: any; longitude: any; };
   @Input() locations: Array<{ id: number, latitude: number, longitude: number }> = [];
@@ -147,6 +157,25 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     // and call setData to the source layer `point` on it.
     this.yourLocationPulsingDotGeoData.features[0].geometry.coordinates = [this.yourLocation.longitude, this.yourLocation.latitude];
     (this.map.getSource('yourLocationPulsingDotPoint') as GeoJSONSource).setData(this.yourLocationPulsingDotGeoData);
+  }
+
+  private async searchAddress(event: any) {
+    console.log(event);
+    this.loading.emit(true);
+
+    const results = await this.provider.search({ query: event.target.value });
+    console.log(results);
+    this.searchResults = results as any;
+    this.loading.emit(false);
+  }
+
+  selectSearch(searchResult: SearchResult<RawResult>) {
+    this.searchSelected.emit({
+      latitude: searchResult.y,
+      longitude: searchResult.x,
+      label: searchResult.label,
+    });
+    this.searchResults = [];
   }
 
   createPulsingDot = (map: Map, size: number) => ({
