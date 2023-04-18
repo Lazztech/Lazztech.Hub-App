@@ -14,6 +14,12 @@
   [antialias]="true"
   (mapLoad)="onMapLoad($event)"
   [attributionControl]="false"
+  [dragRotate]="showControls"
+  [touchZoomRotate]="showControls"
+  [doubleClickZoom]="showControls"
+  [scrollZoom]="showControls"
+  [keyboard]="showControls"
+  [dragPan]="showControls"
 >
   <!-- Map Configuration -->
   <mgl-control
