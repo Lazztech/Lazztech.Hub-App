@@ -32,8 +32,11 @@ export class MapPage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
-    const userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
-    this.queryRefs.push(userEventsQueryRef);
+    // const userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
+    this.queryRefs.push(
+      userHubsQueryRef,
+      // userEventsQueryRef
+    );
 
     this.subscriptions.push(
       userHubsQueryRef.valueChanges.subscribe(x => {
@@ -41,25 +44,25 @@ export class MapPage implements OnInit, OnDestroy {
         this.userHubs = [...x?.data?.usersHubs]?.filter(x => x.hub);
         this.locations = [...this.userHubs?.map(x => x.hub as Hub), ...this.upcomingEvents?.filter(x => x.event)?.map(x => x.event)];
       }),
-      userEventsQueryRef?.valueChanges?.subscribe(result => {
-        this.userEventsQueryResult = result;
-        this.loading = result.loading;
-        if (this.userEventsQueryResult?.data?.usersEvents) {
-          this.sortedEvents = [...this.userEventsQueryResult?.data?.usersEvents]?.sort(
-            (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
-          );
-          this.upcomingEvents = this.sortedEvents?.filter(userEvents => (
-            new Date().valueOf() <= new Date(userEvents?.event?.startDateTime).valueOf()
-          )).sort(
-            (a, b) => new Date(a?.event?.startDateTime).valueOf() - new Date(b?.event?.startDateTime).valueOf()
-          );
-          this.elapsedEvents = this.sortedEvents?.filter(userEvents => (
-            new Date().valueOf() > new Date(userEvents?.event?.startDateTime).valueOf()
-          ));
+      // userEventsQueryRef?.valueChanges?.subscribe(result => {
+      //   this.userEventsQueryResult = result;
+      //   this.loading = result.loading;
+      //   if (this.userEventsQueryResult?.data?.usersEvents) {
+      //     this.sortedEvents = [...this.userEventsQueryResult?.data?.usersEvents]?.sort(
+      //       (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
+      //     );
+      //     this.upcomingEvents = this.sortedEvents?.filter(userEvents => (
+      //       new Date().valueOf() <= new Date(userEvents?.event?.startDateTime).valueOf()
+      //     )).sort(
+      //       (a, b) => new Date(a?.event?.startDateTime).valueOf() - new Date(b?.event?.startDateTime).valueOf()
+      //     );
+      //     this.elapsedEvents = this.sortedEvents?.filter(userEvents => (
+      //       new Date().valueOf() > new Date(userEvents?.event?.startDateTime).valueOf()
+      //     ));
 
-          this.locations = [...this.userHubs?.map(x => x.hub as Hub), ...this.upcomingEvents?.filter(x => x.event)?.map(x => x.event)];
-        }
-      })
+      //     this.locations = [...this.userHubs?.map(x => x.hub as Hub), ...this.upcomingEvents?.filter(x => x.event)?.map(x => x.event)];
+      //   }
+      // })
     )
   }
 
