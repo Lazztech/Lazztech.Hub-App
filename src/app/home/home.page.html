@@ -24,7 +24,14 @@
     <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
 
     <ion-card style="height:30%" (click)="goToMap()">
-      <app-maplibre *ngIf="locationService.location" [center]="locationService.location" [yourLocation]="locationService.location" [navOnMarker]="true" [locations]="hubs"></app-maplibre>
+      <app-maplibre 
+        *ngIf="locationService.location" 
+        [center]="locationService.location" 
+        [yourLocation]="locationService.location" 
+        [navOnMarker]="true" 
+        [locations]="hubs"
+        [attributionLocation]="'bottom-right'"
+      ></app-maplibre>
       <ion-skeleton-text [hidden]="locationService.location" animated style="height: 100%;"></ion-skeleton-text>
     </ion-card>
 

@@ -45,6 +45,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   @Input() navOnMarker = false;
   @Input() showControls = false;
   @Input() enableSearch = false;
+  @Input() attributionLocation = 'top-left';
 
   @Output() loading = new EventEmitter<boolean>();
   @Output() searchSelected = new EventEmitter<{ latitude: number, longitude: number, label: string }>();
