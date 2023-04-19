@@ -55,14 +55,47 @@
     *ngFor="let location of locations"
     [lngLat]="[location?.longitude, location?.latitude]"
   >
-  <div class="map-pin" (click)="markerOnClick(location)">
-    <div class="pin-point" [ngStyle]="{'background-color': location?.active ?  'var(--ion-color-success)' : 'var(--ion-color-medium)'}"></div>
-    <div
-      class="map-pin-image"
-      [ngStyle]="{'background-image': 'url(' + location?.image + ')'}"
-    ></div>
-  </div>
-</mgl-marker>
+    <div class="map-pin" (click)="markerOnClick(location)">
+      <div class="pin-point" [ngStyle]="{'background-color': location?.active ?  'var(--ion-color-success)' : 'var(--ion-color-medium)'}"></div>
+      <div
+        class="map-pin-image"
+        [ngStyle]="{'background-image': 'url(' + location?.image + ')'}"
+      ></div>
+    </div>
+  </mgl-marker>
+
+  <!-- 3d Buildings -->
+  <mgl-layer
+    id="3d-buildings"
+    source="openmaptiles"
+    sourceLayer="building"
+    [filter]="['==', 'extrude', 'true']"
+    type="fill-extrusion"
+    [minzoom]="15"
+    [paint]="{
+      'fill-extrusion-color': '#aaa',
+      'fill-extrusion-height': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.05,
+        ['get', 'height']
+      ],
+      'fill-extrusion-base': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.05,
+        ['get', 'min_height']
+      ],
+      'fill-extrusion-opacity': 0.6
+    }"
+    [before]="labelLayerId"
+  ></mgl-layer>
 </mgl-map>
 <!-- <div *ngIf="enableSearch">
     <ion-modal #modal trigger="open-modal" [initialBreakpoint]="modalInitialBreakpoint" [breakpoints]="[0, 0.25, 0.5, 0.75]" [isOpen]="true">
