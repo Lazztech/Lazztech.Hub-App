@@ -149,7 +149,9 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   }
 
   markerOnClick(location) {
-    this.navCtrl.navigateForward('hub/' + location.id)
+    if (this.showControls) {
+      this.navCtrl.navigateForward('hub/' + location.id);
+    }
   }
 
   updateYourLocationMarker() {

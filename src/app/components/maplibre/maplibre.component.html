@@ -52,21 +52,16 @@
 
   <!-- Location Markers -->
   <mgl-marker
-  *ngFor="let location of locations"
-  [lngLat]="[location?.longitude, location?.latitude]"
-  (onclick)="markerOnClick(location)"
+    *ngFor="let location of locations"
+    [lngLat]="[location?.longitude, location?.latitude]"
   >
-  <div class="map-pin">
+  <div class="map-pin" (click)="markerOnClick(location)">
     <div class="pin-point" [ngStyle]="{'background-color': location?.active ?  'var(--ion-color-success)' : 'var(--ion-color-medium)'}"></div>
     <div
       class="map-pin-image"
       [ngStyle]="{'background-image': 'url(' + location?.image + ')'}"
     ></div>
   </div>
-
-  <!-- <ion-avatar >
-    <img [src]="location?.image">
-  </ion-avatar> -->
 </mgl-marker>
 </mgl-map>
 <!-- <div *ngIf="enableSearch">
