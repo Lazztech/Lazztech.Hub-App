@@ -65,10 +65,10 @@
   </mgl-marker>
 
   <!-- 3d Buildings -->
-  <mgl-layer
+  <!-- <mgl-layer
     id="3d-buildings"
-    source="openmaptiles"
-    sourceLayer="building"
+    source="protomaps"
+    sourceLayer="buildings"
     [filter]="['==', 'extrude', 'true']"
     type="fill-extrusion"
     [minzoom]="15"
@@ -95,7 +95,7 @@
       'fill-extrusion-opacity': 0.6
     }"
     [before]="labelLayerId"
-  ></mgl-layer>
+  ></mgl-layer> -->
 </mgl-map>
 <!-- <div *ngIf="enableSearch">
     <ion-modal #modal trigger="open-modal" [initialBreakpoint]="modalInitialBreakpoint" [breakpoints]="[0, 0.25, 0.5, 0.75]" [isOpen]="true">

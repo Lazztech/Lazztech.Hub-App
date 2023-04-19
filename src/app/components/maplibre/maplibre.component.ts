@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
 import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
-import maplibregl, { GeoJSONSource, Map } from 'maplibre-gl';
+import maplibregl, { GeoJSONSource, Map, SymbolLayerSpecification } from 'maplibre-gl';
 import * as pmtiles from "pmtiles";
 import layers from 'protomaps-themes-base';
 import _ from 'lodash-es';
@@ -27,11 +27,39 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       }
     },
-    layers: layers("protomaps", "white")
+    layers: layers("protomaps", "white")?.map(layer => {
+      if (layer.id == 'buildings') {
+        console.log(layer);
+        const buildingLayerPaint = {
+          'fill-extrusion-color': '#aaa',
+          'fill-extrusion-height': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            15,
+            0,
+            15.05,
+            ['get', 'height']
+          ],
+          'fill-extrusion-base': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            15,
+            0,
+            15.05,
+            ['get', 'min_height']
+          ],
+          'fill-extrusion-opacity': 0.6
+        };
+        layer.paint = buildingLayerPaint;
+      }
+      return layer;
+    })
   };
   // for reference if wanted later
   osmLibertyStyle = "https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json";
-
+  labelLayerId
   /**
    * for accessing map instance
    */
@@ -100,6 +128,22 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     this.map.resize();
     
     setTimeout(() => this.flyTo(), 1000);
+
+    console.log(this.map.getLayer('building'))
+    console.log(this.map.getLayer('buildings'))
+    console.log(this.map.getLayer('3d-buildings'))
+
+    const layers = map.getStyle().layers!;
+
+    for (let i = 0; i < layers.length; i++) {
+      if (
+        layers[i].type === 'symbol' &&
+        (<SymbolLayerSpecification>layers[i]).layout!['text-field']
+      ) {
+        this.labelLayerId = layers[i].id;
+        break;
+      }
+    }
 
     // this.rotateCamera(0, this.map);
 
