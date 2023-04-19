@@ -11,7 +11,7 @@
 <ion-content fullscreen="true">
   <app-maplibre 
     *ngIf="locationService.location" 
-    [center]="locationService.location" 
+    [center]="center | async" 
     [yourLocation]="locationService.location" 
     [locations]="locations"
     [navOnMarker]="true" 

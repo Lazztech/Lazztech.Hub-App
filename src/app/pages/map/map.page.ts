@@ -3,7 +3,7 @@ import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { Hub, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
 import { LocationService } from '../../services/location/location.service';
-
+import _ from 'lodash-es';
 @Component({
   selector: 'app-map',
   templateUrl: './map.page.html',
@@ -13,8 +13,9 @@ export class MapPage implements OnInit, OnDestroy {
   loading = false;
   subscriptions: Array<Subscription> = [];
   queryRefs: QueryRef<any>[] = [];
-  center: any;
+
   locations: Array<any>;
+  center: any = this.locationService.getCurrentPosition().then(x => x.coords);
 
   userHubs: UsersHubsQuery['usersHubs'];
 
