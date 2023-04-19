@@ -36,7 +36,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
             'interpolate',
             ['linear'],
             ['zoom'],
-            15,
+            2,
             0,
             15.05,
             ['get', 'height']
@@ -45,7 +45,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
             'interpolate',
             ['linear'],
             ['zoom'],
-            15,
+            2,
             0,
             15.05,
             ['get', 'min_height']
