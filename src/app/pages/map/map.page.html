@@ -10,9 +10,9 @@
 
 <ion-content fullscreen="true">
   <app-maplibre 
-    *ngIf="locationService.location" 
-    [center]="center | async" 
-    [yourLocation]="locationService.location" 
+    *ngIf="center" 
+    [center]="center" 
+    [yourLocation]="center" 
     [locations]="locations"
     [navOnMarker]="true" 
     [showControls]="true"
@@ -21,7 +21,7 @@
     (loading)="onMapLoading($event)"
   ></app-maplibre>
   <ion-skeleton-text
-    [hidden]="locationService.location" 
+    [hidden]="center" 
     animated 
     style="height: 100%;"
   ></ion-skeleton-text>

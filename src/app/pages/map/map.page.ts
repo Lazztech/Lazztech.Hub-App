@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Hub, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
 import { LocationService } from '../../services/location/location.service';
 import _ from 'lodash-es';
+import { Position } from '@capacitor/geolocation';
 @Component({
   selector: 'app-map',
   templateUrl: './map.page.html',
@@ -15,7 +16,7 @@ export class MapPage implements OnInit, OnDestroy {
   queryRefs: QueryRef<any>[] = [];
 
   locations: Array<any>;
-  center: any = this.locationService.getCurrentPosition().then(x => x.coords);
+  center: any;
 
   userHubs: UsersHubsQuery['usersHubs'];
 
@@ -24,7 +25,10 @@ export class MapPage implements OnInit, OnDestroy {
     private readonly userHubsGQLService: UsersHubsGQL,
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+    this.center = (await this.locationService.getCurrentPosition())?.coords;
+
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
     this.queryRefs.push(
       userHubsQueryRef,
