@@ -22,6 +22,10 @@
   [dragPan]="showControls"
 >
   <!-- Map Configuration -->
+  <mgl-control 
+    mglFullscreen
+    *ngIf="showControls"
+  ></mgl-control>
   <mgl-control
     mglNavigation
     [showCompass]="showControls"
