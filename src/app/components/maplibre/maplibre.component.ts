@@ -7,6 +7,7 @@ import maplibregl, { GeoJSONSource, Map, SymbolLayerSpecification } from 'maplib
 import * as pmtiles from "pmtiles";
 import layers from 'protomaps-themes-base';
 import _ from 'lodash-es';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 
 @Component({
   selector: 'app-maplibre',
@@ -27,7 +28,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       }
     },
-    layers: layers("protomaps", "white")?.map(layer => {
+    layers: layers("protomaps", this.themeService.isDark() ? 'black' : 'white')?.map(layer => {
       if (layer.id == 'buildings') {
         console.log(layer);
         const buildingLayerPaint = {
@@ -90,6 +91,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
 
   constructor(
     public navCtrl: NavController,
+    public themeService: ThemeService,
   ) { }
 
   modalInitialBreakpoint: number;
