@@ -26,7 +26,7 @@
     style="height: 100%;"
   ></ion-skeleton-text>
 
-  <ion-modal #modal [canDismiss]="false" [isOpen]="true" [initialBreakpoint]="0.14" [breakpoints]="[0.14, 0.3, 0.9]">
+  <ion-modal #modal [canDismiss]="false" [isOpen]="true" [initialBreakpoint]="0.135" [breakpoints]="[0.135, 0.4, 0.95]" [backdropDismiss]="false" [backdropBreakpoint]="0.4">
     <ng-template>
       <ion-content>
         <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
