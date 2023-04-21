@@ -175,6 +175,10 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     });
   }
 
+  public resize() {
+    this.map.resize();
+  }
+
   rotateCamera(timestamp, map) {
     // clamp the rotation between 0 -360 degrees
     // Divide timestamp by 100 to slow rotation to ~10 degrees / sec

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserHub, User, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { environment } from '../../environments/environment';
 import { LeafletMapComponent } from '../components/leaflet-map/leaflet-map.component';
+import { MaplibreComponent } from '../components/maplibre/maplibre.component';
 import { AlertService } from '../services/alert/alert.service';
 import { AuthService } from '../services/auth/auth.service';
 import { DebuggerService } from '../services/debugger/debugger.service';
@@ -23,8 +24,8 @@ export class HomePage implements OnInit, OnDestroy {
   devModeEasterEggCount = 0;
 
   loading = true;
-  @ViewChild(LeafletMapComponent)
-  map: LeafletMapComponent;
+  @ViewChild(MaplibreComponent)
+  map: MaplibreComponent;
   completedInitialAccountSetup: boolean;
   invites: InvitesByUserQuery['invitesByUser'];
   filter = '';
@@ -110,7 +111,7 @@ export class HomePage implements OnInit, OnDestroy {
   async ionViewDidEnter() {
     this.completedInitialAccountSetup = await this.authService.completedInitialAccountSetup();
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
-    this.map?.invalidateSize();
+    this.map?.resize();
   }
 
   async ionViewDidLeave() {
