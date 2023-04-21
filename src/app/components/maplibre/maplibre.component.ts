@@ -77,6 +77,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   private debouncedSearchFunc: _.DebouncedFunc<() => Promise<void>> = _.debounce(
     (event: any) => this.searchAddress(event), 500
   );
+  markerColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-primary');
 
   @Input() center: { latitude: any; longitude: any; };
   @Input() locations: Array<{ id: number, latitude: number, longitude: number }> = [];
@@ -94,8 +95,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     public themeService: ThemeService,
   ) { }
 
-  modalInitialBreakpoint: number;
-  markerColor = getComputedStyle(document.documentElement).getPropertyValue('--ion-color-primary');
 
   size = 100;
   // implementation of StyleImageInterface to draw a pulsing dot icon on the map
@@ -115,12 +114,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     let protocol = new pmtiles.Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
-
-    const searchBarHeightPixes = 60;
-    const screenHeight = window.screen.height;
-    const percentage = (screenHeight - searchBarHeightPixes) / screenHeight; // 0.92%
-    console.log(percentage)
-    this.modalInitialBreakpoint = percentage / 10;
   }
 
   onMapLoad(map: Map) {

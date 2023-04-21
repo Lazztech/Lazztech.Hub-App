@@ -14,11 +14,10 @@ export class MapPage implements OnInit, OnDestroy {
   loading = false;
   subscriptions: Array<Subscription> = [];
   queryRefs: QueryRef<any>[] = [];
-
   locations: Array<any>;
   center: any = this.locationService?.position?.coords;
-
   userHubs: UsersHubsQuery['usersHubs'];
+  modalInitialBreakpoint: number;
 
   constructor(
     public locationService: LocationService,
@@ -26,6 +25,11 @@ export class MapPage implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    const searchBarHeightPixes = 60;
+    const screenHeight = window.screen.height;
+    const percentage = (screenHeight - searchBarHeightPixes) / screenHeight; // 0.92%
+    console.log(percentage)
+    this.modalInitialBreakpoint = percentage / 10;
 
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
     this.queryRefs.push(
