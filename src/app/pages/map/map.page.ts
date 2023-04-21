@@ -16,7 +16,7 @@ export class MapPage implements OnInit, OnDestroy {
   queryRefs: QueryRef<any>[] = [];
 
   locations: Array<any>;
-  center: any;
+  center: any = this.locationService?.position?.coords;
 
   userHubs: UsersHubsQuery['usersHubs'];
 
@@ -26,8 +26,6 @@ export class MapPage implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
-
-    this.center = (await this.locationService.getCurrentPosition())?.coords;
 
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
     this.queryRefs.push(
