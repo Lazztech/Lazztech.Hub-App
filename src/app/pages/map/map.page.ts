@@ -25,9 +25,10 @@ export class MapPage implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    const padding = 20;
     const searchBarHeightPixes = 60;
     const screenHeight = window.screen.height;
-    const percentage = (screenHeight - searchBarHeightPixes) / screenHeight; // 0.92%
+    const percentage = (screenHeight - (searchBarHeightPixes + padding)) / screenHeight; // 0.92%
     console.log(percentage)
     this.modalInitialBreakpoint = percentage / 10;
 
