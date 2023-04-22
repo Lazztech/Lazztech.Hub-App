@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertService } from './alert/alert.service';
+import * as Sentry from '@sentry/browser';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,13 @@ export class ErrorService {
   ) { }
 
   async handleError(err: any, loading?: boolean) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    try {
+      Sentry.captureException(err.originalError || err);
+    } catch (e) {
+      console.error(e);
+      await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
+    }
+
     if (loading) {
       loading = false;
     }
