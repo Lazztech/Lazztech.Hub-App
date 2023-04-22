@@ -11,6 +11,7 @@ import { CameraService } from 'src/app/services/camera/camera.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { DeleteEventGQL, Event, EventDocument, EventGQL, EventQuery, JoinUserEvent, RemoveUserFromEventGQL, ResetShareableEventIdGQL, Scalars, UpdateEventGQL } from 'src/graphql/graphql';
 import moment from 'moment';
+import { ErrorService } from 'src/app/services/error.service';
 
 export const eventGroupValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const start = control.get('startDateTime');
@@ -87,6 +88,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
     public readonly navCtrl: NavController,
     private readonly resetShareableEventID: ResetShareableEventIdGQL,
     private readonly alertService: AlertService,
+    private readonly errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -118,7 +120,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
         this.alphabetizedMembers = this.alphabetizePersons(
           result?.data?.event?.event?.usersConnection as Array<JoinUserEvent>
         );
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
     );
   }
   
@@ -166,15 +168,10 @@ export class AdminEventPage implements OnInit, OnDestroy {
           ]
         }).toPromise(); 
       } catch (error) {
-        this.handleError(error);
+        this.errorService.handleError(error, this.loading);
       }
     }
     await slidingItem.close();
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   async invalidateShareableLinks() {
@@ -219,7 +216,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
         this.loading = false;
         this.navCtrl.back();
       })
-      .catch(err => this.handleError(err));
+      .catch(err => this.errorService.handleError(err, this.loading));
   }
 
   async takePicture() {

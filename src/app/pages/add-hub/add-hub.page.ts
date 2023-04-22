@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { GeofenceService } from 'src/app/services/geofence/geofence.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
@@ -59,6 +60,7 @@ export class AddHubPage implements OnInit, OnDestroy {
     private actionSheetController: ActionSheetController,
     public routerOutlet: IonRouterOutlet,
     private readonly createHubGQLService: CreateHubGQL,
+    private readonly errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -76,17 +78,12 @@ export class AddHubPage implements OnInit, OnDestroy {
       this.hubService.watchUsersPeople().valueChanges.subscribe(x => {
         this.logger.log('loading: ', x.loading);
         this.loading = x.loading;
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
     );
   }
 
   async ngOnDestroy() {
     this.subscriptions.forEach(x => x.unsubscribe());
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   async takePicture() {
@@ -153,7 +150,7 @@ export class AddHubPage implements OnInit, OnDestroy {
         }
         this.loading = false;
       })
-      .catch(err => this.handleError(err));
+      .catch(err => this.errorService.handleError(err, this.loading));
   }
 
   async presentActionSheet() {

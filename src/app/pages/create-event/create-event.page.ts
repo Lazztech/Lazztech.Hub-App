@@ -10,6 +10,7 @@ import { LocationService } from 'src/app/services/location/location.service';
 import { CreateEventGQL, Event, Hub } from 'src/graphql/graphql';
 import moment from 'moment';
 import { Router } from '@angular/router';
+import { ErrorService } from 'src/app/services/error.service';
 
 export const eventGroupValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const start = control.get('startDateTime');
@@ -83,6 +84,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
     public locationService: LocationService,
     private readonly alertService: AlertService,
     private readonly router: Router,
+    private readonly errorService: ErrorService,
   ) {
     this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
     this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
@@ -127,11 +129,6 @@ export class CreateEventPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
-  }
-
   async save() {
     this.loading = true;
     await this.createEvent.mutate({
@@ -154,7 +151,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
         this.loading = false;
         await this.navCtrl.navigateForward(`/event/${result?.data?.createEvent?.eventId}`);
       })
-      .catch(err => this.handleError(err));
+      .catch(err => this.errorService.handleError(err, this.loading));
   }
 
   async takePicture() {

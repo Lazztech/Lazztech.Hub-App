@@ -17,6 +17,7 @@ import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Sca
 import { InviteContext } from '../qr/qr.page';
 import * as ics from 'ics';
 import moment from 'moment';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-event',
@@ -58,6 +59,7 @@ export class EventPage implements OnInit, OnDestroy {
     private readonly communcationService: CommunicationService,
     private readonly alertService: AlertService,
     private readonly calendar: Calendar,
+    private readonly errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -76,14 +78,14 @@ export class EventPage implements OnInit, OnDestroy {
         this.maybeUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'maybe');
         this.cantgoUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => x.rsvp == 'cantgo');
         this.noreplyUserEvents = x?.data?.event?.event?.usersConnection?.filter(x => !x.rsvp);
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
       combineLatest([eventQueryRef?.valueChanges, usersPeopleQueryRef?.valueChanges]).subscribe(result => {
         this.persons = result[1];
         this.notYetInvitedPeople = result[1]?.data?.usersPeople?.filter(person => {
           return !result[0]?.data?.event?.event?.usersConnection
             ?.some(x => x.user?.id === person?.id);
         }) as any;
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
     );
   }
 
@@ -97,11 +99,6 @@ export class EventPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(x => x.unsubscribe());
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   trackByUser(index: any, joinUserEvent: JoinUserEvent) {
@@ -181,7 +178,7 @@ export class EventPage implements OnInit, OnDestroy {
         await this.alertService.presentToast('Added to Calendar');
       }
     } catch (error) {
-      this.handleError(error);
+      this.errorService.handleError(error, this.loading);
     }
   }
 

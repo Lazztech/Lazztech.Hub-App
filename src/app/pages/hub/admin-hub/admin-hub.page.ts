@@ -10,6 +10,7 @@ import { combineLatest, Subscription } from 'rxjs';
 import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { HubDocument, HubGQL, HubQuery, InvitesByHubGQL, InvitesByHubQuery, JoinUserHub, RemoveUserFromHubGQL, ResetShareableHubIdGQL, Scalars, UpdateHubGQL, User } from 'src/graphql/graphql';
@@ -72,6 +73,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
     private readonly removeUserFromHubGqlService: RemoveUserFromHubGQL,
     private readonly resetShareableHubID: ResetShareableHubIdGQL,
     private readonly alertService: AlertService,
+    private readonly errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -117,7 +119,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
           return !result[0]?.data?.hub?.hub?.usersConnection
             ?.some(x => x.user?.id === person?.id);
         }) as any;
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
     );
   }
 
@@ -146,11 +148,6 @@ export class AdminHubPage implements OnInit, OnDestroy {
       join => alphabet.indexOf(join?.user?.lastName?.toLowerCase()[0]) == -1
     );
     return alphabetMap;
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   trackByUser(index: any, joinUserHub: JoinUserHub) {
@@ -202,7 +199,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
         { query: HubDocument, variables: { id: this.id } }
       ],
       awaitRefetchQueries: true,
-    }).toPromise().catch(err => this.handleError(err));
+    }).toPromise().catch(err => this.errorService.handleError(err, this.loading));
     this.loading = false;
     this.navCtrl.back();
   }
@@ -291,7 +288,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
       await this.hubService.deleteInvite(this.id, inviteId);
       this.loading = false;
     } catch (error) {
-      this.handleError(error);
+      this.errorService.handleError(error, this.loading);
     }
   }
 

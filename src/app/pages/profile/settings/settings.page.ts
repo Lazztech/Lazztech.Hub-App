@@ -15,6 +15,7 @@ import { CommunicationService } from 'src/app/services/communication.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MeGQL, UpdateUserGQL } from 'src/graphql/graphql';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-settings',
@@ -77,6 +78,7 @@ export class SettingsPage implements OnInit {
     private meService: MeGQL,
     private updateUserService: UpdateUserGQL,
     private authService: AuthService,
+    private readonly errorService: ErrorService,
   ) { }
 
   async ngOnInit() {
@@ -127,11 +129,6 @@ export class SettingsPage implements OnInit {
     this.loading = false;
   }
 
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
-  }
-
   gotoNextField(nextElement){
     nextElement.setFocus();
   }
@@ -166,7 +163,7 @@ export class SettingsPage implements OnInit {
         this.loading = false;
       }
     } catch (error) {
-      this.handleError(error);
+      this.errorService.handleError(error, this.loading);
     }
   }
 

@@ -10,6 +10,7 @@ import { MaplibreComponent } from '../components/maplibre/maplibre.component';
 import { AlertService } from '../services/alert/alert.service';
 import { AuthService } from '../services/auth/auth.service';
 import { DebuggerService } from '../services/debugger/debugger.service';
+import { ErrorService } from '../services/error.service';
 import { LocationService } from '../services/location/location.service';
 
 @Component({
@@ -48,6 +49,7 @@ export class HomePage implements OnInit, OnDestroy {
     private readonly debugService: DebuggerService,
     private readonly alertService: AlertService,
     private readonly config: Config,
+    private readonly errorService: ErrorService,
   ) {
     this.menu.enable(true);
     this.mode = this.config.get("mode");
@@ -100,11 +102,11 @@ export class HomePage implements OnInit, OnDestroy {
 
           this.hubs = this.userHubs?.map(x => x.hub as Hub);
         }
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
       invitesByUserRef.valueChanges.subscribe(x => {
         this.invites = x?.data?.invitesByUser;
         this.loading = x.loading;
-      }, err => this.handleError(err))
+      }, err => this.errorService.handleError(err, this.loading))
     );
   }
 
@@ -122,11 +124,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.subscriptions.forEach(
       x => x.unsubscribe()
     );
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   userTrackByHub(index: any, joinUserHub: JoinUserHub) {
