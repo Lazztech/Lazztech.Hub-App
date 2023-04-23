@@ -72,7 +72,7 @@ export class MapPage implements OnInit, OnDestroy {
         zoom: 11,
         duration: 2000
       });
-    }, 1500);
+    }, 1000);
   }
 
   async ionViewWillLeave() {
