@@ -1,7 +1,7 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/" (click)="modal.dismiss()"></ion-back-button>
     </ion-buttons>
     <ion-title>Map</ion-title>
     <ion-progress-bar *ngIf="loading || !locationService.location" type="indeterminate"></ion-progress-bar>
@@ -26,7 +26,23 @@
     style="height: 100%;"
   ></ion-skeleton-text>
 
-  <ion-modal #modal [canDismiss]="true" [isOpen]="true" [initialBreakpoint]="0.135" [breakpoints]="[0.135, 0.4, 0.95]" [backdropDismiss]="false" [backdropBreakpoint]="0.4">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [hidden]="isOpen">
+    <ion-fab-button color="medium" (click)="toggleModal()">
+      <ion-icon name="search-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal 
+    #modal 
+    [canDismiss]="true" 
+    [swipeToClose]="true" 
+    [isOpen]="isOpen" 
+    [initialBreakpoint]="0.135" 
+    [breakpoints]="[0, 0.135, 0.4, 0.95]" 
+    [backdropDismiss]="false" 
+    [backdropBreakpoint]="0.4"
+    (ionModalWillDismiss)="didDismissModal()"
+    (ionModalWillPresent)="didPresentModal()">
     <ng-template>
       <ion-content>
         <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>

@@ -19,6 +19,8 @@ export class MapPage implements OnInit, OnDestroy {
   userHubs: UsersHubsQuery['usersHubs'];
   modalInitialBreakpoint: number;
 
+  isOpen = true;
+
   constructor(
     public locationService: LocationService,
     private readonly userHubsGQLService: UsersHubsGQL,
@@ -46,16 +48,38 @@ export class MapPage implements OnInit, OnDestroy {
     )
   }
 
+  async ionViewWillEnter() {
+    this.isOpen = true;
+  }
+
   async ionViewDidEnter() {
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
+    this.isOpen = true;
+  }
+
+  async ionViewWillLeave() {
+    this.isOpen = false;
   }
 
   async ionViewDidLeave() {
+    this.isOpen = false;
     this.queryRefs.forEach(queryRef => queryRef.stopPolling());
   }
 
   ngOnDestroy(): void {
     this.subscriptions?.forEach(x => x.unsubscribe());
+  }
+
+  toggleModal() {
+    this.isOpen = !this.isOpen;
+  }
+
+  didDismissModal() {
+    this.isOpen = false;
+  }
+
+  didPresentModal() {
+    this.isOpen = true;
   }
 
   onSearchSelected(event: { latitude: number, longitude: number }) {
