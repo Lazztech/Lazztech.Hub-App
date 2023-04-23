@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { Hub, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
 import { LocationService } from '../../services/location/location.service';
 import _ from 'lodash-es';
-import { Position } from '@capacitor/geolocation';
+import { Keyboard, KeyboardResize } from '@capacitor/keyboard';
+import { MaplibreComponent } from 'src/app/components/maplibre/maplibre.component';
 @Component({
   selector: 'app-map',
   templateUrl: './map.page.html',
@@ -18,7 +19,8 @@ export class MapPage implements OnInit, OnDestroy {
   center: any = this.locationService?.position?.coords;
   userHubs: UsersHubsQuery['usersHubs'];
   modalInitialBreakpoint: number;
-
+  @ViewChild(MaplibreComponent)
+  map: MaplibreComponent;
   isOpen = true;
 
   constructor(
@@ -27,6 +29,11 @@ export class MapPage implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    // Keyboard.addListener('keyboardDidHide', () => this.map?.resize())
+    Keyboard.setResizeMode({
+      mode: KeyboardResize.Ionic
+    });
+
     const padding = 20;
     const searchBarHeightPixes = 60;
     const screenHeight = window.screen.height;
