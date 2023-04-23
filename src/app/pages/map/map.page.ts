@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
-import { Hub, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
+import { Hub, JoinUserHub, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
 import { LocationService } from '../../services/location/location.service';
 import _ from 'lodash-es';
 import { Position } from '@capacitor/geolocation';
+import { MaplibreComponent } from 'src/app/components/maplibre/maplibre.component';
 @Component({
   selector: 'app-map',
   templateUrl: './map.page.html',
@@ -13,6 +14,8 @@ import { Position } from '@capacitor/geolocation';
 export class MapPage implements OnInit, OnDestroy {
   loading = false;
   subscriptions: Array<Subscription> = [];
+  @ViewChild(MaplibreComponent)
+  map: MaplibreComponent;
   queryRefs: QueryRef<any>[] = [];
   locations: Array<any>;
   center: any = this.locationService?.position?.coords;
@@ -87,6 +90,10 @@ export class MapPage implements OnInit, OnDestroy {
 
   didPresentModal() {
     this.isOpen = true;
+  }
+
+  searchItemClick(userHub: JoinUserHub) {
+    this.map.flyTo(userHub.hub)
   }
 
   onSearchSelected(event: { latitude: number, longitude: number }) {

@@ -182,10 +182,13 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     requestAnimationFrame((t) => this.rotateCamera(t, map));
   }
 
-  flyTo() {
-    if (this.center?.latitude && this.center?.longitude) {
+  flyTo(location?: { latitude?: number, longitude?: number}) {
+    if (location || this.center?.latitude && this.center?.longitude) {
       this.map.flyTo({
-        center: { lat: this.center.latitude, lon: this.center.longitude },
+        center: { 
+          lat: location.latitude ||this.center.latitude, 
+          lon: location.longitude || this.center.longitude 
+        },
         zoom: 11,
       });
     }

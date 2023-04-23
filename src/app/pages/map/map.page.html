@@ -47,7 +47,7 @@
       <ion-content>
         <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
         <ion-list>
-          <ion-item *ngFor="let userHub of userHubs">
+          <ion-item *ngFor="let userHub of userHubs" (click)="searchItemClick(userHub)">
             <ion-avatar slot="start">
               <ion-img src="{{userHub.hub?.image}}"></ion-img>
             </ion-avatar>
