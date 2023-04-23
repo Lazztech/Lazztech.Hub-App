@@ -8,6 +8,8 @@ import { NavController, Platform } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { AlertService } from './services/alert/alert.service';
 import { AuthService } from './services/auth/auth.service';
+import { ForegroundGeofenceService } from './services/foreground-geofence.service';
+import { LocationService } from './services/location/location.service';
 import { ThemeService } from './services/theme/theme.service';
 
 @Component({
@@ -40,6 +42,8 @@ export class AppComponent {
     private logger: NGXLogger,
     private router: Router,
     private zone: NgZone,
+    private foregroundGeofenceService: ForegroundGeofenceService,
+    public locationService: LocationService,
   ) {
     this.initializeApp();
   }
@@ -68,6 +72,10 @@ export class AppComponent {
       }
 
       this.isLoggedIn$ = this.authService.isLoggedIn$;
+
+      await this.locationService.watchPosition(
+        (location) => this.foregroundGeofenceService.asses(location)
+      );
     });
   }
 

@@ -8,6 +8,7 @@ import { InviteComponent } from 'src/app/components/invite/invite.component';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { CommunicationService } from 'src/app/services/communication.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
@@ -48,7 +49,7 @@ export class HubPage implements OnInit, OnDestroy {
     public readonly navigationService: NavigationService,
     public readonly routerOutlet: IonRouterOutlet,
     private readonly communcationService: CommunicationService,
-    private alertService: AlertService,
+    private readonly errorService: ErrorService,
     private muteService: MuteGQL,
     private unmuteService: UnmuteGQL,
   ) { }
@@ -77,19 +78,14 @@ export class HubPage implements OnInit, OnDestroy {
           .reverse();
         this.present = this.sortedUsers?.filter(x => x.isPresent);
         this.away = this.sortedUsers?.filter(x => !x.isPresent);
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
       combineLatest([hubQueryRef.valueChanges, usersPeopleQueryRef.valueChanges]).subscribe(result => {
         this.notYetInvitedPeople = result[1]?.data?.usersPeople?.filter(person => {
           return !result[0]?.data?.hub?.hub?.usersConnection
             ?.some(x => x.user?.id === person?.id);
         }) as any;
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
     );
-  }
-
-  async handleError(err) {
-      await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-      this.loading = false;
   }
 
   async ionViewDidEnter() {

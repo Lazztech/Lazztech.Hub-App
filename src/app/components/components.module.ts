@@ -14,6 +14,8 @@ import { InviteComponent } from './invite/invite.component';
 import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { MicroChatComponent } from './micro-chat/micro-chat.component';
 import { ProfileComponent } from './profile/profile.component';
+import { MaplibreComponent } from './maplibre/maplibre.component';
+import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
 
 @NgModule({
     declarations: [
@@ -26,6 +28,7 @@ import { ProfileComponent } from './profile/profile.component';
         LeafletMapComponent,
         EventCardComponent,
         InviteComponent,
+        MaplibreComponent,
     ],
     imports: [
         IonicModule,
@@ -35,6 +38,7 @@ import { ProfileComponent } from './profile/profile.component';
         DirectivesModule,
         PipesModule,
         MomentModule,
+        NgxMapLibreGLModule
     ],
     exports: [
         HubCardComponent,
@@ -44,7 +48,8 @@ import { ProfileComponent } from './profile/profile.component';
         HubProfileComponent,
         LeafletMapComponent,
         EventCardComponent,
-        InviteComponent
+        InviteComponent,
+        MaplibreComponent,
     ]
 })
 export class ComponentsModule {

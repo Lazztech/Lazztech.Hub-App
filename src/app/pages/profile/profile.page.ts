@@ -6,6 +6,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CameraService } from 'src/app/services/camera/camera.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { JoinUserEvent, JoinUserHub, MeDocument, MeQuery, Scalars, UpdateUserGQL, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
@@ -43,6 +44,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     private readonly userEvents: UserEventsGQL,
     private readonly userHubsGQLService: UsersHubsGQL,
     private readonly updateUserService: UpdateUserGQL,
+    private readonly errorService: ErrorService,
   ) {
     this.menu.enable(true);
   }
@@ -57,7 +59,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       userQueryRef.valueChanges.subscribe(result => {
         this.userResult = result;
         this.loading = result.loading;
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
       userHubsQueryRef.valueChanges.subscribe(result => {
         this.userHubsResult = result;
         if (this.userHubsResult?.data?.usersHubs) {
@@ -65,7 +67,7 @@ export class ProfilePage implements OnInit, OnDestroy {
             userHub => userHub.isOwner
           );
         }
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
       userEventsQueryRef.valueChanges.subscribe(result => {
         this.userEventsQueryResult = result;
         if (this.userEventsQueryResult?.data?.usersEvents) {
@@ -75,13 +77,8 @@ export class ProfilePage implements OnInit, OnDestroy {
               (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
             );
         }
-      }, err => this.handleError(err))
+      }, err => this.errorService.handleError(err, this.loading))
     );
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   async ionViewDidEnter() {
@@ -132,11 +129,11 @@ export class ProfilePage implements OnInit, OnDestroy {
                   awaitRefetchQueries: true,
                 }).toPromise().then(() => {
                   this.loading = false;
-                }).catch(err => this.handleError(err));
+                }).catch(err => this.errorService.handleError(err, this.loading));
               });
             });
           } catch (error) {
-            this.handleError(error);
+            this.errorService.handleError(error, this.loading);
           }
         }
       },
@@ -158,11 +155,11 @@ export class ProfilePage implements OnInit, OnDestroy {
                   awaitRefetchQueries: true,
                 }).toPromise().then(() => {
                   this.loading = false;
-                }).catch(err => this.handleError(err));
+                }).catch(err => this.errorService.handleError(err, this.loading));
               });
             });
           } catch (error) {
-            this.handleError(error);
+            this.errorService.handleError(error, this.loading);
           }
         }
       },

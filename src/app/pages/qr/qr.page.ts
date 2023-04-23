@@ -12,6 +12,7 @@ import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 import jsQR from 'jsqr';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { EventDocument, InvitesByHubDocument, InvitesByHubQueryVariables, InviteUserToEventGQL, InviteUserToHubGQL, UsersPeopleDocument } from 'src/graphql/graphql';
 
 export interface InviteContext { 
@@ -55,6 +56,7 @@ export class QrPage implements OnInit, OnDestroy {
     private readonly inviteUserToEventService: InviteUserToEventGQL,
     private readonly inviteUserToHubGQLService: InviteUserToHubGQL,
     private readonly navCtrl: NavController,
+    private readonly errorService: ErrorService,
   ) {
     const state = this.router.getCurrentNavigation()?.extras?.state;
     this.title = state?.title;
@@ -106,11 +108,6 @@ export class QrPage implements OnInit, OnDestroy {
     } else {
       this.stopPwaScan();
     }
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   async segmentChanged(event) {
@@ -309,7 +306,7 @@ export class QrPage implements OnInit, OnDestroy {
       }
     } catch (error) {
       this.navCtrl.back();
-      this.handleError(error);
+      this.errorService.handleError(error, this.loading);
     }
 
   }
@@ -336,7 +333,7 @@ export class QrPage implements OnInit, OnDestroy {
       await ScreenBrightness.setBrightness({ brightness: 1 }).catch(x => undefined);
       this.loading = false;
     } catch (error) {
-      this.handleError(error);
+      this.errorService.handleError(error, this.loading);
     }
   }
 
@@ -366,7 +363,7 @@ export class QrPage implements OnInit, OnDestroy {
         });
       }
     } catch (error) {
-      this.handleError(error);
+      this.errorService.handleError(error, this.loading);
     }
   }
 

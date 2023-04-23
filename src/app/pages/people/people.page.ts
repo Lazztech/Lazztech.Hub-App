@@ -6,6 +6,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { CommunicationService } from 'src/app/services/communication.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { UsersPeopleGQL, UsersPeopleQuery } from 'src/graphql/graphql';
 
@@ -36,7 +37,7 @@ export class PeoplePage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     private readonly communcationService: CommunicationService,
     private readonly usersPeopleGQLService: UsersPeopleGQL,
-    private readonly alertService: AlertService,
+    private readonly errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -49,7 +50,7 @@ export class PeoplePage implements OnInit, OnDestroy {
         this.loading = result.loading;
         this.personsResult = result;
         this.alphabetizedPersons = this.alphabetizePersons(result?.data?.usersPeople);
-      }, err => this.handleError(err))
+      }, err => this.errorService.handleError(err, this.loading))
     );
   }
 
@@ -65,11 +66,6 @@ export class PeoplePage implements OnInit, OnDestroy {
     this.subscriptions.forEach(
       x => x.unsubscribe()
     );
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
 

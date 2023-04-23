@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
-import { NotificationsService } from 'src/app/services/notifications/notifications.service';
-import { NGXLogger } from 'ngx-logger';
-import { AlertService } from 'src/app/services/alert/alert.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { Browser } from '@capacitor/browser';
+import { MenuController, NavController } from '@ionic/angular';
+import { NGXLogger } from 'ngx-logger';
+import { AlertService } from 'src/app/services/alert/alert.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -35,11 +35,11 @@ export class LandingPage implements OnInit {
     private authService: AuthService,
     private navCtrl: NavController,
     private faio: FingerprintAIO,
-    private notificationsService: NotificationsService,
     private logger: NGXLogger,
     private alertService: AlertService,
     private fb: UntypedFormBuilder,
     private readonly route: ActivatedRoute,
+    private readonly errorService: ErrorService,
   ) {
     this.menu.enable(false);
     this.returnUrl = this.route?.snapshot?.queryParams['returnUrl'];
@@ -68,11 +68,6 @@ export class LandingPage implements OnInit {
         Validators.minLength(10)
       ]]
     });
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   async register() {
@@ -140,7 +135,7 @@ export class LandingPage implements OnInit {
         this.alertService.presentToast('Registration Failed');
       }
     } catch (error) {
-      this.handleError(error);
+      this.errorService.handleError(error, this.loading);
     }
   }
 }

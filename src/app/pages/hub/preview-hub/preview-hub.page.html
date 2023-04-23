@@ -14,8 +14,8 @@
   <ion-list-header>Hub Location</ion-list-header>
 
   <ion-card *ngIf="!loading && invite?.hub && hubCoords" style="height:30%" (click)="goToMap()">
-      <app-leaflet-map *ngIf="invite?.hub && hubCoords" [center]="hubCoords" [hubs]="[invite.hub]">
-      </app-leaflet-map>
+      <app-maplibre *ngIf="invite?.hub && hubCoords" [center]="hubCoords" [hubs]="[invite.hub]">
+      </app-maplibre>
   </ion-card>
 </ion-content>
 

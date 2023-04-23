@@ -1,17 +1,17 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
+import { Config, MenuController, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserHub, User, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { environment } from '../../environments/environment';
 import { LeafletMapComponent } from '../components/leaflet-map/leaflet-map.component';
+import { MaplibreComponent } from '../components/maplibre/maplibre.component';
 import { AlertService } from '../services/alert/alert.service';
 import { AuthService } from '../services/auth/auth.service';
 import { DebuggerService } from '../services/debugger/debugger.service';
-import { ForegroundGeofenceService } from '../services/foreground-geofence.service';
+import { ErrorService } from '../services/error.service';
 import { LocationService } from '../services/location/location.service';
-import { Config } from "@ionic/angular";
 
 @Component({
   selector: 'app-home',
@@ -25,8 +25,8 @@ export class HomePage implements OnInit, OnDestroy {
   devModeEasterEggCount = 0;
 
   loading = true;
-  @ViewChild(LeafletMapComponent)
-  map: LeafletMapComponent;
+  @ViewChild(MaplibreComponent)
+  map: MaplibreComponent;
   completedInitialAccountSetup: boolean;
   invites: InvitesByUserQuery['invitesByUser'];
   filter = '';
@@ -44,12 +44,12 @@ export class HomePage implements OnInit, OnDestroy {
     public navCtrl: NavController,
     public locationService: LocationService,
     private logger: NGXLogger,
-    private foregroundGeofenceService: ForegroundGeofenceService,
     private readonly invitesByUserGQLService: InvitesByUserGQL,
     private readonly userHubsGQLService: UsersHubsGQL,
     private readonly debugService: DebuggerService,
     private readonly alertService: AlertService,
     private readonly config: Config,
+    private readonly errorService: ErrorService,
   ) {
     this.menu.enable(true);
     this.mode = this.config.get("mode");
@@ -77,9 +77,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.user = await this.authService.user();
-    await this.locationService.watchPosition(
-      (location) => this.foregroundGeofenceService.asses(location)
-    );
 
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
     const invitesByUserRef = this.invitesByUserGQLService.watch(null, { pollInterval: 3000 });
@@ -105,18 +102,18 @@ export class HomePage implements OnInit, OnDestroy {
 
           this.hubs = this.userHubs?.map(x => x.hub as Hub);
         }
-      }, err => this.handleError(err)),
+      }, err => this.errorService.handleError(err, this.loading)),
       invitesByUserRef.valueChanges.subscribe(x => {
         this.invites = x?.data?.invitesByUser;
         this.loading = x.loading;
-      }, err => this.handleError(err))
+      }, err => this.errorService.handleError(err, this.loading))
     );
   }
 
   async ionViewDidEnter() {
     this.completedInitialAccountSetup = await this.authService.completedInitialAccountSetup();
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
-    this.map?.invalidateSize();
+    this.map?.resize();
   }
 
   async ionViewDidLeave() {
@@ -127,11 +124,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.subscriptions.forEach(
       x => x.unsubscribe()
     );
-  }
-
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   userTrackByHub(index: any, joinUserHub: JoinUserHub) {
@@ -170,12 +162,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   goToMap() {
-    this.navCtrl.navigateForward('map', {
-      state: {
-        hubCoords: this.locationService.location,
-        hubs: this.hubs
-      }
-    });
+    this.navCtrl.navigateForward('map');
   }
 
   async goToQrPage() {

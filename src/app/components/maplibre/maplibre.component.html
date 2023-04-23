@@ -1,0 +1,115 @@
+<div *ngIf="enableSearch">
+  <ion-searchbar debounce="1000" (ionInput)="debouncedSearchFunc($event)" showCancelButton="focus"></ion-searchbar>
+  <ion-list *ngIf="searchResults">
+      <ion-item *ngFor="let result of searchResults" (click)="selectSearch(result)">{{ result.label }}</ion-item>
+    </ion-list>
+</div>
+<mgl-map
+  #map
+  [style]="style"
+  [center]="[center?.longitude, center?.latitude]"
+  [zoom]="8"
+  [minZoom]="1"
+  [pitch]="10"
+  [antialias]="true"
+  (mapLoad)="onMapLoad($event)"
+  [attributionControl]="false"
+  [dragRotate]="showControls"
+  [touchZoomRotate]="showControls"
+  [doubleClickZoom]="showControls"
+  [scrollZoom]="showControls"
+  [keyboard]="showControls"
+  [dragPan]="showControls"
+>
+  <!-- Map Configuration -->
+  <mgl-control 
+    mglFullscreen
+    *ngIf="showControls"
+  ></mgl-control>
+  <mgl-control
+    mglNavigation
+    [showCompass]="showControls"
+    [showZoom]="false"
+  ></mgl-control>
+  <mgl-control
+    mglAttribution
+    [compact]="true"
+    [position]="attributionLocation"
+  ></mgl-control>
+
+  <!-- Users Animated Location Dot -->
+  <!-- <mgl-image
+  [id]="'pulsing-dot'"
+  [data]="yourLocationPulsingDot"
+  >
+  </mgl-image>
+  <mgl-geojson-source
+    [id]="'yourLocationPulsingDotPoint'"
+    [data]="yourLocationPulsingDotGeoData"
+  ></mgl-geojson-source>
+  <mgl-layer
+    [id]="'yourLocationPulsingDotPoint'"
+    [type]="'symbol'"
+    [source]="'yourLocationPulsingDotPoint'"
+    [layout]="{  }"
+  ></mgl-layer> -->
+
+  <!-- Location Markers -->
+  <mgl-marker
+    *ngFor="let location of locations"
+    [lngLat]="[location?.longitude, location?.latitude]"
+  >
+    <div class="map-pin" (click)="markerOnClick(location)">
+      <div class="pin-point" [ngStyle]="{'background-color': location?.active ?  'var(--ion-color-success)' : 'var(--ion-color-medium)'}"></div>
+      <div
+        class="map-pin-image"
+        [ngStyle]="{'background-image': 'url(' + location?.image + ')'}"
+      ></div>
+    </div>
+  </mgl-marker>
+
+  <!-- 3d Buildings -->
+  <!-- <mgl-layer
+    id="3d-buildings"
+    source="protomaps"
+    sourceLayer="buildings"
+    [filter]="['==', 'extrude', 'true']"
+    type="fill-extrusion"
+    [minzoom]="15"
+    [paint]="{
+      'fill-extrusion-color': '#aaa',
+      'fill-extrusion-height': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.05,
+        ['get', 'height']
+      ],
+      'fill-extrusion-base': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        15,
+        0,
+        15.05,
+        ['get', 'min_height']
+      ],
+      'fill-extrusion-opacity': 0.6
+    }"
+    [before]="labelLayerId"
+  ></mgl-layer> -->
+</mgl-map>
+<!-- <div *ngIf="enableSearch">
+    <ion-modal #modal trigger="open-modal" [initialBreakpoint]="modalInitialBreakpoint" [breakpoints]="[0, 0.25, 0.5, 0.75]" [isOpen]="true">
+      <ng-template>
+        <ion-content>
+          <ion-searchbar debounce="1000" (ionInput)="debouncedSearchFunc($event)" showCancelButton="focus"></ion-searchbar>
+          <ion-list *ngIf="searchResults">
+            <ion-item *ngFor="let result of searchResults" (click)="selectSearch(result)">{{ result.label }}</ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+</div> -->

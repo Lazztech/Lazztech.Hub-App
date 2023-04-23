@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { InviteQuery, Scalars } from 'src/graphql/graphql';
 
@@ -23,7 +24,7 @@ export class PreviewHubPage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private hubService: HubService,
     public navCtrl: NavController,
-    private alertService: AlertService,
+    private readonly errorService: ErrorService,
   ) { }
 
   ngOnInit() {
@@ -38,17 +39,12 @@ export class PreviewHubPage implements OnInit, OnDestroy {
           latitude: this.invite.hub.latitude,
           longitude: this.invite.hub.longitude
         };
-      }, err => this.handleError(err))
+      }, err => this.errorService.handleError(err, this.loading))
     );
   }
 
   async ngOnDestroy() {
     this.subscriptions.forEach(x => x.unsubscribe());
-  }
-  
-  async handleError(err) {
-    await this.alertService.presentRedToast(`Whoops, something went wrong... ${err}`);
-    this.loading = false;
   }
 
   async goToMap() {
@@ -67,7 +63,7 @@ export class PreviewHubPage implements OnInit, OnDestroy {
       this.loading = false;
       this.navCtrl.back();
     } catch (error) {
-      this.handleError(error);
+      this.errorService.handleError(error, this.loading);
     }
   }
 
@@ -78,7 +74,7 @@ export class PreviewHubPage implements OnInit, OnDestroy {
       this.loading = false;
       this.navCtrl.back();
     } catch (error) {
-      this.handleError(error);
+      this.errorService.handleError(error, this.loading);
     }
   }
 

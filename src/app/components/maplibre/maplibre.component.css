@@ -1,0 +1,64 @@
+mgl-map {
+  height: 100%;
+  width: 100%;
+}
+
+.map-pin {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 60px;
+  transform: translateY(-40%);
+}
+
+.map-pin:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.map-pin:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  /* border: 3px solid white; */
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.map-pin-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  /* border: 1px solid black; */
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.map-pin .pin-point {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35px;
+  height: 35px;
+  border-radius: 50% 50% 50% 0;
+  transform: translateX(7%) translateY(36%) rotate(-45deg);
+  border: 2px solid black;
+}

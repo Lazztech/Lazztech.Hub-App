@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { LocationService } from 'src/app/services/location/location.service';
 import { EventDocument, JoinUserEvent, RsvpGQL } from 'src/graphql/graphql';
 
 @Component({
@@ -17,6 +18,7 @@ export class EventCardComponent implements OnChanges {
   constructor(
     private readonly navCtrl: NavController,
     private readonly rsvpService: RsvpGQL,
+    public locationService: LocationService,
   ) { }
 
   goToEventPage() {

@@ -3,5 +3,10 @@
 	"appName": "Lazztech Hub",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",
-	"webDir": "www"
+	"webDir": "www",
+	"plugins": {
+		"Keyboard": {
+			"resize": "body"
+		}
+	}
 }
