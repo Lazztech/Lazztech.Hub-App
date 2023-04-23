@@ -42,7 +42,14 @@ export class MapPage implements OnInit, OnDestroy {
     this.subscriptions.push(
       userHubsQueryRef.valueChanges.subscribe(x => {
         this.loading = x.loading;
-        this.userHubs = [...x?.data?.usersHubs]?.filter(x => x.hub);
+        this.userHubs = [...x?.data?.usersHubs]?.filter(x => x.hub)?.sort((a, b) => {
+          if (this?.locationService.location) {
+            console.log('sorting');
+            return this.locationService.getDistanceFromHub(a?.hub as Hub, this?.locationService.location) - this.locationService.getDistanceFromHub(b?.hub as Hub, this?.locationService.location);
+          } else {
+            return 1;
+          }
+        });
         this.locations = this.userHubs?.map(x => x.hub as Hub);
       }),
     )
