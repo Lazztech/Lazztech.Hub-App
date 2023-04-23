@@ -45,10 +45,10 @@
     (ionModalWillPresent)="didPresentModal()">
     <ng-template>
       <ion-content>
-        <ion-searchbar placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
+        <ion-searchbar placeholder="Search" (ionInput)="filterHubs($event)" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
         <ion-list>
-          <ion-item *ngFor="let userHub of userHubs" (click)="searchItemClick(userHub)">
-            <ion-avatar slot="start">
+          <ion-item *ngFor="let userHub of userHubs" (click)="modal.setCurrentBreakpoint(0.4) && searchItemClick(userHub)" [hidden]="isFiltered(userHub)">
+            <ion-avatar slot="start" *ngIf="userHub.hub?.image">
               <ion-img src="{{userHub.hub?.image}}"></ion-img>
             </ion-avatar>
             <ion-label>

@@ -21,6 +21,7 @@ export class MapPage implements OnInit, OnDestroy {
   center: any = this.locationService?.position?.coords;
   userHubs: UsersHubsQuery['usersHubs'];
   modalInitialBreakpoint: number;
+  filter = '';
 
   isOpen = true;
 
@@ -94,6 +95,17 @@ export class MapPage implements OnInit, OnDestroy {
 
   searchItemClick(userHub: JoinUserHub) {
     this.map.flyTo(userHub.hub)
+  }
+
+  filterHubs(ev: any) {
+    this.filter = ev.target.value;
+  }
+
+  isFiltered(userHub: JoinUserHub) {
+    if (this.filter && this.filter.trim() !== '') {
+      const name = userHub.hub.name.trim().toLowerCase();
+      return !name.includes(this.filter.trim().toLowerCase());
+    }
   }
 
   onSearchSelected(event: { latitude: number, longitude: number }) {
