@@ -86,6 +86,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   @Input() showControls = false;
   @Input() enableSearch = false;
   @Input() attributionLocation = 'top-left';
+  @Input() initialZoom: boolean = true;
 
   @Output() loading = new EventEmitter<boolean>();
   @Output() searchSelected = new EventEmitter<{ latitude: number, longitude: number, label: string }>();
@@ -122,7 +123,9 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
 
     this.map.resize();
     
-    setTimeout(() => this.flyTo(this.center), 1000);
+    if (this.initialZoom) {
+      setTimeout(() => this.flyTo(this.center), 1000);
+    }
 
     console.log(this.map.getLayer('building'))
     console.log(this.map.getLayer('buildings'))

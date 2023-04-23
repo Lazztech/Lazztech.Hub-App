@@ -66,6 +66,13 @@ export class MapPage implements OnInit, OnDestroy {
   async ionViewDidEnter() {
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
     this.isOpen = true;
+    setTimeout(() => {
+      this.map.map.easeTo({
+        pitch: 60,
+        zoom: 11,
+        duration: 2000
+      });
+    }, 1500);
   }
 
   async ionViewWillLeave() {
