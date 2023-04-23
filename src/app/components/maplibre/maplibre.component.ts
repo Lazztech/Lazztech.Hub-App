@@ -122,7 +122,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
 
     this.map.resize();
     
-    setTimeout(() => this.flyTo(), 1000);
+    setTimeout(() => this.flyTo(this.center), 1000);
 
     console.log(this.map.getLayer('building'))
     console.log(this.map.getLayer('buildings'))
@@ -183,11 +183,11 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   }
 
   flyTo(location?: { latitude?: number, longitude?: number}) {
-    if (location || this.center?.latitude && this.center?.longitude) {
+    if (location?.latitude && location?.latitude) {
       this.map.flyTo({
         center: { 
-          lat: location.latitude ||this.center.latitude, 
-          lon: location.longitude || this.center.longitude 
+          lat: location.latitude,
+          lon: location.longitude
         },
         zoom: 11,
       });
