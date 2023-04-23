@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { IonContent } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
+import { MaplibreComponent } from 'src/app/components/maplibre/maplibre.component';
 import { Hub, JoinUserHub, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
 import { LocationService } from '../../services/location/location.service';
-import _ from 'lodash-es';
-import { Position } from '@capacitor/geolocation';
-import { MaplibreComponent } from 'src/app/components/maplibre/maplibre.component';
 @Component({
   selector: 'app-map',
   templateUrl: './map.page.html',
@@ -22,7 +21,8 @@ export class MapPage implements OnInit, OnDestroy {
   userHubs: UsersHubsQuery['usersHubs'];
   modalInitialBreakpoint: number;
   filter = '';
-
+  @ViewChild(IonContent, { static: true }) private content: IonContent;
+  modalStyle: any;
   isOpen = true;
 
   constructor(
@@ -31,6 +31,13 @@ export class MapPage implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.content.getScrollElement().then(scrollElement => {
+      this.modalStyle = {
+        '--width': `${scrollElement.clientWidth}px`,
+        'left': 0
+      };
+    });
+
     const padding = 20;
     const searchBarHeightPixes = 60;
     const screenHeight = window.screen.height;

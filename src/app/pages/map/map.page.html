@@ -35,6 +35,8 @@
 
   <ion-modal 
     #modal 
+    [ngStyle]="modalStyle"
+    class="custom-modal"
     [canDismiss]="true" 
     [swipeToClose]="true" 
     [isOpen]="isOpen" 
