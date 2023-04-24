@@ -66,7 +66,7 @@ export class MapPage implements OnInit, OnDestroy {
             return 1;
           }
         });
-        this.locations = this.userHubs?.map(x => x.hub as Hub);
+        this.locations = [...this.userHubs?.map(x => x.hub as Hub)];
       }),
       userEventsQueryRef?.valueChanges?.subscribe(result => {
         this.loading = result.loading;
@@ -138,6 +138,11 @@ export class MapPage implements OnInit, OnDestroy {
 
   async segmentChanged(event) {
     this.initialMode = event?.detail?.value;
+    if (this.initialMode === 'hubs') {
+      this.locations = [...this.userHubs?.map(x => x.hub as Hub)];
+    } else if (this.initialMode === 'events') {
+      this.locations = [...this.sortedEvents?.map(x => x.event)];
+    }
   }
 
   onSearchSelected(event: { latitude: number, longitude: number }) {
