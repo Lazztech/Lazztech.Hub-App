@@ -8,8 +8,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true">
-  <app-maplibre 
+<ion-content fullscreen="true" (click)="modal.dismiss()">
+  <app-maplibre
     *ngIf="center" 
     [center]="center" 
     [yourLocation]="center" 
@@ -27,14 +27,8 @@
     style="height: 100%;"
   ></ion-skeleton-text>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [hidden]="isOpen">
-    <ion-fab-button color="medium" (click)="toggleModal()">
-      <ion-icon name="search-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
   <ion-modal 
-    #modal 
+    #modal
     [ngStyle]="modalStyle"
     class="custom-modal"
     [canDismiss]="true" 
@@ -43,7 +37,7 @@
     [initialBreakpoint]="0.135" 
     [breakpoints]="[0, 0.135, 0.4, 0.75, 0.95]" 
     [backdropDismiss]="false" 
-    [backdropBreakpoint]="0.4"
+    [backdropBreakpoint]="0.75"
     (ionModalWillDismiss)="didDismissModal()"
     (ionModalWillPresent)="didPresentModal()">
     <ng-template>
@@ -64,3 +58,9 @@
     </ng-template>
   </ion-modal>
 </ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" [hidden]="isOpen">
+  <ion-fab-button color="medium" (click)="toggleModal()">
+    <ion-icon name="search-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
