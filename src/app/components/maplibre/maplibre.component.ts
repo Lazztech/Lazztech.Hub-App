@@ -28,35 +28,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       }
     },
-    layers: layers("protomaps", this.themeService.isDark() ? 'black' : 'white')?.map(layer => {
-      if (layer.id == 'buildings') {
-        console.log(layer);
-        const buildingLayerPaint = {
-          'fill-extrusion-color': '#aaa',
-          'fill-extrusion-height': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            5,
-            0,
-            15.05,
-            ['get', 'height']
-          ],
-          'fill-extrusion-base': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            5,
-            0,
-            15.05,
-            ['get', 'min_height']
-          ],
-          'fill-extrusion-opacity': 0.6
-        };
-        layer.paint = buildingLayerPaint;
-      }
-      return layer;
-    })
+    layers: layers("protomaps", this.themeService.isDark() ? 'black' : 'white')
   };
   // for reference if wanted later
   osmLibertyStyle = "https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json";
@@ -104,9 +76,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   yourLocationPulsingDotGeoData: any;
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (this.map && changes.center) {
-    //   this.flyTo();
-    // }
     if (this.map && changes.yourLocation) {
       this.updateYourLocationMarker();
     }
@@ -143,8 +112,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       }
     }
 
-    // this.rotateCamera(0, this.map);
-
     this.yourLocationPulsingDot = this.createPulsingDot(this.map, this.size);
     this.map.addImage('pulsing-dot', this.yourLocationPulsingDot, { pixelRatio: 2 });
     this.yourLocationPulsingDotGeoData = {
@@ -175,14 +142,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
 
   public resize() {
     this.map.resize();
-  }
-
-  rotateCamera(timestamp, map) {
-    // clamp the rotation between 0 -360 degrees
-    // Divide timestamp by 100 to slow rotation to ~10 degrees / sec
-    map.rotateTo((timestamp / 100) % 360, { duration: 0 });
-    // Request the next frame of the animation.
-    requestAnimationFrame((t) => this.rotateCamera(t, map));
   }
 
   flyTo(location?: { latitude?: number, longitude?: number}) {
