@@ -43,7 +43,7 @@
     <ng-template>
       <ion-content>
         <ion-searchbar placeholder="Search" (ionInput)="filterHubs($event)" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
-        <div class="ion-padding-start ion-padding-end">
+        <div class="ion-padding-start ion-padding-end ion-padding-bottom">
             <ion-segment [value]="initialMode" (ionChange)="segmentChanged($event)">
               <ion-segment-button value="hubs">
                 <ion-label>Hubs</ion-label>
