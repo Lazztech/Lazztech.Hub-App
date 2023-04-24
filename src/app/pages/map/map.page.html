@@ -43,14 +43,35 @@
     <ng-template>
       <ion-content>
         <ion-searchbar placeholder="Search" (ionInput)="filterHubs($event)" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
-        <ion-list>
-          <ion-item *ngFor="let userHub of userHubs" (click)="modal.setCurrentBreakpoint(0.4) && searchItemClick(userHub)" [hidden]="isFiltered(userHub)">
+        <div class="ion-padding-start ion-padding-end">
+            <ion-segment [value]="initialMode" (ionChange)="segmentChanged($event)">
+              <ion-segment-button value="hubs">
+                <ion-label>Hubs</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="events">
+                <ion-label>Events</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+        </div>
+        <ion-list *ngIf="initialMode === 'hubs'">
+          <ion-item *ngFor="let userHub of userHubs" (click)="modal.setCurrentBreakpoint(0.135) && searchItemClick(userHub)" [hidden]="isFiltered(userHub)">
             <ion-avatar slot="start" *ngIf="userHub.hub?.image">
               <ion-img src="{{userHub.hub?.image}}"></ion-img>
             </ion-avatar>
             <ion-label>
               <h2>{{userHub.hub?.name}}</h2>
               <p>{{userHub.hub?.locationLabel}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-list *ngIf="initialMode === 'events'">
+          <ion-item *ngFor="let userEvent of sortedEvents" (click)="modal.setCurrentBreakpoint(0.135) && searchItemClick(userEvent)" [hidden]="isFiltered(userEvent)">
+            <ion-avatar slot="start" *ngIf="userEvent.event?.image">
+              <ion-img src="{{userEvent.event?.image}}"></ion-img>
+            </ion-avatar>
+            <ion-label>
+              <h2>{{userEvent.event?.name}}</h2>
+              <p>{{userEvent.event?.locationLabel}}</p>
             </ion-label>
           </ion-item>
         </ion-list>
