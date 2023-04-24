@@ -120,8 +120,8 @@ export class MapPage implements OnInit, OnDestroy {
     this.isOpen = true;
   }
 
-  searchItemClick(userHub: JoinUserHub) {
-    this.map.flyTo(userHub.hub)
+  searchItemClick(join: any) {
+    this.map.flyTo(join.hub || join.event);
   }
 
   filterHubs(ev: any) {
