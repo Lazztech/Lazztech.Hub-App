@@ -108,8 +108,8 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       }
     }
 
+    // prepare pulsing-dot for users location
     this.yourLocationPulsingDot = this.createPulsingDot(this.map, this.size);
-    this.map.addImage('pulsing-dot', this.yourLocationPulsingDot, { pixelRatio: 2 });
     this.yourLocationPulsingDotGeoData = {
       'type': 'FeatureCollection',
       'features': [
@@ -122,18 +122,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         }
       ]
     };
-    this.map.addSource('yourLocationPulsingDotPoint', {
-      'type': 'geojson',
-      'data': this.yourLocationPulsingDotGeoData,
-    });
-    this.map.addLayer({
-      'id': 'yourLocationPulsingDotPoint',
-      'type': 'symbol',
-      'source': 'yourLocationPulsingDotPoint',
-      'layout': {
-        'icon-image': 'pulsing-dot'
-      }
-    });
   }
 
   public resize() {

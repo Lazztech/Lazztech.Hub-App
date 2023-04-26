@@ -46,12 +46,16 @@
   ></mgl-control> -->
 
   <!-- Users Animated Location Dot -->
-  <!-- <mgl-image
-  [id]="'pulsing-dot'"
-  [data]="yourLocationPulsingDot"
-  >
-  </mgl-image>
+  <mgl-image
+    *ngIf="yourLocationPulsingDot"
+    [id]="'pulsing-dot'"
+    [data]="yourLocationPulsingDot"
+    [options]="{
+      pixelRatio: 2
+    }"
+  ></mgl-image>
   <mgl-geojson-source
+    *ngIf="yourLocationPulsingDotGeoData"
     [id]="'yourLocationPulsingDotPoint'"
     [data]="yourLocationPulsingDotGeoData"
   ></mgl-geojson-source>
@@ -59,8 +63,10 @@
     [id]="'yourLocationPulsingDotPoint'"
     [type]="'symbol'"
     [source]="'yourLocationPulsingDotPoint'"
-    [layout]="{  }"
-  ></mgl-layer> -->
+    [layout]="{ 
+      'icon-image': 'pulsing-dot'
+    }"
+  ></mgl-layer>
 
   <!-- Location Markers -->
   <mgl-marker
