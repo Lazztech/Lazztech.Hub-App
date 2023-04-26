@@ -96,12 +96,8 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       setTimeout(() => this.flyTo(this.center), 1000);
     }
 
-    console.log(this.map.getLayer('building'))
-    console.log(this.map.getLayer('buildings'))
-    console.log(this.map.getLayer('3d-buildings'))
-
+    // for 3d building layer placement
     const layers = map.getStyle().layers!;
-
     for (let i = 0; i < layers.length; i++) {
       if (
         layers[i].type === 'symbol' &&
@@ -165,8 +161,10 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   updateYourLocationMarker() {
     // Update the Point feature in `geojson` coordinates
     // and call setData to the source layer `point` on it.
-    this.yourLocationPulsingDotGeoData.features[0].geometry.coordinates = [this.yourLocation.longitude, this.yourLocation.latitude];
-    (this.map.getSource('yourLocationPulsingDotPoint') as GeoJSONSource).setData(this.yourLocationPulsingDotGeoData);
+    if (this.yourLocationPulsingDotGeoData?.features?.length) {
+      this.yourLocationPulsingDotGeoData.features[0].geometry.coordinates = [this.yourLocation.longitude, this.yourLocation.latitude];
+      (this.map.getSource('yourLocationPulsingDotPoint') as GeoJSONSource).setData(this.yourLocationPulsingDotGeoData);
+    }
   }
 
   private async searchAddress(event: any) {
