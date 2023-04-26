@@ -63,10 +63,21 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   @Output() loading = new EventEmitter<boolean>();
   @Output() searchSelected = new EventEmitter<{ latitude: number, longitude: number, label: string }>();
 
+  private readonly mapFunctionQueue: Array<(map: Map) => Promise<any>> = [];
+
   constructor(
     public navCtrl: NavController,
     public themeService: ThemeService,
   ) { }
+
+  /**
+   * Enqueue functions to be run on the map on component startup but
+   * before ngx-maplibre map initialization which will be run on map load
+   * @param func 
+   */
+  enqueueFunc(func: (map: Map) => Promise<any>) {
+    this.mapFunctionQueue.push(func);
+  }
 
 
   size = 100;
@@ -122,6 +133,13 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         }
       ]
     };
+
+    this.mapFunctionQueue.forEach(func => {
+      func(map).then(() => {
+        const index = this.mapFunctionQueue.indexOf(func);
+        this.mapFunctionQueue.splice(index);
+      })
+    })
   }
 
   public resize() {
