@@ -36,6 +36,14 @@
     [compact]="true"
     [position]="attributionLocation"
   ></mgl-control>
+  <mgl-control
+    mglGeolocate
+    *ngIf="showControls"
+    [positionOptions]="{
+      enableHighAccuracy: false
+    }"
+    [trackUserLocation]="true"
+  ></mgl-control>
 
   <!-- Users Animated Location Dot -->
   <!-- <mgl-image
