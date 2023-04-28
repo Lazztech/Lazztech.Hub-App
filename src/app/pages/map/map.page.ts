@@ -3,7 +3,7 @@ import { IonContent } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { MaplibreComponent } from 'src/app/components/maplibre/maplibre.component';
-import { Hub, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
+import { Hub, JoinUserEvent, JoinUserHub, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
 import { LocationService } from '../../services/location/location.service';
 @Component({
   selector: 'app-map',
@@ -86,15 +86,13 @@ export class MapPage implements OnInit, OnDestroy {
   async ionViewDidEnter() {
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
     this.isOpen = true;
-
-    this.map.enqueueFunc((map) => new Promise((resolve) => {
-        resolve(map?.easeTo({
-          pitch: 60,
-          zoom: 11,
-          duration: 2000
-        }));
-      })
-    );
+    setTimeout(() => {
+      this.map?.map?.easeTo({
+        pitch: 60,
+        zoom: 11,
+        duration: 2000
+      });
+    }, 1000);
   }
 
   async ionViewWillLeave() {
