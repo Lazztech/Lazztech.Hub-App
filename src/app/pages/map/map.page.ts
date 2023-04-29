@@ -3,7 +3,7 @@ import { IonContent } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { MaplibreComponent } from 'src/app/components/maplibre/maplibre.component';
-import { Hub, JoinUserEvent, JoinUserHub, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
+import { Hub, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
 import { LocationService } from '../../services/location/location.service';
 @Component({
   selector: 'app-map',
