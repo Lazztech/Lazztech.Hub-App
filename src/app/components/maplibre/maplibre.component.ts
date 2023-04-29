@@ -8,6 +8,7 @@ import * as pmtiles from "pmtiles";
 import layers from 'protomaps-themes-base';
 import _ from 'lodash-es';
 import { ThemeService } from 'src/app/services/theme/theme.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-maplibre',
@@ -22,9 +23,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     sources: {
       "protomaps": {
         type: "vector",
-        // url: "pmtiles://https://pub-9288c68512ed46eca46ddcade307709b.r2.dev/protomaps-sample-datasets/protomaps_vector_planet_odbl_z10.pmtiles",
-        // url: "pmtiles://http://localhost:8080/file/protomaps_vector_planet_odbl_z10.pmtiles",
-        url: 'pmtiles://https://r2-public.protomaps.com/protomaps-sample-datasets/protomaps-basemap-opensource-20230408.pmtiles',
+        url: `pmtiles://${environment.serverUrl}protomaps/tiles.pmtiles`,
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       }
     },
