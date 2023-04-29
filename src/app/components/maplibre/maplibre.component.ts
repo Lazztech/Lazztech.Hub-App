@@ -28,35 +28,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       }
     },
-    layers: layers("protomaps", this.themeService.isDark() ? 'black' : 'white')?.map(layer => {
-      if (layer.id == 'buildings') {
-        console.log(layer);
-        const buildingLayerPaint = {
-          'fill-extrusion-color': '#aaa',
-          'fill-extrusion-height': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            5,
-            0,
-            15.05,
-            ['get', 'height']
-          ],
-          'fill-extrusion-base': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            5,
-            0,
-            15.05,
-            ['get', 'min_height']
-          ],
-          'fill-extrusion-opacity': 0.6
-        };
-        layer.paint = buildingLayerPaint;
-      }
-      return layer;
-    })
+    layers: layers("protomaps", this.themeService.isDark() ? 'black' : 'white')
   };
   // for reference if wanted later
   osmLibertyStyle = "https://raw.githubusercontent.com/nst-guide/osm-liberty-topo/gh-pages/style.json";
@@ -104,9 +76,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   yourLocationPulsingDotGeoData: any;
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (this.map && changes.center) {
-    //   this.flyTo();
-    // }
     if (this.map && changes.yourLocation) {
       this.updateYourLocationMarker();
     }
@@ -127,12 +96,8 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       setTimeout(() => this.flyTo(this.center), 1000);
     }
 
-    console.log(this.map.getLayer('building'))
-    console.log(this.map.getLayer('buildings'))
-    console.log(this.map.getLayer('3d-buildings'))
-
+    // for 3d building layer placement
     const layers = map.getStyle().layers!;
-
     for (let i = 0; i < layers.length; i++) {
       if (
         layers[i].type === 'symbol' &&
@@ -143,10 +108,8 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
       }
     }
 
-    // this.rotateCamera(0, this.map);
-
+    // prepare pulsing-dot for users location
     this.yourLocationPulsingDot = this.createPulsingDot(this.map, this.size);
-    this.map.addImage('pulsing-dot', this.yourLocationPulsingDot, { pixelRatio: 2 });
     this.yourLocationPulsingDotGeoData = {
       'type': 'FeatureCollection',
       'features': [
@@ -159,30 +122,10 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
         }
       ]
     };
-    this.map.addSource('yourLocationPulsingDotPoint', {
-      'type': 'geojson',
-      'data': this.yourLocationPulsingDotGeoData,
-    });
-    this.map.addLayer({
-      'id': 'yourLocationPulsingDotPoint',
-      'type': 'symbol',
-      'source': 'yourLocationPulsingDotPoint',
-      'layout': {
-        'icon-image': 'pulsing-dot'
-      }
-    });
   }
 
   public resize() {
     this.map.resize();
-  }
-
-  rotateCamera(timestamp, map) {
-    // clamp the rotation between 0 -360 degrees
-    // Divide timestamp by 100 to slow rotation to ~10 degrees / sec
-    map.rotateTo((timestamp / 100) % 360, { duration: 0 });
-    // Request the next frame of the animation.
-    requestAnimationFrame((t) => this.rotateCamera(t, map));
   }
 
   flyTo(location?: { latitude?: number, longitude?: number}) {
@@ -206,8 +149,10 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   updateYourLocationMarker() {
     // Update the Point feature in `geojson` coordinates
     // and call setData to the source layer `point` on it.
-    this.yourLocationPulsingDotGeoData.features[0].geometry.coordinates = [this.yourLocation.longitude, this.yourLocation.latitude];
-    (this.map.getSource('yourLocationPulsingDotPoint') as GeoJSONSource).setData(this.yourLocationPulsingDotGeoData);
+    if (this.yourLocationPulsingDotGeoData?.features?.length) {
+      this.yourLocationPulsingDotGeoData.features[0].geometry.coordinates = [this.yourLocation.longitude, this.yourLocation.latitude];
+      (this.map.getSource('yourLocationPulsingDotPoint') as GeoJSONSource).setData(this.yourLocationPulsingDotGeoData);
+    }
   }
 
   private async searchAddress(event: any) {

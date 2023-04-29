@@ -3,7 +3,7 @@ import { IonContent } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { MaplibreComponent } from 'src/app/components/maplibre/maplibre.component';
-import { Hub, JoinUserHub, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
+import { Hub, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from '../../../graphql/graphql';
 import { LocationService } from '../../services/location/location.service';
 @Component({
   selector: 'app-map',
@@ -24,10 +24,13 @@ export class MapPage implements OnInit, OnDestroy {
   @ViewChild(IonContent, { static: true }) private content: IonContent;
   modalStyle: any;
   isOpen = true;
+  initialMode: 'hubs' | 'events' | 'both' = 'hubs';
+  sortedEvents: UserEventsQuery['usersEvents'];
 
   constructor(
     public locationService: LocationService,
     private readonly userHubsGQLService: UsersHubsGQL,
+    private readonly userEvents: UserEventsGQL,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -46,8 +49,10 @@ export class MapPage implements OnInit, OnDestroy {
     this.modalInitialBreakpoint = percentage / 10;
 
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
+    const userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
     this.queryRefs.push(
       userHubsQueryRef,
+      userEventsQueryRef,
     );
 
     this.subscriptions.push(
@@ -61,7 +66,15 @@ export class MapPage implements OnInit, OnDestroy {
             return 1;
           }
         });
-        this.locations = this.userHubs?.map(x => x.hub as Hub);
+        this.locations = [...this.userHubs?.map(x => x.hub as Hub)];
+      }),
+      userEventsQueryRef?.valueChanges?.subscribe(result => {
+        this.loading = result.loading;
+        if (result?.data?.usersEvents) {
+          this.sortedEvents = [...result?.data?.usersEvents]?.sort(
+            (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
+          );
+        }
       }),
     )
   }
@@ -74,7 +87,7 @@ export class MapPage implements OnInit, OnDestroy {
     this.queryRefs.forEach(queryRef => queryRef.startPolling(3000));
     this.isOpen = true;
     setTimeout(() => {
-      this.map.map.easeTo({
+      this.map?.map?.easeTo({
         pitch: 60,
         zoom: 11,
         duration: 2000
@@ -107,18 +120,28 @@ export class MapPage implements OnInit, OnDestroy {
     this.isOpen = true;
   }
 
-  searchItemClick(userHub: JoinUserHub) {
-    this.map.flyTo(userHub.hub)
+  searchItemClick(join: any) {
+    this.map.flyTo(join.hub || join.event);
   }
 
   filterHubs(ev: any) {
     this.filter = ev.target.value;
   }
 
-  isFiltered(userHub: JoinUserHub) {
+  isFiltered(join: any) {
     if (this.filter && this.filter.trim() !== '') {
-      const name = userHub.hub.name.trim().toLowerCase();
+      const entity = join?.hub || join?.event;
+      const name = entity?.name.trim().toLowerCase();
       return !name.includes(this.filter.trim().toLowerCase());
+    }
+  }
+
+  async segmentChanged(event) {
+    this.initialMode = event?.detail?.value;
+    if (this.initialMode === 'hubs') {
+      this.locations = [...this.userHubs?.map(x => x.hub as Hub)];
+    } else if (this.initialMode === 'events') {
+      this.locations = [...this.sortedEvents?.map(x => x.event)];
     }
   }
 

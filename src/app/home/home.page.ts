@@ -12,6 +12,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { DebuggerService } from '../services/debugger/debugger.service';
 import { ErrorService } from '../services/error.service';
 import { LocationService } from '../services/location/location.service';
+import { ThemeService } from '../services/theme/theme.service';
 
 @Component({
   selector: 'app-home',
@@ -50,6 +51,7 @@ export class HomePage implements OnInit, OnDestroy {
     private readonly alertService: AlertService,
     private readonly config: Config,
     private readonly errorService: ErrorService,
+    public readonly themeService: ThemeService,
   ) {
     this.menu.enable(true);
     this.mode = this.config.get("mode");

@@ -11,7 +11,7 @@
   [zoom]="8"
   [minZoom]="1"
   [pitch]="10"
-  [antialias]="true"
+  [antialias]="false"
   (mapLoad)="onMapLoad($event)"
   [attributionControl]="false"
   [dragRotate]="showControls"
@@ -36,14 +36,26 @@
     [compact]="true"
     [position]="attributionLocation"
   ></mgl-control>
+  <!-- <mgl-control
+    mglGeolocate
+    *ngIf="showControls"
+    [positionOptions]="{
+      enableHighAccuracy: false
+    }"
+    [trackUserLocation]="true"
+  ></mgl-control> -->
 
   <!-- Users Animated Location Dot -->
-  <!-- <mgl-image
-  [id]="'pulsing-dot'"
-  [data]="yourLocationPulsingDot"
-  >
-  </mgl-image>
+  <mgl-image
+    *ngIf="yourLocationPulsingDot"
+    [id]="'pulsing-dot'"
+    [data]="yourLocationPulsingDot"
+    [options]="{
+      pixelRatio: 2
+    }"
+  ></mgl-image>
   <mgl-geojson-source
+    *ngIf="yourLocationPulsingDotGeoData"
     [id]="'yourLocationPulsingDotPoint'"
     [data]="yourLocationPulsingDotGeoData"
   ></mgl-geojson-source>
@@ -51,8 +63,10 @@
     [id]="'yourLocationPulsingDotPoint'"
     [type]="'symbol'"
     [source]="'yourLocationPulsingDotPoint'"
-    [layout]="{  }"
-  ></mgl-layer> -->
+    [layout]="{ 
+      'icon-image': 'pulsing-dot'
+    }"
+  ></mgl-layer>
 
   <!-- Location Markers -->
   <mgl-marker
@@ -69,7 +83,7 @@
   </mgl-marker>
 
   <!-- 3d Buildings -->
-  <!-- <mgl-layer
+  <mgl-layer
     id="3d-buildings"
     source="protomaps"
     sourceLayer="buildings"
@@ -99,17 +113,5 @@
       'fill-extrusion-opacity': 0.6
     }"
     [before]="labelLayerId"
-  ></mgl-layer> -->
+  ></mgl-layer>
 </mgl-map>
-<!-- <div *ngIf="enableSearch">
-    <ion-modal #modal trigger="open-modal" [initialBreakpoint]="modalInitialBreakpoint" [breakpoints]="[0, 0.25, 0.5, 0.75]" [isOpen]="true">
-      <ng-template>
-        <ion-content>
-          <ion-searchbar debounce="1000" (ionInput)="debouncedSearchFunc($event)" showCancelButton="focus"></ion-searchbar>
-          <ion-list *ngIf="searchResults">
-            <ion-item *ngFor="let result of searchResults" (click)="selectSearch(result)">{{ result.label }}</ion-item>
-          </ion-list>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
-</div> -->

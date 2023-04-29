@@ -3,6 +3,20 @@ mgl-map {
   width: 100%;
 }
 
+/* override ngx-maplibre mglGeolocate color */
+/* ::ng-deep .maplibregl-user-location-dot, .maplibregl-user-location-dot:before {
+  background-color: var(--ion-color-danger);
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+}
+::ng-deep .maplibregl-user-location-dot:before {
+  background-color: var(--ion-color-danger);
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+} */
+
 .map-pin {
   position: relative;
   display: inline-block;

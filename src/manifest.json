@@ -1,7 +1,7 @@
 {
   "name": "Lazztech Hub",
   "short_name": "Lazztech Hub",
-  "theme_color": "#222428",
+  "theme_color": "#000000",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/app/",
