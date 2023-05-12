@@ -14,6 +14,7 @@ export class EventCardComponent implements OnChanges {
   @Input() includeMap?: boolean = false;
   @Input() showRsvp?: boolean = false;
   @Output() shouldPromptToAddEventToCalendar = new EventEmitter();
+  presentCount = 0;
 
   constructor(
     private readonly navCtrl: NavController,
@@ -39,6 +40,7 @@ export class EventCardComponent implements OnChanges {
     ) {
       setTimeout(() =>  this.shouldPromptToAddEventToCalendar.emit(), 100);
     }
+    this.presentCount = this.userEvent?.event?.usersConnection?.filter(x => x.isPresent).length;
   }
 
   goingCount() {
