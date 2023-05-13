@@ -40,7 +40,7 @@ export class EventCardComponent implements OnChanges {
     ) {
       setTimeout(() =>  this.shouldPromptToAddEventToCalendar.emit(), 100);
     }
-    this.presentCount = this.userEvent?.event?.usersConnection?.filter(x => x.isPresent).length;
+    this.presentCount = this.userEvent?.event?.usersConnection?.filter(x => x.isPresent)?.length;
   }
 
   goingCount() {
