@@ -1,0 +1,7 @@
+mutation exitedEventGeofence($eventId: ID!) {
+    exitedEventGeofence(eventId: $eventId) {
+    userId
+    eventId
+    isPresent
+  }
+}

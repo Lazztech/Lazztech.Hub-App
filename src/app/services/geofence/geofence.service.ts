@@ -3,7 +3,7 @@ import BackgroundGeolocation, {
   GeofenceEvent
 } from '@transistorsoft/capacitor-background-geolocation';
 import { NGXLogger } from 'ngx-logger';
-import { Event, Hub, UserEventsGQL } from 'src/graphql/graphql';
+import { DwellEventGeofenceGQL, EnteredEventGeofenceGQL, Event, ExitedEventGeofenceGQL, Hub, UserEventsGQL } from 'src/graphql/graphql';
 import { environment } from '../../../environments/environment';
 import { HubService } from '../hub/hub.service';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -26,6 +26,9 @@ export class GeofenceService {
   constructor(
     private hubService: HubService,
     private readonly userEvents: UserEventsGQL,
+    private readonly enteredEventGeofenceService: EnteredEventGeofenceGQL,
+    private readonly dwellEventGeofenceService: DwellEventGeofenceGQL,
+    private readonly exitedEventGeofenceService: ExitedEventGeofenceGQL,
     private logger: NGXLogger
   ) { }
 
@@ -131,19 +134,19 @@ export class GeofenceService {
         const hub = JSON.parse(geofence.identifier) as Hub;
 
         if (geofence.action === 'ENTER') {
-          await this.enteredGeofence(hub, geofence).catch(error => {
+          await this.enteredHubGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
         } else if (geofence.action === 'EXIT') {
-          await this.exitedGeofence(hub, geofence).catch(error => {
+          await this.exitedHubGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
         } else if (geofence.action == "DWELL") {
-          this.dwellGeofence(hub, geofence).catch(error => {
+          this.dwellHubGeofence(hub, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
@@ -202,7 +205,9 @@ export class GeofenceService {
     }
   }
 
-  private async exitedGeofence(hub: Hub, geofence: GeofenceEvent) {
+  // Hub Geofence Events
+
+  private async exitedHubGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.exitedHubGeofence(hub.id).catch(err => {
       if (!environment.production) {
         LocalNotifications.schedule({
@@ -239,7 +244,7 @@ export class GeofenceService {
     }
   }
 
-  private async dwellGeofence(hub: Hub, geofence: GeofenceEvent) {
+  private async dwellHubGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.dwellHubGeofence(hub.id).catch(err => {
       if (!environment.production) {
         LocalNotifications.schedule({
@@ -276,7 +281,7 @@ export class GeofenceService {
     }
   }
 
-  private async enteredGeofence(hub: Hub, geofence: GeofenceEvent) {
+  private async enteredHubGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.enteredHubGeofence(hub.id).catch(err => {
       if (!environment.production) {
         LocalNotifications.schedule({
@@ -312,4 +317,118 @@ export class GeofenceService {
       });
     }
   }
+
+  // Event Geofence Events
+
+  private async enteredEventGeofence(event: Event, geofence: GeofenceEvent) {
+    await this.enteredEventGeofenceService.mutate({ eventId: event.id }).toPromise().catch(err => {
+      if (!environment.production) {
+        LocalNotifications.schedule({
+          notifications: [
+            {
+              title: 'Geofence error',
+              body: JSON.stringify(err),
+              id: parseInt(event.id, 10),
+              schedule: { at: new Date(Date.now()) },
+              sound: 'beep.aiff',
+              attachments: null,
+              actionTypeId: '',
+              extra: null,
+            }
+          ]
+        });
+      }
+    });
+    if (!environment.production) {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Entered ' + event.name,
+            body: geofence.action + ' ' + event.name,
+            id: parseInt(event.id, 10),
+            schedule: { at: new Date(Date.now()) },
+            sound: 'beep.aiff',
+            attachments: null,
+            actionTypeId: '',
+            extra: null
+          }
+        ]
+      });
+    }
+  }
+
+  private async dwellEventGeofence(event: Event, geofence: GeofenceEvent) {
+    await this.dwellEventGeofenceService.mutate({ eventId: event.id }).toPromise().catch(err => {
+      if (!environment.production) {
+        LocalNotifications.schedule({
+          notifications: [
+            {
+              title: 'Geofence error',
+              body: JSON.stringify(err),
+              id: parseInt(event.id, 10),
+              schedule: { at: new Date(Date.now()) },
+              sound: 'beep.aiff',
+              attachments: null,
+              actionTypeId: '',
+              extra: null
+            }
+          ]
+        });
+      }
+    });
+    if (!environment.production) {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Dwell ' + event.name,
+            body: geofence.action + ' ' + event.name,
+            id: parseInt(event.id, 10),
+            schedule: { at: new Date(Date.now()) },
+            sound: 'beep.aiff',
+            attachments: null,
+            actionTypeId: '',
+            extra: null
+          }
+        ]
+      });
+    }
+  }
+
+  private async exitedEventGeofence(event: Event, geofence: GeofenceEvent) {
+    await this.exitedEventGeofenceService.mutate({ eventId: event.id }).toPromise().catch(err => {
+      if (!environment.production) {
+        LocalNotifications.schedule({
+          notifications: [
+            {
+              title: 'Geofence error',
+              body: JSON.stringify(err),
+              id: parseInt(event.id, 10),
+              schedule: { at: new Date(Date.now()) },
+              sound: 'beep.aiff',
+              attachments: null,
+              actionTypeId: '',
+              extra: null
+            }
+          ]
+        });
+      }
+    });
+    if (!environment.production) {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Exited ' + event.name,
+            body: geofence.action + ' ' + event.name,
+            id: parseInt(event.id, 10),
+            schedule: { at: new Date(Date.now()) },
+            sound: 'beep.aiff',
+            attachments: null,
+            actionTypeId: '',
+            extra: null
+          }
+        ]
+      });
+    }
+  }
+
 }
