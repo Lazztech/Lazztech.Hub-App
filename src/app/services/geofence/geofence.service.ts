@@ -3,7 +3,7 @@ import BackgroundGeolocation, {
   GeofenceEvent
 } from '@transistorsoft/capacitor-background-geolocation';
 import { NGXLogger } from 'ngx-logger';
-import { Hub } from 'src/graphql/graphql';
+import { Event, Hub, UserEventsGQL } from 'src/graphql/graphql';
 import { environment } from '../../../environments/environment';
 import { HubService } from '../hub/hub.service';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -25,6 +25,7 @@ export class GeofenceService {
 
   constructor(
     private hubService: HubService,
+    private readonly userEvents: UserEventsGQL,
     private logger: NGXLogger
   ) { }
 
@@ -52,6 +53,7 @@ export class GeofenceService {
 
   async syncGeofences() {
     const userHubs = await this.hubService.usersHubs();
+    const userEvents = await this.userEvents.fetch().toPromise();
     const geofences = await BackgroundGeolocation.getGeofences();
     // add any missing geofences
     for (const userHub of userHubs) {
@@ -65,12 +67,32 @@ export class GeofenceService {
         this.logger.log(`Added geofence ${identifier}`);
       }
     }
+    for (const userEvent of userEvents.data.usersEvents) {
+      const identifier = this.mapEventToGeofenceIdentifier(userEvent.event as Event);
+      if (!geofences.some(gf => gf.identifier == identifier)) {
+        await this.addGeofence({
+          identifier: identifier,
+          latitude: userEvent.event.latitude,
+          longitude: userEvent.event.longitude,
+        });
+        this.logger.log(`Added geofence ${identifier}`);
+      }
+    }
+
     // remove any no longer relivant geofences
-    const noLongerRelivantGeofences = geofences.filter(
-      geofence => !userHubs.some(
-        userHub => geofence.identifier == this.mapHubToGeofenceIdentifier(userHub.hub as Hub)
-      )
-    );
+    const noLongerRelivantGeofences =
+      [
+        ...geofences.filter(
+          geofence => !userHubs.some(
+            userHub => geofence.identifier == this.mapHubToGeofenceIdentifier(userHub.hub as Hub)
+          )
+        ),
+        ...geofences.filter(
+          geofence => !userEvents.data.usersEvents.some(
+            userEvent => geofence.identifier == this.mapEventToGeofenceIdentifier(userEvent.event as Event)
+          )
+        )
+      ];
     for (const noLongerRelivantGeofence of noLongerRelivantGeofences) {
       await BackgroundGeolocation.removeGeofence(
         noLongerRelivantGeofence.identifier,
@@ -83,6 +105,13 @@ export class GeofenceService {
     return JSON.stringify({
       id: hub.id,
       name: hub.name
+    });
+  }
+
+  mapEventToGeofenceIdentifier(event: Event): string {
+    return JSON.stringify({
+      id: event.id,
+      name: event.name
     });
   }
 
