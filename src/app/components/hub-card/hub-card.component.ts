@@ -41,7 +41,7 @@ export class HubCardComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
       if (this.hub && this.coords?.latitude && this.coords?.longitude) {
-        this.atHub = this.locationService.atHub(this.hub, this.coords);
+        this.atHub = this.locationService.atLocation(this.hub, this.coords);
       }
       if (!this.atHub && this.hub && this.coords) {
         this.distanceInMeters = this.locationService.getDistanceFromHub(this.hub, this.coords);
