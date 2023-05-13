@@ -107,14 +107,16 @@ export class GeofenceService {
   mapHubToGeofenceIdentifier(hub: Hub): string {
     return JSON.stringify({
       id: hub.id,
-      name: hub.name
+      name: hub.name,
+      __typename: hub.__typename,
     });
   }
 
   mapEventToGeofenceIdentifier(event: Event): string {
     return JSON.stringify({
       id: event.id,
-      name: event.name
+      name: event.name,
+      __typename: event.__typename,
     });
   }
 
@@ -131,22 +133,40 @@ export class GeofenceService {
 
       // Perform some long-running task (eg: HTTP request)
       BackgroundGeolocation.startBackgroundTask().then(async (taskId) => {
-        const hub = JSON.parse(geofence.identifier) as Hub;
+        const location = JSON.parse(geofence.identifier);
 
-        if (geofence.action === 'ENTER') {
-          await this.enteredHubGeofence(hub, geofence).catch(error => {
+        if (geofence.action === 'ENTER' && location.__typename === "Hub") {
+          await this.enteredHubGeofence(location, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
-        } else if (geofence.action === 'EXIT') {
-          await this.exitedHubGeofence(hub, geofence).catch(error => {
+        } else if (geofence.action === 'EXIT' && location.__typename === "Hub") {
+          await this.exitedHubGeofence(location, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
-        } else if (geofence.action == "DWELL") {
-          this.dwellHubGeofence(hub, geofence).catch(error => {
+        } else if (geofence.action == "DWELL" && location.__typename === "Hub") {
+          this.dwellHubGeofence(location, geofence).catch(error => {
+            // Be sure to catch errors:  never leave you background-task hanging.
+            this.logger.error(error);
+            BackgroundGeolocation.stopBackgroundTask(taskId);
+          });
+        } else if (geofence.action === 'ENTER' && location.__typename === "Event") {
+          await this.enteredEventGeofence(location, geofence).catch(error => {
+            // Be sure to catch errors:  never leave you background-task hanging.
+            this.logger.error(error);
+            BackgroundGeolocation.stopBackgroundTask(taskId);
+          });
+        } else if (geofence.action === 'EXIT' && location.__typename === "Event") {
+          await this.exitedEventGeofence(location, geofence).catch(error => {
+            // Be sure to catch errors:  never leave you background-task hanging.
+            this.logger.error(error);
+            BackgroundGeolocation.stopBackgroundTask(taskId);
+          });
+        } else if (geofence.action === "DWELL" && location.__typename === "Event") {
+          await this.dwellEventGeofence(location, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
