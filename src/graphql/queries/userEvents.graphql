@@ -50,7 +50,6 @@ query userEvents {
       shareableId
       usersConnection {
         userId
-        rsvp
         user {
           id
           shareableId
@@ -60,6 +59,10 @@ query userEvents {
           email
           image
         }
+        rsvp
+        lastGeofenceEvent
+        lastUpdated
+        isPresent
       }
     }
     rsvp
