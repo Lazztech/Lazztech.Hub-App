@@ -50,7 +50,7 @@
         </ion-list>
       </ion-col>
       <ion-col size="12" size-md="6">
-        <ion-list *ngIf="presentUserEvents?.length">
+        <!-- <ion-list *ngIf="presentUserEvents?.length">
           <ion-list-header>
             <ion-text>Present</ion-text>
           </ion-list-header>
@@ -93,7 +93,7 @@
               ></ion-icon>
             </ion-item>
           </div>
-        </ion-list>
+        </ion-list> -->
       
         <ion-list *ngIf="goingUserEvents?.length">
           <ion-list-header>
@@ -109,10 +109,12 @@
               </ion-avatar>
               <ion-label>
                 <h2>
+                  <ion-badge slot="end" color="success" *ngIf="userConnection?.isPresent">Present</ion-badge>
                   <ion-text *ngIf="!userConnection.user.blocked">
                     {{userConnection.user.firstName && userConnection.user.lastName 
                       ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
                   </ion-text>
+
                   <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
                     {{userConnection.user.firstName && userConnection.user.lastName 
                       ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
@@ -154,6 +156,7 @@
               </ion-avatar>
               <ion-label>
                 <h2>
+                  <ion-badge slot="end" color="success" *ngIf="userConnection?.isPresent">Present</ion-badge>
                   <ion-text *ngIf="!userConnection.user.blocked">
                     {{userConnection.user.firstName && userConnection.user.lastName 
                       ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
@@ -199,6 +202,7 @@
               </ion-avatar>
               <ion-label>
                 <h2>
+                  <ion-badge slot="end" color="success" *ngIf="userConnection?.isPresent">Present</ion-badge>
                   <ion-text *ngIf="!userConnection.user.blocked">
                     {{userConnection.user.firstName && userConnection.user.lastName 
                       ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
@@ -244,6 +248,7 @@
               </ion-avatar>
               <ion-label>
                 <h2>
+                  <ion-badge slot="end" color="success" *ngIf="userConnection?.isPresent">Present</ion-badge>
                   <ion-text *ngIf="!userConnection.user.blocked">
                     {{userConnection.user.firstName && userConnection.user.lastName 
                       ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}

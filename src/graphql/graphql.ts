@@ -168,10 +168,13 @@ export type Mutation = {
   deleteInAppNotification: Scalars['Boolean'];
   deleteInvite: Scalars['Boolean'];
   deleteMicroChat: Scalars['Boolean'];
+  dwellEventGeofence: JoinUserEvent;
   dwellHubGeofence: JoinUserHub;
   editHub: Hub;
   editUserDetails: User;
+  enteredEventGeofence: JoinUserEvent;
   enteredHubGeofence: JoinUserHub;
+  exitedEventGeofence: JoinUserEvent;
   exitedHubGeofence: JoinUserHub;
   expeditedRegistration: ExpeditedRegistration;
   inviteUserToEvent: JoinUserEvent;
@@ -309,6 +312,11 @@ export type MutationDeleteMicroChatArgs = {
 };
 
 
+export type MutationDwellEventGeofenceArgs = {
+  eventId: Scalars['ID'];
+};
+
+
 export type MutationDwellHubGeofenceArgs = {
   hubId: Scalars['ID'];
 };
@@ -328,8 +336,18 @@ export type MutationEditUserDetailsArgs = {
 };
 
 
+export type MutationEnteredEventGeofenceArgs = {
+  eventId: Scalars['ID'];
+};
+
+
 export type MutationEnteredHubGeofenceArgs = {
   hubId: Scalars['ID'];
+};
+
+
+export type MutationExitedEventGeofenceArgs = {
+  eventId: Scalars['ID'];
 };
 
 
@@ -756,6 +774,13 @@ export type DeleteMicroChatMutationVariables = Exact<{
 
 export type DeleteMicroChatMutation = { __typename?: 'Mutation', deleteMicroChat: boolean };
 
+export type DwellEventGeofenceMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+}>;
+
+
+export type DwellEventGeofenceMutation = { __typename?: 'Mutation', dwellEventGeofence: { __typename?: 'JoinUserEvent', userId: string, eventId: string, isPresent?: boolean | null } };
+
 export type DwellHubGeofenceMutationVariables = Exact<{
   hubId: Scalars['ID'];
 }>;
@@ -781,12 +806,26 @@ export type EditUserDetailsMutationVariables = Exact<{
 
 export type EditUserDetailsMutation = { __typename?: 'Mutation', editUserDetails: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null } };
 
+export type EnteredEventGeofenceMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+}>;
+
+
+export type EnteredEventGeofenceMutation = { __typename?: 'Mutation', enteredEventGeofence: { __typename?: 'JoinUserEvent', userId: string, eventId: string, isPresent?: boolean | null } };
+
 export type EnteredHubGeofenceMutationVariables = Exact<{
   hubId: Scalars['ID'];
 }>;
 
 
 export type EnteredHubGeofenceMutation = { __typename?: 'Mutation', enteredHubGeofence: { __typename?: 'JoinUserHub', userId: string, hubId: string, isPresent?: boolean | null } };
+
+export type ExitedEventGeofenceMutationVariables = Exact<{
+  eventId: Scalars['ID'];
+}>;
+
+
+export type ExitedEventGeofenceMutation = { __typename?: 'Mutation', exitedEventGeofence: { __typename?: 'JoinUserEvent', userId: string, eventId: string, isPresent?: boolean | null } };
 
 export type ExitedHubGeofenceMutationVariables = Exact<{
   hubId: Scalars['ID'];
@@ -1060,7 +1099,7 @@ export type PaginatedInAppNotifcationsQuery = { __typename?: 'Query', paginatedI
 export type UserEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserEventsQuery = { __typename?: 'Query', usersEvents: Array<{ __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, minimumCapacity?: number | null, maximumCapacity?: number | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', userId: string, isPresent?: boolean | null, isOwner: boolean }> | null } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', userId: string, rsvp?: string | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null, image?: string | null } | null }> | null } | null }> };
+export type UserEventsQuery = { __typename?: 'Query', usersEvents: Array<{ __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, minimumCapacity?: number | null, maximumCapacity?: number | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', userId: string, isPresent?: boolean | null, isOwner: boolean }> | null } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', userId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null, image?: string | null } | null }> | null } | null }> };
 
 export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1468,6 +1507,26 @@ export const DeleteMicroChatDocument = gql`
       super(apollo);
     }
   }
+export const DwellEventGeofenceDocument = gql`
+    mutation dwellEventGeofence($eventId: ID!) {
+  dwellEventGeofence(eventId: $eventId) {
+    userId
+    eventId
+    isPresent
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DwellEventGeofenceGQL extends Apollo.Mutation<DwellEventGeofenceMutation, DwellEventGeofenceMutationVariables> {
+    document = DwellEventGeofenceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const DwellHubGeofenceDocument = gql`
     mutation dwellHubGeofence($hubId: ID!) {
   dwellHubGeofence(hubId: $hubId) {
@@ -1533,6 +1592,26 @@ export const EditUserDetailsDocument = gql`
       super(apollo);
     }
   }
+export const EnteredEventGeofenceDocument = gql`
+    mutation enteredEventGeofence($eventId: ID!) {
+  enteredEventGeofence(eventId: $eventId) {
+    userId
+    eventId
+    isPresent
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EnteredEventGeofenceGQL extends Apollo.Mutation<EnteredEventGeofenceMutation, EnteredEventGeofenceMutationVariables> {
+    document = EnteredEventGeofenceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const EnteredHubGeofenceDocument = gql`
     mutation enteredHubGeofence($hubId: ID!) {
   enteredHubGeofence(hubId: $hubId) {
@@ -1548,6 +1627,26 @@ export const EnteredHubGeofenceDocument = gql`
   })
   export class EnteredHubGeofenceGQL extends Apollo.Mutation<EnteredHubGeofenceMutation, EnteredHubGeofenceMutationVariables> {
     document = EnteredHubGeofenceDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ExitedEventGeofenceDocument = gql`
+    mutation exitedEventGeofence($eventId: ID!) {
+  exitedEventGeofence(eventId: $eventId) {
+    userId
+    eventId
+    isPresent
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ExitedEventGeofenceGQL extends Apollo.Mutation<ExitedEventGeofenceMutation, ExitedEventGeofenceMutationVariables> {
+    document = ExitedEventGeofenceDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -2597,7 +2696,6 @@ export const UserEventsDocument = gql`
       shareableId
       usersConnection {
         userId
-        rsvp
         user {
           id
           shareableId
@@ -2607,11 +2705,16 @@ export const UserEventsDocument = gql`
           email
           image
         }
+        rsvp
+        lastGeofenceEvent
+        lastUpdated
+        isPresent
       }
     }
     rsvp
     lastGeofenceEvent
     lastUpdated
+    isPresent
   }
 }
     `;

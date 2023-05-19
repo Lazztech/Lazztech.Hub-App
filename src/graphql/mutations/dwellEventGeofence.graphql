@@ -1,0 +1,7 @@
+mutation dwellEventGeofence($eventId: ID!) {
+    dwellEventGeofence(eventId: $eventId) {
+    userId
+    eventId
+    isPresent
+  }
+}

@@ -23,7 +23,8 @@
     [color]="capacityColor()"
     [value]="capacityPercentage()"></ion-progress-bar>
 
-
+    <ion-card-subtitle color="success" class="ion-padding-top" *ngIf="presentCount && showRsvp">{{presentCount}} /
+      {{userEvent?.event?.usersConnection?.length}} present</ion-card-subtitle>
     <br />
     <ion-card-subtitle>Starts {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
     <ion-card-subtitle *ngIf="userEvent?.event?.endDateTime">Ends {{userEvent?.event?.endDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>

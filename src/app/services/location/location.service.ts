@@ -24,11 +24,10 @@ export class LocationService {
     private alertService: AlertService,
   ) {}
 
-  atHub(hub: any, coords: any, distance: number = environment.geofenceRadius) {
-    const hubCoords = { latitude: hub.latitude, longitude: hub.longitude };
+  atLocation(location: { latitude?: number, longitude?: number }, userCoords: any, distance: number = environment.geofenceRadius): boolean {
     const result = geolib.isPointWithinRadius(
-      coords,
-      hubCoords,
+      userCoords,
+      { latitude: location.latitude, longitude: location.longitude },
       distance
     );
     return result;

@@ -3,7 +3,7 @@ import BackgroundGeolocation, {
   GeofenceEvent
 } from '@transistorsoft/capacitor-background-geolocation';
 import { NGXLogger } from 'ngx-logger';
-import { Hub } from 'src/graphql/graphql';
+import { DwellEventGeofenceGQL, EnteredEventGeofenceGQL, Event, ExitedEventGeofenceGQL, Hub, UserEventsGQL } from 'src/graphql/graphql';
 import { environment } from '../../../environments/environment';
 import { HubService } from '../hub/hub.service';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -25,6 +25,10 @@ export class GeofenceService {
 
   constructor(
     private hubService: HubService,
+    private readonly userEvents: UserEventsGQL,
+    private readonly enteredEventGeofenceService: EnteredEventGeofenceGQL,
+    private readonly dwellEventGeofenceService: DwellEventGeofenceGQL,
+    private readonly exitedEventGeofenceService: ExitedEventGeofenceGQL,
     private logger: NGXLogger
   ) { }
 
@@ -52,6 +56,7 @@ export class GeofenceService {
 
   async syncGeofences() {
     const userHubs = await this.hubService.usersHubs();
+    const userEvents = await this.userEvents.fetch().toPromise();
     const geofences = await BackgroundGeolocation.getGeofences();
     // add any missing geofences
     for (const userHub of userHubs) {
@@ -65,12 +70,32 @@ export class GeofenceService {
         this.logger.log(`Added geofence ${identifier}`);
       }
     }
+    for (const userEvent of userEvents.data.usersEvents) {
+      const identifier = this.mapEventToGeofenceIdentifier(userEvent.event as Event);
+      if (!geofences.some(gf => gf.identifier == identifier)) {
+        await this.addGeofence({
+          identifier: identifier,
+          latitude: userEvent.event.latitude,
+          longitude: userEvent.event.longitude,
+        });
+        this.logger.log(`Added geofence ${identifier}`);
+      }
+    }
+
     // remove any no longer relivant geofences
-    const noLongerRelivantGeofences = geofences.filter(
-      geofence => !userHubs.some(
-        userHub => geofence.identifier == this.mapHubToGeofenceIdentifier(userHub.hub as Hub)
-      )
-    );
+    const noLongerRelivantGeofences =
+      [
+        ...geofences.filter(
+          geofence => !userHubs.some(
+            userHub => geofence.identifier == this.mapHubToGeofenceIdentifier(userHub.hub as Hub)
+          )
+        ),
+        ...geofences.filter(
+          geofence => !userEvents.data.usersEvents.some(
+            userEvent => geofence.identifier == this.mapEventToGeofenceIdentifier(userEvent.event as Event)
+          )
+        )
+      ];
     for (const noLongerRelivantGeofence of noLongerRelivantGeofences) {
       await BackgroundGeolocation.removeGeofence(
         noLongerRelivantGeofence.identifier,
@@ -82,7 +107,16 @@ export class GeofenceService {
   mapHubToGeofenceIdentifier(hub: Hub): string {
     return JSON.stringify({
       id: hub.id,
-      name: hub.name
+      name: hub.name,
+      __typename: hub.__typename,
+    });
+  }
+
+  mapEventToGeofenceIdentifier(event: Event): string {
+    return JSON.stringify({
+      id: event.id,
+      name: event.name,
+      __typename: event.__typename,
     });
   }
 
@@ -99,22 +133,40 @@ export class GeofenceService {
 
       // Perform some long-running task (eg: HTTP request)
       BackgroundGeolocation.startBackgroundTask().then(async (taskId) => {
-        const hub = JSON.parse(geofence.identifier) as Hub;
+        const location = JSON.parse(geofence.identifier);
 
-        if (geofence.action === 'ENTER') {
-          await this.enteredGeofence(hub, geofence).catch(error => {
+        if (geofence.action === 'ENTER' && location.__typename === "Hub") {
+          await this.enteredHubGeofence(location, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
-        } else if (geofence.action === 'EXIT') {
-          await this.exitedGeofence(hub, geofence).catch(error => {
+        } else if (geofence.action === 'EXIT' && location.__typename === "Hub") {
+          await this.exitedHubGeofence(location, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
           });
-        } else if (geofence.action == "DWELL") {
-          this.dwellGeofence(hub, geofence).catch(error => {
+        } else if (geofence.action == "DWELL" && location.__typename === "Hub") {
+          this.dwellHubGeofence(location, geofence).catch(error => {
+            // Be sure to catch errors:  never leave you background-task hanging.
+            this.logger.error(error);
+            BackgroundGeolocation.stopBackgroundTask(taskId);
+          });
+        } else if (geofence.action === 'ENTER' && location.__typename === "Event") {
+          await this.enteredEventGeofence(location, geofence).catch(error => {
+            // Be sure to catch errors:  never leave you background-task hanging.
+            this.logger.error(error);
+            BackgroundGeolocation.stopBackgroundTask(taskId);
+          });
+        } else if (geofence.action === 'EXIT' && location.__typename === "Event") {
+          await this.exitedEventGeofence(location, geofence).catch(error => {
+            // Be sure to catch errors:  never leave you background-task hanging.
+            this.logger.error(error);
+            BackgroundGeolocation.stopBackgroundTask(taskId);
+          });
+        } else if (geofence.action === "DWELL" && location.__typename === "Event") {
+          await this.dwellEventGeofence(location, geofence).catch(error => {
             // Be sure to catch errors:  never leave you background-task hanging.
             this.logger.error(error);
             BackgroundGeolocation.stopBackgroundTask(taskId);
@@ -173,7 +225,9 @@ export class GeofenceService {
     }
   }
 
-  private async exitedGeofence(hub: Hub, geofence: GeofenceEvent) {
+  // Hub Geofence Events
+
+  private async exitedHubGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.exitedHubGeofence(hub.id).catch(err => {
       if (!environment.production) {
         LocalNotifications.schedule({
@@ -210,7 +264,7 @@ export class GeofenceService {
     }
   }
 
-  private async dwellGeofence(hub: Hub, geofence: GeofenceEvent) {
+  private async dwellHubGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.dwellHubGeofence(hub.id).catch(err => {
       if (!environment.production) {
         LocalNotifications.schedule({
@@ -247,7 +301,7 @@ export class GeofenceService {
     }
   }
 
-  private async enteredGeofence(hub: Hub, geofence: GeofenceEvent) {
+  private async enteredHubGeofence(hub: Hub, geofence: GeofenceEvent) {
     await this.hubService.enteredHubGeofence(hub.id).catch(err => {
       if (!environment.production) {
         LocalNotifications.schedule({
@@ -283,4 +337,118 @@ export class GeofenceService {
       });
     }
   }
+
+  // Event Geofence Events
+
+  private async enteredEventGeofence(event: Event, geofence: GeofenceEvent) {
+    await this.enteredEventGeofenceService.mutate({ eventId: event.id }).toPromise().catch(err => {
+      if (!environment.production) {
+        LocalNotifications.schedule({
+          notifications: [
+            {
+              title: 'Geofence error',
+              body: JSON.stringify(err),
+              id: parseInt(event.id, 10),
+              schedule: { at: new Date(Date.now()) },
+              sound: 'beep.aiff',
+              attachments: null,
+              actionTypeId: '',
+              extra: null,
+            }
+          ]
+        });
+      }
+    });
+    if (!environment.production) {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Entered ' + event.name,
+            body: geofence.action + ' ' + event.name,
+            id: parseInt(event.id, 10),
+            schedule: { at: new Date(Date.now()) },
+            sound: 'beep.aiff',
+            attachments: null,
+            actionTypeId: '',
+            extra: null
+          }
+        ]
+      });
+    }
+  }
+
+  private async dwellEventGeofence(event: Event, geofence: GeofenceEvent) {
+    await this.dwellEventGeofenceService.mutate({ eventId: event.id }).toPromise().catch(err => {
+      if (!environment.production) {
+        LocalNotifications.schedule({
+          notifications: [
+            {
+              title: 'Geofence error',
+              body: JSON.stringify(err),
+              id: parseInt(event.id, 10),
+              schedule: { at: new Date(Date.now()) },
+              sound: 'beep.aiff',
+              attachments: null,
+              actionTypeId: '',
+              extra: null
+            }
+          ]
+        });
+      }
+    });
+    if (!environment.production) {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Dwell ' + event.name,
+            body: geofence.action + ' ' + event.name,
+            id: parseInt(event.id, 10),
+            schedule: { at: new Date(Date.now()) },
+            sound: 'beep.aiff',
+            attachments: null,
+            actionTypeId: '',
+            extra: null
+          }
+        ]
+      });
+    }
+  }
+
+  private async exitedEventGeofence(event: Event, geofence: GeofenceEvent) {
+    await this.exitedEventGeofenceService.mutate({ eventId: event.id }).toPromise().catch(err => {
+      if (!environment.production) {
+        LocalNotifications.schedule({
+          notifications: [
+            {
+              title: 'Geofence error',
+              body: JSON.stringify(err),
+              id: parseInt(event.id, 10),
+              schedule: { at: new Date(Date.now()) },
+              sound: 'beep.aiff',
+              attachments: null,
+              actionTypeId: '',
+              extra: null
+            }
+          ]
+        });
+      }
+    });
+    if (!environment.production) {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Exited ' + event.name,
+            body: geofence.action + ' ' + event.name,
+            id: parseInt(event.id, 10),
+            schedule: { at: new Date(Date.now()) },
+            sound: 'beep.aiff',
+            attachments: null,
+            actionTypeId: '',
+            extra: null
+          }
+        ]
+      });
+    }
+  }
+
 }
