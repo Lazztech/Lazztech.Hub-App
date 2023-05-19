@@ -3,7 +3,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
-import { UserEventsGQL, UserEventsQuery } from 'src/graphql/graphql';
+import { JoinUserEvent, UserEventsGQL, UserEventsQuery } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-events',
@@ -67,6 +67,10 @@ export class EventsPage implements OnInit, OnDestroy {
 
   goToCreateEventPage() {
     this.navCtrl.navigateForward('create-event');
+  }
+
+  trackByEvent(index: any, joinUserEvent: JoinUserEvent) {
+    return joinUserEvent.eventId;
   }
 
   filterEvents(ev: any) {
