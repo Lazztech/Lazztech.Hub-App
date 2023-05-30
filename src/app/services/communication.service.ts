@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PhoneNumberUtil, PhoneNumber } from 'google-libphonenumber';
-import getUnicodeFlagIcon from 'country-flag-icons/unicode'
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +16,5 @@ export class CommunicationService {
 
   openSms(number: string) {
     window.open(`sms:${number}`);
-  }
-
-  countryCodes() {
-    return this.phoneNumberUtil.getSupportedRegions().map(region => ({
-      code: this.phoneNumberUtil.getCountryCodeForRegion(region),
-      flag: getUnicodeFlagIcon(region),
-      region: region,
-    }));
   }
 }

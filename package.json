@@ -106,7 +106,6 @@
     "cordova-plugin-fingerprint-aio": "^5.0.1",
     "cordova.plugins.diagnostic": "7.1.1",
     "core-js": "^3.26.1",
-    "country-flag-icons": "^1.5.5",
     "date-fns": "2.29.3",
     "eruda": "^3.0.0",
     "extract-files": "^13.0.0",

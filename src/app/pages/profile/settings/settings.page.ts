@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Browser } from '@capacitor/browser';
 import { Clipboard } from '@capacitor/clipboard';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { NavController } from '@ionic/angular';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { ErrorService } from 'src/app/services/error.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
+import { MeGQL, UpdateUserGQL } from 'src/graphql/graphql';
 import { environment } from '../../../../environments/environment';
 import { cache } from '../../../graphql.module';
 import { AlertService } from '../../../services/alert/alert.service';
 import { DebuggerService } from '../../../services/debugger/debugger.service';
 import { GeofenceService } from '../../../services/geofence/geofence.service';
 import { NotificationsService } from '../../../services/notifications/notifications.service';
-import { Browser } from '@capacitor/browser';
-import { CommunicationService } from 'src/app/services/communication.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MeGQL, UpdateUserGQL } from 'src/graphql/graphql';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { ErrorService } from 'src/app/services/error.service';
 
 @Component({
   selector: 'app-settings',
@@ -63,8 +62,6 @@ export class SettingsPage implements OnInit {
     return this.myForm.get('password');
   }
 
-  public countries: Array<{ code: number, flag: string, region: string}> = [];
-
 
   constructor(
     private navCtrl: NavController,
@@ -73,7 +70,6 @@ export class SettingsPage implements OnInit {
     private geofenceService: GeofenceService,
     private alertService: AlertService,
     private debuggerService: DebuggerService,
-    private readonly communicationService: CommunicationService,
     private fb: UntypedFormBuilder,
     private meService: MeGQL,
     private updateUserService: UpdateUserGQL,
@@ -83,7 +79,6 @@ export class SettingsPage implements OnInit {
 
   async ngOnInit() {
     this.loading = true;
-    this.countries = this.communicationService.countryCodes();
     const me = await this.meService.fetch().toPromise();
     const user = me?.data?.me;
 
