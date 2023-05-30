@@ -84,7 +84,7 @@
     "@ionic/angular": "^6.3.7",
     "@ionic/pwa-elements": "^3.1.1",
     "@ionic/storage": "^2.2.0",
-    "@jufab/opentelemetry-angular-interceptor": "^1.2.0-1",
+    "@jufab/opentelemetry-angular-interceptor": "^1.4.1-2",
     "@maplibre/ngx-maplibre-gl": "^14.0.0-pre.2",
     "@sentry/browser": "^7.53.1",
     "@transistorsoft/capacitor-background-fetch": "^1.0.2",
