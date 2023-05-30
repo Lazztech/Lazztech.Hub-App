@@ -5,7 +5,6 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserHub, User, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { environment } from '../../environments/environment';
-import { LeafletMapComponent } from '../components/leaflet-map/leaflet-map.component';
 import { MaplibreComponent } from '../components/maplibre/maplibre.component';
 import { AlertService } from '../services/alert/alert.service';
 import { AuthService } from '../services/auth/auth.service';

@@ -11,7 +11,6 @@ import { EventCardComponent } from './event-card/event-card.component';
 import { HubCardComponent } from './hub-card/hub-card.component';
 import { HubProfileComponent } from './hub-profile/hub-profile.component';
 import { InviteComponent } from './invite/invite.component';
-import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { MicroChatComponent } from './micro-chat/micro-chat.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MaplibreComponent } from './maplibre/maplibre.component';
@@ -25,7 +24,6 @@ import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
         MicroChatComponent,
         MicroChatAddPage,
         HubProfileComponent,
-        LeafletMapComponent,
         EventCardComponent,
         InviteComponent,
         MaplibreComponent,
@@ -46,7 +44,6 @@ import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
         ProfileComponent,
         MicroChatComponent,
         HubProfileComponent,
-        LeafletMapComponent,
         EventCardComponent,
         InviteComponent,
         MaplibreComponent,

@@ -114,7 +114,6 @@
     "jetifier": "^2.0.0",
     "jspdf": "^2.5.1",
     "jsqr": "^1.4.0",
-    "leaflet": "^1.9.4",
     "leaflet-geosearch": "^3.8.0",
     "lodash-es": "^4.17.21",
     "maplibre-gl": "^3.0.1",
