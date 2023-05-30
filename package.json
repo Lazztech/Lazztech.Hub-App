@@ -89,7 +89,7 @@
     "@sentry/browser": "^7.53.1",
     "@transistorsoft/capacitor-background-fetch": "^1.0.2",
     "@transistorsoft/capacitor-background-geolocation": "^4.9.3",
-    "@types/leaflet": "^1.9.0",
+    "@types/leaflet": "^1.9.3",
     "@zxing/library": "^0.20.0",
     "angularx-qrcode": "^15.0.1",
     "apollo-angular": "^4.1.1",
