@@ -14,11 +14,6 @@
     <param name="android-package" value="de.appplant.cordova.emailcomposer.EmailComposer"/>
   </feature>
 
-  <feature name="File">
-    <param name="android-package" value="org.apache.cordova.file.FileUtils"/>
-    <param name="onload" value="true"/>
-  </feature>
-
   <feature name="Fingerprint">
     <param name="android-package" value="de.niklasmerz.cordova.biometric.Fingerprint"/>
   </feature>
