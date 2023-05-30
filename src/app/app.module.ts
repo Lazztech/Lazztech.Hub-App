@@ -1,39 +1,36 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { IonicModule, IonicRouteStrategy, isPlatform } from '@ionic/angular';
 
-import { IonicModule, IonicRouteStrategy, isPlatform, Platform } from '@ionic/angular';
-import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
-import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
-
-import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
-import { IonicStorageModule } from '@ionic/storage';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { IonicStorageModule } from '@ionic/storage';
 import { environment } from '../environments/environment';
 
 import { ReactiveFormsModule } from '@angular/forms';
-import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
-import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
-import { SentryIonicErrorHandler } from './errors/sentryIonicErrorHandler';
-import * as Sentry from '@sentry/browser';
-import { HttpRequestInterceptor } from './interceptors/http.interceptor';
-import { LoggerModule, NGXLogger } from 'ngx-logger';
+import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
-import { GraphQLModule } from './graphql.module';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
+import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 import {
-  OpenTelemetryInterceptorModule,
-  OtelColExporterModule,
   CompositePropagatorModule,
+  OpenTelemetryInterceptorModule,
   OTEL_LOGGER,
+  OtelColExporterModule,
 } from '@jufab/opentelemetry-angular-interceptor';
+import * as Sentry from '@sentry/browser';
+import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
+import { LoggerModule, NGXLogger } from 'ngx-logger';
+import { SentryIonicErrorHandler } from './errors/sentryIonicErrorHandler';
+import { GraphQLModule } from './graphql.module';
+import { HttpRequestInterceptor } from './interceptors/http.interceptor';
 import { ProfilePageModule } from './pages/profile/profile.module';
-import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
-import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -66,8 +63,6 @@ import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
         ProfilePageModule,
     ],
     providers: [
-        StatusBar,
-        SplashScreen,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
         { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
