@@ -16,7 +16,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Calendar } from '@awesome-cordova-plugins/calendar/ngx';
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
-import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 import {
   CompositePropagatorModule,
@@ -68,7 +67,6 @@ import { ProfilePageModule } from './pages/profile/profile.module';
         { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
         { provide: OTEL_LOGGER, useExisting: NGXLogger },
         BackgroundGeolocation,
-        FingerprintAIO,
         Diagnostic,
         OpenNativeSettings,
         EmailComposer,

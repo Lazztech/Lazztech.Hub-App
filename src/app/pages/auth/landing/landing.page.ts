@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { Browser } from '@capacitor/browser';
 import { MenuController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
@@ -34,7 +33,6 @@ export class LandingPage implements OnInit {
     private menu: MenuController,
     private authService: AuthService,
     private navCtrl: NavController,
-    private faio: FingerprintAIO,
     private logger: NGXLogger,
     private alertService: AlertService,
     private fb: UntypedFormBuilder,
@@ -43,18 +41,6 @@ export class LandingPage implements OnInit {
   ) {
     this.menu.enable(false);
     this.returnUrl = this.route?.snapshot?.queryParams['returnUrl'];
-  }
-
-  ionViewWillEnter() {
-    this.authService.getToken().then(() => {
-      if (this.authService.isLoggedIn) {
-        this.faio.show({
-          subtitle: 'authorize'
-        }).then(async () => {
-          await this.navCtrl.navigateRoot('/tabs');
-        }).catch(err => this.logger.error(err));
-      }
-    });
   }
 
   ngOnInit() {
@@ -99,20 +85,6 @@ export class LandingPage implements OnInit {
       this.alertService.presentRedToast(`Login failed: ${error}`, 5000);
       this.loading = false;
     }
-  }
-
-  async triggerBioAuth() {
-    this.authService.getToken().then(() => {
-      if (this.authService.isLoggedIn) {
-        this.faio.show({
-          subtitle: 'authorize'
-        }).then(async () => {
-          await this.navCtrl.navigateRoot('/tabs');
-        }).catch(err => this.logger.error(err));
-      } else {
-        this.alertService.presentRedToast('You must have logged into an active account recently.');
-      }
-    });
   }
 
   async navigateToPrivacyPolicy() {
