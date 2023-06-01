@@ -105,9 +105,9 @@ PODS:
   - SQLCipher/common (4.5.2)
   - SQLCipher/standard (4.5.2):
     - SQLCipher/common
-  - TransistorsoftCapacitorBackgroundFetch (1.0.4):
+  - TransistorsoftCapacitorBackgroundFetch (5.0.0):
     - Capacitor
-  - TransistorsoftCapacitorBackgroundGeolocation (4.9.3):
+  - TransistorsoftCapacitorBackgroundGeolocation (5.0.0):
     - Capacitor
     - CocoaLumberjack (~> 3.7.2)
   - ZIPFoundation (0.9.15)
@@ -234,8 +234,8 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SQLCipher: f5b4857434158b571a3ed3b10b3b43cd18ef5f67
-  TransistorsoftCapacitorBackgroundFetch: 0fe683f15bc7f776dd261b383e4c9ff3366a6f6d
-  TransistorsoftCapacitorBackgroundGeolocation: 9a46d580cae83f080d271885afcf99b2b0cb5e6d
+  TransistorsoftCapacitorBackgroundFetch: 88c994671b9a6e9b0a9106a173d96c095be8bcc2
+  TransistorsoftCapacitorBackgroundGeolocation: e08c674f34dfb8c026c7dc48e58ee0233f096da5
   ZIPFoundation: 063163dc828bf699c5be160eb4f58f676322d94f
 
 PODFILE CHECKSUM: c2e034f82edb356ba013b9d04c0a9edaeb4033e6
