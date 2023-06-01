@@ -24,7 +24,7 @@ PODS:
     - Capacitor
   - CapacitorGeolocation (5.0.2):
     - Capacitor
-  - CapacitorIosAutofillSavePassword (1.1.4):
+  - CapacitorIosAutofillSavePassword (1.1.5):
     - Capacitor
   - CapacitorKeyboard (5.0.2):
     - Capacitor
@@ -214,7 +214,7 @@ SPEC CHECKSUMS:
   CapacitorCordova: b1fe6bf1f36974a8e4a9044b342d22d49c0996d6
   CapacitorFilesystem: 3a7bb944feb5b7e9473adeb08662c73141510aa8
   CapacitorGeolocation: 8532cd1585dbf0b5b721fa65ea51a36bf9a71e92
-  CapacitorIosAutofillSavePassword: af45efffe66060ecd17bf62a7262152145f722aa
+  CapacitorIosAutofillSavePassword: 5afe47432edcb19ae3da3122fb732ea8e879e8e3
   CapacitorKeyboard: e628d4e66d621c69e449945ebabded17c5b9c2e8
   CapacitorLocalNotifications: db01feb38f85b4fd8c0a0d0fa94a4a6410239563
   CapacitorNetwork: 77c00ce41b4e014cbc6fdcb233462e7fce4b4755

@@ -88,7 +88,7 @@
     "@zxing/library": "^0.20.0",
     "angularx-qrcode": "^15.0.1",
     "apollo-angular": "^4.1.1",
-    "capacitor-ios-autofill-save-password": "^1.1.4",
+    "capacitor-ios-autofill-save-password": "^1.1.5",
     "cordova-open-native-settings": "^1.5.5",
     "cordova-plugin-calendar": "^5.1.6",
     "cordova-plugin-email-composer": "^0.10.1",
