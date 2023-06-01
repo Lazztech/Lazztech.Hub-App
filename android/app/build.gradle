@@ -4,6 +4,7 @@ Project background_geolocation = project(':transistorsoft-capacitor-background-g
 apply from: "${background_geolocation.projectDir}/app.gradle"
 
 android {
+    namespace "tech.lazz.app"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "tech.lazz.app"
