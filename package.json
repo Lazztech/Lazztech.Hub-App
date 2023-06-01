@@ -103,7 +103,6 @@
     "graphql": "^16.6.0",
     "html2canvas": "^1.4.1",
     "ics": "^3.1.0",
-    "jetifier": "^2.0.0",
     "jspdf": "^2.5.1",
     "jsqr": "^1.4.0",
     "leaflet-geosearch": "^3.8.0",
