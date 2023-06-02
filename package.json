@@ -97,7 +97,7 @@
     "date-fns": "2.30.0",
     "eruda": "^3.0.0",
     "extract-files": "^13.0.0",
-    "firebase": "^9.14.0",
+    "firebase": "^9.22.1",
     "geolib": "^3.3.4",
     "google-libphonenumber": "^3.2.32",
     "graphql": "^16.6.0",
