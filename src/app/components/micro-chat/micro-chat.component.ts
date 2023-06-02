@@ -29,7 +29,6 @@ export class MicroChatComponent {
   async addNewMicroChat() {
     const modal = await this.modalController.create({
       component: MicroChatAddPage,
-      swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl,
       componentProps: { hubId: this.hubId }
     });
