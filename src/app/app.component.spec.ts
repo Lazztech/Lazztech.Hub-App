@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
-import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
+// import { SplashScreen } from '@awesome-cordova-plugins/splash-screen/ngx';
+// import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AppComponent } from './app.component';
@@ -22,15 +22,15 @@ class MockPlatform {
 
 describe('AppComponent', () => {
 
-  let statusBarSpy;
+  // let statusBarSpy;
   let splashScreenSpy;
   let platformReadySpy;
   let mockPlatform;
   let mockBackButton;
 
   beforeEach(waitForAsync(() => {
-    statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
-    splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
+    // statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
+    // splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
     const platformReadySpy = jasmine.createSpy().and.returnValue(Promise.resolve());
     
     mockBackButton = new MockBackButton();
@@ -44,8 +44,8 @@ describe('AppComponent', () => {
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: StatusBar, useValue: statusBarSpy },
-        { provide: SplashScreen, useValue: splashScreenSpy },
+        // { provide: StatusBar, useValue: statusBarSpy },
+        // { provide: SplashScreen, useValue: splashScreenSpy },
         { provide: Platform, useValue: mockPlatform },
       ],
       imports: [ 
