@@ -4,8 +4,8 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "engines": {
-    "node": "16.13.0",
-    "npm": "8.1.0"
+    "node": "16.14.0",
+    "npm": "8.3.1"
   },
   "scripts": {
     "ng": "ng",
@@ -33,7 +33,6 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "generate": "graphql-codegen --config codegen.yml",
     "generate:watch": "graphql-codegen -w --config codegen.yml",
     "resources:ios": "cordova-res ios --skip-config --copy",
