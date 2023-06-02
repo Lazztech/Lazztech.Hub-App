@@ -11,6 +11,7 @@ import { AuthService } from './services/auth/auth.service';
 import { ForegroundGeofenceService } from './services/foreground-geofence.service';
 import { LocationService } from './services/location/location.service';
 import { ThemeService } from './services/theme/theme.service';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-root',
@@ -44,6 +45,7 @@ export class AppComponent {
     private zone: NgZone,
     private foregroundGeofenceService: ForegroundGeofenceService,
     public locationService: LocationService,
+    private storage: Storage
   ) {
     this.initializeApp();
   }
@@ -70,6 +72,10 @@ export class AppComponent {
           style: Style.Default,
         });
       }
+
+      // If using a custom driver:
+      // await this.storage.defineDriver(MyCustomDriver)
+      await this.storage.create();
 
       this.isLoggedIn$ = this.authService.isLoggedIn$;
 
