@@ -104,7 +104,7 @@ export class HubService {
     return response;
   }
 
-  async commonUsersHubs(otherUsersId: Scalars['ID'], fetchPolicy: FetchPolicy = 'network-only') {
+  async commonUsersHubs(otherUsersId: Scalars['ID']['output'], fetchPolicy: FetchPolicy = 'network-only') {
     const result = await this.commonUsersHubsGQLService.fetch({
       otherUsersId
     },
@@ -123,7 +123,7 @@ export class HubService {
     return response;
   }
 
-  async editHub(hubId: Scalars['ID'], name: string, description: string) {
+  async editHub(hubId: Scalars['ID']['output'], name: string, description: string) {
     const result = await this.editHubGQLService.mutate({
       hubId,
       name,
@@ -141,7 +141,7 @@ export class HubService {
     return response;
   }
 
-  async changeHubLocation(hubId: Scalars['ID'], latitude: number, longitude: number) {
+  async changeHubLocation(hubId: Scalars['ID']['output'], latitude: number, longitude: number) {
     const result = await this.changeHubLocationGQLService.mutate({
       hubId,
       latitude,
@@ -159,7 +159,7 @@ export class HubService {
     return response;
   }
 
-  async hub(id: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
+  async hub(id: Scalars['ID']['output'], fetchPolicy: FetchPolicy = 'cache-first') {
     const result = await this.hubGQLService.fetch({
       id
     },
@@ -178,7 +178,7 @@ export class HubService {
     return response;
   }
 
-  watchHub(id: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
+  watchHub(id: Scalars['ID']['output'], fetchPolicy: FetchPolicy = 'cache-first', pollInterval = 0) {
     return this.hubGQLService.watch({
       id
     },
@@ -188,7 +188,7 @@ export class HubService {
       });
   }
 
-  watchInvite(inviteId: Scalars['ID'], fetchPolicy: FetchPolicy = 'cache-first') {
+  watchInvite(inviteId: Scalars['ID']['output'], fetchPolicy: FetchPolicy = 'cache-first') {
     return this.inviteGQLService.watch({
         inviteId
       }, {
@@ -196,7 +196,7 @@ export class HubService {
       });
   }
 
-  watchInvitesByHub(hubId: Scalars['ID'], includeAccepted: boolean, fetchPolicy: FetchPolicy = 'cache-first') {
+  watchInvitesByHub(hubId: Scalars['ID']['output'], includeAccepted: boolean, fetchPolicy: FetchPolicy = 'cache-first') {
     return this.invitesByHubGQLService.watch({
       hubId,
       includeAccepted
@@ -205,7 +205,7 @@ export class HubService {
     });
   }
 
-  async inviteUserToHub(hubId: Scalars['ID'], shareableId: string) {
+  async inviteUserToHub(hubId: Scalars['ID']['output'], shareableId: string) {
     try {
       const result = await this.inviteUserToHubGQLService.mutate({
         hubId,
@@ -225,7 +225,7 @@ export class HubService {
     }
   }
 
-  async acceptHubInvite(inviteId: Scalars['ID']) {
+  async acceptHubInvite(inviteId: Scalars['ID']['output']) {
     const result = await this.acceptHubInviteGQLService.mutate({
       inviteId
     }, {
@@ -253,7 +253,7 @@ export class HubService {
     return result.data.deleteInvite;
   }
 
-  async leaveHub(hubId: Scalars['ID']) {
+  async leaveHub(hubId: Scalars['ID']['output']) {
     const result = await this.leaveHubGQLService.mutate({
       hubId
      }, {
@@ -263,7 +263,7 @@ export class HubService {
      }).toPromise();
   }
 
-  async deleteHub(id: Scalars['ID']): Promise<boolean> {
+  async deleteHub(id: Scalars['ID']['output']): Promise<boolean> {
     const result = await this.deleteHubGQLService.mutate({
       id
     }, {
@@ -278,7 +278,7 @@ export class HubService {
     return response;
   }
 
-  async setHubStarred(hubId: Scalars['ID']) {
+  async setHubStarred(hubId: Scalars['ID']['output']) {
     const result = await this.setHubStarredGQLService.mutate({
       hubId
     }).toPromise();
@@ -287,7 +287,7 @@ export class HubService {
     return response;
   }
 
-  async setHubNotStarred(hubId: Scalars['ID']) {
+  async setHubNotStarred(hubId: Scalars['ID']['output']) {
     const result = await this.setHubNotStarredGQLService.mutate({
       hubId
     }).toPromise();
@@ -296,7 +296,7 @@ export class HubService {
     return response;
   }
 
-  async enteredHubGeofence(hubId: Scalars['ID']) {
+  async enteredHubGeofence(hubId: Scalars['ID']['output']) {
     const result = await this.enteredHubGeofenceGQLService.mutate({
       hubId
     }).toPromise();
@@ -305,7 +305,7 @@ export class HubService {
     return result;
   }
 
-  async dwellHubGeofence(hubId: Scalars['ID']) {
+  async dwellHubGeofence(hubId: Scalars['ID']['output']) {
     const result = await this.dwellHubGeofenceGQLService.mutate({
       hubId
     }).toPromise();
@@ -314,7 +314,7 @@ export class HubService {
     return result;
   }
 
-  async exitedHubGeofence(hubId: Scalars['ID']) {
+  async exitedHubGeofence(hubId: Scalars['ID']['output']) {
     const result = await this.exitedHubGeofenceGQLService.mutate({
       hubId
     }).toPromise();
@@ -323,14 +323,14 @@ export class HubService {
     return result;
   }
 
-  async activateHub(hubId: Scalars['ID']) {
+  async activateHub(hubId: Scalars['ID']['output']) {
     const result = await this.activateHubGQLService.mutate({
       hubId
     }).toPromise();
     return result;
   }
 
-  async deactivateHub(hubId: Scalars['ID']) {
+  async deactivateHub(hubId: Scalars['ID']['output']) {
     const result = await this.deactivateHubGQLService.mutate({
       hubId
     }).toPromise();
@@ -338,7 +338,7 @@ export class HubService {
     return result;
   }
 
-  async sendMicroChat(hubId: Scalars['ID'], microChatId: Scalars['ID']) {
+  async sendMicroChat(hubId: Scalars['ID']['output'], microChatId: Scalars['ID']['output']) {
     const result = await this.microChatToHubGQLService.mutate({
       hubId,
       microChatId
@@ -348,7 +348,7 @@ export class HubService {
     return response;
   }
 
-  async createMicroChat(hubId: Scalars['ID'], microChatText: string) {
+  async createMicroChat(hubId: Scalars['ID']['output'], microChatText: string) {
     const result = await this.createMicroChatGQLService.mutate({
       hubId,
       microChatText
@@ -375,7 +375,7 @@ export class HubService {
     return result.data.createMicroChat;
   }
 
-  async deleteMicroChat(hubId: Scalars['ID'], microChatId: Scalars['ID']) {
+  async deleteMicroChat(hubId: Scalars['ID']['output'], microChatId: Scalars['ID']['output']) {
     const result = await this.deleteMicroChatGQLService.mutate({
       hubId,
       microChatId

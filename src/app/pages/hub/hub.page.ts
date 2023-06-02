@@ -27,7 +27,7 @@ export class HubPage implements OnInit, OnDestroy {
   present: HubQuery['hub']['hub']['usersConnection'];
   away: HubQuery['hub']['hub']['usersConnection'];
   sortedUsers: HubQuery['hub']['hub']['usersConnection'];
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   qrContent: string;
   hubCoords: {latitude: number, longitude: number};
   inviteModalIsOpen: boolean = false;

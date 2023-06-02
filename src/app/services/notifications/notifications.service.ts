@@ -74,7 +74,7 @@ export class NotificationsService {
     return this.paginatedInAppNotficationsGQLService.watch(pageableOptions);
   }
 
-  async deleteInAppNotification(inAppNotificationId: Scalars['ID']) {
+  async deleteInAppNotification(inAppNotificationId: Scalars['ID']['output']) {
     const result = await this.deleteInAppNotificationGQLService
       .mutate(
         {

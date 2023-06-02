@@ -30,7 +30,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
   invites: ApolloQueryResult<InvitesByHubQuery>;
   userHub: ApolloQueryResult<HubQuery>;
   subscriptions: Subscription[] = [];
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   mapModalIsOpen: boolean = false;
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   image: any;

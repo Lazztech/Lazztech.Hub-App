@@ -41,7 +41,7 @@ export class AdminEventPage implements OnInit, OnDestroy {
   endDateTimeModalOpen: boolean = false;
   mapModalIsOpen: boolean = false;
   subscriptions: Subscription[] = [];
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   eventQueryResult: ApolloQueryResult<EventQuery>;
   mapSearchSelection: { latitude: number, longitude: number, label: string };
   alphabetizedMembers: AlphabetMapOfJoinUserEvent;
