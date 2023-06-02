@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicStorageModule } from '@ionic/storage-angular';
+import { IonicStorageModule, Storage } from '@ionic/storage-angular';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
@@ -11,7 +11,7 @@ describe('SettingsPage', () => {
   let component: SettingsPage;
   let fixture: ComponentFixture<SettingsPage>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(waitForAsync(async () => {
     TestBed.configureTestingModule({
       declarations: [ SettingsPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -23,6 +23,8 @@ describe('SettingsPage', () => {
       ]
     })
     .compileComponents();
+    const storage: Storage = TestBed.get(Storage);
+    await storage.create();
   }));
 
   beforeEach(() => {
