@@ -25,8 +25,8 @@ export class HubCardComponent implements OnInit, OnChanges {
   atHub = false;
   subscription: Subscription;
   presentCount = 0;
-  private distanceInMeters: number;
-  private distanceInMiles: number;
+  distanceInMeters: number;
+  distanceInMiles: number;
 
   constructor(
     private locationService: LocationService,

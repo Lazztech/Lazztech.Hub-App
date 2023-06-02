@@ -21,13 +21,14 @@
       <ion-col size="12" size-md="6">
         <app-hub-card 
         *ngIf="!loading && userHub" 
-        [hub]="userHub?.hub" 
+        [hub]="userHub?.hub"
         [coords]="locationService.location" 
         [starred]="userHub?.starred"
         [muted]="userHub.muted"
         [isOwner]="userHub?.isOwner" 
         [showDescription]="true"
         [includeMap]="true"
+        [adminControls]="userHub?.isOwner"
         [compact]="false">
       </app-hub-card>
     
