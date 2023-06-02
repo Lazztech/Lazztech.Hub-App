@@ -170,10 +170,6 @@ export class SettingsPage implements OnInit {
     this.navCtrl.navigateForward('delete-account');
   }
 
-  async tutorial() {
-    this.navCtrl.navigateForward('tutorial');
-  }
-
   async clearStorage() {
     if (confirm('Are you sure you want to clear this apps storage?')) {
       await this.profileService.clearStorage();
