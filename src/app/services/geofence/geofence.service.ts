@@ -72,7 +72,7 @@ export class GeofenceService {
     }
     for (const userEvent of userEvents.data.usersEvents) {
       const identifier = this.mapEventToGeofenceIdentifier(userEvent.event as Event);
-      if (!geofences.some(gf => gf.identifier == identifier)) {
+      if (!geofences.some(gf => gf.identifier == identifier) && userEvent?.event?.longitude && userEvent?.event?.latitude) {
         await this.addGeofence({
           identifier: identifier,
           latitude: userEvent.event.latitude,
