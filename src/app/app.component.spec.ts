@@ -7,7 +7,7 @@ import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AppComponent } from './app.component';
-import { IonicStorageModule } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 

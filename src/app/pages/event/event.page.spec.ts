@@ -5,7 +5,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { EventPage } from './event.page';
-import { IonicStorageModule } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { EventGQL } from 'src/graphql/graphql';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { ComponentsModule } from 'src/app/components/components.module';
