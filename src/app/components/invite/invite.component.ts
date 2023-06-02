@@ -31,7 +31,7 @@ export class InviteComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() persons: Array<User> = [];
   @Input() inviteType: InviteType;
-  @Input() id: Scalars['ID'];
+  @Input() id: Scalars['ID']['output'];
   @Input() shareableLink: string;
   @Input() qrData: string;
   @Input() qrTitle: string;

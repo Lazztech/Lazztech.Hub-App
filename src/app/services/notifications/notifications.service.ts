@@ -8,7 +8,7 @@ import {
 } from '@capacitor/push-notifications';
 import '@firebase/messaging';
 import { NavController, Platform } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/storage-angular';
 import { NGXLogger } from 'ngx-logger';
 import {
   AddUserFcmNotificationTokenGQL,
@@ -74,7 +74,7 @@ export class NotificationsService {
     return this.paginatedInAppNotficationsGQLService.watch(pageableOptions);
   }
 
-  async deleteInAppNotification(inAppNotificationId: Scalars['ID']) {
+  async deleteInAppNotification(inAppNotificationId: Scalars['ID']['output']) {
     const result = await this.deleteInAppNotificationGQLService
       .mutate(
         {

@@ -5,7 +5,6 @@ import { Browser } from '@capacitor/browser';
 import { NavController } from '@ionic/angular';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { CommunicationService } from 'src/app/services/communication.service';
 import { environment } from 'src/environments/environment';
 import { AgeRestrictionValidator } from '../../../directives/age-restriction.directive';
 
@@ -45,21 +44,17 @@ export class RegisterPage implements OnInit {
     return this.myForm.get('phoneNumber');
   }
 
-  public countries: Array<{ code: number, flag: string, region: string}> = [];
-
   constructor(
     private authService: AuthService,
     private navCtrl: NavController,
     private alertService: AlertService,
     private fb: UntypedFormBuilder,
-    private readonly communicationService: CommunicationService,
     private readonly route: ActivatedRoute,
   ) {
     this.returnUrl = this.route?.snapshot?.queryParams['returnUrl'];
    }
 
   ngOnInit() {
-    this.countries = this.communicationService.countryCodes();
     this.myForm = this.fb.group({
       firstName: ['', [
         Validators.required

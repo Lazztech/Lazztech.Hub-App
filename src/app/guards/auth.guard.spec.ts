@@ -1,5 +1,5 @@
 import { TestBed, inject, waitForAsync } from '@angular/core/testing';
-import { IonicStorageModule } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';

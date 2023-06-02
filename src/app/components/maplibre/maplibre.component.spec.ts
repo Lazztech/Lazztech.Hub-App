@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MaplibreComponent } from './maplibre.component';
+import { LoggerModule } from 'ngx-logger';
+import { environment } from 'src/environments/environment';
 
 describe('MaplibreComponent', () => {
   let component: MaplibreComponent;
@@ -8,7 +10,10 @@ describe('MaplibreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MaplibreComponent ]
+      declarations: [ MaplibreComponent ],
+      imports: [
+        LoggerModule.forRoot(environment.logging),
+      ]
     })
     .compileComponents();
 

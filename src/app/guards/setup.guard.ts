@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { GeofenceService } from '../services/geofence/geofence.service';
 import { NotificationsService } from '../services/notifications/notifications.service';
@@ -7,7 +7,7 @@ import { NotificationsService } from '../services/notifications/notifications.se
 @Injectable({
   providedIn: 'root'
 })
-export class SetupGuard implements CanActivate {
+export class SetupGuard  {
 
   constructor(
     private authService: AuthService,

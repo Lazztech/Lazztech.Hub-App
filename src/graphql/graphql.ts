@@ -7,15 +7,17 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string | number; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
   /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
+  Upload: { input: any; output: any; }
 };
 
 export type Block = {
@@ -28,146 +30,146 @@ export type Event = {
   __typename?: 'Event';
   coverImage?: Maybe<File>;
   createdBy?: Maybe<User>;
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
   /** ISO 8601 Date Time */
-  endDateTime?: Maybe<Scalars['String']>;
+  endDateTime?: Maybe<Scalars['String']['output']>;
   hub?: Maybe<Hub>;
-  id: Scalars['ID'];
-  image?: Maybe<Scalars['String']>;
+  id: Scalars['ID']['output'];
+  image?: Maybe<Scalars['String']['output']>;
   /** Returns from Hub if available, or else value from Event is returned */
-  latitude?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
   /** Returns value from Hub if available, or else value from Event is returned */
-  locationLabel?: Maybe<Scalars['String']>;
+  locationLabel?: Maybe<Scalars['String']['output']>;
   /** Returns from Hub if available, or else value from Event is returned */
-  longitude?: Maybe<Scalars['Float']>;
-  maximumCapacity?: Maybe<Scalars['Float']>;
-  minimumCapacity?: Maybe<Scalars['Float']>;
-  name: Scalars['String'];
-  shareableId: Scalars['String'];
+  longitude?: Maybe<Scalars['Float']['output']>;
+  maximumCapacity?: Maybe<Scalars['Float']['output']>;
+  minimumCapacity?: Maybe<Scalars['Float']['output']>;
+  name: Scalars['String']['output'];
+  shareableId: Scalars['String']['output'];
   /** ISO 8601 Date Time */
-  startDateTime?: Maybe<Scalars['String']>;
+  startDateTime?: Maybe<Scalars['String']['output']>;
   usersConnection?: Maybe<Array<JoinUserEvent>>;
 };
 
 export type ExpeditedRegistration = {
   __typename?: 'ExpeditedRegistration';
-  jwt: Scalars['String'];
-  password: Scalars['String'];
-  username: Scalars['String'];
+  jwt: Scalars['String']['output'];
+  password: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type File = {
   __typename?: 'File';
   createdBy: User;
   /** ISO 8601 Date Time */
-  createdOn: Scalars['String'];
-  fileName: Scalars['String'];
-  id: Scalars['ID'];
-  mimetype?: Maybe<Scalars['String']>;
-  shareableId: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
+  createdOn: Scalars['String']['output'];
+  fileName: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  mimetype?: Maybe<Scalars['String']['output']>;
+  shareableId: Scalars['String']['output'];
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type Hub = {
   __typename?: 'Hub';
-  active?: Maybe<Scalars['Boolean']>;
+  active?: Maybe<Scalars['Boolean']['output']>;
   coverImage?: Maybe<File>;
-  description?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
   events?: Maybe<Array<Event>>;
-  id: Scalars['ID'];
-  image?: Maybe<Scalars['String']>;
+  id: Scalars['ID']['output'];
+  image?: Maybe<Scalars['String']['output']>;
   invites?: Maybe<Array<Invite>>;
-  latitude?: Maybe<Scalars['Float']>;
-  locationLabel?: Maybe<Scalars['String']>;
-  longitude?: Maybe<Scalars['Float']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  locationLabel?: Maybe<Scalars['String']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   microChats?: Maybe<Array<MicroChat>>;
-  name: Scalars['String'];
-  shareableId: Scalars['String'];
+  name: Scalars['String']['output'];
+  shareableId: Scalars['String']['output'];
   usersConnection?: Maybe<Array<JoinUserHub>>;
 };
 
 export type InAppNotification = {
   __typename?: 'InAppNotification';
-  actionLink?: Maybe<Scalars['String']>;
-  date: Scalars['String'];
-  header?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  text: Scalars['String'];
-  thumbnail?: Maybe<Scalars['String']>;
-  userId: Scalars['ID'];
+  actionLink?: Maybe<Scalars['String']['output']>;
+  date: Scalars['String']['output'];
+  header?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  text: Scalars['String']['output'];
+  thumbnail?: Maybe<Scalars['String']['output']>;
+  userId: Scalars['ID']['output'];
 };
 
 export type Invite = {
   __typename?: 'Invite';
-  accepted: Scalars['Boolean'];
+  accepted: Scalars['Boolean']['output'];
   hub?: Maybe<Hub>;
-  hubId: Scalars['ID'];
-  id: Scalars['ID'];
+  hubId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
   invitee?: Maybe<User>;
-  inviteesId: Scalars['ID'];
+  inviteesId: Scalars['ID']['output'];
   inviter?: Maybe<User>;
-  invitersId: Scalars['ID'];
+  invitersId: Scalars['ID']['output'];
 };
 
 export type JoinUserEvent = {
   __typename?: 'JoinUserEvent';
   event?: Maybe<Event>;
-  eventId: Scalars['ID'];
-  isPresent?: Maybe<Scalars['Boolean']>;
+  eventId: Scalars['ID']['output'];
+  isPresent?: Maybe<Scalars['Boolean']['output']>;
   /** last update event for presence */
-  lastGeofenceEvent?: Maybe<Scalars['String']>;
+  lastGeofenceEvent?: Maybe<Scalars['String']['output']>;
   /** unix timestamp for the last time the presence state was updated */
-  lastUpdated?: Maybe<Scalars['String']>;
+  lastUpdated?: Maybe<Scalars['String']['output']>;
   /** going or maybe or cantgo */
-  rsvp?: Maybe<Scalars['String']>;
+  rsvp?: Maybe<Scalars['String']['output']>;
   user?: Maybe<User>;
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['output'];
 };
 
 export type JoinUserHub = {
   __typename?: 'JoinUserHub';
   hub?: Maybe<Hub>;
-  hubId: Scalars['ID'];
-  isOwner: Scalars['Boolean'];
-  isPresent?: Maybe<Scalars['Boolean']>;
+  hubId: Scalars['ID']['output'];
+  isOwner: Scalars['Boolean']['output'];
+  isPresent?: Maybe<Scalars['Boolean']['output']>;
   /** last update event for presence */
-  lastGeofenceEvent?: Maybe<Scalars['String']>;
+  lastGeofenceEvent?: Maybe<Scalars['String']['output']>;
   /** unix timestamp for the last time the presence state was updated */
-  lastUpdated?: Maybe<Scalars['String']>;
-  muted: Scalars['Boolean'];
-  starred: Scalars['Boolean'];
+  lastUpdated?: Maybe<Scalars['String']['output']>;
+  muted: Scalars['Boolean']['output'];
+  starred: Scalars['Boolean']['output'];
   user?: Maybe<User>;
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['output'];
 };
 
 export type MicroChat = {
   __typename?: 'MicroChat';
-  hub: Scalars['ID'];
-  hubId: Scalars['ID'];
-  id: Scalars['ID'];
-  text: Scalars['String'];
+  hub: Scalars['ID']['output'];
+  hubId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
+  text: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   acceptHubInvite: JoinUserHub;
   activateHub: Hub;
-  addUserFcmNotificationToken: Scalars['Boolean'];
+  addUserFcmNotificationToken: Scalars['Boolean']['output'];
   blockUser: Block;
   changeEmail: User;
   changeHubLocation: Hub;
-  changePassword: Scalars['Boolean'];
+  changePassword: Scalars['Boolean']['output'];
   createEvent: JoinUserEvent;
   createHub: JoinUserHub;
   createMicroChat: MicroChat;
   deactivateHub: Hub;
-  deleteAccount: Scalars['Boolean'];
-  deleteAllInAppNotifications: Scalars['Boolean'];
-  deleteEvent: Scalars['Boolean'];
-  deleteHub: Scalars['Boolean'];
-  deleteInAppNotification: Scalars['Boolean'];
-  deleteInvite: Scalars['Boolean'];
-  deleteMicroChat: Scalars['Boolean'];
+  deleteAccount: Scalars['Boolean']['output'];
+  deleteAllInAppNotifications: Scalars['Boolean']['output'];
+  deleteEvent: Scalars['Boolean']['output'];
+  deleteHub: Scalars['Boolean']['output'];
+  deleteInAppNotification: Scalars['Boolean']['output'];
+  deleteInvite: Scalars['Boolean']['output'];
+  deleteMicroChat: Scalars['Boolean']['output'];
   dwellEventGeofence: JoinUserEvent;
   dwellHubGeofence: JoinUserHub;
   editHub: Hub;
@@ -179,24 +181,24 @@ export type Mutation = {
   expeditedRegistration: ExpeditedRegistration;
   inviteUserToEvent: JoinUserEvent;
   inviteUserToHub: Invite;
-  leaveHub: Scalars['Boolean'];
-  login?: Maybe<Scalars['String']>;
-  logout: Scalars['Boolean'];
-  microChatToHub: Scalars['Boolean'];
+  leaveHub: Scalars['Boolean']['output'];
+  login?: Maybe<Scalars['String']['output']>;
+  logout: Scalars['Boolean']['output'];
+  microChatToHub: Scalars['Boolean']['output'];
   mute: JoinUserHub;
-  register?: Maybe<Scalars['String']>;
-  removeUserFromEvent: Scalars['Boolean'];
-  removeUserFromHub: Scalars['Boolean'];
-  reportEventAsInappropriate: Scalars['Boolean'];
-  reportHubAsInappropriate: Scalars['Boolean'];
-  reportUserAsInappropriate: Scalars['Boolean'];
-  resetPassword: Scalars['Boolean'];
+  register?: Maybe<Scalars['String']['output']>;
+  removeUserFromEvent: Scalars['Boolean']['output'];
+  removeUserFromHub: Scalars['Boolean']['output'];
+  reportEventAsInappropriate: Scalars['Boolean']['output'];
+  reportHubAsInappropriate: Scalars['Boolean']['output'];
+  reportUserAsInappropriate: Scalars['Boolean']['output'];
+  resetPassword: Scalars['Boolean']['output'];
   resetShareableEventID: JoinUserEvent;
   resetShareableHubID: JoinUserHub;
   rsvp: JoinUserEvent;
-  sendPasswordResetEmail: Scalars['Boolean'];
-  setHubNotStarred: Scalars['Boolean'];
-  setHubStarred: Scalars['Boolean'];
+  sendPasswordResetEmail: Scalars['Boolean']['output'];
+  setHubNotStarred: Scalars['Boolean']['output'];
+  setHubStarred: Scalars['Boolean']['output'];
   unblockUser: Block;
   unmute: JoinUserHub;
   updateEvent: Event;
@@ -206,189 +208,189 @@ export type Mutation = {
 
 
 export type MutationAcceptHubInviteArgs = {
-  inviteId: Scalars['ID'];
+  inviteId: Scalars['ID']['input'];
 };
 
 
 export type MutationActivateHubArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddUserFcmNotificationTokenArgs = {
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 };
 
 
 export type MutationBlockUserArgs = {
-  toUserId: Scalars['ID'];
+  toUserId: Scalars['ID']['input'];
 };
 
 
 export type MutationChangeEmailArgs = {
-  newEmail: Scalars['String'];
+  newEmail: Scalars['String']['input'];
 };
 
 
 export type MutationChangeHubLocationArgs = {
-  hubId: Scalars['ID'];
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
+  hubId: Scalars['ID']['input'];
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
 };
 
 
 export type MutationChangePasswordArgs = {
-  newPassword: Scalars['String'];
-  oldPassword: Scalars['String'];
+  newPassword: Scalars['String']['input'];
+  oldPassword: Scalars['String']['input'];
 };
 
 
 export type MutationCreateEventArgs = {
-  description?: InputMaybe<Scalars['String']>;
-  endDateTime?: InputMaybe<Scalars['String']>;
-  hubId?: InputMaybe<Scalars['String']>;
-  imageFile?: InputMaybe<Scalars['Upload']>;
-  latitude?: InputMaybe<Scalars['Float']>;
-  locationLabel?: InputMaybe<Scalars['String']>;
-  longitude?: InputMaybe<Scalars['Float']>;
-  maximumCapacity?: InputMaybe<Scalars['Int']>;
-  minimumCapacity?: InputMaybe<Scalars['Int']>;
-  name: Scalars['String'];
-  startDateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  endDateTime?: InputMaybe<Scalars['String']['input']>;
+  hubId?: InputMaybe<Scalars['String']['input']>;
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  locationLabel?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  maximumCapacity?: InputMaybe<Scalars['Int']['input']>;
+  minimumCapacity?: InputMaybe<Scalars['Int']['input']>;
+  name: Scalars['String']['input'];
+  startDateTime?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationCreateHubArgs = {
-  description?: InputMaybe<Scalars['String']>;
-  imageFile?: InputMaybe<Scalars['Upload']>;
-  latitude: Scalars['Float'];
-  locationLabel?: InputMaybe<Scalars['String']>;
-  longitude: Scalars['Float'];
-  name: Scalars['String'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
+  latitude: Scalars['Float']['input'];
+  locationLabel?: InputMaybe<Scalars['String']['input']>;
+  longitude: Scalars['Float']['input'];
+  name: Scalars['String']['input'];
 };
 
 
 export type MutationCreateMicroChatArgs = {
-  hubId: Scalars['ID'];
-  microChatText: Scalars['String'];
+  hubId: Scalars['ID']['input'];
+  microChatText: Scalars['String']['input'];
 };
 
 
 export type MutationDeactivateHubArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteAccountArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteEventArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteHubArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteInAppNotificationArgs = {
-  inAppNotificationId: Scalars['ID'];
+  inAppNotificationId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteInviteArgs = {
-  hubId: Scalars['ID'];
-  inviteId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
+  inviteId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteMicroChatArgs = {
-  hubId: Scalars['ID'];
-  microChatId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
+  microChatId: Scalars['ID']['input'];
 };
 
 
 export type MutationDwellEventGeofenceArgs = {
-  eventId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
 };
 
 
 export type MutationDwellHubGeofenceArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationEditHubArgs = {
-  description?: InputMaybe<Scalars['String']>;
-  hubId: Scalars['ID'];
-  name: Scalars['String'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  hubId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
 export type MutationEditUserDetailsArgs = {
-  description: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
+  description: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
 };
 
 
 export type MutationEnteredEventGeofenceArgs = {
-  eventId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
 };
 
 
 export type MutationEnteredHubGeofenceArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationExitedEventGeofenceArgs = {
-  eventId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
 };
 
 
 export type MutationExitedHubGeofenceArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationInviteUserToEventArgs = {
-  eventId: Scalars['ID'];
-  inviteesEmail?: InputMaybe<Scalars['String']>;
-  inviteesShareableId?: InputMaybe<Scalars['String']>;
+  eventId: Scalars['ID']['input'];
+  inviteesEmail?: InputMaybe<Scalars['String']['input']>;
+  inviteesShareableId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationInviteUserToHubArgs = {
-  hubId: Scalars['ID'];
-  inviteesEmail?: InputMaybe<Scalars['String']>;
-  inviteesShareableId?: InputMaybe<Scalars['String']>;
+  hubId: Scalars['ID']['input'];
+  inviteesEmail?: InputMaybe<Scalars['String']['input']>;
+  inviteesShareableId?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationLeaveHubArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationLoginArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
 export type MutationMicroChatToHubArgs = {
-  hubId: Scalars['ID'];
-  microChatId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
+  microChatId: Scalars['ID']['input'];
 };
 
 
 export type MutationMuteArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
@@ -398,122 +400,122 @@ export type MutationRegisterArgs = {
 
 
 export type MutationRemoveUserFromEventArgs = {
-  eventId: Scalars['ID'];
-  otherUsersId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
+  otherUsersId: Scalars['ID']['input'];
 };
 
 
 export type MutationRemoveUserFromHubArgs = {
-  hubId: Scalars['ID'];
-  otherUsersId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
+  otherUsersId: Scalars['ID']['input'];
 };
 
 
 export type MutationReportEventAsInappropriateArgs = {
-  eventId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
 };
 
 
 export type MutationReportHubAsInappropriateArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationReportUserAsInappropriateArgs = {
-  toUserId: Scalars['ID'];
+  toUserId: Scalars['ID']['input'];
 };
 
 
 export type MutationResetPasswordArgs = {
-  newPassword: Scalars['String'];
-  resetPin: Scalars['String'];
-  usersEmail: Scalars['String'];
+  newPassword: Scalars['String']['input'];
+  resetPin: Scalars['String']['input'];
+  usersEmail: Scalars['String']['input'];
 };
 
 
 export type MutationResetShareableEventIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationResetShareableHubIdArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationRsvpArgs = {
-  eventId: Scalars['ID'];
-  rsvp: Scalars['String'];
+  eventId: Scalars['ID']['input'];
+  rsvp: Scalars['String']['input'];
 };
 
 
 export type MutationSendPasswordResetEmailArgs = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 };
 
 
 export type MutationSetHubNotStarredArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationSetHubStarredArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationUnblockUserArgs = {
-  toUserId: Scalars['ID'];
+  toUserId: Scalars['ID']['input'];
 };
 
 
 export type MutationUnmuteArgs = {
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateEventArgs = {
-  description?: InputMaybe<Scalars['String']>;
-  endDateTime?: InputMaybe<Scalars['String']>;
-  eventId: Scalars['ID'];
-  hubId?: InputMaybe<Scalars['String']>;
-  imageFile?: InputMaybe<Scalars['Upload']>;
-  latitude?: InputMaybe<Scalars['Float']>;
-  locationLabel?: InputMaybe<Scalars['String']>;
-  longitude?: InputMaybe<Scalars['Float']>;
-  maximumCapacity?: InputMaybe<Scalars['Int']>;
-  minimumCapacity?: InputMaybe<Scalars['Int']>;
-  name: Scalars['String'];
-  startDateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  endDateTime?: InputMaybe<Scalars['String']['input']>;
+  eventId: Scalars['ID']['input'];
+  hubId?: InputMaybe<Scalars['String']['input']>;
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  locationLabel?: InputMaybe<Scalars['String']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  maximumCapacity?: InputMaybe<Scalars['Int']['input']>;
+  minimumCapacity?: InputMaybe<Scalars['Int']['input']>;
+  name: Scalars['String']['input'];
+  startDateTime?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationUpdateHubArgs = {
-  description?: InputMaybe<Scalars['String']>;
-  hubId: Scalars['ID'];
-  imageFile?: InputMaybe<Scalars['Upload']>;
-  latitude: Scalars['Float'];
-  locationLabel?: InputMaybe<Scalars['String']>;
-  longitude: Scalars['Float'];
-  name: Scalars['String'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  hubId: Scalars['ID']['input'];
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
+  latitude: Scalars['Float']['input'];
+  locationLabel?: InputMaybe<Scalars['String']['input']>;
+  longitude: Scalars['Float']['input'];
+  name: Scalars['String']['input'];
 };
 
 
 export type MutationUpdateUserArgs = {
   data?: InputMaybe<UpdateUserInput>;
-  imageFile?: InputMaybe<Scalars['Upload']>;
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
 };
 
 export type PageableOptions = {
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   sortOptions?: InputMaybe<SortOptions>;
 };
 
 export type PaginatedInAppNotificationsResponse = {
   __typename?: 'PaginatedInAppNotificationsResponse';
   items: Array<InAppNotification>;
-  total: Scalars['Int'];
+  total: Scalars['Int']['output'];
 };
 
 export type Query = {
@@ -537,34 +539,34 @@ export type Query = {
 
 
 export type QueryCommonUsersHubsArgs = {
-  otherUsersId: Scalars['ID'];
+  otherUsersId: Scalars['ID']['input'];
 };
 
 
 export type QueryEventArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryHubArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryInviteArgs = {
-  hubId?: InputMaybe<Scalars['ID']>;
-  inviteId?: InputMaybe<Scalars['ID']>;
+  hubId?: InputMaybe<Scalars['ID']['input']>;
+  inviteId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type QueryInvitesByHubArgs = {
-  hubId: Scalars['ID'];
-  includeAccepted?: InputMaybe<Scalars['Boolean']>;
+  hubId: Scalars['ID']['input'];
+  includeAccepted?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type QueryInvitesByUserArgs = {
-  includeAccepted?: InputMaybe<Scalars['Boolean']>;
+  includeAccepted?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -574,159 +576,159 @@ export type QueryPaginatedInAppNotificationsArgs = {
 
 
 export type QuerySearchHubByNameArgs = {
-  search: Scalars['String'];
+  search: Scalars['String']['input'];
 };
 
 export type SortOptions = {
-  ascending: Scalars['Boolean'];
-  field: Scalars['String'];
+  ascending: Scalars['Boolean']['input'];
+  field: Scalars['String']['input'];
 };
 
 export type UpdateUserInput = {
-  description?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  firstName?: InputMaybe<Scalars['String']>;
-  lastName?: InputMaybe<Scalars['String']>;
-  phoneNumber?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
   __typename?: 'User';
   /** string representation of unix timestamp */
-  birthdate?: Maybe<Scalars['String']>;
-  blocked?: Maybe<Scalars['Boolean']>;
+  birthdate?: Maybe<Scalars['String']['output']>;
+  blocked?: Maybe<Scalars['Boolean']['output']>;
   blocks?: Maybe<Array<Block>>;
-  description?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  image?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  firstName?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  image?: Maybe<Scalars['String']['output']>;
+  lastName?: Maybe<Scalars['String']['output']>;
   /** unix timestamp for the last time the user was successfully authenticated */
-  lastOnline?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
+  lastOnline?: Maybe<Scalars['String']['output']>;
+  phoneNumber?: Maybe<Scalars['String']['output']>;
   profileImage?: Maybe<File>;
-  shareableId: Scalars['String'];
+  shareableId: Scalars['String']['output'];
   userDevices?: Maybe<Array<UserDevice>>;
-  username?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserDevice = {
   __typename?: 'UserDevice';
-  fcmPushUserToken: Scalars['String'];
-  id: Scalars['ID'];
-  userId: Scalars['ID'];
+  fcmPushUserToken: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  userId: Scalars['ID']['output'];
 };
 
 export type UserInput = {
   /** string representation of unix timestamp */
-  birthdate: Scalars['String'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  password: Scalars['String'];
-  phoneNumber?: InputMaybe<Scalars['String']>;
+  birthdate: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AcceptHubInviteMutationVariables = Exact<{
-  inviteId: Scalars['ID'];
+  inviteId: Scalars['ID']['input'];
 }>;
 
 
 export type AcceptHubInviteMutation = { __typename?: 'Mutation', acceptHubInvite: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, microChats?: Array<{ __typename?: 'MicroChat', id: string, hubId: string, text: string }> | null } | null } };
 
 export type ActivateHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type ActivateHubMutation = { __typename?: 'Mutation', activateHub: { __typename?: 'Hub', id: string, active?: boolean | null } };
 
 export type AddUserFcmNotificationTokenMutationVariables = Exact<{
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 }>;
 
 
 export type AddUserFcmNotificationTokenMutation = { __typename?: 'Mutation', addUserFcmNotificationToken: boolean };
 
 export type BlockUserMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
+  toUserId: Scalars['ID']['input'];
 }>;
 
 
 export type BlockUserMutation = { __typename?: 'Mutation', blockUser: { __typename?: 'Block', from: { __typename?: 'User', id: string, firstName?: string | null }, to: { __typename?: 'User', id: string, firstName?: string | null } } };
 
 export type ChangeEmailMutationVariables = Exact<{
-  newEmail: Scalars['String'];
+  newEmail: Scalars['String']['input'];
 }>;
 
 
 export type ChangeEmailMutation = { __typename?: 'Mutation', changeEmail: { __typename?: 'User', id: string, email?: string | null } };
 
 export type ChangeHubLocationMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
+  hubId: Scalars['ID']['input'];
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
 }>;
 
 
 export type ChangeHubLocationMutation = { __typename?: 'Mutation', changeHubLocation: { __typename?: 'Hub', id: string, latitude?: number | null, longitude?: number | null } };
 
 export type ChangePasswordMutationVariables = Exact<{
-  oldPassword: Scalars['String'];
-  newPassword: Scalars['String'];
+  oldPassword: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
 }>;
 
 
 export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: boolean };
 
 export type CreateEventMutationVariables = Exact<{
-  name: Scalars['String'];
-  hubId?: InputMaybe<Scalars['String']>;
-  description?: InputMaybe<Scalars['String']>;
-  startDateTime?: InputMaybe<Scalars['String']>;
-  endDateTime?: InputMaybe<Scalars['String']>;
-  minimumCapacity?: InputMaybe<Scalars['Int']>;
-  maximumCapacity?: InputMaybe<Scalars['Int']>;
-  latitude?: InputMaybe<Scalars['Float']>;
-  longitude?: InputMaybe<Scalars['Float']>;
-  locationLabel?: InputMaybe<Scalars['String']>;
-  imageFile?: InputMaybe<Scalars['Upload']>;
+  name: Scalars['String']['input'];
+  hubId?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  startDateTime?: InputMaybe<Scalars['String']['input']>;
+  endDateTime?: InputMaybe<Scalars['String']['input']>;
+  minimumCapacity?: InputMaybe<Scalars['Int']['input']>;
+  maximumCapacity?: InputMaybe<Scalars['Int']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  locationLabel?: InputMaybe<Scalars['String']['input']>;
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
 }>;
 
 
 export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string } | null } };
 
 export type CreateHubMutationVariables = Exact<{
-  name: Scalars['String'];
-  description?: InputMaybe<Scalars['String']>;
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
-  locationLabel?: InputMaybe<Scalars['String']>;
-  imageFile?: InputMaybe<Scalars['Upload']>;
+  name: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
+  locationLabel?: InputMaybe<Scalars['String']['input']>;
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
 }>;
 
 
 export type CreateHubMutation = { __typename?: 'Mutation', createHub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null } };
 
 export type CreateMicroChatMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  microChatText: Scalars['String'];
+  hubId: Scalars['ID']['input'];
+  microChatText: Scalars['String']['input'];
 }>;
 
 
 export type CreateMicroChatMutation = { __typename?: 'Mutation', createMicroChat: { __typename?: 'MicroChat', id: string, text: string } };
 
 export type DeactivateHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type DeactivateHubMutation = { __typename?: 'Mutation', deactivateHub: { __typename?: 'Hub', id: string, active?: boolean | null } };
 
 export type DeleteAccountMutationVariables = Exact<{
-  emailAddress: Scalars['String'];
-  password: Scalars['String'];
+  emailAddress: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 }>;
 
 
@@ -738,97 +740,97 @@ export type DeleteAllInAppNotificationsMutationVariables = Exact<{ [key: string]
 export type DeleteAllInAppNotificationsMutation = { __typename?: 'Mutation', deleteAllInAppNotifications: boolean };
 
 export type DeleteEventMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent: boolean };
 
 export type DeleteHubMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteHubMutation = { __typename?: 'Mutation', deleteHub: boolean };
 
 export type DeleteInAppNotificationMutationVariables = Exact<{
-  inAppNotificationId: Scalars['ID'];
+  inAppNotificationId: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteInAppNotificationMutation = { __typename?: 'Mutation', deleteInAppNotification: boolean };
 
 export type DeleteInviteMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  inviteId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
+  inviteId: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteInviteMutation = { __typename?: 'Mutation', deleteInvite: boolean };
 
 export type DeleteMicroChatMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  microChatId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
+  microChatId: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteMicroChatMutation = { __typename?: 'Mutation', deleteMicroChat: boolean };
 
 export type DwellEventGeofenceMutationVariables = Exact<{
-  eventId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
 }>;
 
 
 export type DwellEventGeofenceMutation = { __typename?: 'Mutation', dwellEventGeofence: { __typename?: 'JoinUserEvent', userId: string, eventId: string, isPresent?: boolean | null } };
 
 export type DwellHubGeofenceMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type DwellHubGeofenceMutation = { __typename?: 'Mutation', dwellHubGeofence: { __typename?: 'JoinUserHub', userId: string, hubId: string, isPresent?: boolean | null } };
 
 export type EditHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  name: Scalars['String'];
-  description?: InputMaybe<Scalars['String']>;
+  hubId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type EditHubMutation = { __typename?: 'Mutation', editHub: { __typename?: 'Hub', id: string, name: string, description?: string | null } };
 
 export type EditUserDetailsMutationVariables = Exact<{
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  description: Scalars['String'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  description: Scalars['String']['input'];
 }>;
 
 
 export type EditUserDetailsMutation = { __typename?: 'Mutation', editUserDetails: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null } };
 
 export type EnteredEventGeofenceMutationVariables = Exact<{
-  eventId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
 }>;
 
 
 export type EnteredEventGeofenceMutation = { __typename?: 'Mutation', enteredEventGeofence: { __typename?: 'JoinUserEvent', userId: string, eventId: string, isPresent?: boolean | null } };
 
 export type EnteredHubGeofenceMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type EnteredHubGeofenceMutation = { __typename?: 'Mutation', enteredHubGeofence: { __typename?: 'JoinUserHub', userId: string, hubId: string, isPresent?: boolean | null } };
 
 export type ExitedEventGeofenceMutationVariables = Exact<{
-  eventId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
 }>;
 
 
 export type ExitedEventGeofenceMutation = { __typename?: 'Mutation', exitedEventGeofence: { __typename?: 'JoinUserEvent', userId: string, eventId: string, isPresent?: boolean | null } };
 
 export type ExitedHubGeofenceMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
@@ -840,194 +842,194 @@ export type ExpeditedRegistrationMutationVariables = Exact<{ [key: string]: neve
 export type ExpeditedRegistrationMutation = { __typename?: 'Mutation', expeditedRegistration: { __typename?: 'ExpeditedRegistration', username: string, jwt: string, password: string } };
 
 export type InviteUserToEventMutationVariables = Exact<{
-  eventId: Scalars['ID'];
-  inviteesEmail?: InputMaybe<Scalars['String']>;
-  inviteesShareableId?: InputMaybe<Scalars['String']>;
+  eventId: Scalars['ID']['input'];
+  inviteesEmail?: InputMaybe<Scalars['String']['input']>;
+  inviteesShareableId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type InviteUserToEventMutation = { __typename?: 'Mutation', inviteUserToEvent: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string } | null } };
 
 export type InviteUserToHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  inviteesEmail?: InputMaybe<Scalars['String']>;
-  inviteesShareableId?: InputMaybe<Scalars['String']>;
+  hubId: Scalars['ID']['input'];
+  inviteesEmail?: InputMaybe<Scalars['String']['input']>;
+  inviteesShareableId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type InviteUserToHubMutation = { __typename?: 'Mutation', inviteUserToHub: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, invitee?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string } | null } };
 
 export type LeaveHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type LeaveHubMutation = { __typename?: 'Mutation', leaveHub: boolean };
 
 export type LoginMutationVariables = Exact<{
-  password: Scalars['String'];
-  email: Scalars['String'];
+  password: Scalars['String']['input'];
+  email: Scalars['String']['input'];
 }>;
 
 
 export type LoginMutation = { __typename?: 'Mutation', login?: string | null };
 
 export type MicroChatToHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  microChatId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
+  microChatId: Scalars['ID']['input'];
 }>;
 
 
 export type MicroChatToHubMutation = { __typename?: 'Mutation', microChatToHub: boolean };
 
 export type MuteMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type MuteMutation = { __typename?: 'Mutation', mute: { __typename?: 'JoinUserHub', userId: string, hubId: string, muted: boolean, hub?: { __typename?: 'Hub', id: string } | null } };
 
 export type RegisterMutationVariables = Exact<{
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  birthdate: Scalars['String'];
-  email: Scalars['String'];
-  password: Scalars['String'];
-  phoneNumber?: InputMaybe<Scalars['String']>;
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  birthdate: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  phoneNumber?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register?: string | null };
 
 export type RemoveUserFromEventMutationVariables = Exact<{
-  eventId: Scalars['ID'];
-  otherUsersId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
+  otherUsersId: Scalars['ID']['input'];
 }>;
 
 
 export type RemoveUserFromEventMutation = { __typename?: 'Mutation', removeUserFromEvent: boolean };
 
 export type RemoveUserFromHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  otherUsersId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
+  otherUsersId: Scalars['ID']['input'];
 }>;
 
 
 export type RemoveUserFromHubMutation = { __typename?: 'Mutation', removeUserFromHub: boolean };
 
 export type ReportEventAsInappropriateMutationVariables = Exact<{
-  eventId: Scalars['ID'];
+  eventId: Scalars['ID']['input'];
 }>;
 
 
 export type ReportEventAsInappropriateMutation = { __typename?: 'Mutation', reportEventAsInappropriate: boolean };
 
 export type ReportHubAsInappropriateMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type ReportHubAsInappropriateMutation = { __typename?: 'Mutation', reportHubAsInappropriate: boolean };
 
 export type ReportUserAsInappropriateMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
+  toUserId: Scalars['ID']['input'];
 }>;
 
 
 export type ReportUserAsInappropriateMutation = { __typename?: 'Mutation', reportUserAsInappropriate: boolean };
 
 export type ResetPasswordMutationVariables = Exact<{
-  email: Scalars['String'];
-  newPassword: Scalars['String'];
-  resetPin: Scalars['String'];
+  email: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
+  resetPin: Scalars['String']['input'];
 }>;
 
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
 
 export type ResetShareableEventIdMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type ResetShareableEventIdMutation = { __typename?: 'Mutation', resetShareableEventID: { __typename?: 'JoinUserEvent', userId: string, eventId: string, event?: { __typename?: 'Event', id: string, shareableId: string } | null } };
 
 export type ResetShareableHubIdMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type ResetShareableHubIdMutation = { __typename?: 'Mutation', resetShareableHubID: { __typename?: 'JoinUserHub', userId: string, hubId: string, hub?: { __typename?: 'Hub', id: string, shareableId: string } | null } };
 
 export type RsvpMutationVariables = Exact<{
-  eventId: Scalars['ID'];
-  rsvp: Scalars['String'];
+  eventId: Scalars['ID']['input'];
+  rsvp: Scalars['String']['input'];
 }>;
 
 
 export type RsvpMutation = { __typename?: 'Mutation', rsvp: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null } };
 
 export type SendPasswordResetEmailMutationVariables = Exact<{
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 }>;
 
 
 export type SendPasswordResetEmailMutation = { __typename?: 'Mutation', sendPasswordResetEmail: boolean };
 
 export type SetHubNotStarredMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type SetHubNotStarredMutation = { __typename?: 'Mutation', setHubNotStarred: boolean };
 
 export type SetHubStarredMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type SetHubStarredMutation = { __typename?: 'Mutation', setHubStarred: boolean };
 
 export type UnblockUserMutationVariables = Exact<{
-  toUserId: Scalars['ID'];
+  toUserId: Scalars['ID']['input'];
 }>;
 
 
 export type UnblockUserMutation = { __typename?: 'Mutation', unblockUser: { __typename?: 'Block', from: { __typename?: 'User', id: string, firstName?: string | null }, to: { __typename?: 'User', id: string, firstName?: string | null } } };
 
 export type UnmuteMutationVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
 export type UnmuteMutation = { __typename?: 'Mutation', unmute: { __typename?: 'JoinUserHub', userId: string, hubId: string, muted: boolean, hub?: { __typename?: 'Hub', id: string } | null } };
 
 export type UpdateEventMutationVariables = Exact<{
-  eventId: Scalars['ID'];
-  name: Scalars['String'];
-  description?: InputMaybe<Scalars['String']>;
-  startDateTime?: InputMaybe<Scalars['String']>;
-  endDateTime?: InputMaybe<Scalars['String']>;
-  minimumCapacity?: InputMaybe<Scalars['Int']>;
-  maximumCapacity?: InputMaybe<Scalars['Int']>;
-  latitude?: InputMaybe<Scalars['Float']>;
-  longitude?: InputMaybe<Scalars['Float']>;
-  locationLabel?: InputMaybe<Scalars['String']>;
-  imageFile?: InputMaybe<Scalars['Upload']>;
-  hubId?: InputMaybe<Scalars['String']>;
+  eventId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  startDateTime?: InputMaybe<Scalars['String']['input']>;
+  endDateTime?: InputMaybe<Scalars['String']['input']>;
+  minimumCapacity?: InputMaybe<Scalars['Int']['input']>;
+  maximumCapacity?: InputMaybe<Scalars['Int']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  locationLabel?: InputMaybe<Scalars['String']['input']>;
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
+  hubId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type UpdateEventMutation = { __typename?: 'Mutation', updateEvent: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null } | null }> | null } };
 
 export type UpdateHubMutationVariables = Exact<{
-  hubId: Scalars['ID'];
-  name: Scalars['String'];
-  description?: InputMaybe<Scalars['String']>;
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
-  locationLabel?: InputMaybe<Scalars['String']>;
-  imageFile?: InputMaybe<Scalars['Upload']>;
+  hubId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
+  locationLabel?: InputMaybe<Scalars['String']['input']>;
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
 }>;
 
 
@@ -1035,42 +1037,42 @@ export type UpdateHubMutation = { __typename?: 'Mutation', updateHub: { __typena
 
 export type UpdateUserMutationVariables = Exact<{
   data?: InputMaybe<UpdateUserInput>;
-  imageFile?: InputMaybe<Scalars['Upload']>;
+  imageFile?: InputMaybe<Scalars['Upload']['input']>;
 }>;
 
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, phoneNumber?: string | null, shareableId: string } };
 
 export type CommonUsersHubsQueryVariables = Exact<{
-  otherUsersId: Scalars['ID'];
+  otherUsersId: Scalars['ID']['input'];
 }>;
 
 
 export type CommonUsersHubsQuery = { __typename?: 'Query', commonUsersHubs: Array<{ __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null }> };
 
 export type EventQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type EventQuery = { __typename?: 'Query', event: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, minimumCapacity?: number | null, maximumCapacity?: number | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null } | null } };
 
 export type HubQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type HubQuery = { __typename?: 'Query', hub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, usersConnection?: Array<{ __typename?: 'JoinUserHub', isOwner: boolean, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null, events?: Array<{ __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null }> | null, microChats?: Array<{ __typename?: 'MicroChat', id: string, text: string }> | null } | null } };
 
 export type InviteQueryVariables = Exact<{
-  inviteId: Scalars['ID'];
+  inviteId: Scalars['ID']['input'];
 }>;
 
 
 export type InviteQuery = { __typename?: 'Query', invite: { __typename?: 'Invite', id: string, invitersId: string, inviteesId: string, hubId: string, accepted: boolean, inviter?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null } | null } };
 
 export type InvitesByHubQueryVariables = Exact<{
-  hubId: Scalars['ID'];
+  hubId: Scalars['ID']['input'];
 }>;
 
 
@@ -1087,10 +1089,10 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, email?: string | null, phoneNumber?: string | null, shareableId: string, blocks?: Array<{ __typename?: 'Block', from: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string }, to: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } }> | null } | null };
 
 export type PaginatedInAppNotifcationsQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  offset: Scalars['Int'];
-  field: Scalars['String'];
-  ascending: Scalars['Boolean'];
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+  field: Scalars['String']['input'];
+  ascending: Scalars['Boolean']['input'];
 }>;
 
 

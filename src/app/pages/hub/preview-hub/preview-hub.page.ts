@@ -17,7 +17,7 @@ export class PreviewHubPage implements OnInit, OnDestroy {
   loading = true;
   invite: InviteQuery['invite'];
   subscriptions: Subscription[] = [];
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   hubCoords: {latitude: number, longitude: number};
 
   constructor(

@@ -3,6 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { MomentModule } from 'ngx-moment';
 import { EventCardComponent } from './event-card.component';
+import { LoggerModule } from 'ngx-logger';
+import { environment } from 'src/environments/environment';
 
 describe('EventCardComponent', () => {
   let component: EventCardComponent;
@@ -15,6 +17,7 @@ describe('EventCardComponent', () => {
         IonicModule.forRoot(),
         ApolloTestingModule,
         MomentModule,
+        LoggerModule.forRoot(environment.logging),
       ]
     }).compileComponents();
 

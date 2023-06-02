@@ -16,7 +16,7 @@ export class PersonPage implements OnInit, OnDestroy {
 
   loading = false;
   queryParamsSubscription: Subscription;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   user: User;
   subscriptions: Subscription[] = [];
 

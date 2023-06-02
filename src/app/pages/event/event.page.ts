@@ -27,7 +27,7 @@ import { ErrorService } from 'src/app/services/error.service';
 export class EventPage implements OnInit, OnDestroy {
 
   loading = true;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   userEventQueryResult: ApolloQueryResult<EventQuery>;
   presentUserEvents: EventQuery['event']['event']['usersConnection'];
   goingUserEvents: EventQuery['event']['event']['usersConnection'];

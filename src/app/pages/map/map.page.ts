@@ -34,7 +34,7 @@ export class MapPage implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.content.getScrollElement().then(scrollElement => {
+    this.content?.getScrollElement().then(scrollElement => {
       this.modalStyle = {
         '--width': `${scrollElement.clientWidth}px`,
         'left': 0
