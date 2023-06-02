@@ -4,6 +4,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 
 import { MapPage } from './map.page';
+import { ApolloTestingModule } from 'apollo-angular/testing';
 
 describe('MapPage', () => {
   let component: MapPage;
@@ -13,6 +14,7 @@ describe('MapPage', () => {
     TestBed.configureTestingModule({
       imports: [
         LoggerModule.forRoot(environment.logging),
+        ApolloTestingModule,
       ],
       declarations: [ MapPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
