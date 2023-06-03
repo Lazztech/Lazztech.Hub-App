@@ -294,23 +294,18 @@
   <ion-toolbar>
     <ion-grid class="ion-no-padding">
       <ion-row *ngIf="!loading && userHub as userHub" class="ion-padding-start ion-padding-end">
-        <ion-col size="3" [appFeatureFlag]="'uberRequestRide'" class="ion-padding-end">
+        <ion-col size="4" [appFeatureFlag]="'uberRequestRide'" class="ion-padding-end">
           <ion-button color="medium" fill="clear" (click)="requestRide(userHub)">
             <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="3">
+        <ion-col size="4">
           <ion-button color="medium" fill="clear" (click)="navigate(userHub)">
             <ion-icon class="ion-padding-start"  name="map"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="3">
-          <ion-button color="medium" fill="clear" (click)="navigate(userHub)">
-            <ion-icon class="ion-padding-start"  name="chatbubbles-outline"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col size="3">
-          <ion-button color="medium" fill="clear" (click)="navigate(userHub)">
+        <ion-col size="4">
+          <ion-button [color]="userHub.hub.active ? 'success' : 'medium'" fill="clear" (click)="toggleActivity()">
             <ion-icon class="ion-padding-start"  name="bulb-outline"></ion-icon>
           </ion-button>
         </ion-col> 
