@@ -36,7 +36,8 @@ export class SetupGuard  {
         // Also is this why I get recurring notifications about entering a hub that I'm
         // already at, because this is firing in the background every time the app starts
         // up for the backgroundgeolocation plugin???
-        await this.geofenceService.syncGeofences(); 
+        this.geofenceService.syncGeofences()
+          .then(() => console.log('done with geofenceService.syncGeofences()')); 
       } catch (error) {
         
       }
