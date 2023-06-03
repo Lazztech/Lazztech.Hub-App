@@ -18,9 +18,6 @@ export class SetupGuard  {
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
-    // permissions
-    await this.notificationsService.setupPushNotifications();
-
     const isAuthed = await this.authService.getToken();
     // user is signed in
     if (isAuthed) {
@@ -38,6 +35,10 @@ export class SetupGuard  {
         // up for the backgroundgeolocation plugin???
         this.geofenceService.syncGeofences()
           .then(() => console.log('done with geofenceService.syncGeofences()')); 
+
+        // permissions
+        this.notificationsService.setupPushNotifications()
+          .then(() => console.log('done with notificationsService.setupPushNotifications()'));
       } catch (error) {
         
       }
