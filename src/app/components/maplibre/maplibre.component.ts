@@ -124,7 +124,9 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   }
 
   public resize() {
-    this.map?.resize();
+    if (this.map) {
+      this.map.resize();
+    }
   }
 
   flyTo(location?: { latitude?: number, longitude?: number}) {
