@@ -30,21 +30,6 @@
         [includeMap]="true"
         [compact]="false">
       </app-hub-card>
-    
-        <ion-row *ngIf="!loading && userHub as userHub" class="ion-padding-start ion-padding-end">
-          <ion-col [appFeatureFlag]="'uberRequestRide'" class="ion-padding-end">
-            <ion-button color="primary" expand="block" (click)="requestRide(userHub)">
-              Ride with
-              <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button color="primary" expand="block" color="danger" (click)="navigate(userHub)">
-              Navigate
-              <ion-icon class="ion-padding-start" size="large" name="map"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>
 
       <ion-list *ngIf="!loading && userHub && !userHub?.hub.active">
         <ion-list-header>
@@ -307,6 +292,30 @@
 
 <ion-footer translucent="true">
   <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row *ngIf="!loading && userHub as userHub" class="ion-padding-start ion-padding-end">
+        <ion-col size="3" [appFeatureFlag]="'uberRequestRide'" class="ion-padding-end">
+          <ion-button color="medium" fill="clear" (click)="requestRide(userHub)">
+            <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button color="medium" fill="clear" (click)="navigate(userHub)">
+            <ion-icon class="ion-padding-start"  name="map"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button color="medium" fill="clear" (click)="navigate(userHub)">
+            <ion-icon class="ion-padding-start"  name="chatbubbles-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button color="medium" fill="clear" (click)="navigate(userHub)">
+            <ion-icon class="ion-padding-start"  name="bulb-outline"></ion-icon>
+          </ion-button>
+        </ion-col> 
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-footer>
 
