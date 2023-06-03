@@ -124,7 +124,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   }
 
   public resize() {
-    if (this.map) {
+    if (this.map?.resize) {
       this.map.resize();
     }
   }
