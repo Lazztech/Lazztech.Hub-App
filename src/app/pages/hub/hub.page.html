@@ -45,17 +45,6 @@
             </ion-button>
           </ion-col>
         </ion-row>
-    
-      <ion-list [appFeatureFlag]="'microChat'" *ngIf="!loading && userHub as userHub">
-        <ion-list-header>
-          <ion-text>MicroChat</ion-text>
-        </ion-list-header>
-      
-        <app-micro-chat
-          [hubId]="id" 
-          [userHub]="userHub"
-        ></app-micro-chat>
-      </ion-list>
 
       <ion-list *ngIf="!loading && userHub && !userHub?.hub.active">
         <ion-list-header>
