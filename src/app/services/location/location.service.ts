@@ -25,12 +25,14 @@ export class LocationService {
   ) {}
 
   atLocation(location: { latitude?: number, longitude?: number }, userCoords: any, distance: number = environment.geofenceRadius): boolean {
-    const result = geolib.isPointWithinRadius(
-      userCoords,
-      { latitude: location.latitude, longitude: location.longitude },
-      distance
-    );
-    return result;
+    if (location?.latitude && location?.longitude) {
+      return geolib.isPointWithinRadius(
+        userCoords,
+        { latitude: location?.latitude, longitude: location?.longitude },
+        distance
+      );
+    }
+    return false;
   }
 
   getCurrentPosition() {
