@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Geolocation, Position } from '@capacitor/geolocation';
 import * as geolib from 'geolib';
 import { NGXLogger } from 'ngx-logger';
 import { Observable, Observer, of } from 'rxjs';
 import { Hub } from 'src/graphql/graphql';
-import { Geolocation, Position } from '@capacitor/geolocation';
 import { environment } from '../../../environments/environment';
-import { AlertService } from '../alert/alert.service';
+import { ErrorService } from '../error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class LocationService {
 
   constructor(
     private logger: NGXLogger,
-    private alertService: AlertService,
+    private errorService: ErrorService,
   ) {}
 
   atLocation(location: { latitude?: number, longitude?: number }, userCoords: any, distance: number = environment.geofenceRadius): boolean {
@@ -54,7 +54,7 @@ export class LocationService {
     }
     this.watchId = await Geolocation.watchPosition(options, async (position, err) => {
       if (err) {
-        await this.alertService.presentRedToast(err);
+        this.errorService.handleError(err);
         return;
       }
       this.position = position;

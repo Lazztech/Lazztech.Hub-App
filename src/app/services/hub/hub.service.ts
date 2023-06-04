@@ -30,6 +30,7 @@ import {
   UsersHubsGQL, UsersPeopleDocument, UsersPeopleGQL
 } from 'src/graphql/graphql';
 import { AlertService } from '../alert/alert.service';
+import { ErrorService } from '../error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -62,7 +63,7 @@ export class HubService {
     private readonly leaveHubGQLService: LeaveHubGQL,
     private readonly changeHubLocationGQLService: ChangeHubLocationGQL,
     private readonly reportHubAsInappropriate: ReportHubAsInappropriateGQL,
-    private alertService: AlertService,
+    private readonly errorService: ErrorService,
   ) { }
 
   async usersHubs(fetchPolicy: FetchPolicy = 'cache-first') {
@@ -220,8 +221,7 @@ export class HubService {
       const response = result?.data?.inviteUserToHub;
       return response;
     } catch (error) {
-      this.alertService.presentRedToast(error, 6000);
-
+      this.errorService.handleError(error);
     }
   }
 
