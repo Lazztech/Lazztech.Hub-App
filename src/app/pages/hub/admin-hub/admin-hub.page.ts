@@ -163,7 +163,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
         }).toPromise();
         this.alertService.presentToast('Shareable ID Has Been Reset');
       } catch (error) {
-        this.alertService.presentRedToast('Whoops, something went wrong...');
+        this.errorService.handleError(error, this.loading);
       }
       this.loading = false;
     }

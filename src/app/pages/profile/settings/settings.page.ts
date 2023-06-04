@@ -75,6 +75,7 @@ export class SettingsPage implements OnInit {
     private updateUserService: UpdateUserGQL,
     private authService: AuthService,
     private readonly errorService: ErrorService,
+    public readonly debugService: DebuggerService,
   ) { }
 
   async ngOnInit() {

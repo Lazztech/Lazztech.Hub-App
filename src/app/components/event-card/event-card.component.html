@@ -17,24 +17,32 @@
           </ion-card-subtitle>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-progress-bar 
+          *ngIf="userEvent?.event?.maximumCapacity" 
+          [color]="capacityColor()"
+          [value]="capacityPercentage()"></ion-progress-bar>
+          <ion-card-subtitle color="success" class="ion-padding-top" *ngIf="presentCount && showRsvp">{{presentCount}} /
+            {{userEvent?.event?.usersConnection?.length}} present</ion-card-subtitle>
+          <br />
+          <ion-card-subtitle>Starts {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
+          <ion-card-subtitle *ngIf="userEvent?.event?.endDateTime">Ends {{userEvent?.event?.endDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
+          <ion-card-subtitle *ngIf="userEvent?.event?.createdBy">
+            Created by {{userEvent?.event?.createdBy?.firstName}} {{userEvent?.event?.createdBy?.lastName}}
+          </ion-card-subtitle>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-text *ngIf="userEvent?.event?.locationLabel">
+            <br/>
+            {{userEvent?.event?.locationLabel}}
+          </ion-text>
+        </ion-col>
+      </ion-row>
     </ion-grid>
-  <ion-progress-bar 
-    *ngIf="userEvent?.event?.maximumCapacity" 
-    [color]="capacityColor()"
-    [value]="capacityPercentage()"></ion-progress-bar>
 
-    <ion-card-subtitle color="success" class="ion-padding-top" *ngIf="presentCount && showRsvp">{{presentCount}} /
-      {{userEvent?.event?.usersConnection?.length}} present</ion-card-subtitle>
-    <br />
-    <ion-card-subtitle>Starts {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
-    <ion-card-subtitle *ngIf="userEvent?.event?.endDateTime">Ends {{userEvent?.event?.endDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
-    <ion-card-subtitle *ngIf="userEvent?.event?.createdBy">
-      Created by {{userEvent?.event?.createdBy?.firstName}} {{userEvent?.event?.createdBy?.lastName}}
-    </ion-card-subtitle>
-    <ion-text *ngIf="userEvent?.event?.locationLabel">
-      <br/>
-      {{userEvent?.event?.locationLabel}}
-    </ion-text>
   </ion-card-header>
 
   <ion-card-content *ngIf="!showRsvp" (click)="goToEventPage()">

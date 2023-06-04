@@ -24,21 +24,6 @@
           (shouldPromptToAddEventToCalendar)="promptToAddEventToCalendar()"
         ></app-event-card>
       
-          <ion-row class="ion-padding-start ion-padding-end">
-            <ion-col class="ion-padding-end">
-              <ion-button color="primary" expand="block" (click)="requestRide(userEventQueryResult?.data?.event)">
-                Ride with
-                <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
-              </ion-button>
-            </ion-col>
-            <ion-col>
-              <ion-button color="primary" expand="block" color="danger" (click)="navigate(userEventQueryResult?.data?.event)">
-                Navigate
-                <ion-icon class="ion-padding-start" size="large" name="map"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-      
         <ion-list *ngIf="userEventQueryResult?.data?.event?.event?.hub as hub">
           <ion-list-header>
             <ion-text>Hub</ion-text>
@@ -50,50 +35,6 @@
         </ion-list>
       </ion-col>
       <ion-col size="12" size-md="6">
-        <!-- <ion-list *ngIf="presentUserEvents?.length">
-          <ion-list-header>
-            <ion-text>Present</ion-text>
-          </ion-list-header>
-      
-          <div *ngFor="let userConnection of presentUserEvents; trackBy: trackByUser">
-            <ion-item href="javascript:void(0);"
-              (click)="goToPersonPage(userConnection.user.id, userConnection.user)">
-              <ion-avatar slot="start">
-                <img width="100%" *ngIf="!userConnection.user.image" src="{{userConnection.user.id | avatar}}">
-                <ion-img width="100%" *ngIf="userConnection.user.image" src="{{userConnection.user.image}}"></ion-img>
-              </ion-avatar>
-              <ion-label>
-                <h2>
-                  <ion-text *ngIf="!userConnection.user.blocked">
-                    {{userConnection.user.firstName && userConnection.user.lastName 
-                      ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
-                  </ion-text>
-                  <ion-text style='text-decoration:line-through' *ngIf="userConnection.user.blocked">
-                    {{userConnection.user.firstName && userConnection.user.lastName 
-                      ? userConnection.user.firstName + ' ' + userConnection.user.lastName  : userConnection.user.username}}
-                  </ion-text>
-                </h2>
-                <p *ngIf="userConnection.user.blocked" class="ion-float-right">
-                  <ion-text>Blocked</ion-text>
-                </p>
-                <p>Last Online: {{(userConnection?.user?.lastOnline) ? (((userConnection?.user?.lastOnline / 1000) | amFromUnix)
-                  | amLocal | amTimeAgo) : 'N/A'}}</p>
-              </ion-label>
-              <ion-icon
-                *ngIf="userConnection.user.phoneNumber"
-                name="call-outline"
-                slot="end" 
-                (click)="openPhone($event, userConnection.user.phoneNumber)"
-              ></ion-icon>
-              <ion-icon
-                *ngIf="userConnection.user.phoneNumber"
-                name="chatbubble-outline" 
-                slot="end" 
-                (click)="openSms($event, userConnection.user.phoneNumber)"
-              ></ion-icon>
-            </ion-item>
-          </div>
-        </ion-list> -->
       
         <ion-list *ngIf="goingUserEvents?.length">
           <ion-list-header>
@@ -127,6 +68,7 @@
                   | amLocal | amTimeAgo) : 'N/A'}}</p>
               </ion-label>
               <ion-icon
+                class="ion-padding-end"
                 *ngIf="userConnection.user.phoneNumber"
                 name="call-outline"
                 slot="end" 
@@ -173,6 +115,7 @@
                   | amLocal | amTimeAgo) : 'N/A'}}</p>
               </ion-label>
               <ion-icon
+                class="ion-padding-end"
                 *ngIf="userConnection.user.phoneNumber"
                 name="call-outline"
                 slot="end" 
@@ -219,6 +162,7 @@
                   | amLocal | amTimeAgo) : 'N/A'}}</p>
               </ion-label>
               <ion-icon
+                class="ion-padding-end"
                 *ngIf="userConnection.user.phoneNumber"
                 name="call-outline"
                 slot="end" 
@@ -265,6 +209,7 @@
                   | amLocal | amTimeAgo) : 'N/A'}}</p>
               </ion-label>
               <ion-icon
+                class="ion-padding-end"
                 *ngIf="userConnection.user.phoneNumber"
                 name="call-outline"
                 slot="end" 
@@ -293,6 +238,20 @@
 
 <ion-footer translucent="true">
   <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-padding-start ion-padding-end">
+        <ion-col *ngIf="userEventQueryResult?.data?.event?.event?.latitude">
+          <ion-button expand="block" color="medium" fill="clear" (click)="requestRide(userEventQueryResult?.data?.event)">
+            <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col *ngIf="userEventQueryResult?.data?.event?.event?.latitude">
+          <ion-button expand="block" color="medium" fill="clear" (click)="navigate(userEventQueryResult?.data?.event)">
+            <ion-icon  name="map"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-footer>
 

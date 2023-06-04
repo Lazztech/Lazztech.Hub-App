@@ -8,8 +8,7 @@
       <ion-icon size="large" name="ellipsis-vertical-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
     </ion-buttons>
 
-    <ion-title *ngIf="!loading && userHub">{{userHub?.hub.name}}</ion-title>
-    <ion-title *ngIf="loading">Hub</ion-title>
+    <ion-title>{{userHub?.hub?.name || 'Hub'}}</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
@@ -20,7 +19,7 @@
     <ion-row>
       <ion-col size="12" size-md="6">
         <app-hub-card 
-        *ngIf="!loading && userHub" 
+        *ngIf="userHub"
         [hub]="userHub?.hub" 
         [coords]="locationService.location" 
         [starred]="userHub?.starred"
@@ -30,32 +29,6 @@
         [includeMap]="true"
         [compact]="false">
       </app-hub-card>
-    
-        <ion-row *ngIf="!loading && userHub as userHub" class="ion-padding-start ion-padding-end">
-          <ion-col [appFeatureFlag]="'uberRequestRide'" class="ion-padding-end">
-            <ion-button color="primary" expand="block" (click)="requestRide(userHub)">
-              Ride with
-              <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
-            </ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button color="primary" expand="block" color="danger" (click)="navigate(userHub)">
-              Navigate
-              <ion-icon class="ion-padding-start" size="large" name="map"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-    
-      <ion-list [appFeatureFlag]="'microChat'" *ngIf="!loading && userHub as userHub">
-        <ion-list-header>
-          <ion-text>MicroChat</ion-text>
-        </ion-list-header>
-      
-        <app-micro-chat
-          [hubId]="id" 
-          [userHub]="userHub"
-        ></app-micro-chat>
-      </ion-list>
 
       <ion-list *ngIf="!loading && userHub && !userHub?.hub.active">
         <ion-list-header>
@@ -136,6 +109,7 @@
                 </p>
               </ion-label>
               <ion-icon
+                class="ion-padding-end"
                 *ngIf="userConnection.user.phoneNumber"
                 name="call-outline"
                 slot="end" 
@@ -184,6 +158,7 @@
                   | amLocal | amTimeAgo) : 'N/A'}}</p>
               </ion-label>
               <ion-icon 
+                class="ion-padding-end"
                 *ngIf="userConnection.user.phoneNumber"
                 name="call-outline"
                 slot="end" 
@@ -233,6 +208,7 @@
                   | amLocal | amTimeAgo) : 'N/A'}}</p>
               </ion-label>
               <ion-icon
+                class="ion-padding-end"
                 *ngIf="userConnection.user.phoneNumber"
                 name="call-outline"
                 slot="end" 
@@ -318,6 +294,25 @@
 
 <ion-footer translucent="true">
   <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row *ngIf="userHub as userHub" class="ion-padding-start ion-padding-end">
+        <ion-col [appFeatureFlag]="'uberRequestRide'">
+          <ion-button expand="block" color="medium" fill="clear" (click)="requestRide(userHub)">
+            <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" color="medium" fill="clear" (click)="navigate(userHub)">
+            <ion-icon  name="map"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col *ngIf="userHub.isOwner">
+          <ion-button expand="block" [color]="userHub.hub.active ? 'success' : 'medium'" fill="clear" (click)="toggleActivity()">
+            <ion-icon  name="bulb-outline"></ion-icon>
+          </ion-button>
+        </ion-col> 
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-footer>
 

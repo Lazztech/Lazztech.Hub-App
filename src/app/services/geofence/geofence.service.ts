@@ -106,17 +106,17 @@ export class GeofenceService {
 
   mapHubToGeofenceIdentifier(hub: Hub): string {
     return JSON.stringify({
-      id: hub.id,
-      name: hub.name,
-      __typename: hub.__typename,
+      id: hub?.id,
+      name: hub?.name,
+      __typename: hub?.__typename,
     });
   }
 
   mapEventToGeofenceIdentifier(event: Event): string {
     return JSON.stringify({
-      id: event.id,
-      name: event.name,
-      __typename: event.__typename,
+      id: event?.id,
+      name: event?.name,
+      __typename: event?.__typename,
     });
   }
 

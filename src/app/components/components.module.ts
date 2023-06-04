@@ -4,14 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { MomentModule } from 'ngx-moment';
 import { DirectivesModule } from '../directives/directives.module';
-import { MicroChatAddPage } from '../pages/micro-chat-add/micro-chat-add.page';
 import { PipesModule } from '../pipes/pipes.module';
 import { ActivityDotComponent } from './activity-dot/activity-dot.component';
 import { EventCardComponent } from './event-card/event-card.component';
 import { HubCardComponent } from './hub-card/hub-card.component';
 import { HubProfileComponent } from './hub-profile/hub-profile.component';
 import { InviteComponent } from './invite/invite.component';
-import { MicroChatComponent } from './micro-chat/micro-chat.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MaplibreComponent } from './maplibre/maplibre.component';
 import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
@@ -21,8 +19,6 @@ import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
         HubCardComponent,
         ActivityDotComponent,
         ProfileComponent,
-        MicroChatComponent,
-        MicroChatAddPage,
         HubProfileComponent,
         EventCardComponent,
         InviteComponent,
@@ -42,7 +38,6 @@ import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
         HubCardComponent,
         ActivityDotComponent,
         ProfileComponent,
-        MicroChatComponent,
         HubProfileComponent,
         EventCardComponent,
         InviteComponent,

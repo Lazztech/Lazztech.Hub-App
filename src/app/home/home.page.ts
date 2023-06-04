@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserHub, User, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { environment } from '../../environments/environment';
 import { MaplibreComponent } from '../components/maplibre/maplibre.component';
-import { AlertService } from '../services/alert/alert.service';
 import { AuthService } from '../services/auth/auth.service';
 import { DebuggerService } from '../services/debugger/debugger.service';
 import { ErrorService } from '../services/error.service';
@@ -19,10 +18,6 @@ import { ThemeService } from '../services/theme/theme.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
-
-  devModeEasterEggEnabled: boolean = false;
-  devModeEasterEggTimeoutId: any;
-  devModeEasterEggCount = 0;
 
   loading = true;
   @ViewChild(MaplibreComponent)
@@ -46,34 +41,13 @@ export class HomePage implements OnInit, OnDestroy {
     private logger: NGXLogger,
     private readonly invitesByUserGQLService: InvitesByUserGQL,
     private readonly userHubsGQLService: UsersHubsGQL,
-    private readonly debugService: DebuggerService,
-    private readonly alertService: AlertService,
+    readonly debugService: DebuggerService,
     private readonly config: Config,
     private readonly errorService: ErrorService,
     public readonly themeService: ThemeService,
   ) {
     this.menu.enable(true);
     this.mode = this.config.get("mode");
-  }
-
-  async devModeEasterEgg() {
-    clearTimeout(this.devModeEasterEggTimeoutId)
-    this.devModeEasterEggCount += 1;
-    console.log('devModeEasterEggCount: ', this.devModeEasterEggCount);
-    if (this.devModeEasterEggCount >= 5 && !this.devModeEasterEggEnabled) {
-      this.debugService.start();
-      this.alertService.create({
-        message: `✨✨ 🪄 You're a wizard now! 🪄 ✨✨`,
-        duration: 2000,
-        position: 'top',
-        translucent: true,
-      });
-      this.devModeEasterEggCount = 0;
-    }
-    this.devModeEasterEggTimeoutId = setTimeout(() => {
-      this.devModeEasterEggCount = 0;
-      console.log('reset devModeEasterEggCount: ', this.devModeEasterEggCount);
-    }, 1000);
   }
 
   async ngOnInit() {

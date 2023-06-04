@@ -60,6 +60,7 @@
     [data]="yourLocationPulsingDotGeoData"
   ></mgl-geojson-source>
   <mgl-layer
+    *ngIf="yourLocationPulsingDotGeoData"
     [id]="'yourLocationPulsingDotPoint'"
     [type]="'symbol'"
     [source]="'yourLocationPulsingDotPoint'"

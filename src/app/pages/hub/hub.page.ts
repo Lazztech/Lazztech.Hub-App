@@ -141,6 +141,16 @@ export class HubPage implements OnInit, OnDestroy {
     this.communcationService.openSms(number);
   }
 
+  async toggleActivity() {
+    this.loading = true;
+    if (!this.userHub?.hub?.active) {
+      await this.hubService.activateHub(this.id);
+    } else {
+      await this.hubService.deactivateHub(this.id);
+    }
+    this.loading = false;
+  }
+
   async presentActionSheet() {
     if (this.userHub) {
       const buttons = [];
