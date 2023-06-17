@@ -18,7 +18,7 @@ export class NavigationService {
     destination: { latitude?: any, longitude?: any }
   ) {
     // eslint-disable-next-line max-len
-    const appleMaps = `http://maps.apple.com/?saddr=${userLocation.latitude},${userLocation.longitude}&daddr=${destination.latitude},${destination.longitude}&dirflg=d`;
+    const appleMaps = `http://maps.apple.com/?daddr=${destination.latitude},${destination.longitude}`;
     // eslint-disable-next-line max-len
     const googleMaps = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.latitude},${userLocation.longitude}&destination=${destination.latitude},${destination.longitude}`;
     
