@@ -11,8 +11,14 @@
   <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
     <ion-list>
 
+      <app-hub-card
+      *ngIf="seedType === 'hub' || seed?.hub"
+      [hub]="seed?.hub || seed"
+      [coords]="locationService.location"
+      ></app-hub-card>
+
       <ion-list-header class="ion-padding-bottom">
-        <ion-text>Upload Photos</ion-text>
+        <ion-text>Upload {{seedType == 'hub' ? 'Hub' : 'Event'}} Photos</ion-text>
       </ion-list-header>
 
       <ion-item lines="none" *ngIf="!loading">
@@ -24,12 +30,6 @@
           Click the floating action button to select how you'd like to upload your photos!
       </ion-card-content>
       </ion-item>
-
-      <app-hub-card
-      *ngIf="seedType === 'hub' || seed?.hub"
-      [hub]="seed?.hub || seed"
-      [coords]="locationService.location"
-      ></app-hub-card>
 
       <ion-card *ngIf="image">
         <ion-img src="{{image}}"></ion-img>
