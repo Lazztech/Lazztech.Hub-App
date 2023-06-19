@@ -1089,6 +1089,14 @@ export type UploadEventFilesMutationVariables = Exact<{
 
 export type UploadEventFilesMutation = { __typename?: 'Mutation', uploadEventFiles: { __typename?: 'JoinUserEvent', userId: string, eventId: string, event?: { __typename?: 'Event', id: string, name: string, fileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, file: { __typename?: 'File', id: string, createdOn: string, url?: string | null, shareableId: string, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null }> | null } | null } };
 
+export type UploadHubFilesMutationVariables = Exact<{
+  hubId: Scalars['ID']['input'];
+  files?: InputMaybe<Array<Scalars['Upload']['input']> | Scalars['Upload']['input']>;
+}>;
+
+
+export type UploadHubFilesMutation = { __typename?: 'Mutation', uploadHubFiles: { __typename?: 'JoinUserHub', userId: string, hubId: string, hub?: { __typename?: 'Hub', id: string, name: string, fileUploads?: Array<{ __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, file: { __typename?: 'File', id: string, createdOn: string, url?: string | null, shareableId: string, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null }> | null } | null } };
+
 export type CommonUsersHubsQueryVariables = Exact<{
   otherUsersId: Scalars['ID']['input'];
 }>;
@@ -2348,6 +2356,58 @@ export const UploadEventFilesDocument = gql`
   })
   export class UploadEventFilesGQL extends Apollo.Mutation<UploadEventFilesMutation, UploadEventFilesMutationVariables> {
     document = UploadEventFilesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UploadHubFilesDocument = gql`
+    mutation uploadHubFiles($hubId: ID!, $files: [Upload!]) {
+  uploadHubFiles(hubId: $hubId, files: $files) {
+    userId
+    hubId
+    hub {
+      id
+      name
+      fileUploads {
+        fileId
+        hubId
+        approvedByUserId
+        file {
+          id
+          createdOn
+          url
+          shareableId
+          createdBy {
+            id
+            firstName
+            lastName
+            description
+            image
+            email
+            shareableId
+          }
+        }
+        approvedBy {
+          id
+          firstName
+          lastName
+          description
+          image
+          email
+          shareableId
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UploadHubFilesGQL extends Apollo.Mutation<UploadHubFilesMutation, UploadHubFilesMutationVariables> {
+    document = UploadHubFilesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

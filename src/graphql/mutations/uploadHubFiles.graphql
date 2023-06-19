@@ -1,0 +1,45 @@
+mutation uploadHubFiles(
+  $hubId: ID!
+  $files: [Upload!]
+) {
+  uploadHubFiles(
+    hubId: $hubId
+    files: $files
+  ) {
+    userId
+    hubId
+    hub {
+      id
+      name
+      fileUploads {
+        fileId
+        hubId
+        approvedByUserId
+        file {
+            id
+            createdOn
+            url
+          	shareableId
+            createdBy {
+                id
+                firstName
+                lastName
+                description
+                image
+                email
+                shareableId
+            }
+        }
+        approvedBy {
+            id
+            firstName
+            lastName
+            description
+            image
+            email
+            shareableId
+        }
+      }
+    }
+  }
+}

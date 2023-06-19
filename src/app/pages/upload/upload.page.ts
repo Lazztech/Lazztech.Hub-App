@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup, UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
 import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
