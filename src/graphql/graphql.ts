@@ -33,6 +33,7 @@ export type Event = {
   description?: Maybe<Scalars['String']['output']>;
   /** ISO 8601 Date Time */
   endDateTime?: Maybe<Scalars['String']['output']>;
+  fileUploads?: Maybe<Array<JoinEventFile>>;
   hub?: Maybe<Hub>;
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
@@ -76,6 +77,7 @@ export type Hub = {
   coverImage?: Maybe<File>;
   description?: Maybe<Scalars['String']['output']>;
   events?: Maybe<Array<Event>>;
+  fileUploads?: Maybe<Array<JoinHubFile>>;
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
   invites?: Maybe<Array<Invite>>;
@@ -109,6 +111,28 @@ export type Invite = {
   inviteesId: Scalars['ID']['output'];
   inviter?: Maybe<User>;
   invitersId: Scalars['ID']['output'];
+};
+
+export type JoinEventFile = {
+  __typename?: 'JoinEventFile';
+  approved: Scalars['Boolean']['output'];
+  approvedBy?: Maybe<User>;
+  approvedByUserId?: Maybe<Scalars['ID']['output']>;
+  event: Event;
+  eventId: Scalars['ID']['output'];
+  file: File;
+  fileId: Scalars['ID']['output'];
+};
+
+export type JoinHubFile = {
+  __typename?: 'JoinHubFile';
+  approved: Scalars['Boolean']['output'];
+  approvedBy?: Maybe<User>;
+  approvedByUserId?: Maybe<Scalars['ID']['output']>;
+  file: File;
+  fileId: Scalars['ID']['output'];
+  hub: Hub;
+  hubId: Scalars['ID']['output'];
 };
 
 export type JoinUserEvent = {
@@ -204,6 +228,8 @@ export type Mutation = {
   updateEvent: Event;
   updateHub: Hub;
   updateUser: User;
+  uploadEventFiles: JoinUserEvent;
+  uploadHubFiles: JoinUserHub;
 };
 
 
@@ -504,6 +530,18 @@ export type MutationUpdateHubArgs = {
 export type MutationUpdateUserArgs = {
   data?: InputMaybe<UpdateUserInput>;
   imageFile?: InputMaybe<Scalars['Upload']['input']>;
+};
+
+
+export type MutationUploadEventFilesArgs = {
+  eventId: Scalars['ID']['input'];
+  files?: InputMaybe<Array<Scalars['Upload']['input']>>;
+};
+
+
+export type MutationUploadHubFilesArgs = {
+  files?: InputMaybe<Array<Scalars['Upload']['input']>>;
+  hubId: Scalars['ID']['input'];
 };
 
 export type PageableOptions = {
@@ -1042,6 +1080,14 @@ export type UpdateUserMutationVariables = Exact<{
 
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, phoneNumber?: string | null, shareableId: string } };
+
+export type UploadEventFilesMutationVariables = Exact<{
+  eventId: Scalars['ID']['input'];
+  files?: InputMaybe<Array<Scalars['Upload']['input']> | Scalars['Upload']['input']>;
+}>;
+
+
+export type UploadEventFilesMutation = { __typename?: 'Mutation', uploadEventFiles: { __typename?: 'JoinUserEvent', userId: string, eventId: string, event?: { __typename?: 'Event', id: string, name: string, fileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, file: { __typename?: 'File', id: string, createdOn: string, url?: string | null, shareableId: string, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null }> | null } | null } };
 
 export type CommonUsersHubsQueryVariables = Exact<{
   otherUsersId: Scalars['ID']['input'];
@@ -2250,6 +2296,58 @@ export const UpdateUserDocument = gql`
   })
   export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
     document = UpdateUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UploadEventFilesDocument = gql`
+    mutation uploadEventFiles($eventId: ID!, $files: [Upload!]) {
+  uploadEventFiles(eventId: $eventId, files: $files) {
+    userId
+    eventId
+    event {
+      id
+      name
+      fileUploads {
+        fileId
+        eventId
+        approvedByUserId
+        file {
+          id
+          createdOn
+          url
+          shareableId
+          createdBy {
+            id
+            firstName
+            lastName
+            description
+            image
+            email
+            shareableId
+          }
+        }
+        approvedBy {
+          id
+          firstName
+          lastName
+          description
+          image
+          email
+          shareableId
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UploadEventFilesGQL extends Apollo.Mutation<UploadEventFilesMutation, UploadEventFilesMutationVariables> {
+    document = UploadEventFilesDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

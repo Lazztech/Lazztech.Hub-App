@@ -1,0 +1,45 @@
+mutation uploadEventFiles(
+  $eventId: ID!
+  $files: [Upload!]
+) {
+  uploadEventFiles(
+    eventId: $eventId
+    files: $files
+  ) {
+    userId
+    eventId
+    event {
+      id
+      name
+      fileUploads {
+        fileId
+        eventId
+        approvedByUserId
+        file {
+            id
+            createdOn
+            url
+          	shareableId
+            createdBy {
+                id
+                firstName
+                lastName
+                description
+                image
+                email
+                shareableId
+            }
+        }
+        approvedBy {
+            id
+            firstName
+            lastName
+            description
+            image
+            email
+            shareableId
+        }
+      }
+    }
+  }
+}
