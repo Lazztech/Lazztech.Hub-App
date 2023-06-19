@@ -53,12 +53,17 @@ export class UploadPage implements OnInit, OnDestroy {
 
   async save() {
     this.loading = true;
+    const files = await Promise.all([
+      ...this.photos,
+      ...this.gallery.photos, 
+    ].map(async (photo, index) => new File([await this.cameraService.getImageBlob(photo)], `${index}`, {
+      // response doesn't have content type so we're setting an arbitrary image content type
+      // so it can be uploaded successfully
+      type: "image/jpeg",
+    })));
     if (this.seedType === 'hub') {
       await this.uploadHubFiles.mutate({
-        files: [
-          ...this.photos.map(async photo => await this.cameraService.getImageBlob(photo)),
-          ...this.gallery.photos.map(async photo => await this.cameraService.getImageBlob(photo)) 
-        ],
+        files,
         hubId: this.seed?.id,
       }, {
         context: { useMultipart: true },
@@ -71,10 +76,7 @@ export class UploadPage implements OnInit, OnDestroy {
         .catch(err => this.errorService.handleError(err, this.loading));
     } else if (this.seedType === 'event') {
       await this.uploadEventFiles.mutate({
-        files: [
-          ...this.photos.map(async photo => await this.cameraService.getImageBlob(photo)),
-          ...this.gallery.photos.map(async photo => await this.cameraService.getImageBlob(photo)) 
-        ],
+        files,
         eventId: this.seed?.id,
       }, {
         context: { useMultipart: true },
