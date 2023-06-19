@@ -252,6 +252,15 @@ export class HubPage implements OnInit, OnDestroy {
     });
   }
 
+  goToUploadPage() {
+    this.navCtrl.navigateForward('upload', {
+      state: {
+        seed: this.userHub?.hub,
+        seedType: 'hub'
+      }
+    });
+  }
+
   async goToQrPage() {
     this.navCtrl.navigateForward('qr', {
       state: {
