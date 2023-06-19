@@ -34,6 +34,12 @@
       </ion-card-content>
       </ion-item>
 
+      <ion-item *ngFor="let photo of photos">
+        <ion-card>
+          <ion-img src="{{photo.webPath}}"></ion-img>
+        </ion-card>
+      </ion-item>
+
       <ion-item *ngFor="let photo of gallery?.photos">
         <ion-card>
           <ion-img src="{{photo.webPath}}"></ion-img>

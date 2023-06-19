@@ -20,7 +20,7 @@ export class UploadPage implements OnInit, OnDestroy {
   loading = false;
   myForm: UntypedFormGroup;
   image: any[] = [];
-  photo: Photo;
+  photos: Photo[] = [];
   gallery: GalleryPhotos;
   subscriptions: Subscription[] = [];
 
@@ -55,7 +55,10 @@ export class UploadPage implements OnInit, OnDestroy {
     this.loading = true;
     if (this.seedType === 'hub') {
       await this.uploadHubFiles.mutate({
-        files: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image[0]),
+        files: [
+          ...this.photos.map(async photo => await this.cameraService.getImageBlob(photo)),
+          ...this.gallery.photos.map(async photo => await this.cameraService.getImageBlob(photo)) 
+        ],
         hubId: this.seed?.id,
       }, {
         context: { useMultipart: true },
@@ -68,7 +71,10 @@ export class UploadPage implements OnInit, OnDestroy {
         .catch(err => this.errorService.handleError(err, this.loading));
     } else if (this.seedType === 'event') {
       await this.uploadEventFiles.mutate({
-        files: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image[0]),
+        files: [
+          ...this.photos.map(async photo => await this.cameraService.getImageBlob(photo)),
+          ...this.gallery.photos.map(async photo => await this.cameraService.getImageBlob(photo)) 
+        ],
         eventId: this.seed?.id,
       }, {
         context: { useMultipart: true },
@@ -85,8 +91,7 @@ export class UploadPage implements OnInit, OnDestroy {
   }
 
   async takePicture() {
-    this.photo = await this.cameraService.takePicture();
-    this.image = [this.photo.webPath];
+    this.photos.push(await this.cameraService.takePicture());
   }
 
   async selectPictures() {

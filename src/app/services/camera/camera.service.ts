@@ -38,7 +38,7 @@ export class CameraService {
     })
   }
 
-  async getImageBlob(photo: Photo): Promise<Blob> {
+  async getImageBlob(photo: Photo | GalleryPhoto): Promise<Blob> {
     // Fetch the photo, read as a blob
     const response = await fetch(photo?.webPath);
     return response.blob();
