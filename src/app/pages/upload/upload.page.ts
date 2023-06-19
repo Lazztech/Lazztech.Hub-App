@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Photo } from '@capacitor/camera';
+import { GalleryPhotos, Photo } from '@capacitor/camera';
 import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
@@ -19,8 +19,9 @@ export class UploadPage implements OnInit, OnDestroy {
 
   loading = false;
   myForm: UntypedFormGroup;
-  image: any;
+  image: any[] = [];
   photo: Photo;
+  gallery: GalleryPhotos;
   subscriptions: Subscription[] = [];
 
   seed: any;
@@ -54,7 +55,7 @@ export class UploadPage implements OnInit, OnDestroy {
     this.loading = true;
     if (this.seedType === 'hub') {
       await this.uploadHubFiles.mutate({
-        files: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image),
+        files: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image[0]),
         hubId: this.seed?.id,
       }, {
         context: { useMultipart: true },
@@ -67,7 +68,7 @@ export class UploadPage implements OnInit, OnDestroy {
         .catch(err => this.errorService.handleError(err, this.loading));
     } else if (this.seedType === 'event') {
       await this.uploadEventFiles.mutate({
-        files: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image),
+        files: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image[0]),
         eventId: this.seed?.id,
       }, {
         context: { useMultipart: true },
@@ -85,12 +86,11 @@ export class UploadPage implements OnInit, OnDestroy {
 
   async takePicture() {
     this.photo = await this.cameraService.takePicture();
-    this.image = this.photo.webPath;
+    this.image = [this.photo.webPath];
   }
 
-  async selectPicture() {
-    this.photo = await this.cameraService.selectPicture();
-    this.image = this.photo.webPath;
+  async selectPictures() {
+    this.gallery = await this.cameraService.multiSelectPictures();
   }
 
   async presentActionSheet() {
@@ -106,11 +106,11 @@ export class UploadPage implements OnInit, OnDestroy {
           }
         },
         {
-          text: 'Select Picture',
+          text: 'Select Pictures',
           // icon: 'arrow-dropright-circle',
           handler: () => {
             this.logger.log('Select Picture clicked');
-            this.selectPicture();
+            this.selectPictures();
           }
         },
         {

@@ -1,5 +1,6 @@
 <ion-header translucent="true">
   <ion-toolbar>
+    <ion-title>Upload {{seedType == 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
@@ -8,6 +9,12 @@
 </ion-header>
 
 <ion-content fullscreen="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Upload {{seedType == 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
   <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
     <ion-list>
 
@@ -17,11 +24,7 @@
       [coords]="locationService.location"
       ></app-hub-card>
 
-      <ion-list-header class="ion-padding-bottom">
-        <ion-text>Upload {{seedType == 'hub' ? 'Hub' : 'Event'}} Photos</ion-text>
-      </ion-list-header>
-
-      <ion-item lines="none" *ngIf="!loading">
+      <ion-item lines="none" *ngIf="!gallery?.photos">
         <ion-card-header>
           <ion-card-subtitle>Get Started</ion-card-subtitle>
         </ion-card-header>
@@ -31,9 +34,11 @@
       </ion-card-content>
       </ion-item>
 
-      <ion-card *ngIf="image">
-        <ion-img src="{{image}}"></ion-img>
-      </ion-card>
+      <ion-item *ngFor="let photo of gallery?.photos">
+        <ion-card>
+          <ion-img src="{{photo.webPath}}"></ion-img>
+        </ion-card>
+      </ion-item>
 
     </ion-list>
   </form>
