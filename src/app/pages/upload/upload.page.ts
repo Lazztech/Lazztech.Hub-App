@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { CreateEventGQL } from 'src/graphql/graphql';
+import { UploadEventFilesGQL, UploadHubFilesGQL } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-upload',
@@ -27,15 +27,16 @@ export class UploadPage implements OnInit, OnDestroy {
   seedType: 'hub' | 'event';
 
   constructor(
-    private actionSheetController: ActionSheetController,
-    private cameraService: CameraService,
-    private logger: NGXLogger,
-    private readonly createEvent: CreateEventGQL,
-    public readonly navCtrl: NavController,
-    public routerOutlet: IonRouterOutlet,
-    public locationService: LocationService,
+    private readonly actionSheetController: ActionSheetController,
+    private readonly cameraService: CameraService,
+    private readonly logger: NGXLogger,
+    private readonly uploadEventFiles: UploadEventFilesGQL,
+    private readonly uploadHubFiles: UploadHubFilesGQL,
     private readonly router: Router,
     private readonly errorService: ErrorService,
+    public readonly navCtrl: NavController,
+    public readonly routerOutlet: IonRouterOutlet,
+    public readonly locationService: LocationService,
   ) {
     this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
     this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
@@ -50,19 +51,36 @@ export class UploadPage implements OnInit, OnDestroy {
   }
 
   async save() {
-    // this.loading = true;
-    // await this.createEvent.mutate({
-    //   imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image),
-    //   hubId: this.seedType === 'hub' ? this.seed?.id : this.seed?.hub?.id || undefined,
-    // }, {
-    //   context: { useMultipart: true },
-    // })
-    //   .toPromise()
-    //   .then(async result => {
-    //     this.loading = false;
-    //     await this.navCtrl.navigateForward(`/event/${result?.data?.createEvent?.eventId}`);
-    //   })
-    //   .catch(err => this.errorService.handleError(err, this.loading));
+    this.loading = true;
+    if (this.seedType === 'hub') {
+      await this.uploadHubFiles.mutate({
+        files: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image),
+        hubId: this.seed?.id,
+      }, {
+        context: { useMultipart: true },
+      })
+        .toPromise()
+        .then(async result => {
+          this.loading = false;
+          await this.navCtrl.navigateForward(`/hub/${result?.data?.uploadHubFiles?.hubId}`);
+        })
+        .catch(err => this.errorService.handleError(err, this.loading));
+    } else if (this.seedType === 'event') {
+      await this.uploadEventFiles.mutate({
+        files: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image),
+        eventId: this.seed?.id,
+      }, {
+        context: { useMultipart: true },
+      })
+        .toPromise()
+        .then(async result => {
+          this.loading = false;
+          await this.navCtrl.navigateForward(`/event/${result?.data?.uploadEventFiles?.eventId}`);
+        })
+        .catch(err => this.errorService.handleError(err, this.loading));
+    } else {
+      this.loading = false;
+    }
   }
 
   async takePicture() {
