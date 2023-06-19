@@ -1,0 +1,54 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
+    <ion-list>
+
+      <ion-list-header class="ion-padding-bottom">
+        <ion-text>Upload Photos</ion-text>
+      </ion-list-header>
+
+      <ion-item lines="none" *ngIf="!loading">
+        <ion-card-header>
+          <ion-card-subtitle>Get Started</ion-card-subtitle>
+        </ion-card-header>
+        <ion-icon slot="end" name="arrow-down"></ion-icon>
+        <ion-card-content>
+          Click the floating action button to select how you'd like to upload your photos!
+      </ion-card-content>
+      </ion-item>
+
+      <app-hub-card
+      *ngIf="seedType === 'hub' || seed?.hub"
+      [hub]="seed?.hub || seed"
+      [coords]="locationService.location"
+      ></app-hub-card>
+
+      <ion-card *ngIf="image">
+        <ion-img src="{{image}}"></ion-img>
+      </ion-card>
+
+    </ion-list>
+  </form>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="presentActionSheet()">
+      <ion-icon name="images-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-button [disabled]="myForm.invalid" (click)="save()" type="submit" expand="block">Upload
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
