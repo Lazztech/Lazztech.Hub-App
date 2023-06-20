@@ -1160,7 +1160,7 @@ export type UserEventsQuery = { __typename?: 'Query', usersEvents: Array<{ __typ
 export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersHubsQuery = { __typename?: 'Query', usersHubs: Array<{ __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, fileUploads?: Array<{ __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, fileName: string, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string, image?: string | null } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string } | null }> | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', userId: string, isPresent?: boolean | null, isOwner: boolean, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null, image?: string | null } | null }> | null } | null }> };
+export type UsersHubsQuery = { __typename?: 'Query', usersHubs: Array<{ __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', userId: string, isPresent?: boolean | null, isOwner: boolean, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null, image?: string | null } | null }> | null } | null }> };
 
 export type UsersPeopleQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2932,31 +2932,6 @@ export const UsersHubsDocument = gql`
       latitude
       longitude
       locationLabel
-      fileUploads {
-        fileId
-        hubId
-        approvedByUserId
-        approved
-        file {
-          id
-          fileName
-          createdOn
-          url
-          createdBy {
-            id
-            firstName
-            lastName
-            shareableId
-            image
-          }
-        }
-        approvedBy {
-          id
-          firstName
-          lastName
-          shareableId
-        }
-      }
       usersConnection {
         userId
         user {
