@@ -22,12 +22,12 @@
           <ion-grid class="ion-no-padding">
             <ion-row class="ion-nowrap horizontal-scroll ion-align-items-center">
               <ion-col>
-                <ion-button fill="outline" style="height: 150px; width: 150px;" (click)="goToUploadPage()">
+                <ion-button fill="outline" style="height: 125px; width: 125px;" (click)="goToUploadPage()">
                   <ion-icon name="add" size="large"></ion-icon>
                 </ion-button>
               </ion-col>
               <ion-col *ngFor="let fileUpload of userHub?.hub?.fileUploads">
-                <ion-card style="height: 150px; width: 150px;">
+                <ion-card style="height: 125px; width: 125px;">
                   <ion-img src="{{fileUpload?.file?.url}}"></ion-img>
                 </ion-card>
               </ion-col>
