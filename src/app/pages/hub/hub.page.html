@@ -27,25 +27,17 @@
                   <ion-img src="{{userHub?.hub?.image}}" z-index="99" style="display: absolute"></ion-img>
                 </ion-card>
               </ion-col>
-              <ion-col size="5" *ngFor="let event of userHub?.hub?.events">
+              <ion-col size="5" *ngFor="let fileUpload of userHub?.hub?.fileUploads">
                 <ion-card>
-                  <ion-img src="{{event?.image}}"></ion-img>
+                  <ion-img src="{{fileUpload?.file?.url}}"></ion-img>
                 </ion-card>
               </ion-col>
-              <ion-col size="12" *ngIf="!userHub?.hub?.events?.length">
+              <ion-col size="12" *ngIf="!userHub?.hub?.fileUploads?.length">
                 <ion-card *ngIf="userHub?.isOwner">
                   <ion-item button lines="none" (click)="goToUploadPage()">
                     <ion-icon slot="end" name="images-outline"></ion-icon>
                     <ion-card-content>
-                      You and your guests can upload & share photos taken here!
-                  </ion-card-content>
-                  </ion-item>
-                </ion-card>
-                <ion-card *ngIf="!userHub?.isOwner">
-                  <ion-item lines="none">
-                    <ion-icon slot="end" name="images-outline"></ion-icon>
-                    <ion-card-content>
-                      Events at this Hub, by the Admin, will be listed here.
+                      {{userHub?.isOwner ? 'You and your guests can upload & share photos taken here!' : 'Upload photos taken at this Hub to share!'}}
                   </ion-card-content>
                   </ion-item>
                 </ion-card>
