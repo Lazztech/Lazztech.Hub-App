@@ -15,6 +15,31 @@ query usersHubs {
             latitude
             longitude
             locationLabel
+            fileUploads {
+              fileId
+              hubId
+              approvedByUserId
+              approved
+              file {
+                id
+                fileName
+                createdOn
+                url
+                createdBy {
+                  id
+                  firstName
+                  lastName
+                  shareableId
+                  image
+                }
+              }
+              approvedBy {
+                id
+                firstName
+                lastName
+                shareableId
+              }
+            }
             usersConnection {
                 userId
                 user {
