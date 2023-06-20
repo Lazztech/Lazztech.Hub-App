@@ -1155,7 +1155,7 @@ export type PaginatedInAppNotifcationsQuery = { __typename?: 'Query', paginatedI
 export type UserEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserEventsQuery = { __typename?: 'Query', usersEvents: Array<{ __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, minimumCapacity?: number | null, maximumCapacity?: number | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', userId: string, isPresent?: boolean | null, isOwner: boolean }> | null } | null, fileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, fileName: string, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string, image?: string | null } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string } | null }> | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', userId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null, image?: string | null } | null }> | null } | null }> };
+export type UserEventsQuery = { __typename?: 'Query', usersEvents: Array<{ __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, minimumCapacity?: number | null, maximumCapacity?: number | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', userId: string, isPresent?: boolean | null, isOwner: boolean }> | null } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', userId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null, image?: string | null } | null }> | null } | null }> };
 
 export type UsersHubsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2879,31 +2879,6 @@ export const UserEventsDocument = gql`
       latitude
       longitude
       shareableId
-      fileUploads {
-        fileId
-        eventId
-        approvedByUserId
-        approved
-        file {
-          id
-          fileName
-          createdOn
-          url
-          createdBy {
-            id
-            firstName
-            lastName
-            shareableId
-            image
-          }
-        }
-        approvedBy {
-          id
-          firstName
-          lastName
-          shareableId
-        }
-      }
       usersConnection {
         userId
         user {
