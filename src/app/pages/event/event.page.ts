@@ -261,6 +261,15 @@ export class EventPage implements OnInit, OnDestroy {
     });
   }
 
+  goToUploadPage() {
+    this.navCtrl.navigateForward('upload', {
+      state: {
+        seed: this.userEventQueryResult?.data?.event,
+        seedType: 'event'
+      }
+    });
+  }
+
   toggleInviteModal() {
     this.inviteModalIsOpen = !this.inviteModalIsOpen;
   }

@@ -49,6 +49,31 @@ query event($id: ID!) {
       longitude
       locationLabel
       shareableId
+      fileUploads {
+        fileId
+        eventId
+        approvedByUserId
+        approved
+        file {
+          id
+          fileName
+          createdOn
+          url
+          createdBy {
+            id
+            firstName
+            lastName
+            shareableId
+            image
+          }
+        }
+        approvedBy {
+          id
+          firstName
+          lastName
+          shareableId
+        }
+      }
       usersConnection {
         user {
           id
