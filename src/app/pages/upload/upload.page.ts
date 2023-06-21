@@ -77,7 +77,7 @@ export class UploadPage implements OnInit, OnDestroy {
     } else if (this.seedType === 'event') {
       await this.uploadEventFiles.mutate({
         files,
-        eventId: this.seed?.id,
+        eventId: this.seed?.eventId,
       }, {
         context: { useMultipart: true },
       })
