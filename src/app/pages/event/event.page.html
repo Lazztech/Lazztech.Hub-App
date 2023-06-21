@@ -20,6 +20,11 @@
         <ion-list>
           <ion-grid class="ion-no-padding">
             <ion-row class="ion-nowrap horizontal-scroll ion-align-items-center">
+              <ion-col *ngIf="loading">
+                <ion-card style="height: 125px; width: 125px;" *ngFor="let val of [0,0,0,0,0,0]">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-card>
+              </ion-col>
               <ion-col>
                 <ion-button fill="outline" style="height: 125px; width: 125px;" (click)="goToUploadPage()">
                   <ion-icon name="add" size="large"></ion-icon>
@@ -28,16 +33,6 @@
               <ion-col *ngFor="let fileUpload of userEventQueryResult?.data?.event?.event?.fileUploads">
                 <ion-card style="height: 125px; width: 125px;">
                   <ion-img src="{{fileUpload?.file?.url}}"></ion-img>
-                </ion-card>
-              </ion-col>
-              <ion-col *ngIf="!userEventQueryResult?.data?.event?.event?.fileUploads?.length">
-                <ion-card>
-                  <ion-item button lines="none" (click)="goToUploadPage()">
-                    <ion-icon slot="end" name="images-outline"></ion-icon>
-                    <ion-card-content>
-                      Upload photos taken at this Event to share!
-                    </ion-card-content>
-                  </ion-item>
                 </ion-card>
               </ion-col>
             </ion-row>
