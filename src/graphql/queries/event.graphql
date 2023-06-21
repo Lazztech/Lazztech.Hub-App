@@ -66,6 +66,8 @@ query event($id: ID!) {
             shareableId
             image
             lastOnline
+            phoneNumber
+            email
           }
         }
         approvedBy {

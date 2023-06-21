@@ -33,6 +33,8 @@ query hub($id: ID!) {
             shareableId
             image
             lastOnline
+            phoneNumber
+            email
           }
         }
         approvedBy {

@@ -136,4 +136,13 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('hub/' + id);
   }
 
+  goToPersonPage(id: number, user: any) {
+    this.logger.log(user);
+    this.navCtrl.navigateForward('person/' + id, {
+      state: {
+        user
+      }
+    });
+  }
+
 }
