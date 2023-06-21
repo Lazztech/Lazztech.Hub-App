@@ -1,9 +1,12 @@
 <ion-header translucent="true">
   <ion-toolbar>
-    <ion-title>Upload {{seedType == 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
+    <ion-title>{{seedType == 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
+    <!-- <ion-buttons slot="end">
+      <ion-icon size="large" name="grid-outline"></ion-icon>
+    </ion-buttons> -->
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
@@ -11,47 +14,24 @@
 <ion-content fullscreen="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Upload {{seedType == 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
+      <ion-title size="large">{{seedType == 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
     <ion-list>
-
-      <app-hub-card
-      *ngIf="seedType === 'hub' || seed?.hub"
-      [hub]="seed?.hub || seed"
-      [coords]="locationService.location"
-      ></app-hub-card>
-
-      <ion-item lines="none" *ngIf="!gallery?.photos">
-        <ion-card-header>
-          <ion-card-subtitle>Get Started</ion-card-subtitle>
-        </ion-card-header>
-        <ion-icon slot="end" name="arrow-down"></ion-icon>
-        <ion-card-content>
-          Click the floating action button to select how you'd like to upload your photos!
-      </ion-card-content>
-      </ion-item>
-
-      <ion-item *ngFor="let photo of photos">
+      <ion-item *ngFor="let fileJoin of seed?.fileUploads">
         <ion-card>
-          <ion-img src="{{photo.webPath}}"></ion-img>
+          <ion-img src="{{fileJoin?.file?.url}}"></ion-img>
+          <ion-card-content>
+            Uploaded by {{fileJoin?.file?.createdBy?.firstName}} {{fileJoin?.file?.createdBy?.lastName}}, on {{fileJoin?.file?.createdOn}}
+          </ion-card-content>
         </ion-card>
       </ion-item>
-
-      <ion-item *ngFor="let photo of gallery?.photos">
-        <ion-card>
-          <ion-img src="{{photo.webPath}}"></ion-img>
-        </ion-card>
-      </ion-item>
-
     </ion-list>
-  </form>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="presentActionSheet()">
-      <ion-icon name="images-outline"></ion-icon>
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
@@ -59,7 +39,5 @@
 
 <ion-footer translucent="true">
   <ion-toolbar>
-    <ion-button [disabled]="myForm.invalid" (click)="save()" type="submit" expand="block">Upload
-    </ion-button>
   </ion-toolbar>
 </ion-footer>
