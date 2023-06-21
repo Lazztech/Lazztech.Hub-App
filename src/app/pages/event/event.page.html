@@ -30,7 +30,7 @@
         </ion-button>
       </ion-col>
       <ion-col *ngFor="let fileUpload of userEventQueryResult?.data?.event?.event?.fileUploads">
-        <ion-card style="height: 125px; width: 125px;">
+        <ion-card style="height: 125px; width: 125px;"(click)="goToGalleryPage()" >
           <ion-img src="{{fileUpload?.file?.url}}"></ion-img>
         </ion-card>
       </ion-col>

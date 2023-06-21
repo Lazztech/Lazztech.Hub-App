@@ -270,6 +270,15 @@ export class EventPage implements OnInit, OnDestroy {
     });
   }
 
+  goToGalleryPage() {
+    this.navCtrl.navigateForward('gallery', {
+      state: {
+        seed: this.userEventQueryResult?.data?.event,
+        seedType: 'event'
+      }
+    });
+  }
+
   toggleInviteModal() {
     this.inviteModalIsOpen = !this.inviteModalIsOpen;
   }
