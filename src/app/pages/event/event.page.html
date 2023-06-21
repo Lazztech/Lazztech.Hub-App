@@ -14,30 +14,25 @@
 </ion-header>
 
 <ion-content fullscreen="true">
+
   <ion-grid class="ion-no-padding">
-    <ion-row>
+    <ion-row *ngIf="loading" class="ion-nowrap horizontal-scroll ion-align-items-center">
+      <ion-col *ngFor="let val of [0,0,0,0,0,0]">
+        <ion-card style="height: 125px; width: 125px;">
+          <ion-skeleton-text animated style="height: 125px; width: 125px;"></ion-skeleton-text>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="!loading" class="ion-nowrap horizontal-scroll ion-align-items-center">
       <ion-col>
-        <ion-list>
-          <ion-grid class="ion-no-padding">
-            <ion-row class="ion-nowrap horizontal-scroll ion-align-items-center">
-              <ion-col *ngIf="loading">
-                <ion-card style="height: 125px; width: 125px;" *ngFor="let val of [0,0,0,0,0,0]">
-                  <ion-skeleton-text animated></ion-skeleton-text>
-                </ion-card>
-              </ion-col>
-              <ion-col>
-                <ion-button fill="outline" style="height: 125px; width: 125px;" (click)="goToUploadPage()">
-                  <ion-icon name="add" size="large"></ion-icon>
-                </ion-button>
-              </ion-col>
-              <ion-col *ngFor="let fileUpload of userEventQueryResult?.data?.event?.event?.fileUploads">
-                <ion-card style="height: 125px; width: 125px;">
-                  <ion-img src="{{fileUpload?.file?.url}}"></ion-img>
-                </ion-card>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-list>
+        <ion-button fill="outline" style="height: 125px; width: 125px;" (click)="goToUploadPage()">
+          <ion-icon name="add" size="large"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col *ngFor="let fileUpload of userEventQueryResult?.data?.event?.event?.fileUploads">
+        <ion-card style="height: 125px; width: 125px;">
+          <ion-img src="{{fileUpload?.file?.url}}"></ion-img>
+        </ion-card>
       </ion-col>
     </ion-row>
     <ion-row>

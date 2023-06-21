@@ -16,7 +16,7 @@
 <ion-content fullscreen="true">
 
   <ion-grid class="ion-no-padding">
-    <ion-row *ngIf="loading">
+    <ion-row *ngIf="loading" class="ion-nowrap horizontal-scroll ion-align-items-center">
       <ion-col *ngFor="let val of [0,0,0,0,0,0]">
         <ion-card style="height: 125px; width: 125px;">
           <ion-skeleton-text animated style="height: 125px; width: 125px;"></ion-skeleton-text>
