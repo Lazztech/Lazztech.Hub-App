@@ -29,7 +29,7 @@
           <ion-icon name="add" size="large"></ion-icon>
         </ion-button>
       </ion-col>
-      <ion-col *ngFor="let fileUpload of userHub?.hub?.fileUploads">
+      <ion-col *ngFor="let fileUpload of userHub?.hub?.fileUploads; trackBy: trackByFile">
         <ion-card style="height: 125px; width: 125px;" (click)="goToGalleryPage()">
           <ion-img src="{{fileUpload?.file?.url}}"></ion-img>
         </ion-card>

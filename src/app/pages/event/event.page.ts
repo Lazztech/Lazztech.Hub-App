@@ -13,7 +13,7 @@ import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
-import { EventGQL, EventQuery, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
+import { EventGQL, EventQuery, JoinHubFile, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
 import { InviteContext } from '../qr/qr.page';
 import * as ics from 'ics';
 import moment from 'moment';
@@ -268,6 +268,10 @@ export class EventPage implements OnInit, OnDestroy {
         seedType: 'event'
       }
     });
+  }
+
+  trackByFile(index: any, joinHubFile: JoinHubFile) {
+    return joinHubFile.fileId;
   }
 
   goToGalleryPage() {
