@@ -1,5 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { File, JoinHubFile } from 'src/graphql/graphql';
 import { SwiperOptions } from 'swiper';
 import SwiperCore, { Zoom } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
@@ -15,6 +16,8 @@ export class ImageModalPage {
   @ViewChild('swiper') swiper: SwiperComponent
 
   @Input() img: string;
+  @Input() file: File;
+
   config: SwiperOptions = {
     zoom:  true,
   };
