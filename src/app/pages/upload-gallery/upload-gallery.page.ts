@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GalleryPhotos, Photo } from '@capacitor/camera';
-import { IonRouterOutlet, NavController } from '@ionic/angular';
+import { IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { LocationService } from 'src/app/services/location/location.service';
+import { ImageModalPage } from '../image-modal/image-modal.page';
 
 @Component({
   selector: 'app-upload-gallery',
@@ -30,10 +31,22 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
     public readonly navCtrl: NavController,
     public readonly routerOutlet: IonRouterOutlet,
     public readonly locationService: LocationService,
+    private readonly modalCtl: ModalController,
   ) {
     this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
     this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
    }
+
+  async openPreview(img) {
+    const modal = await this.modalCtl.create({
+      component: ImageModalPage,
+      componentProps: {
+        img
+      },
+      cssClass: 'transparent-modal'
+    })
+    modal.present();
+  }
 
   async ngOnInit() {
     this.myForm = new FormGroup({});

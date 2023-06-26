@@ -131,7 +131,12 @@ const routes: Routes = [
     path: 'gallery',
     loadChildren: () => import('./pages/upload-gallery/upload-gallery.module').then(m => m.UploadGalleryPageModule),
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'image-modal',
+    loadChildren: () => import('./pages/image-modal/image-modal.module').then(m => m.ImageModalPageModule),
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

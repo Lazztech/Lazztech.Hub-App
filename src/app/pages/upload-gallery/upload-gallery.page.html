@@ -40,7 +40,7 @@
               | amLocal | amTimeAgo) : 'N/A'}}</p>
           </ion-label>
         </ion-item>
-        <ion-img src="{{fileJoin?.file?.url}}" style="width: 100%;"></ion-img>
+        <ion-img src="{{fileJoin?.file?.url}}" style="width: 100%;" tappable (click)="openPreview(fileJoin?.file?.url )"></ion-img>
       </div>
 
     </ion-list>
