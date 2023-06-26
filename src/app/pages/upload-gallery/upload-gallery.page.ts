@@ -43,7 +43,7 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
       componentProps: {
         img
       },
-      cssClass: 'transparent-modal'
+      cssClass: 'transparent-modal fullscreen'
     })
     modal.present();
   }

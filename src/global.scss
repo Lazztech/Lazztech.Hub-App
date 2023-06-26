@@ -24,3 +24,8 @@ body.scanner-active {
     backdrop-filter: blur(12px);
   }
 }
+
+.fullscreen {
+  --width:100% !important;
+  --height:100% !important;
+}
