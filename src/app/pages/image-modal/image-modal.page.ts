@@ -1,9 +1,7 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { ActionSheetController, ModalController } from '@ionic/angular';
-import { Action } from 'rxjs/internal/scheduler/Action';
-import { File, JoinHubFile } from 'src/graphql/graphql';
-import { SwiperOptions } from 'swiper';
-import SwiperCore, { Zoom, Pagination } from 'swiper';
+import { File } from 'src/graphql/graphql';
+import SwiperCore, { Pagination, SwiperOptions, Zoom } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 SwiperCore.use([Zoom, Pagination]); 
 

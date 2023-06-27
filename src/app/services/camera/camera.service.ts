@@ -33,6 +33,7 @@ export class CameraService {
       width: 500,
       height: 500,
       quality: 100,
+      limit: 10,
       // resultType: CameraResultType.Uri,
       // source: CameraSource.Photos
     })
