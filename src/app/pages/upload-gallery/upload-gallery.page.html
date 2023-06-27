@@ -19,7 +19,7 @@
   </ion-header>
 
     <ion-list>
-      <div *ngFor="let fileJoin of seed?.fileUploads || seed?.event?.fileUploads">
+      <div *ngFor="let fileJoin of seed?.fileUploads || seed?.event?.fileUploads; let i = index">
         <ion-item lines="none" href="javascript:void(0);" (click)="goToPersonPage(fileJoin?.file?.createdBy.id, fileJoin?.file?.createdBy)">
           <ion-avatar slot="start">
             <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!fileJoin?.file?.createdBy.image" src="{{fileJoin?.file?.createdBy.id | avatar}}">
@@ -40,7 +40,7 @@
               | amLocal | amTimeAgo) : 'N/A'}}</p>
           </ion-label>
         </ion-item>
-        <ion-img src="{{fileJoin?.file?.url}}" style="width: 100%;" tappable (click)="openPreview(fileJoin?.file)"></ion-img>
+        <ion-img src="{{fileJoin?.file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
       </div>
 
     </ion-list>

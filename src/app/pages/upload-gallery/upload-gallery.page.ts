@@ -37,11 +37,12 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
     this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
    }
 
-  async openPreview(file) {
+  async openPreview(startingFileIndex) {
     const files = this.seed?.fileUploads?.map(x => x?.file) || this.seed?.event?.fileUploads?.map(x => x?.file);
     const modal = await this.modalCtl.create({
       component: ImageModalPage,
       componentProps: {
+        startingFileIndex,
         files,
       },
       cssClass: 'transparent-modal fullscreen'

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { File, JoinHubFile } from 'src/graphql/graphql';
@@ -12,11 +12,12 @@ SwiperCore.use([Zoom, Pagination]);
   templateUrl: './image-modal.page.html',
   styleUrls: ['./image-modal.page.scss'],
 })
-export class ImageModalPage {
+export class ImageModalPage implements AfterViewInit {
 
   @ViewChild('swiper') swiper: SwiperComponent
 
   @Input() img: string;
+  @Input() startingFileIndex: number;
   @Input() files: Array<File>;
 
   config: SwiperOptions = {
@@ -29,6 +30,10 @@ export class ImageModalPage {
     private modalCtl: ModalController,
     private actionSheetController: ActionSheetController,
   ) {}
+
+  ngAfterViewInit(): void {
+    this.startingFileIndex && this.swiper.swiperRef.slideTo(this.startingFileIndex);
+  }
 
   close() {
     this.modalCtl.dismiss();
