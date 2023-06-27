@@ -3,9 +3,9 @@ import { ActionSheetController, ModalController } from '@ionic/angular';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { File, JoinHubFile } from 'src/graphql/graphql';
 import { SwiperOptions } from 'swiper';
-import SwiperCore, { Zoom } from 'swiper';
+import SwiperCore, { Zoom, Pagination } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
-SwiperCore.use([Zoom]); 
+SwiperCore.use([Zoom, Pagination]); 
 
 @Component({
   selector: 'app-image-modal',
@@ -17,10 +17,13 @@ export class ImageModalPage {
   @ViewChild('swiper') swiper: SwiperComponent
 
   @Input() img: string;
-  @Input() file: File;
+  @Input() files: Array<File>;
 
   config: SwiperOptions = {
     zoom:  true,
+    pagination: {
+      dynamicBullets: true
+    },
   };
   constructor(
     private modalCtl: ModalController,
@@ -31,13 +34,16 @@ export class ImageModalPage {
     this.modalCtl.dismiss();
   }
 
-  zoom(zoomIn: boolean) {
-    const zoom = this.swiper.swiperRef.zoom;
-    zoomIn ? zoom.in() : zoom.out(); 
+  next() {
+    this.swiper.swiperRef.slideNext();
+  }
+
+  back() {
+    this.swiper.swiperRef.slidePrev();
   }
 
   async presentActionSheet() {
-    if (this.file) {
+    if (this.files) {
       const buttons = [];   
         buttons.push(
         {
