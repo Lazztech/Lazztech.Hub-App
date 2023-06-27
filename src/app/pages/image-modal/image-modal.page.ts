@@ -43,15 +43,15 @@ export class ImageModalPage {
         {
           text: 'Report as Inappropriate',
           role: 'destructive',
-          // handler: () => {
-          //   if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
-          //     this.loading = true;
-          //     this.hubService.reportAsInappropriate(this.id).then(() => {
-          //       this.loading = false;
-          //       this.navCtrl.back();
-          //     });
-          //   }
-          // }
+          handler: () => {
+            if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
+              // this.loading = true;
+              // this.hubService.reportAsInappropriate(this.id).then(() => {
+                // this.loading = false;
+                // this.navCtrl.back();
+              // });
+            }
+          }
         }
       );
 
