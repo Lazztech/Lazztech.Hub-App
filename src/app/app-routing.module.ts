@@ -122,6 +122,21 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin-event/admin-event.module').then( m => m.AdminEventPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'upload',
+    loadChildren: () => import('./pages/upload/upload.module').then(m => m.UploadPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'gallery',
+    loadChildren: () => import('./pages/upload-gallery/upload-gallery.module').then(m => m.UploadGalleryPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'image-modal',
+    loadChildren: () => import('./pages/image-modal/image-modal.module').then(m => m.ImageModalPageModule),
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

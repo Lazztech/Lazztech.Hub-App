@@ -14,3 +14,18 @@ body.scanner-active {
     --background: transparent !important;
     --ion-background-color: transparent !important;
   }
+
+@import 'swiper/css/bundle';
+
+.transparent-modal {
+  --background: rgba(44, 39, 45, 0.2);
+
+  &::part(content) {
+    backdrop-filter: blur(12px);
+  }
+}
+
+.fullscreen {
+  --width:100% !important;
+  --height:100% !important;
+}

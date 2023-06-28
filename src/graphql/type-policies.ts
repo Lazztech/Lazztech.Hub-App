@@ -5,12 +5,13 @@ export type BlockFieldPolicy = {
 	from?: FieldPolicy<any> | FieldReadFunction<any>,
 	to?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EventKeySpecifier = ('coverImage' | 'createdBy' | 'description' | 'endDateTime' | 'hub' | 'id' | 'image' | 'latitude' | 'locationLabel' | 'longitude' | 'maximumCapacity' | 'minimumCapacity' | 'name' | 'shareableId' | 'startDateTime' | 'usersConnection' | EventKeySpecifier)[];
+export type EventKeySpecifier = ('coverImage' | 'createdBy' | 'description' | 'endDateTime' | 'fileUploads' | 'hub' | 'id' | 'image' | 'latitude' | 'locationLabel' | 'longitude' | 'maximumCapacity' | 'minimumCapacity' | 'name' | 'shareableId' | 'startDateTime' | 'usersConnection' | EventKeySpecifier)[];
 export type EventFieldPolicy = {
 	coverImage?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdBy?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	endDateTime?: FieldPolicy<any> | FieldReadFunction<any>,
+	fileUploads?: FieldPolicy<any> | FieldReadFunction<any>,
 	hub?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	image?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -40,12 +41,13 @@ export type FileFieldPolicy = {
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type HubKeySpecifier = ('active' | 'coverImage' | 'description' | 'events' | 'id' | 'image' | 'invites' | 'latitude' | 'locationLabel' | 'longitude' | 'microChats' | 'name' | 'shareableId' | 'usersConnection' | HubKeySpecifier)[];
+export type HubKeySpecifier = ('active' | 'coverImage' | 'description' | 'events' | 'fileUploads' | 'id' | 'image' | 'invites' | 'latitude' | 'locationLabel' | 'longitude' | 'microChats' | 'name' | 'shareableId' | 'usersConnection' | HubKeySpecifier)[];
 export type HubFieldPolicy = {
 	active?: FieldPolicy<any> | FieldReadFunction<any>,
 	coverImage?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
+	fileUploads?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	image?: FieldPolicy<any> | FieldReadFunction<any>,
 	invites?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -78,6 +80,26 @@ export type InviteFieldPolicy = {
 	inviter?: FieldPolicy<any> | FieldReadFunction<any>,
 	invitersId?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type JoinEventFileKeySpecifier = ('approved' | 'approvedBy' | 'approvedByUserId' | 'event' | 'eventId' | 'file' | 'fileId' | JoinEventFileKeySpecifier)[];
+export type JoinEventFileFieldPolicy = {
+	approved?: FieldPolicy<any> | FieldReadFunction<any>,
+	approvedBy?: FieldPolicy<any> | FieldReadFunction<any>,
+	approvedByUserId?: FieldPolicy<any> | FieldReadFunction<any>,
+	event?: FieldPolicy<any> | FieldReadFunction<any>,
+	eventId?: FieldPolicy<any> | FieldReadFunction<any>,
+	file?: FieldPolicy<any> | FieldReadFunction<any>,
+	fileId?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type JoinHubFileKeySpecifier = ('approved' | 'approvedBy' | 'approvedByUserId' | 'file' | 'fileId' | 'hub' | 'hubId' | JoinHubFileKeySpecifier)[];
+export type JoinHubFileFieldPolicy = {
+	approved?: FieldPolicy<any> | FieldReadFunction<any>,
+	approvedBy?: FieldPolicy<any> | FieldReadFunction<any>,
+	approvedByUserId?: FieldPolicy<any> | FieldReadFunction<any>,
+	file?: FieldPolicy<any> | FieldReadFunction<any>,
+	fileId?: FieldPolicy<any> | FieldReadFunction<any>,
+	hub?: FieldPolicy<any> | FieldReadFunction<any>,
+	hubId?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type JoinUserEventKeySpecifier = ('event' | 'eventId' | 'isPresent' | 'lastGeofenceEvent' | 'lastUpdated' | 'rsvp' | 'user' | 'userId' | JoinUserEventKeySpecifier)[];
 export type JoinUserEventFieldPolicy = {
 	event?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -109,7 +131,7 @@ export type MicroChatFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'blockUser' | 'changeEmail' | 'changeHubLocation' | 'changePassword' | 'createEvent' | 'createHub' | 'createMicroChat' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'deleteMicroChat' | 'dwellEventGeofence' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredEventGeofence' | 'enteredHubGeofence' | 'exitedEventGeofence' | 'exitedHubGeofence' | 'expeditedRegistration' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'microChatToHub' | 'mute' | 'register' | 'removeUserFromEvent' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'blockUser' | 'changeEmail' | 'changeHubLocation' | 'changePassword' | 'createEvent' | 'createHub' | 'createMicroChat' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'deleteMicroChat' | 'dwellEventGeofence' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredEventGeofence' | 'enteredHubGeofence' | 'exitedEventGeofence' | 'exitedHubGeofence' | 'expeditedRegistration' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'microChatToHub' | 'mute' | 'register' | 'removeUserFromEvent' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | 'uploadEventFiles' | 'uploadHubFiles' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptHubInvite?: FieldPolicy<any> | FieldReadFunction<any>,
 	activateHub?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -162,7 +184,9 @@ export type MutationFieldPolicy = {
 	unmute?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateHub?: FieldPolicy<any> | FieldReadFunction<any>,
-	updateUser?: FieldPolicy<any> | FieldReadFunction<any>
+	updateUser?: FieldPolicy<any> | FieldReadFunction<any>,
+	uploadEventFiles?: FieldPolicy<any> | FieldReadFunction<any>,
+	uploadHubFiles?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type PaginatedInAppNotificationsResponseKeySpecifier = ('items' | 'total' | PaginatedInAppNotificationsResponseKeySpecifier)[];
 export type PaginatedInAppNotificationsResponseFieldPolicy = {
@@ -239,6 +263,14 @@ export type StrictTypedTypePolicies = {
 	Invite?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | InviteKeySpecifier | (() => undefined | InviteKeySpecifier),
 		fields?: InviteFieldPolicy,
+	},
+	JoinEventFile?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | JoinEventFileKeySpecifier | (() => undefined | JoinEventFileKeySpecifier),
+		fields?: JoinEventFileFieldPolicy,
+	},
+	JoinHubFile?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | JoinHubFileKeySpecifier | (() => undefined | JoinHubFileKeySpecifier),
+		fields?: JoinHubFileFieldPolicy,
 	},
 	JoinUserEvent?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | JoinUserEventKeySpecifier | (() => undefined | JoinUserEventKeySpecifier),

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, GalleryPhoto, GalleryPhotos, Photo } from '@capacitor/camera';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,18 @@ export class CameraService {
     });
   }
 
-  async getImageBlob(photo: Photo): Promise<Blob> {
+  async multiSelectPictures(): Promise<GalleryPhotos> {
+    return Camera.pickImages({
+      width: 500,
+      height: 500,
+      quality: 100,
+      limit: 10,
+      // resultType: CameraResultType.Uri,
+      // source: CameraSource.Photos
+    })
+  }
+
+  async getImageBlob(photo: Photo | GalleryPhoto): Promise<Blob> {
     // Fetch the photo, read as a blob
     const response = await fetch(photo?.webPath);
     return response.blob();

@@ -12,7 +12,7 @@ import { ErrorService } from 'src/app/services/error.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
-import { HubQuery, JoinUserHub, MuteGQL, Scalars, UnmuteGQL, User } from 'src/graphql/graphql';
+import { HubQuery, JoinHubFile, JoinUserHub, MuteGQL, Scalars, UnmuteGQL, User } from 'src/graphql/graphql';
 import { InviteContext } from '../qr/qr.page';
 
 @Component({
@@ -102,6 +102,10 @@ export class HubPage implements OnInit, OnDestroy {
 
   trackByUser(index: any, joinUserHub: JoinUserHub) {
     return joinUserHub.userId;
+  }
+
+  trackByFile(index: any, joinHubFile: JoinHubFile) {
+    return joinHubFile.fileId;
   }
 
   goToPersonPage(id: number, user: any) {
@@ -245,6 +249,24 @@ export class HubPage implements OnInit, OnDestroy {
 
   async goToCreateEventPage() {
     this.navCtrl.navigateForward('create-event', {
+      state: {
+        seed: this.userHub?.hub,
+        seedType: 'hub'
+      }
+    });
+  }
+
+  goToUploadPage() {
+    this.navCtrl.navigateForward('upload', {
+      state: {
+        seed: this.userHub?.hub,
+        seedType: 'hub'
+      }
+    });
+  }
+
+  goToGalleryPage() {
+    this.navCtrl.navigateForward('gallery', {
       state: {
         seed: this.userHub?.hub,
         seedType: 'hub'

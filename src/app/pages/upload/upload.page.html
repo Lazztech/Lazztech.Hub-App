@@ -1,0 +1,59 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>Upload {{seedType === 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Upload {{seedType === 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <form [formGroup]="myForm" (ngSubmit)="save()" method="post">
+    <ion-list>
+
+      <app-hub-card
+      *ngIf="seedType === 'hub' || seed?.hub"
+      [hub]="seed?.hub || seed"
+      [coords]="locationService.location"
+      ></app-hub-card>
+
+      <ion-item lines="none" *ngIf="!gallery?.photos">
+        <ion-card-header>
+          <ion-card-subtitle>Get Started</ion-card-subtitle>
+        </ion-card-header>
+        <ion-icon slot="end" name="arrow-down"></ion-icon>
+        <ion-card-content>
+          Click the floating action button to select and upload up to 10 photos at a time!
+      </ion-card-content>
+      </ion-item>
+
+      <ion-item *ngFor="let photo of gallery?.photos">
+        <ion-card>
+          <ion-img src="{{photo.webPath}}"></ion-img>
+        </ion-card>
+      </ion-item>
+
+    </ion-list>
+  </form>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="selectPictures()">
+      <ion-icon name="images-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+<ion-footer translucent="true">
+  <ion-toolbar>
+    <ion-button [disabled]="myForm.invalid" (click)="save()" type="submit" expand="block">Upload
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

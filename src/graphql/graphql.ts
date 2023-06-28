@@ -33,6 +33,7 @@ export type Event = {
   description?: Maybe<Scalars['String']['output']>;
   /** ISO 8601 Date Time */
   endDateTime?: Maybe<Scalars['String']['output']>;
+  fileUploads?: Maybe<Array<JoinEventFile>>;
   hub?: Maybe<Hub>;
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
@@ -76,6 +77,7 @@ export type Hub = {
   coverImage?: Maybe<File>;
   description?: Maybe<Scalars['String']['output']>;
   events?: Maybe<Array<Event>>;
+  fileUploads?: Maybe<Array<JoinHubFile>>;
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
   invites?: Maybe<Array<Invite>>;
@@ -109,6 +111,28 @@ export type Invite = {
   inviteesId: Scalars['ID']['output'];
   inviter?: Maybe<User>;
   invitersId: Scalars['ID']['output'];
+};
+
+export type JoinEventFile = {
+  __typename?: 'JoinEventFile';
+  approved: Scalars['Boolean']['output'];
+  approvedBy?: Maybe<User>;
+  approvedByUserId?: Maybe<Scalars['ID']['output']>;
+  event: Event;
+  eventId: Scalars['ID']['output'];
+  file: File;
+  fileId: Scalars['ID']['output'];
+};
+
+export type JoinHubFile = {
+  __typename?: 'JoinHubFile';
+  approved: Scalars['Boolean']['output'];
+  approvedBy?: Maybe<User>;
+  approvedByUserId?: Maybe<Scalars['ID']['output']>;
+  file: File;
+  fileId: Scalars['ID']['output'];
+  hub: Hub;
+  hubId: Scalars['ID']['output'];
 };
 
 export type JoinUserEvent = {
@@ -204,6 +228,8 @@ export type Mutation = {
   updateEvent: Event;
   updateHub: Hub;
   updateUser: User;
+  uploadEventFiles: JoinUserEvent;
+  uploadHubFiles: JoinUserHub;
 };
 
 
@@ -504,6 +530,18 @@ export type MutationUpdateHubArgs = {
 export type MutationUpdateUserArgs = {
   data?: InputMaybe<UpdateUserInput>;
   imageFile?: InputMaybe<Scalars['Upload']['input']>;
+};
+
+
+export type MutationUploadEventFilesArgs = {
+  eventId: Scalars['ID']['input'];
+  files?: InputMaybe<Array<Scalars['Upload']['input']>>;
+};
+
+
+export type MutationUploadHubFilesArgs = {
+  files?: InputMaybe<Array<Scalars['Upload']['input']>>;
+  hubId: Scalars['ID']['input'];
 };
 
 export type PageableOptions = {
@@ -1043,6 +1081,22 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, phoneNumber?: string | null, shareableId: string } };
 
+export type UploadEventFilesMutationVariables = Exact<{
+  eventId: Scalars['ID']['input'];
+  files?: InputMaybe<Array<Scalars['Upload']['input']> | Scalars['Upload']['input']>;
+}>;
+
+
+export type UploadEventFilesMutation = { __typename?: 'Mutation', uploadEventFiles: { __typename?: 'JoinUserEvent', userId: string, eventId: string, event?: { __typename?: 'Event', id: string, name: string, fileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, file: { __typename?: 'File', id: string, createdOn: string, url?: string | null, shareableId: string, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null }> | null } | null } };
+
+export type UploadHubFilesMutationVariables = Exact<{
+  hubId: Scalars['ID']['input'];
+  files?: InputMaybe<Array<Scalars['Upload']['input']> | Scalars['Upload']['input']>;
+}>;
+
+
+export type UploadHubFilesMutation = { __typename?: 'Mutation', uploadHubFiles: { __typename?: 'JoinUserHub', userId: string, hubId: string, hub?: { __typename?: 'Hub', id: string, name: string, fileUploads?: Array<{ __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, file: { __typename?: 'File', id: string, createdOn: string, url?: string | null, shareableId: string, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } | null }> | null } | null } };
+
 export type CommonUsersHubsQueryVariables = Exact<{
   otherUsersId: Scalars['ID']['input'];
 }>;
@@ -1055,14 +1109,14 @@ export type EventQueryVariables = Exact<{
 }>;
 
 
-export type EventQuery = { __typename?: 'Query', event: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, minimumCapacity?: number | null, maximumCapacity?: number | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null } | null } };
+export type EventQuery = { __typename?: 'Query', event: { __typename?: 'JoinUserEvent', userId: string, eventId: string, rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, event?: { __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, minimumCapacity?: number | null, maximumCapacity?: number | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null, fileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, fileName: string, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string, image?: string | null, lastOnline?: string | null, phoneNumber?: string | null, email?: string | null } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string } | null }> | null, usersConnection?: Array<{ __typename?: 'JoinUserEvent', rsvp?: string | null, lastGeofenceEvent?: string | null, lastUpdated?: string | null, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null } | null } };
 
 export type HubQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type HubQuery = { __typename?: 'Query', hub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, usersConnection?: Array<{ __typename?: 'JoinUserHub', isOwner: boolean, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null, events?: Array<{ __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null }> | null, microChats?: Array<{ __typename?: 'MicroChat', id: string, text: string }> | null } | null } };
+export type HubQuery = { __typename?: 'Query', hub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, fileUploads?: Array<{ __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, fileName: string, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string, image?: string | null, lastOnline?: string | null, phoneNumber?: string | null, email?: string | null } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string } | null }> | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isOwner: boolean, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null, events?: Array<{ __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null }> | null, microChats?: Array<{ __typename?: 'MicroChat', id: string, text: string }> | null } | null } };
 
 export type InviteQueryVariables = Exact<{
   inviteId: Scalars['ID']['input'];
@@ -2255,6 +2309,110 @@ export const UpdateUserDocument = gql`
       super(apollo);
     }
   }
+export const UploadEventFilesDocument = gql`
+    mutation uploadEventFiles($eventId: ID!, $files: [Upload!]) {
+  uploadEventFiles(eventId: $eventId, files: $files) {
+    userId
+    eventId
+    event {
+      id
+      name
+      fileUploads {
+        fileId
+        eventId
+        approvedByUserId
+        file {
+          id
+          createdOn
+          url
+          shareableId
+          createdBy {
+            id
+            firstName
+            lastName
+            description
+            image
+            email
+            shareableId
+          }
+        }
+        approvedBy {
+          id
+          firstName
+          lastName
+          description
+          image
+          email
+          shareableId
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UploadEventFilesGQL extends Apollo.Mutation<UploadEventFilesMutation, UploadEventFilesMutationVariables> {
+    document = UploadEventFilesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UploadHubFilesDocument = gql`
+    mutation uploadHubFiles($hubId: ID!, $files: [Upload!]) {
+  uploadHubFiles(hubId: $hubId, files: $files) {
+    userId
+    hubId
+    hub {
+      id
+      name
+      fileUploads {
+        fileId
+        hubId
+        approvedByUserId
+        file {
+          id
+          createdOn
+          url
+          shareableId
+          createdBy {
+            id
+            firstName
+            lastName
+            description
+            image
+            email
+            shareableId
+          }
+        }
+        approvedBy {
+          id
+          firstName
+          lastName
+          description
+          image
+          email
+          shareableId
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UploadHubFilesGQL extends Apollo.Mutation<UploadHubFilesMutation, UploadHubFilesMutationVariables> {
+    document = UploadHubFilesDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const CommonUsersHubsDocument = gql`
     query commonUsersHubs($otherUsersId: ID!) {
   commonUsersHubs(otherUsersId: $otherUsersId) {
@@ -2341,6 +2499,34 @@ export const EventDocument = gql`
       longitude
       locationLabel
       shareableId
+      fileUploads {
+        fileId
+        eventId
+        approvedByUserId
+        approved
+        file {
+          id
+          fileName
+          createdOn
+          url
+          createdBy {
+            id
+            firstName
+            lastName
+            shareableId
+            image
+            lastOnline
+            phoneNumber
+            email
+          }
+        }
+        approvedBy {
+          id
+          firstName
+          lastName
+          shareableId
+        }
+      }
       usersConnection {
         user {
           id
@@ -2397,6 +2583,34 @@ export const HubDocument = gql`
       longitude
       locationLabel
       shareableId
+      fileUploads {
+        fileId
+        hubId
+        approvedByUserId
+        approved
+        file {
+          id
+          fileName
+          createdOn
+          url
+          createdBy {
+            id
+            firstName
+            lastName
+            shareableId
+            image
+            lastOnline
+            phoneNumber
+            email
+          }
+        }
+        approvedBy {
+          id
+          firstName
+          lastName
+          shareableId
+        }
+      }
       usersConnection {
         user {
           id
