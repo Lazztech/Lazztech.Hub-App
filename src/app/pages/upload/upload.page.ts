@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GalleryPhotos, Photo } from '@capacitor/camera';
-import { ActionSheetController, IonRouterOutlet, NavController } from '@ionic/angular';
-import { NGXLogger } from 'ngx-logger';
+import { GalleryPhotos } from '@capacitor/camera';
+import { IonRouterOutlet, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { ErrorService } from 'src/app/services/error.service';
@@ -20,7 +19,6 @@ export class UploadPage implements OnInit, OnDestroy {
   loading = false;
   myForm: UntypedFormGroup;
   image: any[] = [];
-  photos: Photo[] = [];
   gallery: GalleryPhotos;
   subscriptions: Subscription[] = [];
 
@@ -28,9 +26,7 @@ export class UploadPage implements OnInit, OnDestroy {
   seedType: 'hub' | 'event';
 
   constructor(
-    private readonly actionSheetController: ActionSheetController,
     private readonly cameraService: CameraService,
-    private readonly logger: NGXLogger,
     private readonly uploadEventFiles: UploadEventFilesGQL,
     private readonly uploadHubFiles: UploadHubFilesGQL,
     private readonly router: Router,
@@ -54,7 +50,6 @@ export class UploadPage implements OnInit, OnDestroy {
   async save() {
     this.loading = true;
     const files = await Promise.all([
-      ...this.photos,
       ...this.gallery.photos, 
     ].map(async (photo, index) => new File([await this.cameraService.getImageBlob(photo)], `${index}`, {
       // response doesn't have content type so we're setting an arbitrary image content type
@@ -92,44 +87,8 @@ export class UploadPage implements OnInit, OnDestroy {
     }
   }
 
-  async takePicture() {
-    this.photos.push(await this.cameraService.takePicture());
-  }
-
   async selectPictures() {
     this.gallery = await this.cameraService.multiSelectPictures();
-  }
-
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      // header: 'Albums',
-      buttons: [
-        {
-          text: 'Take Picture',
-          // icon: 'arrow-dropright-circle',
-          handler: () => {
-            this.logger.log('Take Picture clicked');
-            this.takePicture();
-          }
-        },
-        {
-          text: 'Select Pictures',
-          // icon: 'arrow-dropright-circle',
-          handler: () => {
-            this.logger.log('Select Picture clicked');
-            this.selectPictures();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            this.logger.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    await actionSheet.present();
   }
 
   goToHubPage(id: number) {

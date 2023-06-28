@@ -34,12 +34,6 @@
       </ion-card-content>
       </ion-item>
 
-      <ion-item *ngFor="let photo of photos">
-        <ion-card>
-          <ion-img src="{{photo.webPath}}"></ion-img>
-        </ion-card>
-      </ion-item>
-
       <ion-item *ngFor="let photo of gallery?.photos">
         <ion-card>
           <ion-img src="{{photo.webPath}}"></ion-img>
@@ -50,7 +44,7 @@
   </form>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="presentActionSheet()">
+    <ion-fab-button (click)="selectPictures()">
       <ion-icon name="images-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
