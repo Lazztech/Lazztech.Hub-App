@@ -19,28 +19,28 @@
   </ion-header>
 
     <ion-list>
-      <div *ngFor="let fileJoin of seed?.fileUploads || seed?.event?.fileUploads; let i = index">
-        <ion-item lines="none" href="javascript:void(0);" (click)="goToPersonPage(fileJoin?.file?.createdBy.id, fileJoin?.file?.createdBy)">
+      <div *ngFor="let file of data; let i = index">
+        <ion-item lines="none" href="javascript:void(0);" (click)="goToPersonPage(file?.createdBy.id, file?.createdBy)">
           <ion-avatar slot="start">
-            <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!fileJoin?.file?.createdBy.image" src="{{fileJoin?.file?.createdBy.id | avatar}}">
-            <ion-img width="100%" *ngIf="fileJoin?.file?.createdBy.image" src="{{fileJoin?.file?.createdBy.image}}"></ion-img>
+            <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!file?.createdBy.image" src="{{file?.createdBy.id | avatar}}">
+            <ion-img width="100%" *ngIf="file?.createdBy.image" src="{{file?.createdBy.image}}"></ion-img>
           </ion-avatar>
           <ion-label>
             <h2>
-              <ion-text *ngIf="!fileJoin?.file?.createdBy.blocked && fileJoin?.file?.createdBy.firstName && fileJoin?.file?.createdBy.lastName">{{fileJoin?.file?.createdBy.firstName}} {{fileJoin?.file?.createdBy.lastName}}</ion-text>
-              <ion-text *ngIf="!fileJoin?.file?.createdBy.blocked && !fileJoin?.file?.createdBy.firstName && !fileJoin?.file?.createdBy.lastName && fileJoin?.file?.createdBy.username">{{fileJoin?.file?.createdBy.username}}</ion-text>
-              <ion-text *ngIf="fileJoin?.file?.createdBy.blocked" style='text-decoration:line-through'>
-                {{fileJoin?.file?.createdBy.firstName}} {{fileJoin?.file?.createdBy.lastName}}
+              <ion-text *ngIf="!file?.createdBy.blocked && file?.createdBy.firstName && file?.createdBy.lastName">{{file?.createdBy.firstName}} {{file?.createdBy.lastName}}</ion-text>
+              <ion-text *ngIf="!file?.createdBy.blocked && !file?.createdBy.firstName && !file?.createdBy.lastName && file?.createdBy.username">{{file?.createdBy.username}}</ion-text>
+              <ion-text *ngIf="file?.createdBy.blocked" style='text-decoration:line-through'>
+                {{file?.createdBy.firstName}} {{file?.createdBy.lastName}}
               </ion-text>
             </h2>
-            <p *ngIf="fileJoin?.file?.createdBy.blocked" class="ion-float-right">
+            <p *ngIf="file?.createdBy.blocked" class="ion-float-right">
               <ion-text>Blocked</ion-text>
             </p>
-            <p>Last Online: {{(fileJoin?.file?.createdBy?.lastOnline) ? (((fileJoin?.file?.createdBy?.lastOnline / 1000) | amFromUnix)
+            <p>Last Online: {{(file?.createdBy?.lastOnline) ? (((file?.createdBy?.lastOnline / 1000) | amFromUnix)
               | amLocal | amTimeAgo) : 'N/A'}}</p>
           </ion-label>
         </ion-item>
-        <ion-img src="{{fileJoin?.file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
+        <ion-img src="{{file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
       </div>
 
     </ion-list>
