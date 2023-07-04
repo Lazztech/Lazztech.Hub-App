@@ -137,6 +137,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/image-modal/image-modal.module').then(m => m.ImageModalPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'manage-uploads',
+    loadChildren: () => import('./pages/manage-uploads/manage-uploads.module').then(m => m.ManageUploadsPageModule),
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({
