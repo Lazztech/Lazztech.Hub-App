@@ -18,35 +18,37 @@
     </ion-toolbar>
   </ion-header>
 
-    <ion-list>
-      <div *ngFor="let file of data; let i = index">
-        <ion-card>
-            <ion-item lines="none">
-              <ion-avatar slot="start">
-                <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!file?.createdBy.image" src="{{file?.createdBy.id | avatar}}">
-                <ion-img width="100%" *ngIf="file?.createdBy.image" src="{{file?.createdBy.image}}"></ion-img>
-              </ion-avatar>
-              <ion-label>
-                <h2>
-                  <ion-text *ngIf="!file?.createdBy.blocked && file?.createdBy.firstName && file?.createdBy.lastName">{{file?.createdBy.firstName}} {{file?.createdBy.lastName}}</ion-text>
-                  <ion-text *ngIf="!file?.createdBy.blocked && !file?.createdBy.firstName && !file?.createdBy.lastName && file?.createdBy.username">{{file?.createdBy.username}}</ion-text>
-                  <ion-text *ngIf="file?.createdBy.blocked" style='text-decoration:line-through'>
-                    {{file?.createdBy.firstName}} {{file?.createdBy.lastName}}
-                  </ion-text>
-                </h2>
-                <p *ngIf="file?.createdBy.blocked" class="ion-float-right">
-                  <ion-text>Blocked</ion-text>
-                </p>
-                <p>Last Online: {{(file?.createdBy?.lastOnline) ? (((file?.createdBy?.lastOnline / 1000) | amFromUnix)
-                  | amLocal | amTimeAgo) : 'N/A'}}</p>
-              </ion-label>
-              <ion-icon name="ellipsis-horizontal-outline" tappable (click)="openPreview(i)"></ion-icon>
-            </ion-item>
-          <ion-img src="{{file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
-        </ion-card>
-      </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let file of data; let i = index">
+          <ion-card>
+              <ion-item lines="none">
+                <ion-avatar slot="start">
+                  <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!file?.createdBy.image" src="{{file?.createdBy.id | avatar}}">
+                  <ion-img width="100%" *ngIf="file?.createdBy.image" src="{{file?.createdBy.image}}"></ion-img>
+                </ion-avatar>
+                <ion-label>
+                  <h2>
+                    <ion-text *ngIf="!file?.createdBy.blocked && file?.createdBy.firstName && file?.createdBy.lastName">{{file?.createdBy.firstName}} {{file?.createdBy.lastName}}</ion-text>
+                    <ion-text *ngIf="!file?.createdBy.blocked && !file?.createdBy.firstName && !file?.createdBy.lastName && file?.createdBy.username">{{file?.createdBy.username}}</ion-text>
+                    <ion-text *ngIf="file?.createdBy.blocked" style='text-decoration:line-through'>
+                      {{file?.createdBy.firstName}} {{file?.createdBy.lastName}}
+                    </ion-text>
+                  </h2>
+                  <p *ngIf="file?.createdBy.blocked" class="ion-float-right">
+                    <ion-text>Blocked</ion-text>
+                  </p>
+                  <p>Last Online: {{(file?.createdBy?.lastOnline) ? (((file?.createdBy?.lastOnline / 1000) | amFromUnix)
+                    | amLocal | amTimeAgo) : 'N/A'}}</p>
+                </ion-label>
+                <ion-icon name="ellipsis-horizontal-outline" tappable (click)="openPreview(i)"></ion-icon>
+              </ion-item>
+            <ion-img src="{{file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-    </ion-list>
 
   <ion-footer translucent="true">
     <ion-toolbar>
