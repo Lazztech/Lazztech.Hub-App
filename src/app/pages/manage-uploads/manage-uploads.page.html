@@ -21,7 +21,7 @@
     <ion-list>
       <div *ngFor="let file of data; let i = index">
         <ion-card>
-            <ion-item lines="none" href="javascript:void(0);">
+            <ion-item lines="none">
               <ion-avatar slot="start">
                 <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!file?.createdBy.image" src="{{file?.createdBy.id | avatar}}">
                 <ion-img width="100%" *ngIf="file?.createdBy.image" src="{{file?.createdBy.image}}"></ion-img>
