@@ -1,6 +1,6 @@
 <ion-header translucent="true">
   <ion-toolbar>
-    <ion-title>{{seedType === 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
+    <ion-title>Manage Uploads</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
@@ -14,7 +14,7 @@
 <ion-content fullscreen="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">{{seedType === 'hub' ? 'Hub' : 'Event'}} Photos</ion-title>
+      <ion-title size="large">Manage Uploads</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -44,12 +44,6 @@
       </div>
 
     </ion-list>
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="goToUploadPage()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 
   <ion-footer translucent="true">
     <ion-toolbar>
