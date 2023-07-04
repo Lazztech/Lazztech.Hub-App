@@ -45,7 +45,7 @@
               </ion-item>
             <ion-img src="{{file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
             <ion-card-content>
-              Uploaded {{file?.createdOn | amDateFormat:'LL'}}
+              Uploaded {{file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
             </ion-card-content>
           </ion-card>
         </ion-col>
