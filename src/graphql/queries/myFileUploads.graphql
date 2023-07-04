@@ -1,0 +1,22 @@
+query myFileUploads {
+  me {
+    id
+    firstName
+    fileUploads {
+      id
+      fileName
+      createdOn
+      url
+      createdBy {
+        id
+        firstName
+        lastName
+        shareableId
+        image
+        lastOnline
+        phoneNumber
+        email
+      }
+    }
+  }
+}

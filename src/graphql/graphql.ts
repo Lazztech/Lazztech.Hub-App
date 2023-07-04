@@ -638,6 +638,7 @@ export type User = {
   blocks?: Maybe<Array<Block>>;
   description?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
+  fileUploads?: Maybe<Array<File>>;
   firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
@@ -1141,6 +1142,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, email?: string | null, phoneNumber?: string | null, shareableId: string, blocks?: Array<{ __typename?: 'Block', from: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string }, to: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } }> | null } | null };
+
+export type MyFileUploadsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyFileUploadsQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName?: string | null, fileUploads?: Array<{ __typename?: 'File', id: string, fileName: string, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string, image?: string | null, lastOnline?: string | null, phoneNumber?: string | null, email?: string | null } }> | null } | null };
 
 export type PaginatedInAppNotifcationsQueryVariables = Exact<{
   limit: Scalars['Int']['input'];
@@ -2825,6 +2831,41 @@ export const MeDocument = gql`
   })
   export class MeGQL extends Apollo.Query<MeQuery, MeQueryVariables> {
     document = MeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MyFileUploadsDocument = gql`
+    query myFileUploads {
+  me {
+    id
+    firstName
+    fileUploads {
+      id
+      fileName
+      createdOn
+      url
+      createdBy {
+        id
+        firstName
+        lastName
+        shareableId
+        image
+        lastOnline
+        phoneNumber
+        email
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MyFileUploadsGQL extends Apollo.Query<MyFileUploadsQuery, MyFileUploadsQueryVariables> {
+    document = MyFileUploadsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

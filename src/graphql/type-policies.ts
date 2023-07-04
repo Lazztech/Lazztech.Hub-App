@@ -211,13 +211,14 @@ export type QueryFieldPolicy = {
 	usersHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersPeople?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('birthdate' | 'blocked' | 'blocks' | 'description' | 'email' | 'firstName' | 'id' | 'image' | 'lastName' | 'lastOnline' | 'phoneNumber' | 'profileImage' | 'shareableId' | 'userDevices' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('birthdate' | 'blocked' | 'blocks' | 'description' | 'email' | 'fileUploads' | 'firstName' | 'id' | 'image' | 'lastName' | 'lastOnline' | 'phoneNumber' | 'profileImage' | 'shareableId' | 'userDevices' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	birthdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	blocked?: FieldPolicy<any> | FieldReadFunction<any>,
 	blocks?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
+	fileUploads?: FieldPolicy<any> | FieldReadFunction<any>,
 	firstName?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	image?: FieldPolicy<any> | FieldReadFunction<any>,
