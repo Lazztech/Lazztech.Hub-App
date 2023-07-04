@@ -41,7 +41,7 @@
                   <p>Last Online: {{(file?.createdBy?.lastOnline) ? (((file?.createdBy?.lastOnline / 1000) | amFromUnix)
                     | amLocal | amTimeAgo) : 'N/A'}}</p>
                 </ion-label>
-                <ion-icon name="ellipsis-horizontal-outline" tappable (click)="openPreview(i)"></ion-icon>
+                <ion-icon name="ellipsis-horizontal-outline" tappable (click)="presentActionSheet()"></ion-icon>
               </ion-item>
             <ion-img src="{{file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
           </ion-card>

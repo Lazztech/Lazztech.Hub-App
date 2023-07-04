@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
+import { ActionSheetController, IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { LocationService } from 'src/app/services/location/location.service';
@@ -24,6 +24,7 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
     public readonly locationService: LocationService,
     private readonly modalCtl: ModalController,
     private readonly myFileUploadsGqlService: MyFileUploadsGQL,
+    private actionSheetCtrl: ActionSheetController,
   ) { }
 
   async openPreview(startingFileIndex) {
@@ -52,6 +53,36 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(x => x.unsubscribe());
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Actions',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          data: {
+            action: 'delete',
+          },
+        },
+        {
+          text: 'Share',
+          data: {
+            action: 'share',
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          data: {
+            action: 'cancel',
+          },
+        },
+      ],
+    });
+
+    await actionSheet.present();
   }
 
   goToPersonPage(id: number, user: any) {
