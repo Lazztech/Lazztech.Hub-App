@@ -84,9 +84,28 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
         {
           text: 'Delete',
           role: 'destructive',
-          data: {
-            action: 'delete',
-          },
+          handler: () => {
+            if (confirm('Are you sure you want to delete this?')) {
+              // this.loading = true;
+              // this.hubService.reportAsInappropriate(this.id).then(() => {
+                // this.loading = false;
+                // this.navCtrl.back();
+              // });
+            }
+          }
+        },
+        {
+          text: 'Report as Inappropriate',
+          role: 'destructive',
+          handler: () => {
+            if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
+              // this.loading = true;
+              // this.hubService.reportAsInappropriate(this.id).then(() => {
+                // this.loading = false;
+                // this.navCtrl.back();
+              // });
+            }
+          }
         },
         {
           text: 'Share',
