@@ -20,7 +20,7 @@
 
     <ion-grid class="ion-no-padding">
       <ion-row>
-        <ion-col *ngFor="let fileJoin of seed?.fileUploads || seed?.event?.fileUploads; let i = index">
+        <ion-col size-md="6" *ngFor="let fileJoin of seed?.fileUploads || seed?.event?.fileUploads; let i = index">
           <ion-card>
           <ion-item lines="none">
             <ion-avatar slot="start" tappable (click)="goToPersonPage(fileJoin?.file?.createdBy.id, fileJoin?.file?.createdBy)">
@@ -44,9 +44,13 @@
             <ion-icon name="ellipsis-horizontal-outline" tappable (click)="presentActionSheet()"></ion-icon>
           </ion-item>
           <ion-img src="{{fileJoin?.file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
-          <ion-card-content>
-            Uploaded {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
-          </ion-card-content>
+          <ion-item lines="none">
+            <ion-label>
+              <p>
+                Uploaded {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
+              </p>
+            </ion-label>
+          </ion-item>
           </ion-card>
         </ion-col>
       </ion-row>
