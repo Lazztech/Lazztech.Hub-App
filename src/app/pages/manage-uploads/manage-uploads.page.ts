@@ -15,6 +15,9 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
 
   loading = false;
   data: MyFileUploadsQuery['myFileUploads'];
+  joinHubFile: MyFileUploadsQuery['myFileUploads'];
+  joinEventFile: MyFileUploadsQuery['myFileUploads'];
+
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -47,6 +50,8 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
     this.subscriptions.push(
       myUploadsQueryRef.subscribe(result => {
         this.data = result.data.myFileUploads;
+        this.joinEventFile = this.data?.filter((val) => val.__typename == 'JoinEventFile');
+        this.joinHubFile = this.data?.filter((val) => val.__typename == 'JoinHubFile');
       }),
     );
   }
