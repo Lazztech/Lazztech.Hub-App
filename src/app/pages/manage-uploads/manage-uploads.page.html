@@ -53,7 +53,10 @@
                 <ion-item lines="none">
                   <ion-label>
                     <p>
-                      {{fileJoin?.event?.name ? 'Uploaded to Event: ' + fileJoin?.event?.name : 'Uploaded to Hub: ' + fileJoin?.hub?.name}} on {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
+                      {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
+                    </p>
+                    <p>
+                      {{fileJoin?.event?.name ? 'Uploaded to Event: ' + fileJoin?.event?.name : 'Uploaded to Hub: ' + fileJoin?.hub?.name}}
                     </p>
                   </ion-label>
                 </ion-item>
@@ -97,7 +100,10 @@
                 <ion-item lines="none">
                   <ion-label>
                     <p>
-                      {{fileJoin?.event?.name ? 'Uploaded to Event: ' + fileJoin?.event?.name : 'Uploaded to Hub: ' + fileJoin?.hub?.name}} on {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
+                      {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
+                    </p>
+                    <p>
+                      {{fileJoin?.event?.name ? 'Uploaded to Event: ' + fileJoin?.event?.name : 'Uploaded to Hub: ' + fileJoin?.hub?.name}}
                     </p>
                   </ion-label>
                 </ion-item>
