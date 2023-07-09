@@ -193,7 +193,7 @@ export type PaginatedInAppNotificationsResponseFieldPolicy = {
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
 	total?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('commonUsersHubs' | 'event' | 'getInAppNotifications' | 'hub' | 'invite' | 'invitesByHub' | 'invitesByUser' | 'me' | 'memberOfHubs' | 'ownedHubs' | 'paginatedInAppNotifications' | 'searchHubByName' | 'usersEvents' | 'usersHubs' | 'usersPeople' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('commonUsersHubs' | 'event' | 'getInAppNotifications' | 'hub' | 'invite' | 'invitesByHub' | 'invitesByUser' | 'me' | 'memberOfHubs' | 'myFileUploads' | 'ownedHubs' | 'paginatedInAppNotifications' | 'searchHubByName' | 'usersEvents' | 'usersHubs' | 'usersPeople' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	commonUsersHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	event?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -204,6 +204,7 @@ export type QueryFieldPolicy = {
 	invitesByUser?: FieldPolicy<any> | FieldReadFunction<any>,
 	me?: FieldPolicy<any> | FieldReadFunction<any>,
 	memberOfHubs?: FieldPolicy<any> | FieldReadFunction<any>,
+	myFileUploads?: FieldPolicy<any> | FieldReadFunction<any>,
 	ownedHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	paginatedInAppNotifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	searchHubByName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -211,14 +212,13 @@ export type QueryFieldPolicy = {
 	usersHubs?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersPeople?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('birthdate' | 'blocked' | 'blocks' | 'description' | 'email' | 'fileUploads' | 'firstName' | 'id' | 'image' | 'lastName' | 'lastOnline' | 'phoneNumber' | 'profileImage' | 'shareableId' | 'userDevices' | 'username' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('birthdate' | 'blocked' | 'blocks' | 'description' | 'email' | 'firstName' | 'id' | 'image' | 'lastName' | 'lastOnline' | 'phoneNumber' | 'profileImage' | 'shareableId' | 'userDevices' | 'username' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	birthdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	blocked?: FieldPolicy<any> | FieldReadFunction<any>,
 	blocks?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
-	fileUploads?: FieldPolicy<any> | FieldReadFunction<any>,
 	firstName?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	image?: FieldPolicy<any> | FieldReadFunction<any>,

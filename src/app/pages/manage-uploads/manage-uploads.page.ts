@@ -14,7 +14,7 @@ import { ImageModalPage } from '../image-modal/image-modal.page';
 export class ManageUploadsPage implements OnInit, OnDestroy {
 
   loading = false;
-  data: MyFileUploadsQuery['me']['fileUploads'];
+  data: MyFileUploadsQuery['myFileUploads'];
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -46,7 +46,7 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       myUploadsQueryRef.subscribe(result => {
-        this.data = result.data.me.fileUploads;
+        this.data = result.data.myFileUploads;
       }),
     )
   }

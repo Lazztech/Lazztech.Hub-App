@@ -71,6 +71,8 @@ export type File = {
   url?: Maybe<Scalars['String']['output']>;
 };
 
+export type FileUploadJoinUnion = JoinEventFile | JoinHubFile;
+
 export type Hub = {
   __typename?: 'Hub';
   active?: Maybe<Scalars['Boolean']['output']>;
@@ -567,6 +569,7 @@ export type Query = {
   invitesByUser: Array<Invite>;
   me?: Maybe<User>;
   memberOfHubs: Array<Hub>;
+  myFileUploads?: Maybe<Array<FileUploadJoinUnion>>;
   ownedHubs: Array<Hub>;
   paginatedInAppNotifications: PaginatedInAppNotificationsResponse;
   searchHubByName: Array<Hub>;
@@ -638,7 +641,6 @@ export type User = {
   blocks?: Maybe<Array<Block>>;
   description?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
-  fileUploads?: Maybe<Array<File>>;
   firstName?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
@@ -1146,7 +1148,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: st
 export type MyFileUploadsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFileUploadsQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName?: string | null, fileUploads?: Array<{ __typename?: 'File', id: string, fileName: string, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string, image?: string | null, lastOnline?: string | null, phoneNumber?: string | null, email?: string | null } }> | null } | null };
+export type MyFileUploadsQuery = { __typename?: 'Query', myFileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, event: { __typename?: 'Event', name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null } | { __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, hub: { __typename?: 'Hub', name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null };
 
 export type PaginatedInAppNotifcationsQueryVariables = Exact<{
   limit: Scalars['Int']['input'];
@@ -2838,23 +2840,58 @@ export const MeDocument = gql`
   }
 export const MyFileUploadsDocument = gql`
     query myFileUploads {
-  me {
-    id
-    firstName
-    fileUploads {
-      id
-      fileName
-      createdOn
-      url
-      createdBy {
+  myFileUploads {
+    ... on JoinHubFile {
+      fileId
+      hubId
+      approvedByUserId
+      file {
         id
-        firstName
-        lastName
         shareableId
-        image
-        lastOnline
-        phoneNumber
-        email
+        fileName
+        mimetype
+        createdOn
+        url
+        createdBy {
+          id
+          shareableId
+          firstName
+          lastName
+          profileImage {
+            url
+          }
+        }
+      }
+      hub {
+        name
+      }
+      approved
+      approvedBy {
+        username
+      }
+    }
+    ... on JoinEventFile {
+      fileId
+      eventId
+      approvedByUserId
+      file {
+        id
+        createdBy {
+          id
+          shareableId
+          firstName
+          lastName
+          profileImage {
+            url
+          }
+        }
+      }
+      event {
+        name
+      }
+      approved
+      approvedBy {
+        username
       }
     }
   }
