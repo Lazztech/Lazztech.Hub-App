@@ -48,7 +48,7 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
       myUploadsQueryRef.subscribe(result => {
         this.data = result.data.myFileUploads;
       }),
-    )
+    );
   }
 
   ngOnDestroy(): void {
