@@ -3,7 +3,7 @@ import { ActionSheetController, IonRouterOutlet, ModalController, NavController 
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { LocationService } from 'src/app/services/location/location.service';
-import { MyFileUploadsGQL, MyFileUploadsQuery } from 'src/graphql/graphql';
+import { DeleteFileByIdGQL, MyFileUploadsDocument, MyFileUploadsGQL, MyFileUploadsQuery } from 'src/graphql/graphql';
 import { ImageModalPage } from '../image-modal/image-modal.page';
 
 @Component({
@@ -17,7 +17,6 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
   data: MyFileUploadsQuery['myFileUploads'];
   joinHubFile: MyFileUploadsQuery['myFileUploads'];
   joinEventFile: MyFileUploadsQuery['myFileUploads'];
-
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -27,7 +26,8 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
     public readonly locationService: LocationService,
     private readonly modalCtl: ModalController,
     private readonly myFileUploadsGqlService: MyFileUploadsGQL,
-    private actionSheetCtrl: ActionSheetController,
+    private readonly actionSheetCtrl: ActionSheetController,
+    private readonly deleteFileByFileIdGqlService: DeleteFileByIdGQL,
   ) { }
 
   async openPreview(startingFileIndex) {
@@ -43,9 +43,9 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    const myUploadsQueryRef = this.myFileUploadsGqlService.fetch(null, {
+    const myUploadsQueryRef = this.myFileUploadsGqlService.watch(null, {
       fetchPolicy: 'cache-first'
-    });
+    }).valueChanges;
 
     this.subscriptions.push(
       myUploadsQueryRef.subscribe(result => {
@@ -60,22 +60,18 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
-  async presentActionSheet() {
+  async presentActionSheet(fileId: any) {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Actions',
       buttons: [
         {
           text: 'Delete',
           role: 'destructive',
-          data: {
-            action: 'delete',
-          },
-        },
-        {
-          text: 'Share',
-          data: {
-            action: 'share',
-          },
+          handler: async () => {
+            if (confirm('Are you sure you want to delete this file?')) {
+              await this.deleteFileById(fileId);
+            }
+          }
         },
         {
           text: 'Cancel',
@@ -88,6 +84,16 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
     });
 
     await actionSheet.present();
+  }
+
+  async deleteFileById(fileId: any) {
+    this.loading = true;
+    await this.deleteFileByFileIdGqlService.mutate({ fileId }, {
+      refetchQueries: [
+        { query: MyFileUploadsDocument}
+      ]
+    }).toPromise();
+    this.loading = false;
   }
 
   goToPersonPage(id: number, user: any) {

@@ -47,7 +47,7 @@
                       <p>Last Online: {{(fileJoin?.file?.createdBy?.lastOnline) ? (((fileJoin?.file?.createdBy?.lastOnline / 1000) | amFromUnix)
                         | amLocal | amTimeAgo) : 'N/A'}}</p>
                     </ion-label>
-                    <ion-icon name="ellipsis-horizontal-outline" tappable (click)="presentActionSheet()"></ion-icon>
+                    <ion-icon name="ellipsis-horizontal-outline" tappable (click)="presentActionSheet(fileJoin?.file?.id)"></ion-icon>
                   </ion-item>
                 <ion-img src="{{fileJoin?.file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
                 <ion-item lines="none">
@@ -94,7 +94,7 @@
                       <p>Last Online: {{(fileJoin?.file?.createdBy?.lastOnline) ? (((fileJoin?.file?.createdBy?.lastOnline / 1000) | amFromUnix)
                         | amLocal | amTimeAgo) : 'N/A'}}</p>
                     </ion-label>
-                    <ion-icon name="ellipsis-horizontal-outline" tappable (click)="presentActionSheet()"></ion-icon>
+                    <ion-icon name="ellipsis-horizontal-outline" tappable (click)="presentActionSheet(fileJoin?.file?.id)"></ion-icon>
                   </ion-item>
                 <ion-img src="{{fileJoin?.file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
                 <ion-item lines="none">
