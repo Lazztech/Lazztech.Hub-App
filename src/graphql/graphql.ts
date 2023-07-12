@@ -192,6 +192,7 @@ export type Mutation = {
   deleteAccount: Scalars['Boolean']['output'];
   deleteAllInAppNotifications: Scalars['Boolean']['output'];
   deleteEvent: Scalars['Boolean']['output'];
+  deleteFileById: Scalars['Boolean']['output'];
   deleteHub: Scalars['Boolean']['output'];
   deleteInAppNotification: Scalars['Boolean']['output'];
   deleteInvite: Scalars['Boolean']['output'];
@@ -317,6 +318,11 @@ export type MutationDeleteAccountArgs = {
 
 export type MutationDeleteEventArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteFileByIdArgs = {
+  fileId: Scalars['ID']['input'];
 };
 
 
@@ -786,6 +792,13 @@ export type DeleteEventMutationVariables = Exact<{
 
 
 export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent: boolean };
+
+export type DeleteFileByIdMutationVariables = Exact<{
+  fileId: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteFileByIdMutation = { __typename?: 'Mutation', deleteFileById: boolean };
 
 export type DeleteHubMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -1502,6 +1515,22 @@ export const DeleteEventDocument = gql`
   })
   export class DeleteEventGQL extends Apollo.Mutation<DeleteEventMutation, DeleteEventMutationVariables> {
     document = DeleteEventDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteFileByIdDocument = gql`
+    mutation deleteFileById($fileId: ID!) {
+  deleteFileById(fileId: $fileId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteFileByIdGQL extends Apollo.Mutation<DeleteFileByIdMutation, DeleteFileByIdMutationVariables> {
+    document = DeleteFileByIdDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -131,7 +131,7 @@ export type MicroChatFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'blockUser' | 'changeEmail' | 'changeHubLocation' | 'changePassword' | 'createEvent' | 'createHub' | 'createMicroChat' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'deleteMicroChat' | 'dwellEventGeofence' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredEventGeofence' | 'enteredHubGeofence' | 'exitedEventGeofence' | 'exitedHubGeofence' | 'expeditedRegistration' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'microChatToHub' | 'mute' | 'register' | 'removeUserFromEvent' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | 'uploadEventFiles' | 'uploadHubFiles' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'blockUser' | 'changeEmail' | 'changeHubLocation' | 'changePassword' | 'createEvent' | 'createHub' | 'createMicroChat' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteFileById' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'deleteMicroChat' | 'dwellEventGeofence' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredEventGeofence' | 'enteredHubGeofence' | 'exitedEventGeofence' | 'exitedHubGeofence' | 'expeditedRegistration' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'microChatToHub' | 'mute' | 'register' | 'removeUserFromEvent' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | 'uploadEventFiles' | 'uploadHubFiles' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptHubInvite?: FieldPolicy<any> | FieldReadFunction<any>,
 	activateHub?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -147,6 +147,7 @@ export type MutationFieldPolicy = {
 	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllInAppNotifications?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteEvent?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteFileById?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteHub?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteInAppNotification?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteInvite?: FieldPolicy<any> | FieldReadFunction<any>,
