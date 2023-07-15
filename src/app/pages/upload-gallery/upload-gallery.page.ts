@@ -7,7 +7,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { LocationService } from 'src/app/services/location/location.service';
 import { ImageModalPage } from '../image-modal/image-modal.page';
-import { File } from 'src/graphql/graphql';
+import { File, ReportFileAsInappropriateGQL } from 'src/graphql/graphql';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
@@ -36,6 +36,7 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
     private readonly modalCtl: ModalController,
     private actionSheetCtrl: ActionSheetController,
     private readonly authService: AuthService,
+    private readonly reportFileAsInappropriateGqlService: ReportFileAsInappropriateGQL,
   ) {
     this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
     this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
@@ -107,11 +108,11 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
           role: 'destructive',
           handler: () => {
             if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
-              // this.loading = true;
-              // this.hubService.reportAsInappropriate(this.id).then(() => {
-                // this.loading = false;
-                // this.navCtrl.back();
-              // });
+              this.loading = true;
+              this.reportFileAsInappropriateGqlService.mutate({ fileId: file.id}).toPromise().then(() => {
+                this.loading = false;
+                this.navCtrl.back();
+              });
             }
           }
         }
