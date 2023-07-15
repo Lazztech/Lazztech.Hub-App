@@ -1174,7 +1174,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: st
 export type MyFileUploadsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFileUploadsQuery = { __typename?: 'Query', myFileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, event: { __typename?: 'Event', name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null } | { __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, hub: { __typename?: 'Hub', name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null };
+export type MyFileUploadsQuery = { __typename?: 'Query', myFileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, event: { __typename?: 'Event', name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null } | { __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, hub: { __typename?: 'Hub', name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null };
 
 export type PaginatedInAppNotifcationsQueryVariables = Exact<{
   limit: Scalars['Int']['input'];
@@ -2934,6 +2934,11 @@ export const MyFileUploadsDocument = gql`
       approvedByUserId
       file {
         id
+        shareableId
+        fileName
+        mimetype
+        createdOn
+        url
         createdBy {
           id
           shareableId

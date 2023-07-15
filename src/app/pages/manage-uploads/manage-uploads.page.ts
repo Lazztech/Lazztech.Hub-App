@@ -35,7 +35,7 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
       component: ImageModalPage,
       componentProps: {
         startingFileIndex,
-        files: this.data,
+        files: this.data?.map(join => join.file),
       },
       cssClass: 'transparent-modal fullscreen'
     })
@@ -90,7 +90,7 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
     this.loading = true;
     await this.deleteFileByFileIdGqlService.mutate({ fileId }, {
       refetchQueries: [
-        { query: MyFileUploadsDocument}
+        { query: MyFileUploadsDocument }
       ]
     }).toPromise();
     this.loading = false;

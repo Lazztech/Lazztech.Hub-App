@@ -35,6 +35,11 @@ query myFileUploads {
       approvedByUserId
       file {
         id
+        shareableId
+        fileName
+        mimetype
+        createdOn
+        url
         createdBy {
           id
           shareableId
