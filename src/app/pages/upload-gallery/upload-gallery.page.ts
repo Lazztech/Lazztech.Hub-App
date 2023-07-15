@@ -2,11 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GalleryPhotos, Photo } from '@capacitor/camera';
-import { ActionSheetController, IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
+import { ActionSheetButton, ActionSheetController, IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { LocationService } from 'src/app/services/location/location.service';
 import { ImageModalPage } from '../image-modal/image-modal.page';
+import { File } from 'src/graphql/graphql';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-upload-gallery',
@@ -33,6 +35,7 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
     public readonly locationService: LocationService,
     private readonly modalCtl: ModalController,
     private actionSheetCtrl: ActionSheetController,
+    private readonly authService: AuthService,
   ) {
     this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
     this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
@@ -77,23 +80,28 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
     });
   }
 
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Actions',
-      buttons: [
-        {
-          text: 'Delete',
-          role: 'destructive',
-          handler: () => {
-            if (confirm('Are you sure you want to delete this?')) {
-              // this.loading = true;
-              // this.hubService.reportAsInappropriate(this.id).then(() => {
-                // this.loading = false;
-                // this.navCtrl.back();
-              // });
+  async presentActionSheet(file: File) {
+    const user = await this.authService.user();
+    const buttons: ActionSheetButton<any>[] = [];
+
+    if (file?.createdBy?.id === user?.id) {
+        buttons.push(
+          {
+            text: 'Delete',
+            role: 'destructive',
+            handler: () => {
+              if (confirm('Are you sure you want to delete this?')) {
+                // this.loading = true;
+                // this.hubService.reportAsInappropriate(this.id).then(() => {
+                //   this.loading = false;
+                //   this.navCtrl.back();
+                // });
+              }
             }
           }
-        },
+        )
+    } else {
+      buttons.push(
         {
           text: 'Report as Inappropriate',
           role: 'destructive',
@@ -106,15 +114,23 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
               // });
             }
           }
+        }
+      )
+    }
+
+    buttons.push(
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        data: {
+          action: 'cancel',
         },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          data: {
-            action: 'cancel',
-          },
-        },
-      ],
+      }
+    );
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'File Actions',
+      buttons,
     });
 
     await actionSheet.present();
