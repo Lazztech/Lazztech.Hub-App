@@ -108,12 +108,6 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
           }
         },
         {
-          text: 'Share',
-          data: {
-            action: 'share',
-          },
-        },
-        {
           text: 'Cancel',
           role: 'cancel',
           data: {
