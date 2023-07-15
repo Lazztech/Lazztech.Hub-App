@@ -7,7 +7,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { LocationService } from 'src/app/services/location/location.service';
 import { ImageModalPage } from '../image-modal/image-modal.page';
-import { File, ReportFileAsInappropriateGQL } from 'src/graphql/graphql';
+import { DeleteFileByIdGQL, File, ReportFileAsInappropriateGQL } from 'src/graphql/graphql';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
@@ -37,6 +37,7 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private readonly authService: AuthService,
     private readonly reportFileAsInappropriateGqlService: ReportFileAsInappropriateGQL,
+    private readonly deleteFileByIdGqlService: DeleteFileByIdGQL,
   ) {
     this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
     this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
@@ -92,11 +93,11 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
             role: 'destructive',
             handler: () => {
               if (confirm('Are you sure you want to delete this?')) {
-                // this.loading = true;
-                // this.hubService.reportAsInappropriate(this.id).then(() => {
-                //   this.loading = false;
-                //   this.navCtrl.back();
-                // });
+                this.loading = true;
+                this.deleteFileByIdGqlService.mutate({ fileId: file.id }).toPromise().then(() => {
+                  this.loading = false;
+                  this.navCtrl.back();
+                });
               }
             }
           }
