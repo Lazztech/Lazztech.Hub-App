@@ -217,6 +217,7 @@ export type Mutation = {
   removeUserFromEvent: Scalars['Boolean']['output'];
   removeUserFromHub: Scalars['Boolean']['output'];
   reportEventAsInappropriate: Scalars['Boolean']['output'];
+  reportFileAsInappropriate: Scalars['Boolean']['output'];
   reportHubAsInappropriate: Scalars['Boolean']['output'];
   reportUserAsInappropriate: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
@@ -447,6 +448,11 @@ export type MutationRemoveUserFromHubArgs = {
 
 export type MutationReportEventAsInappropriateArgs = {
   eventId: Scalars['ID']['input'];
+};
+
+
+export type MutationReportFileAsInappropriateArgs = {
+  fileId: Scalars['ID']['input'];
 };
 
 
@@ -977,6 +983,13 @@ export type ReportEventAsInappropriateMutationVariables = Exact<{
 
 
 export type ReportEventAsInappropriateMutation = { __typename?: 'Mutation', reportEventAsInappropriate: boolean };
+
+export type ReportFileAsInappropriateMutationVariables = Exact<{
+  fileId: Scalars['ID']['input'];
+}>;
+
+
+export type ReportFileAsInappropriateMutation = { __typename?: 'Mutation', reportFileAsInappropriate: boolean };
 
 export type ReportHubAsInappropriateMutationVariables = Exact<{
   hubId: Scalars['ID']['input'];
@@ -2002,6 +2015,22 @@ export const ReportEventAsInappropriateDocument = gql`
   })
   export class ReportEventAsInappropriateGQL extends Apollo.Mutation<ReportEventAsInappropriateMutation, ReportEventAsInappropriateMutationVariables> {
     document = ReportEventAsInappropriateDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ReportFileAsInappropriateDocument = gql`
+    mutation reportFileAsInappropriate($fileId: ID!) {
+  reportFileAsInappropriate(fileId: $fileId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportFileAsInappropriateGQL extends Apollo.Mutation<ReportFileAsInappropriateMutation, ReportFileAsInappropriateMutationVariables> {
+    document = ReportFileAsInappropriateDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
