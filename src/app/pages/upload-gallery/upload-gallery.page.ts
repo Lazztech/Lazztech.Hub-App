@@ -1,14 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GalleryPhotos, Photo } from '@capacitor/camera';
 import { ActionSheetButton, ActionSheetController, IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
-import { LocationService } from 'src/app/services/location/location.service';
-import { ImageModalPage } from '../image-modal/image-modal.page';
-import { DeleteFileByIdGQL, File, ReportFileAsInappropriateGQL } from 'src/graphql/graphql';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { LocationService } from 'src/app/services/location/location.service';
+import { DeleteFileByIdGQL, File, ReportFileAsInappropriateGQL } from 'src/graphql/graphql';
+import { ImageModalPage } from '../image-modal/image-modal.page';
 
 @Component({
   selector: 'app-upload-gallery',
@@ -18,12 +16,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class UploadGalleryPage implements OnInit, OnDestroy {
 
   loading = false;
-  myForm: UntypedFormGroup;
-  image: any[] = [];
-  photos: Photo[] = [];
-  gallery: GalleryPhotos;
   subscriptions: Subscription[] = [];
-
   seed: any;
   seedType: 'hub' | 'event';
 
@@ -57,7 +50,6 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.myForm = new FormGroup({});
   }
 
   ngOnDestroy(): void {

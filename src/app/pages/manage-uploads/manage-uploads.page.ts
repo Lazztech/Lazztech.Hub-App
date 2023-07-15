@@ -62,7 +62,7 @@ export class ManageUploadsPage implements OnInit, OnDestroy {
 
   async presentActionSheet(fileId: any) {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Actions',
+      header: 'File Actions',
       buttons: [
         {
           text: 'Delete',
