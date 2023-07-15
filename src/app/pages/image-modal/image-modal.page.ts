@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { ActionSheetController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { File } from 'src/graphql/graphql';
 import SwiperCore, { Pagination, SwiperOptions, Zoom } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
@@ -26,7 +26,6 @@ export class ImageModalPage implements AfterViewInit {
   };
   constructor(
     private modalCtl: ModalController,
-    private actionSheetController: ActionSheetController,
   ) {}
 
   ngAfterViewInit(): void {
@@ -43,41 +42,6 @@ export class ImageModalPage implements AfterViewInit {
 
   back() {
     this.swiper.swiperRef.slidePrev();
-  }
-
-  async presentActionSheet() {
-    if (this.files) {
-      const buttons = [];   
-        buttons.push(
-        {
-          text: 'Report as Inappropriate',
-          role: 'destructive',
-          handler: () => {
-            if (confirm('Report as Inappropriate? This may result in the removal of data & the offending content creator.')) {
-              // this.loading = true;
-              // this.hubService.reportAsInappropriate(this.id).then(() => {
-                // this.loading = false;
-                // this.navCtrl.back();
-              // });
-            }
-          }
-        }
-      );
-
-      const actionSheet = await this.actionSheetController.create({
-        header: 'Upload Options',
-        buttons: [
-          ...buttons,
-          {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            // this.logger.log('Cancel clicked');
-          }
-        }]
-      });
-      await actionSheet.present();
-    }
   }
 
 }
