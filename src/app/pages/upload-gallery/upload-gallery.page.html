@@ -20,7 +20,7 @@
 
     <ion-grid class="ion-no-padding">
       <ion-row>
-        <ion-col size-md="6" *ngFor="let fileJoin of seed?.fileUploads || seed?.event?.fileUploads; let i = index">
+        <ion-col size-md="6" *ngFor="let fileJoin of fileUploads; let i = index">
           <ion-card>
           <ion-item lines="none">
             <ion-avatar slot="start" tappable (click)="goToPersonPage(fileJoin?.file?.createdBy.id, fileJoin?.file?.createdBy)">
