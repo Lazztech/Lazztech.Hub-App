@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { DeleteFileByIdGQL, EventDocument, EventGQL, EventQuery, File, HubDocument, HubQuery, ReportFileAsInappropriateGQL } from 'src/graphql/graphql';
+import { DeleteFileByIdGQL, EventDocument, EventGQL, EventQuery, File, HubDocument, HubQuery, ReportFileAsInappropriateGQL, User } from 'src/graphql/graphql';
 import { ImageModalPage } from '../image-modal/image-modal.page';
 
 @Component({
@@ -21,6 +21,8 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
   seedId: any;
   seed: any;
   seedType: 'hub' | 'event';
+  userHub: HubQuery['hub'];
+  userEvent: EventQuery['event'];
   fileUploads: HubQuery['hub']['hub']['fileUploads'] | EventQuery['event']['event']['fileUploads'] = [];
 
   constructor(
@@ -47,6 +49,7 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
       const hubQueryRef = this.hubService.watchHub(this.seedId);
       this.subscriptions.push(
         hubQueryRef.valueChanges.subscribe(x => {
+          this.userHub = x?.data?.hub;
           this.fileUploads = x?.data?.hub?.hub?.fileUploads;
         })
       )
@@ -54,6 +57,7 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
       const eventQueryRef = this.eventService.watch({id: this.seedId });
       this.subscriptions.push(
         eventQueryRef.valueChanges.subscribe(x => {
+          this.userEvent = x?.data?.event;
           this.fileUploads = x?.data?.event?.event?.fileUploads;
         })
       );
@@ -95,11 +99,18 @@ export class UploadGalleryPage implements OnInit, OnDestroy {
     });
   }
 
+  isOwner(user: User): boolean {
+    if (this.seedType === 'event') {
+      return this.userEvent?.event?.createdBy?.id === user.id;
+    } else if (this.seedType === 'hub') {
+      return this.userHub?.isOwner;
+    }
+  }
+
   async presentActionSheet(file: File) {
     const user = await this.authService.user();
     const buttons: ActionSheetButton<any>[] = [];
-
-    if (file?.createdBy?.id === user?.id) {
+    if (file?.createdBy?.id === user?.id || this.isOwner(user)) {
         buttons.push(
           {
             text: 'Delete',
