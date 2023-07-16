@@ -1,0 +1,3 @@
+mutation reportFileAsInappropriate($fileId: ID!) {
+  reportFileAsInappropriate(fileId: $fileId)
+}

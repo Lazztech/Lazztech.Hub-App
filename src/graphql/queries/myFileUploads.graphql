@@ -1,0 +1,62 @@
+query myFileUploads {
+  myFileUploads {
+    ... on JoinHubFile {
+      fileId
+      hubId
+      approvedByUserId
+      file {
+        id
+        shareableId
+        fileName
+        mimetype
+        createdOn
+        url
+        createdBy {
+          id
+          shareableId
+          firstName
+          lastName
+          profileImage {
+            url
+          }
+        }
+      }
+      hub {
+        name
+      }
+      approved
+      approvedBy {
+        username
+      }
+    }
+    ... on JoinEventFile {
+      fileId
+      eventId
+      approvedByUserId
+      file {
+        id
+        shareableId
+        fileName
+        mimetype
+        createdOn
+        url
+        createdBy {
+          id
+          shareableId
+          firstName
+          lastName
+          profileImage {
+            url
+          }
+        }
+      }
+      event {
+        name
+      }
+      approved
+      approvedBy {
+        username
+      }
+    }
+  }
+}

@@ -220,6 +220,10 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('settings');
   }
 
+  goToManageUploadsPage() {
+    this.navCtrl.navigateForward('manage-uploads');
+  }
+
   adminHub(id: Scalars['ID']['output']) {
     this.navCtrl.navigateForward('admin-hub/' + id);
   }

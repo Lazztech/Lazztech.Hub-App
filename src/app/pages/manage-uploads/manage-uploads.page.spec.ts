@@ -4,24 +4,22 @@ import { IonicModule, IonRouterOutlet } from '@ionic/angular';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
-import { UploadGalleryPage } from './upload-gallery.page';
+import { ManageUploadsPage } from './manage-uploads.page';
 import { MomentModule } from 'ngx-moment';
-import { IonicStorageModule } from '@ionic/storage-angular';
 
-describe('UploadGalleryPage', () => {
-  let component: UploadGalleryPage;
-  let fixture: ComponentFixture<UploadGalleryPage>;
+describe('ManageUploadsPage', () => {
+  let component: ManageUploadsPage;
+  let fixture: ComponentFixture<ManageUploadsPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ UploadGalleryPage ],
+      declarations: [ ManageUploadsPage ],
       imports: [
         IonicModule.forRoot(),
         ReactiveFormsModule,
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
         MomentModule,
-        IonicStorageModule.forRoot(),
       ],
       providers: [
         {
@@ -34,7 +32,7 @@ describe('UploadGalleryPage', () => {
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UploadGalleryPage);
+    fixture = TestBed.createComponent(ManageUploadsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

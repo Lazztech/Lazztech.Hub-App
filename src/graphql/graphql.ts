@@ -71,6 +71,8 @@ export type File = {
   url?: Maybe<Scalars['String']['output']>;
 };
 
+export type FileUploadJoinUnion = JoinEventFile | JoinHubFile;
+
 export type Hub = {
   __typename?: 'Hub';
   active?: Maybe<Scalars['Boolean']['output']>;
@@ -190,6 +192,7 @@ export type Mutation = {
   deleteAccount: Scalars['Boolean']['output'];
   deleteAllInAppNotifications: Scalars['Boolean']['output'];
   deleteEvent: Scalars['Boolean']['output'];
+  deleteFileById: Scalars['Boolean']['output'];
   deleteHub: Scalars['Boolean']['output'];
   deleteInAppNotification: Scalars['Boolean']['output'];
   deleteInvite: Scalars['Boolean']['output'];
@@ -214,6 +217,7 @@ export type Mutation = {
   removeUserFromEvent: Scalars['Boolean']['output'];
   removeUserFromHub: Scalars['Boolean']['output'];
   reportEventAsInappropriate: Scalars['Boolean']['output'];
+  reportFileAsInappropriate: Scalars['Boolean']['output'];
   reportHubAsInappropriate: Scalars['Boolean']['output'];
   reportUserAsInappropriate: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
@@ -315,6 +319,11 @@ export type MutationDeleteAccountArgs = {
 
 export type MutationDeleteEventArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteFileByIdArgs = {
+  fileId: Scalars['ID']['input'];
 };
 
 
@@ -439,6 +448,11 @@ export type MutationRemoveUserFromHubArgs = {
 
 export type MutationReportEventAsInappropriateArgs = {
   eventId: Scalars['ID']['input'];
+};
+
+
+export type MutationReportFileAsInappropriateArgs = {
+  fileId: Scalars['ID']['input'];
 };
 
 
@@ -567,6 +581,7 @@ export type Query = {
   invitesByUser: Array<Invite>;
   me?: Maybe<User>;
   memberOfHubs: Array<Hub>;
+  myFileUploads?: Maybe<Array<FileUploadJoinUnion>>;
   ownedHubs: Array<Hub>;
   paginatedInAppNotifications: PaginatedInAppNotificationsResponse;
   searchHubByName: Array<Hub>;
@@ -784,6 +799,13 @@ export type DeleteEventMutationVariables = Exact<{
 
 export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent: boolean };
 
+export type DeleteFileByIdMutationVariables = Exact<{
+  fileId: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteFileByIdMutation = { __typename?: 'Mutation', deleteFileById: boolean };
+
 export type DeleteHubMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -961,6 +983,13 @@ export type ReportEventAsInappropriateMutationVariables = Exact<{
 
 
 export type ReportEventAsInappropriateMutation = { __typename?: 'Mutation', reportEventAsInappropriate: boolean };
+
+export type ReportFileAsInappropriateMutationVariables = Exact<{
+  fileId: Scalars['ID']['input'];
+}>;
+
+
+export type ReportFileAsInappropriateMutation = { __typename?: 'Mutation', reportFileAsInappropriate: boolean };
 
 export type ReportHubAsInappropriateMutationVariables = Exact<{
   hubId: Scalars['ID']['input'];
@@ -1141,6 +1170,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, email?: string | null, phoneNumber?: string | null, shareableId: string, blocks?: Array<{ __typename?: 'Block', from: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string }, to: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string } }> | null } | null };
+
+export type MyFileUploadsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyFileUploadsQuery = { __typename?: 'Query', myFileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, event: { __typename?: 'Event', name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null } | { __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, hub: { __typename?: 'Hub', name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null };
 
 export type PaginatedInAppNotifcationsQueryVariables = Exact<{
   limit: Scalars['Int']['input'];
@@ -1494,6 +1528,22 @@ export const DeleteEventDocument = gql`
   })
   export class DeleteEventGQL extends Apollo.Mutation<DeleteEventMutation, DeleteEventMutationVariables> {
     document = DeleteEventDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DeleteFileByIdDocument = gql`
+    mutation deleteFileById($fileId: ID!) {
+  deleteFileById(fileId: $fileId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteFileByIdGQL extends Apollo.Mutation<DeleteFileByIdMutation, DeleteFileByIdMutationVariables> {
+    document = DeleteFileByIdDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1965,6 +2015,22 @@ export const ReportEventAsInappropriateDocument = gql`
   })
   export class ReportEventAsInappropriateGQL extends Apollo.Mutation<ReportEventAsInappropriateMutation, ReportEventAsInappropriateMutationVariables> {
     document = ReportEventAsInappropriateDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ReportFileAsInappropriateDocument = gql`
+    mutation reportFileAsInappropriate($fileId: ID!) {
+  reportFileAsInappropriate(fileId: $fileId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReportFileAsInappropriateGQL extends Apollo.Mutation<ReportFileAsInappropriateMutation, ReportFileAsInappropriateMutationVariables> {
+    document = ReportFileAsInappropriateDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -2825,6 +2891,81 @@ export const MeDocument = gql`
   })
   export class MeGQL extends Apollo.Query<MeQuery, MeQueryVariables> {
     document = MeDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const MyFileUploadsDocument = gql`
+    query myFileUploads {
+  myFileUploads {
+    ... on JoinHubFile {
+      fileId
+      hubId
+      approvedByUserId
+      file {
+        id
+        shareableId
+        fileName
+        mimetype
+        createdOn
+        url
+        createdBy {
+          id
+          shareableId
+          firstName
+          lastName
+          profileImage {
+            url
+          }
+        }
+      }
+      hub {
+        name
+      }
+      approved
+      approvedBy {
+        username
+      }
+    }
+    ... on JoinEventFile {
+      fileId
+      eventId
+      approvedByUserId
+      file {
+        id
+        shareableId
+        fileName
+        mimetype
+        createdOn
+        url
+        createdBy {
+          id
+          shareableId
+          firstName
+          lastName
+          profileImage {
+            url
+          }
+        }
+      }
+      event {
+        name
+      }
+      approved
+      approvedBy {
+        username
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MyFileUploadsGQL extends Apollo.Query<MyFileUploadsQuery, MyFileUploadsQueryVariables> {
+    document = MyFileUploadsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

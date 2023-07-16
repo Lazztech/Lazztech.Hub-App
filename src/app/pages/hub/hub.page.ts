@@ -268,6 +268,7 @@ export class HubPage implements OnInit, OnDestroy {
   goToGalleryPage() {
     this.navCtrl.navigateForward('gallery', {
       state: {
+        seedId: this.userHub?.hub?.id,
         seed: this.userHub?.hub,
         seedType: 'hub'
       }

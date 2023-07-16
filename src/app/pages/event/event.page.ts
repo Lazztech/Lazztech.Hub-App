@@ -278,6 +278,7 @@ export class EventPage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('gallery', {
       state: {
         seed: this.userEventQueryResult?.data?.event,
+        seedId: this.userEventQueryResult?.data?.event?.event?.id,
         seedType: 'event'
       }
     });

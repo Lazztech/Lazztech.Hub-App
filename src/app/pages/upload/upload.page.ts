@@ -1,29 +1,34 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GalleryPhotos } from '@capacitor/camera';
-import { IonRouterOutlet, NavController } from '@ionic/angular';
+import { IonImg, IonRouterOutlet, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { UploadEventFilesGQL, UploadHubFilesGQL } from 'src/graphql/graphql';
+import * as tf from '@tensorflow/tfjs'
+import * as nsfwjs from 'nsfwjs'
+tf.enableProdMode()
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.page.html',
   styleUrls: ['./upload.page.scss'],
 })
-export class UploadPage implements OnInit, OnDestroy {
+export class UploadPage implements OnInit, OnDestroy, AfterViewInit {
 
   loading = false;
   myForm: UntypedFormGroup;
   image: any[] = [];
   gallery: GalleryPhotos;
   subscriptions: Subscription[] = [];
-
   seed: any;
   seedType: 'hub' | 'event';
+  model: nsfwjs.NSFWJS;
+
+  @ViewChildren('image') imgs: QueryList<ElementRef>;
 
   constructor(
     private readonly cameraService: CameraService,
@@ -43,12 +48,40 @@ export class UploadPage implements OnInit, OnDestroy {
     this.myForm = new FormGroup({});
   }
 
+  async ngAfterViewInit() {
+    this.model = await nsfwjs.load();
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
+  async containsExplicitContent(): Promise<boolean> {
+    console.log(this.imgs);
+    const results = await Promise.all(
+      this.imgs.map(item => this.model.classify(item.nativeElement, 1))
+    );
+    console.log(results);
+
+    for (const result of results) {
+      if (result.at(0).className === 'Porn' && result.at(0).probability >= 0.5) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   async save() {
     this.loading = true;
+    // check for explisit content
+    const containsExplicitContent = await this.containsExplicitContent();
+    if (containsExplicitContent) {
+      alert('No explicit content allowed');
+      this.gallery = undefined;
+      return;
+    }
+
     const files = await Promise.all([
       ...this.gallery.photos, 
     ].map(async (photo, index) => new File([await this.cameraService.getImageBlob(photo)], `${index}`, {
@@ -56,6 +89,7 @@ export class UploadPage implements OnInit, OnDestroy {
       // so it can be uploaded successfully
       type: "image/jpeg",
     })));
+
     if (this.seedType === 'hub') {
       await this.uploadHubFiles.mutate({
         files,
