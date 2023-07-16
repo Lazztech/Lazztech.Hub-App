@@ -27,7 +27,7 @@
         <ion-grid class="ion-no-padding">
           <ion-row>
             <ion-col size-md="6" *ngFor="let fileJoin of joinEventFile; let i = index">
-              <ion-card *ngIf="fileJoin.__typename == 'JoinEventFile'">
+              <ion-card *ngIf="fileJoin.__typename === 'JoinEventFile'">
                   <ion-item lines="none">
                     <ion-avatar slot="start">
                       <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!fileJoin?.file?.createdBy?.image" src="{{fileJoin?.file?.createdBy.id | avatar}}">
@@ -74,7 +74,7 @@
         <ion-grid class="ion-no-padding">
           <ion-row>
             <ion-col size-md="6" *ngFor="let fileJoin of joinHubFile; let i = index">
-              <ion-card *ngIf="fileJoin.__typename == 'JoinHubFile'">
+              <ion-card *ngIf="fileJoin.__typename === 'JoinHubFile'">
                   <ion-item lines="none">
                     <ion-avatar slot="start">
                       <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!fileJoin?.file?.createdBy?.image" src="{{fileJoin?.file?.createdBy.id | avatar}}">
