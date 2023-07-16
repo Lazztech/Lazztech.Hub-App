@@ -22,6 +22,11 @@
       "dom",
       "esnext.asynciterable"
     ],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "paths": {
+      "stream": ["./node_modules/stream-browserify"],
+      "zlib": ["./node_modules/browserify-zlib"],
+      "path": ["./node_modules/path-browserify"],
+    }
   }
 }
