@@ -1,10 +1,10 @@
 <ion-card>
   <ion-img *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent?.event?.image}}"></ion-img>
   <ion-card-header (click)="goToEventPage()">
-    <ion-grid class="ion-no-padding" *ngIf="userEvent?.event?.maximumCapacity" [ngStyle]="{'margin-inline': 'unset'}">
-      <ion-row>
+    <ion-grid class="ion-no-padding" [ngStyle]="{'margin-inline': 'unset'}">
+      <ion-row *ngIf="userEvent?.event?.maximumCapacity">
         <ion-col size="8">
-          <ion-card-subtitle *ngIf="userEvent?.event?.maximumCapacity">
+          <ion-card-subtitle>
             {{!hasHitMinimumCapacity() ? (userEvent?.event?.minimumCapacity - goingCount()) + ' Under Cap — Min' : undefined}}
             {{hasHitMinimumCapacity() && capacityPercentage() <= 1 ? 'Capacity — Min' : undefined}}
             {{capacityPercentage() > 1 ? (goingCount() - userEvent?.event?.maximumCapacity) + ' Over Cap — Min' : undefined}}
