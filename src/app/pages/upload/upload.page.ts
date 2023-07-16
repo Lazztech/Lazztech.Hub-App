@@ -77,7 +77,7 @@ export class UploadPage implements OnInit, OnDestroy, AfterViewInit {
     // check for explisit content
     const containsExplicitContent = await this.containsExplicitContent();
     if (containsExplicitContent) {
-      alert('No sexually explicit content allowed');
+      alert('No explicit content allowed');
       this.gallery = undefined;
       return;
     }
