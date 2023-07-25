@@ -143,6 +143,7 @@ export class AuthService {
     return this.meService.watch();
   }
 
+  // TODO: delete?
   async verifyAccountExists(): Promise<boolean> {
     try {
       const me = await this.meService.fetch(null, {
