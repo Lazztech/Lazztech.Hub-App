@@ -9,9 +9,15 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen="true">
-
   <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
     <ion-grid>
+      <ion-row>
+        <ion-col sizeMd="6">
+          <ion-card>
+            <ion-img src="assets/illustrations/banner.jpg"></ion-img>
+          </ion-card>
+        </ion-col>
+      </ion-row>
       <ion-row>
         <ion-col sizeMd="6" class="ion-no-padding">
           <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
@@ -31,20 +37,22 @@
             <ion-text class="ion-padding ion-text-center" *ngIf="password.invalid && password.touched" color="danger">
                     Please enter a password at least 10 characters
             </ion-text>
-            
-            <br/>
-        
-            <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block">Login</ion-button>
-            <ion-text class="ion-padding ion-text-center ion-float-end" color="medium">
-              <p>
-                Or <a (click)="resetPassword()">Reset Password</a>
-              </p>
-          </ion-text>
+
+            <ion-row>
+              <ion-col>
+                <ion-button class="ion-padding-start" color="medium" expand="block" (click)="resetPassword()">Reset Password</ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button class="ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block">Login</ion-button>
+              </ion-col>
+            </ion-row>
           </form>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col sizeMd="6">
+        <br/>
+
           <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="expeditedRegistration()">Get Started</ion-button>
           <ion-text class="ion-padding ion-float-start" color="medium">
               By clicking the button above, I hereby agree to and accept the following <a (click)="navigateToPrivacyPolicy()">privacy policy</a> and <a (click)="navigateToTermsAndConditions()">terms & conditions</a>.
