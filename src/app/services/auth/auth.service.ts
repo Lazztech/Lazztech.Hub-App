@@ -143,39 +143,6 @@ export class AuthService {
     return this.meService.watch();
   }
 
-  // TODO: delete?
-  async verifyAccountExists(): Promise<boolean> {
-    try {
-      const me = await this.meService.fetch(null, {
-        fetchPolicy: 'network-only'
-      }).toPromise();
-
-      if (me.errors) {
-        // code: "INTERNAL_SERVER_ERROR"
-        // FIXME: this may break on a different deployment platform
-        if (me.errors[0].name === 'INTERNAL_SERVER_ERROR') {
-          for (let index = 0; index < 3; index++) {
-            this.logger.log(`verifyAccountExists returned INTERNAL_SERVER_ERROR retry ${index + 1}`);
-            const accountExists = await this.verifyAccountExists();
-            if (accountExists) {
-              return true;
-            }
-          }
-          this.logger.log('verifyAccountExists failed');
-          return false;
-        }
-      } else if (me.data.me) {
-
-        return true;
-      } else {
-
-        return false;
-      }
-    } catch (error) {
-      return false;
-    }
-  }
-
   async getToken(): Promise<string> {
     try {
       this.token = await this.storage.get('token');
