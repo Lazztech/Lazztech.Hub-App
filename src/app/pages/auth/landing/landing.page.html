@@ -1,62 +1,57 @@
 <ion-header translucent="true">
   <ion-toolbar>
+    <ion-title>
+      <ion-icon *ngIf="mode === 'ios'" style="font-size: 140px;" [src]="themeService.isDark() ? 'assets/lazztech_hub_light.svg' : 'assets/lazztech_hub_dark.svg'"></ion-icon>
+      <img *ngIf="mode === 'md'" [src]="themeService.isDark() ? 'assets/lazztech_hub_light.svg' : 'assets/lazztech_hub_dark.svg'" style="width: 140px" class="vertical-align"/>
+    </ion-title>
+
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen="true">
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" size-md="6">
-        <ion-card class="welcome-card">
-          <ion-img src="assets/illustrations/banner.jpg"></ion-img>
-        </ion-card>
-      
-        <ion-card-title class="ion-text-center">Lazztech Hub</ion-card-title>
-        <p class="ion-text-center">From app to the real world - Foster Community</p>
-      </ion-col>
-
-      <ion-col size="12" size-md="6" class="ion-no-padding">
-        <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
-          <ion-list-header>
-            <ion-text>Login</ion-text>
-          </ion-list-header>
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" ngDefaultControl formControlName="email"></ion-input>
-          </ion-item>
-      
-          <ion-text class="ion-padding ion-text-center" *ngIf="email.invalid && email.touched" color="danger">
-                  Please enter a valid email address
-          </ion-text>
+  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+    <ion-grid>
+      <ion-row>
+        <ion-col sizeMd="6" class="ion-no-padding">
+          <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input type="email" ngDefaultControl formControlName="email"></ion-input>
+            </ion-item>
         
-          <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input type="password" ngDefaultControl formControlName="password"></ion-input>
-          </ion-item>
-          <ion-text class="ion-padding ion-text-center" *ngIf="password.invalid && password.touched" color="danger">
-                  Please enter a password at least 10 characters
-          </ion-text>
+            <ion-text class="ion-padding ion-text-center" *ngIf="email.invalid && email.touched" color="danger">
+                    Please enter a valid email address
+            </ion-text>
           
-          <br/>
-      
-          <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block">Login</ion-button>
-          <ion-text class="ion-padding ion-text-center ion-float-end" color="medium">
-            <p>
-              Or <a (click)="resetPassword()">Reset Password</a>
-            </p>
-        </ion-text>
-        </form>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+            <ion-item>
+              <ion-label position="floating">Password</ion-label>
+              <ion-input type="password" ngDefaultControl formControlName="password"></ion-input>
+            </ion-item>
+            <ion-text class="ion-padding ion-text-center" *ngIf="password.invalid && password.touched" color="danger">
+                    Please enter a password at least 10 characters
+            </ion-text>
+            
+            <br/>
+        
+            <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block">Login</ion-button>
+            <ion-text class="ion-padding ion-text-center ion-float-end" color="medium">
+              <p>
+                Or <a (click)="resetPassword()">Reset Password</a>
+              </p>
+          </ion-text>
+          </form>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col sizeMd="6">
+          <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="expeditedRegistration()">Get Started</ion-button>
+          <ion-text class="ion-padding ion-float-start" color="medium">
+              By clicking the button above, I hereby agree to and accept the following <a (click)="navigateToPrivacyPolicy()">privacy policy</a> and <a (click)="navigateToTermsAndConditions()">terms & conditions</a>.
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
 </ion-content>
-<ion-footer translucent="true">
-  <ion-toolbar>
-    <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="expeditedRegistration()">Get Started</ion-button>
-    <ion-text class="ion-padding ion-float-start" color="medium">
-        By clicking the button above, I hereby agree to and accept the following <a (click)="navigateToPrivacyPolicy()">privacy policy</a> and <a (click)="navigateToTermsAndConditions()">terms & conditions</a>.
-    </ion-text>
-  </ion-toolbar>
-</ion-footer>

@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Browser } from '@capacitor/browser';
-import { MenuController, NavController } from '@ionic/angular';
+import { Config, MenuController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ErrorService } from 'src/app/services/error.service';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -20,6 +21,7 @@ export class LandingPage implements OnInit {
   loading = false;
   myForm: UntypedFormGroup;
   returnUrl: string;
+  public mode: string;
 
   get email() {
     return this.myForm.get('email');
@@ -38,9 +40,12 @@ export class LandingPage implements OnInit {
     private fb: UntypedFormBuilder,
     private readonly route: ActivatedRoute,
     private readonly errorService: ErrorService,
+    private readonly config: Config,
+    public readonly themeService: ThemeService,
   ) {
     this.menu.enable(false);
     this.returnUrl = this.route?.snapshot?.queryParams['returnUrl'];
+    this.mode = this.config.get("mode");
   }
 
   ngOnInit() {
