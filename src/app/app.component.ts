@@ -37,8 +37,6 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private authService: AuthService,
-    private navCtrl: NavController,
-    private alertService: AlertService,
     private themeService: ThemeService,
     private logger: NGXLogger,
     private router: Router,
@@ -83,11 +81,5 @@ export class AppComponent {
         (location) => this.foregroundGeofenceService.asses(location)
       );
     });
-  }
-
-  async logout() {
-    await this.authService.logout();
-    this.alertService.presentToast('Logged Out');
-    this.navCtrl.navigateRoot('/landing');
   }
 }
