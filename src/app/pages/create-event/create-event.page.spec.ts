@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { CreateEventPage } from './create-event.page';
 import { MomentModule } from 'ngx-moment';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('CreateEventPage', () => {
   let component: CreateEventPage;
@@ -20,6 +21,7 @@ describe('CreateEventPage', () => {
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
         MomentModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         {

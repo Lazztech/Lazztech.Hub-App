@@ -5,6 +5,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { PreviewHubPage } from './preview-hub.page';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('PreviewHubPage', () => {
   let component: PreviewHubPage;
@@ -18,6 +19,7 @@ describe('PreviewHubPage', () => {
         RouterTestingModule.withRoutes([]),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
       ]
     }).compileComponents();
 

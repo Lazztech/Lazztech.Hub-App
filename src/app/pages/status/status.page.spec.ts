@@ -6,6 +6,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 
 import { StatusPage } from './status.page';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('StatusPage', () => {
   let component: StatusPage;
@@ -18,6 +19,7 @@ describe('StatusPage', () => {
         IonicModule.forRoot(),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         Diagnostic,

@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { ManageUploadsPage } from './manage-uploads.page';
 import { MomentModule } from 'ngx-moment';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('ManageUploadsPage', () => {
   let component: ManageUploadsPage;
@@ -20,6 +21,7 @@ describe('ManageUploadsPage', () => {
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
         MomentModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         {

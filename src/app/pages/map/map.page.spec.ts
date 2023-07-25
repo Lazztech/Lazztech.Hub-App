@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 
 import { MapPage } from './map.page';
 import { ApolloTestingModule } from 'apollo-angular/testing';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('MapPage', () => {
   let component: MapPage;
@@ -15,6 +16,7 @@ describe('MapPage', () => {
       imports: [
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
       ],
       declarations: [ MapPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

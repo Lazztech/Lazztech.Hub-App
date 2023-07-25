@@ -5,6 +5,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 
 import { DiagnosticService } from './diagnostic.service';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('DiagnosticService', () => {
   let service: DiagnosticService;
@@ -14,6 +15,7 @@ describe('DiagnosticService', () => {
       imports: [
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         Diagnostic
