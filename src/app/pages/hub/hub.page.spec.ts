@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { HubPage } from './hub.page';
 import { IonRouterOutlet } from '@ionic/angular';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('HubPage', () => {
   let component: HubPage;
@@ -19,6 +20,7 @@ describe('HubPage', () => {
         RouterTestingModule.withRoutes([]),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         {

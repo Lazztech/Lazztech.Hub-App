@@ -7,6 +7,7 @@ import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AdminHubPage } from './admin-hub.page';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('AdminHubPage', () => {
   let component: AdminHubPage;
@@ -22,6 +23,7 @@ describe('AdminHubPage', () => {
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
         ReactiveFormsModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         {

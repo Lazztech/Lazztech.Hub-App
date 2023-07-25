@@ -6,6 +6,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 
 import { PersonPage } from './person.page';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('PersonPage', () => {
   let component: PersonPage;
@@ -19,6 +20,7 @@ describe('PersonPage', () => {
         RouterTestingModule.withRoutes([]),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
       ]
     })
     .compileComponents();

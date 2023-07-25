@@ -3,12 +3,14 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { HubService } from './hub.service';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('HubService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
       LoggerModule.forRoot(environment.logging),
       ApolloTestingModule,
+      IonicStorageModule.forRoot(),
     ]
   }));
 

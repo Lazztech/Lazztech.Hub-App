@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { UploadPage } from './upload.page';
 import { MomentModule } from 'ngx-moment';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('UploadPage', () => {
   let component: UploadPage;
@@ -20,6 +21,7 @@ describe('UploadPage', () => {
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
         MomentModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         {

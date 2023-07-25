@@ -5,6 +5,7 @@ import { MomentModule } from 'ngx-moment';
 import { EventCardComponent } from './event-card.component';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('EventCardComponent', () => {
   let component: EventCardComponent;
@@ -14,6 +15,7 @@ describe('EventCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ EventCardComponent ],
       imports: [
+        IonicStorageModule.forRoot(),
         IonicModule.forRoot(),
         ApolloTestingModule,
         MomentModule,

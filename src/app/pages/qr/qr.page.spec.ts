@@ -5,6 +5,7 @@ import { ApolloTestingModule } from 'apollo-angular/testing';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { QrPage } from './qr.page';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('QrPage', () => {
   let component: QrPage;
@@ -17,6 +18,7 @@ describe('QrPage', () => {
         IonicModule.forRoot(),
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         EmailComposer,

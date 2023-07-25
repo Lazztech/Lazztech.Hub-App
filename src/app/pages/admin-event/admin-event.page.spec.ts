@@ -6,6 +6,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { AdminEventPage } from './admin-event.page';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('AdminEventPage', () => {
   let component: AdminEventPage;
@@ -20,6 +21,7 @@ describe('AdminEventPage', () => {
         LoggerModule.forRoot(environment.logging),
         RouterTestingModule.withRoutes([]),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
       ],
       providers: [
         {

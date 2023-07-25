@@ -3,6 +3,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { ForegroundGeofenceService } from './foreground-geofence.service';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 describe('ForegroundGeofenceService', () => {
   let service: ForegroundGeofenceService;
@@ -12,6 +13,7 @@ describe('ForegroundGeofenceService', () => {
       imports: [
         LoggerModule.forRoot(environment.logging),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
       ]
     });
     service = TestBed.inject(ForegroundGeofenceService);
