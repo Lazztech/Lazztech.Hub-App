@@ -3,27 +3,22 @@
   <!-- Tab bar -->
   <ion-tab-bar slot="bottom" translucent="true">
     <ion-tab-button tab="home">
-      <ion-icon color="dark" *ngIf="selectedTabName == 'home'" name="home"></ion-icon>
-      <ion-icon color="dark" *ngIf="selectedTabName != 'home'" name="home-outline"></ion-icon>
+      <ion-icon color="dark" [name]="selectedTabName == 'home' ? 'home' : 'home-outline'"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="events">
-      <ion-icon color="dark" *ngIf="selectedTabName == 'events'" name="calendar"></ion-icon>
-      <ion-icon color="dark" *ngIf="selectedTabName != 'events'" name="calendar-outline"></ion-icon>
+      <ion-icon color="dark" [name]="selectedTabName == 'events' ? 'calendar' : 'calendar-outline'"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="discover">
-      <ion-icon color="dark" *ngIf="selectedTabName == 'discover'" name="images"></ion-icon>
-      <ion-icon color="dark" *ngIf="selectedTabName != 'discover'" name="images-outline"></ion-icon>
+      <ion-icon color="dark" [name]="selectedTabName == 'discover' ? 'images' : 'images-outline'"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="people">
-      <ion-icon color="dark" *ngIf="selectedTabName == 'people'" name="people"></ion-icon>
-      <ion-icon color="dark" *ngIf="selectedTabName != 'people'" name="people-outline"></ion-icon>
+      <ion-icon color="dark" [name]="selectedTabName == 'people' ? 'people' : 'people-outline'"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="notifications" *ngIf="environment.featureFlags.notificationsPage">
       <ion-icon color="dark" name="notifications"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="profile" *ngIf="isMobile()">
-      <ion-icon color="dark" *ngIf="selectedTabName == 'profile'" name="person"></ion-icon>
-      <ion-icon color="dark" *ngIf="selectedTabName != 'profile'" name="person-outline"></ion-icon>
+      <ion-icon color="dark" [name]="selectedTabName == 'profile' ? 'person' : 'person-outline'"></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
