@@ -59,7 +59,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'photos',
+        path: 'discover',
         children: [
           {
             path: '',
