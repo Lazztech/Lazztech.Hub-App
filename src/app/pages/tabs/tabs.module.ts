@@ -63,7 +63,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () => import('../events/events.module').then(m => m.EventsPageModule)
+            loadChildren: () => import('../discover/discover.module').then(m => m.DiscoverPageModule)
           }
         ]
       },
