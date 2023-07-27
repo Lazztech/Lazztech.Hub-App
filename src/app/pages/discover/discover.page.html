@@ -6,42 +6,10 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-    <ion-grid class="ion-no-padding">
-      <ion-row>
-        <ion-col size-md="6" *ngFor="let fileJoin of fileUploads; let i = index">
-          <ion-card>
-          <ion-item lines="none">
-            <ion-avatar slot="start" tappable (click)="goToPersonPage(fileJoin?.file?.createdBy.id, fileJoin?.file?.createdBy)">
-              <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!fileJoin?.file?.createdBy.image" src="{{fileJoin?.file?.createdBy.id | avatar}}">
-              <ion-img width="100%" *ngIf="fileJoin?.file?.createdBy.image" src="{{fileJoin?.file?.createdBy.image}}"></ion-img>
-            </ion-avatar>
-            <ion-label>
-              <h2>
-                <ion-text *ngIf="!fileJoin?.file?.createdBy.blocked && fileJoin?.file?.createdBy.firstName && fileJoin?.file?.createdBy.lastName">{{fileJoin?.file?.createdBy.firstName}} {{fileJoin?.file?.createdBy.lastName}}</ion-text>
-                <ion-text *ngIf="!fileJoin?.file?.createdBy.blocked && !fileJoin?.file?.createdBy.firstName && !fileJoin?.file?.createdBy.lastName && fileJoin?.file?.createdBy.username">{{fileJoin?.file?.createdBy.username}}</ion-text>
-                <ion-text *ngIf="fileJoin?.file?.createdBy.blocked" style='text-decoration:line-through'>
-                  {{fileJoin?.file?.createdBy.firstName}} {{fileJoin?.file?.createdBy.lastName}}
-                </ion-text>
-              </h2>
-              <p *ngIf="fileJoin?.file?.createdBy.blocked" class="ion-float-right">
-                <ion-text>Blocked</ion-text>
-              </p>
-              <p>Last Online: {{(fileJoin?.file?.createdBy?.lastOnline) ? (((fileJoin?.file?.createdBy?.lastOnline / 1000) | amFromUnix)
-                | amLocal | amTimeAgo) : 'N/A'}}</p>
-            </ion-label>
-            <ion-icon name="ellipsis-horizontal-outline" tappable (click)="presentActionSheet(fileJoin?.file)"></ion-icon>
-          </ion-item>
-          <ion-img src="{{fileJoin?.file?.url}}" style="width: 100%;" tappable (click)="openPreview(i)"></ion-img>
-          <ion-item lines="none">
-            <ion-label>
-              <p>
-                Uploaded {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
-              </p>
-            </ion-label>
-          </ion-item>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <div class="pins">
+    <ion-card class="pin" *ngFor="let fileJoin of fileUploads; let i = index">
+        <img [src]="fileJoin?.file?.url" tappable (click)="openPreview(i)">
+    </ion-card>
+  </div>
 
 </ion-content>
