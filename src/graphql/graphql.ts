@@ -1133,6 +1133,11 @@ export type CommonUsersHubsQueryVariables = Exact<{
 
 export type CommonUsersHubsQuery = { __typename?: 'Query', commonUsersHubs: Array<{ __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null }> };
 
+export type DiscoverQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DiscoverQuery = { __typename?: 'Query', usersHubs: Array<{ __typename?: 'JoinUserHub', hub?: { __typename?: 'Hub', fileUploads?: Array<{ __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, hub: { __typename?: 'Hub', id: string, name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null } | null }>, usersEvents: Array<{ __typename?: 'JoinUserEvent', event?: { __typename?: 'Event', fileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, event: { __typename?: 'Event', id: string, name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null } | null }> };
+
 export type EventQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -2508,6 +2513,89 @@ export const CommonUsersHubsDocument = gql`
   })
   export class CommonUsersHubsGQL extends Apollo.Query<CommonUsersHubsQuery, CommonUsersHubsQueryVariables> {
     document = CommonUsersHubsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DiscoverDocument = gql`
+    query discover {
+  usersHubs {
+    hub {
+      fileUploads {
+        fileId
+        hubId
+        approvedByUserId
+        file {
+          id
+          shareableId
+          fileName
+          mimetype
+          createdOn
+          url
+          createdBy {
+            id
+            shareableId
+            firstName
+            lastName
+            profileImage {
+              url
+            }
+          }
+        }
+        hub {
+          id
+          name
+        }
+        approved
+        approvedBy {
+          username
+        }
+      }
+    }
+  }
+  usersEvents {
+    event {
+      fileUploads {
+        fileId
+        eventId
+        approvedByUserId
+        file {
+          id
+          shareableId
+          fileName
+          mimetype
+          createdOn
+          url
+          createdBy {
+            id
+            shareableId
+            firstName
+            lastName
+            profileImage {
+              url
+            }
+          }
+        }
+        event {
+          id
+          name
+        }
+        approved
+        approvedBy {
+          username
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DiscoverGQL extends Apollo.Query<DiscoverQuery, DiscoverQueryVariables> {
+    document = DiscoverDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

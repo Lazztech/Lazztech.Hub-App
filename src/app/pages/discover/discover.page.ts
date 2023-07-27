@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ActionSheetButton, ActionSheetController, IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { DeleteFileByIdGQL, EventDocument, EventGQL, EventQuery, File, HubDocument, HubQuery, ReportFileAsInappropriateGQL, User } from 'src/graphql/graphql';
+import { DeleteFileByIdGQL, DiscoverGQL, EventDocument, File, HubDocument, ReportFileAsInappropriateGQL, User } from 'src/graphql/graphql';
 import { ImageModalPage } from '../image-modal/image-modal.page';
 
 @Component({
@@ -21,13 +19,10 @@ export class DiscoverPage implements OnInit, OnDestroy {
   seedId: any;
   seed: any;
   seedType: 'hub' | 'event';
-  userHub: HubQuery['hub'];
-  userEvent: EventQuery['event'];
-  fileUploads: HubQuery['hub']['hub']['fileUploads'] | EventQuery['event']['event']['fileUploads'] = [];
+  fileUploads = [];
 
   constructor(
     private readonly logger: NGXLogger,
-    private readonly router: Router,
     public readonly navCtrl: NavController,
     public readonly routerOutlet: IonRouterOutlet,
     public readonly locationService: LocationService,
@@ -36,32 +31,19 @@ export class DiscoverPage implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly reportFileAsInappropriateGqlService: ReportFileAsInappropriateGQL,
     private readonly deleteFileByIdGqlService: DeleteFileByIdGQL,
-    private hubService: HubService,
-    private readonly eventService: EventGQL,
-  ) {
-    this.seedId = this.router.getCurrentNavigation()?.extras?.state?.seedId;
-    this.seed = this.router.getCurrentNavigation()?.extras?.state?.seed;
-    this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
-   }
+    private readonly discoverGraphQLService: DiscoverGQL,
+  ) {}
 
   async ngOnInit() {
-    if (this.seedType == 'hub') {
-      const hubQueryRef = this.hubService.watchHub(this.seedId);
-      this.subscriptions.push(
-        hubQueryRef.valueChanges.subscribe(x => {
-          this.userHub = x?.data?.hub;
-          this.fileUploads = x?.data?.hub?.hub?.fileUploads;
-        })
-      )
-    } else if (this.seedType === 'event') {
-      const eventQueryRef = this.eventService.watch({id: this.seedId });
-      this.subscriptions.push(
-        eventQueryRef.valueChanges.subscribe(x => {
-          this.userEvent = x?.data?.event;
-          this.fileUploads = x?.data?.event?.event?.fileUploads;
-        })
-      );
-    }
+    const discoverQueryRef = this.discoverGraphQLService.watch();
+    this.subscriptions.push(
+      discoverQueryRef.valueChanges.subscribe(x => {
+        this.fileUploads = [
+          ...x?.data?.usersHubs?.map(userHub => userHub?.hub?.fileUploads).flat(),
+          ...x?.data?.usersEvents?.map(userEvent => userEvent?.event?.fileUploads).flat(),
+        ];
+      })
+    );
   }
 
   ngOnDestroy(): void {
@@ -80,16 +62,7 @@ export class DiscoverPage implements OnInit, OnDestroy {
     })
     modal.present();
   }
-
-  goToUploadPage() {
-    this.navCtrl.navigateForward('upload', {
-      state: {
-        seed: this.seed,
-        seedType: this.seedType,
-      }
-    });
-  }
-
+  
   goToPersonPage(id: number, user: any) {
     this.logger.log(user);
     this.navCtrl.navigateForward('person/' + id, {
@@ -100,11 +73,12 @@ export class DiscoverPage implements OnInit, OnDestroy {
   }
 
   isOwner(user: User): boolean {
-    if (this.seedType === 'event') {
-      return this.userEvent?.event?.createdBy?.id === user.id;
-    } else if (this.seedType === 'hub') {
-      return this.userHub?.isOwner;
-    }
+    // if (this.seedType === 'event') {
+    //   return this.userEvent?.event?.createdBy?.id === user.id;
+    // } else if (this.seedType === 'hub') {
+    //   return this.userHub?.isOwner;
+    // }
+    return false;
   }
 
   async presentActionSheet(file: File) {
