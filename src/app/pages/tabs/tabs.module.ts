@@ -32,15 +32,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'add-hub',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../add-hub/add-hub.module').then(m => m.AddHubPageModule)
-          }
-        ]
-      },
-      {
         path: 'notifications',
         children: [
           {
@@ -64,6 +55,15 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../events/events.module').then(m => m.EventsPageModule)
+          }
+        ]
+      },
+      {
+        path: 'discover',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../discover/discover.module').then(m => m.DiscoverPageModule)
           }
         ]
       },

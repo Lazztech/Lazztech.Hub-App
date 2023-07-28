@@ -1,0 +1,14 @@
+.pins {
+  column-count: 3;
+  padding: 7px;
+}
+
+.pin {
+  display: inline-block;
+  margin: 0 2px 10px;
+  // padding: 5px;
+  // background: #f8f8ff;
+}
+
+// removes padding on the bottom of the images in the card
+ion-card { font-size: 0; }

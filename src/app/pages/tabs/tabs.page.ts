@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonTabs } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 
@@ -12,6 +12,7 @@ export class TabsPage {
   environment = environment;
 
   private activeTab?: HTMLElement;
+  public selectedTabName: string;
 
   constructor() {}
 
@@ -26,6 +27,7 @@ export class TabsPage {
    * @param tabsRef 
    */
   tabChange(tabsRef: IonTabs) {
+    this.selectedTabName = tabsRef.getSelected();
     this.activeTab = tabsRef.outlet.activatedView.element;
   }
 

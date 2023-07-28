@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { SwiperModule } from 'swiper/angular';
 import { ImageModalPageRoutingModule } from './image-modal-routing.module';
 import { ImageModalPage } from './image-modal.page';
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { ImageModalPage } from './image-modal.page';
     IonicModule,
     ImageModalPageRoutingModule,
     SwiperModule,
+    MomentModule,
   ],
   declarations: [ImageModalPage]
 })

@@ -1,0 +1,72 @@
+query discover {
+  usersHubs {
+    hub {
+      fileUploads {
+        fileId
+        hubId
+        approvedByUserId
+        file {
+          id
+          shareableId
+          fileName
+          mimetype
+          createdOn
+          url
+          createdBy {
+            id
+            shareableId
+            firstName
+            lastName
+            profileImage {
+              url
+            }
+          }
+        }
+        hub {
+          id
+          name
+          image
+        }
+        approved
+        approvedBy {
+          username
+        }
+      }
+    }
+  }
+  usersEvents {
+    event {
+      fileUploads {
+        fileId
+        eventId
+        approvedByUserId
+        file {
+          id
+          shareableId
+          fileName
+          mimetype
+          createdOn
+          url
+          createdBy {
+            id
+            shareableId
+            firstName
+            lastName
+            profileImage {
+              url
+            }
+          }
+        }
+        event {
+          id
+          name
+          image
+        }
+        approved
+        approvedBy {
+          username
+        }
+      }
+    }
+  }
+}
