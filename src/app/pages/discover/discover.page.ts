@@ -42,7 +42,9 @@ export class DiscoverPage implements OnInit, OnDestroy {
         this.fileUploads = [
           ...x?.data?.usersHubs?.map(userHub => userHub?.hub?.fileUploads).flat(),
           ...x?.data?.usersEvents?.map(userEvent => userEvent?.event?.fileUploads).flat(),
-        ];
+        ].sort(
+          (a, b) => new Date(b?.file?.createdOn).valueOf() - new Date(a?.file?.createdOn).valueOf()
+        );
         this.loading = false;
       })
     );
