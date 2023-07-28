@@ -62,12 +62,12 @@ export class DiscoverPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
-  async openPreview(startingFileIndex) {
+  async openPreview(startingFileIndex, key) {
     const modal = await this.modalCtl.create({
       component: ImageModalPage,
       componentProps: {
         startingFileIndex,
-        fileJoins: this.fileUploads,
+        fileJoins: this.organizedFileUploads[key],
       },
       cssClass: 'transparent-modal fullscreen'
     })

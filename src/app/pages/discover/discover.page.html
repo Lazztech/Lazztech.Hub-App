@@ -14,7 +14,7 @@
 
     <div class="pins">
       <ion-card class="pin" *ngFor="let fileJoin of item.value; let i = index">
-          <img [src]="fileJoin?.file?.url" tappable (click)="openPreview(i)">
+          <img [src]="fileJoin?.file?.url" tappable (click)="openPreview(i, item.key)">
       </ion-card>
     </div>
   </div>
