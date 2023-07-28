@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { File } from 'src/graphql/graphql';
 import SwiperCore, { Pagination, SwiperOptions, Zoom } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
@@ -27,6 +27,7 @@ export class ImageModalPage implements AfterViewInit {
   };
   constructor(
     private modalCtl: ModalController,
+    public navCtrl: NavController,
   ) {}
 
   ngAfterViewInit(): void {
@@ -43,6 +44,16 @@ export class ImageModalPage implements AfterViewInit {
 
   back() {
     this.swiper.swiperRef.slidePrev();
+  }
+
+  goTo(obj) {
+    if (obj?.hub?.id) {
+      this.modalCtl.dismiss();
+      this.navCtrl.navigateForward('hub/' + obj?.hub?.id);
+    } else if (obj?.event?.id) {
+      this.modalCtl.dismiss();
+      this.navCtrl.navigateForward('event/' + obj?.event?.id);
+    }
   }
 
 }

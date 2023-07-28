@@ -17,7 +17,7 @@
 <ion-footer>
   <ion-grid class="">
     <ion-row>
-      <ion-col tappable *ngIf="fileJoins?.length">
+      <ion-col tappable *ngIf="fileJoins?.length" (click)="goTo(fileJoins[swiper?.swiperRef?.activeIndex])">
           <ion-avatar class="ion-float-left ion-margin-end">
             <ion-img width="100%" [src]="fileJoins[swiper?.swiperRef?.activeIndex]?.hub?.image || fileJoins[swiper?.swiperRef?.activeIndex]?.event?.image"></ion-img>
           </ion-avatar>
