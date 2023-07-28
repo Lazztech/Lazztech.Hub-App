@@ -36,12 +36,14 @@ export class DiscoverPage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     const discoverQueryRef = this.discoverGraphQLService.watch();
+    this.loading = true;
     this.subscriptions.push(
       discoverQueryRef.valueChanges.subscribe(x => {
         this.fileUploads = [
           ...x?.data?.usersHubs?.map(userHub => userHub?.hub?.fileUploads).flat(),
           ...x?.data?.usersEvents?.map(userEvent => userEvent?.event?.fileUploads).flat(),
         ];
+        this.loading = false;
       })
     );
   }
