@@ -57,7 +57,6 @@ export class DiscoverPage implements OnInit, OnDestroy {
           }
         }
 
-        console.log(organized);
         this.organizedFileUploads = organized;
         this.loading = false;
       })
@@ -69,12 +68,11 @@ export class DiscoverPage implements OnInit, OnDestroy {
   }
 
   async openPreview(startingFileIndex) {
-    const files = this.fileUploads?.map(x => x?.file);
     const modal = await this.modalCtl.create({
       component: ImageModalPage,
       componentProps: {
         startingFileIndex,
-        files,
+        fileJoins: this.fileUploads,
       },
       cssClass: 'transparent-modal fullscreen'
     })

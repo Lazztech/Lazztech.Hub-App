@@ -1136,7 +1136,7 @@ export type CommonUsersHubsQuery = { __typename?: 'Query', commonUsersHubs: Arra
 export type DiscoverQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DiscoverQuery = { __typename?: 'Query', usersHubs: Array<{ __typename?: 'JoinUserHub', hub?: { __typename?: 'Hub', fileUploads?: Array<{ __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, hub: { __typename?: 'Hub', id: string, name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null } | null }>, usersEvents: Array<{ __typename?: 'JoinUserEvent', event?: { __typename?: 'Event', fileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, event: { __typename?: 'Event', id: string, name: string }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null } | null }> };
+export type DiscoverQuery = { __typename?: 'Query', usersHubs: Array<{ __typename?: 'JoinUserHub', hub?: { __typename?: 'Hub', fileUploads?: Array<{ __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, hub: { __typename?: 'Hub', id: string, name: string, image?: string | null }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null } | null }>, usersEvents: Array<{ __typename?: 'JoinUserEvent', event?: { __typename?: 'Event', fileUploads?: Array<{ __typename?: 'JoinEventFile', fileId: string, eventId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, shareableId: string, fileName: string, mimetype?: string | null, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, profileImage?: { __typename?: 'File', url?: string | null } | null } }, event: { __typename?: 'Event', id: string, name: string, image?: string | null }, approvedBy?: { __typename?: 'User', username?: string | null } | null }> | null } | null }> };
 
 export type EventQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -2546,6 +2546,7 @@ export const DiscoverDocument = gql`
         hub {
           id
           name
+          image
         }
         approved
         approvedBy {
@@ -2580,6 +2581,7 @@ export const DiscoverDocument = gql`
         event {
           id
           name
+          image
         }
         approved
         approvedBy {

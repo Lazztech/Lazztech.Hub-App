@@ -25,6 +25,7 @@ query discover {
         hub {
           id
           name
+          image
         }
         approved
         approvedBy {
@@ -59,6 +60,7 @@ query discover {
         event {
           id
           name
+          image
         }
         approved
         approvedBy {

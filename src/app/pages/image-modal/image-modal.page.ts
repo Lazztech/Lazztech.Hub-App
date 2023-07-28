@@ -17,6 +17,7 @@ export class ImageModalPage implements AfterViewInit {
   @Input() img: string;
   @Input() startingFileIndex: number;
   @Input() files: Array<File>;
+  @Input() fileJoins: Array<any>;
 
   config: SwiperOptions = {
     zoom:  true,

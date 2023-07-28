@@ -1,14 +1,29 @@
-<ion-header translucent="true">
-  <ion-toolbar>
-    <ion-buttons slot="end">
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 <ion-content fullscreen="true">
-  <swiper [config]="config" #swiper (pagination)="true">
+  <swiper [config]="config" #swiper (pagination)="true" *ngIf="!fileJoins?.length && files?.length">
     <ng-template swiperSlide *ngFor="let file of files">
       <div class="swiper-zoom-container">
         <img [src]="file?.url">
+      </div>
+    </ng-template>
+  </swiper>
+  <swiper [config]="config" #swiper (pagination)="true" *ngIf="fileJoins?.length">
+    <ng-template swiperSlide *ngFor="let fileJoin of fileJoins">
+      <ion-item lines="none" tappable>
+        <ion-avatar slot="start">
+          <ion-img width="100%" [src]="fileJoin?.hub?.image || fileJoin?.event?.image"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h2>
+            <ion-text>{{fileJoin?.hub?.name || fileJoin?.event?.name}}</ion-text>
+          </h2>
+          <p>
+            Uploaded {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}} 
+            {{fileJoin?.file?.createdBy?.firstName && 'by ' + fileJoin?.file?.createdBy?.firstName}}
+          </p>
+        </ion-label>
+      </ion-item>
+      <div class="swiper-zoom-container">
+        <img [src]="fileJoin?.file?.url">
       </div>
     </ng-template>
   </swiper>
