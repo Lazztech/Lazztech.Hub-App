@@ -4,7 +4,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { DeleteFileByIdGQL, DiscoverGQL, EventDocument, File, HubDocument, ReportFileAsInappropriateGQL, User } from 'src/graphql/graphql';
+import { DeleteFileByIdGQL, DiscoverGQL, DiscoverQuery, EventDocument, File, HubDocument, ReportFileAsInappropriateGQL, User } from 'src/graphql/graphql';
 import { ImageModalPage } from '../image-modal/image-modal.page';
 
 @Component({
@@ -20,6 +20,7 @@ export class DiscoverPage implements OnInit, OnDestroy {
   seed: any;
   seedType: 'hub' | 'event';
   fileUploads = [];
+  organizedFileUploads: any;
 
   constructor(
     private readonly logger: NGXLogger,
@@ -39,12 +40,25 @@ export class DiscoverPage implements OnInit, OnDestroy {
     this.loading = true;
     this.subscriptions.push(
       discoverQueryRef.valueChanges.subscribe(x => {
-        this.fileUploads = [
+        const sorted = [
           ...x?.data?.usersHubs?.map(userHub => userHub?.hub?.fileUploads).flat(),
           ...x?.data?.usersEvents?.map(userEvent => userEvent?.event?.fileUploads).flat(),
         ].sort(
           (a, b) => new Date(b?.file?.createdOn).valueOf() - new Date(a?.file?.createdOn).valueOf()
         );
+        this.fileUploads = sorted;
+        let organized = {};
+        for (let fileUpload of sorted) {
+          if (fileUpload?.file?.createdOn) {
+            const createdOnDate = new Date(fileUpload?.file?.createdOn);
+            organized[`${createdOnDate.toLocaleString('default', { month: 'long' })} ${createdOnDate.getFullYear()}`] = organized[`${createdOnDate.toLocaleString('default', { month: 'long' })} ${createdOnDate.getFullYear()}`]?.length 
+              ? [...organized[`${createdOnDate.toLocaleString('default', { month: 'long' })} ${createdOnDate.getFullYear()}`], fileUpload]
+              : [fileUpload];
+          }
+        }
+
+        console.log(organized);
+        this.organizedFileUploads = organized;
         this.loading = false;
       })
     );

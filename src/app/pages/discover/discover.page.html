@@ -6,10 +6,17 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-  <div class="pins">
-    <ion-card class="pin" *ngFor="let fileJoin of fileUploads; let i = index">
-        <img [src]="fileJoin?.file?.url" tappable (click)="openPreview(i)">
-    </ion-card>
+
+  <div *ngFor="let item of organizedFileUploads | keyvalue">
+    <ion-list-header class="ion-padding-bottom">
+      <ion-text>{{item.key}}</ion-text>
+    </ion-list-header>
+
+    <div class="pins">
+      <ion-card class="pin" *ngFor="let fileJoin of item.value; let i = index">
+          <img [src]="fileJoin?.file?.url" tappable (click)="openPreview(i)">
+      </ion-card>
+    </div>
   </div>
 
 </ion-content>
