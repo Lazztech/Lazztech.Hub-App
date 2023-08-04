@@ -2,14 +2,14 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, Vie
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GalleryPhotos } from '@capacitor/camera';
-import { IonImg, IonRouterOutlet, NavController } from '@ionic/angular';
+import { IonRouterOutlet, NavController } from '@ionic/angular';
+import * as tf from '@tensorflow/tfjs';
+import * as nsfwjs from 'nsfwjs';
 import { Subscription } from 'rxjs';
 import { CameraService } from 'src/app/services/camera/camera.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { UploadEventFilesGQL, UploadHubFilesGQL } from 'src/graphql/graphql';
-import * as tf from '@tensorflow/tfjs'
-import * as nsfwjs from 'nsfwjs'
 tf.enableProdMode()
 
 @Component({
@@ -26,7 +26,7 @@ export class UploadPage implements OnInit, OnDestroy, AfterViewInit {
   subscriptions: Subscription[] = [];
   seed: any;
   seedType: 'hub' | 'event';
-  model: nsfwjs.NSFWJS;
+  model: Promise<nsfwjs.NSFWJS>;
 
   @ViewChildren('image') imgs: QueryList<ElementRef>;
 
@@ -44,12 +44,12 @@ export class UploadPage implements OnInit, OnDestroy, AfterViewInit {
     this.seedType = this.router.getCurrentNavigation()?.extras?.state?.seedType;
    }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.myForm = new FormGroup({});
   }
 
-  async ngAfterViewInit() {
-    this.model = await nsfwjs.load();
+  ngAfterViewInit(): void {
+    this.model = nsfwjs.load();
   }
 
   ngOnDestroy(): void {
@@ -58,13 +58,16 @@ export class UploadPage implements OnInit, OnDestroy, AfterViewInit {
 
   async containsExplicitContent(): Promise<boolean> {
     console.log(this.imgs);
+    const model = await this.model;
     const results = await Promise.all(
-      this.imgs.map(item => this.model.classify(item.nativeElement, 1))
+      this.imgs.map(item => model.classify(item.nativeElement))
     );
     console.log(results);
 
     for (const result of results) {
-      if (result.at(0).className === 'Porn' && result.at(0).probability >= 0.5) {
+      const sexyProbability = result.find(x => x.className == 'Sexy')?.probability || 0;
+      const pornProbability = result.find(x => x.className == 'Porn')?.probability || 0;
+      if (sexyProbability >= 0.6 || pornProbability >= 0.6) {
         return true;
       }
     }
@@ -79,6 +82,7 @@ export class UploadPage implements OnInit, OnDestroy, AfterViewInit {
     if (containsExplicitContent) {
       alert('No explicit content allowed');
       this.gallery = undefined;
+      this.loading = false;
       return;
     }
 
