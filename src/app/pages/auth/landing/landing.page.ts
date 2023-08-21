@@ -3,7 +3,6 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute } from '@angular/router';
 import { Browser } from '@capacitor/browser';
 import { Config, MenuController, NavController } from '@ionic/angular';
-import { NGXLogger } from 'ngx-logger';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ErrorService } from 'src/app/services/error.service';
@@ -35,7 +34,6 @@ export class LandingPage implements OnInit {
     private menu: MenuController,
     private authService: AuthService,
     private navCtrl: NavController,
-    private logger: NGXLogger,
     private alertService: AlertService,
     private fb: UntypedFormBuilder,
     private readonly route: ActivatedRoute,
