@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { Storage } from '@ionic/storage-angular';
-import { NGXLogger } from 'ngx-logger';
-import { Subject } from 'rxjs';
-import { ExpeditedRegistration, ExpeditedRegistrationGQL, LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
+import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { SavePassword } from 'capacitor-ios-autofill-save-password';
+import { NGXLogger } from 'ngx-logger';
+import { ExpeditedRegistration, ExpeditedRegistrationGQL, LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class AuthService {
     private resetPasswordService: ResetPasswordGQL,
     private meService: MeGQL,
     private expeditedRegistrationService: ExpeditedRegistrationGQL,
-    private logger: NGXLogger
+    private logger: NGXLogger,
   ) { }
 
   async login(email: string, password: string): Promise<boolean> {
@@ -43,9 +43,10 @@ export class AuthService {
   }
 
   async logout() {
-    await this.storage.remove('token');
-    //TODO: need to reset all storage & state cache
-    delete this.token;
+    await this.storage.clear();
+    // throws error on web where it's not implemented, so error must be caught
+    await BackgroundGeolocation.removeGeofences().catch(err => undefined);
+    document.location.reload();
   }
 
   async expeditedRegistration() {
