@@ -46,7 +46,7 @@ export class LandingPage implements OnInit {
     this.mode = this.config.get("mode");
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.myForm = this.fb.group({
       email: ['', [
         Validators.required,
@@ -57,6 +57,12 @@ export class LandingPage implements OnInit {
         Validators.minLength(10)
       ]]
     });
+
+    if (await this.authService.getToken()) {
+      // This shouldn't occur though I didn't find the cause.
+      // Keeping this here just incase we somehow get here in this state, which we shouldn't...
+      await this.navCtrl.navigateRoot(this.returnUrl || '/tabs');
+    }
   }
 
   async register() {
