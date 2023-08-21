@@ -41,7 +41,7 @@ export class AppComponent {
     private zone: NgZone,
     private foregroundGeofenceService: ForegroundGeofenceService,
     public locationService: LocationService,
-    private authService: AuthService,
+    public authService: AuthService,
     private storage: Storage
   ) {
     this.initializeApp();
@@ -73,8 +73,6 @@ export class AppComponent {
       // If using a custom driver:
       // await this.storage.defineDriver(MyCustomDriver)
       await this.storage.create();
-
-      this.token = await this.authService.getToken();
 
       await this.locationService.watchPosition(
         (location) => this.foregroundGeofenceService.asses(location)

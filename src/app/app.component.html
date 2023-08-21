@@ -5,7 +5,7 @@
 
     <!--  the side menu  -->
     <ion-menu swipeGesture="false" contentId="main" side="end">
-      <app-profile *ngIf="token"></app-profile>
+      <app-profile *ngIf="authService?.token"></app-profile>
     </ion-menu>
   </ion-split-pane>
 </ion-app>

@@ -136,11 +136,9 @@ export class AuthService {
   }
 
   async getToken(): Promise<string> {
-    try {
+    if (!this.token) {
       this.token = await this.storage.get('token');
-      return this.token;
-    } catch (error) {
-      this.token = null;
     }
+    return this.token;
   }
 }
