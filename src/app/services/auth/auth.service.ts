@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
+import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
+import { Apollo } from 'apollo-angular';
 import { SavePassword } from 'capacitor-ios-autofill-save-password';
 import { NGXLogger } from 'ngx-logger';
 import { ExpeditedRegistration, ExpeditedRegistrationGQL, LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
@@ -21,6 +23,8 @@ export class AuthService {
     private meService: MeGQL,
     private expeditedRegistrationService: ExpeditedRegistrationGQL,
     private logger: NGXLogger,
+    private apollo: Apollo,
+    private navController: NavController,
   ) { }
 
   async login(email: string, password: string): Promise<boolean> {
@@ -46,7 +50,10 @@ export class AuthService {
     await this.storage.clear();
     // throws error on web where it's not implemented, so error must be caught
     await BackgroundGeolocation.removeGeofences().catch(err => undefined);
-    document.location.reload();
+    this.token = undefined;
+    this.apollo.client.stop();
+    await this.apollo.client.clearStore();
+    await this.navController.navigateRoot('/landing');
   }
 
   async expeditedRegistration() {
