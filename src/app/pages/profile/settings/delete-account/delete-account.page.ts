@@ -60,7 +60,6 @@ export class DeleteAccountPage implements OnInit {
 
     const result = await this.profileService.deleteAccount(formValue.email, formValue.password);
     if (result) {
-      await this.storage.clear();
       await this.authService.logout();
       this.loading = false;
       this.modalController.dismiss();

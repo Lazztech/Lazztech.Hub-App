@@ -18,8 +18,7 @@ export class ErrorService {
   async handleError(err: any, loading?: boolean) {
     if (err?.graphQLErrors?.length && err?.graphQLErrors[0]?.extensions?.code === 'UNAUTHENTICATED') {
       loading = false;
-      this.authService.logout();
-      this.router.navigate(['/landing']);
+      await this.authService.logout();
       return;
     }
 

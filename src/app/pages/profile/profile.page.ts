@@ -199,8 +199,6 @@ export class ProfilePage implements OnInit, OnDestroy {
   async logout() {
     if (confirm('Are you sure you want to log out?')) {
       await this.authService.logout();
-      this.alertService.presentToast('Logged Out');
-      this.navCtrl.navigateRoot('/landing');
     }
   }
 
