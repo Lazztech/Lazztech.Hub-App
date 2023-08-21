@@ -4,14 +4,13 @@ import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
-import { NavController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
 import { NGXLogger } from 'ngx-logger';
-import { AlertService } from './services/alert/alert.service';
 import { AuthService } from './services/auth/auth.service';
 import { ForegroundGeofenceService } from './services/foreground-geofence.service';
 import { LocationService } from './services/location/location.service';
 import { ThemeService } from './services/theme/theme.service';
-import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-root',
@@ -32,17 +31,17 @@ export class AppComponent {
   ];
 
   isDark = false;
-  isLoggedIn$;
+  token: string;
 
   constructor(
     private platform: Platform,
-    private authService: AuthService,
     private themeService: ThemeService,
     private logger: NGXLogger,
     private router: Router,
     private zone: NgZone,
     private foregroundGeofenceService: ForegroundGeofenceService,
     public locationService: LocationService,
+    private authService: AuthService,
     private storage: Storage
   ) {
     this.initializeApp();
@@ -75,7 +74,7 @@ export class AppComponent {
       // await this.storage.defineDriver(MyCustomDriver)
       await this.storage.create();
 
-      this.isLoggedIn$ = this.authService.isLoggedIn$;
+      this.token = await this.authService.getToken();
 
       await this.locationService.watchPosition(
         (location) => this.foregroundGeofenceService.asses(location)

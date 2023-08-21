@@ -16,9 +16,7 @@ export class AuthGuard  {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
-      const currentUser = this.authService.isLoggedIn;
-
-      if (currentUser || (await this.authService.getToken())) {
+      if (!!await this.authService.getToken()) {
           // authorized so return true
           return true;
       }

@@ -10,8 +10,6 @@ import { SavePassword } from 'capacitor-ios-autofill-save-password';
   providedIn: 'root'
 })
 export class AuthService {
-  isLoggedIn = false;
-  isLoggedIn$: Subject<boolean> = new Subject();
   token: any;
 
   constructor(
@@ -25,11 +23,6 @@ export class AuthService {
     private logger: NGXLogger
   ) { }
 
-  private setIsLoggedIn(value: boolean) {
-    this.isLoggedIn = value;
-    this.isLoggedIn$.next(value);
-  }
-
   async login(email: string, password: string): Promise<boolean> {
     const result = await this.loginService.mutate({
       email,
@@ -42,7 +35,6 @@ export class AuthService {
     if (this.token) {
       this.logger.log('Login successful.');
       await this.storage.set('token', this.token);
-      this.setIsLoggedIn(true);
     } else {
       this.logger.log('Login failure');
     }
@@ -52,7 +44,7 @@ export class AuthService {
 
   async logout() {
     await this.storage.remove('token');
-    this.setIsLoggedIn(false);
+    //TODO: need to reset all storage & state cache
     delete this.token;
   }
 
@@ -63,7 +55,6 @@ export class AuthService {
       this.logger.log('Login successful.');
       await this.storage.set('token', this.token);
       await this.storage.set('expeditedRegistration', result.data.expeditedRegistration);
-      this.setIsLoggedIn(true);
     } else {
       this.logger.log('Login failure');
     }
@@ -146,17 +137,9 @@ export class AuthService {
   async getToken(): Promise<string> {
     try {
       this.token = await this.storage.get('token');
-
-      if (this.token != null) {
-        this.setIsLoggedIn(true);
-      } else {
-        this.setIsLoggedIn(false);
-      }
-
       return this.token;
     } catch (error) {
       this.token = null;
-      this.setIsLoggedIn(false);
     }
   }
 }
