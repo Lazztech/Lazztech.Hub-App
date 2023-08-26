@@ -16,11 +16,16 @@ export class ErrorService {
   ) { }
 
   async handleError(err: any, loading?: boolean) {
-    if (err?.graphQLErrors?.length && err?.graphQLErrors[0]?.extensions?.code === 'UNAUTHENTICATED') {
-      loading = false;
-      await this.authService.logout();
-      return;
-    }
+    /**
+     * TODO: why are there initially unauthenticated errors after logging in?
+     * These errors cause the user to be logged right out and struggle to log in.
+     * To gain this behavior below that problem must be resolved.
+     */
+    // if (err?.graphQLErrors?.length && err?.graphQLErrors[0]?.extensions?.code === 'UNAUTHENTICATED') {
+    //   loading = false;
+    //   await this.authService.logout();
+    //   return;
+    // }
 
     try {
       Sentry.captureException(err.originalError || err);
