@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
+import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
-import { NGXLogger } from 'ngx-logger';
-import { Subject } from 'rxjs';
-import { ExpeditedRegistration, ExpeditedRegistrationGQL, LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
+import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
+import { Apollo } from 'apollo-angular';
 import { SavePassword } from 'capacitor-ios-autofill-save-password';
+import { NGXLogger } from 'ngx-logger';
+import { ExpeditedRegistration, ExpeditedRegistrationGQL, LoginGQL, MeGQL, RegisterGQL, ResetPasswordGQL, SendPasswordResetEmailGQL, User } from 'src/graphql/graphql';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  isLoggedIn = false;
-  isLoggedIn$: Subject<boolean> = new Subject();
   token: any;
 
   constructor(
@@ -22,13 +22,10 @@ export class AuthService {
     private resetPasswordService: ResetPasswordGQL,
     private meService: MeGQL,
     private expeditedRegistrationService: ExpeditedRegistrationGQL,
-    private logger: NGXLogger
+    private logger: NGXLogger,
+    private apollo: Apollo,
+    private navController: NavController,
   ) { }
-
-  private setIsLoggedIn(value: boolean) {
-    this.isLoggedIn = value;
-    this.isLoggedIn$.next(value);
-  }
 
   async login(email: string, password: string): Promise<boolean> {
     const result = await this.loginService.mutate({
@@ -42,7 +39,6 @@ export class AuthService {
     if (this.token) {
       this.logger.log('Login successful.');
       await this.storage.set('token', this.token);
-      this.setIsLoggedIn(true);
     } else {
       this.logger.log('Login failure');
     }
@@ -51,9 +47,13 @@ export class AuthService {
   }
 
   async logout() {
-    await this.storage.remove('token');
-    this.setIsLoggedIn(false);
-    delete this.token;
+    await this.storage.clear();
+    // throws error on web where it's not implemented, so error must be caught
+    await BackgroundGeolocation.removeGeofences().catch(err => undefined);
+    this.token = undefined;
+    this.apollo.client.stop();
+    await this.apollo.client.clearStore();
+    await this.navController.navigateRoot('/landing');
   }
 
   async expeditedRegistration() {
@@ -63,7 +63,6 @@ export class AuthService {
       this.logger.log('Login successful.');
       await this.storage.set('token', this.token);
       await this.storage.set('expeditedRegistration', result.data.expeditedRegistration);
-      this.setIsLoggedIn(true);
     } else {
       this.logger.log('Login failure');
     }
@@ -144,19 +143,9 @@ export class AuthService {
   }
 
   async getToken(): Promise<string> {
-    try {
+    if (!this.token) {
       this.token = await this.storage.get('token');
-
-      if (this.token != null) {
-        this.setIsLoggedIn(true);
-      } else {
-        this.setIsLoggedIn(false);
-      }
-
-      return this.token;
-    } catch (error) {
-      this.token = null;
-      this.setIsLoggedIn(false);
     }
+    return this.token;
   }
 }

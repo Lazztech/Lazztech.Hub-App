@@ -53,19 +53,16 @@ export class DeleteAccountPage implements OnInit {
   }
 
   async deleteAccount() {
-
     this.loading = true;
 
     const formValue = this.myForm.value;
 
     const result = await this.profileService.deleteAccount(formValue.email, formValue.password);
     if (result) {
-      await this.storage.clear();
-      await this.authService.logout();
       this.loading = false;
-      this.modalController.dismiss();
       this.alertService.presentToast('Deleted account.');
-      this.navCtrl.navigateRoot('/landing');
+      this.modalController.dismiss();
+      await this.authService.logout();
     } else {
       this.loading = false;
       this.alertService.presentRedToast('Failed to delete account.');

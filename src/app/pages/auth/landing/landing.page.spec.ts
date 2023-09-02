@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IonicStorageModule } from '@ionic/storage-angular';
+import { IonicStorageModule, Storage } from '@ionic/storage-angular';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
@@ -12,7 +12,7 @@ describe('LandingPage', () => {
   let component: LandingPage;
   let fixture: ComponentFixture<LandingPage>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(waitForAsync(async () => {
     TestBed.configureTestingModule({
       declarations: [ LandingPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -26,6 +26,8 @@ describe('LandingPage', () => {
       providers: []
     })
     .compileComponents();
+    const storage: Storage = TestBed.get(Storage);
+    await storage.create();
   }));
 
   beforeEach(() => {
