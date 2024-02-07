@@ -51,6 +51,7 @@ import { ProfilePageModule } from './pages/profile/profile.module';
         BrowserModule,
         IonicModule.forRoot({
           mode: !isPlatform('android') ? 'ios' : 'md',
+          swipeBackEnabled: isPlatform('pwa') || isPlatform('mobileweb') ? false : true,
         }),
         AppRoutingModule,
         HttpClientModule,
