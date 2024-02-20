@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -9,7 +10,9 @@ export class PwaService {
   private deferredPrompt: any;
   beforeInstall: Observable<boolean>;
 
-  constructor() {
+  constructor(
+    private alertController: AlertController,
+  ) {
     this.registerInstallPrompt();
   }
 
@@ -23,8 +26,23 @@ export class PwaService {
       this.deferredPrompt = e;
     });
   }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Install Lazztech Hub',
+      subHeader: 'Install the app on your device to easily access it anytime. No app store. No download. No hassle.',
+      message: `
+        1. Tap on the share icon
+        2. Select "Add to Home Screen"
+      `,
+      buttons: ['Understood'],
+    });
+
+    await alert.present();
+  }
   
   showInstallBanner() {
+    this.presentAlert();
     if (this.deferredPrompt !== undefined && this.deferredPrompt !== null) {
       // Show the prompt
       this.deferredPrompt.prompt();
