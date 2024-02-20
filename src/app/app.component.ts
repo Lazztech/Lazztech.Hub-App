@@ -11,7 +11,7 @@ import { AuthService } from './services/auth/auth.service';
 import { ForegroundGeofenceService } from './services/foreground-geofence.service';
 import { LocationService } from './services/location/location.service';
 import { ThemeService } from './services/theme/theme.service';
-import { PwaInstallService } from './pwa-install.service';
+import { PwaService } from './services/pwa/pwa.service';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +44,7 @@ export class AppComponent {
     public locationService: LocationService,
     public authService: AuthService,
     private storage: Storage,
-    private pwaInstallService: PwaInstallService,
+    private pwaInstallService: PwaService,
   ) {
     this.initializeApp();
   }

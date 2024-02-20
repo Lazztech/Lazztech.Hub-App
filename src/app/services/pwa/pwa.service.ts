@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PwaInstallService {
+export class PwaService {
 
   private deferredPrompt: any;
   beforeInstall: Observable<boolean>;
