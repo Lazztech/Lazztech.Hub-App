@@ -13,6 +13,7 @@ import { InviteComponent } from './invite/invite.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MaplibreComponent } from './maplibre/maplibre.component';
 import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
+import { PwaInstallComponent } from './pwa-install/pwa-install.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
         EventCardComponent,
         InviteComponent,
         MaplibreComponent,
+        PwaInstallComponent,
     ],
     imports: [
         IonicModule,

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
+import { PwaInstallComponent } from 'src/app/components/pwa-install/pwa-install.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class PwaService {
 
   constructor(
     private alertController: AlertController,
+    private modalController: ModalController,
   ) {
     this.registerInstallPrompt();
   }
@@ -28,17 +30,13 @@ export class PwaService {
   }
 
   async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Install Lazztech Hub',
-      subHeader: 'Install the app on your device to easily access it anytime. No app store. No download. No hassle.',
-      message: `
-        1. Tap on the share icon
-        2. Select "Add to Home Screen"
-      `,
-      buttons: ['Understood'],
+    const modal = await this.modalController.create({
+      component: PwaInstallComponent,
+      showBackdrop: true,
+      backdropDismiss: true,
+      cssClass: ['alert-modal'],
     });
-
-    await alert.present();
+    return await modal.present();
   }
   
   showInstallBanner() {

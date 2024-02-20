@@ -1,5 +1,9 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
+.alert-modal {
+	--height: 30% !important;
+  --width: 80% !important;
+}
 
 /** Ionic CSS Variables **/
 :root {
