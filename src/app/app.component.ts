@@ -44,7 +44,7 @@ export class AppComponent {
     public locationService: LocationService,
     public authService: AuthService,
     private storage: Storage,
-    private pwaInstallService: PwaService,
+    private pwaService: PwaService,
   ) {
     this.initializeApp();
   }
@@ -80,7 +80,8 @@ export class AppComponent {
         (location) => this.foregroundGeofenceService.asses(location)
       );
 
-      this.pwaInstallService.showInstallBanner();
+      // TODO: finish
+      // this.pwaService.showInstallBanner();
     });
   }
 }
