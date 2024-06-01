@@ -13,6 +13,7 @@ export interface Environment {
       termsAndConditions: string
     };
     featureFlags: {
+      backgroundGeofence: boolean,
       statusPage: boolean,
       notificationsPage: boolean,
       hubActivityDetails: boolean,
