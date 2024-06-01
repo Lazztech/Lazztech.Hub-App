@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
@@ -11,12 +11,13 @@ import { AuthService } from './services/auth/auth.service';
 import { ForegroundGeofenceService } from './services/foreground-geofence.service';
 import { LocationService } from './services/location/location.service';
 import { ThemeService } from './services/theme/theme.service';
+import { PushNotificationService } from './services/push-notification.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnInit,OnDestroy {
   public appPages = [
     {
       title: 'Settings',
@@ -43,6 +44,7 @@ export class AppComponent {
     public locationService: LocationService,
     public authService: AuthService,
     private storage: Storage,
+    private pushNotificationService: PushNotificationService
   ) {
     this.initializeApp();
   }
@@ -78,5 +80,14 @@ export class AppComponent {
         (location) => this.foregroundGeofenceService.asses(location)
       );
     });
+  }
+
+  ngOnInit(): void {
+    this.pushNotificationService.subscribeToNotifications();
+    this.pushNotificationService.subscribeMessage();
+  }
+
+  ngOnDestroy() {
+    this.pushNotificationService.unsubscribeFromPushNotifications();
   }
 }
