@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { NavigationEnd, PreloadAllModules, Router, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { SetupGuard } from './guards/setup.guard';
+import posthog from 'posthog-js';
 
 const routes: Routes = [
   { path: '', redirectTo: 'tabs', pathMatch: 'full' },
@@ -150,4 +151,12 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        posthog.capture('$pageview');
+      }
+    });
+  }
+}
