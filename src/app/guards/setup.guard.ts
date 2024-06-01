@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { GeofenceService } from '../services/geofence/geofence.service';
 import { NotificationsService } from '../services/notifications/notifications.service';
 import { ErrorService } from '../services/error.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class SetupGuard  {
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
+    if (!environment.featureFlags.backgroundGeofence) return true;
     try {
       const isAuthed = await this.authService.getToken();
       // user is signed in

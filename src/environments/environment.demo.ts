@@ -112,6 +112,7 @@ export const environment: Environment = {
     termsAndConditions: 'https://hub.lazz.tech/legal/terms_and_conditions.html'
   },
   featureFlags: {
+    backgroundGeofence: false,
     statusPage: false,
     notificationsPage: false,
     hubActivityDetails: false,
