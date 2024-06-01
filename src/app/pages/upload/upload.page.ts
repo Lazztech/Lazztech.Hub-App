@@ -17,7 +17,7 @@ tf.enableProdMode()
   templateUrl: './upload.page.html',
   styleUrls: ['./upload.page.scss'],
 })
-export class UploadPage implements OnInit, OnDestroy, AfterViewInit {
+export class UploadPage implements OnInit, OnDestroy {
 
   loading = false;
   myForm: UntypedFormGroup;
@@ -48,29 +48,29 @@ export class UploadPage implements OnInit, OnDestroy, AfterViewInit {
     this.myForm = new FormGroup({});
   }
 
-  ngAfterViewInit(): void {
-    this.model = nsfwjs.load();
-  }
+  // ngAfterViewInit(): void {
+  //   this.model = nsfwjs.load();
+  // }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
   async containsExplicitContent(): Promise<boolean> {
-    console.log(this.imgs);
-    const model = await this.model;
-    const results = await Promise.all(
-      this.imgs.map(item => model.classify(item.nativeElement))
-    );
-    console.log(results);
+    // console.log(this.imgs);
+    // const model = await this.model;
+    // const results = await Promise.all(
+    //   this.imgs.map(item => model.classify(item.nativeElement))
+    // );
+    // console.log(results);
 
-    for (const result of results) {
-      const sexyProbability = result.find(x => x.className == 'Sexy')?.probability || 0;
-      const pornProbability = result.find(x => x.className == 'Porn')?.probability || 0;
-      if (sexyProbability >= 0.6 || pornProbability >= 0.6) {
-        return true;
-      }
-    }
+    // for (const result of results) {
+    //   const sexyProbability = result.find(x => x.className == 'Sexy')?.probability || 0;
+    //   const pornProbability = result.find(x => x.className == 'Porn')?.probability || 0;
+    //   if (sexyProbability >= 0.6 || pornProbability >= 0.6) {
+    //     return true;
+    //   }
+    // }
 
     return false;
   }

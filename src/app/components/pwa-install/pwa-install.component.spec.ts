@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PwaInstallComponent } from './pwa-install.component';
+import { LoggerModule } from 'ngx-logger';
+import { environment } from 'src/environments/environment';
 
 describe('PwaInstallComponent', () => {
   let component: PwaInstallComponent;
@@ -8,7 +10,10 @@ describe('PwaInstallComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PwaInstallComponent ]
+      declarations: [ PwaInstallComponent ],
+      imports: [
+        LoggerModule.forRoot(environment.logging),
+      ]
     })
     .compileComponents();
 

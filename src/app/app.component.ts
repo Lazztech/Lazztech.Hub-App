@@ -11,7 +11,6 @@ import { AuthService } from './services/auth/auth.service';
 import { ForegroundGeofenceService } from './services/foreground-geofence.service';
 import { LocationService } from './services/location/location.service';
 import { ThemeService } from './services/theme/theme.service';
-import { PwaService } from './services/pwa/pwa.service';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +43,6 @@ export class AppComponent {
     public locationService: LocationService,
     public authService: AuthService,
     private storage: Storage,
-    private pwaService: PwaService,
   ) {
     this.initializeApp();
   }
@@ -79,9 +77,6 @@ export class AppComponent {
       await this.locationService.watchPosition(
         (location) => this.foregroundGeofenceService.asses(location)
       );
-
-      // TODO: finish
-      // this.pwaService.showInstallBanner();
     });
   }
 }
