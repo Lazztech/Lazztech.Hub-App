@@ -1,0 +1,3 @@
+mutation addUserWebPushNotificationSubscription($subscription: JSON!) {
+    addUserWebPushNotificationSubscription(subscription: $subscription)
+}

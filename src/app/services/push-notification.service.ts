@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
+import { NGXLogger } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
+import { AddUserWebPushNotificationSubscriptionGQL } from 'src/graphql/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,11 @@ import { environment } from 'src/environments/environment';
 export class PushNotificationService {
   swPushpayload: any;
 
-  constructor(private swPush: SwPush) {}
+  constructor(
+    private readonly logger: NGXLogger,
+    private swPush: SwPush,
+    private addUserWebPushNotificationSubscriptionGQLService: AddUserWebPushNotificationSubscriptionGQL,
+  ) {}
 
   subscribeToNotifications(): void {
     if (this.swPush.isEnabled) {
@@ -46,12 +52,26 @@ export class PushNotificationService {
     });
   }
 
-  private saveSubscription(sub: PushSubscription): void {
+  private async saveSubscription(sub: PushSubscription) {
     // Send the subscription object to your server for storing
     // You can make an HTTP request or use any other method to send the subscription data to your server
+    const result = await this.addUserWebPushNotificationSubscriptionGQLService.mutate({
+      subscription: sub
+    }).toPromise();
+
+    const response = result.data.addUserWebPushNotificationSubscription;
+
+    if (response) {
+      this.logger.log('editHub successful.');
+    } else {
+      this.logger.log('editHub failure');
+    }
+
+    return response;
   }
 
   private storeSubscription(sub: PushSubscription): void {
     // Store the subscription in local storage or any other storage mechanism
+
   }
 }
