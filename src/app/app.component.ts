@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
@@ -17,7 +17,7 @@ import { WebPushNotificationService } from './services/web-push-notification.ser
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent {
   public appPages = [
     {
       title: 'Settings',
@@ -80,9 +80,5 @@ export class AppComponent implements OnDestroy {
         (location) => this.foregroundGeofenceService.asses(location)
       );
     });
-  }
-
-  ngOnDestroy() {
-    this.pushNotificationService.unsubscribeFromPushNotifications();
   }
 }
