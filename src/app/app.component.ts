@@ -76,9 +76,6 @@ export class AppComponent implements OnDestroy {
       // await this.storage.defineDriver(MyCustomDriver)
       await this.storage.create();
 
-      this.pushNotificationService.subscribeToNotifications();
-      this.pushNotificationService.subscribeMessage();
-
       await this.locationService.watchPosition(
         (location) => this.foregroundGeofenceService.asses(location)
       );
