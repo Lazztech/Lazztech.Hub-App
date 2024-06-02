@@ -17,7 +17,7 @@ import { PushNotificationService } from './services/push-notification.service';
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent implements OnInit,OnDestroy {
+export class AppComponent implements OnDestroy {
   public appPages = [
     {
       title: 'Settings',
@@ -76,15 +76,13 @@ export class AppComponent implements OnInit,OnDestroy {
       // await this.storage.defineDriver(MyCustomDriver)
       await this.storage.create();
 
+      this.pushNotificationService.subscribeToNotifications();
+      this.pushNotificationService.subscribeMessage();
+
       await this.locationService.watchPosition(
         (location) => this.foregroundGeofenceService.asses(location)
       );
     });
-  }
-
-  ngOnInit(): void {
-    this.pushNotificationService.subscribeToNotifications();
-    this.pushNotificationService.subscribeMessage();
   }
 
   ngOnDestroy() {
