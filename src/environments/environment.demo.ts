@@ -13,6 +13,7 @@ export const environment: Environment = {
   demoMode: true,
   name: EnvironmentNames.Demo,
   serverUrl: 'https://dev-lazztechhub.lazz.tech/',
+  webPushPublicVapidKey: 'BMNn-RZdnPe-KjKnfrAhq7Qbo89xUEi9VXGo80adRlMZiGl19lm3Rhuz7wbvO8ay8pa-a52w_v3xYLVwe4n0mHE',
   demoData: {
     usersLocation: {
       latitude: 47.62503181002362,

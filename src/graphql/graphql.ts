@@ -16,6 +16,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: { input: any; output: any; }
   /** The `Upload` scalar type represents a file upload. */
   Upload: { input: any; output: any; }
 };
@@ -181,6 +183,7 @@ export type Mutation = {
   acceptHubInvite: JoinUserHub;
   activateHub: Hub;
   addUserFcmNotificationToken: Scalars['Boolean']['output'];
+  addUserWebPushNotificationSubscription: Scalars['Boolean']['output'];
   blockUser: Block;
   changeEmail: User;
   changeHubLocation: Hub;
@@ -249,6 +252,11 @@ export type MutationActivateHubArgs = {
 
 export type MutationAddUserFcmNotificationTokenArgs = {
   token: Scalars['String']['input'];
+};
+
+
+export type MutationAddUserWebPushNotificationSubscriptionArgs = {
+  subscription: Scalars['JSON']['input'];
 };
 
 
@@ -703,6 +711,13 @@ export type AddUserFcmNotificationTokenMutationVariables = Exact<{
 
 
 export type AddUserFcmNotificationTokenMutation = { __typename?: 'Mutation', addUserFcmNotificationToken: boolean };
+
+export type AddUserWebPushNotificationSubscriptionMutationVariables = Exact<{
+  subscription: Scalars['JSON']['input'];
+}>;
+
+
+export type AddUserWebPushNotificationSubscriptionMutation = { __typename?: 'Mutation', addUserWebPushNotificationSubscription: boolean };
 
 export type BlockUserMutationVariables = Exact<{
   toUserId: Scalars['ID']['input'];
@@ -1272,6 +1287,22 @@ export const AddUserFcmNotificationTokenDocument = gql`
   })
   export class AddUserFcmNotificationTokenGQL extends Apollo.Mutation<AddUserFcmNotificationTokenMutation, AddUserFcmNotificationTokenMutationVariables> {
     document = AddUserFcmNotificationTokenDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const AddUserWebPushNotificationSubscriptionDocument = gql`
+    mutation addUserWebPushNotificationSubscription($subscription: JSON!) {
+  addUserWebPushNotificationSubscription(subscription: $subscription)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddUserWebPushNotificationSubscriptionGQL extends Apollo.Mutation<AddUserWebPushNotificationSubscriptionMutation, AddUserWebPushNotificationSubscriptionMutationVariables> {
+    document = AddUserWebPushNotificationSubscriptionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

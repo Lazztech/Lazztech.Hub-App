@@ -8,6 +8,7 @@ export interface Environment {
     demoData?: any;
     name: EnvironmentNames;
     serverUrl: string;
+    webPushPublicVapidKey: string;
     legal: {
       privacyPolicyLink: string
       termsAndConditions: string
