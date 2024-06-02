@@ -44,7 +44,6 @@ export class AppComponent {
     public locationService: LocationService,
     public authService: AuthService,
     private storage: Storage,
-    private pushNotificationService: WebPushNotificationService
   ) {
     this.initializeApp();
   }
