@@ -50,12 +50,12 @@ export class WebPushNotificationService {
   }
 
   subscribeMessage(): void {
-    this.swPush.messages.subscribe(async (notification: any) => {
-      console.log('Received push notification', notification);
+    this.swPush.messages.subscribe(async (res: any) => {
+      console.log('Received push notification', res);
       await this.alertService.create({
-        header: notification?.title,
-        message: notification?.body,
-        duration: 5000,
+        header: res?.notification?.title,
+        message: res?.notification?.body,
+        duration: 4000,
         position: 'top',
         translucent: true,
       });
