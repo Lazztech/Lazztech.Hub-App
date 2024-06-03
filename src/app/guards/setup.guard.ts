@@ -5,7 +5,7 @@ import { GeofenceService } from '../services/geofence/geofence.service';
 import { NotificationsService } from '../services/notifications/notifications.service';
 import { ErrorService } from '../services/error.service';
 import { environment } from 'src/environments/environment';
-import { PushNotificationService } from '../services/push-notification.service';
+import { WebPushNotificationService } from '../services/web-push-notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class SetupGuard  {
     private notificationsService: NotificationsService,
     private geofenceService: GeofenceService,
     private errorService: ErrorService,
-    private pushNotificationService: PushNotificationService
+    private pushNotificationService: WebPushNotificationService
   ) { }
 
   async canActivate(
