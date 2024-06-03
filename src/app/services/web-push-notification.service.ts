@@ -27,13 +27,12 @@ export class WebPushNotificationService {
           serverPublicKey: environment.webPushPublicVapidKey
         })
         .then(async (sub: PushSubscription) => {
+          console.log('Web PushSubscription: ', sub);
+
           // Save the subscription object to your server
           await this.saveSubscription(sub);
-
           // Store the subscription in local storage or any other storage mechanism
           await this.storeSubscription(sub);
-
-          console.log('Display', JSON.stringify(sub)); // This will be required for the Nest.js backend to send notifications
         })
         .catch((err: any) => console.error('Could not subscribe to notifications', err));
     }
@@ -51,12 +50,12 @@ export class WebPushNotificationService {
   }
 
   subscribeMessage(): void {
-    this.swPush.messages.subscribe(async (res: any) => {
-      console.log('Received push notification', res);
+    this.swPush.messages.subscribe(async (notification: any) => {
+      console.log('Received push notification', notification);
       await this.alertService.create({
-        header: res?.title,
-        message: res?.body,
-        duration: 3000,
+        header: notification?.title,
+        message: notification?.body,
+        duration: 5000,
         position: 'top',
         translucent: true,
       });
@@ -73,6 +72,6 @@ export class WebPushNotificationService {
 
   private async storeSubscription(sub: PushSubscription) {
     // Store the subscription in local storage or any other storage mechanism
-    await this.storage.set('webPushSubcription', sub);
+    await this.storage.set('webPushSubcription', JSON.stringify(sub));
   }
 }
