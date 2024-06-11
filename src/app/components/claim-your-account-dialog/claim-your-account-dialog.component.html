@@ -1,0 +1,11 @@
+<ion-item *ngIf="completedInitialAccountSetup === false" lines="none" href="javascript:void(0);" (click)="goToSettingsPage()">
+    <ion-card-header>
+      <ion-card-subtitle color="warning">
+        Warning
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-icon slot="end" name="warning-outline" color="warning"></ion-icon>
+    <ion-card-content>
+      Finish your account set up to ensure you're able to recover your account if signed out!
+  </ion-card-content>
+  </ion-item>
