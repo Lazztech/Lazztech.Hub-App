@@ -14,6 +14,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { MaplibreComponent } from './maplibre/maplibre.component';
 import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
 import { PwaInstallComponent } from './pwa-install/pwa-install.component';
+import { ClaimYourAccountDialogComponent } from './claim-your-account-dialog/claim-your-account-dialog.component';
 
 @NgModule({
     declarations: [
@@ -25,6 +26,7 @@ import { PwaInstallComponent } from './pwa-install/pwa-install.component';
         InviteComponent,
         MaplibreComponent,
         PwaInstallComponent,
+        ClaimYourAccountDialogComponent,
     ],
     imports: [
         IonicModule,
@@ -44,6 +46,7 @@ import { PwaInstallComponent } from './pwa-install/pwa-install.component';
         EventCardComponent,
         InviteComponent,
         MaplibreComponent,
+        ClaimYourAccountDialogComponent,
     ]
 })
 export class ComponentsModule {

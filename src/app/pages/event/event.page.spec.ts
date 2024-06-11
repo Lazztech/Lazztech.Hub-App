@@ -5,7 +5,7 @@ import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { EventPage } from './event.page';
-import { IonicStorageModule } from '@ionic/storage-angular';
+import { IonicStorageModule, Storage } from '@ionic/storage-angular';
 import { EventGQL } from 'src/graphql/graphql';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { ComponentsModule } from 'src/app/components/components.module';
@@ -17,7 +17,7 @@ describe('EventPage', () => {
   let eventGqlSpy;
   let hubServiceSpy;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     eventGqlSpy = jasmine.createSpyObj({
       watch: () => undefined,
     });
@@ -25,7 +25,7 @@ describe('EventPage', () => {
       watchUsersPeople: () => undefined,
     })
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [ EventPage ],
       imports: [
         IonicModule.forRoot(),
@@ -49,10 +49,13 @@ describe('EventPage', () => {
       ]
     }).compileComponents();
 
+    const storage: Storage = TestBed.get(Storage);
+    await storage.create();
+
     fixture = TestBed.createComponent(EventPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

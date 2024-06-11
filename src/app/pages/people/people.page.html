@@ -16,6 +16,8 @@
 
     <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
 
+    <app-claim-your-account-dialog />
+
     <ion-item lines="none" *ngIf="!loading && !personsResult?.data?.usersPeople?.length">
       <ion-card-header>
         <ion-card-subtitle>Get Started</ion-card-subtitle>
