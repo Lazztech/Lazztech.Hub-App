@@ -9,11 +9,12 @@
 
   <ion-searchbar (ionInput)="filterEvents($event)" showCancelButton="focus"></ion-searchbar>
 
+  <app-claim-your-account-dialog />
+
   <ion-list *ngIf="filter === ''">
     <ion-list-header>
       <ion-text>Upcoming</ion-text>
     </ion-list-header>
-
 
     <ion-item lines="none" *ngIf="!upcomingEvents?.length">
       <ion-card-header>
