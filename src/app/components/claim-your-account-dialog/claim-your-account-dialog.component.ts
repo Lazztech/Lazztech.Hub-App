@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
@@ -11,10 +12,15 @@ export class ClaimYourAccountDialogComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    public navCtrl: NavController,
   ) {}
 
   async ngOnInit() {
     this.completedInitialAccountSetup = await this.authService.completedInitialAccountSetup();
+  }
+
+  goToSettingsPage() {
+    this.navCtrl.navigateForward('settings');
   }
 
 }
