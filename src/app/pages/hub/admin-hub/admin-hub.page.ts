@@ -194,12 +194,7 @@ export class AdminHubPage implements OnInit, OnDestroy {
       locationLabel: this.location?.value?.label || this.location?.value?.locationLabel,
       imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : undefined,
     }, {
-      context: { 
-          useMultipart: true,
-          headers: {
-            'apollo-require-preflight': true,
-          },
-        },
+      context: { useMultipart: true },
       refetchQueries: [
         { query: HubDocument, variables: { id: this.id } }
       ],

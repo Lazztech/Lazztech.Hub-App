@@ -131,12 +131,7 @@ export class AddHubPage implements OnInit, OnDestroy {
       locationLabel: this.location?.value?.label,
       imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : undefined,
     }, {
-      context: { 
-          useMultipart: true,
-          headers: {
-            'apollo-require-preflight': true,
-          },
-        },
+      context: { useMultipart: true },
     })
       .toPromise()
       .then(async result => {

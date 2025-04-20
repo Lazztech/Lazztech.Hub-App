@@ -122,12 +122,7 @@ export class ProfilePage implements OnInit, OnDestroy {
                 this.updateUserService.mutate({
                   imageFile: blob,
                 }, {
-                  context: { 
-          useMultipart: true,
-          headers: {
-            'apollo-require-preflight': true,
-          },
-        },
+                  context: { useMultipart: true },
                   refetchQueries: [
                     { query: MeDocument }
                   ],
@@ -153,12 +148,7 @@ export class ProfilePage implements OnInit, OnDestroy {
                 this.updateUserService.mutate({
                   imageFile: blob,
                 }, {
-                  context: { 
-          useMultipart: true,
-          headers: {
-            'apollo-require-preflight': true,
-          },
-        },
+                  context: { useMultipart: true },
                   refetchQueries: [
                     { query: MeDocument }
                   ],
