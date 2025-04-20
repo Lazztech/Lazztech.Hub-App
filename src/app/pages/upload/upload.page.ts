@@ -99,7 +99,12 @@ export class UploadPage implements OnInit, OnDestroy {
         files,
         hubId: this.seed?.id,
       }, {
-        context: { useMultipart: true },
+        context: { 
+          useMultipart: true,
+          headers: {
+            'apollo-require-preflight': true,
+          },
+        },
       })
         .toPromise()
         .then(async result => {
@@ -112,7 +117,12 @@ export class UploadPage implements OnInit, OnDestroy {
         files,
         eventId: this.seed?.eventId,
       }, {
-        context: { useMultipart: true },
+        context: { 
+          useMultipart: true,
+          headers: {
+            'apollo-require-preflight': true,
+          },
+        },
       })
         .toPromise()
         .then(async result => {

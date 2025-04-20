@@ -205,7 +205,12 @@ export class AdminEventPage implements OnInit, OnDestroy {
         imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : undefined,
         hubId: this.eventQueryResult?.data?.event?.event?.hub?.id,
     }, {
-      context: { useMultipart: true },
+      context: { 
+          useMultipart: true,
+          headers: {
+            'apollo-require-preflight': true,
+          },
+        },
       refetchQueries: [
         { query: EventDocument, variables: { id: this.id } }
       ],

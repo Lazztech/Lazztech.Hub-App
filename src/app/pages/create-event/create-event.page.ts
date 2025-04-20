@@ -144,7 +144,12 @@ export class CreateEventPage implements OnInit, OnDestroy {
       imageFile: this.photo ? await this.cameraService.getImageBlob(this.photo) : await this.cameraService.getBlobFromObjectUrl(this.image),
       hubId: this.seedType === 'hub' ? this.seed?.id : this.seed?.hub?.id || undefined,
     }, {
-      context: { useMultipart: true },
+      context: { 
+          useMultipart: true,
+          headers: {
+            'apollo-require-preflight': true,
+          },
+        },
     })
       .toPromise()
       .then(async result => {
