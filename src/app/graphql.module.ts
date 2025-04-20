@@ -49,6 +49,7 @@ export function createApollo(
         headers: {
           ...headers,
           Authorization: `Bearer ${token}`,
+          'Apollo-Require-Preflight': 'true'
         },
       };
     }
