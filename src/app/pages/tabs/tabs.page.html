@@ -5,35 +5,26 @@
     <ion-tab-button tab="people">
       <ion-icon color="dark" [name]="selectedTabName === 'people' ? 'people' : 'people-outline'"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button tab="events">
-      <ion-icon color="dark" [name]="selectedTabName === 'events' ? 'calendar' : 'calendar-outline'"></ion-icon>
-    </ion-tab-button>
     <ion-tab-button tab="home">
-      <ion-icon color="dark" [name]="selectedTabName === 'home' ? 'home' : 'home-outline'"></ion-icon>
+      <ion-icon color="dark" [name]="selectedTabName === 'home' ? 'ellipse' : 'ellipse-outline'"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button tab="discover">
-      <ion-icon color="dark" [name]="selectedTabName === 'discover' ? 'compass' : 'compass-outline'"></ion-icon>
+    <ion-tab-button tab="events">
+      <ion-icon color="dark" [name]="selectedTabName === 'events' ? 'location' : 'location-outline'"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="notifications" *ngIf="environment.featureFlags.notificationsPage">
       <ion-icon color="dark" name="notifications"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button tab="profile">
-      <ion-icon color="dark" [name]="selectedTabName === 'profile' ? 'person' : 'person-outline'"></ion-icon>
-    </ion-tab-button>
   </ion-tab-bar>
 
   <ion-tab-bar slot="bottom" translucent="true" *ngIf="!isMobile()">
-    <ion-tab-button tab="home">
-      <ion-icon color="dark" [name]="selectedTabName === 'home' ? 'home' : 'home-outline'"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="events">
-      <ion-icon color="dark" [name]="selectedTabName === 'events' ? 'calendar' : 'calendar-outline'"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="discover">
-      <ion-icon color="dark" [name]="selectedTabName === 'discover' ? 'compass' : 'compass-outline'"></ion-icon>
-    </ion-tab-button>
     <ion-tab-button tab="people">
       <ion-icon color="dark" [name]="selectedTabName === 'people' ? 'people' : 'people-outline'"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="home">
+      <ion-icon color="dark" [name]="selectedTabName === 'home' ? 'ellipse' : 'ellipse-outline'"></ion-icon>
+    </ion-tab-button>
+    <ion-tab-button tab="events">
+      <ion-icon color="dark" [name]="selectedTabName === 'events' ? 'location' : 'location-outline'"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="notifications" *ngIf="environment.featureFlags.notificationsPage">
       <ion-icon color="dark" name="notifications"></ion-icon>
