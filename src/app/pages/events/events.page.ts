@@ -3,6 +3,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { JoinUserEvent, UserEventsGQL, UserEventsQuery } from 'src/graphql/graphql';
 
 @Component({
@@ -26,6 +27,7 @@ export class EventsPage implements OnInit, OnDestroy {
   constructor(
     public navCtrl: NavController,
     private readonly userEvents: UserEventsGQL,
+    private readonly authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -67,6 +69,22 @@ export class EventsPage implements OnInit, OnDestroy {
 
   goToCreateEventPage() {
     this.navCtrl.navigateForward('create-event');
+  }
+
+  goToDiscoverPage() {
+    this.navCtrl.navigateForward('discover');
+  }
+
+  async goToQrPage() {
+    const user = await this.authService.user();
+    this.navCtrl.navigateForward('qr', {
+      state: {
+        data: user?.shareableId,
+        title: user?.firstName && user?.lastName ? `${user?.firstName} ${user?.lastName}` : undefined,
+        subtitle: 'Scan to invite me',
+        image: user?.image,
+      }
+    });
   }
 
   trackByEvent(index: any, joinUserEvent: JoinUserEvent) {

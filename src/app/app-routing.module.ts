@@ -143,6 +143,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/manage-uploads/manage-uploads.module').then(m => m.ManageUploadsPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'discover',
+    loadChildren: () => import('./pages/discover/discover-routing.module').then(m => m.DiscoverPageRoutingModule),
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

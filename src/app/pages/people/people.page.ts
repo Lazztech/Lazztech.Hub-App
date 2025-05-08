@@ -5,6 +5,7 @@ import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { HubService } from 'src/app/services/hub/hub.service';
@@ -38,6 +39,7 @@ export class PeoplePage implements OnInit, OnDestroy {
     private readonly communcationService: CommunicationService,
     private readonly usersPeopleGQLService: UsersPeopleGQL,
     private readonly errorService: ErrorService,
+    private readonly authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -109,6 +111,22 @@ export class PeoplePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('person/' + id, {
       state: {
         user
+      }
+    });
+  }
+
+  goToDiscoverPage() {
+    this.navCtrl.navigateForward('discover');
+  }
+
+  async goToQrPage() {
+    const user = await this.authService.user();
+    this.navCtrl.navigateForward('qr', {
+      state: {
+        data: user?.shareableId,
+        title: user?.firstName && user?.lastName ? `${user?.firstName} ${user?.lastName}` : undefined,
+        subtitle: 'Scan to invite me',
+        image: user?.image,
       }
     });
   }

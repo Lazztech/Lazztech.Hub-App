@@ -166,6 +166,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('map');
   }
 
+  goToDiscoverPage() {
+    this.navCtrl.navigateForward('discover');
+  }
+
   async goToQrPage() {
     const user = await this.authService.user();
     this.navCtrl.navigateForward('qr', {

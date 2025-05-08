@@ -3,6 +3,9 @@
     <ion-buttons slot="start">
       <ion-icon size="large" name="qr-code-outline" href="javascript:void(0);" (click)="goToQrPage()"></ion-icon>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-icon size="large" name="images-outline" href="javascript:void(0);" (click)="goToDiscoverPage()"></ion-icon>
+    </ion-buttons>
     <ion-buttons [appFeatureFlag]="'statusPage'" slot="start">
         <ion-icon size="large" name="navigate-circle" (click)="goToStatusPage()"></ion-icon>
     </ion-buttons>
