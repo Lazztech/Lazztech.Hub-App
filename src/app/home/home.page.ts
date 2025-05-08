@@ -3,7 +3,7 @@ import { Config, MenuController, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
-import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserHub, User, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
+import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserHub, User, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { environment } from '../../environments/environment';
 import { MaplibreComponent } from '../components/maplibre/maplibre.component';
 import { AuthService } from '../services/auth/auth.service';
@@ -11,6 +11,7 @@ import { DebuggerService } from '../services/debugger/debugger.service';
 import { ErrorService } from '../services/error.service';
 import { LocationService } from '../services/location/location.service';
 import { ThemeService } from '../services/theme/theme.service';
+import { ApolloQueryResult } from '@apollo/client/core';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +32,12 @@ export class HomePage implements OnInit, OnDestroy {
   user: User;
   queryRefs: QueryRef<any>[] = [];
   subscriptions: Subscription[] = [];
+  userEventsQueryResult: ApolloQueryResult<UserEventsQuery>;
+  filteredEvents: UserEventsQuery['usersEvents'];
+  sortedEvents: UserEventsQuery['usersEvents'];
+  upcomingEvents: UserEventsQuery['usersEvents'];
+  elapsedEvents: UserEventsQuery['usersEvents'];
+
   public mode: string;
 
   constructor(
@@ -45,6 +52,7 @@ export class HomePage implements OnInit, OnDestroy {
     private readonly config: Config,
     private readonly errorService: ErrorService,
     public readonly themeService: ThemeService,
+    private readonly userEvents: UserEventsGQL,
   ) {
     this.menu.enable(true);
     this.mode = this.config.get("mode");
@@ -55,7 +63,8 @@ export class HomePage implements OnInit, OnDestroy {
 
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
     const invitesByUserRef = this.invitesByUserGQLService.watch(null, { pollInterval: 3000 });
-    this.queryRefs.push(userHubsQueryRef, invitesByUserRef);
+    const userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
+    this.queryRefs.push(userHubsQueryRef, invitesByUserRef, userEventsQueryRef);
 
     this.subscriptions.push(
       userHubsQueryRef.valueChanges.subscribe(x => {
@@ -81,7 +90,24 @@ export class HomePage implements OnInit, OnDestroy {
       invitesByUserRef.valueChanges.subscribe(x => {
         this.invites = x?.data?.invitesByUser;
         this.loading = x.loading;
-      }, err => this.errorService.handleError(err, this.loading))
+      }, err => this.errorService.handleError(err, this.loading)),
+      userEventsQueryRef?.valueChanges?.subscribe(result => {
+        this.userEventsQueryResult = result;
+        this.loading = result.loading;
+        if (this.userEventsQueryResult?.data?.usersEvents) {
+          this.sortedEvents = [...this.userEventsQueryResult?.data?.usersEvents]?.sort(
+            (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
+          );
+          this.upcomingEvents = this.sortedEvents?.filter(userEvents => (
+            new Date().valueOf() <= new Date(userEvents?.event?.startDateTime).valueOf()
+          )).sort(
+            (a, b) => new Date(a?.event?.startDateTime).valueOf() - new Date(b?.event?.startDateTime).valueOf()
+          );
+          this.elapsedEvents = this.sortedEvents?.filter(userEvents => (
+            new Date().valueOf() > new Date(userEvents?.event?.startDateTime).valueOf()
+          ));
+        }
+      })
     );
   }
 

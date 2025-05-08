@@ -12,7 +12,8 @@ export const environment: Environment = {
   demoMode: false,
   demoData: undefined,
   name: EnvironmentNames.Development,
-  serverUrl: 'https://dev-lazztechhub.lazz.tech/',
+  // serverUrl: 'https://dev-lazztechhub.lazz.tech/',
+  serverUrl: 'https://lazztech-hub-service-z84zo.ondigitalocean.app/',
   webPushPublicVapidKey: 'BMNn-RZdnPe-KjKnfrAhq7Qbo89xUEi9VXGo80adRlMZiGl19lm3Rhuz7wbvO8ay8pa-a52w_v3xYLVwe4n0mHE',
   legal: {
     privacyPolicyLink: 'https://hub.lazz.tech/legal/privacy_policy.html',
