@@ -3,6 +3,9 @@ import { IonicModule } from '@ionic/angular';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 import { UserEventsGQL } from 'src/graphql/graphql';
 import { EventsPage } from './events.page';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { LoggerModule } from 'ngx-logger';
+import { environment } from 'src/environments/environment';
 
 describe('EventsPage', () => {
   let component: EventsPage;
@@ -19,6 +22,8 @@ describe('EventsPage', () => {
       imports: [
         IonicModule.forRoot(),
         ApolloTestingModule,
+        IonicStorageModule.forRoot(),
+        LoggerModule.forRoot(environment.logging),
       ],
       providers: [
         { provide: UserEventsGQL, useValue: userEventsGQLSpy },
