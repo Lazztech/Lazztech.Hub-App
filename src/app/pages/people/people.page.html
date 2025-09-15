@@ -20,6 +20,43 @@
 
     <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
 
+<!-- "You" section pinned at top -->
+<ion-list *ngIf="!loading && filter === '' && userResult?.data?.me as user">
+  <ion-item-divider>
+    <ion-label>You</ion-label>
+  </ion-item-divider>
+
+  <ion-item href="javascript:void(0);" (click)="goToProfilePage()" detail="true">
+    <ion-avatar slot="start">
+      <img
+        width="100%"
+        [appFeatureFlag]="'adorableAvatarsUserImage'"
+        *ngIf="!user.image"
+        [src]="user.id | avatar" />
+      <ion-img
+        width="100%"
+        *ngIf="user.image"
+        [src]="user.image">
+      </ion-img>
+    </ion-avatar>
+
+    <ion-label>
+      <h2>
+        <ion-text *ngIf="user.firstName || user.lastName">
+          {{ user.firstName }} <ion-text style="font-weight: bold">{{ user.lastName }}</ion-text>
+        </ion-text>
+        <ion-text *ngIf="!user.firstName && !user.lastName && user.username" style="font-weight: bold">
+          {{ user.username }}
+        </ion-text>
+      </h2>
+      <p>
+        View Profile
+      </p>
+    </ion-label>
+  </ion-item>
+</ion-list>
+
+
     <app-claim-your-account-dialog />
 
     <ion-item lines="none" *ngIf="!loading && !personsResult?.data?.usersPeople?.length">

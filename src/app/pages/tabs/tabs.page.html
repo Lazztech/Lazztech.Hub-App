@@ -29,8 +29,10 @@
     <ion-tab-button tab="notifications" *ngIf="environment.featureFlags.notificationsPage">
       <ion-icon color="dark" name="notifications"></ion-icon>
     </ion-tab-button>
+    <!-- Why have this here? isMobile will always be false because it's in the not mobile block.
     <ion-tab-button tab="profile" *ngIf="isMobile()">
       <ion-icon color="dark" [name]="selectedTabName === 'profile' ? 'person' : 'person-outline'"></ion-icon>
     </ion-tab-button>
+    -->
   </ion-tab-bar>
 </ion-tabs>
