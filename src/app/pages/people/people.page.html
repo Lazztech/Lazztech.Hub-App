@@ -22,35 +22,33 @@
 
 
 <ion-list *ngIf="!loading && filter === '' && userResult?.data?.me as user">
-  <ion-item-divider>
-    <ion-label>You</ion-label>
-  </ion-item-divider>
 
-  <ion-item href="javascript:void(0);" (click)="goToProfilePage()" detail="true">
-    <ion-avatar slot="start">
-      <img
-        width="100%"
-        [appFeatureFlag]="'adorableAvatarsUserImage'"
-        *ngIf="!user.image"
-        [src]="user.id | avatar" />
-      <ion-img
-        width="100%"
-        *ngIf="user.image"
-        [src]="user.image">
-      </ion-img>
-    </ion-avatar>
+  <ion-item href="javascript:void(0);" (click)="goToProfilePage()" detail="true" lines="none" style="padding-bottom: 24px; padding-top: 12px;">
+    <div slot="start" style="width:70px; height:70px;">
+      <ion-avatar style="width: 100%; height: 100%;">
+        <img
+          [appFeatureFlag]="'adorableAvatarsUserImage'"
+          *ngIf="!user.image"
+          [src]="user.id | avatar" />
+
+        <ion-img
+          *ngIf="user.image"
+          [src]="user.image">
+        </ion-img>
+      </ion-avatar>
+    </div>
 
     <ion-label>
       <h2>
-        <ion-text *ngIf="user.firstName || user.lastName">
-          {{ user.firstName }} <ion-text style="font-weight: bold">{{ user.lastName }}</ion-text>
+        <ion-text *ngIf="user.firstName || user.lastName" style="font-weight: bold">
+          {{ user.firstName }} {{ user.lastName }}
         </ion-text>
         <ion-text *ngIf="!user.firstName && !user.lastName && user.username" style="font-weight: bold">
           {{ user.username }}
         </ion-text>
       </h2>
       <p>
-        View Profile
+        View Your Profile
       </p>
     </ion-label>
   </ion-item>
