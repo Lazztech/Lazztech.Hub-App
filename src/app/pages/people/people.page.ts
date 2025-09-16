@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { HubService } from 'src/app/services/hub/hub.service';
-import { UsersPeopleGQL, UsersPeopleQuery } from 'src/graphql/graphql';
+import { MeQuery, UsersPeopleGQL, UsersPeopleQuery } from 'src/graphql/graphql';
 
 export type AlphabetMapOfUsers = {
   [letter: string]: UsersPeopleQuery['usersPeople'];
@@ -22,6 +22,7 @@ export type AlphabetMapOfUsers = {
 })
 export class PeoplePage implements OnInit, OnDestroy {
 
+  userResult: ApolloQueryResult<MeQuery>;
   personsResult: ApolloQueryResult<UsersPeopleQuery>;
   filteredPersons: ApolloQueryResult<UsersPeopleQuery>;
   alphabetizedPersons: AlphabetMapOfUsers;
@@ -45,9 +46,15 @@ export class PeoplePage implements OnInit, OnDestroy {
   ngOnInit() {
 
     const usersPeopleQueryRef = this.usersPeopleGQLService.watch(null, { pollInterval: 3000 });
+    const userQueryRef = this.authService.watchUser();
+
     this.queryRefs.push(usersPeopleQueryRef);
 
     this.subscriptions.push(
+      userQueryRef.valueChanges.subscribe(result => {
+        this.userResult = result;
+        this.loading = result.loading;
+      }, err => this.errorService.handleError(err, this.loading)),
       usersPeopleQueryRef.valueChanges.subscribe(result => {
         this.loading = result.loading;
         this.personsResult = result;
@@ -129,6 +136,10 @@ export class PeoplePage implements OnInit, OnDestroy {
         image: user?.image,
       }
     });
+  }
+
+  async goToProfilePage() {
+    this.navCtrl.navigateForward('tabs/profile');
   }
 
   async filterPeople(ev: any) {

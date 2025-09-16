@@ -53,6 +53,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     const userQueryRef = this.authService.watchUser();
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
     const userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
+    
     this.queryRefs.push(userQueryRef, userHubsQueryRef, userEventsQueryRef);
 
     this.subscriptions.push(
