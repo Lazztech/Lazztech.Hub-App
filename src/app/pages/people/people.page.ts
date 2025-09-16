@@ -22,9 +22,7 @@ export type AlphabetMapOfUsers = {
 })
 export class PeoplePage implements OnInit, OnDestroy {
 
-  //added self query the same as done on profile page
   userResult: ApolloQueryResult<MeQuery>;
-
   personsResult: ApolloQueryResult<UsersPeopleQuery>;
   filteredPersons: ApolloQueryResult<UsersPeopleQuery>;
   alphabetizedPersons: AlphabetMapOfUsers;
@@ -140,11 +138,9 @@ export class PeoplePage implements OnInit, OnDestroy {
     });
   }
 
-  // Added navigation to profile page from people page. Is this the best way? 
   async goToProfilePage() {
     this.navCtrl.navigateForward('tabs/profile');
   }
-
 
   async filterPeople(ev: any) {
     this.filter = ev?.target?.value;

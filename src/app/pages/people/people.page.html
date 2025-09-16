@@ -20,7 +20,7 @@
 
     <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
 
-<!-- "You" section pinned at top -->
+
 <ion-list *ngIf="!loading && filter === '' && userResult?.data?.me as user">
   <ion-item-divider>
     <ion-label>You</ion-label>
