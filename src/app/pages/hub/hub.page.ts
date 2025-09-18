@@ -151,7 +151,6 @@ export class HubPage implements OnInit, OnDestroy {
      const connections = this.userHub?.hub?.usersConnection;
      const numbersArray = connections.map(connection => connection.user?.phoneNumber).filter(Boolean);
 
-     
      this.communcationService.openGroupSms(numbersArray);
   }
 
