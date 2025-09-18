@@ -14,6 +14,7 @@ import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { HubQuery, JoinHubFile, JoinUserHub, MuteGQL, Scalars, UnmuteGQL, User } from 'src/graphql/graphql';
 import { InviteContext } from '../qr/qr.page';
+import { forEach } from 'lodash-es';
 
 @Component({
   selector: 'app-hub',
@@ -143,6 +144,15 @@ export class HubPage implements OnInit, OnDestroy {
   openSms(event: Event, number: string) {
     event.stopPropagation();
     this.communcationService.openSms(number);
+  }
+
+  openGroupSms(event: Event){
+    event.stopPropagation();
+     const connections = this.userHub?.hub?.usersConnection;
+     const numbersArray = connections.map(connection => connection.user?.phoneNumber).filter(Boolean);
+
+     
+     this.communcationService.openGroupSms(numbersArray);
   }
 
   async toggleActivity() {
