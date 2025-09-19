@@ -13,7 +13,7 @@ import { CommunicationService } from 'src/app/services/communication.service';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
-import { EventGQL, EventQuery, JoinHubFile, JoinUserEvent, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
+import { EventGQL, EventQuery, JoinHubFile, JoinUserEvent, MeQuery, ReportEventAsInappropriateGQL, Scalars, User, UsersPeopleQuery } from 'src/graphql/graphql';
 import { InviteContext } from '../qr/qr.page';
 import * as ics from 'ics';
 import moment from 'moment';
@@ -28,6 +28,7 @@ export class EventPage implements OnInit, OnDestroy {
 
   loading = true;
   id: Scalars['ID']['output'];
+  userResult: ApolloQueryResult<MeQuery>;
   userEventQueryResult: ApolloQueryResult<EventQuery>;
   presentUserEvents: EventQuery['event']['event']['usersConnection'];
   goingUserEvents: EventQuery['event']['event']['usersConnection'];
@@ -113,6 +114,23 @@ export class EventPage implements OnInit, OnDestroy {
   openSms(event: Event, number: string) {
     event.stopPropagation();
     this.communcationService.openSms(number);
+  }
+
+  async openGroupSms(event: Event){
+    event.stopPropagation();
+    const loggedInUser = await this.authService.user();
+
+    const invitees = this.userEventQueryResult?.data?.event?.event?.usersConnection;
+
+    const responseArray = invitees.filter(invited => invited?.rsvp !== 'cantgo');
+
+    const poepleArray = responseArray.map(person => person?.user)
+                                     .filter(person => !loggedInUser || person.id !== loggedInUser.id);
+                                  
+    const numbersArray = poepleArray.map(invitee => invitee.phoneNumber)
+                                    .filter(Boolean);
+                                  
+    this.communcationService.openGroupSms(numbersArray);
   }
 
   async requestRide(userEvent: JoinUserEvent) {

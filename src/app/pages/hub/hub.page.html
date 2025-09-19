@@ -60,7 +60,7 @@
           </ion-note>
         </ion-item>
       </ion-list>
-    
+
       <ion-list>
         <ion-list-header>
           <ion-label>Events</ion-label>
@@ -98,10 +98,22 @@
         </ion-grid>
       </ion-list>
       </ion-col>
+
       <ion-col size="12" size-md="6">      
         <ion-list *ngIf="userHub && !userHub?.hub.active">
-          <ion-list-header>
-            <ion-text>Members</ion-text>
+          <ion-list-header  style="display:flex;align-items:center;justify-content:space-between;">
+            <ion-label>Members</ion-label>
+            <ion-button 
+            (click)="openGroupSms($event)"
+            color="dark"
+            fill="clear"
+            size="large">
+            <ion-icon 
+            name="chatbubbles-outline"
+            aria-label="group chat"
+            size="large"
+            ></ion-icon>
+            </ion-button>
           </ion-list-header>
       
           <div *ngFor="let userConnection of userHub?.hub.usersConnection; trackBy: trackByUser">
