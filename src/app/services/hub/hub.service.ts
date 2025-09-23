@@ -7,11 +7,10 @@ import {
   ChangeHubLocationGQL,
   CommonUsersHubsGQL,
   CreateHubGQL,
-  CreateMicroChatGQL,
   DeactivateHubGQL,
   DeleteHubGQL,
   DeleteInviteGQL,
-  DeleteMicroChatGQL, DwellHubGeofenceGQL, EditHubGQL,
+  DwellHubGeofenceGQL, EditHubGQL,
   EnteredHubGeofenceGQL, ExitedHubGeofenceGQL, Hub, HubDocument,
   HubGQL,
   HubQuery,
@@ -22,7 +21,6 @@ import {
   InvitesByHubQueryVariables,
   InvitesByUserDocument, InviteUserToHubGQL,
   LeaveHubGQL,
-  MicroChatToHubGQL,
   QueryInvitesByHubArgs, ReportHubAsInappropriateGQL, Scalars,
   SetHubNotStarredGQL,
   SetHubStarredGQL,
@@ -53,9 +51,6 @@ export class HubService {
     private readonly exitedHubGeofenceGQLService: ExitedHubGeofenceGQL,
     private readonly activateHubGQLService: ActivateHubGQL,
     private readonly deactivateHubGQLService: DeactivateHubGQL,
-    private readonly microChatToHubGQLService: MicroChatToHubGQL,
-    private readonly createMicroChatGQLService: CreateMicroChatGQL,
-    private readonly deleteMicroChatGQLService: DeleteMicroChatGQL,
     private readonly invitesByHubGQLService: InvitesByHubGQL,
     private readonly deleteInviteGQLService: DeleteInviteGQL,
     private readonly inviteGQLService: InviteGQL,
@@ -336,73 +331,6 @@ export class HubService {
     }).toPromise();
 
     return result;
-  }
-
-  async sendMicroChat(hubId: Scalars['ID']['output'], microChatId: Scalars['ID']['output']) {
-    const result = await this.microChatToHubGQLService.mutate({
-      hubId,
-      microChatId
-    }).toPromise();
-
-    const response = result.data.microChatToHub;
-    return response;
-  }
-
-  async createMicroChat(hubId: Scalars['ID']['output'], microChatText: string) {
-    const result = await this.createMicroChatGQLService.mutate({
-      hubId,
-      microChatText
-    },
-      {
-        update: (proxy, { data: { createMicroChat } }) => {
-          // Read the data from our cache for this query.
-          const data = proxy.readQuery({
-            query: HubDocument,
-            variables: { id: hubId } as HubQueryVariables
-          }) as HubQuery;
-
-          // Add new micro-chat to hub's array of micro-chats
-          data.hub.hub.microChats.push(createMicroChat);
-
-          // Write our data back to the cache.
-          proxy.writeQuery({
-            query: HubDocument,
-            variables: { id: hubId } as HubQueryVariables,
-            data
-          });
-        }
-      }).toPromise();
-    return result.data.createMicroChat;
-  }
-
-  async deleteMicroChat(hubId: Scalars['ID']['output'], microChatId: Scalars['ID']['output']) {
-    const result = await this.deleteMicroChatGQLService.mutate({
-      hubId,
-      microChatId
-    },
-      {
-        update: (proxy, { data: { deleteMicroChat } }) => {
-          // Read the data from our cache for this query.
-          const data = proxy.readQuery({
-            query: HubDocument,
-            variables: { id: hubId } as HubQueryVariables
-          }) as HubQuery;
-
-          // Remove micro-chat from hub's array of micro-chats
-          const microChat = data.hub.hub.microChats.find(x => x.id === microChatId);
-          data.hub.hub.microChats.splice(
-            data.hub.hub.microChats.indexOf(microChat), 1
-          );
-
-          // Write our data back to the cache.
-          proxy.writeQuery({
-            query: HubDocument,
-            variables: { id: hubId } as HubQueryVariables,
-            data
-          });
-        }
-      }).toPromise();
-    return result.data.deleteMicroChat;
   }
 
   async reportAsInappropriate(hubId: any) {

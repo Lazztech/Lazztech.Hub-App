@@ -13,11 +13,6 @@ mutation acceptHubInvite($inviteId: ID!) {
       image
       latitude
       longitude
-      microChats {
-        id
-        hubId
-        text
-      }
     }
   }
 }
