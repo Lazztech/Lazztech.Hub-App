@@ -41,7 +41,7 @@ export type FileFieldPolicy = {
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type HubKeySpecifier = ('active' | 'coverImage' | 'description' | 'events' | 'fileUploads' | 'id' | 'image' | 'invites' | 'latitude' | 'locationLabel' | 'longitude' | 'microChats' | 'name' | 'shareableId' | 'usersConnection' | HubKeySpecifier)[];
+export type HubKeySpecifier = ('active' | 'coverImage' | 'description' | 'events' | 'fileUploads' | 'id' | 'image' | 'invites' | 'latitude' | 'locationLabel' | 'longitude' | 'name' | 'shareableId' | 'usersConnection' | HubKeySpecifier)[];
 export type HubFieldPolicy = {
 	active?: FieldPolicy<any> | FieldReadFunction<any>,
 	coverImage?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -54,7 +54,6 @@ export type HubFieldPolicy = {
 	latitude?: FieldPolicy<any> | FieldReadFunction<any>,
 	locationLabel?: FieldPolicy<any> | FieldReadFunction<any>,
 	longitude?: FieldPolicy<any> | FieldReadFunction<any>,
-	microChats?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	shareableId?: FieldPolicy<any> | FieldReadFunction<any>,
 	usersConnection?: FieldPolicy<any> | FieldReadFunction<any>
@@ -124,14 +123,7 @@ export type JoinUserHubFieldPolicy = {
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
 	userId?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MicroChatKeySpecifier = ('hub' | 'hubId' | 'id' | 'text' | MicroChatKeySpecifier)[];
-export type MicroChatFieldPolicy = {
-	hub?: FieldPolicy<any> | FieldReadFunction<any>,
-	hubId?: FieldPolicy<any> | FieldReadFunction<any>,
-	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	text?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'addUserWebPushNotificationSubscription' | 'blockUser' | 'changeEmail' | 'changeHubLocation' | 'changePassword' | 'createEvent' | 'createHub' | 'createMicroChat' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteFileById' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'deleteMicroChat' | 'dwellEventGeofence' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredEventGeofence' | 'enteredHubGeofence' | 'exitedEventGeofence' | 'exitedHubGeofence' | 'expeditedRegistration' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'microChatToHub' | 'mute' | 'register' | 'removeUserFromEvent' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportFileAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | 'uploadEventFiles' | 'uploadHubFiles' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('acceptHubInvite' | 'activateHub' | 'addUserFcmNotificationToken' | 'addUserWebPushNotificationSubscription' | 'blockUser' | 'changeEmail' | 'changeHubLocation' | 'changePassword' | 'createEvent' | 'createHub' | 'deactivateHub' | 'deleteAccount' | 'deleteAllInAppNotifications' | 'deleteEvent' | 'deleteFileById' | 'deleteHub' | 'deleteInAppNotification' | 'deleteInvite' | 'dwellEventGeofence' | 'dwellHubGeofence' | 'editHub' | 'editUserDetails' | 'enteredEventGeofence' | 'enteredHubGeofence' | 'exitedEventGeofence' | 'exitedHubGeofence' | 'expeditedRegistration' | 'inviteUserToEvent' | 'inviteUserToHub' | 'leaveHub' | 'login' | 'logout' | 'mute' | 'register' | 'removeUserFromEvent' | 'removeUserFromHub' | 'reportEventAsInappropriate' | 'reportFileAsInappropriate' | 'reportHubAsInappropriate' | 'reportUserAsInappropriate' | 'resetPassword' | 'resetShareableEventID' | 'resetShareableHubID' | 'rsvp' | 'sendPasswordResetEmail' | 'setHubNotStarred' | 'setHubStarred' | 'unblockUser' | 'unmute' | 'updateEvent' | 'updateHub' | 'updateUser' | 'uploadEventFiles' | 'uploadHubFiles' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	acceptHubInvite?: FieldPolicy<any> | FieldReadFunction<any>,
 	activateHub?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -143,7 +135,6 @@ export type MutationFieldPolicy = {
 	changePassword?: FieldPolicy<any> | FieldReadFunction<any>,
 	createEvent?: FieldPolicy<any> | FieldReadFunction<any>,
 	createHub?: FieldPolicy<any> | FieldReadFunction<any>,
-	createMicroChat?: FieldPolicy<any> | FieldReadFunction<any>,
 	deactivateHub?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAccount?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteAllInAppNotifications?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -152,7 +143,6 @@ export type MutationFieldPolicy = {
 	deleteHub?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteInAppNotification?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteInvite?: FieldPolicy<any> | FieldReadFunction<any>,
-	deleteMicroChat?: FieldPolicy<any> | FieldReadFunction<any>,
 	dwellEventGeofence?: FieldPolicy<any> | FieldReadFunction<any>,
 	dwellHubGeofence?: FieldPolicy<any> | FieldReadFunction<any>,
 	editHub?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -167,7 +157,6 @@ export type MutationFieldPolicy = {
 	leaveHub?: FieldPolicy<any> | FieldReadFunction<any>,
 	login?: FieldPolicy<any> | FieldReadFunction<any>,
 	logout?: FieldPolicy<any> | FieldReadFunction<any>,
-	microChatToHub?: FieldPolicy<any> | FieldReadFunction<any>,
 	mute?: FieldPolicy<any> | FieldReadFunction<any>,
 	register?: FieldPolicy<any> | FieldReadFunction<any>,
 	removeUserFromEvent?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -283,10 +272,6 @@ export type StrictTypedTypePolicies = {
 	JoinUserHub?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | JoinUserHubKeySpecifier | (() => undefined | JoinUserHubKeySpecifier),
 		fields?: JoinUserHubFieldPolicy,
-	},
-	MicroChat?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | MicroChatKeySpecifier | (() => undefined | MicroChatKeySpecifier),
-		fields?: MicroChatFieldPolicy,
 	},
 	Mutation?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | MutationKeySpecifier | (() => undefined | MutationKeySpecifier),

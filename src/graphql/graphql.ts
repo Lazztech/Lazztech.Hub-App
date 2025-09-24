@@ -88,7 +88,6 @@ export type Hub = {
   latitude?: Maybe<Scalars['Float']['output']>;
   locationLabel?: Maybe<Scalars['String']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
-  microChats?: Maybe<Array<MicroChat>>;
   name: Scalars['String']['output'];
   shareableId: Scalars['String']['output'];
   usersConnection?: Maybe<Array<JoinUserHub>>;
@@ -170,14 +169,6 @@ export type JoinUserHub = {
   userId: Scalars['ID']['output'];
 };
 
-export type MicroChat = {
-  __typename?: 'MicroChat';
-  hub: Scalars['ID']['output'];
-  hubId: Scalars['ID']['output'];
-  id: Scalars['ID']['output'];
-  text: Scalars['String']['output'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   acceptHubInvite: JoinUserHub;
@@ -190,7 +181,6 @@ export type Mutation = {
   changePassword: Scalars['Boolean']['output'];
   createEvent: JoinUserEvent;
   createHub: JoinUserHub;
-  createMicroChat: MicroChat;
   deactivateHub: Hub;
   deleteAccount: Scalars['Boolean']['output'];
   deleteAllInAppNotifications: Scalars['Boolean']['output'];
@@ -199,7 +189,6 @@ export type Mutation = {
   deleteHub: Scalars['Boolean']['output'];
   deleteInAppNotification: Scalars['Boolean']['output'];
   deleteInvite: Scalars['Boolean']['output'];
-  deleteMicroChat: Scalars['Boolean']['output'];
   dwellEventGeofence: JoinUserEvent;
   dwellHubGeofence: JoinUserHub;
   editHub: Hub;
@@ -214,7 +203,6 @@ export type Mutation = {
   leaveHub: Scalars['Boolean']['output'];
   login?: Maybe<Scalars['String']['output']>;
   logout: Scalars['Boolean']['output'];
-  microChatToHub: Scalars['Boolean']['output'];
   mute: JoinUserHub;
   register?: Maybe<Scalars['String']['output']>;
   removeUserFromEvent: Scalars['Boolean']['output'];
@@ -308,12 +296,6 @@ export type MutationCreateHubArgs = {
 };
 
 
-export type MutationCreateMicroChatArgs = {
-  hubId: Scalars['ID']['input'];
-  microChatText: Scalars['String']['input'];
-};
-
-
 export type MutationDeactivateHubArgs = {
   hubId: Scalars['ID']['input'];
 };
@@ -348,12 +330,6 @@ export type MutationDeleteInAppNotificationArgs = {
 export type MutationDeleteInviteArgs = {
   hubId: Scalars['ID']['input'];
   inviteId: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteMicroChatArgs = {
-  hubId: Scalars['ID']['input'];
-  microChatId: Scalars['ID']['input'];
 };
 
 
@@ -423,12 +399,6 @@ export type MutationLeaveHubArgs = {
 export type MutationLoginArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
-};
-
-
-export type MutationMicroChatToHubArgs = {
-  hubId: Scalars['ID']['input'];
-  microChatId: Scalars['ID']['input'];
 };
 
 
