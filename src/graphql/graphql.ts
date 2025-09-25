@@ -88,7 +88,6 @@ export type Hub = {
   latitude?: Maybe<Scalars['Float']['output']>;
   locationLabel?: Maybe<Scalars['String']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
-  microChats?: Maybe<Array<MicroChat>>;
   name: Scalars['String']['output'];
   shareableId: Scalars['String']['output'];
   usersConnection?: Maybe<Array<JoinUserHub>>;
@@ -170,14 +169,6 @@ export type JoinUserHub = {
   userId: Scalars['ID']['output'];
 };
 
-export type MicroChat = {
-  __typename?: 'MicroChat';
-  hub: Scalars['ID']['output'];
-  hubId: Scalars['ID']['output'];
-  id: Scalars['ID']['output'];
-  text: Scalars['String']['output'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   acceptHubInvite: JoinUserHub;
@@ -190,7 +181,6 @@ export type Mutation = {
   changePassword: Scalars['Boolean']['output'];
   createEvent: JoinUserEvent;
   createHub: JoinUserHub;
-  createMicroChat: MicroChat;
   deactivateHub: Hub;
   deleteAccount: Scalars['Boolean']['output'];
   deleteAllInAppNotifications: Scalars['Boolean']['output'];
@@ -199,7 +189,6 @@ export type Mutation = {
   deleteHub: Scalars['Boolean']['output'];
   deleteInAppNotification: Scalars['Boolean']['output'];
   deleteInvite: Scalars['Boolean']['output'];
-  deleteMicroChat: Scalars['Boolean']['output'];
   dwellEventGeofence: JoinUserEvent;
   dwellHubGeofence: JoinUserHub;
   editHub: Hub;
@@ -214,7 +203,6 @@ export type Mutation = {
   leaveHub: Scalars['Boolean']['output'];
   login?: Maybe<Scalars['String']['output']>;
   logout: Scalars['Boolean']['output'];
-  microChatToHub: Scalars['Boolean']['output'];
   mute: JoinUserHub;
   register?: Maybe<Scalars['String']['output']>;
   removeUserFromEvent: Scalars['Boolean']['output'];
@@ -308,12 +296,6 @@ export type MutationCreateHubArgs = {
 };
 
 
-export type MutationCreateMicroChatArgs = {
-  hubId: Scalars['ID']['input'];
-  microChatText: Scalars['String']['input'];
-};
-
-
 export type MutationDeactivateHubArgs = {
   hubId: Scalars['ID']['input'];
 };
@@ -348,12 +330,6 @@ export type MutationDeleteInAppNotificationArgs = {
 export type MutationDeleteInviteArgs = {
   hubId: Scalars['ID']['input'];
   inviteId: Scalars['ID']['input'];
-};
-
-
-export type MutationDeleteMicroChatArgs = {
-  hubId: Scalars['ID']['input'];
-  microChatId: Scalars['ID']['input'];
 };
 
 
@@ -423,12 +399,6 @@ export type MutationLeaveHubArgs = {
 export type MutationLoginArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
-};
-
-
-export type MutationMicroChatToHubArgs = {
-  hubId: Scalars['ID']['input'];
-  microChatId: Scalars['ID']['input'];
 };
 
 
@@ -696,7 +666,7 @@ export type AcceptHubInviteMutationVariables = Exact<{
 }>;
 
 
-export type AcceptHubInviteMutation = { __typename?: 'Mutation', acceptHubInvite: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, microChats?: Array<{ __typename?: 'MicroChat', id: string, hubId: string, text: string }> | null } | null } };
+export type AcceptHubInviteMutation = { __typename?: 'Mutation', acceptHubInvite: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null } | null } };
 
 export type ActivateHubMutationVariables = Exact<{
   hubId: Scalars['ID']['input'];
@@ -779,14 +749,6 @@ export type CreateHubMutationVariables = Exact<{
 
 export type CreateHubMutation = { __typename?: 'Mutation', createHub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isPresent?: boolean | null, isOwner: boolean }> | null } | null } };
 
-export type CreateMicroChatMutationVariables = Exact<{
-  hubId: Scalars['ID']['input'];
-  microChatText: Scalars['String']['input'];
-}>;
-
-
-export type CreateMicroChatMutation = { __typename?: 'Mutation', createMicroChat: { __typename?: 'MicroChat', id: string, text: string } };
-
 export type DeactivateHubMutationVariables = Exact<{
   hubId: Scalars['ID']['input'];
 }>;
@@ -842,14 +804,6 @@ export type DeleteInviteMutationVariables = Exact<{
 
 
 export type DeleteInviteMutation = { __typename?: 'Mutation', deleteInvite: boolean };
-
-export type DeleteMicroChatMutationVariables = Exact<{
-  hubId: Scalars['ID']['input'];
-  microChatId: Scalars['ID']['input'];
-}>;
-
-
-export type DeleteMicroChatMutation = { __typename?: 'Mutation', deleteMicroChat: boolean };
 
 export type DwellEventGeofenceMutationVariables = Exact<{
   eventId: Scalars['ID']['input'];
@@ -948,14 +902,6 @@ export type LoginMutationVariables = Exact<{
 
 
 export type LoginMutation = { __typename?: 'Mutation', login?: string | null };
-
-export type MicroChatToHubMutationVariables = Exact<{
-  hubId: Scalars['ID']['input'];
-  microChatId: Scalars['ID']['input'];
-}>;
-
-
-export type MicroChatToHubMutation = { __typename?: 'Mutation', microChatToHub: boolean };
 
 export type MuteMutationVariables = Exact<{
   hubId: Scalars['ID']['input'];
@@ -1165,7 +1111,7 @@ export type HubQueryVariables = Exact<{
 }>;
 
 
-export type HubQuery = { __typename?: 'Query', hub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, fileUploads?: Array<{ __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, fileName: string, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string, image?: string | null, lastOnline?: string | null, phoneNumber?: string | null, email?: string | null } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string } | null }> | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isOwner: boolean, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null, events?: Array<{ __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null }> | null, microChats?: Array<{ __typename?: 'MicroChat', id: string, text: string }> | null } | null } };
+export type HubQuery = { __typename?: 'Query', hub: { __typename?: 'JoinUserHub', userId: string, hubId: string, isOwner: boolean, starred: boolean, muted: boolean, isPresent?: boolean | null, hub?: { __typename?: 'Hub', id: string, name: string, description?: string | null, active?: boolean | null, image?: string | null, latitude?: number | null, longitude?: number | null, locationLabel?: string | null, shareableId: string, fileUploads?: Array<{ __typename?: 'JoinHubFile', fileId: string, hubId: string, approvedByUserId?: string | null, approved: boolean, file: { __typename?: 'File', id: string, fileName: string, createdOn: string, url?: string | null, createdBy: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string, image?: string | null, lastOnline?: string | null, phoneNumber?: string | null, email?: string | null } }, approvedBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, shareableId: string } | null }> | null, usersConnection?: Array<{ __typename?: 'JoinUserHub', isOwner: boolean, isPresent?: boolean | null, user?: { __typename?: 'User', id: string, shareableId: string, firstName?: string | null, lastName?: string | null, username?: string | null, description?: string | null, image?: string | null, lastOnline?: string | null, blocked?: boolean | null, phoneNumber?: string | null } | null }> | null, events?: Array<{ __typename?: 'Event', id: string, name: string, image?: string | null, description?: string | null, startDateTime?: string | null, endDateTime?: string | null, latitude?: number | null, longitude?: number | null, shareableId: string, createdBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, description?: string | null, image?: string | null, email?: string | null, shareableId: string, phoneNumber?: string | null } | null }> | null } | null } };
 
 export type InviteQueryVariables = Exact<{
   inviteId: Scalars['ID']['input'];
@@ -1237,11 +1183,6 @@ export const AcceptHubInviteDocument = gql`
       image
       latitude
       longitude
-      microChats {
-        id
-        hubId
-        text
-      }
     }
   }
 }
@@ -1483,25 +1424,6 @@ export const CreateHubDocument = gql`
       super(apollo);
     }
   }
-export const CreateMicroChatDocument = gql`
-    mutation createMicroChat($hubId: ID!, $microChatText: String!) {
-  createMicroChat(hubId: $hubId, microChatText: $microChatText) {
-    id
-    text
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CreateMicroChatGQL extends Apollo.Mutation<CreateMicroChatMutation, CreateMicroChatMutationVariables> {
-    document = CreateMicroChatDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
 export const DeactivateHubDocument = gql`
     mutation deactivateHub($hubId: ID!) {
   deactivateHub(hubId: $hubId) {
@@ -1628,22 +1550,6 @@ export const DeleteInviteDocument = gql`
   })
   export class DeleteInviteGQL extends Apollo.Mutation<DeleteInviteMutation, DeleteInviteMutationVariables> {
     document = DeleteInviteDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const DeleteMicroChatDocument = gql`
-    mutation deleteMicroChat($hubId: ID!, $microChatId: ID!) {
-  deleteMicroChat(hubId: $hubId, microChatId: $microChatId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class DeleteMicroChatGQL extends Apollo.Mutation<DeleteMicroChatMutation, DeleteMicroChatMutationVariables> {
-    document = DeleteMicroChatDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -1946,22 +1852,6 @@ export const LoginDocument = gql`
   })
   export class LoginGQL extends Apollo.Mutation<LoginMutation, LoginMutationVariables> {
     document = LoginDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const MicroChatToHubDocument = gql`
-    mutation microChatToHub($hubId: ID!, $microChatId: ID!) {
-  microChatToHub(hubId: $hubId, microChatId: $microChatId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class MicroChatToHubGQL extends Apollo.Mutation<MicroChatToHubMutation, MicroChatToHubMutationVariables> {
-    document = MicroChatToHubDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -2834,10 +2724,6 @@ export const HubDocument = gql`
         latitude
         longitude
         shareableId
-      }
-      microChats {
-        id
-        text
       }
     }
   }

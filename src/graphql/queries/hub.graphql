@@ -81,10 +81,6 @@ query hub($id: ID!) {
         longitude
         shareableId
       }
-      microChats {
-        id
-        text
-      }
     }
   }
 }
