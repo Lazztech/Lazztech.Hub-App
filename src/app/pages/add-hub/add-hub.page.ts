@@ -194,6 +194,7 @@ export class AddHubPage implements OnInit, OnDestroy {
   }
 
   onSearchSelected(event: any) {
+    console.log('PARENT received selection:', event);
     this.mapSearchSelection = event;
   }
 
