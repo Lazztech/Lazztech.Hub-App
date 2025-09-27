@@ -131,7 +131,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   }
 
   flyTo(location?: { latitude?: number, longitude?: number}) {
-    //should this be "location?.latitude && location?.longitude" instead of latitude twice? 
     if (location?.latitude && location?.longitude) {
       this.map.flyTo({
         center: { 
@@ -179,9 +178,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     const searchInput = event?.detail?.value ?? '';
     const isLatLongInput = this.isLatLong(searchInput);
     if(isLatLongInput){
-      //this is what was making it not work?? 
-      //this.map.flyTo({ center: [isLatLongInput.long, isLatLongInput.lat], zoom: 11 });
-
       this.searchSelected.emit({
           latitude: isLatLongInput.lat,
           longitude: isLatLongInput.long,
@@ -209,21 +205,6 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     });
     this.searchResults = [];
   }
-
-  /*to get latitude/longitude by clicking a point on the map
-  Paused on this, out of scope, using different Marker than the Marker from MapLibre?
-  clickToSelect(){
-    this.map.on('click', (event) => {
-      const{lng, lat} = event.lngLat;
-      let marker = new Marker();
-      this.searchSelected.emit({
-          latitude: lat,
-          longitude: lng,
-          label: `${lat.toFixed(6)}, ${lng.toFixed(6)}`,
-    });
-    })
-  }*/
-
   
   createPulsingDot = (map: Map, size: number) => ({
     width: size,
