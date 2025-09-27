@@ -9,6 +9,7 @@ import layers from 'protomaps-themes-base';
 import _ from 'lodash-es';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { environment } from 'src/environments/environment';
+import { Marker } from 'leaflet';
 
 @Component({
   selector: 'app-maplibre',
@@ -130,7 +131,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
   }
 
   flyTo(location?: { latitude?: number, longitude?: number}) {
-    if (location?.latitude && location?.latitude) {
+    if (location?.latitude && location?.longitude) {
       this.map.flyTo({
         center: { 
           lat: location.latitude,
@@ -156,15 +157,45 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     }
   }
 
+  isLatLong(searchInput: string): {lat: number; long: number} | null {
+    const trimmed = searchInput.trim();
+
+    const matches = trimmed.match(/^\s*([+-]?\d+(?:\.\d+)?)\s*[, ]\s*([+-]?\d+(?:\.\d+)?)\s*$/);
+    if(!matches) return null;
+
+    const lat = parseFloat(matches[1]);
+    const long = parseFloat(matches[2]);
+    if(Number.isNaN(lat) || Number.isNaN(long)) return null;
+    if(lat > 90 || lat < -90 || long < -180 || long > 180) return null;
+
+    return {lat, long}; 
+  }
+
   private async searchAddress(event: any) {
     console.log(event);
     this.loading.emit(true);
+
+    const searchInput = event?.detail?.value ?? '';
+    const isLatLongInput = this.isLatLong(searchInput);
+    if(isLatLongInput){
+      this.searchSelected.emit({
+          latitude: isLatLongInput.lat,
+          longitude: isLatLongInput.long,
+          label: `latitude: ${isLatLongInput.lat}, longitude: ${isLatLongInput.long}`
+      });
+
+      this.searchResults = [];
+      this.loading.emit(false); 
+
+      return;
+    }
 
     const results = await this.provider.search({ query: event.target.value });
     console.log(results);
     this.searchResults = results as any;
     this.loading.emit(false);
   }
+
 
   selectSearch(searchResult: SearchResult<RawResult>) {
     this.searchSelected.emit({
@@ -174,7 +205,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     });
     this.searchResults = [];
   }
-
+  
   createPulsingDot = (map: Map, size: number) => ({
     width: size,
     height: size,
