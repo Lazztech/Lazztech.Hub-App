@@ -1,11 +1,10 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+       <ion-icon class="ion-padding-end" size="large" name="qr-code-outline" href="javascript:void(0);" (click)="goToQrPage()"></ion-icon>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-icon class="ion-padding-end" size="large" name="qr-code-outline" href="javascript:void(0);" (click)="goToQrPage()"></ion-icon>
-      <ion-icon size="large" name="ellipsis-vertical-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
+      <ion-icon size="large" name="settings-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
     </ion-buttons>
 
     <ion-title>Event</ion-title>
@@ -257,7 +256,7 @@
 
 </ion-content>
 
-<ion-footer translucent="true">
+<!--<ion-footer translucent="true">
   <ion-toolbar>
     <ion-grid class="ion-no-padding">
       <ion-row class="ion-padding-start ion-padding-end">
@@ -283,7 +282,7 @@
       </ion-row>
     </ion-grid>
   </ion-toolbar>
-</ion-footer>
+</ion-footer>-->
 
 <ion-modal
 #modal

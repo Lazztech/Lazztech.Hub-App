@@ -23,7 +23,7 @@ export class EventCardComponent implements OnChanges {
   ) { }
 
   goToEventPage() {
-    this.navCtrl.navigateForward('event/' + this.userEvent?.event?.id);
+    this.navCtrl.navigateForward('tabs/event/' + this.userEvent?.event?.id);
   }
 
   goToCreateEventPage() {

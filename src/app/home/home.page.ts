@@ -132,7 +132,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   goToHubPage(id: number) {
-    this.navCtrl.navigateForward('hub/' + id);
+    this.navCtrl.navigateForward('tabs/hub/' + id);
   }
 
   goToPreviewHubPage(id) {

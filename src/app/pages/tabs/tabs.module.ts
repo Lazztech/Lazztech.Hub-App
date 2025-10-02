@@ -7,6 +7,7 @@ import { HomePageModule } from 'src/app/home/home.module';
 import { NotificationsPageModule } from '../notifications/notifications.module';
 import { ProfilePageModule } from '../profile/profile.module';
 import { TabsPage } from './tabs.page';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -32,6 +33,25 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'events',
+        children:[
+          {
+            path: '', 
+            loadChildren: () => import('../events/events.module').then(m => m.EventsPageModule)
+          }
+        ]
+      },
+      {
+          path: 'event',
+          loadChildren: () => import('../event/event.module').then( m => m.EventPageModule),
+          canActivate: [AuthGuard]
+        },
+        {
+          path: 'hub',
+          loadChildren: () => import('../hub/hub.module').then( m => m.HubPageModule),
+          canActivate: [AuthGuard]
+        },
+      {
         path: 'notifications',
         children: [
           {
@@ -46,15 +66,6 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('../profile/profile.module').then(m => m.ProfilePageModule)
-          }
-        ]
-      },
-      {
-        path: 'events',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('../events/events.module').then(m => m.EventsPageModule)
           }
         ]
       },

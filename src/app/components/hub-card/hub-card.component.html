@@ -8,22 +8,28 @@
   </ion-thumbnail>
     <ion-grid class="reset-grid-padding">
       <ion-row>
-
         <ion-col>
           <ion-row>
-
             <ion-col>
               <ion-card-subtitle *ngIf="hub?.name" class="ion-float-left">{{hub.name}}</ion-card-subtitle>
               <ion-skeleton-text *ngIf="!hub?.name" animated></ion-skeleton-text>
-              <ion-icon *ngIf="muted" name="volume-mute-outline" class="ion-float-right"></ion-icon>
+              <ion-icon *ngIf="muted" name="volume-mute-outline" style="padding-left:10px;"></ion-icon>
             </ion-col>
-
+            <ion-col size="auto" *ngIf="isOwner">
+                  <ion-toggle
+                    class="ion-float-right"
+                    mode="md"
+                    color="success"
+                    [checked]="hub?.active"
+                    (ionChange)="activeToggle($event)"
+                    aria-label="Toggle hub activity">
+                  </ion-toggle>
+            </ion-col>
           </ion-row>
           <ion-row>
-
             <ion-col *ngIf="!adminControls">
-              <ion-card-subtitle *ngIf="hub?.active" color="success">{{presentCount}} /
-                {{hub?.usersConnection.length}} present</ion-card-subtitle>
+              <ion-card-subtitle *ngIf="hub?.active" color="success">
+                {{presentCount}} / {{hub?.usersConnection.length}} present</ion-card-subtitle>
               <ion-card-subtitle *ngIf="!hub?.active" color="medium">Inactive</ion-card-subtitle>
               <ion-skeleton-text animated style="width: 80%" *ngIf="!atHub && !distanceInMiles"
               ></ion-skeleton-text>
