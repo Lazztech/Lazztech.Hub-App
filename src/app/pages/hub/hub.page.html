@@ -37,34 +37,6 @@
     </ion-row>
     <ion-row>
        
- <!-- Option 1
-  <ion-list style="width: 100%;">
-    <ion-list-header>
-      <ion-label>
-      <ion-text>
-        {{ active ? 'Hub Active' : 'Hub Inactive' }}
-      </ion-text>
-      </ion-label>
-      <ion-button style="height:fit-content">
-       <ion-toggle
-       justify="end"
-      *ngIf="userHub?.isOwner"
-      color="success"
-      [checked]="active"
-      (ionChange)="active = $event.detail.checked; toggleActivity()"
-      aria-label="Toggle hub activity"
-    ></ion-toggle>
-      </ion-button>
-  </ion-list-header>
-
-  <ion-item *ngIf="!loading && userHub && !userHub?.hub?.active" lines="none">
-    <ion-note color="medium">
-      Hub members' presence information is only available when the hub is set to active by the admin.
-    </ion-note>
-  </ion-item>
-</ion-list> -->
-
-
       <ion-col size="12" size-md="6">
         <app-hub-card 
         *ngIf="userHub"
@@ -340,30 +312,6 @@
   </ion-fab>
 
 </ion-content>
-
-<!--<ion-footer translucent="true">
-  <ion-toolbar>
-    <ion-grid class="ion-no-padding">
-      <ion-row *ngIf="userHub as userHub" class="ion-padding-start ion-padding-end">
-        <ion-col [appFeatureFlag]="'uberRequestRide'">
-          <ion-button expand="block" color="medium" fill="clear" (click)="requestRide(userHub)">
-            <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button expand="block" color="medium" fill="clear" (click)="navigate(userHub)">
-            <ion-icon  name="map"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col *ngIf="userHub.isOwner">
-          <ion-button expand="block" [color]="userHub.hub.active ? 'success' : 'medium'" fill="clear" (click)="toggleActivity()">
-            <ion-icon  name="bulb-outline"></ion-icon>
-          </ion-button>
-        </ion-col> 
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-footer>-->
 
 <ion-modal
 #modal

@@ -15,7 +15,7 @@ export class EventCardComponent implements OnChanges {
   @Input() userEvent: JoinUserEvent;
   @Input() includeMap?: boolean = false;
   @Input() showRsvp?: boolean = false;
-  @Input() compact = true;
+  @Input() buttons = true;
   @Output() shouldPromptToAddEventToCalendar = new EventEmitter();
   presentCount = 0;
 

@@ -2,7 +2,7 @@
   <div *ngIf="!compact">
     <ion-img *ngIf="hub.image" class="cliped" ngClass="right-box" src="{{hub.image}}"></ion-img>
   </div>
-  <ion-thumbnail class="ion-float-left" style="--size: 98px;" *ngIf="compact && hub?.image">
+  <ion-thumbnail class="ion-float-left" style="--size: 110px;" *ngIf="compact && hub?.image">
     <ion-skeleton-text *ngIf="!hub.image" animated></ion-skeleton-text>
     <ion-img *ngIf="hub.image" width="100%" ngClass="right-box" src="{{hub.image}}"></ion-img>
   </ion-thumbnail>
@@ -10,19 +10,12 @@
       <ion-row>
         <ion-col>
           
-          <ion-row style="align-items: center;">
-            <ion-col  *ngIf="!compact">
+          <ion-row *ngIf="!compact" style="align-items: center;">
+            <ion-col>
               <ion-card-title *ngIf="hub?.name" class="ion-float-left">{{hub.name}}</ion-card-title>
               <ion-skeleton-text *ngIf="!hub?.name" animated></ion-skeleton-text>
               <ion-icon *ngIf="muted" name="volume-mute-outline" style="padding-left:10px;"></ion-icon>
             </ion-col>
-
-            <ion-col  *ngIf="compact">
-              <ion-card-subtitle *ngIf="hub?.name" class="ion-float-left">{{hub.name}}</ion-card-subtitle>
-              <ion-skeleton-text *ngIf="!hub?.name" animated></ion-skeleton-text>
-              <ion-icon *ngIf="muted" name="volume-mute-outline" style="padding-left:10px;"></ion-icon>
-            </ion-col>
-
             <ion-col size="auto" *ngIf="isOwner">
                   <ion-toggle
                     class="ion-float-right"
@@ -34,25 +27,60 @@
                   </ion-toggle>
             </ion-col>
           </ion-row>
+          
+          <ion-row *ngIf="compact">
+            <ion-col>
+              <ion-card-subtitle *ngIf="hub?.name" class="ion-float-left">{{hub.name}}</ion-card-subtitle>
+              <ion-skeleton-text *ngIf="!hub?.name" animated></ion-skeleton-text>
+              <ion-icon *ngIf="muted" name="volume-mute-outline" style="padding-left:10px;"></ion-icon>
+            </ion-col>
 
-          <ion-row>
-            <ion-col *ngIf="!adminControls">
+          </ion-row>
+
+          <ion-row *ngIf="!adminControls">
+            <ion-col *ngIf="!compact">
               <ion-card-subtitle *ngIf="hub?.active" color="success">
                 {{presentCount}} / {{hub?.usersConnection.length}} present</ion-card-subtitle>
+
               <ion-card-subtitle *ngIf="!hub?.active" color="medium">Inactive</ion-card-subtitle>
+
               <ion-skeleton-text animated style="width: 80%" *ngIf="!atHub && !distanceInMiles"
               ></ion-skeleton-text>
+
               <ion-card-subtitle *ngIf="!atHub && distanceInMiles">{{distanceInMiles.toFixed(1)}} miles away
               </ion-card-subtitle>
+
               <ion-card-subtitle *ngIf="atHub">you're here!</ion-card-subtitle>
+
               <ion-text *ngIf="showDescription">
                 <p *ngIf="hub?.description" >{{hub?.description}}</p>
                 <ion-skeleton-text *ngIf="!hub" animated></ion-skeleton-text>
               </ion-text>
-              <ion-text *ngIf="!compact">
+
+              <ion-text>
                 <p *ngIf="hub?.locationLabel" >{{hub?.locationLabel}}</p>
                 <ion-skeleton-text *ngIf="!hub" animated></ion-skeleton-text>
               </ion-text>
+
+            </ion-col>
+
+            <ion-col *ngIf="compact">
+              <ion-row>
+              <ion-text *ngIf="hub?.active" color="success">
+                {{presentCount}} / {{hub?.usersConnection.length}} present</ion-text>
+
+              <ion-text *ngIf="!hub?.active" color="medium">Inactive</ion-text>
+              </ion-row>
+              <ion-row>
+
+              <ion-skeleton-text animated style="width: 80%" *ngIf="!atHub && !distanceInMiles"
+              ></ion-skeleton-text>
+              
+
+              <ion-text *ngIf="!atHub && distanceInMiles"><br>{{distanceInMiles.toFixed(1)}} miles away</ion-text>
+              
+              <ion-text *ngIf="atHub"><br>You're here!</ion-text>
+              </ion-row>
             </ion-col>
           </ion-row>
 

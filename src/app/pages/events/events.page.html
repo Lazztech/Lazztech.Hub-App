@@ -37,22 +37,24 @@
         <ion-col size="12" size-md="6" *ngFor="let userEvent of upcomingEvents; trackBy: trackByEvent">
           <app-event-card
           [userEvent]="userEvent"
+          [buttons]="false"
         ></app-event-card>
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-list>
   
-
   <ion-list *ngIf="filter === ''">
     <ion-list-header *ngIf="elapsedEvents?.length">
       <ion-text>Elapsed</ion-text>
     </ion-list-header>
+
     <ion-grid class="ion-no-padding">
       <ion-row>
         <ion-col size="12" size-md="6" *ngFor="let userEvent of elapsedEvents; trackBy: trackByEvent">
           <app-event-card
           [userEvent]="userEvent"
+          [buttons]="false"
         ></app-event-card>
         </ion-col>
       </ion-row>
@@ -68,6 +70,7 @@
         <ion-col size="12" size-md="6" *ngFor="let userEvent of filteredEvents; trackBy: trackByEvent">
           <app-event-card
           [userEvent]="userEvent"
+          [buttons]="false"
         ></app-event-card>
         </ion-col>
       </ion-row>
