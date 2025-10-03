@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { NavController } from '@ionic/angular';
 import { LocationService } from 'src/app/services/location/location.service';
 import { EventDocument, JoinUserEvent, RsvpGQL } from 'src/graphql/graphql';
+import { NavigationService } from 'src/app/services/navigation.service';
+
 
 @Component({
   selector: 'app-event-card',
@@ -13,12 +15,14 @@ export class EventCardComponent implements OnChanges {
   @Input() userEvent: JoinUserEvent;
   @Input() includeMap?: boolean = false;
   @Input() showRsvp?: boolean = false;
+  @Input() compact = true;
   @Output() shouldPromptToAddEventToCalendar = new EventEmitter();
   presentCount = 0;
 
   constructor(
     private readonly navCtrl: NavController,
     private readonly rsvpService: RsvpGQL,
+    public readonly navigationService: NavigationService,
     public locationService: LocationService,
   ) { }
 
@@ -81,4 +85,11 @@ export class EventCardComponent implements OnChanges {
     }).toPromise();
   }
 
+  async requestRide() {
+      this.navigationService.requestUber(this.locationService.location, this.userEvent?.event, this.userEvent?.event.name);
+    }
+
+  async navigate() {
+    this.navigationService.navigate(this.locationService.location, this.userEvent?.event)
+  }
 }

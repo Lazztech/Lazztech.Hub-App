@@ -3,7 +3,8 @@ import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
-import { Hub } from 'src/graphql/graphql';
+import { NavigationService } from 'src/app/services/navigation.service';
+import { Hub, HubQuery, JoinUserHub } from 'src/graphql/graphql';
 
 @Component({
   selector: 'app-hub-card',
@@ -22,6 +23,7 @@ export class HubCardComponent implements OnInit, OnChanges {
   @Input() includeMap = false;
   @Input() compact = true;
 
+  userHub: HubQuery['hub'];
   atHub = false;
   subscription: Subscription;
   presentCount = 0;
@@ -33,6 +35,7 @@ export class HubCardComponent implements OnInit, OnChanges {
     private changeRef: ChangeDetectorRef,
     private hubService: HubService,
     private logger: NGXLogger,
+    public readonly navigationService: NavigationService,
   ) { }
 
   async ngOnInit() {
@@ -61,5 +64,13 @@ export class HubCardComponent implements OnInit, OnChanges {
       await this.hubService.deactivateHub(this.hub.id);
     }
   }
+
+  async requestRide() {
+     this.navigationService.requestUber(this.locationService.location, this.hub, this.hub?.name);
+    }
+
+  async navigate() {
+      this.navigationService.navigate(this.locationService.location, this.hub)
+    }
 
 }

@@ -67,6 +67,7 @@
       </ion-select>
     </ion-item>
   </ion-card-content>
+
   <div *ngIf="includeMap && userEvent?.event?.latitude && userEvent?.event?.longitude" style="height: 90px;">
     <app-maplibre 
       [center]="userEvent?.event"
@@ -75,4 +76,23 @@
       [attributionLocation]="'bottom-right'"
     ></app-maplibre>
   </div>
+
+  <div>
+  <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-padding-start ion-padding-end">
+        <ion-col [appFeatureFlag]="'uberRequestRide'">
+          <ion-button expand="block" color="medium" fill="clear" (click)="requestRide()">
+            <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" color="medium" fill="clear" (click)="navigate()">
+            <ion-icon name="map"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</div>
 </ion-card>

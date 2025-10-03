@@ -55,10 +55,23 @@
         </ion-list>
       </ion-col>
       <ion-col size="12" size-md="6">
+
+         
       
         <ion-list *ngIf="goingUserEvents?.length">
-          <ion-list-header>
-            <ion-text>Going</ion-text>
+          <ion-list-header  style="display:flex;align-items:center;justify-content:space-between;">
+            <ion-label>Going</ion-label>
+            <ion-button 
+            (click)="openGroupSms($event)"
+            color="dark"
+            fill="clear"
+            size="large">
+            <ion-icon 
+            name="chatbubbles-outline"
+            aria-label="group chat"
+            size="large"
+            ></ion-icon>
+            </ion-button>
           </ion-list-header>
       
           <div *ngFor="let userConnection of goingUserEvents; trackBy: trackByUser">
