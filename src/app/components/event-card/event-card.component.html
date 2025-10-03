@@ -88,7 +88,8 @@
       <ion-row class="ion-padding-start ion-padding-end">
         <ion-col [appFeatureFlag]="'uberRequestRide'">
           <ion-button expand="block" color="medium" fill="clear" (click)="requestRide()">
-            <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
+            <ion-icon style="font-size: 64px;" 
+            [src]="themeService.isDark() ? 'assets/icons/Uber_Logo_White_RGB.svg' : 'assets/icons/Uber_Logo_Black_RGB.svg'"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col>

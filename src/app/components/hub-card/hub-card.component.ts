@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { HubService } from 'src/app/services/hub/hub.service';
 import { LocationService } from 'src/app/services/location/location.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 import { Hub, HubQuery, JoinUserHub } from 'src/graphql/graphql';
 
 @Component({
@@ -36,6 +37,7 @@ export class HubCardComponent implements OnInit, OnChanges {
     private hubService: HubService,
     private logger: NGXLogger,
     public readonly navigationService: NavigationService,
+    public readonly themeService: ThemeService,
   ) { }
 
   async ngOnInit() {

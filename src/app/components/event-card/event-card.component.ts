@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { LocationService } from 'src/app/services/location/location.service';
 import { EventDocument, JoinUserEvent, RsvpGQL } from 'src/graphql/graphql';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { ThemeService } from 'src/app/services/theme/theme.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class EventCardComponent implements OnChanges {
     private readonly rsvpService: RsvpGQL,
     public readonly navigationService: NavigationService,
     public locationService: LocationService,
+    public readonly themeService: ThemeService,
   ) { }
 
   goToEventPage() {
