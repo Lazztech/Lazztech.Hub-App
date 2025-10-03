@@ -1,7 +1,16 @@
 <ion-card>
   <ion-img *ngIf="userEvent?.event?.image" (click)="goToEventPage()" src="{{userEvent?.event?.image}}"></ion-img>
   <ion-card-header (click)="goToEventPage()">
-    <ion-grid class="ion-no-padding" [ngStyle]="{'margin-inline': 'unset'}">
+    <div *ngIf="!showRsvp" (click)="goToEventPage()">
+      <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
+    </div>
+    <div *ngIf="showRsvp">
+      <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
+    </div>
+  </ion-card-header>
+
+  <ion-card-content (click)="goToEventPage()">
+     <ion-grid class="ion-no-padding" [ngStyle]="{'margin-inline': 'unset'}">
       <ion-row *ngIf="userEvent?.event?.maximumCapacity">
         <ion-col size="8">
           <ion-card-subtitle>
@@ -25,7 +34,7 @@
           [value]="capacityPercentage()"></ion-progress-bar>
           <ion-card-subtitle color="success" class="ion-padding-top" *ngIf="presentCount && showRsvp">{{presentCount}} /
             {{userEvent?.event?.usersConnection?.length}} present</ion-card-subtitle>
-          <br />
+          <br/>
           <ion-card-subtitle>Starts {{userEvent?.event?.startDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
           <ion-card-subtitle *ngIf="userEvent?.event?.endDateTime">Ends {{userEvent?.event?.endDateTime | amDateFormat:'ddd ll h:mm A'}}</ion-card-subtitle>
           <ion-card-subtitle *ngIf="userEvent?.event?.createdBy">
@@ -41,20 +50,16 @@
           </ion-text>
         </ion-col>
       </ion-row>
-    </ion-grid>
-
-  </ion-card-header>
-
-  <ion-card-content *ngIf="!showRsvp" (click)="goToEventPage()">
-    <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
-  </ion-card-content>
-
-  <ion-card-content *ngIf="showRsvp">
-    <ion-card-title>{{userEvent?.event?.name}}</ion-card-title>
-    <br/>
+      <ion-row>
+        <ion-col>
+          <br/>
     <ion-text class="formatted" *ngIf="userEvent?.event?.description">
       {{userEvent?.event?.description}}
     </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
   </ion-card-content>
 
   <ion-card-content *ngIf="showRsvp">
@@ -67,6 +72,7 @@
       </ion-select>
     </ion-item>
   </ion-card-content>
+
   <div *ngIf="includeMap && userEvent?.event?.latitude && userEvent?.event?.longitude" style="height: 90px;">
     <app-maplibre 
       [center]="userEvent?.event"
@@ -75,4 +81,24 @@
       [attributionLocation]="'bottom-right'"
     ></app-maplibre>
   </div>
+
+  <div *ngIf="buttons">
+  <ion-toolbar>
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-padding-start ion-padding-end">
+        <ion-col [appFeatureFlag]="'uberRequestRide'">
+          <ion-button expand="block" color="medium" fill="clear" (click)="requestRide()">
+            <ion-icon style="font-size: 64px;" 
+            [src]="themeService.isDark() ? 'assets/icons/Uber_Logo_White_RGB.svg' : 'assets/icons/Uber_Logo_Black_RGB.svg'"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" color="medium" fill="clear" (click)="navigate()">
+            <ion-icon name="map"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</div>
 </ion-card>

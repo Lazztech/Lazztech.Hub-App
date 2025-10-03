@@ -108,11 +108,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule),
     canActivate: [AuthGuard]
   },
-  {
+ /* {
     path: 'event',
     loadChildren: () => import('./pages/event/event.module').then( m => m.EventPageModule),
     canActivate: [AuthGuard]
-  },
+  },*/
   {
     path: 'create-event',
     loadChildren: () => import('./pages/create-event/create-event.module').then( m => m.CreateEventPageModule),

@@ -1,11 +1,10 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+       <ion-icon class="ion-padding-end" size="large" name="qr-code-outline" href="javascript:void(0);" (click)="goToQrPage()"></ion-icon>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-icon class="ion-padding-end" size="large" name="qr-code-outline" href="javascript:void(0);" (click)="goToQrPage()"></ion-icon>
-      <ion-icon size="large" name="ellipsis-vertical-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
+      <ion-icon size="large" name="settings-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
     </ion-buttons>
 
     <ion-title>Event</ion-title>
@@ -56,10 +55,23 @@
         </ion-list>
       </ion-col>
       <ion-col size="12" size-md="6">
+
+         
       
         <ion-list *ngIf="goingUserEvents?.length">
-          <ion-list-header>
-            <ion-text>Going</ion-text>
+          <ion-list-header  style="display:flex;align-items:center;justify-content:space-between;">
+            <ion-label>Going</ion-label>
+            <ion-button 
+            (click)="openGroupSms($event)"
+            color="dark"
+            fill="clear"
+            size="large">
+            <ion-icon 
+            name="chatbubbles-outline"
+            aria-label="group chat"
+            size="large"
+            ></ion-icon>
+            </ion-button>
           </ion-list-header>
       
           <div *ngFor="let userConnection of goingUserEvents; trackBy: trackByUser">
@@ -256,34 +268,6 @@
   </ion-fab>
 
 </ion-content>
-
-<ion-footer translucent="true">
-  <ion-toolbar>
-    <ion-grid class="ion-no-padding">
-      <ion-row class="ion-padding-start ion-padding-end">
-        <ion-col *ngIf="userEventQueryResult?.data?.event?.event?.latitude">
-          <ion-button expand="block" color="medium" fill="clear" (click)="requestRide(userEventQueryResult?.data?.event)">
-            <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col *ngIf="userEventQueryResult?.data?.event?.event?.latitude">
-          <ion-button expand="block" color="medium" fill="clear" (click)="navigate(userEventQueryResult?.data?.event)">
-            <ion-icon  name="map"></ion-icon>
-          </ion-button>
-        </ion-col>
-         <ion-col>
-          <ion-button expand="block" color="medium" fill="clear" (click)="openGroupSms($event)">
-            <ion-icon 
-            size="large"
-            name="chatbubbles-outline"
-            aria-label="group chat">
-          </ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-footer>
 
 <ion-modal
 #modal

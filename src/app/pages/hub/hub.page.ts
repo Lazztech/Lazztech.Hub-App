@@ -23,6 +23,7 @@ import { forEach } from 'lodash-es';
 })
 export class HubPage implements OnInit, OnDestroy {
 
+  active: boolean;
   loading = true;
   userHub: HubQuery['hub'];
   present: HubQuery['hub']['hub']['usersConnection'];
@@ -68,6 +69,7 @@ export class HubPage implements OnInit, OnDestroy {
         const data = result.data.hub;
         this.userHub = data;
         this.loading = result.loading;
+        this.active = result?.data?.hub?.hub?.active;
 
         this.hubCoords = {
           latitude: data.hub.latitude,

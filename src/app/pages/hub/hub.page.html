@@ -1,11 +1,10 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-icon *ngIf="userHub?.isOwner" class="ion-padding-end" size="large" name="qr-code-outline" href="javascript:void(0);" (click)="goToQrPage()"></ion-icon>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-icon *ngIf="userHub?.isOwner" class="ion-padding-end" size="large" name="qr-code-outline" href="javascript:void(0);" (click)="goToQrPage()"></ion-icon>
-      <ion-icon size="large" name="ellipsis-vertical-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
+      <ion-icon size="large" name="settings-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
     </ion-buttons>
 
     <ion-title>{{userHub?.hub?.name || 'Hub'}}</ion-title>
@@ -37,6 +36,7 @@
       </ion-col>
     </ion-row>
     <ion-row>
+       
       <ion-col size="12" size-md="6">
         <app-hub-card 
         *ngIf="userHub"
@@ -49,17 +49,6 @@
         [includeMap]="true"
         [compact]="false">
       </app-hub-card>
-
-      <ion-list *ngIf="!loading && userHub && !userHub?.hub.active">
-        <ion-list-header>
-          <ion-text>Hub Inactive</ion-text>
-        </ion-list-header>
-    
-        <ion-item lines="none">
-          <ion-note>Hub member's presence information is only available when the hub is set to active by the admin.
-          </ion-note>
-        </ion-item>
-      </ion-list>
 
       <ion-list>
         <ion-list-header>
@@ -323,30 +312,6 @@
   </ion-fab>
 
 </ion-content>
-
-<ion-footer translucent="true">
-  <ion-toolbar>
-    <ion-grid class="ion-no-padding">
-      <ion-row *ngIf="userHub as userHub" class="ion-padding-start ion-padding-end">
-        <ion-col [appFeatureFlag]="'uberRequestRide'">
-          <ion-button expand="block" color="medium" fill="clear" (click)="requestRide(userHub)">
-            <ion-icon style="font-size: 64px;" src="assets/icons/Uber_Logo_White_RGB.svg"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button expand="block" color="medium" fill="clear" (click)="navigate(userHub)">
-            <ion-icon  name="map"></ion-icon>
-          </ion-button>
-        </ion-col>
-        <ion-col *ngIf="userHub.isOwner">
-          <ion-button expand="block" [color]="userHub.hub.active ? 'success' : 'medium'" fill="clear" (click)="toggleActivity()">
-            <ion-icon  name="bulb-outline"></ion-icon>
-          </ion-button>
-        </ion-col> 
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-footer>
 
 <ion-modal
 #modal

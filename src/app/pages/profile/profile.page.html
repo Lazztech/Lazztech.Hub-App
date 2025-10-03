@@ -7,7 +7,7 @@
       <ion-icon size="large" name="moon"></ion-icon>
     </div>
     <div slot="end" href="javascript:void(0);" (click)="presentActionSheet()">
-      <ion-icon size="large" name="cog"></ion-icon>
+      <ion-icon size="large" name="settings-outline"></ion-icon>
     </div>
     <ion-title>Profile</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
@@ -24,7 +24,6 @@
     [user]="user" 
     [showLastOnline]="false">
   </app-profile-details>
-
 
     <ion-item *ngIf="completedInitialAccountSetup === false" lines="none" href="javascript:void(0);" (click)="goToSettingsPage()">
       <ion-card-header>
