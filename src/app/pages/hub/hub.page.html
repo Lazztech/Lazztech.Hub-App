@@ -63,6 +63,7 @@
             <ion-col size="10" *ngFor="let event of userHub?.hub?.events">
               <app-event-card
               [userEvent]="{event}"
+              [buttons]="false"
               ></app-event-card>
             </ion-col>
             <ion-col size="12" *ngIf="!userHub?.hub?.events?.length">
