@@ -31,3 +31,7 @@
     --ion-grid-column-padding-lg: 5px;
     --ion-grid-column-padding-xl: 5px;
 }
+.compact-grid {
+  max-height: 110px; 
+  overflow: hidden;    
+}

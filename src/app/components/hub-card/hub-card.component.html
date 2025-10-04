@@ -6,7 +6,7 @@
     <ion-skeleton-text *ngIf="!hub.image" animated></ion-skeleton-text>
     <ion-img *ngIf="hub.image" width="100%" ngClass="right-box" src="{{hub.image}}"></ion-img>
   </ion-thumbnail>
-    <ion-grid class="reset-grid-padding">
+    <ion-grid class="reset-grid-padding" [class.compact-grid]="compact">
       <ion-row>
         <ion-col>
           
