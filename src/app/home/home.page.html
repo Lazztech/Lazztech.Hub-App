@@ -60,6 +60,7 @@
             <ion-col size="12" size-md="6" *ngFor="let userEvent of upcomingEvents; trackBy: trackByEvent">
               <app-event-card
               [userEvent]="userEvent"
+              [buttons]="false"
             ></app-event-card>
             </ion-col>
           </ion-row>
