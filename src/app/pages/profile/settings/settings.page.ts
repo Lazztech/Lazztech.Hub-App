@@ -154,9 +154,11 @@ export class SettingsPage implements OnInit {
         this.loading = false;
 
         await this.authService.iOSAutofillSavePassword(this.email.value, this.password.value);
+        await this.navCtrl.navigateForward('/tabs/profile');
       } else {
         this.alertService.presentToast('Saved');
         this.loading = false;
+        await this.navCtrl.navigateForward('/tabs/profile');
       }
     } catch (error) {
       this.errorService.handleError(error, this.loading);
