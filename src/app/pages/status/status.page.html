@@ -20,8 +20,13 @@
         <ion-text *ngIf="ghostModeIsOff" color="warning">Ghost Mode On</ion-text>
         <p class="ion-text-wrap">Turn off all hub geofence entry/exit updates. You will me marked as being in ghost mode.</p>
       </ion-label>
-      <ion-toggle [(ngModel)]="ghostModeIsOff" (click)="activeGhostModeToggle()" class="ion-float-right"
-        color="success"></ion-toggle>
+      <ion-toggle 
+        [(ngModel)]="ghostModeIsOff" 
+        (click)="activeGhostModeToggle()" 
+        class="ion-float-right"
+        color="success"
+        aria-label="Toggle ghost mode"
+        ></ion-toggle>
     </ion-item>
 
     <ion-list-header class="ion-padding-bottom ion-padding-top">
