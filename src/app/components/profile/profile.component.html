@@ -6,7 +6,6 @@
         <ion-text class="ion-text-center">
           <h1 style="font-weight: bold">{{user.firstName}} {{user.lastName}}</h1>
           <h1 *ngIf="!(user?.firstName && user?.lastName)" style="font-weight: bold">{{user?.username}}</h1>
-          
           <p *ngIf="user?.email">{{user?.email}}</p>
           <p *ngIf="!user?.email">No email address available...</p>
       
@@ -22,10 +21,17 @@
         </ion-label>
       </ion-col>
       <ion-col>
+        <div class="profile-pic-wrapper">
         <ion-avatar>
           <img width="100%" [appFeatureFlag]="'adorableAvatarsUserImage'" *ngIf="!user.image" src="{{user.id | avatar}}">
           <img *ngIf="user.image" src="{{user.image}}">
         </ion-avatar>
+          <ion-fab *ngIf="editChip" class="avatar-fab">
+            <ion-fab-button size="small" color="light" (click)="userActionSheet()">
+              <ion-icon name="pencil-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -3,18 +3,20 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { Browser } from '@capacitor/browser';
 import { Clipboard } from '@capacitor/clipboard';
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { NavController } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { ProfileService } from 'src/app/services/profile/profile.service';
-import { MeGQL, UpdateUserGQL } from 'src/graphql/graphql';
+import { MeDocument, MeGQL, MeQuery, UpdateUserGQL } from 'src/graphql/graphql';
 import { environment } from '../../../../environments/environment';
 import { cache } from '../../../graphql.module';
 import { AlertService } from '../../../services/alert/alert.service';
 import { DebuggerService } from '../../../services/debugger/debugger.service';
 import { GeofenceService } from '../../../services/geofence/geofence.service';
 import { NotificationsService } from '../../../services/notifications/notifications.service';
+import { ApolloQueryResult } from '@apollo/client/core';
+import { CameraService } from 'src/app/services/camera/camera.service';
 
 @Component({
   selector: 'app-settings',
@@ -22,6 +24,8 @@ import { NotificationsService } from '../../../services/notifications/notificati
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
+  userResult: ApolloQueryResult<MeQuery>;
+  user: MeQuery['me'] | null = null; 
 
   environment = environment;
   backgroundGeoLocationState = this.geofenceService.getBackgroundGeolocationState();
@@ -61,7 +65,7 @@ export class SettingsPage implements OnInit {
   get password() {
     return this.myForm.get('password');
   }
-
+  
 
   constructor(
     private navCtrl: NavController,
@@ -76,12 +80,15 @@ export class SettingsPage implements OnInit {
     private authService: AuthService,
     private readonly errorService: ErrorService,
     public readonly debugService: DebuggerService,
+    public cameraService: CameraService,
+    public actionSheetController: ActionSheetController,
   ) { }
 
   async ngOnInit() {
     this.loading = true;
     const me = await this.meService.fetch().toPromise();
     const user = me?.data?.me;
+    this.user = me?.data?.me ?? null;
 
     this.completedInitialAccountSetup = await this.authService.completedInitialAccountSetup();
     console.log('completedInitialAccountSetup: ', this.completedInitialAccountSetup);
@@ -128,6 +135,69 @@ export class SettingsPage implements OnInit {
   gotoNextField(nextElement){
     nextElement.setFocus();
   }
+
+  async userActionSheet() {
+      const actionSheet = await this.actionSheetController.create({
+        header: 'Profile Picture',
+        buttons: [{
+          text: 'Take Picture',
+          handler: () => {
+            try {
+              this.cameraService.takePicture().then(image => {
+                this.loading = true;
+                this.cameraService.getImageBlob(image).then((blob) => {
+                  this.updateUserService.mutate({
+                    imageFile: blob,
+                  }, {
+                    context: { useMultipart: true },
+                    refetchQueries: [
+                      { query: MeDocument }
+                    ],
+                    awaitRefetchQueries: true,
+                  }).toPromise().then(() => {
+                    this.loading = false;
+                  }).catch(err => this.errorService.handleError(err, this.loading));
+                });
+              });
+            } catch (error) {
+              this.errorService.handleError(error, this.loading);
+            }
+          }
+        },
+        {
+          text: 'Select Picture',
+          handler: async () => {
+            try {
+              await this.cameraService.selectPicture().then(image => {
+                this.loading = true;
+                this.cameraService.getImageBlob(image).then((blob) => {
+                  this.updateUserService.mutate({
+                    imageFile: blob,
+                  }, {
+                    context: { useMultipart: true },
+                    refetchQueries: [
+                      { query: MeDocument }
+                    ],
+                    awaitRefetchQueries: true,
+                  }).toPromise().then(() => {
+                    this.loading = false;
+                  }).catch(err => this.errorService.handleError(err, this.loading));
+                });
+              });
+            } catch (error) {
+              this.errorService.handleError(error, this.loading);
+            }
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        }]
+      });
+      await actionSheet.present();
+    }
 
   async save() {
     try {

@@ -16,6 +16,7 @@
       </ion-list-header>
 
       <form *ngIf="this.myForm" [formGroup]="myForm" (ngSubmit)="save()" method="post">
+
         <ion-item>
           <ion-input #Field1 (keyup.enter)="gotoNextField(Field2)" enterkeyhint="next" appAutofill autocomplete="given-name" formControlName="firstName" placeholder="First Name"></ion-input>
           <ion-text *ngIf="firstName.invalid" class="ion-padding ion-text-center" color="danger">
@@ -38,7 +39,6 @@
         </ion-item>
 
         <ion-item>
-          <ion-label enterkeyhint="next" position="stacked">Phone Number</ion-label>
           <ion-input #Field4 appAutofill autocomplete="tel" type="tel" formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter"></ion-input>
         </ion-item>
 

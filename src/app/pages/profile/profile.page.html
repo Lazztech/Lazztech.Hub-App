@@ -20,9 +20,9 @@
   <app-profile-details 
     *ngIf="userResult?.data?.me as user"
     href="javascript:void(0);" 
-    (click)="userActionSheet()" 
     [user]="user" 
-    [showLastOnline]="false">
+    [showLastOnline]="false"
+    [editChip]="true">
   </app-profile-details>
 
     <ion-item *ngIf="completedInitialAccountSetup === false" lines="none" href="javascript:void(0);" (click)="goToSettingsPage()">
