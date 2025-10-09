@@ -5,7 +5,8 @@
       <ion-col size="7">
         <ion-text class="ion-text-center">
           <h1 style="font-weight: bold">{{user.firstName}} {{user.lastName}}</h1>
-          <p *ngIf="user?.username" style="font-weight: bold">{{user?.username}}</p>
+          <h1 *ngIf="!(user?.firstName && user?.lastName)" style="font-weight: bold">{{user?.username}}</h1>
+          
           <p *ngIf="user?.email">{{user?.email}}</p>
           <p *ngIf="!user?.email">No email address available...</p>
       
