@@ -71,6 +71,10 @@ export class EventsPage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('create-event');
   }
 
+  goToAddHubPage() {
+    this.navCtrl.navigateForward('add-hub');
+  }
+
   goToDiscoverPage() {
     this.navCtrl.navigateForward('discover');
   }

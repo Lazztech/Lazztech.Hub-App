@@ -121,8 +121,17 @@
     </ion-list>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button (click)="goToAddHubPage()">
+        <ion-fab-button>
           <ion-icon name="add-outline"></ion-icon>
         </ion-fab-button>
+
+        <ion-fab-list side="top">
+          <ion-fab-button color="secondary" (click)="goToCreateEventPage()">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </ion-fab-button>
+         <ion-fab-button color="tertiary" (click)="goToAddHubPage()">
+           <ion-icon name="location-outline"></ion-icon>
+         </ion-fab-button>
+        </ion-fab-list>
       </ion-fab>
 </ion-content>
