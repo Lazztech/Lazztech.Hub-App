@@ -21,6 +21,23 @@ export const eventGroupValidator: ValidatorFn = (control: AbstractControl): Vali
   } : null;
 };
 
+export const capacityValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+  const minCtrl = group.get('minimumCapacity');
+  const maxCtrl = group.get('maximumCapacity');
+
+  const minVal = minCtrl.value;
+  const maxVal = maxCtrl.value;
+
+  if (minVal === '' || minVal == null || maxVal === '' || maxVal == null) return null;
+
+  const min = Number(minVal);
+  const max = Number(maxVal);
+
+  return max < min
+    ? { invalidCapacity: true, message: 'Min must be less than Max.' }
+    : null;
+};
+
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.page.html',
@@ -108,7 +125,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
       minimumCapacity: new FormControl(),
       maximumCapacity: new FormControl(),
       location: new FormControl(),
-    }, { validators: eventGroupValidator });
+    }, { validators: [eventGroupValidator, capacityValidator]});
     
     if (this.seed?.latitude && this.seed?.longitude && this.seed?.locationLabel) {
       this.myForm.patchValue({
@@ -149,7 +166,7 @@ export class CreateEventPage implements OnInit, OnDestroy {
       .toPromise()
       .then(async result => {
         this.loading = false;
-        await this.navCtrl.navigateForward(`/event/${result?.data?.createEvent?.eventId}`);
+        await this.navCtrl.navigateForward(`/tabs/event/${result?.data?.createEvent?.eventId}`);
       })
       .catch(err => this.errorService.handleError(err, this.loading));
   }

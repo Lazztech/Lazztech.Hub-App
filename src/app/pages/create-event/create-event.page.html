@@ -85,8 +85,20 @@
     <ion-item>
       <ion-input type="number" formControlName="minimumCapacity"  placeholder="Min"></ion-input>
       <ion-input type="number" formControlName="maximumCapacity"  placeholder="Max"></ion-input>
+      <ion-label>
+         <ion-text *ngIf="(myForm.hasError('invalidCapacity') || maximumCapacity.hasError('lessThanMin')) 
+                     && (minimumCapacity.touched || maximumCapacity.touched)"
+              color="danger">*</ion-text>
+      </ion-label>
+      <ion-note slot="helper" *ngIf="(myForm.hasError('invalidCapacity') || maximumCapacity.hasError('lessThanMin')) 
+                 && (minimumCapacity.touched || maximumCapacity.touched)"
+                color="danger">
+              Min must be less than Max.
+    </ion-note>
     </ion-item>
 
+    
+    
       <ion-list-header class="ion-padding-bottom">
         <ion-text>Description</ion-text>
       </ion-list-header>
@@ -99,8 +111,8 @@
         <ion-text>Location</ion-text>
       </ion-list-header>
 
-      <ion-item>
-        <ion-input readonly [disabled]="seedType === 'hub' || seed?.hub" type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleMapModal()"></ion-input>
+      <ion-item *ngIf="!(seedType === 'hub' || seed?.hub)">
+        <ion-input type="text" placeholder="Location" [value]="location.value?.label" (click)="toggleMapModal()"></ion-input>
       </ion-item>
 
       <app-hub-card

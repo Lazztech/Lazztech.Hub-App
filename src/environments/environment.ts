@@ -54,7 +54,7 @@ export const environment: Environment = {
     }
   },
   sentry: {
-    dsn: 'https://772d0460b07a4d968cc3829a395ea446@o388920.ingest.sentry.io/5226414'
+    dsn: ''
   } as BrowserOptions,
   apollo: {
     connectToDevTools: true
