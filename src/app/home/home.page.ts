@@ -147,6 +147,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('add-hub');
   }
 
+  goToCreateEventPage() {
+    this.navCtrl.navigateForward('create-event')
+  }
+
   goToSettingsPage() {
     this.navCtrl.navigateForward('settings');
   }
