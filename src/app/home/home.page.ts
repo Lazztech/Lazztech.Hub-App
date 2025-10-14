@@ -3,7 +3,7 @@ import { Config, MenuController, NavController } from '@ionic/angular';
 import { QueryRef } from 'apollo-angular';
 import { NGXLogger } from 'ngx-logger';
 import { Subscription } from 'rxjs';
-import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserEvent, JoinUserHub, QuerySearchHubByNameArgs, User, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
+import { Hub, InvitesByUserGQL, InvitesByUserQuery, JoinUserHub, User, UserEventsGQL, UserEventsQuery, UsersHubsGQL, UsersHubsQuery } from 'src/graphql/graphql';
 import { environment } from '../../environments/environment';
 import { MaplibreComponent } from '../components/maplibre/maplibre.component';
 import { AuthService } from '../services/auth/auth.service';
@@ -12,15 +12,6 @@ import { ErrorService } from '../services/error.service';
 import { LocationService } from '../services/location/location.service';
 import { ThemeService } from '../services/theme/theme.service';
 import { ApolloQueryResult } from '@apollo/client/core';
-
-type SearchHubItem   = UsersHubsQuery['usersHubs'][number];
-type SearchEventItem = UserEventsQuery['usersEvents'][number];
-
-type SearchResults =
-  | { kind: 'hub';   id: number; name: string; raw: SearchHubItem;   hub: Hub }
-  | { kind: 'event'; id: number; name: string; raw: SearchEventItem; userEvent: SearchEventItem };
-
-
 
 @Component({
   selector: 'app-home',
@@ -36,9 +27,6 @@ export class HomePage implements OnInit, OnDestroy {
   invites: InvitesByUserQuery['invitesByUser'];
   filter = '';
   filteredUserHubs: UsersHubsQuery['usersHubs'];
-
-  filteredSearchResults: SearchResults[] = [];
-
   userHubs: UsersHubsQuery['usersHubs'];
   hubs: Hub[] = [];
   user: User;
@@ -167,41 +155,15 @@ export class HomePage implements OnInit, OnDestroy {
     this.navCtrl.navigateForward('settings');
   }
 
-  searchHubsAndEvents(ev: any) {
-      this.filter = ev.target.value;
+  filterHubs(ev: any) {
+    this.filter = ev.target.value;
 
     if (this.filter && this.filter.trim() !== '') {
-
       this.filteredUserHubs = this.userHubs.filter(y => {
         const name = y.hub.name.trim().toLowerCase();
         return name.includes(this.filter.trim().toLowerCase());
       });
-
-      this.filteredEvents = this.sortedEvents?.filter(x => {
-        const name = x?.event?.name?.trim()?.toLowerCase();
-        return name?.includes(this.filter?.trim()?.toLowerCase());
-      }).sort(
-        (a, b) => new Date(b?.event?.startDateTime).valueOf() - new Date(a?.event?.startDateTime).valueOf()
-      );
-
-       const hubResults: SearchResults[] = this.filteredUserHubs.map((uh) => ({
-          kind: 'hub',
-          id: Number(uh?.hub?.id),
-          name: uh?.hub?.name ?? '',
-          raw: uh,
-          hub: uh?.hub as Hub,
-        }));
-
-        const eventResults: SearchResults[] = this.filteredEvents.map((ue) => ({
-          kind: 'event',
-          id: Number(ue?.event?.id),
-          name: ue?.event?.name ?? '',
-          raw: ue,
-          userEvent: ue,
-        }));
-
-      this.filteredSearchResults = [...hubResults, ...eventResults];
-    }   
+    }
   }
 
   goToMap() {

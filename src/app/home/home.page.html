@@ -24,36 +24,7 @@
 
 <ion-content fullscreen="true">
 
-    <ion-searchbar (ionInput)="searchHubsAndEvents($event)" showCancelButton="focus"></ion-searchbar>
-
-    <ion-list *ngIf="filter !== ''">
-      <ion-list-header>
-        <ion-text>Results</ion-text>
-      </ion-list-header>
-
-      <ion-item lines="none" *ngIf="!filteredSearchResults?.length">
-        <ion-label>No matches.</ion-label>
-      </ion-item>
-
-      <ng-container *ngFor="let item of filteredSearchResults;">
-        <ng-container [ngSwitch]="item.kind">
-
-          <app-hub-card *ngSwitchCase="'hub'"
-            [hub]="item.hub"
-            [coords]="locationService.location"
-            (click)="goToHubPage(item.id)">
-          </app-hub-card>
-
-          <app-event-card *ngSwitchCase="'event'"
-            [userEvent]="item.userEvent"
-            [buttons]="false"
-            (click)="navCtrl.navigateForward('tabs/event/' + item.id)">
-          </app-event-card>
-
-        </ng-container>
-      </ng-container>
-</ion-list>
-
+    <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
 
     <ion-card style="height:30%" (click)="goToMap()">
       <app-maplibre 
@@ -69,7 +40,7 @@
 
       <app-claim-your-account-dialog />
 
-      <ion-list>
+      <ion-list *ngIf="filter === ''">
         <ion-list-header>
           <ion-text>Upcoming Events</ion-text>
         </ion-list-header>
@@ -86,7 +57,7 @@
       
         <ion-grid class="ion-no-padding">
           <ion-row>
-            <ion-col size="12" size-md="6" *ngFor="let userEvent of upcomingEvents;">
+            <ion-col size="12" size-md="6" *ngFor="let userEvent of upcomingEvents; trackBy: trackByEvent">
               <app-event-card
               [userEvent]="userEvent"
               [buttons]="false"
@@ -108,7 +79,7 @@
         </div>
     </ion-list>
 
-      <ion-list>
+      <ion-list *ngIf="filter === ''">
           <ion-list-header>
               <ion-text>Hubs</ion-text>
           </ion-list-header>
@@ -133,6 +104,21 @@
             (click)="goToHubPage(userHub.hubId)"></app-hub-card>
           </div>
       </ion-list>
+
+      <ion-list *ngIf="filter !== ''">
+        <ion-list-header>
+            <ion-text>Hubs</ion-text>
+        </ion-list-header>
+        <div *ngFor="let userHub of filteredUserHubs; trackBy: userTrackByHub">
+          <app-hub-card
+          [hub]="userHub.hub"
+          [coords]="locationService.location"
+          [starred]="userHub.starred"
+          [muted]="userHub.muted"
+          [isOwner]="userHub.isOwner"
+          (click)="goToHubPage(userHub.hubId)"></app-hub-card>
+        </div>
+    </ion-list>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button>
