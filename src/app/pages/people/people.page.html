@@ -18,7 +18,7 @@
         </ion-refresher-content>
     </ion-refresher>
 
-    <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus"></ion-searchbar>
+    <ion-searchbar (ionInput)="filterPeople($event)" showCancelButton="focus" placeholder="Search People"></ion-searchbar>
 
 
 <ion-list *ngIf="!loading && filter === '' && userResult?.data?.me as user">
