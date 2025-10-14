@@ -24,7 +24,7 @@
 
 <ion-content fullscreen="true">
 
-    <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus"></ion-searchbar>
+    <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus" placeholder="Search Hubs"></ion-searchbar>
 
     <ion-card style="height:30%" (click)="goToMap()">
       <app-maplibre 
