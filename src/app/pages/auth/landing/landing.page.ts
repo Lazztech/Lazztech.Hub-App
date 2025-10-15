@@ -18,6 +18,8 @@ import { environment } from 'src/environments/environment';
 export class LandingPage implements OnInit {
 
   loading = false;
+  submitted = false;
+
   myForm: UntypedFormGroup;
   returnUrl: string;
   public mode: string;
@@ -91,8 +93,11 @@ export class LandingPage implements OnInit {
         await this.navCtrl.navigateRoot(this.returnUrl || '/tabs');
       }
     } catch (error) {
-      this.alertService.presentRedToast(`Login failed: ${error}`, 5000);
+      //this.alertService.presentRedToast(`Login failed: ${error}`, 5000);
+      const errs = this.password.errors || {};
+      this.password.setErrors({ ...errs, auth: true });
       this.loading = false;
+      this.submitted = true;
     }
   }
 

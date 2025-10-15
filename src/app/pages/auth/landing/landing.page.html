@@ -21,29 +21,39 @@
       <ion-row>
         <ion-col sizeMd="6" class="ion-no-padding">
           <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
-            <ion-item>
+           <ion-item>
               <ion-label position="floating">Email</ion-label>
               <ion-input type="email" ngDefaultControl formControlName="email"></ion-input>
+              <ion-note
+                slot="error"
+                *ngIf="email.invalid && email.touched">
+                Please enter a valid email address
+              </ion-note>
             </ion-item>
-        
-            <ion-text class="ion-padding ion-text-center" *ngIf="email.invalid && email.touched" color="danger">
-                    Please enter a valid email address
-            </ion-text>
           
             <ion-item>
               <ion-label position="floating">Password</ion-label>
               <ion-input type="password" ngDefaultControl formControlName="password"></ion-input>
+              <ion-note
+                slot="error"
+                *ngIf="password.hasError('auth')">
+                Incorrect Email or Password
+              </ion-note>
             </ion-item>
-            <ion-text class="ion-padding ion-text-center" *ngIf="password.invalid && password.touched" color="danger">
-                    Please enter a password at least 10 characters
-            </ion-text>
 
+            <ion-item lines="none" style="align-items: start; height: 24px;">
+              <a slot="end" (click)="resetPassword()" style="font-size: 0.875rem; padding-top: 0.2rem;">
+                Forgot password?
+              </a>
+            </ion-item>
             <ion-row>
-              <ion-col>
-                <ion-button class="ion-padding-start" color="medium" expand="block" (click)="resetPassword()">Reset Password</ion-button>
+              <ion-col sizeMd="6">
+                <ion-button class="ion-padding-start ion-padding-end" type="submit" expand="block">Login</ion-button>
               </ion-col>
-              <ion-col>
-                <ion-button class="ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block">Login</ion-button>
+            </ion-row>
+            <ion-row>
+              <ion-col sizeMd="6">
+                <ion-button class="ion-padding-start ion-padding-end" type="submit" expand="block">Sign Up</ion-button>
               </ion-col>
             </ion-row>
           </form>
