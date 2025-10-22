@@ -9,22 +9,17 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+  <ion-card style="margin-bottom: 0px; margin-top: 5px; height: 8rem; box-shadow: none;">
+      <ion-img src="assets/illustrations/banner.jpg"></ion-img>
+  </ion-card>
     <ion-grid>
-      <ion-row style="margin-top: 0px; margin-bottom: 0px;">
-        <ion-col sizeMd="6">
-          <ion-card>
-            <ion-img src="assets/illustrations/banner.jpg"></ion-img>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-      
       <ion-row>
-        <ion-col sizeMd="6" class="ion-no-padding">
+        <ion-col sizeMd="6">
           <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
-           <ion-item>
+              
+           <ion-item lines="inset">
               <ion-label position="floating">Email</ion-label>
-              <ion-input type="email" ngDefaultControl formControlName="email"></ion-input>
+              <ion-input fill="solid" type="email" ngDefaultControl formControlName="email"></ion-input>
               <ion-note
                 slot="error"
                 *ngIf="email.invalid && email.touched">
@@ -32,21 +27,24 @@
               </ion-note>
             </ion-item>
           
-            <ion-item>
+            <ion-item lines="inset">
               <ion-label position="floating">Password</ion-label>
               <ion-input type="password" ngDefaultControl formControlName="password"></ion-input>
-              <ion-note
-                slot="error"
-                *ngIf="password.hasError('auth')">
-                Incorrect Email or Password
-              </ion-note>
             </ion-item>
 
             <ion-item lines="none" style="align-items: start; height: 24px;">
-              <a slot="end" (click)="resetPassword()" style="font-size: 0.875rem; padding-top: 0.2rem;">
+              <ion-text
+                style="font-size: 0.875rem;"
+                slot="start"
+                *ngIf="password.hasError('auth')"
+                color="danger">
+                Incorrect Email or Password
+              </ion-text>
+              <a slot="end" (click)="resetPassword()" style="font-size: 0.875rem; margin-top: 2px; margin-bottom: 2px;">
                 Forgot password?
               </a>
             </ion-item>
+   
             <ion-row>
               <ion-col sizeMd="6">
                 <ion-button class="ion-padding-start ion-padding-end" type="submit" expand="block">Login</ion-button>
@@ -60,18 +58,23 @@
           </form>
         </ion-col>
       </ion-row>
+      
           <div class="divider">
               <span>OR</span>
           </div>
       <ion-row>
         <ion-col sizeMd="6">
           <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="expeditedRegistration()">Continue As Guest</ion-button>
-          <ion-text class="ion-padding ion-float-start" color="medium">
-              By clicking the button above, I hereby agree to and accept the following <a (click)="navigateToPrivacyPolicy()">privacy policy</a> and <a (click)="navigateToTermsAndConditions()">terms & conditions</a>.
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-text class="ion-padding ion-text-center ion-float-end" color="medium" style="font-size: 0.75rem; --ion-padding: 8px;">
+            By clicking the button above, I hereby agree to and accept the following <a (click)="navigateToPrivacyPolicy()">privacy policy</a> and <a (click)="navigateToTermsAndConditions()">terms & conditions</a>.
           </ion-text>
         </ion-col>
       </ion-row>
     </ion-grid>
-  </div>
 
 </ion-content>
