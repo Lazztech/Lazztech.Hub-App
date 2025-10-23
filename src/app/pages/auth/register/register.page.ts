@@ -19,6 +19,7 @@ export class RegisterPage implements OnInit {
   myForm: UntypedFormGroup;
   returnUrl: string;
   ageRestriction = 16;
+  birthYears: number[] = [];
 
   get firstName() {
     return this.myForm.get('firstName');
@@ -28,8 +29,8 @@ export class RegisterPage implements OnInit {
     return this.myForm.get('lastName');
   }
 
-  get birthdate() {
-    return this.myForm.get('birthdate');
+  get birthyear() {
+    return this.myForm.get('birthyear');
   }
 
   get email() {
@@ -55,6 +56,8 @@ export class RegisterPage implements OnInit {
    }
 
   ngOnInit() {
+    const currentYear = new Date().getFullYear();
+    this.birthYears = Array.from({ length: 121 }, (_, i) => currentYear - i);
     this.myForm = this.fb.group({
       firstName: ['', [
         Validators.required
@@ -62,7 +65,7 @@ export class RegisterPage implements OnInit {
       lastName: ['', [
         Validators.required
       ]],
-      birthdate: ['', [
+      birthyear: [null, [
         Validators.required,
         AgeRestrictionValidator(this.ageRestriction)
       ]],
@@ -82,11 +85,11 @@ export class RegisterPage implements OnInit {
     this.loading = true;
     try {
       const formValue = this.myForm.value;
-      const birthdateTimestamp = Date.parse(formValue.birthdate).toString();
+      const birthyearTimestamp = Date.parse(formValue.birthyear).toString();
       const token = await this.authService.register(
         formValue.firstName,
         formValue.lastName,
-        birthdateTimestamp,
+        birthyearTimestamp,
         formValue.email,
         formValue.password,
         this.phoneNumber.value,

@@ -1,62 +1,74 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>Register</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
-<ion-content>
-  <form [formGroup]="myForm" (ngSubmit)="register()" method="post">
-    <ion-item>
-      <ion-input ngDefaultControl formControlName="firstName" placeholder="First Name"></ion-input>
-      <ion-text *ngIf="firstName.invalid && firstName.touched" class="ion-padding ion-text-center" color="danger">
-        Required
-      </ion-text>
-    </ion-item>
 
-    <ion-item>
-      <ion-input ngDefaultControl formControlName="lastName" placeholder="Last Name"></ion-input>
-      <ion-text *ngIf="lastName.invalid && lastName.touched" class="ion-padding ion-text-center" color="danger">
-        Required
-      </ion-text>
-    </ion-item>
+<ion-content fullscreen="true">
+   <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" sizeSm="10" sizeMd="6" sizeLg="4" sizeXl="4">
+          <form [formGroup]="myForm" (ngSubmit)="register()" method="post">
 
-    <ion-item>
-      <ion-label>Birth Year</ion-label>
-      <ion-datetime presentation="year" ngDefaultControl formControlName="birthdate" placeholder="Select Date"></ion-datetime>
-    </ion-item>
-    <ion-text *ngIf="birthdate.invalid" class="ion-padding ion-text-center" color="danger">
-        Must be at least {{ageRestriction}} years of age.
-    </ion-text>
+            <ion-item>
+              <ion-input ngDefaultControl formControlName="firstName" placeholder="First Name"></ion-input>
+            </ion-item>
+            <ion-text *ngIf="firstName.invalid && firstName.touched" class="ion-padding ion-text-center" color="danger">
+                Required
+            </ion-text>
 
-    <ion-item>
-      <ion-label position="stacked">Phone Number</ion-label>
-      <ion-input type="tel" ngDefaultControl formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter"></ion-input>
-    </ion-item>
+            <ion-item>
+              <ion-input ngDefaultControl formControlName="lastName" placeholder="Last Name"></ion-input>
+            </ion-item>
+              <ion-text *ngIf="lastName.invalid && lastName.touched" class="ion-padding ion-text-center" color="danger">
+                Required
+              </ion-text>
 
-    <ion-item>
-      <ion-input type="email" ngDefaultControl formControlName="email" placeholder="Email"></ion-input>
-      <ion-text *ngIf="email.invalid && email.touched" class="ion-padding ion-text-center" color="danger">
-        Please enter a valid email address
-      </ion-text>
-    </ion-item>
+            <ion-item>
+              <ion-select
+                formControlName="birthyear"
+                label="Birth Year"
+                interface="popover"
+                placeholder="Select birth year">
+                <ion-select-option *ngFor="let y of birthYears" [value]="y.toString()">{{ y }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-text *ngIf="birthyear.invalid && (birthyear.dirty || birthyear.touched)"
+                      class="ion-padding ion-text-center" color="danger">
+              Must be at least {{ ageRestriction }} years of age.
+            </ion-text>
 
-    <ion-item>
-      <ion-input type="password" ngDefaultControl formControlName="password" placeholder="Password"></ion-input>
-      <ion-text *ngIf="password.invalid && password.touched" class="ion-padding ion-text-center" color="danger">
-        Must be at least 10 characters
-      </ion-text>
-    </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Phone Number</ion-label>
+              <ion-input type="tel" ngDefaultControl formControlName="phoneNumber" placeholder="+1 555-555-5555" [value]="phoneNumber.value | phoneNumberFormatter"></ion-input>
+            </ion-item>
 
-    <br />
+            <ion-item>
+              <ion-input type="email" ngDefaultControl formControlName="email" placeholder="Email"></ion-input>
+            </ion-item>
+              <ion-text *ngIf="email.invalid && email.touched" class="ion-padding ion-text-center" color="danger">
+                Please enter a valid email address
+              </ion-text>
 
-    <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block" color="danger">Register</ion-button>
-    <ion-text class="ion-padding ion-text-center ion-float-end" color="medium">
-      <p>
-        By creating an account, you acknowledge reading our <a (click)="navigateToPrivacyPolicy()">Privacy Policy</a> and agree to our <a (click)="navigateToTermsAndConditions()">Terms & Conditions</a>.
-      </p>
-  </ion-text>
-  </form>
+            <ion-item>
+              <ion-input type="password" ngDefaultControl formControlName="password" placeholder="Password"></ion-input>
+            </ion-item>
+              <ion-text *ngIf="password.invalid && password.touched" class="ion-padding ion-text-center" color="danger">
+                Must be at least 10 characters
+              </ion-text>
+
+             <ion-button class="ion-padding-start ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block" style="padding-top: 0.5rem;">Register</ion-button>
+            </form>
+
+            <ion-text class="ion-padding ion-text-center ion-float-end" color="medium" style="font-size: 0.75rem; --ion-padding: 8px;">
+              By creating an account, you acknowledge reading our <a (click)="navigateToPrivacyPolicy()">Privacy Policy</a> and agree to our <a (click)="navigateToTermsAndConditions()">Terms & Conditions</a>.
+            </ion-text>
+
+          </ion-col>
+        </ion-row>
+  </ion-grid>
 </ion-content>

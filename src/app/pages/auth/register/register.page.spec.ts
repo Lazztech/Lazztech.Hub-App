@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { ApolloTestingModule } from 'apollo-angular/testing';
@@ -8,6 +8,7 @@ import { LoggerModule } from 'ngx-logger';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { environment } from 'src/environments/environment';
 import { RegisterPage } from './register.page';
+import { IonicModule } from '@ionic/angular';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
@@ -18,6 +19,8 @@ describe('RegisterPage', () => {
       declarations: [ RegisterPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        IonicModule.forRoot(),
+        FormsModule,
         IonicStorageModule.forRoot(),
         ApolloTestingModule,
         LoggerModule.forRoot(environment.logging),

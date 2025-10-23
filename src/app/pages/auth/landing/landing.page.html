@@ -4,62 +4,73 @@
       <ion-icon *ngIf="mode === 'ios'" style="font-size: 140px;" [src]="themeService.isDark() ? 'assets/lazztech_hub_light.svg' : 'assets/lazztech_hub_dark.svg'"></ion-icon>
       <img *ngIf="mode === 'md'" [src]="themeService.isDark() ? 'assets/lazztech_hub_light.svg' : 'assets/lazztech_hub_dark.svg'" style="width: 140px" class="vertical-align"/>
     </ion-title>
-
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
+
 <ion-content fullscreen="true">
-  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
     <ion-grid>
-      <ion-row>
-        <ion-col sizeMd="6">
-          <ion-card>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" sizeSm="10" sizeMd="6" sizeLg="4" sizeXl="4">
+          <ion-card style="margin-bottom: 0px; margin-top: 5px;">
             <ion-img src="assets/illustrations/banner.jpg"></ion-img>
           </ion-card>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col sizeMd="6" class="ion-no-padding">
+
           <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
-            <ion-item>
+              
+           <ion-item lines="inset">
               <ion-label position="floating">Email</ion-label>
-              <ion-input type="email" ngDefaultControl formControlName="email"></ion-input>
+              <ion-input fill="solid" type="email" ngDefaultControl formControlName="email"></ion-input>
+              <ion-note
+                slot="error"
+                *ngIf="email.invalid && email.touched">
+                Please enter a valid email address
+              </ion-note>
             </ion-item>
-        
-            <ion-text class="ion-padding ion-text-center" *ngIf="email.invalid && email.touched" color="danger">
-                    Please enter a valid email address
-            </ion-text>
           
-            <ion-item>
+            <ion-item lines="inset">
               <ion-label position="floating">Password</ion-label>
               <ion-input type="password" ngDefaultControl formControlName="password"></ion-input>
             </ion-item>
-            <ion-text class="ion-padding ion-text-center" *ngIf="password.invalid && password.touched" color="danger">
-                    Please enter a password at least 10 characters
-            </ion-text>
 
-            <ion-row>
+            <ion-item lines="none" style="align-items: start; height: 24px;">
+              <ion-text
+                style="font-size: 0.875rem;"
+                slot="start"
+                *ngIf="password.hasError('auth')"
+                color="danger">
+                Incorrect Email or Password
+              </ion-text>
+              <a slot="end" (click)="resetPassword()" style="font-size: 0.875rem; margin-top: 2px; margin-bottom: 2px;">
+                Forgot password?
+              </a>
+            </ion-item>
+   
+            <ion-row class="ion-justify-content-center">
               <ion-col>
-                <ion-button class="ion-padding-start" color="medium" expand="block" (click)="resetPassword()">Reset Password</ion-button>
+                <ion-button class="ion-padding-start ion-padding-end" type="submit" expand="block">Login</ion-button>
               </ion-col>
+            </ion-row>
+            <ion-row class="ion-justify-content-center">
               <ion-col>
-                <ion-button class="ion-padding-end" [disabled]="myForm.invalid" type="submit" expand="block">Login</ion-button>
+                <ion-button class="ion-padding-start ion-padding-end" (click)="register()" expand="block" fill="outline">Sign Up</ion-button>
               </ion-col>
             </ion-row>
           </form>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col sizeMd="6">
-        <br/>
 
-          <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="expeditedRegistration()">Continue As Guest</ion-button>
-          <ion-text class="ion-padding ion-float-start" color="medium">
-              By clicking the button above, I hereby agree to and accept the following <a (click)="navigateToPrivacyPolicy()">privacy policy</a> and <a (click)="navigateToTermsAndConditions()">terms & conditions</a>.
+
+        <div class="divider">
+              <span>OR</span>
+        </div>
+
+            <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="expeditedRegistration()">Continue As Guest</ion-button>
+
+              <ion-text class="ion-padding ion-text-center ion-float-end" color="medium" style="font-size: 0.75rem; --ion-padding: 8px;">
+            By clicking the button above, I hereby agree to and accept the following <a (click)="navigateToPrivacyPolicy()">privacy policy</a> and <a (click)="navigateToTermsAndConditions()">terms & conditions</a>.
           </ion-text>
         </ion-col>
       </ion-row>
+
     </ion-grid>
-  </div>
 
 </ion-content>
