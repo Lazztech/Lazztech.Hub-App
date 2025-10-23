@@ -9,12 +9,13 @@
 </ion-header>
 
 <ion-content fullscreen="true">
-  <ion-card style="margin-bottom: 0px; margin-top: 5px; height: 8rem; box-shadow: none;">
-      <ion-img src="assets/illustrations/banner.jpg"></ion-img>
-  </ion-card>
     <ion-grid>
-      <ion-row>
-        <ion-col sizeMd="6">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" sizeSm="10" sizeMd="6" sizeLg="4" sizeXl="4">
+          <ion-card style="margin-bottom: 0px; margin-top: 5px;">
+            <ion-img src="assets/illustrations/banner.jpg"></ion-img>
+          </ion-card>
+
           <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
               
            <ion-item lines="inset">
@@ -45,36 +46,31 @@
               </a>
             </ion-item>
    
-            <ion-row>
-              <ion-col sizeMd="6">
+            <ion-row class="ion-justify-content-center">
+              <ion-col>
                 <ion-button class="ion-padding-start ion-padding-end" type="submit" expand="block">Login</ion-button>
               </ion-col>
             </ion-row>
-            <ion-row>
-              <ion-col sizeMd="6">
+            <ion-row class="ion-justify-content-center">
+              <ion-col>
                 <ion-button class="ion-padding-start ion-padding-end" (click)="register()" expand="block" fill="outline">Sign Up</ion-button>
               </ion-col>
             </ion-row>
           </form>
-        </ion-col>
-      </ion-row>
-      
-          <div class="divider">
-              <span>OR</span>
-          </div>
-      <ion-row>
-        <ion-col sizeMd="6">
-          <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="expeditedRegistration()">Continue As Guest</ion-button>
-        </ion-col>
-      </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-text class="ion-padding ion-text-center ion-float-end" color="medium" style="font-size: 0.75rem; --ion-padding: 8px;">
+
+        <div class="divider">
+              <span>OR</span>
+        </div>
+
+            <ion-button expand="block" class="ion-padding-start ion-padding-end" color="success" (click)="expeditedRegistration()">Continue As Guest</ion-button>
+
+              <ion-text class="ion-padding ion-text-center ion-float-end" color="medium" style="font-size: 0.75rem; --ion-padding: 8px;">
             By clicking the button above, I hereby agree to and accept the following <a (click)="navigateToPrivacyPolicy()">privacy policy</a> and <a (click)="navigateToTermsAndConditions()">terms & conditions</a>.
           </ion-text>
         </ion-col>
       </ion-row>
+
     </ion-grid>
 
 </ion-content>
