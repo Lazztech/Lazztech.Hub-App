@@ -11,11 +11,13 @@
 <ion-content fullscreen="true">
     <ion-grid>
       <ion-row class="ion-justify-content-center">
-        <ion-col size="12" sizeSm="10" sizeMd="6" sizeLg="4" sizeXl="4">
-          <ion-card style="margin-bottom: 0px; margin-top: 5px;">
-            <ion-img src="assets/illustrations/banner.jpg"></ion-img>
-          </ion-card>
+        <ion-col size="12" sizeMd="6" sizeLg="6" sizeXl="6">
+        <ion-card style="margin-bottom: 0px; margin-top: 0px;">
+          <ion-img src="assets/illustrations/banner.jpg"></ion-img>
+        </ion-card>
+      </ion-col>
 
+      <ion-col size="12" sizeMd="5" sizeLg="4" sizeXl="4">
           <form [formGroup]="myForm" (ngSubmit)="login()" method="post">
               
            <ion-item lines="inset">
