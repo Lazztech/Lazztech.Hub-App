@@ -146,7 +146,7 @@ export class AddHubPage implements OnInit, OnDestroy {
             notifyOnEntry: true,
             notifyOnExit: true
           });
-          await this.navCtrl.navigateForward(`/hub/${result?.data?.createHub?.hub.id}`);
+          await this.navCtrl.navigateForward(`/tabs/hub/${result?.data?.createHub?.hub.id}`);
         }
         this.loading = false;
       })
