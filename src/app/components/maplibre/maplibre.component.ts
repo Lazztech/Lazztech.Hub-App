@@ -6,10 +6,10 @@ import { RawResult } from 'leaflet-geosearch/dist/providers/bingProvider';
 import maplibregl, { GeoJSONSource, Map, SymbolLayerSpecification } from 'maplibre-gl';
 import * as pmtiles from "pmtiles";
 import layers from 'protomaps-themes-base';
-import _ from 'lodash-es';
 import { ThemeService } from 'src/app/services/theme/theme.service';
 import { environment } from 'src/environments/environment';
 import { Marker } from 'leaflet';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-maplibre',
@@ -62,6 +62,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
 
   @Output() loading = new EventEmitter<boolean>();
   @Output() searchSelected = new EventEmitter<{ latitude: number, longitude: number, label: string }>();
+  @Output() mapReady = new EventEmitter<Map>();
 
   constructor(
     public navCtrl: NavController,
@@ -91,6 +92,8 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     this.map = map;
 
     this.map.resize();
+
+    this.mapReady.emit(map);
     
     if (this.initialZoom) {
       setTimeout(() => this.flyTo(this.center), 1000);
