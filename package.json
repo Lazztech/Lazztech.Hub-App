@@ -14,7 +14,7 @@
     "start:local": "ng serve --configuration=local",
     "start:stage": "ng serve --configuration=staging",
     "start:prod": "ng serve --configuration=production",
-    "start:demo": "ng serve --configuration=demo",
+    "start:demo": "ng serve --host 0.0.0.0 --configuration=demo",
     "build": "ng build",
     "build:prod": "ng build --configuration production --base-href /app/",
     "prepare:ios:dev": "ionic build && npx cap sync && npx cap copy && npx cap open ios",
