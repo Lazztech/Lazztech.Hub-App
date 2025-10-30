@@ -24,5 +24,21 @@
         ]
       }
     }
+  ],
+    "dataGroups": [
+    {
+      "name": "user-images",
+      "urls": [
+      "https://lazztech-hub-service-z84zo.ondigitalocean.app/file/**",
+      "https://lazztech-hub-service-z84zo.ondigitalocean.app/avatars/**"
+    ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 200,          
+        "maxAge": "7d",         
+        "timeout": "5s",  
+        "cacheOpaqueResponses": true       
+      }
+    }
   ]
 }
