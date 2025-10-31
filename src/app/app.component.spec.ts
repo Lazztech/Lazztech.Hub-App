@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 class MockBackButton {
   subscribeWithPriority: jasmine.Spy<any>;
@@ -53,6 +54,7 @@ describe('AppComponent', () => {
         IonicStorageModule.forRoot(),
         ApolloTestingModule,
         LoggerModule.forRoot(environment.logging),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
       ],
     }).compileComponents();
   }));
