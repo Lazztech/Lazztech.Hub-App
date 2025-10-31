@@ -63,8 +63,17 @@ export class HomePage implements OnInit, OnDestroy {
 
     const userHubsQueryRef = this.userHubsGQLService.watch(null, { pollInterval: 3000 });
     const invitesByUserRef = this.invitesByUserGQLService.watch(null, { pollInterval: 3000 });
+    let userEventsQueryRef: QueryRef<UserEventsQuery> | null = null;
+    
+    if (!environment.demoMode) {
     const userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
-    this.queryRefs.push(userHubsQueryRef, invitesByUserRef, userEventsQueryRef);
+    }
+
+    this.queryRefs.push(
+    userHubsQueryRef,
+    invitesByUserRef,
+    ...(userEventsQueryRef ? [userEventsQueryRef] : [])
+  );
 
     this.subscriptions.push(
       userHubsQueryRef.valueChanges.subscribe(x => {
@@ -73,6 +82,11 @@ export class HomePage implements OnInit, OnDestroy {
 
         if (environment.demoMode) {
           this.userHubs = environment.demoData.usersHubs.usersHubs;
+          this.upcomingEvents = environment.demoData.userEvents;
+
+          this.hubs = (this.userHubs ?? [])
+            .map(j => j.hub as Hub)
+            .filter(h => !!h?.latitude && !!h?.longitude && !!h?.id);
         } else {
           this.userHubs = [...x?.data?.usersHubs]?.filter(x => x.hub)?.sort((a, b) => {
             if (this?.locationService.location) {

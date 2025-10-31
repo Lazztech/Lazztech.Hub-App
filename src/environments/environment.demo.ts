@@ -5,28 +5,33 @@
 import { BrowserOptions } from '@sentry/browser';
 import BackgroundGeolocation from '@transistorsoft/capacitor-background-geolocation';
 import { INGXLoggerConfig, NgxLoggerLevel } from 'ngx-logger';
-import { UsersHubsQuery } from 'src/graphql/graphql';
+import { UserEventsQuery, UsersHubsQuery } from 'src/graphql/graphql';
 import { Environment, EnvironmentNames } from './environment.interface';
 
 export const environment: Environment = {
   production: false,
   demoMode: true,
   name: EnvironmentNames.Demo,
-  serverUrl: 'https://dev-lazztechhub.lazz.tech/',
+  serverUrl: 'http://localhost:8080/',
   webPushPublicVapidKey: 'BMNn-RZdnPe-KjKnfrAhq7Qbo89xUEi9VXGo80adRlMZiGl19lm3Rhuz7wbvO8ay8pa-a52w_v3xYLVwe4n0mHE',
   demoData: {
     usersLocation: {
       latitude: 47.62503181002362,
       longitude: -122.32099987619077,
+    }, 
+    usersEvents: <UserEventsQuery>{
+      usersEvents: []
     },
     usersHubs: <UsersHubsQuery>{
       usersHubs: [
         {
           hub: {
+            id: '123456789',
             name: 'Ada\'s',
             image: 'https://media.shelf-awareness.com/theshelf/2020_Edit_Content/ada_s_technical_books_fb_082320.jpg',
             latitude: 47.62332585418733,
             longitude: -122.31285954232902,
+            locationLabel: "Capitol Hill, Seattle",
             active: true,
             usersConnection: [
               {
@@ -63,33 +68,12 @@ export const environment: Environment = {
         },
         {
           hub: {
+            id: '1234567899',
             name: 'Sarahs House',
             image: 'https://www.urbnlivn.com/wp-content/uploads/2020/07/1633425_0.jpg',
             latitude: 47.62503181002362,
             longitude: -122.32099987619077,
             active: false,
-            usersConnection: [
-              {
-                isPresent: true
-              },
-              {
-                isPresent: true
-              },
-              {
-                isPresent: true
-              },
-            ]
-          },
-          isPresent: false,
-          isOwner: true
-        },
-        {
-          hub: {
-            name: 'Cal Anderson',
-            image: 'https://www.seattlebikeblog.com/wp-content/uploads/2010/10/IMG_0113_2.jpg',
-            latitude: 47.61576652330118,
-            longitude: -122.31984121206752,
-            active: true,
             usersConnection: [
               {
                 isPresent: true
