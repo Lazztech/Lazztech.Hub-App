@@ -12,6 +12,8 @@ import { ForegroundGeofenceService } from './services/foreground-geofence.servic
 import { LocationService } from './services/location/location.service';
 import { ThemeService } from './services/theme/theme.service';
 import { WebPushNotificationService } from './services/web-push-notification.service';
+import { SwUpdate, VersionEvent, VersionReadyEvent } from '@angular/service-worker';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -44,8 +46,10 @@ export class AppComponent {
     public locationService: LocationService,
     public authService: AuthService,
     private storage: Storage,
+    private update: SwUpdate,
   ) {
     this.initializeApp();
+    this.updateClient();
   }
 
   async initializeApp() {
@@ -78,6 +82,25 @@ export class AppComponent {
       await this.locationService.watchPosition(
         (location) => this.foregroundGeofenceService.asses(location)
       );
+    });
+  }
+
+  updateClient(){
+    if (!this.update.isEnabled){
+      console.log("SwUpdate not enabled");
+      return;
+    }
+    
+    if (this.update.isEnabled) {
+      this.update.checkForUpdate().catch(() => {});
+    }
+    
+    this.update.versionUpdates.pipe(filter((e: VersionEvent): e is VersionReadyEvent => e.type === 'VERSION_READY'))
+    .subscribe(async (event) =>{
+      console.log("sw update available");
+      if(confirm("There's an update available, reload the app to apply?")){
+        this.update.activateUpdate().then(() => location.reload());
+      }
     });
   }
 }
