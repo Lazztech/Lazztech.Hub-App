@@ -30,5 +30,24 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "screenshots": [
+  {
+    "src": "/assets/Lazztech_Hub_Mockup_3x.png"
+  }
+],
+   "shortcuts": [
+    {
+      "name": "Add New Event",
+      "short_name": "+Event",
+      "description": "Quickly add a new Event",
+      "url": "/create-event"
+    },
+    {
+      "name": "Add New Hub",
+      "short_name": "+Hub",
+      "description": "Quickly add a new Event",
+      "url": "/add-hub"
+    }
   ]
 }
