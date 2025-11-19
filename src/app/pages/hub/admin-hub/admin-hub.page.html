@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>Manage Hub</ion-title>
+    <ion-title>Manage Place</ion-title>
       <ion-icon
         slot="end"
         size="large"
@@ -17,7 +17,7 @@
 <ion-content fullscreen="true">
   <ion-list *ngIf="userHub?.data?.hub">
     <ion-list-header class="ion-padding-bottom">
-      <ion-label>Hub Details</ion-label>
+      <ion-label>Place Details</ion-label>
     </ion-list-header>
 
     <ion-item>
@@ -30,14 +30,14 @@
         (click)="toggleActivity()"
         class="ion-float-right"
         color="success"
-        aria-label="Toggle hub activity"
+        aria-label="Toggle Place activity"
         ></ion-toggle>
     </ion-item>
 
     <form *ngIf="userHub" [formGroup]="myForm" method="post">
 
       <ion-item>
-        <ion-input *ngIf="userHub" formControlName="hubName" placeholder="Hub name"></ion-input>
+        <ion-input *ngIf="userHub" formControlName="hubName" placeholder="Place name"></ion-input>
         <ion-label>
           <ion-text *ngIf="hubName.invalid" color="danger">*</ion-text>
         </ion-label>
@@ -241,7 +241,7 @@
    [shareableLink]="'https://hub.lazz.tech/hub/' + userHub?.data?.hub?.hub?.shareableId"
    [qrData]="'https://hub.lazz.tech/hub/' + userHub?.data?.hub?.hub?.shareableId"
    [qrTitle]="userHub?.data?.hub?.hub?.name"
-   [qrSubtitle]="'Scan to join hub @ ' + userHub?.data?.hub?.hub?.locationLabel"
+   [qrSubtitle]="'Scan to join @ ' + userHub?.data?.hub?.hub?.locationLabel"
    [modal]="modal"
   ></app-invite>
 </ion-content>

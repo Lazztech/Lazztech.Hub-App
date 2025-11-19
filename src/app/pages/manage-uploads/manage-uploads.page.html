@@ -56,7 +56,7 @@
                       {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
                     </p>
                     <p>
-                      {{fileJoin?.event?.name ? 'Uploaded to Event: ' + fileJoin?.event?.name : 'Uploaded to Hub: ' + fileJoin?.hub?.name}}
+                      {{fileJoin?.event?.name ? 'Uploaded to Event: ' + fileJoin?.event?.name : 'Uploaded to Place: ' + fileJoin?.hub?.name}}
                     </p>
                   </ion-label>
                 </ion-item>
@@ -68,7 +68,7 @@
     </ion-accordion>
     <ion-accordion value="second">
       <ion-item slot="header">
-        <ion-label>Hub Uploads</ion-label>
+        <ion-label>Place Uploads</ion-label>
       </ion-item>
       <div slot="content">
         <ion-grid class="ion-no-padding">
@@ -103,7 +103,7 @@
                       {{fileJoin?.file?.createdOn | amLocal | amDateFormat: 'LL h:mm a'}}
                     </p>
                     <p>
-                      {{fileJoin?.event?.name ? 'Uploaded to Event: ' + fileJoin?.event?.name : 'Uploaded to Hub: ' + fileJoin?.hub?.name}}
+                      {{fileJoin?.event?.name ? 'Uploaded to Event: ' + fileJoin?.event?.name : 'Uploaded to Place: ' + fileJoin?.hub?.name}}
                     </p>
                   </ion-label>
                 </ion-item>

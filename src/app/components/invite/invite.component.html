@@ -35,8 +35,8 @@
         <ion-select-option value="all-people">All People</ion-select-option>
         <ion-select-option value="events-i-hosted">Events I Hosted</ion-select-option>
         <ion-select-option value="events-im-invited-to">Events I'm Invited To</ion-select-option>
-        <ion-select-option value="hubs-im-an-admin-of">Hubs I'm an Admin Of</ion-select-option>
-        <ion-select-option value="hubs-im-a-member-of">Hubs I’m a Member Of</ion-select-option>
+        <ion-select-option value="hubs-im-an-admin-of">Places I'm an Admin Of</ion-select-option>
+        <ion-select-option value="hubs-im-a-member-of">Places I’m a Member Of</ion-select-option>
       </ion-select>
     </ion-list-header>
     
@@ -45,8 +45,8 @@
         <ion-item slot="header">
           <ion-label *ngIf="showPeopleFrom === 'events-i-hosted'">{{eventFilter ? eventFilter?.event?.name : 'Events'}}</ion-label>
           <ion-label *ngIf="showPeopleFrom === 'events-im-invited-to'">{{eventFilter ? eventFilter?.event?.name : 'Events'}}</ion-label>
-          <ion-label *ngIf="showPeopleFrom === 'hubs-im-an-admin-of'">{{hubFilter ? hubFilter?.hub?.name : 'Hubs'}}</ion-label>
-          <ion-label *ngIf="showPeopleFrom === 'hubs-im-a-member-of'">{{hubFilter ? hubFilter?.hub?.name : 'Hubs'}}</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'hubs-im-an-admin-of'">{{hubFilter ? hubFilter?.hub?.name : 'Places'}}</ion-label>
+          <ion-label *ngIf="showPeopleFrom === 'hubs-im-a-member-of'">{{hubFilter ? hubFilter?.hub?.name : 'Places'}}</ion-label>
         </ion-item>
         <div [hidden]="showPeopleFrom !== 'events-i-hosted'" class="ion-padding" slot="content" *ngFor="let userEvent of eventsIHosted" (click)="eventFilterClicked(userEvent)">
           {{userEvent?.event?.name}}

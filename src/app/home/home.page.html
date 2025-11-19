@@ -10,8 +10,11 @@
         <ion-icon size="large" name="navigate-circle" (click)="goToStatusPage()"></ion-icon>
     </ion-buttons>
     <ion-title (click)="debugService.devModeEasterEgg()">
-      <ion-icon *ngIf="mode === 'ios'" style="font-size: 140px;" [src]="themeService.isDark() ? 'assets/lazztech_hub_light.svg' : 'assets/lazztech_hub_dark.svg'"></ion-icon>
-      <img *ngIf="mode === 'md'" [src]="themeService.isDark() ? 'assets/lazztech_hub_light.svg' : 'assets/lazztech_hub_dark.svg'" style="width: 140px" class="vertical-align"/>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <ion-icon *ngIf="mode === 'ios'" style="font-size: 140px;" [src]="themeService.isDark() ? 'assets/lazztech_title_light.svg' : 'assets/lazztech_title.svg'"></ion-icon>
+        <img *ngIf="mode === 'md'" [src]="themeService.isDark() ? 'assets/lazztech_title_light.svg' : 'assets/lazztech_title.svg'" style="width: 140px" class="vertical-align"/>
+        <span style="margin-left: 8px; font-size: 1.75rem;"> | noun</span>
+      </div>
     </ion-title>
 
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
@@ -24,7 +27,7 @@
 
 <ion-content fullscreen="true">
 
-    <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus" placeholder="Search Hubs"></ion-searchbar>
+    <ion-searchbar (ionInput)="filterHubs($event)" showCancelButton="focus" placeholder="Search Places"></ion-searchbar>
 
     <ion-card style="height:30%" (click)="goToMap()">
       <app-maplibre 
@@ -51,7 +54,7 @@
           </ion-card-header>
           <ion-icon slot="end" name="arrow-down"></ion-icon>
           <ion-card-content>
-            Create an event and invite guests!
+            Create an event and invite people!
         </ion-card-content>
         </ion-item>
       
@@ -81,7 +84,7 @@
 
       <ion-list *ngIf="filter === ''">
           <ion-list-header>
-              <ion-text>Hubs</ion-text>
+              <ion-text>Places</ion-text>
           </ion-list-header>
 
           <ion-item lines="none" *ngIf="!loading && !userHubs?.length">
@@ -90,7 +93,7 @@
             </ion-card-header>
             <ion-icon slot="end" name="arrow-down"></ion-icon>
             <ion-card-content>
-              Create a community Hub and receive notifications when people gather.
+              Create a community Place and receive notifications when people gather.
           </ion-card-content>
           </ion-item>
           
@@ -107,7 +110,7 @@
 
       <ion-list *ngIf="filter !== ''">
         <ion-list-header>
-            <ion-text>Hubs</ion-text>
+            <ion-text>Places</ion-text>
         </ion-list-header>
         <div *ngFor="let userHub of filteredUserHubs; trackBy: userTrackByHub">
           <app-hub-card

@@ -1,8 +1,11 @@
 <ion-header translucent="true">
   <ion-toolbar>
-    <ion-title>
-      <ion-icon *ngIf="mode === 'ios'" style="font-size: 140px;" [src]="themeService.isDark() ? 'assets/lazztech_hub_light.svg' : 'assets/lazztech_hub_dark.svg'"></ion-icon>
-      <img *ngIf="mode === 'md'" [src]="themeService.isDark() ? 'assets/lazztech_hub_light.svg' : 'assets/lazztech_hub_dark.svg'" style="width: 140px" class="vertical-align"/>
+     <ion-title>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <ion-icon *ngIf="mode === 'ios'" style="font-size: 140px;" [src]="themeService.isDark() ? 'assets/lazztech_title_light.svg' : 'assets/lazztech_title.svg'"></ion-icon>
+        <img *ngIf="mode === 'md'" [src]="themeService.isDark() ? 'assets/lazztech_title_light.svg' : 'assets/lazztech_title.svg'" style="width: 140px" class="vertical-align"/>
+        <span style="margin-left: 8px; font-size: 1.75rem;"> | noun</span>
+      </div>
     </ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>

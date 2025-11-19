@@ -22,11 +22,11 @@
   </ion-list-header>
   <ion-label *ngIf="user?.blocked">
     <p style="font-weight: bold" class="ion-text-center ion-padding">
-      This user will not be able to see your membership or presence in any hubs neither will they recieve any notifications of your arrival or departure in any shared hubs.
+      This user will not be able to see your membership or presence in any Places neither will they recieve any notifications of your arrival or departure in any shared Places.
     </p>
   </ion-label>
     <ion-list-header>
-        <ion-text>Common Hubs</ion-text>
+        <ion-text>Common Places</ion-text>
     </ion-list-header>
     <div *ngFor="let userHub of userHubs">
       <app-hub-card *ngIf="!loading && userHub?.hub" 
