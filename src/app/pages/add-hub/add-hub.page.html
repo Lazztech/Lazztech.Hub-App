@@ -11,11 +11,11 @@
   <form [formGroup]="myForm" (ngSubmit)="saveHub()" method="post">
     <ion-list>
       <ion-list-header class="ion-padding-bottom">
-        <ion-text>Hub Details</ion-text>
+        <ion-text>Place Details</ion-text>
       </ion-list-header>
 
       <ion-item>
-        <ion-input type="text" ngDefaultControl formControlName="hubName" color="" [(ngModel)]="hub.name" placeholder="Hub name"></ion-input>
+        <ion-input type="text" ngDefaultControl formControlName="hubName" color="" [(ngModel)]="hub.name" placeholder="Place name"></ion-input>
         <ion-label>
           <ion-text *ngIf="hubName.invalid" color="danger">*</ion-text>
         </ion-label>

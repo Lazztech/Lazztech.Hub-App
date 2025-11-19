@@ -7,7 +7,7 @@
       <ion-icon size="large" name="settings-outline" href="javascript:void(0);" (click)="presentActionSheet()"></ion-icon>
     </ion-buttons>
 
-    <ion-title>{{userHub?.hub?.name || 'Hub'}}</ion-title>
+    <ion-title>{{userHub?.hub?.name || 'Place'}}</ion-title>
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
@@ -71,7 +71,7 @@
                 <ion-item button lines="none" (click)="goToCreateEventPage()">
                   <ion-icon slot="end" name="calendar"></ion-icon>
                   <ion-card-content>
-                    Create an Event and invite people for them to see all your Events at this Hub!
+                    Create an Event and invite people for them to see all your Events at this Place!
                 </ion-card-content>
                 </ion-item>
               </ion-card>
@@ -79,7 +79,7 @@
                 <ion-item lines="none">
                   <ion-icon slot="end" name="calendar"></ion-icon>
                   <ion-card-content>
-                    Events at this Hub, by the Admin, will be listed here.
+                    Events at this Place, by the Admin, will be listed here.
                 </ion-card-content>
                 </ion-item>
               </ion-card>
@@ -343,7 +343,7 @@
    [shareableLink]="'https://hub.lazz.tech/hub/' + userHub.hub?.shareableId"
    [qrData]="'https://hub.lazz.tech/hub/' + userHub.hub?.shareableId"
    [qrTitle]="userHub?.hub?.name"
-   [qrSubtitle]="'Scan to join hub @ ' + userHub?.hub.locationLabel"
+   [qrSubtitle]="'Scan to join @ ' + userHub?.hub.locationLabel"
    [modal]="modal"
   ></app-invite>
 </ion-content>

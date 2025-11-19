@@ -18,7 +18,7 @@
       <ion-label>
         <ion-text *ngIf="!ghostModeIsOff">Ghost Mode Off</ion-text>
         <ion-text *ngIf="ghostModeIsOff" color="warning">Ghost Mode On</ion-text>
-        <p class="ion-text-wrap">Turn off all hub geofence entry/exit updates. You will me marked as being in ghost mode.</p>
+        <p class="ion-text-wrap">Turn off all Place geofence entry/exit updates. You will be marked as being in ghost mode.</p>
       </ion-label>
       <ion-toggle 
         [(ngModel)]="ghostModeIsOff" 
@@ -39,7 +39,7 @@
         <ion-text>Low Power Mode Should Remain Off</ion-text>
         <ion-text *ngIf="!deviceSettings?.lowPowerMode" class="ion-float-right">✅</ion-text>
         <ion-text *ngIf="deviceSettings?.lowPowerMode" class="ion-float-right">❌</ion-text>
-        <p class="ion-text-wrap">Should be off to allow reliable geofence exit/entry events and hub updates.</p>
+        <p class="ion-text-wrap">Should be off to allow reliable geofence exit/entry events and Place updates.</p>
       </ion-label>
     </ion-item>
 
@@ -66,7 +66,7 @@
         <ion-text>Internet Connectivity</ion-text>
         <ion-text *ngIf="deviceSettings?.internetConnectivity" class="ion-float-right">✅</ion-text>
         <ion-text *ngIf="!deviceSettings?.internetConnectivity" class="ion-float-right">❌</ion-text>
-        <p class="ion-text-wrap">Needed for updating hubs of geofence entry/exit events.</p>
+        <p class="ion-text-wrap">Needed for updating Places of geofence entry/exit events.</p>
       </ion-label>
     </ion-item>
 
@@ -115,7 +115,7 @@
         <ion-text>Background App Refresh</ion-text>
         <ion-text *ngIf="devicePermissions?.backgroundAppRefreshPermission" class="ion-float-right">✅</ion-text>
         <ion-text *ngIf="!devicePermissions?.backgroundAppRefreshPermission" class="ion-float-right">❌</ion-text>
-        <p class="ion-text-wrap">Needed to update hubs while the app is in the background.</p>
+        <p class="ion-text-wrap">Needed to update Places while the app is in the background.</p>
       </ion-label>
     </ion-item>
 

@@ -169,10 +169,10 @@ export class HubPage implements OnInit, OnDestroy {
   async presentActionSheet() {
     if (this.userHub) {
       const buttons = [];
-      console.log('is hub owner' + this.userHub.isOwner);
+      console.log('is Place owner' + this.userHub.isOwner);
       if (this.userHub.isOwner) {
         buttons.push({
-          text: 'Manage Hub',
+          text: 'Manage Place',
           handler: () => {
             this.navCtrl.navigateForward('admin-hub/' + this.id);
           }
@@ -230,7 +230,7 @@ export class HubPage implements OnInit, OnDestroy {
       }
 
       const actionSheet = await this.actionSheetController.create({
-        header: 'Hub Options',
+        header: 'Place Options',
         buttons: [
           ...buttons,
           {
@@ -292,7 +292,7 @@ export class HubPage implements OnInit, OnDestroy {
         data: 'https://hub.lazz.tech/hub/' + this.userHub.hub?.shareableId,
         shareableLink: 'https://hub.lazz.tech/hub/' + this.userHub.hub?.shareableId,
         title: this.userHub.hub.name,
-        subtitle: 'Scan to join hub @ ' + this.userHub?.hub.locationLabel,
+        subtitle: 'Scan to join @ ' + this.userHub?.hub.locationLabel,
         image: this.userHub.hub?.image,
         inviteContext: {
           type: 'hub',
