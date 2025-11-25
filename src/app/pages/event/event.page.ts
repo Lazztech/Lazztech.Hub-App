@@ -158,7 +158,7 @@ export class EventPage implements OnInit, OnDestroy {
           new Date(this.userEventQueryResult?.data?.event?.event?.endDateTime),
           {
             firstReminderMinutes: 180, // 3 hours before
-            url: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+            url: 'https://noun.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
           }
         );
         console.log(result)
@@ -179,7 +179,7 @@ export class EventPage implements OnInit, OnDestroy {
           description: this.userEventQueryResult?.data?.event?.event?.description || '',
           start: start as any,
           end: end as any,
-          url: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+          url: 'https://noun.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
         });
 
         const blob = new Blob([event.value], { type: 'text/calendar' });
@@ -313,8 +313,8 @@ export class EventPage implements OnInit, OnDestroy {
   async goToQrPage() {
     this.navCtrl.navigateForward('qr', {
       state: {
-        data: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
-        shareableLink: 'https://hub.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+        data: 'https://noun.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
+        shareableLink: 'https://noun.lazz.tech/event/' + this.userEventQueryResult?.data?.event?.event?.shareableId,
         title: this.userEventQueryResult?.data?.event?.event?.name,
         subtitle: this.userEventQueryResult?.data?.event?.event?.locationLabel ? 'Scan to join event @ ' + this.userEventQueryResult?.data?.event?.event?.locationLabel : 'Scan to join event',
         image: this.userEventQueryResult?.data?.event?.event?.image,

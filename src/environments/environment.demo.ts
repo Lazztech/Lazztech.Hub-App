@@ -93,8 +93,8 @@ export const environment: Environment = {
      }
   },
   legal: {
-    privacyPolicyLink: 'https://hub.lazz.tech/legal/privacy_policy.html',
-    termsAndConditions: 'https://hub.lazz.tech/legal/terms_and_conditions.html'
+    privacyPolicyLink: 'https://noun.lazz.tech/legal/privacy_policy.html',
+    termsAndConditions: 'https://noun.lazz.tech/legal/terms_and_conditions.html'
   },
   featureFlags: {
     backgroundGeofence: false,
