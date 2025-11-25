@@ -8,11 +8,11 @@ export const environment: Environment = {
   demoMode: false,
   demoData: undefined,
   name: EnvironmentNames.Stage,
-  serverUrl: 'https://stage-lazztechhub.lazz.tech/',
+  serverUrl: 'https://stage-lazztechnoun.lazz.tech/',
   webPushPublicVapidKey: 'BMNn-RZdnPe-KjKnfrAhq7Qbo89xUEi9VXGo80adRlMZiGl19lm3Rhuz7wbvO8ay8pa-a52w_v3xYLVwe4n0mHE',
   legal: {
-    privacyPolicyLink: "https://hub.lazz.tech/legal/privacy_policy.html",
-    termsAndConditions: "https://hub.lazz.tech/legal/terms_and_conditions.html"
+    privacyPolicyLink: "https://noun.lazz.tech/legal/privacy_policy.html",
+    termsAndConditions: "https://noun.lazz.tech/legal/terms_and_conditions.html"
   },
   featureFlags: {
     backgroundGeofence: false,

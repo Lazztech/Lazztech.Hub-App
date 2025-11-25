@@ -289,8 +289,8 @@ export class HubPage implements OnInit, OnDestroy {
   async goToQrPage() {
     this.navCtrl.navigateForward('qr', {
       state: {
-        data: 'https://hub.lazz.tech/hub/' + this.userHub.hub?.shareableId,
-        shareableLink: 'https://hub.lazz.tech/hub/' + this.userHub.hub?.shareableId,
+        data: 'https://noun.lazz.tech/hub/' + this.userHub.hub?.shareableId,
+        shareableLink: 'https://noun.lazz.tech/hub/' + this.userHub.hub?.shareableId,
         title: this.userHub.hub.name,
         subtitle: 'Scan to join @ ' + this.userHub?.hub.locationLabel,
         image: this.userHub.hub?.image,
