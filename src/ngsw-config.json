@@ -2,7 +2,7 @@
   "index": "/index.html",
   "assetGroups": [
     {
-      "name": "Lazztech Noun",
+      "name": "Lazztech Hub",
       "installMode": "prefetch",
       "resources": {
         "files": [
@@ -25,19 +25,16 @@
       }
     }
   ],
-    "dataGroups": [
+   "dataGroups": [
     {
-      "name": "user-images",
+      "name": "tiles-bypass",
       "urls": [
-      "https://lazztech-hub-service-z84zo.ondigitalocean.app/file/**",
-      "https://lazztech-hub-service-z84zo.ondigitalocean.app/avatars/**"
-    ],
+        "/protomaps/**"
+      ],
       "cacheConfig": {
-        "strategy": "performance",
-        "maxSize": 200,          
-        "maxAge": "7d",         
-        "timeout": "5s",  
-        "cacheOpaqueResponses": true       
+        "strategy": "freshness",
+        "maxSize": 0,
+        "maxAge": "0u"
       }
     }
   ]
