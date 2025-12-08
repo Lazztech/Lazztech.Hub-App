@@ -24,18 +24,5 @@
         ]
       }
     }
-  ],
-   "dataGroups": [
-    {
-      "name": "tiles-bypass",
-      "urls": [
-        "/protomaps/**"
-      ],
-      "cacheConfig": {
-        "strategy": "freshness",
-        "maxSize": 0,
-        "maxAge": "0u"
-      }
-    }
   ]
 }
