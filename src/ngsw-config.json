@@ -40,9 +40,5 @@
         "cacheOpaqueResponses": true       
       }
     }
-  ],
-  "navigationUrls": [
-    "/**",
-    "!/protomaps/**"
   ]
 }
