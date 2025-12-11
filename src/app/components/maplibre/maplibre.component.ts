@@ -24,7 +24,7 @@ export class MaplibreComponent implements OnChanges, AfterViewInit {
     sources: {
       "protomaps": {
         type: "vector",
-        url: `pmtiles://${environment.serverUrl}protomaps/tiles.pmtiles`,
+        url: `pmtiles://https://lazztech-hub.sfo3.digitaloceanspaces.com/protomaps/maps.pmtiles`,
         attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
       }
     },
