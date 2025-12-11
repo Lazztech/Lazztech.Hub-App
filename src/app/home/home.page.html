@@ -11,7 +11,7 @@
     </ion-buttons>
     <ion-title (click)="debugService.devModeEasterEgg()">
       <div style="display: flex; align-items: center; justify-content: center;">
-        <ion-icon *ngIf="mode === 'ios'" style="font-size: 160px;" [src]="themeService.isDark() ? 'assets/lazztech-noun-light.svg' : 'assets/lazztech-noun-dark.svg'"></ion-icon>
+        <ion-icon *ngIf="mode === 'ios'" style="font-size: 140px;" [src]="themeService.isDark() ? 'assets/lazztech-noun-light.svg' : 'assets/lazztech-noun-dark.svg'"></ion-icon>
         <img *ngIf="mode === 'md'" [src]="themeService.isDark() ? 'assets/lazztech-noun-light.svg' : 'assets/lazztech-noun-dark.svg'" style="width: 140px" class="vertical-align"/>
       </div>
     </ion-title>
