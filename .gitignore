@@ -41,3 +41,10 @@ resources/ios/icon
 resources/ios/splash
 resources/windows/icon
 resources/windows/splash
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
