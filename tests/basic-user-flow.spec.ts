@@ -9,7 +9,7 @@ test('create-profile-and-create-event', async ({ page, context }) => {
   const timestamp = Date.now();
   const uniqueEmail = `playwright_test_${timestamp}@email.com`;
 
-  await page.goto('https://noun.lazz.tech/app/landing');
+  await page.goto('http://localhost:4200/');
   await page.getByRole('button', { name: 'Continue As Guest' }).click();
   await expect(page.locator('app-home')).toContainText('Set your name and claim your account! This ensures you\'re able to recover your account if signed out.');
   await page.getByText('Set your name and claim your').click();
@@ -42,8 +42,9 @@ test('create-profile-and-create-event', async ({ page, context }) => {
   await page.getByRole('button', { name: 'Select Location' }).click();
   await page.getByRole('button', { name: 'Upload Image' }).click();
   await page.getByRole('button', { name: 'Select Picture' }).click();
-  await page.setInputFiles('input[type="file"]', 'tests/fixtures/test-image.png');
+  await page.setInputFiles('input[type="file"]', 'resources/icon.png');
   await page.getByRole('button', { name: 'Create' }).click();
   await expect(page.locator('ion-card-title')).toContainText('playwright_test_event');
-  await expect(page.locator('app-hub-card ion-img img')).toBeVisible();
+  await page.waitForSelector('app-event-card img', { state: 'visible', timeout: 10000 });
+  await expect(page.locator('app-event-card img')).toBeVisible();
 });
