@@ -66,7 +66,7 @@ export class HomePage implements OnInit, OnDestroy {
     let userEventsQueryRef: QueryRef<UserEventsQuery> | null = null;
     
     if (!environment.demoMode) {
-    const userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
+      userEventsQueryRef = this.userEvents.watch(null, { pollInterval: 3000 });
     }
 
     this.queryRefs.push(
