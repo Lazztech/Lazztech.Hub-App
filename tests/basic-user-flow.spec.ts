@@ -69,7 +69,7 @@ test('create-event', async () => {
 
 test('create-place', async () => {
   await page.locator('#tab-button-home').getByRole('tab').click();
-  await page.locator('#main').getByRole('button').click();
+  await page.locator('#main').getByRole('button').first().click();
   await page.getByRole('button').nth(2).click();
   await page.getByRole('textbox', { name: '*' }).click();
   await page.getByRole('textbox', { name: '*' }).fill('playwright_test_place');
